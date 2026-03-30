@@ -14,6 +14,20 @@ const navigation = (): SidebarNavItems => [
         icon: 'lucide:layout-dashboard',
         subject: 'Home',
         action: 'read'
+      },
+      {
+        title: 'Agency Approvals',
+        path: '/agencyApproval',
+        icon: 'lucide:clipboard-check',
+        subject: 'Home',
+        action: 'read'
+      },
+      {
+        title: 'Subscription Plans',
+        path: '/subscriptionPlans',
+        icon: 'lucide:clipboard-list',
+        subject: 'Home',
+        action: 'read'
       }
     ]
   }
