@@ -1,11 +1,9 @@
 'use client'
 
-import { Avatar, Box, Button, Snackbar, Stack, Typography } from '@mui/material'
+import { Box, Button, Snackbar, Stack, Typography } from '@mui/material'
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
-import { Icon } from '@iconify/react'
-import BrandLogo from '@/components/landing/BrandLogo'
 import LoginForm from '@/components/auth/LoginForm'
 import SignupForm from '@/components/auth/SignupForm'
 import LanguageDropdown from '@/components/common/LanguageDropdown'
@@ -13,58 +11,31 @@ import useLanguage from '@/core/hooks/useLanguage'
 
 const MotionBox = motion.create(Box)
 
-const HeroCard = ({ icon, title, desc, delay = 0 }: { icon: string; title: string; desc: string; delay?: number }) => (
-  <MotionBox
-    initial={{ opacity: 0, x: -30 }}
-    animate={{ opacity: 1, x: 0 }}
-    transition={{ delay, duration: 0.6 }}
-    sx={{
-      p: 4,
-      borderRadius: 2,
-      bgcolor: theme => (theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.02)' : 'rgba(255, 255, 255, 0.03)'),
-      border: theme => `1px solid ${theme.palette.divider}`,
-      backdropFilter: 'blur(20px)',
-      width: '100%',
-      maxWidth: 380,
-      display: 'flex',
-      gap: 3,
-      alignItems: 'flex-start',
-      boxShadow: theme => theme.shadows[theme.palette.mode === 'light' ? 2 : 10],
-      '&:hover': {
-        borderColor: 'primary.main',
-        bgcolor: theme => (theme.palette.mode === 'light' ? 'rgba(0,0,0,0.02)' : 'rgba(255, 255, 255, 0.05)'),
-        transform: 'translateY(-5px)',
-        transition: 'all 0.3s ease'
-      }
-    }}
-  >
-    <Avatar
-      variant='rounded'
-
-      sx={{ bgcolor: 'primary.main', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-    >
-      <Icon icon={icon} color='white' fontSize={24} />
-    </Avatar>
-    <Box>
-      <Typography variant='h6' fontWeight={800} color='text.primary' gutterBottom>
-        {title}
-      </Typography>
-      <Typography variant='body2' sx={{ color: 'text.secondary', lineHeight: 1.6 }}>
-        {desc}
-      </Typography>
-    </Box>
-  </MotionBox>
-)
-
 const HeroBefore = () => {
   const { t } = useTranslation()
 
   return (
     <Stack
       spacing={8}
-      sx={{ p: { xs: 6, md: 12 }, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
+      sx={{
+        p: { xs: 6, md: 12 },
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        backgroundImage: `url(https://images.unsplash.com/photo-1549294413-26f195200c16?w=1920&q=80)`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        position: 'relative',
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          inset: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.55)',
+        },
+      }}
     >
-      <Box>
+      <Box sx={{ position: 'relative', zIndex: 1 }}>
         <Typography
           variant='overline'
           sx={{ color: 'primary.main', fontWeight: 900, letterSpacing: 2, mb: 1, display: 'block' }}
@@ -73,29 +44,14 @@ const HeroBefore = () => {
         </Typography>
         <Typography
           variant='h2'
-          sx={{ fontWeight: 900, mb: 2, letterSpacing: -1.5, fontSize: { md: '3rem', lg: '3.75rem' } }}
+          sx={{ fontWeight: 900, mb: 2, letterSpacing: -1.5, fontSize: { md: '3rem', lg: '3.75rem' }, color: 'white' }}
         >
           {t('login.heroBefore.title', 'Sign in to your account')}
         </Typography>
-        <Typography variant='h6' sx={{ color: 'text.secondary', maxWidth: 450, fontWeight: 400 }}>
+        <Typography variant='h6' sx={{ color: 'rgba(255,255,255,0.75)', maxWidth: 450, fontWeight: 400 }}>
           {t('login.heroBefore.subtitle', 'Access your dashboard and manage your business')}
         </Typography>
       </Box>
-
-      <Stack spacing={3}>
-        <HeroCard
-          icon='lucide:trending-up'
-          title={t('login.heroBefore.card1.title', 'Analytics Dashboard')}
-          desc={t('login.heroBefore.card1.desc', 'Track your performance with real-time insights')}
-          delay={0.2}
-        />
-        <HeroCard
-          icon='lucide:shield-check'
-          title={t('login.heroBefore.card2.title', 'Secure Access')}
-          desc={t('login.heroBefore.card2.desc', 'Your data is protected with enterprise-grade security')}
-          delay={0.3}
-        />
-      </Stack>
     </Stack>
   )
 }
@@ -106,9 +62,25 @@ const HeroAfter = () => {
   return (
     <Stack
       spacing={8}
-      sx={{ p: { xs: 6, md: 12 }, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
+      sx={{
+        p: { xs: 6, md: 12 },
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        backgroundImage: `url(https://images.unsplash.com/photo-1549294413-26f195200c16?w=1920&q=80)`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        position: 'relative',
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          inset: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.55)',
+        },
+      }}
     >
-      <Box>
+      <Box sx={{ position: 'relative', zIndex: 1 }}>
         <Typography
           variant='overline'
           sx={{ color: 'primary.main', fontWeight: 900, letterSpacing: 2, mb: 1, display: 'block' }}
@@ -119,7 +91,7 @@ const HeroAfter = () => {
           variant='h2'
           sx={{
             fontWeight: 900,
-            color: 'text.primary',
+            color: 'white',
             mb: 2,
             letterSpacing: -1.5,
             fontSize: { md: '3rem', lg: '3.75rem' }
@@ -127,25 +99,10 @@ const HeroAfter = () => {
         >
           {t('login.heroAfter.title', 'Create your account')}
         </Typography>
-        <Typography variant='h6' sx={{ color: 'text.secondary', maxWidth: 450, fontWeight: 400 }}>
+        <Typography variant='h6' sx={{ color: 'rgba(255,255,255,0.75)', maxWidth: 450, fontWeight: 400 }}>
           {t('login.heroAfter.subtitle', 'Join thousands of businesses already using our platform')}
         </Typography>
       </Box>
-
-      <Stack spacing={3}>
-        <HeroCard
-          icon='lucide:zap'
-          title={t('login.heroAfter.card1.title', 'Quick Setup')}
-          desc={t('login.heroAfter.card1.desc', 'Get started in minutes with our simple onboarding')}
-          delay={0.2}
-        />
-        <HeroCard
-          icon='lucide:users'
-          title={t('login.heroAfter.card2.title', 'Team Collaboration')}
-          desc={t('login.heroAfter.card2.desc', 'Invite your team and work together seamlessly')}
-          delay={0.3}
-        />
-      </Stack>
     </Stack>
   )
 }
@@ -160,11 +117,6 @@ export default function LoginPage() {
   const handleFillCredentials = () => {
     setShowEmailForm(true)
     setFillTrigger(t => t + 1)
-  }
-
-  const handleSocialLogin = (provider: 'google' | 'microsoft') => {
-    console.log(`Login with ${provider}`)
-    // TODO: Implement social login
   }
 
   const handleSwitchToSignup = () => {
@@ -188,7 +140,6 @@ export default function LoginPage() {
         overflow: 'hidden'
       }}
     >
-      {/* Hero Areas (Background Layer) - Hidden on mobile */}
       <Box sx={{ position: 'relative', width: '100%', height: '100%', display: { xs: 'none', md: 'flex' }, zIndex: 1 }}>
         <MotionBox
           initial={false}
@@ -217,7 +168,6 @@ export default function LoginPage() {
         </MotionBox>
       </Box>
 
-      {/* Main Slider Panel */}
       <MotionBox
         initial={false}
         animate={{
@@ -243,7 +193,6 @@ export default function LoginPage() {
         }}
       >
         <Box sx={{ width: '100%', maxWidth: 480, py: 12 }}>
-          {/* Header */}
           <Box
             sx={{
               position: 'absolute',
@@ -253,10 +202,9 @@ export default function LoginPage() {
               zIndex: 11,
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'space-between'
+              justifyContent: 'flex-end'
             }}
           >
-            <BrandLogo size='sm' />
             <LanguageDropdown />
           </Box>
 
@@ -273,7 +221,6 @@ export default function LoginPage() {
                   showEmailForm={showEmailForm}
                   setShowEmailForm={setShowEmailForm}
                   onSwitchToSignup={handleSwitchToSignup}
-                  onSocialLogin={handleSocialLogin}
                   fillTrigger={fillTrigger}
                 />
               </MotionBox>
