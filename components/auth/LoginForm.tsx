@@ -1,6 +1,6 @@
 'use client'
 
-import { Stack, Typography, TextField, Button, Divider, IconButton, InputAdornment } from '@mui/material'
+import { Stack, Typography, TextField, Button, IconButton, InputAdornment } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
 import { useState, useEffect } from 'react'
 import { useForm, Controller } from 'react-hook-form'
@@ -9,7 +9,6 @@ import * as yup from 'yup'
 import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import { Eye, EyeOff, ArrowLeft, Mail } from 'lucide-react'
-import { Icon } from '@iconify/react'
 import FormFieldWrapper from '@/components/ui/FormFieldWrapper'
 import ErrorMessage from '@/components/ui/ErrorMessage'
 import { useAuth } from '@/core/context/AuthContext'
@@ -25,7 +24,6 @@ interface LoginFormProps {
   showEmailForm: boolean
   setShowEmailForm: (show: boolean) => void
   onSwitchToSignup: () => void
-  onSocialLogin: (provider: 'google' | 'microsoft') => void
   fillTrigger?: number
 }
 
@@ -50,7 +48,7 @@ const fadeInUp = {
   }
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({ showEmailForm, setShowEmailForm, onSwitchToSignup, onSocialLogin, fillTrigger }) => {
+const LoginForm: React.FC<LoginFormProps> = ({ showEmailForm, setShowEmailForm, onSwitchToSignup, fillTrigger }) => {
   const { t } = useTranslation()
   const { login, isLoading } = useAuth()
   const [showPassword, setShowPassword] = useState(false)
@@ -122,41 +120,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ showEmailForm, setShowEmailForm, 
       <motion.div variants={fadeInUp}>
         {!showEmailForm ? (
           <MotionStack spacing={3} variants={staggerContainer} initial='hidden' animate='show' exit='hidden'>
-            <motion.div variants={fadeInUp}>
-              <Button
-                variant='outlined'
-                fullWidth
-                startIcon={<Icon icon='mdi:google' />}
-                onClick={() => onSocialLogin('google')}
-              >
-                {t('login.signInWithGoogle', 'Sign in with Google')}
-              </Button>
-            </motion.div>
-
-            <motion.div variants={fadeInUp}>
-              <Button
-                variant='outlined'
-                fullWidth
-                startIcon={<Icon icon='mdi:microsoft' />}
-                onClick={() => onSocialLogin('microsoft')}
-                sx={{
-                  borderColor: 'divider',
-                  color: 'text.primary',
-                  '&:hover': { bgcolor: 'action.hover' }
-                }}
-              >
-                {t('login.signInWithMicrosoft', 'Sign in with Microsoft')}
-              </Button>
-            </motion.div>
-
-            <motion.div variants={fadeInUp}>
-              <Divider sx={{ my: 3 }}>
-                <Typography variant='body2' textAlign='center' color='text.secondary'>
-                  {t('login.or', 'or')}
-                </Typography>
-              </Divider>
-            </motion.div>
-
             <motion.div variants={fadeInUp}>
               <Button
                 variant='contained'

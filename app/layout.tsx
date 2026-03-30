@@ -19,7 +19,7 @@ const montserratArabic = localFont({
 })
 
 export const metadata: Metadata = {
-  title: 'Shortcut Next',
+  title: 'Hotel Agency',
   description: 'Stop starting projects from scratch, start in the middle and save time!'
 }
 
