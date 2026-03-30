@@ -23,9 +23,9 @@ import {
 } from 'lucide-react'
 import type { AgencyRequest, ActionType } from './types'
 import StatusChip from './StatusChip'
-import { formatFullDate } from '@/core/utils/Dateutils'
 import { br } from '@/core/utils/themeUtils'
 import { DetailItem } from './DetailItem'
+import { fromNow } from '@/core/utils/dateUtils'
 
 interface DetailDrawerProps {
   request: AgencyRequest | null
@@ -40,7 +40,7 @@ export default function DetailDrawer({ request, open, onClose, onAction }: Detai
   if (!request) return null
 
   const isPending = request.status === 'pending'
-  const formattedDate = formatFullDate(request.submittedAt)
+  const formattedDate = fromNow(request.submittedAt)
 
   return (
     <Drawer

@@ -28,6 +28,13 @@ const navigation = (): SidebarNavItems => [
         icon: 'lucide:clipboard-list',
         subject: 'Home',
         action: 'read'
+      },
+      {
+        title: 'Support & Tickets',
+        path: '/supportTickets',
+        icon: 'lucide:alert-circle',
+        subject: 'Support',
+        action: 'read'
       }
     ]
   }

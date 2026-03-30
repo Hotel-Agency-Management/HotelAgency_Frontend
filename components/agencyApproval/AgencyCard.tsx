@@ -21,8 +21,8 @@ import {
 } from 'lucide-react'
 import type { AgencyRequest, ActionType } from './types'
 import StatusChip from './StatusChip'
-import { formatShortDate } from '@/core/utils/Dateutils'
 import Avatar from '../ui/Avatar'
+import { fromNow } from '@/core/utils/dateUtils'
 
 interface AgencyCardProps {
   request: AgencyRequest
@@ -63,7 +63,7 @@ export default function AgencyCard({ request, onAction, onViewDetails }: AgencyC
   const theme = useTheme()
   const isPending = request.status === 'pending'
 
-  const formattedDate = formatShortDate(request.submittedAt)
+  const formattedDate = fromNow(request.submittedAt)
 
   return (
     <Card>

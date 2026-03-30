@@ -1,29 +1,14 @@
-/**
- * Lightweight date formatting utilities.
- * Native Intl.DateTimeFormat — zero dependencies.
- */
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
+import 'dayjs/locale/ar'
+import 'dayjs/locale/en'
 
-/** "Nov 28, 2024" */
-export function formatShortDate(iso: string): string {
-  return new Intl.DateTimeFormat('en-US', {
-    month: 'short',
-    day:   '2-digit',
-    year:  'numeric',
-  }).format(new Date(iso))
-}
+dayjs.extend(relativeTime)
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
-/** "November 28, 2024 · 9:14 AM" */
-export function formatFullDate(iso: string): string {
-  const date = new Date(iso)
-  const datePart = new Intl.DateTimeFormat('en-US', {
-    month: 'long',
-    day:   '2-digit',
-    year:  'numeric',
-  }).format(date)
-  const timePart = new Intl.DateTimeFormat('en-US', {
-    hour:   'numeric',
-    minute: '2-digit',
-    hour12: true,
-  }).format(date)
-  return `${datePart} · ${timePart}`
+export function fromNow(date: string, locale: string = 'en'): string {
+  return dayjs.utc(date).tz(dayjs.tz.guess()).locale(locale).fromNow()
 }
