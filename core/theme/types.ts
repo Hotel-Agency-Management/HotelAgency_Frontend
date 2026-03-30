@@ -48,4 +48,12 @@ declare global {
   }
 }
 
+declare module '@mui/material/Avatar' {
+  interface AvatarPropsVariantOverrides {
+    user: true
+    soft: true
+    brand: true
+  }
+}
+
 export {}
