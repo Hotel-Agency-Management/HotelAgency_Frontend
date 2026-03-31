@@ -10,11 +10,11 @@ import {
   useTheme,
 } from '@mui/material'
 import { ArrowUpDown } from 'lucide-react'
-import type { FilterState } from './types'
+import type { FilterState } from '../types/agency'
 import { br } from '@/core/utils/themeUtils'
-import { SORT_OPTIONS, STATUS_TABS } from '@/core/constant/filter'
-import Badge from '../landing/Badge'
-import SearchInput from '../common/SearchInput'
+import SearchInput from '@/components/common/SearchInput'
+import Badge from '@/components/landing/Badge'
+import { STATUS_TABS, SORT_OPTIONS } from '../constants/filter'
 
 interface FilterBarProps {
   filters: FilterState

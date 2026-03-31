@@ -1,4 +1,4 @@
-import { FilterStatus } from "@/components/agencyApproval/types";
+import { FilterState, FilterStatus } from "../types/agency";
 
 export const STATUS_TABS: { value: FilterStatus; label: string }[] = [
   { value: 'all',      label: 'All' },
@@ -12,3 +12,9 @@ export const SORT_OPTIONS = [
   { value: 'oldest', label: 'Oldest First' },
   { value: 'name',   label: 'Agency Name' },
 ]
+
+export const DEFAULT_FILTERS: FilterState = {
+  search:  '',
+  status:  'all',
+  sortBy:  'newest',
+}

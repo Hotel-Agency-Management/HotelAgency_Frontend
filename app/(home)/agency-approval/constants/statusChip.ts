@@ -1,4 +1,4 @@
-import { AgencyStatus } from "@/components/agencyApproval";
+import { AgencyStatus } from "../types/agency";
 
 export interface StatusChipProps {
   status: AgencyStatus

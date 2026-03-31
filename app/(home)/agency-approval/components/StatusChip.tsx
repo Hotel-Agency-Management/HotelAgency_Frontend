@@ -1,5 +1,5 @@
-import { StatusChipProps, STATUS_CONFIG } from '@/core/constant/statusChip'
 import { Chip, useTheme } from '@mui/material'
+import { STATUS_CONFIG, StatusChipProps } from '../constants/statusChip'
 
 
 export default function StatusChip({ status }: StatusChipProps) {

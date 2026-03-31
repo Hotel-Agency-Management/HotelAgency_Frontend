@@ -5,7 +5,7 @@ import {
   CancelOutlined,
   BusinessOutlined,
 } from '@mui/icons-material'
-import { AgencyRequest } from './types'
+import { AgencyRequest } from '../types/agency'
 import { br } from '@/core/utils/themeUtils'
 
 

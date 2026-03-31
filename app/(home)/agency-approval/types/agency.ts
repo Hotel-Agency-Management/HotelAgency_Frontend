@@ -1,5 +1,3 @@
-// ─── Agency Request Types ─────────────────────────────────────────────────────
-
 export type AgencyStatus = 'pending' | 'approved' | 'rejected'
 
 export interface AgencyRequest {
@@ -10,11 +8,11 @@ export interface AgencyRequest {
   phone: string
   location: string
   country: string
-  submittedAt: string // ISO date string
+  submittedAt: string
   status: AgencyStatus
   description: string
   logoInitials: string
-  avatarColor: string // hex or theme token
+  avatarColor: string
   website?: string
   registrationNumber?: string
 }
@@ -35,8 +33,4 @@ export interface ConfirmDialogState {
   request: AgencyRequest | null
 }
 
-export interface SnackbarState {
-  open: boolean
-  message: string
-  severity: 'success' | 'error' | 'info'
-}
+

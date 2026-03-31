@@ -48,7 +48,7 @@ function StateLabel({ title, description }: StateLabelProps) {
       <Typography
         variant="body2"
         color="text.secondary"
-        sx={{ maxWidth: 300, lineHeight: 1.65, fontSize: '0.83rem' }}
+        sx={{ maxWidth: 300, lineHeight: 1.65 }}
       >
         {description}
       </Typography>
@@ -62,7 +62,7 @@ export function LoadingState() {
   return (
     <CenteredPageState>
       <CircularProgress size={36} thickness={3} sx={{ color: theme.palette.primary.main }} />
-      <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.85rem' }}>
+      <Typography variant="body2">
         Loading agency requests…
       </Typography>
     </CenteredPageState>

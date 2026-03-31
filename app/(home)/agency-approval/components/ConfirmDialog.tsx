@@ -10,43 +10,14 @@ import {
   useTheme,
   alpha,
 } from '@mui/material'
-import { CheckCircle, XCircle } from 'lucide-react'
-import type { LucideIcon } from 'lucide-react'
-import { ActionType, ConfirmDialogState } from './types'
+import { ConfirmDialogState, ActionType } from '../types/agency'
+import { ACTION_CONFIG } from '../constants/actionConfig'
 
 interface ConfirmDialogProps {
   state: ConfirmDialogState
   onConfirm: (action: ActionType) => void
   onClose: () => void
   isLoading: boolean
-}
-
-const ACTION_CONFIG: Record<
-  ActionType,
-  {
-    title: string
-    message: (name: string) => string
-    confirmLabel: string
-    colorKey: 'success' | 'error'
-    Icon: LucideIcon
-  }
-> = {
-  approve: {
-    title: 'Approve Agency Registration',
-    message: name =>
-      `You are about to approve "${name}". They will receive an email notification and gain access to the platform immediately.`,
-    confirmLabel: 'Approve',
-    colorKey: 'success',
-    Icon: CheckCircle,
-  },
-  reject: {
-    title: 'Reject Agency Registration',
-    message: name =>
-      `You are about to reject "${name}". They will be notified by email. This action can be undone later if needed.`,
-    confirmLabel: 'Reject',
-    colorKey: 'error',
-    Icon: XCircle,
-  },
 }
 
 export default function ConfirmDialog({
@@ -70,15 +41,8 @@ export default function ConfirmDialog({
       onClose={isLoading ? undefined : onClose}
       maxWidth='xs'
       fullWidth
-      PaperProps={{
-        elevation: 0,
-        sx: {
-          border: `1px solid ${theme.palette.divider}`,
-          p: 1,
-        },
-      }}
     >
-      <DialogTitle sx={{ pb: 1 }}>
+      <DialogTitle>
         <Stack direction='row' alignItems='center' spacing={1.5}>
         <Avatar
           sx={{
@@ -93,7 +57,6 @@ export default function ConfirmDialog({
           <Typography
             variant='h6'
             fontWeight={700}
-            sx={{ fontSize: '1rem'}}
           >
             {config.title}
           </Typography>

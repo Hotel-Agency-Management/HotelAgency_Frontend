@@ -34,7 +34,7 @@ const typography = {
       },
       {
         props: { variant: 'subtitle1' },
-        style: ({ theme }: OwnerStateThemeType) => ({ color: theme.palette.text.primary })
+        style: ({ theme }: OwnerStateThemeType) => ({ color: theme.palette.text.primary , fontSize: '0.95rem' })
       },
       {
         props: { variant: 'subtitle2' },
@@ -54,11 +54,11 @@ const typography = {
       },
       {
         props: { variant: 'caption' },
-        style: ({ theme }: OwnerStateThemeType) => ({ color: theme.palette.text.secondary })
+        style: ({ theme }: OwnerStateThemeType) => ({ color: theme.palette.text.secondary, fontSize: '0.7rem'  })
       },
       {
         props: { variant: 'overline' },
-        style: ({ theme }: OwnerStateThemeType) => ({ color: theme.palette.text.secondary })
+        style: ({ theme }: OwnerStateThemeType) => ({ color: theme.palette.text.secondary, fontSize: '0.65rem' })
       }
     ]
   }

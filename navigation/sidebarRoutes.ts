@@ -17,7 +17,7 @@ const navigation = (): SidebarNavItems => [
       },
       {
         title: 'Agency Approvals',
-        path: '/agencyApproval',
+        path: '/agency-approval',
         icon: 'lucide:clipboard-check',
         subject: 'Home',
         action: 'read'

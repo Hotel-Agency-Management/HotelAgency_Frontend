@@ -21,11 +21,12 @@ import {
   CheckCircle,
   XCircle,
 } from 'lucide-react'
-import type { AgencyRequest, ActionType } from './types'
 import StatusChip from './StatusChip'
 import { br } from '@/core/utils/themeUtils'
-import { DetailItem } from './DetailItem'
 import { fromNow } from '@/core/utils/dateUtils'
+import { AgencyRequest } from '.'
+import { ActionType } from '../types/agency'
+import { DetailItem } from './DetailItem'
 
 interface DetailDrawerProps {
   request: AgencyRequest | null
@@ -90,7 +91,7 @@ export default function DetailDrawer({ request, open, onClose, onAction }: Detai
                 <Typography
                   variant='h6'
                   fontWeight={800}
-                  sx={{ letterSpacing: '-0.02em', lineHeight: 1.2 }}
+                  sx={{ lineHeight: 1.2 }}
                 >
                   {request.agencyName}
                 </Typography>
@@ -101,8 +102,7 @@ export default function DetailDrawer({ request, open, onClose, onAction }: Detai
 
             <Typography
               variant='body2'
-              color='text.secondary'
-              sx={{ lineHeight: 1.7, fontSize: '0.83rem' }}
+              sx={{ lineHeight: 1.7 }}
             >
               {request.description}
             </Typography>
@@ -114,7 +114,6 @@ export default function DetailDrawer({ request, open, onClose, onAction }: Detai
             <Typography
               variant='overline'
               color='text.disabled'
-              sx={{ fontSize: '0.65rem' }}
             >
               Contact Information
             </Typography>
@@ -142,7 +141,6 @@ export default function DetailDrawer({ request, open, onClose, onAction }: Detai
                 <Typography
                   variant='overline'
                   color='text.disabled'
-                  sx={{ fontSize: '0.65rem' }}
                 >
                   Actions
                 </Typography>

@@ -16,14 +16,14 @@ export function DetailItem({ icon, label, value }: DetailItemProps) {
         <Typography
           variant='caption'
           color='text.disabled'
-          sx={{ fontSize: '0.68rem', textTransform: 'uppercase' }}
+          sx={{ textTransform: 'uppercase' }}
         >
           {label}
         </Typography>
 
         <Typography
           variant='body2'
-          sx={{ fontWeight: 500, fontSize: '0.85rem' }}
+          sx={{ fontWeight: 500 }}
         >
           {value}
         </Typography>

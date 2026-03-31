@@ -1,4 +1,4 @@
-import { AgencyRequest } from "@/components/agencyApproval/types";
+import { AgencyRequest } from "../types/agency";
 
 export const MOCK_REQUESTS: AgencyRequest[] = [
   {

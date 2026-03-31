@@ -8,55 +8,23 @@ import {
   Button,
   Tooltip,
   useTheme,
+  Grid,
 } from '@mui/material'
 import {
-  User,
-  Mail,
-  Phone,
-  MapPin,
-  Calendar,
   ArrowRight,
-  CheckCircle,
-  XCircle,
 } from 'lucide-react'
-import type { AgencyRequest, ActionType } from './types'
+import type { AgencyRequest, ActionType } from '../types/agency'
 import StatusChip from './StatusChip'
-import Avatar from '../ui/Avatar'
 import { fromNow } from '@/core/utils/dateUtils'
+import Avatar from '@/components/ui/Avatar'
+import { InfoRow } from './InfoRow'
+import { AGENCY_INFO_FIELDS } from '../constants/agencyConfig'
+import AgencyCardActions from './AgencyCardActions'
 
 interface AgencyCardProps {
   request: AgencyRequest
   onAction: (request: AgencyRequest, action: ActionType) => void
   onViewDetails: (request: AgencyRequest) => void
-}
-
-interface InfoRowProps {
-  icon: React.ReactNode
-  value: string
-}
-
-function InfoRow({ icon, value }: InfoRowProps) {
-  const theme = useTheme()
-  return (
-    <Stack direction='row' alignItems='center' spacing={1} sx={{ minWidth: 0 }}>
-      <Stack
-        sx={{
-          color: theme.palette.text.disabled,
-          flexShrink: 0,
-        }}
-      >
-        {icon}
-      </Stack>
-      <Typography
-        variant='body2'
-        color='text.secondary'
-        noWrap
-        sx={{ fontSize: '0.8rem', fontWeight: 400 }}
-      >
-        {value}
-      </Typography>
-    </Stack>
-  )
 }
 
 export default function AgencyCard({ request, onAction, onViewDetails }: AgencyCardProps) {
@@ -81,8 +49,9 @@ export default function AgencyCard({ request, onAction, onViewDetails }: AgencyC
         />
       )}
 
-      <CardContent sx={{ p: theme.spacing(3), '&:last-child': { pb: theme.spacing(3) } }}>
-        <Stack direction='row' alignItems='flex-start' justifyContent='space-between' spacing={2} mb={2}>
+      <CardContent>
+        <Stack spacing={2}>
+        <Stack direction='row' alignItems='flex-start' justifyContent='space-between' spacing={2} >
           <Stack direction='row' alignItems='center' spacing={2} sx={{ minWidth: 0 }}>
             <Avatar variant="user" color={request.avatarColor}>
               {request.logoInitials}
@@ -92,16 +61,12 @@ export default function AgencyCard({ request, onAction, onViewDetails }: AgencyC
                 variant='subtitle1'
                 fontWeight={700}
                 noWrap
-                sx={{
-                  fontSize: '0.95rem',
-                }}
               >
                 {request.agencyName}
               </Typography>
               {request.registrationNumber && (
                 <Typography
                   variant='caption'
-                  sx={{ fontSize: '0.7rem' }}
                 >
                   {request.registrationNumber}
                 </Typography>
@@ -112,10 +77,9 @@ export default function AgencyCard({ request, onAction, onViewDetails }: AgencyC
           <StatusChip status={request.status} />
         </Stack>
 
-        <Stack spacing={1.5}>
+        <Stack spacing={2}>
           <Typography
             variant='body2'
-            color='text.secondary'
             sx={{
               fontSize: '0.82rem',
               lineHeight: 1.65,
@@ -129,20 +93,19 @@ export default function AgencyCard({ request, onAction, onViewDetails }: AgencyC
           </Typography>
 
           <Stack spacing={2}>
-            <Box
-              sx={{
-                display: 'grid',
-                gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' },
-                gap: 1,
-              }}
-            >
-              <InfoRow icon={<User size={14} />} value={request.ownerName} />
-              <InfoRow icon={<Mail size={14} />} value={request.email} />
-              <InfoRow icon={<Phone size={14} />} value={request.phone} />
-              <InfoRow icon={<MapPin size={14} />} value={request.location} />
-            </Box>
+            <Grid container spacing={1}>
+              {AGENCY_INFO_FIELDS.map(({ key, icon: Icon }) => (
+                <Grid key={key} size={{ xs: 12, sm: 6 }} >
+                  <InfoRow
+                    icon={<Icon size={14} />}
+                    value={request[key]}
+                  />
+                </Grid>
+              ))}
+            </Grid>
             <Divider />
           </Stack>
+        </Stack>
         </Stack>
 
         <Stack
@@ -151,7 +114,6 @@ export default function AgencyCard({ request, onAction, onViewDetails }: AgencyC
           justifyContent='space-between'
         >
           <Stack direction='row' alignItems='center' spacing={0.75}>
-            <Calendar size={12} color={theme.palette.text.disabled} />
             <Typography variant='caption' color='text.disabled' sx={{ fontSize: '0.72rem' }}>
               Submitted {formattedDate}
             </Typography>
@@ -176,33 +138,10 @@ export default function AgencyCard({ request, onAction, onViewDetails }: AgencyC
             </Tooltip>
 
             {isPending && (
-              <>
-                <Divider orientation='vertical' flexItem sx={{ height: 20, alignSelf: 'center' }} />
-
-                <Tooltip title='Reject this agency' placement='top'>
-                  <Button
-                    size='small'
-                    variant='outlined'
-                    startIcon={<XCircle size={14} />}
-                    onClick={() => onAction(request, 'reject')}
-                    color='error'
-                  >
-                    Reject
-                  </Button>
-                </Tooltip>
-
-                <Tooltip title='Approve this agency' placement='top'>
-                  <Button
-                    size='small'
-                    variant='contained'
-                    startIcon={<CheckCircle size={14} />}
-                    onClick={() => onAction(request, 'approve')}
-                    color='success'
-                  >
-                    Approve
-                  </Button>
-                </Tooltip>
-              </>
+              <AgencyCardActions
+              request={request}
+              onAction={onAction}
+            />
             )}
           </Stack>
         </Stack>
