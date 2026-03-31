@@ -1,9 +1,9 @@
 "use client";
-import DashboardChartsSection from "@/components/adminDashboard/DashboardChartsSection";
-import { DashboardStatsSection } from "@/components/adminDashboard/DashboardStatsSection";
-import { LatestAgenciesSection } from "@/components/adminDashboard/LatestAgenciesSection";
-import { RecentActivitySection } from "@/components/adminDashboard/RecentActivitySection";
-import { Box, Grid, Typography, Divider, Stack } from "@mui/material";
+import { Box, Grid, Typography, Divider, Stack } from "@mui/material"
+import DashboardChartsSection from "./components/DashboardChartsSection"
+import { DashboardStatsSection } from "./components/DashboardStatsSection"
+import { LatestAgenciesSection } from "./components/LatestAgenciesSection"
+import { RecentActivitySection } from "./components/RecentActivitySection"
 
 export default function SuperAdminDashboardPage() {
   const today = new Date().toLocaleDateString("en-GB", {

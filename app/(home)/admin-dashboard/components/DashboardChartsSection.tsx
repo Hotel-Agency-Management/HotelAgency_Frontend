@@ -7,16 +7,10 @@ import Typography from '@mui/material/Typography'
 
 import BarChart from '@/components/charts/BarChart'
 import DoughnutChart from '@/components/charts/DoughnutChart'
-import {
-  REVENUE_CHART_DATA,
-  REVENUE_CHART_LABELS,
-  SUBSCRIPTION_CHART_DATA,
-  AGENCIES_GROWTH_CHART_DATA,
-  AGENCIES_GROWTH_CHART_LABELS,
-  APPROVAL_CHART_DATA,
-} from '@/core/data/dashboardMock'
+
 import { useTheme } from '@mui/material'
 import { getChartColors } from '@/core/utils/chartColors'
+import { REVENUE_CHART_DATA, REVENUE_CHART_LABELS, SUBSCRIPTION_CHART_DATA, APPROVAL_CHART_DATA, AGENCIES_GROWTH_CHART_DATA, AGENCIES_GROWTH_CHART_LABELS } from '../data/dashboardMock'
 
 export default function DashboardChartsSection() {
   const theme = useTheme();
