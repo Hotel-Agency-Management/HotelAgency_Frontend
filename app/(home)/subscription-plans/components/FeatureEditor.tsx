@@ -13,20 +13,13 @@ import {
 import { Add, DeleteOutline } from '@mui/icons-material'
 import { PlanFeature } from '../types/plans'
 import { makeEmptyFeature } from '../util/plans'
+import { updateFeature } from '../util/updateFeature'
 
 
 interface FeatureEditorProps {
   features: PlanFeature[]
   errors?: Record<string, string>
   onChange: (features: PlanFeature[]) => void
-}
-
-function updateFeature(
-  features: PlanFeature[],
-  id: string,
-  patch: Partial<PlanFeature>,
-): PlanFeature[] {
-  return features.map(f => (f.id === id ? { ...f, ...patch } : f))
 }
 
 export default function FeatureEditor({ features, errors = {}, onChange }: FeatureEditorProps) {
@@ -39,7 +32,7 @@ export default function FeatureEditor({ features, errors = {}, onChange }: Featu
 
   return (
     <Box>
-      <Stack direction='row' alignItems='center' justifyContent='space-between' mb={1.5}>
+      <Stack direction='row' alignItems='center' justifyContent='space-between'>
         <Typography variant='subtitle2' color='text.secondary'>
           Features
         </Typography>
@@ -62,7 +55,7 @@ export default function FeatureEditor({ features, errors = {}, onChange }: Featu
       <Stack spacing={2}>
         {features.map((feature, index) => (
           <Box key={feature.id}>
-            {index > 0 && <Divider sx={{ mb: 2 }} />}
+            {index > 0 && <Divider />}
 
             <Stack spacing={1.5}>
               <Stack direction='row' alignItems='center' spacing={1}>

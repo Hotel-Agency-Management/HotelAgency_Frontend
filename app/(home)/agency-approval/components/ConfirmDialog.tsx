@@ -65,7 +65,7 @@ export default function ConfirmDialog({
 
       <DialogContent>
         <Stack direction='row' spacing={1} alignItems='flex-start'>
-          <Typography variant='body2' sx={{ lineHeight: 1.65, fontSize: '0.83rem' }}>
+          <Typography variant='body2'>
             {config.message(request.agencyName)}
           </Typography>
         </Stack>

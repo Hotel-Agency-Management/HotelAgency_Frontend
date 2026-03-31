@@ -45,7 +45,7 @@ export default function PlanCard({ plan, onEdit, onDelete }: PlanCardProps) {
               {plan.name}
             </Typography>
 
-            <Typography variant='body2' color='text.secondary' sx={{ mt: 0.5 }}>
+            <Typography variant='body2'>
               {formatPrice(plan.price, plan.billingCycle, plan.customBillingLabel)}
             </Typography>
           </Stack>
@@ -63,7 +63,7 @@ export default function PlanCard({ plan, onEdit, onDelete }: PlanCardProps) {
           {plan.description}
         </Typography>
 
-        <Divider sx={{ mb: 1 }} />
+        <Divider />
 
         <List dense disablePadding>
           {plan.features.map(feature => (

@@ -8,20 +8,21 @@ import Typography from '@mui/material/Typography'
 import BarChart from '@/components/charts/BarChart'
 import DoughnutChart from '@/components/charts/DoughnutChart'
 
-import { useTheme } from '@mui/material'
+import { Stack, useTheme } from '@mui/material'
 import { getChartColors } from '@/core/utils/chartColors'
 import { REVENUE_CHART_DATA, REVENUE_CHART_LABELS, SUBSCRIPTION_CHART_DATA, APPROVAL_CHART_DATA, AGENCIES_GROWTH_CHART_DATA, AGENCIES_GROWTH_CHART_LABELS } from '../data/dashboardMock'
 
 export default function DashboardChartsSection() {
   const theme = useTheme();
   const colors = getChartColors(theme.palette.mode === "dark");
-  
+
   return (
     <Grid container spacing={3}>
       <Grid size={{ xs: 12 }}>
         <Card variant='outlined'>
           <CardContent>
-            <Typography variant='h6' sx={{ mb: 2 }}>
+            <Stack spacing={2}>
+            <Typography variant='h6'>
               Revenue Overview
             </Typography>
             <BarChart
@@ -31,6 +32,7 @@ export default function DashboardChartsSection() {
               percentage={true}
               height={220}
             />
+            </Stack>
           </CardContent>
         </Card>
       </Grid>
@@ -38,7 +40,8 @@ export default function DashboardChartsSection() {
       <Grid size={{ xs: 12, md: 6 }}>
         <Card variant='outlined'>
           <CardContent>
-            <Typography variant='h6' sx={{ mb: 2 }}>
+            <Stack spacing={2}>
+            <Typography variant='h6'>
               Subscription Distribution
             </Typography>
             <DoughnutChart
@@ -47,6 +50,7 @@ export default function DashboardChartsSection() {
               height={220}
               percentage
             />
+            </Stack>
           </CardContent>
         </Card>
       </Grid>
@@ -54,7 +58,8 @@ export default function DashboardChartsSection() {
       <Grid size={{ xs: 12, md: 6 }}>
         <Card variant='outlined'>
           <CardContent>
-            <Typography variant='h6' sx={{ mb: 2 }}>
+            <Stack spacing={2}>
+            <Typography variant='h6'>
               Approval Status
             </Typography>
             <DoughnutChart
@@ -63,6 +68,7 @@ export default function DashboardChartsSection() {
               height={220}
               percentage
             />
+            </Stack>
           </CardContent>
         </Card>
       </Grid>
@@ -70,7 +76,8 @@ export default function DashboardChartsSection() {
       <Grid size={{ xs: 12 }}>
         <Card variant='outlined'>
           <CardContent>
-            <Typography variant='h6' sx={{ mb: 2 }}>
+            <Stack spacing={2}>
+            <Typography variant='h6'>
               Agencies Growth
             </Typography>
             <BarChart
@@ -80,6 +87,7 @@ export default function DashboardChartsSection() {
               percentage={true}
               height={220}
             />
+            </Stack>
           </CardContent>
         </Card>
       </Grid>

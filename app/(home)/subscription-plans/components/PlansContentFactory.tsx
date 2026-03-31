@@ -33,7 +33,7 @@ export function PlansContentFactory({
       return (
         <Grid container spacing={2.5}>
           {plans.map(plan => (
-            <Grid key={plan.id} size={{ xs: 12, sm: 6 }}>
+            <Grid key={plan.id} size={{ xs: 12, sm: 6, md: 4 }}>
               <PlanCard
                 plan={plan}
                 onEdit={onEdit}

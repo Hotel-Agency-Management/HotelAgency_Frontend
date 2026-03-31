@@ -1,16 +1,7 @@
-import { LucideIcon, CheckCircle, XCircle } from "lucide-react"
-import { ActionType } from "../types/agency"
+import { CheckCircle, XCircle } from "lucide-react"
+import { ActionType, ActionConfig } from "../types/agency"
 
-export const ACTION_CONFIG: Record<
-  ActionType,
-  {
-    title: string
-    message: (name: string) => string
-    confirmLabel: string
-    colorKey: 'success' | 'error'
-    Icon: LucideIcon
-  }
-> = {
+export const ACTION_CONFIG: Record<ActionType, ActionConfig> = {
   approve: {
     title: 'Approve Agency Registration',
     message: name =>

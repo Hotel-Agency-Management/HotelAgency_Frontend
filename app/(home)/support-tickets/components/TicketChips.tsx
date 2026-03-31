@@ -18,7 +18,7 @@ export function TicketStatusChip({ status, size = 'small' }: TicketStatusChipPro
       color={config.color}
       size={size}
       variant="outlined"
-      sx={{ fontWeight: 500, fontSize: '0.7rem', letterSpacing: 0.3 }}
+      sx={{ fontWeight: 500 }}
     />
   );
 }
@@ -36,7 +36,7 @@ export function TicketPriorityChip({ priority, size = 'small' }: TicketPriorityC
       color={config.color}
       size={size}
       variant="filled"
-      sx={{ fontWeight: 600, fontSize: '0.7rem', letterSpacing: 0.3 }}
+      sx={{ fontWeight: 600 }}
     />
   );
 }
@@ -55,7 +55,7 @@ export function SLAChip({ slaStatus, label, size = 'small' }: SLAChipProps) {
       color={config.color}
       size={size}
       variant="outlined"
-      sx={{ fontWeight: 500, fontSize: '0.7rem', letterSpacing: 0.3 }}
+      sx={{ fontWeight: 500 }}
     />
   );
 }

@@ -1,20 +1,15 @@
 import {
   Box,
-  Button,
-  FormControl,
-  InputAdornment,
-  MenuItem,
-  Select,
   Stack,
   useMediaQuery,
   useTheme,
 } from '@mui/material'
-import { ArrowUpDown } from 'lucide-react'
 import type { FilterState } from '../types/agency'
 import { br } from '@/core/utils/themeUtils'
 import SearchInput from '@/components/common/SearchInput'
-import Badge from '@/components/landing/Badge'
 import { STATUS_TABS, SORT_OPTIONS } from '../constants/filter'
+import StatusFilterTabs from './StatusFilterTabs'
+import SortSelect from './SortSelect'
 
 interface FilterBarProps {
   filters: FilterState
@@ -55,68 +50,19 @@ export default function FilterBar({
           spacing={1.5}
           alignItems={{ xs: 'stretch', md: 'center' }}
         >
-          <Stack direction='row' spacing={1} flexWrap='wrap'>
-            {STATUS_TABS.map(tab => {
-              const isActive = filters.status === tab.value
-
-              return (
-                <Button
-                  key={tab.value}
-                  variant={isActive ? 'contained' : 'outlined'}
-                  size='small'
-                  onClick={() => onFilterChange({ status: tab.value })}
-                  sx={{
-                    borderRadius: br(theme, 1.5),
-                    px: { xs: 1.25, sm: 1.75 },
-                    py: 0.625,
-                    minWidth: 'fit-content',
-                    fontSize: '0.78rem',
-                    fontWeight: isActive ? 700 : 500,
-
-                  }}
-                >
-                  <Stack direction='row' alignItems='center' spacing={0.75}>
-                    <Box component='span'>{tab.label}</Box>
-
-                    {tab.value === 'pending' && pendingCount > 0 && (
-                      <Badge label={pendingCount.toString()} variant='yellow' />
-                    )}
-                  </Stack>
-                </Button>
-              )
-            })}
-          </Stack>
+          <StatusFilterTabs
+            tabs={STATUS_TABS}
+            value={filters.status}
+            pendingCount={pendingCount}
+            onChange={(status) => onFilterChange({ status })}
+          />
 
           {!isMobile && (
-            <FormControl size='small' sx={{ minWidth: 140 }}>
-              <Select
-                value={filters.sortBy}
-                onChange={e =>
-                  onFilterChange({
-                    sortBy: e.target.value as FilterState['sortBy'],
-                  })
-                }
-                displayEmpty
-                startAdornment={
-                  <InputAdornment position='start'>
-                    <ArrowUpDown size={16} color={theme.palette.text.disabled} />
-                  </InputAdornment>
-                }
-                sx={{
-                  borderRadius: br(theme, 1.5),
-                  fontSize: '0.8rem',
-                  '& .MuiSelect-select': {
-                    py: 0.875,
-                  },
-                }}
-              >
-                {SORT_OPTIONS.map(opt => (
-                  <MenuItem key={opt.value} value={opt.value} sx={{ fontSize: '0.82rem' }}>
-                    {opt.label}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            <SortSelect
+              value={filters.sortBy}
+              options={SORT_OPTIONS}
+              onChange={(sortBy) => onFilterChange({ sortBy })}
+            />
           )}
         </Stack>
       </Stack>

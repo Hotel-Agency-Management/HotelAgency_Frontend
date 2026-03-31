@@ -17,10 +17,10 @@ import {
   GridToolbar,
 } from '@mui/x-data-grid';
 import { Ticket } from '@/core/types/supportTickets';
-import { fromNow } from '@/core/utils/dateUtils';
 import { CATEGORY_LABELS } from '../constant/tickets';
 import { getAgentInitials, formatRelativeTime, formatSLARemaining } from '../util/utils';
 import { TicketPriorityChip, TicketStatusChip, SLAChip } from './TicketChips';
+import { fromNow } from '@/core/utils/Dateutils';
 
 type ColumnFactory = (deps: {
   theme: Theme;
@@ -49,7 +49,6 @@ const buildColumns: ColumnFactory = ({ theme }) => [
           sx={{
             width: 28,
             height: 28,
-            fontSize: '0.65rem',
             fontWeight: 700,
             bgcolor: row.agency.logoColor,
             flexShrink: 0,

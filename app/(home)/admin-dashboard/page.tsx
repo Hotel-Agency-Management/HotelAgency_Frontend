@@ -15,14 +15,14 @@ export default function SuperAdminDashboardPage() {
 
   return (
     <Box sx={{ px: { xs: 2, sm: 3, md: 4 }, py: 3, maxWidth: 1400, mx: "auto" }}>
-      <Box mb={3}>
+      <Stack spacing={1.5}>
         <Typography variant="h5" fontWeight={700} color="text.primary">
           Platform Dashboard
         </Typography>
         <Typography variant="body2" color="text.disabled">
           {today}
         </Typography>
-      </Box>
+      </Stack>
       <Divider sx={{ mb: 3 }} />
       <Stack spacing={2}>
         <DashboardStatsSection />

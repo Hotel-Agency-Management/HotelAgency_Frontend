@@ -1,3 +1,5 @@
+import { LucideIcon } from "lucide-react"
+
 export type AgencyStatus = 'pending' | 'approved' | 'rejected'
 
 export interface AgencyRequest {
@@ -31,6 +33,20 @@ export interface ConfirmDialogState {
   open: boolean
   action: ActionType | null
   request: AgencyRequest | null
+}
+
+export type ActionConfig = {
+  title: string
+  message: (name: string) => string
+  confirmLabel: string
+  colorKey: 'success' | 'error'
+  Icon: LucideIcon
+}
+
+export type StatusColorKey = 'warning' | 'success' | 'error'
+export interface StatusConfig {
+  label: string
+  colorKey: StatusColorKey
 }
 
 

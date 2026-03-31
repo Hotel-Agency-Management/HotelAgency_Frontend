@@ -76,7 +76,6 @@ export default function AgencyApprovalsPage() {
                 <Typography
                   variant='h5'
                   fontWeight={800}
-                  sx={{ lineHeight: 1.2 }}
                 >
                   Agency Approval Requests
                 </Typography>

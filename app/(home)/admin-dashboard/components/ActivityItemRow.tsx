@@ -1,9 +1,8 @@
-import { fromNow } from "@/core/utils/dateUtils";
 import { useTheme } from "@mui/material/styles";
 import { Stack, Avatar, Typography, Box } from "@mui/material";
 import { ACTIVITY_CONFIG } from "../constants/activityConfig";
 import { ActivityItem } from "../types/dashboardTypes";
-
+import { fromNow } from "@/core/utils/Dateutils";
 
 export function ActivityItemRow({ item }: { item: ActivityItem }) {
   const theme = useTheme();
@@ -29,14 +28,13 @@ export function ActivityItemRow({ item }: { item: ActivityItem }) {
           width: 32,
           height: 32,
           flexShrink: 0,
-          mt: 0.25,
         }}
       >
         <Icon size={16} strokeWidth={2} />
       </Avatar>
 
       <Box sx={{ flex: 1, minWidth: 0 }}>
-        <Typography variant="body2" color="text.primary" lineHeight={1.4}>
+        <Typography variant="body2" color="text.primary">
           {item.message}
         </Typography>
 

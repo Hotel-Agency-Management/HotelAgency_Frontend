@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import {
   Avatar,
   Box,
@@ -20,32 +19,10 @@ import {
 import { X, CheckCircle2 } from 'lucide-react';
 
 import type { Ticket } from '@/core/types/supportTickets';
-import { CATEGORY_LABELS, TICKET_STATUSES, TICKET_PRIORITIES, SUPPORT_AGENTS } from '../constant/tickets';
+import { CATEGORY_LABELS, TICKET_STATUSES, TICKET_PRIORITIES, SUPPORT_AGENTS, DRAWER_WIDTH } from '../constant/tickets';
 import { formatDateTime, getAgentInitials } from '../util/utils';
 import { TicketPriorityChip, TicketStatusChip } from './TicketChips';
-
-const DRAWER_WIDTH = 480;
-
-interface InfoRowProps {
-  label: string;
-  children: React.ReactNode;
-}
-
-function InfoRow({ label, children }: InfoRowProps) {
-  return (
-    <Stack direction="row" spacing={2} py={1} alignItems="flex-start">
-      <Typography
-        variant="caption"
-        color="text.secondary"
-        fontWeight={500}
-        sx={{ minWidth: 100, mt: 0.3 }}
-      >
-        {label}
-      </Typography>
-      <Box flex={1}>{children}</Box>
-    </Stack>
-  );
-}
+import { InfoRow } from './InfoRow';
 
 interface TicketDetailsDrawerProps {
   ticket: Ticket | null;
@@ -109,7 +86,7 @@ export function TicketDetailsDrawer({
       </Box>
 
       <Box sx={{ p: 3, overflowY: 'auto' }}>
-        <Typography variant="body2" color="text.secondary" sx={{ mb: 2, lineHeight: 1.7 }}>
+        <Typography variant="body2">
           {ticket.description}
         </Typography>
 

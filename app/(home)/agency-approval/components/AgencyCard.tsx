@@ -15,11 +15,11 @@ import {
 } from 'lucide-react'
 import type { AgencyRequest, ActionType } from '../types/agency'
 import StatusChip from './StatusChip'
-import { fromNow } from '@/core/utils/dateUtils'
 import Avatar from '@/components/ui/Avatar'
 import { InfoRow } from './InfoRow'
 import { AGENCY_INFO_FIELDS } from '../constants/agencyConfig'
 import AgencyCardActions from './AgencyCardActions'
+import { fromNow } from '@/core/utils/Dateutils'
 
 interface AgencyCardProps {
   request: AgencyRequest
@@ -81,8 +81,6 @@ export default function AgencyCard({ request, onAction, onViewDetails }: AgencyC
           <Typography
             variant='body2'
             sx={{
-              fontSize: '0.82rem',
-              lineHeight: 1.65,
               display: '-webkit-box',
               WebkitLineClamp: 2,
               WebkitBoxOrient: 'vertical',

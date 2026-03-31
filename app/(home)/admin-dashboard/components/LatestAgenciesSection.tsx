@@ -1,56 +1,13 @@
 "use client";
 import {
   Stack, Box, Typography, Table, TableBody, TableCell,
-  TableContainer, TableHead, TableRow, Chip, useTheme,
+  TableContainer, TableHead, TableRow, useTheme,
 } from "@mui/material";
-import { fromNow } from "@/core/utils/dateUtils";
 import { SxProps, Theme } from '@mui/material'
 import { LATEST_AGENCIES } from "../data/dashboardMock";
-import { AgencyStatus, LatestAgency } from "../types/dashboardTypes";
-
-const STATUS_COLOR: Record<AgencyStatus, "success" | "warning" | "error"> = {
-  Active: "success",
-  Pending: "warning",
-  Rejected: "error",
-};
-
-const TABLE_HEADERS = ["Agency", "Status", "Plan", "Registered"];
-
-function AgencyRow({ agency }: { agency: LatestAgency }) {
-  return (
-    <TableRow hover>
-      <TableCell>
-        <Stack>
-          <Typography variant="body2" fontWeight={500} color="text.primary">
-            {agency.name}
-          </Typography>
-          {agency.country && (
-            <Typography variant="caption" color="text.disabled">
-              {agency.country}
-            </Typography>
-          )}
-        </Stack>
-      </TableCell>
-      <TableCell>
-        <Chip
-          label={agency.status}
-          color={STATUS_COLOR[agency.status]}
-          size="small"
-          variant="outlined"
-          sx={{ fontWeight: 600, fontSize: 11 }}
-        />
-      </TableCell>
-      <TableCell>
-        <Chip label={agency.plan} size="small" sx={{ fontWeight: 600, fontSize: 11 }} />
-      </TableCell>
-      <TableCell>
-        <Typography variant="caption" color="text.secondary">
-          {fromNow(agency.createdAt)}
-        </Typography>
-      </TableCell>
-    </TableRow>
-  );
-}
+import { LatestAgency } from "../types/dashboardTypes";
+import { TABLE_HEADERS } from "../constants/agencyTable";
+import { AgencyRow } from "./AgencyRow";
 
 interface LatestAgenciesSectionProps {
   agencies?: LatestAgency[];

@@ -58,7 +58,7 @@ export function TicketFiltersBar({ filters, onChange }: TicketFiltersProps) {
     >
       <Grid container spacing={1.5} alignItems="center">
 
-        <Grid size={{ xs: 12, md: 3 }}>
+        <Grid size={{ xs: 12, md: 5 }}>
           <SearchInput
             value={localSearch}
             onChange={handleSearchChange}

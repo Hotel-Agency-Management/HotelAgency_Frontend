@@ -42,13 +42,13 @@ interface StateLabelProps {
 function StateLabel({ title, description }: StateLabelProps) {
   return (
     <Stack alignItems="center" gap={0.75}>
-      <Typography variant="subtitle1" fontWeight={700} sx={{ letterSpacing: '-0.01em' }}>
+      <Typography variant="subtitle1" fontWeight={700} >
         {title}
       </Typography>
       <Typography
         variant="body2"
         color="text.secondary"
-        sx={{ maxWidth: 300, lineHeight: 1.65 }}
+        sx={{ maxWidth: 300 }}
       >
         {description}
       </Typography>

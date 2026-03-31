@@ -23,10 +23,10 @@ import {
 } from 'lucide-react'
 import StatusChip from './StatusChip'
 import { br } from '@/core/utils/themeUtils'
-import { fromNow } from '@/core/utils/dateUtils'
 import { AgencyRequest } from '.'
 import { ActionType } from '../types/agency'
 import { DetailItem } from './DetailItem'
+import { fromNow } from '@/core/utils/Dateutils'
 
 interface DetailDrawerProps {
   request: AgencyRequest | null
@@ -64,7 +64,7 @@ export default function DetailDrawer({ request, open, onClose, onAction }: Detai
           spacing={2}
           sx={{ p: 3 }}
         >
-          <Typography variant='subtitle1' fontWeight={700} sx={{ letterSpacing: '-0.01em' }}>
+          <Typography variant='subtitle1' fontWeight={700}>
             Agency Details
           </Typography>
 
@@ -91,7 +91,6 @@ export default function DetailDrawer({ request, open, onClose, onAction }: Detai
                 <Typography
                   variant='h6'
                   fontWeight={800}
-                  sx={{ lineHeight: 1.2 }}
                 >
                   {request.agencyName}
                 </Typography>
@@ -102,7 +101,6 @@ export default function DetailDrawer({ request, open, onClose, onAction }: Detai
 
             <Typography
               variant='body2'
-              sx={{ lineHeight: 1.7 }}
             >
               {request.description}
             </Typography>

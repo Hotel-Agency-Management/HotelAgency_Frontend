@@ -20,7 +20,7 @@ const CARD_ICONS: React.ReactNode[] = [
 export function DashboardStatsSection() {
   return (
     <>
-      <Typography variant="h6" fontWeight={600} color="text.primary" mb={2}>
+      <Typography variant="h6" fontWeight={600} color="text.primary" >
         Overview
       </Typography>
       <Grid container spacing={2.5}>

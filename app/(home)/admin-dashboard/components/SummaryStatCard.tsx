@@ -1,23 +1,10 @@
 "use client";
 
 import { Card, CardContent, Stack, Typography } from "@mui/material";
-import TrendingUpIcon from "@mui/icons-material/TrendingUp";
-import TrendingDownIcon from "@mui/icons-material/TrendingDown";
-import RemoveIcon from "@mui/icons-material/Remove";
 import { StatCardProps } from "@/app/(home)/admin-dashboard/types/dashboardTypes";
 import Avatar from "@/components/ui/Avatar";
+import { TREND_ICONS, TREND_COLORS } from "../constants/statCard";
 
-const TREND_ICONS = {
-  up: TrendingUpIcon,
-  down: TrendingDownIcon,
-  neutral: RemoveIcon,
-};
-
-const TREND_COLORS = {
-  up: "success.main",
-  down: "error.main",
-  neutral: "text.disabled",
-};
 
 export function SummaryStatCard({
   title,
@@ -63,7 +50,7 @@ export function SummaryStatCard({
           )}
         </Stack>
 
-        <Typography variant="h5" fontWeight={700} lineHeight={1}>
+        <Typography variant="h5" fontWeight={700} >
           {value}
         </Typography>
 
