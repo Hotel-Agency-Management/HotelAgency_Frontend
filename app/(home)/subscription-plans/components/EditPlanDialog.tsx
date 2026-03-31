@@ -36,17 +36,16 @@ export default function EditPlanDialog({
           </IconButton>
         </Stack>
       </DialogTitle>
-
+    {plan && (
       <DialogContent dividers>
-        {plan && (
           <PlanForm
             initial={plan}
             onSubmit={onSubmit}
             onCancel={onClose}
             submitLabel="Save Changes"
           />
-        )}
       </DialogContent>
+     )}
     </Dialog>
   )
 }
