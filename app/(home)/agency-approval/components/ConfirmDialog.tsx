@@ -71,7 +71,7 @@ export default function ConfirmDialog({
         </Stack>
       </DialogContent>
 
-      <DialogActions >
+      <DialogActions>
         <Button
           variant='outlined'
           size='small'
