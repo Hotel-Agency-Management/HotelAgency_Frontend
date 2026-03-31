@@ -1,10 +1,10 @@
 "use client";
 
 import { Box, Typography, useTheme } from "@mui/material"
-import { ActivityItem } from "@/core/types/dashboardTypes"
-import { RECENT_ACTIVITY } from "@/core/data/dashboardMock"
-import { ActivityItemRow } from "./ActivityItemRow"
 import { SxProps, Theme } from '@mui/material'
+import { RECENT_ACTIVITY } from "../data/dashboardMock";
+import { ActivityItemRow } from "./ActivityItemRow";
+import { ActivityItem } from "../types/dashboardTypes";
 
 
 interface RecentActivitySectionProps {

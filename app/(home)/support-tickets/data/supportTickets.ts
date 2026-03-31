@@ -1,4 +1,4 @@
-import { Ticket, SupportStats } from "../types/supportTickets";
+import { Ticket, SupportStats } from "../../../../core/types/supportTickets";
 
 export const MOCK_TICKETS: Ticket[] = [
   {

@@ -1,5 +1,5 @@
-import { ActivityItem, LatestAgency, StatCardProps } from '../types/dashboardTypes'
 import type { PieDataPoint } from '@/components/charts/types'
+import { StatCardProps, LatestAgency, ActivityItem } from '../types/dashboardTypes'
 
 export const STAT_CARDS: StatCardProps[] = [
   {

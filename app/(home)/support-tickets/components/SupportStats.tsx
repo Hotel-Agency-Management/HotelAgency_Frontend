@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import { Ticket, RefreshCw, AlertTriangle, CheckCircle2 } from 'lucide-react';
 import type { SupportStats as SupportStatsType } from '@/core/types/supportTickets';
-import Avatar from '../ui/Avatar';
+import Avatar from '@/components/ui/Avatar';
 
 type AccentColor = 'primary' | 'success' | 'error' | 'warning' | 'info';
 

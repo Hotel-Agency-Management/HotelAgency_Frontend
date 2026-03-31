@@ -31,7 +31,7 @@ const navigation = (): SidebarNavItems => [
       },
       {
         title: 'Support & Tickets',
-        path: '/supportTickets',
+        path: '/support-tickets',
         icon: 'lucide:alert-circle',
         subject: 'Support',
         action: 'read'

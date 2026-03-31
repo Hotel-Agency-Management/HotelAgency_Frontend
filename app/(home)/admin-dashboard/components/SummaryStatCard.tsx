@@ -4,8 +4,8 @@ import { Card, CardContent, Stack, Typography } from "@mui/material";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import TrendingDownIcon from "@mui/icons-material/TrendingDown";
 import RemoveIcon from "@mui/icons-material/Remove";
-import { StatCardProps } from "@/core/types/dashboardTypes";
-import Avatar from "../ui/Avatar";
+import { StatCardProps } from "@/app/(home)/admin-dashboard/types/dashboardTypes";
+import Avatar from "@/components/ui/Avatar";
 
 const TREND_ICONS = {
   up: TrendingUpIcon,

@@ -2,8 +2,8 @@
 
 import { Chip } from '@mui/material';
 import type { ChipProps } from '@mui/material';
-import { PRIORITY_CONFIG, SLA_CONFIG, STATUS_CONFIG } from '@/core/constant/tickets';
 import { TicketStatus, TicketPriority, SLAStatus } from '@/core/types/supportTickets';
+import { STATUS_CONFIG, PRIORITY_CONFIG, SLA_CONFIG } from '../constant/tickets';
 
 interface TicketStatusChipProps {
   status: TicketStatus;

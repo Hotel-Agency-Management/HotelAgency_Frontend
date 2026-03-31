@@ -1,4 +1,4 @@
-import { TicketStatus, TicketPriority, TicketCategory, SLAStatus } from "../types/supportTickets";
+import { SLAStatus, TicketCategory, TicketPriority, TicketStatus } from "../../../../core/types/supportTickets";
 
 export const TICKET_STATUSES: { value: TicketStatus | 'all'; label: string }[] = [
   { value: 'all', label: 'All Statuses' },

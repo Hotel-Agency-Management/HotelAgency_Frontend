@@ -18,15 +18,11 @@ import {
   useTheme,
 } from '@mui/material';
 import { X, CheckCircle2 } from 'lucide-react';
-import { TicketStatusChip, TicketPriorityChip } from './TicketChips';
-import {
-  CATEGORY_LABELS,
-  TICKET_STATUSES,
-  TICKET_PRIORITIES,
-  SUPPORT_AGENTS,
-} from '@/core/constant/tickets';
+
 import type { Ticket } from '@/core/types/supportTickets';
-import { formatDateTime, getAgentInitials } from './utils';
+import { CATEGORY_LABELS, TICKET_STATUSES, TICKET_PRIORITIES, SUPPORT_AGENTS } from '../constant/tickets';
+import { formatDateTime, getAgentInitials } from '../util/utils';
+import { TicketPriorityChip, TicketStatusChip } from './TicketChips';
 
 const DRAWER_WIDTH = 480;
 

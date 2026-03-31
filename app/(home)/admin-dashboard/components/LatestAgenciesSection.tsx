@@ -3,10 +3,10 @@ import {
   Stack, Box, Typography, Table, TableBody, TableCell,
   TableContainer, TableHead, TableRow, Chip, useTheme,
 } from "@mui/material";
-import { AgencyStatus, LatestAgency } from "@/core/types/dashboardTypes";
-import { LATEST_AGENCIES } from "@/core/data/dashboardMock";
 import { fromNow } from "@/core/utils/dateUtils";
 import { SxProps, Theme } from '@mui/material'
+import { LATEST_AGENCIES } from "../data/dashboardMock";
+import { AgencyStatus, LatestAgency } from "../types/dashboardTypes";
 
 const STATUS_COLOR: Record<AgencyStatus, "success" | "warning" | "error"> = {
   Active: "success",

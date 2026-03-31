@@ -7,8 +7,8 @@ import HourglassTopIcon from "@mui/icons-material/HourglassTop";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import { SummaryStatCard } from "./SummaryStatCard";
-import { StatCardProps } from "@/core/types/dashboardTypes";
-import { STAT_CARDS } from "@/core/data/dashboardMock";
+import { STAT_CARDS } from "../data/dashboardMock";
+import { StatCardProps } from "../types/dashboardTypes";
 
 const CARD_ICONS: React.ReactNode[] = [
   <BusinessIcon fontSize="small" />,

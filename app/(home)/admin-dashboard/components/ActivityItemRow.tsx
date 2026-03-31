@@ -1,8 +1,8 @@
-import { ActivityItem } from "@/core/types/dashboardTypes";
 import { fromNow } from "@/core/utils/dateUtils";
 import { useTheme } from "@mui/material/styles";
 import { Stack, Avatar, Typography, Box } from "@mui/material";
-import { ACTIVITY_CONFIG } from "@/core/constant/activityConfig";
+import { ACTIVITY_CONFIG } from "../constants/activityConfig";
+import { ActivityItem } from "../types/dashboardTypes";
 
 
 export function ActivityItemRow({ item }: { item: ActivityItem }) {

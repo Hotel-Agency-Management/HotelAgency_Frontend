@@ -10,9 +10,9 @@ import {
   Select,
   useTheme,
 } from '@mui/material';
-import { TICKET_STATUSES, TICKET_PRIORITIES, TICKET_CATEGORIES, SUPPORT_AGENTS } from '@/core/constant/tickets';
 import { TicketFilters } from '@/core/types/supportTickets';
-import SearchInput from '../common/SearchInput';
+import SearchInput from '@/components/common/SearchInput';
+import { TICKET_STATUSES, TICKET_PRIORITIES, TICKET_CATEGORIES, SUPPORT_AGENTS } from '../constant/tickets';
 
 interface TicketFiltersProps {
   filters: TicketFilters;

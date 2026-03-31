@@ -16,11 +16,11 @@ import {
   GridRenderCellParams,
   GridToolbar,
 } from '@mui/x-data-grid';
-import { TicketStatusChip, TicketPriorityChip, SLAChip } from './TicketChips';
-import { CATEGORY_LABELS } from '@/core/constant/tickets';
 import { Ticket } from '@/core/types/supportTickets';
 import { fromNow } from '@/core/utils/dateUtils';
-import { getAgentInitials, formatRelativeTime, formatSLARemaining } from './utils';
+import { CATEGORY_LABELS } from '../constant/tickets';
+import { getAgentInitials, formatRelativeTime, formatSLARemaining } from '../util/utils';
+import { TicketPriorityChip, TicketStatusChip, SLAChip } from './TicketChips';
 
 //
 type ColumnFactory = (deps: {
