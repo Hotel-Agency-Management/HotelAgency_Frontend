@@ -75,7 +75,7 @@ export default function DetailDrawer({ request, open, onClose, onAction }: Detai
       </Stack>
 
       <Box sx={{ overflowY: 'auto', flex: 1 }}>
-        <Stack spacing={4} sx={{ px: 3, py: 3 }}>
+        <Stack spacing={4} sx={{ p:3 }}>
           <Stack
             spacing={2}
             sx={{
