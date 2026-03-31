@@ -22,7 +22,6 @@ import { CATEGORY_LABELS } from '../constant/tickets';
 import { getAgentInitials, formatRelativeTime, formatSLARemaining } from '../util/utils';
 import { TicketPriorityChip, TicketStatusChip, SLAChip } from './TicketChips';
 
-//
 type ColumnFactory = (deps: {
   theme: Theme;
   onSelectTicket: (ticket: Ticket) => void;
