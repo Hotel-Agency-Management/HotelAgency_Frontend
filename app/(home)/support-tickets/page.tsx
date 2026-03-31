@@ -8,14 +8,15 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
-import { SupportStats } from '@/components/supportTickets/SupportStats';
-import { TicketDetailsDrawer } from '@/components/supportTickets/TicketDetailsDrawer';
-import { TicketFiltersBar } from '@/components/supportTickets/TicketFilters';
-import { TicketsTable } from '@/components/supportTickets/TicketsTable';
-import { DEFAULT_FILTERS } from '@/core/constant/tickets';
-import { MOCK_TICKETS, MOCK_STATS } from '@/core/data/supportTickets';
-import { TicketFilters, Ticket } from '@/core/types/supportTickets';
-import { applyTicketFilters } from '@/components/supportTickets/utils';
+
+import { SupportStats } from './components/SupportStats';
+import { TicketDetailsDrawer } from './components/TicketDetailsDrawer';
+import { TicketFiltersBar } from './components/TicketFilters';
+import { TicketsTable } from './components/TicketsTable';
+import { applyTicketFilters } from './util/utils';
+import { DEFAULT_FILTERS } from './constant/tickets';
+import { Ticket, TicketFilters } from '@/core/types/supportTickets';
+import { MOCK_TICKETS, MOCK_STATS } from './data/supportTickets';
 
 
 function PageHeader() {

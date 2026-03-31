@@ -17,21 +17,21 @@ const navigation = (): SidebarNavItems => [
       },
       {
         title: 'Agency Approvals',
-        path: '/agencyApproval',
+        path: '/agency-approval',
         icon: 'lucide:clipboard-check',
         subject: 'Home',
         action: 'read'
       },
       {
         title: 'Subscription Plans',
-        path: '/subscriptionPlans',
+        path: '/subscription-plans',
         icon: 'lucide:clipboard-list',
         subject: 'Home',
         action: 'read'
       },
       {
         title: 'Support & Tickets',
-        path: '/supportTickets',
+        path: '/support-tickets',
         icon: 'lucide:alert-circle',
         subject: 'Support',
         action: 'read'
