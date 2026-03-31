@@ -15,9 +15,9 @@ import { REVENUE_CHART_DATA, REVENUE_CHART_LABELS, SUBSCRIPTION_CHART_DATA, APPR
 export default function DashboardChartsSection() {
   const theme = useTheme();
   const colors = getChartColors(theme.palette.mode === "dark");
+  
   return (
     <Grid container spacing={3}>
-
       <Grid size={{ xs: 12 }}>
         <Card variant='outlined'>
           <CardContent>
