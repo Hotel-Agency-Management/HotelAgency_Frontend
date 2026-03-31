@@ -10,10 +10,10 @@ import {
   CircularProgress,
 } from '@mui/material'
 import { useState } from 'react'
-import type { PlanFormValues, SubscriptionPlan } from './types'
-import { makeEmptyForm, validatePlanForm, hasErrors } from './util/plans'
-import type { FormErrors } from './util/plans'
+import type { PlanFormValues, SubscriptionPlan } from '../types/plans'
 import FeatureEditor from './FeatureEditor'
+import { makeEmptyForm, FormErrors, validatePlanForm, hasErrors } from '../util/plans'
+import { BILLING_OPTIONS } from '../constants/billingOptions'
 
 interface PlanFormProps {
   initial?: SubscriptionPlan
@@ -22,11 +22,6 @@ interface PlanFormProps {
   submitLabel?: string
 }
 
-const BILLING_OPTIONS = [
-  { value: 'monthly', label: 'Monthly' },
-  { value: 'yearly',  label: 'Yearly'  },
-  { value: 'custom',  label: 'Custom'  },
-]
 
 export default function PlanForm({
   initial,

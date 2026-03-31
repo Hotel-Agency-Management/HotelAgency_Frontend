@@ -7,7 +7,7 @@ import {
   Typography,
   CircularProgress,
 } from '@mui/material'
-import { SubscriptionPlan } from './types'
+import { SubscriptionPlan } from '../types/plans'
 interface DeleteDialogProps {
   plan: SubscriptionPlan | null
   open: boolean

@@ -1,4 +1,4 @@
-import type { PlanFeature, PlanFormValues } from '../types'
+import { PlanFeature, PlanFormValues } from "../types/plans"
 
 export function generateId(): string {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`

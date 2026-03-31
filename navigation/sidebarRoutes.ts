@@ -24,7 +24,7 @@ const navigation = (): SidebarNavItems => [
       },
       {
         title: 'Subscription Plans',
-        path: '/subscriptionPlans',
+        path: '/subscription-plans',
         icon: 'lucide:clipboard-list',
         subject: 'Home',
         action: 'read'

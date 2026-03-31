@@ -3,7 +3,6 @@ import {
   CardContent,
   CardActions,
   Stack,
-  Box,
   Typography,
   Chip,
   IconButton,
@@ -17,8 +16,8 @@ import {
 } from '@mui/material'
 
 import { Pencil, Trash2, CheckCircle, XCircle } from 'lucide-react'
-import type { SubscriptionPlan } from './types'
-import { formatPrice } from './util/plans'
+import type { SubscriptionPlan } from '../types/plans'
+import { formatPrice } from '../util/plans'
 
 interface PlanCardProps {
   plan: SubscriptionPlan
@@ -41,7 +40,7 @@ export default function PlanCard({ plan, onEdit, onDelete }: PlanCardProps) {
           justifyContent='space-between'
           mb={1}
         >
-          <Box>
+          <Stack spacing={2}>
             <Typography variant='h6' fontWeight={700}>
               {plan.name}
             </Typography>
@@ -49,7 +48,7 @@ export default function PlanCard({ plan, onEdit, onDelete }: PlanCardProps) {
             <Typography variant='body2' color='text.secondary' sx={{ mt: 0.5 }}>
               {formatPrice(plan.price, plan.billingCycle, plan.customBillingLabel)}
             </Typography>
-          </Box>
+          </Stack>
 
           <Chip
             label={plan.isActive ? 'Active' : 'Inactive'}
@@ -60,10 +59,7 @@ export default function PlanCard({ plan, onEdit, onDelete }: PlanCardProps) {
         </Stack>
 
         <Typography
-          variant='body2'
-          color='text.secondary'
-          sx={{ mt: 1.5, mb: 2 }}
-        >
+          variant='body2'>
           {plan.description}
         </Typography>
 

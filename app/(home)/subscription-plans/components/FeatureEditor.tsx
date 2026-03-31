@@ -11,8 +11,9 @@ import {
   Tooltip,
 } from '@mui/material'
 import { Add, DeleteOutline } from '@mui/icons-material'
-import type { PlanFeature } from './types'
-import { makeEmptyFeature } from './util/plans'
+import { PlanFeature } from '../types/plans'
+import { makeEmptyFeature } from '../util/plans'
+
 
 interface FeatureEditorProps {
   features: PlanFeature[]

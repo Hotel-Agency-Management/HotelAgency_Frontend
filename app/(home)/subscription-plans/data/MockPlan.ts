@@ -1,4 +1,4 @@
-import { SubscriptionPlan } from "@/components/plans/types"
+import { SubscriptionPlan } from "@/app/(home)/subscription-plans/types/plans"
 
 export const BILLING_CYCLE_LABELS: Record<string, string> = {
   monthly: 'per month',
