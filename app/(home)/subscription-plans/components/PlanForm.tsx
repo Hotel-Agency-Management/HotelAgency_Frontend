@@ -42,7 +42,7 @@ export default function PlanForm({
         }
       : makeEmptyForm(),
   )
-  const [errors, setErrors]     = useState<FormErrors>({})
+  const [errors, setErrors] = useState<FormErrors>({})
   const [submitting, setSubmitting] = useState(false)
 
   const set = <K extends keyof PlanFormValues>(key: K, value: PlanFormValues[K]) => {
