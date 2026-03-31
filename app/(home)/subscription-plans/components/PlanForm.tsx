@@ -65,7 +65,7 @@ export default function PlanForm({
   }
 
   return (
-    <Stack spacing={3}>
+    <Stack gap={3}>
       <Stack spacing={2}>
         <Typography variant='subtitle2' color='text.secondary'>
           Basic Information
