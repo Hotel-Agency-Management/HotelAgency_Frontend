@@ -1,5 +1,5 @@
 "use client";
-import { Box, Grid, Typography, Divider, Stack } from "@mui/material"
+import { Grid, Typography, Divider, Stack, Container } from "@mui/material"
 import DashboardChartsSection from "./components/DashboardChartsSection"
 import { DashboardStatsSection } from "./components/DashboardStatsSection"
 import { LatestAgenciesSection } from "./components/LatestAgenciesSection"
@@ -14,7 +14,7 @@ export default function SuperAdminDashboardPage() {
   });
 
   return (
-    <Box sx={{ px: { xs: 2, sm: 3, md: 4 }, py: 3, maxWidth: 1400, mx: "auto" }}>
+    <Container maxWidth="xl" sx={{ py: 3 }}>
       <Stack spacing={1.5}>
         <Typography variant="h5" fontWeight={700} color="text.primary">
           Platform Dashboard
@@ -39,6 +39,6 @@ export default function SuperAdminDashboardPage() {
           <RecentActivitySection sx={{ flex: 1 }} />
         </Grid>
       </Grid>
-    </Box>
+    </Container>
   );
 }

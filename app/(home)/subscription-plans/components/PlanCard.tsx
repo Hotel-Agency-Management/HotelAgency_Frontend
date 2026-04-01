@@ -38,7 +38,7 @@ export default function PlanCard({ plan, onEdit, onDelete }: PlanCardProps) {
           direction='row'
           alignItems='flex-start'
           justifyContent='space-between'
-          mb={1}
+          spacing={1}
         >
           <Stack spacing={2}>
             <Typography variant='h6' fontWeight={700}>

@@ -48,13 +48,6 @@ export default function DetailDrawer({ request, open, onClose, onAction }: Detai
       anchor='right'
       open={open}
       onClose={onClose}
-      PaperProps={{
-        sx: {
-          width: { xs: '100vw', sm: 440 },
-          border: 'none',
-          borderLeft: `1px solid ${theme.palette.divider}`,
-        },
-      }}
     >
       <Stack sx={{ borderBottom: `1px solid ${theme.palette.divider}` }}>
         <Stack
@@ -82,7 +75,7 @@ export default function DetailDrawer({ request, open, onClose, onAction }: Detai
               background: `linear-gradient(135deg, ${alpha(request.avatarColor, 0.06)} 0%, transparent 60%)`,
             }}
           >
-            <Stack direction='row' spacing={2.5} alignItems='center'>
+            <Stack direction='row' gap={2.5} alignItems='center'>
               <Avatar variant='brand' color={request.avatarColor}>
                 {request.logoInitials}
               </Avatar>

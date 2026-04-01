@@ -50,7 +50,7 @@ export default function AgencyCard({ request, onAction, onViewDetails }: AgencyC
       )}
 
       <CardContent>
-        <Stack spacing={2}>
+        <Stack gap={2}>
         <Stack direction='row' alignItems='flex-start' justifyContent='space-between' spacing={2} >
           <Stack direction='row' alignItems='center' spacing={2} sx={{ minWidth: 0 }}>
             <Avatar variant="user" color={request.avatarColor}>
@@ -90,7 +90,7 @@ export default function AgencyCard({ request, onAction, onViewDetails }: AgencyC
             {request.description}
           </Typography>
 
-          <Stack spacing={2}>
+          <Stack gap={2}>
             <Grid container spacing={1}>
               {AGENCY_INFO_FIELDS.map(({ key, icon: Icon }) => (
                 <Grid key={key} size={{ xs: 12, sm: 6 }} >

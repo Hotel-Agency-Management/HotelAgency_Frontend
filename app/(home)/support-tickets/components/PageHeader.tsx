@@ -16,7 +16,6 @@ export function PageHeader() {
         spacing={2}
       >
         <Stack spacing={0.5}>
-          <Stack direction="row" spacing={1.5} alignItems="center">
             <Typography
               variant="h5"
               fontWeight={700}
@@ -25,7 +24,6 @@ export function PageHeader() {
             >
               Support & Ticket Visibility
             </Typography>
-          </Stack>
           <Typography
             variant="body2"
             sx={{
