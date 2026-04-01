@@ -31,7 +31,7 @@ export function StatCard({ label, count, icon, color }: StatCardProps) {
         <Typography variant="h6" fontWeight={800} sx={{ color }}>
           {count}
         </Typography>
-        <Typography variant="caption" color="text.secondary" noWrap sx={{ fontSize: '0.7rem' }}>
+        <Typography variant="caption" color="text.secondary" noWrap maxWidth={200}>
           {label}
         </Typography>
       </Stack>
