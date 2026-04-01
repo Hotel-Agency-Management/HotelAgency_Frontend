@@ -47,5 +47,10 @@ declare global {
     }
   }
 }
+declare module '@mui/material/Avatar' {
+  interface AvatarPropsVariantOverrides {
+    profileLarge: true
+  }
+}
 
 export {}

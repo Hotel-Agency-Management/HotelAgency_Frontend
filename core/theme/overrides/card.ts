@@ -6,6 +6,7 @@ const Card = () => {
     MuiCard: {
       styleOverrides: {
         root: ({ theme }: OwnerStateThemeType) => ({
+          padding: theme.spacing(3),
           '& .card-more-options': {
             marginTop: theme.spacing(-1),
             marginRight: theme.spacing(-3)

@@ -15,7 +15,20 @@ const Avatar = () => {
         rounded: {
           borderRadius: themeConfig.borderRadius
         }
-      }
+      },
+      variants: [
+        {
+          props: { variant: 'profileLarge' },
+          style: ({ theme }: OwnerStateThemeType) => ({
+            width: 96,
+            height: 96,
+            backgroundColor: theme.palette.primary.main,
+            fontSize: '1.75rem',
+            fontWeight: 700,
+            border: `4px solid ${theme.palette.background.paper}`
+          })
+        }
+      ]
     },
     MuiAvatarGroup: {
       styleOverrides: {
