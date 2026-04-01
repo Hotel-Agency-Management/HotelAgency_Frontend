@@ -7,18 +7,32 @@ const Card = () => {
       styleOverrides: {
         root: ({ theme }: OwnerStateThemeType) => ({
           padding: theme.spacing(3),
+          border: `1px solid ${theme.palette.divider}`,
+          transition: theme.transitions.create(
+            ['box-shadow', 'border-color', 'transform'],
+            {
+              duration: theme.transitions.duration.short
+            }
+          ),
+          '&:hover': {
+            boxShadow: theme.shadows[4],
+            borderColor: theme.palette.primary.light,
+            transform: 'translateY(-2px)'
+          },
+          overflow: 'visible',
+          position: 'relative',
+          borderRadius: themeConfig.borderRadius,
           '& .card-more-options': {
             marginTop: theme.spacing(-1),
             marginRight: theme.spacing(-3)
           },
           '& .MuiTableContainer-root, & .MuiDataGrid-root, & .MuiDataGrid-columnHeaders': {
             borderRadius: 0
-          },
-          borderRadius: themeConfig.borderRadius
+          }
         })
       },
       defaultProps: {
-        elevation: 6
+        elevation: 0
       }
     },
     MuiCardHeader: {

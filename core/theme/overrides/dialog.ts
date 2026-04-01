@@ -26,6 +26,8 @@ const Dialog = () => {
           boxShadow: theme.shadows[10],
           backgroundColor: theme.palette.background.paper,
           color: theme.palette.text.primary,
+          border: `1px solid ${theme.palette.divider}`,
+          padding: theme.spacing(1),
           '&:not(.MuiDialog-paperFullScreen)': {
             [theme.breakpoints.down('sm')]: {
               margin: theme.spacing(4),

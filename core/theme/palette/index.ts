@@ -1,16 +1,16 @@
 import type { PaletteMode, ThemeOptions } from '@mui/material'
 
 const brand = {
-  50: '#fff7ed',
-  100: '#ffedd5',
-  200: '#fed7aa',
-  300: '#fdba74',
-  400: '#fb923c',
-  500: '#f97316',
-  600: '#ea580c',
-  700: '#c2410c',
-  800: '#9a3412',
-  900: '#7c2d12'
+  50:  '#fdf8f3',
+  100: '#f5ece0',
+  200: '#e8d5b7',
+  300: '#d9b98a',
+  400: '#c49a5e',
+  500: '#a67c45',
+  600: '#8b6334',
+  700: '#6e4d27',
+  800: '#52391c',
+  900: '#362512'
 }
 
 export function makePalette(mode: PaletteMode): ThemeOptions['palette'] {

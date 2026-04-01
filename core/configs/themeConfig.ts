@@ -25,7 +25,7 @@ type ThemeConfig = {
 
 const themeConfig: ThemeConfig = {
   // ** Layout Configs
-  templateName: 'Next-Shortcut' /* App Name */,
+  templateName: 'HotelAgency' /* App Name */,
   mode: 'dark' as PaletteMode,
   direction: 'ltr' /* ltr | rtl */,
 
