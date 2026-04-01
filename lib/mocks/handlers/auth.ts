@@ -66,7 +66,7 @@ export const authHandlers = [
   http.post(`${API_BASE}/auth/signup`, async ({ request }) => {
     await delay(SIMULATED_DELAY)
 
-    const body = (await request.json()) as {
+    type SignupBody = {
       email: string
       password: string
       name: string
@@ -74,6 +74,26 @@ export const authHandlers = [
       companyName?: string
       type?: 'BUSINESS' | 'CUSTOMER'
       role?: UserRole
+    }
+
+    const contentType = request.headers.get('content-type') ?? ''
+
+    let body: SignupBody
+
+    if (contentType.includes('multipart/form-data')) {
+      const formData = await request.formData()
+
+      body = {
+        email: String(formData.get('email') ?? ''),
+        password: String(formData.get('password') ?? ''),
+        name: String(formData.get('name') ?? ''),
+        phone: String(formData.get('phone') ?? ''),
+        companyName: String(formData.get('companyName') ?? ''),
+        type: (formData.get('type') as SignupBody['type']) ?? undefined,
+        role: (formData.get('role') as UserRole | null) ?? undefined
+      }
+    } else {
+      body = (await request.json()) as SignupBody
     }
 
     if (!body.email || !body.password || !body.name) {
@@ -92,8 +112,8 @@ export const authHandlers = [
       password: body.password,
       name: body.name,
       role: body.role || 'viewer', // Allow role override for testing
-      phone: body.phone,
-      companyName: body.companyName,
+      phone: body.phone || undefined,
+      companyName: body.companyName || undefined,
       type: body.type
     })
 
