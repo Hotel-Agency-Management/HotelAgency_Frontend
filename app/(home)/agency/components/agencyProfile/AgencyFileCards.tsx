@@ -81,7 +81,7 @@ export function AgencyFileCards({
               "&:hover .edit-btn": { opacity: 1 },
             }}
           >
-            <Tooltip title="Replace file">
+            <Tooltip title={`Replace ${file.documentType}`}>
               <IconButton
                 className="edit-btn"
                 size="small"
@@ -113,10 +113,10 @@ export function AgencyFileCards({
                     display: "-webkit-box",
                     WebkitLineClamp: 2,
                     WebkitBoxOrient: "vertical",
-                    wordBreak: "break-all",
+                    wordBreak: "break-word",
                   }}
                 >
-                  {file.name}
+                  {file.documentType}
                 </Typography>
               </Stack>
             </CardContent>

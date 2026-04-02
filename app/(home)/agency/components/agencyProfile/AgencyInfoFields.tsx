@@ -1,13 +1,37 @@
 "use client";
-
 import { Controller } from "react-hook-form";
 import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
+import Skeleton from "@mui/material/Skeleton";
+import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import { alpha } from "@mui/material/styles";
 import { MuiTelInput } from "mui-tel-input";
+import { Building2, MapPin, Phone } from "lucide-react";
 import { AgencyInfoFieldsProps } from "../../types/agencyProfile";
-import { FieldRow } from "./FieldRow";
 import TextField from "@mui/material/TextField";
-
+import { FieldLabel } from "./FieldLabel";
+function InfoCard({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <Paper
+      elevation={0}
+      variant="outlined"
+      sx={{
+        height: "100%",
+        borderRadius: 2.5,
+        bgcolor: theme => alpha(theme.palette.background.default, 0.35),
+      }}
+    >
+      <Stack spacing={1.75} sx={{ p: 2.25, minHeight: 132 }}>
+        {children}
+      </Stack>
+    </Paper>
+  );
+}
 
 export function AgencyInfoFields({
   isEditing,
@@ -16,18 +40,13 @@ export function AgencyInfoFields({
   currentValues,
 }: AgencyInfoFieldsProps) {
   return (
-    <Grid container spacing={3}>
-      <Grid size={{ xs: 12, sm: 6 }}>
-        <FieldRow
-          label="Agency Name"
-          isEditing={isEditing}
-          isLoading={isLoading}
-          viewContent={
-            <Typography variant="body1">
-              {currentValues.name || "—"}
-            </Typography>
-          }
-          editContent={
+    <Grid container spacing={2}>
+      <Grid size={{ xs: 12, md: 4 }}>
+        <InfoCard>
+          <FieldLabel icon={<Building2 size={15} />} text="Agency Name" />
+          {isLoading ? (
+            <Skeleton variant="text" width="72%" height={38} />
+          ) : isEditing ? (
             <Controller
               name="name"
               control={control}
@@ -44,21 +63,20 @@ export function AgencyInfoFields({
                 />
               )}
             />
-          }
-        />
+          ) : (
+            <Typography variant="h6" fontWeight={600} sx={{ lineHeight: 1.35 }}>
+              {currentValues.name || "—"}
+            </Typography>
+          )}
+        </InfoCard>
       </Grid>
 
-      <Grid size={{ xs: 12, sm: 6 }}>
-        <FieldRow
-          label="Phone"
-          isEditing={isEditing}
-          isLoading={isLoading}
-          viewContent={
-            <Typography variant="body1">
-              {currentValues.phone || "—"}
-            </Typography>
-          }
-          editContent={
+      <Grid size={{ xs: 12, md: 4 }}>
+        <InfoCard>
+          <FieldLabel icon={<Phone size={15} />} text="Phone" />
+          {isLoading ? (
+            <Skeleton variant="text" width="68%" height={38} />
+          ) : isEditing ? (
             <Controller
               name="phone"
               control={control}
@@ -74,21 +92,20 @@ export function AgencyInfoFields({
                 />
               )}
             />
-          }
-        />
+          ) : (
+            <Typography variant="h6" fontWeight={600} sx={{ lineHeight: 1.35 }}>
+              {currentValues.phone || "—"}
+            </Typography>
+          )}
+        </InfoCard>
       </Grid>
 
-      <Grid size={{ xs: 12, sm: 6 }}>
-        <FieldRow
-          label="City"
-          isEditing={isEditing}
-          isLoading={isLoading}
-          viewContent={
-            <Typography variant="body1">
-              {currentValues.city || "—"}
-            </Typography>
-          }
-          editContent={
+      <Grid size={{ xs: 12, md: 4 }}>
+        <InfoCard>
+          <FieldLabel icon={<MapPin size={15} />} text="City" />
+          {isLoading ? (
+            <Skeleton variant="text" width="55%" height={38} />
+          ) : isEditing ? (
             <Controller
               name="city"
               control={control}
@@ -105,8 +122,12 @@ export function AgencyInfoFields({
                 />
               )}
             />
-          }
-        />
+          ) : (
+            <Typography variant="h6" fontWeight={600} sx={{ lineHeight: 1.35 }}>
+              {currentValues.city || "—"}
+            </Typography>
+          )}
+        </InfoCard>
       </Grid>
     </Grid>
   );

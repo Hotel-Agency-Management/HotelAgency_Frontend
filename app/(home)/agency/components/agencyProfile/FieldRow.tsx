@@ -1,4 +1,4 @@
-import { Stack, Typography, Skeleton, Fade } from "@mui/material";
+import { Stack, Skeleton, Fade } from "@mui/material";
 import { FieldRowProps } from "../../types/agencyProfile";
 
 export function FieldRow({
@@ -10,9 +10,14 @@ export function FieldRow({
 }: FieldRowProps) {
   return (
     <Stack spacing={0.5}>
-      <Typography variant="overline" color="text.secondary">
+      <Stack
+        direction="row"
+        spacing={0.75}
+        alignItems="center"
+        sx={{ color: "text.secondary", typography: "overline" }}
+      >
         {label}
-      </Typography>
+      </Stack>
       {isLoading ? (
         <Skeleton variant="text" width="60%" height={40} />
       ) : (

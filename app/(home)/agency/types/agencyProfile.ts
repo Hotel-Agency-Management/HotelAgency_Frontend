@@ -1,8 +1,10 @@
 import { Control } from "react-hook-form";
+import type { DocumentType } from "../constants/documentTypes";
 
 export interface FileItem {
   id: string;
   name: string;
+  documentType: DocumentType;
   url: string;
   type: string;
 }
@@ -22,7 +24,7 @@ export interface AgencyInfoFieldsProps {
 }
 
 export interface FieldRowProps {
-  label: string;
+  label: React.ReactNode;
   isEditing: boolean;
   isLoading?: boolean;
   viewContent: React.ReactNode;
