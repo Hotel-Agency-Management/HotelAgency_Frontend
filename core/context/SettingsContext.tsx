@@ -8,6 +8,13 @@ import { Direction } from '@mui/material'
 
 // ** ThemeConfig Import
 import themeConfig from '../configs/themeConfig'
+import {
+  DEFAULT_BRANDING_SIGNATURE,
+  DEFAULT_BRANDING_SETTINGS,
+  isDefaultBrandingSettings,
+  sanitizeBrandingSettings,
+  type BrandingSettings
+} from '../theme/palette/branding'
 
 // ** Types Import
 import { Mode, ThemeColor } from '../layouts/types'
@@ -18,6 +25,7 @@ export type Settings = {
   direction: Direction
   themeColor: ThemeColor
   language: Locale
+  branding: BrandingSettings
   toastPosition?: 'top-left' | 'top-center' | 'top-right' | 'bottom-left' | 'bottom-center' | 'bottom-right'
   sidebarCollapsed?: boolean
 }
@@ -26,6 +34,7 @@ export type PageSpecificSettings = {
   mode?: Mode
   direction?: Direction
   themeColor?: ThemeColor
+  branding?: Partial<BrandingSettings>
   toastPosition?: 'top-left' | 'top-center' | 'top-right' | 'bottom-left' | 'bottom-center' | 'bottom-right'
 }
 
@@ -39,33 +48,70 @@ interface SettingsProviderProps {
   pageSettings?: PageSpecificSettings | void
 }
 
+type BrandingSource = 'default' | 'custom'
+
+type StoredSettings = Partial<Settings> & {
+  __brandingDefaultsSignature?: string
+  __brandingSource?: BrandingSource
+}
+
 const initialSettings: Settings = {
   themeColor: 'primary',
   mode: themeConfig.mode,
   direction: themeConfig.direction,
   language: 'en',
+  branding: DEFAULT_BRANDING_SETTINGS,
   toastPosition: themeConfig.toastPosition
 }
 
-const staticSettings = {
+const normalizeSettings = (value?: Partial<Settings> | PageSpecificSettings | null): Settings => ({
+  ...initialSettings,
+  ...value,
+  branding: sanitizeBrandingSettings(value?.branding),
   toastPosition: initialSettings.toastPosition
+})
+
+const getBrandingSource = (branding: BrandingSettings): BrandingSource =>
+  isDefaultBrandingSettings(branding) ? 'default' : 'custom'
+
+const normalizeStoredSettings = (value?: StoredSettings | null): Settings => {
+  const normalized = normalizeSettings(value)
+
+  // Legacy entries were saved before branding metadata existed.
+  // Reset them once so updated defaults take effect automatically.
+  if (!value?.__brandingDefaultsSignature) {
+    return normalizeSettings({ ...normalized, branding: DEFAULT_BRANDING_SETTINGS })
+  }
+
+  if (value.__brandingDefaultsSignature !== DEFAULT_BRANDING_SIGNATURE && value.__brandingSource !== 'custom') {
+    return normalizeSettings({ ...normalized, branding: DEFAULT_BRANDING_SETTINGS })
+  }
+
+  return normalized
 }
 
 const restoreSettings = (): Settings => {
   try {
     if (typeof window !== 'undefined') {
       const stored = window.localStorage.getItem('settings')
-      if (stored) return { ...JSON.parse(stored), ...staticSettings }
+      if (stored) return normalizeStoredSettings(JSON.parse(stored) as StoredSettings)
     }
   } catch {}
+
   return initialSettings
 }
 
 const storeSettings = (settings: Settings) => {
-  const initSettings = Object.assign({}, settings)
+  const normalizedSettings = normalizeSettings(settings)
+  const storableSettings: StoredSettings = {
+    ...normalizedSettings,
+    __brandingDefaultsSignature: DEFAULT_BRANDING_SIGNATURE,
+    __brandingSource: getBrandingSource(normalizedSettings.branding)
+  }
 
-  delete initSettings.toastPosition
-  window.localStorage.setItem('settings', JSON.stringify(initSettings))
+  delete storableSettings.toastPosition
+
+  window.localStorage.setItem('settings', JSON.stringify(storableSettings))
 }
 
 // ** Create Context
@@ -79,18 +125,16 @@ export const SettingsProvider = ({ children, pageSettings }: SettingsProviderPro
 
   useEffect(() => {
     const restored = restoreSettings()
-    const next = restored || initialSettings
-
-    if (pageSettings) {
-      setSettings({ ...next, ...pageSettings })
-    }
+    const next = pageSettings ? normalizeSettings({ ...restored, ...pageSettings }) : restored
 
     setSettings(next)
   }, [pageSettings])
 
   const saveSettings = (updatedSettings: Settings) => {
-    storeSettings(updatedSettings)
-    setSettings(updatedSettings)
+    const normalizedSettings = normalizeSettings(updatedSettings)
+
+    storeSettings(normalizedSettings)
+    setSettings(normalizedSettings)
   }
 
   return <SettingsContext.Provider value={{ settings, saveSettings }}>{children}</SettingsContext.Provider>
