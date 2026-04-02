@@ -75,7 +75,7 @@ declare module '@mui/material/Avatar' {
   }
 }
 
-declare module '@mui/material/Paper' {
+declare module "@mui/material/Paper" {
   interface PaperPropsVariantOverrides {
     dashed: true
     photoThumb: true
