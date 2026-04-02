@@ -1,7 +1,7 @@
 'use client'
 
-import AdminDashboard from '@/components/dashboard/AdminDashboard'
+import SuperAdminDashboardPage from "../admin-dashboard/page"
 
 export default function HomePage() {
-  return <AdminDashboard />
+  return <SuperAdminDashboardPage />
 }

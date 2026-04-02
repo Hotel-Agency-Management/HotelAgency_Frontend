@@ -42,6 +42,7 @@ import MuiAutocomplete from './autocomplete'
 import MuiToggleButton from './toggleButton'
 import MuiIconButton from './iconButton'
 import MuiTextFields from './textFields'
+import MuiDrawer from './drawer'
 
 const Overrides = (settings: Settings) => {
   const { mode } = settings
@@ -74,6 +75,7 @@ const Overrides = (settings: Settings) => {
   const pagination = MuiPagination()
   const autocomplete = MuiAutocomplete()
   const iconButton = MuiIconButton()
+  const drawer = MuiDrawer()
   return Object.assign(
     fab,
     chip,
@@ -108,7 +110,8 @@ const Overrides = (settings: Settings) => {
     MuiButtonGroup,
     MuiToggleButton,
     iconButton,
-    textFields
+    textFields,
+    drawer
   )
 }
 

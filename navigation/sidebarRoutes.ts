@@ -13,6 +13,7 @@ const navigation = (agencyName?: string): SidebarNavItems => [
         icon: 'lucide:settings',
         subject: 'Agency',
         action: 'manage'
+
       }
     ]
   }
