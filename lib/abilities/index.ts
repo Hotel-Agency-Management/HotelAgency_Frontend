@@ -9,6 +9,12 @@ export type {
   MatchedRoute,
 } from './types'
 
+export {
+  USER_ROLES,
+  USER_ROLE_LABELS,
+  USER_ROLE_OPTIONS,
+} from './types'
+
 // Role definitions
 export { defineAbilitiesFor, canAccess } from './roles'
 
