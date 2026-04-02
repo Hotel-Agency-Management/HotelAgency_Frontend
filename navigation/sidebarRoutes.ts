@@ -13,7 +13,20 @@ const navigation = (agencyName?: string): SidebarNavItems => [
         icon: 'lucide:settings',
         subject: 'Agency',
         action: 'manage'
-
+      },
+      {
+        title: 'Hotels',
+        path: `/agency/${agencyName}/hotels`,
+        icon: 'lucide:hotel',
+        subject: 'Hotels',
+        action: 'manage'
+      },
+      {
+        title: 'User Management',
+        path: `/agency/${agencyName}/users`,
+        icon: 'lucide:users',
+        subject: 'Users',
+        action: 'manage'
       }
     ]
   }
