@@ -34,7 +34,7 @@ const Card = () => {
             borderRadius: 0,
           },
 
-          ...( ownerState.variant !== 'hotel' && {
+          ...(ownerState.variant !== 'hotel' && {
             '&:hover': {
               boxShadow: theme.shadows[4],
               borderColor: theme.palette.primary.light,
@@ -56,10 +56,11 @@ const Card = () => {
             '& .base-gradient': {
               position: 'absolute' as const,
               inset: 0,
-              background: theme.palette.mode === 'light'
-                ? 'linear-gradient(to top, rgba(0,0,0,0.45) 40%, transparent 100%)'
-                : 'linear-gradient(to top, rgba(0,0,0,0.72) 40%, transparent 100%)',
-              transition: 'opacity 0.3s ease'
+              background:
+                theme.palette.mode === 'light'
+                  ? 'linear-gradient(to top, rgba(0,0,0,0.45) 40%, transparent 100%)'
+                  : 'linear-gradient(to top, rgba(0,0,0,0.72) 40%, transparent 100%)',
+              transition: 'opacity 0.3s ease',
             },
 
             '& .base-info': {
@@ -69,15 +70,16 @@ const Card = () => {
               right: 0,
               padding: theme.spacing(2),
               zIndex: 2,
-              transition: 'opacity 0.25s ease, transform 0.25s ease'
+              transition: 'opacity 0.25s ease, transform 0.25s ease',
             },
 
             '& .hover-overlay': {
               position: 'absolute' as const,
               inset: 0,
-              background: theme.palette.mode === 'light'
-                ? 'linear-gradient(to top, rgba(0,0,0,0.82) 55%, rgba(0,0,0,0.35) 100%)'
-                : 'linear-gradient(to top, rgba(0,0,0,0.88) 60%, rgba(0,0,0,0.45) 100%)',
+              background:
+                theme.palette.mode === 'light'
+                  ? 'linear-gradient(to top, rgba(0,0,0,0.82) 55%, rgba(0,0,0,0.35) 100%)'
+                  : 'linear-gradient(to top, rgba(0,0,0,0.88) 60%, rgba(0,0,0,0.45) 100%)',
               backdropFilter: theme.palette.mode === 'light' ? 'blur(2px)' : 'none',
               '& *': { color: `${theme.palette.common.white} !important` },
               opacity: 0,
@@ -87,16 +89,16 @@ const Card = () => {
               display: 'flex',
               flexDirection: 'column' as const,
               justifyContent: 'flex-end',
-              padding: theme.spacing(2)
+              padding: theme.spacing(2),
             },
 
             '&:hover': {
               boxShadow: theme.shadows[6],
               '& .hover-overlay': { opacity: 1, transform: 'translateY(0)' },
               '& .base-info': { opacity: 0, transform: 'translateY(6px)' },
-              '& .base-gradient': { opacity: 0 }
-            }
-          })
+              '& .base-gradient': { opacity: 0 },
+            },
+          }),
         }),
       },
       defaultProps: {

@@ -64,7 +64,6 @@ declare module '@mui/material/Card' {
     hotel: true;
   }
 }
-
 declare module '@mui/material/Avatar' {
   interface AvatarPropsVariantOverrides {
     user: true
@@ -72,5 +71,4 @@ declare module '@mui/material/Avatar' {
     brand: true
   }
 }
-
 export {}
