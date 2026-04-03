@@ -1,8 +1,7 @@
-// components/ui/Avatar.tsx
 import { Avatar as MuiAvatar, AvatarProps } from '@mui/material'
 
 interface Props extends Omit<AvatarProps, 'variant'> {
-  variant?: AvatarProps['variant'] | 'user' | 'soft' | 'brand'
+  variant?: AvatarProps['variant'] | 'profileLarge' | 'user' | 'soft' | 'brand'
 }
 
 const Avatar = ({ ...props }: Props) => {
