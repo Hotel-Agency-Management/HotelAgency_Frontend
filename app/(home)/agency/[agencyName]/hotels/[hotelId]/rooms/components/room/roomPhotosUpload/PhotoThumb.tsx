@@ -41,7 +41,6 @@ export function PhotoThumb({
           objectFit: "cover",
         }}
       />
-
       <Stack
         direction="row"
         position="absolute"
@@ -71,7 +70,6 @@ export function PhotoThumb({
             )}
           </IconButton>
         </Tooltip>
-
         <Tooltip title="Delete photo">
           <IconButton
             size="small"
@@ -90,7 +88,6 @@ export function PhotoThumb({
           </IconButton>
         </Tooltip>
       </Stack>
-
       {photo.isPrimary && (
         <Paper variant="photoBadge" elevation={0} square>
           <Typography variant="caption" color="common.white" fontWeight={600}>

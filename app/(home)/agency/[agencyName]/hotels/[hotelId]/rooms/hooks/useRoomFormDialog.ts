@@ -17,6 +17,7 @@ export interface UseRoomFormDialogArgs {
   room: Room | null | undefined;
   hotelId: string;
 }
+
 export function useRoomFormDialog({
   open,
   onClose,

@@ -8,6 +8,7 @@ import {
 import { sleep } from "../util/delay";
 
 // TODO: Remove when integrating backend
+
 let mockRooms: Room[] = [
   {
     id: "1",
