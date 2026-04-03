@@ -7,12 +7,12 @@ import { DeleteRoomTypeDialog } from './DeleteRoomTypeDialog'
 import { RoomTypesEmptyState } from './RoomTypesEmptyState'
 import { RoomTypesHeader } from './RoomTypesHeader'
 import { RoomTypesLoadingGrid } from './RoomTypesLoadingGrid'
-
 import { RoomTypeFormValues } from '../../schema/roomTypeSchema'
 import { RoomType } from '../../types/roomType'
 import { RoomTypesGrid } from './RoomTypesGrid'
 import { useHotelStore } from '../../../../hooks/useHotelStore'
 import { useRoomTypes, useCreateRoomType, useUpdateRoomType, useDeleteRoomType } from '../../hooks/uesRoomType'
+
 interface RoomTypesViewProps {
   hotelId: string
 }
@@ -57,7 +57,6 @@ export function RoomTypesView({ hotelId }: RoomTypesViewProps) {
         ...values,
       })
     }
-
     handleCloseForm()
   }
 
@@ -71,7 +70,6 @@ export function RoomTypesView({ hotelId }: RoomTypesViewProps) {
 
   const handleConfirmDelete = async () => {
     if (!deletingRoomType) return
-
     await deleteRoomType(deletingRoomType.id)
     handleCloseDelete()
   }
