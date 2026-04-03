@@ -1,4 +1,5 @@
 'use client'
+
 import { useState } from 'react'
 import { Alert, Stack } from '@mui/material'
 import { RoomTypeFormDialog } from './RoomTypeFormDialog'
@@ -6,12 +7,12 @@ import { DeleteRoomTypeDialog } from './DeleteRoomTypeDialog'
 import { RoomTypesEmptyState } from './RoomTypesEmptyState'
 import { RoomTypesHeader } from './RoomTypesHeader'
 import { RoomTypesLoadingGrid } from './RoomTypesLoadingGrid'
-import { useRoomTypes } from '../../hooks/uesRoomType'
-import { RoomTypeFormValues } from '../../schema/roomSchema'
+
+import { RoomTypeFormValues } from '../../schema/roomTypeSchema'
 import { RoomType } from '../../types/roomType'
 import { RoomTypesGrid } from './RoomTypesGrid'
 import { useHotelStore } from '../../../../hooks/useHotelStore'
-
+import { useRoomTypes, useCreateRoomType, useUpdateRoomType, useDeleteRoomType } from '../../hooks/uesRoomType'
 interface RoomTypesViewProps {
   hotelId: string
 }
@@ -20,8 +21,10 @@ export function RoomTypesView({ hotelId }: RoomTypesViewProps) {
   const hotel = useHotelStore(state => state.getHotelById(hotelId))
   const currency = hotel?.basicInfo.currency ?? 'USD'
 
-  const { roomTypes, isLoading, error, createRoomType, updateRoomType, deleteRoomType } =
-    useRoomTypes(hotelId)
+  const { data: roomTypes = [], isLoading, error } = useRoomTypes(hotelId)
+  const { mutateAsync: createRoomType } = useCreateRoomType()
+  const { mutateAsync: updateRoomType } = useUpdateRoomType()
+  const { mutateAsync: deleteRoomType } = useDeleteRoomType(hotelId)
 
   const [formOpen, setFormOpen] = useState(false)
   const [editingRoomType, setEditingRoomType] = useState<RoomType | null>(null)
@@ -44,10 +47,17 @@ export function RoomTypesView({ hotelId }: RoomTypesViewProps) {
 
   const handleSubmit = async (values: RoomTypeFormValues) => {
     if (editingRoomType) {
-      await updateRoomType({ id: editingRoomType.id, ...values })
+      await updateRoomType({
+        id: editingRoomType.id,
+        ...values,
+      })
     } else {
-      await createRoomType({ hotelId, ...values })
+      await createRoomType({
+        hotelId,
+        ...values,
+      })
     }
+
     handleCloseForm()
   }
 
@@ -61,15 +71,24 @@ export function RoomTypesView({ hotelId }: RoomTypesViewProps) {
 
   const handleConfirmDelete = async () => {
     if (!deletingRoomType) return
+
     await deleteRoomType(deletingRoomType.id)
     handleCloseDelete()
   }
 
   return (
     <Stack gap={3}>
-      <RoomTypesHeader count={roomTypes.length} isLoading={isLoading} onAdd={handleOpenAdd} />
+      <RoomTypesHeader
+        count={roomTypes.length}
+        isLoading={isLoading}
+        onAdd={handleOpenAdd}
+      />
 
-      {error && <Alert severity='error'>{error}</Alert>}
+      {error && (
+        <Alert severity='error'>
+          Failed to load room types
+        </Alert>
+      )}
 
       {isLoading && <RoomTypesLoadingGrid />}
 

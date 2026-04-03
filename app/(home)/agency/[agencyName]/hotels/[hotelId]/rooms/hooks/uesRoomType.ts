@@ -1,71 +1,62 @@
-import { useState, useEffect, useCallback } from 'react'
-import { roomTypesApi } from '../api/roomTypeApi'
-import { RoomType, CreateRoomTypePayload, UpdateRoomTypePayload } from '../types/roomType'
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { roomTypesApi } from "../api/roomTypeApi";
+import { CreateRoomTypePayload, UpdateRoomTypePayload } from "../types/roomType";
 
-interface UseRoomTypesReturn {
-  roomTypes: RoomType[]
-  isLoading: boolean
-  error: string | null
-  createRoomType: (payload: CreateRoomTypePayload) => Promise<void>
-  updateRoomType: (payload: UpdateRoomTypePayload) => Promise<void>
-  deleteRoomType: (id: string) => Promise<void>
-}
+export const useRoomTypes = (hotelId: string) => {
+  return useQuery({
+    queryKey: ["roomTypes", hotelId],
+    queryFn: () => roomTypesApi.getAll(hotelId),
+    enabled: !!hotelId,
+  });
+};
 
-export function useRoomTypes(hotelId: string): UseRoomTypesReturn {
-  const [roomTypes, setRoomTypes] = useState<RoomType[]>([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+export const useRoomType = (id: string) => {
+  return useQuery({
+    queryKey: ["roomType", id],
+    queryFn: () => roomTypesApi.getById(id),
+    enabled: !!id,
+  });
+};
 
-  const fetchRoomTypes = useCallback(async () => {
-    try {
-      setIsLoading(true)
-      setError(null)
-      const data = await roomTypesApi.getAll(hotelId)
-      setRoomTypes(data)
-    } catch {
-      setError('Failed to load room types')
-    } finally {
-      setIsLoading(false)
-    }
-  }, [hotelId])
+export const useCreateRoomType = () => {
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    fetchRoomTypes()
-  }, [fetchRoomTypes])
+  return useMutation({
+    mutationFn: (payload: CreateRoomTypePayload) => roomTypesApi.create(payload),
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: ["roomTypes", variables.hotelId],
+      });
+    },
+  });
+};
 
-  const createRoomType = useCallback(async (payload: CreateRoomTypePayload) => {
-    try {
-      const newRoomType = await roomTypesApi.create(payload)
-      setRoomTypes(prev => [...prev, newRoomType])
-    } catch {
-      setError('Failed to create room type')
-    }
-  }, [])
+export const useUpdateRoomType = () => {
+  const queryClient = useQueryClient();
 
-  const updateRoomType = useCallback(async (payload: UpdateRoomTypePayload) => {
-    try {
-      const updated = await roomTypesApi.update(payload)
-      setRoomTypes(prev => prev.map(r => r.id === updated.id ? updated : r))
-    } catch {
-      setError('Failed to update room type')
-    }
-  }, [])
+  return useMutation({
+    mutationFn: (payload: UpdateRoomTypePayload) => roomTypesApi.update(payload),
+    onSuccess: (updatedRoomType) => {
+      queryClient.invalidateQueries({
+        queryKey: ["roomTypes", updatedRoomType.hotelId],
+      });
 
-  const deleteRoomType = useCallback(async (id: string) => {
-    try {
-      await roomTypesApi.delete(id)
-      setRoomTypes(prev => prev.filter(r => r.id !== id))
-    } catch {
-      setError('Failed to delete room type')
-    }
-  }, [])
+      queryClient.invalidateQueries({
+        queryKey: ["roomType", updatedRoomType.id],
+      });
+    },
+  });
+};
 
-  return {
-    roomTypes,
-    isLoading,
-    error,
-    createRoomType,
-    updateRoomType,
-    deleteRoomType,
-  }
-}
+export const useDeleteRoomType = (hotelId: string) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (id: string) => roomTypesApi.delete(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["roomTypes", hotelId],
+      });
+    },
+  });
+};

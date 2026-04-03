@@ -8,7 +8,7 @@ import {
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import { RoomTypeForm } from './RoomTypeForm'
-import { RoomTypeFormValues } from '../../schema/roomSchema'
+import { RoomTypeFormValues } from '../../schema/roomTypeSchema'
 import { RoomType } from '../../types/roomType'
 
 
@@ -53,7 +53,7 @@ export function RoomTypeFormDialog({
         <Button onClick={onClose} color='inherit'>
           Cancel
         </Button>
-        <Button type='submit' form={FORM_ID} variant='contained'>
+        <Button type='submit' form={FORM_ID} variant='contained' size='small'>
           {isEditing ? 'Save changes' : 'Add room type'}
         </Button>
       </DialogActions>

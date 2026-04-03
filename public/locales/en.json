@@ -120,5 +120,18 @@
     "create": "Create Account",
     "alreadyHaveAccount": "Already have an account?",
     "signIn": "Sign In"
+  },
+  "hotelRooms": {
+    "dialog": {
+      "addTitle": "Add New Room",
+      "editTitle": "Edit Room — #{{number}}",
+      "stepDetails": "Room details",
+      "stepPhotos": "Photos",
+      "next": "Next",
+      "back": "Back",
+      "finish": "Finish",
+      "cancel": "Cancel",
+      "saveChanges": "Save Changes"
+    }
   }
 }
