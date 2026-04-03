@@ -20,7 +20,6 @@ export const useRoomType = (id: string) => {
 
 export const useCreateRoomType = () => {
   const queryClient = useQueryClient();
-
   return useMutation({
     mutationFn: (payload: CreateRoomTypePayload) => roomTypesApi.create(payload),
     onSuccess: (_, variables) => {
@@ -33,14 +32,12 @@ export const useCreateRoomType = () => {
 
 export const useUpdateRoomType = () => {
   const queryClient = useQueryClient();
-
   return useMutation({
     mutationFn: (payload: UpdateRoomTypePayload) => roomTypesApi.update(payload),
     onSuccess: (updatedRoomType) => {
       queryClient.invalidateQueries({
         queryKey: ["roomTypes", updatedRoomType.hotelId],
       });
-
       queryClient.invalidateQueries({
         queryKey: ["roomType", updatedRoomType.id],
       });
@@ -50,7 +47,6 @@ export const useUpdateRoomType = () => {
 
 export const useDeleteRoomType = (hotelId: string) => {
   const queryClient = useQueryClient();
-
   return useMutation({
     mutationFn: (id: string) => roomTypesApi.delete(id),
     onSuccess: () => {

@@ -37,7 +37,6 @@ export function RoomTypeFormDialog({
           <CloseIcon fontSize='small' />
         </IconButton>
       </DialogTitle>
-
       <DialogContent dividers>
         <RoomTypeForm
           formId={FORM_ID}
@@ -46,7 +45,6 @@ export function RoomTypeFormDialog({
           currency={currency}
         />
       </DialogContent>
-
       <DialogActions>
         <Button onClick={onClose} color='inherit'>
           Cancel
