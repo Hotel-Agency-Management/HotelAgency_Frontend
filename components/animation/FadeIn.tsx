@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import { Box } from '@mui/material'
 import { motion } from 'framer-motion'
 
 /**
@@ -29,10 +30,20 @@ import { motion } from 'framer-motion'
  * <FadeIn direction="down" once={false} className="w-full">
  *   <Banner />
  * </FadeIn>
+ *
+ * @example
+ * // Stagger mode — parent MotionStack controls animation via variants
+ * <MotionStack variants={staggerContainer} initial='hidden' animate='show'>
+ *   <FadeIn variants={fadeInUp}>
+ *     <Typography>Hello</Typography>
+ *   </FadeIn>
+ * </MotionStack>
  */
 
+const MotionBox = motion.create(Box)
+
 export interface FadeInProps
-  extends Omit<React.ComponentPropsWithoutRef<typeof motion.div>, 'children'> {
+  extends Omit<React.ComponentPropsWithoutRef<typeof MotionBox>, 'children'> {
   /** Direction from which the element slides in. @default 'up' */
   direction?: 'up' | 'down' | 'left' | 'right' | 'none'
   /** Pixel offset of the starting position. @default 16 */
@@ -43,7 +54,7 @@ export interface FadeInProps
    * Override animation timing. Merges with defaults `{ duration: 0.6, ease: 'easeOut' }`.
    * @example transition={{ duration: 0.8, ease: 'easeInOut', delay: 0.2 }}
    */
-  transition?: React.ComponentPropsWithoutRef<typeof motion.div>['transition']
+  transition?: React.ComponentPropsWithoutRef<typeof MotionBox>['transition']
   children: React.ReactNode
 }
 
@@ -73,6 +84,7 @@ const FadeIn = React.forwardRef<HTMLDivElement, FadeInProps>(
       distance = 16,
       once = true,
       transition,
+      variants,
       children,
       ...rest
     },
@@ -85,19 +97,29 @@ const FadeIn = React.forwardRef<HTMLDivElement, FadeInProps>(
 
     if (prefersReducedMotion) {
       return (
-        <motion.div ref={ref} {...rest}>
+        <MotionBox ref={ref} variants={variants} {...rest}>
           {children}
-        </motion.div>
+        </MotionBox>
       )
     }
 
+    // Stagger mode — parent controls animation via variants
+    if (variants) {
+      return (
+        <MotionBox ref={ref} variants={variants} {...rest}>
+          {children}
+        </MotionBox>
+      )
+    }
+
+    // Standalone mode — FadeIn drives its own whileInView animation
     const directionOffset = getDirectionOffset(direction, distance)
 
     const initialState = { ...directionOffset, opacity: 0 }
     const animateState = { x: 0, y: 0, opacity: 1 }
 
     return (
-      <motion.div
+      <MotionBox
         ref={ref}
         initial={initialState}
         whileInView={animateState}
@@ -106,7 +128,7 @@ const FadeIn = React.forwardRef<HTMLDivElement, FadeInProps>(
         {...rest}
       >
         {children}
-      </motion.div>
+      </MotionBox>
     )
   }
 )
