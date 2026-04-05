@@ -10,7 +10,8 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { ImageIcon, Trash2, Upload } from "lucide-react";
 import type { BrandingSettings } from "@/core/theme/palette/branding";
-import { MAX_LOGO_SIZE, readFileAsDataUrl } from "../../constants/logoDetails";
+import { MAX_LOGO_SIZE } from "../../constants/logoDetails";
+import { readFileAsDataUrl } from "../../util/fileUtils";
 
 export function LogoCard() {
   const { watch, setValue } = useFormContext<BrandingSettings>();

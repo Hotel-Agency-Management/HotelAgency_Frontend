@@ -17,9 +17,9 @@ interface TabPanelProps {
 
 function TabPanel({ children, value, index }: TabPanelProps) {
   return (
-    <div hidden={value !== index} role="tabpanel">
+    <Box hidden={value !== index} role="tabpanel">
       {value === index && <Box sx={{ pt: 3 }}>{children}</Box>}
-    </div>
+    </Box>
   );
 }
 
