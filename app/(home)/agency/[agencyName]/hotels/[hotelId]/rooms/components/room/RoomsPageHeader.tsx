@@ -64,6 +64,7 @@ export function RoomsPageHeader({ onOpenAddDialog }: Props) {
           variant="contained"
           ref={anchorRef}
           className={BUTTON_GROUP_COMPACT_SPLIT_CLASS}
+          size="small"
         >
           <Button startIcon={<AddIcon />} onClick={handleAdd}>
             Add Room
