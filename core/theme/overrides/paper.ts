@@ -50,6 +50,15 @@ export default {
           textAlign: "center",
           borderRadius: 0,
         },
+      },
+        {
+        props: { variant: "card" },
+        style: {
+          padding: 20,
+          borderRadius: themeConfig.borderRadius,
+          boxShadow: "none",
+          borderWidth: 1,
+        },
       }
     ],
   },
