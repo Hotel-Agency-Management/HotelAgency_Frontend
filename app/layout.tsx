@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import './globals.css'
 import AppProviders from '@/providers/AppProviders'
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter'
 
 const montserratArabic = localFont({
   src: [
@@ -31,7 +32,9 @@ export default async function RootLayout({
   return (
     <html lang='en' dir='ltr'>
       <body className={`${montserratArabic.variable} antialiased`}>
+        <AppRouterCacheProvider options={{ key: 'mui' }}>
         <AppProviders>{children}</AppProviders>
+        </AppRouterCacheProvider>
       </body>
     </html>
   )

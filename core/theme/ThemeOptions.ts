@@ -13,7 +13,7 @@ import { Settings } from '../context/SettingsContext'
 
 const themeOptions = (settings: Settings, overrideMode: PaletteMode, lang: string): ThemeOptions => {
   // ** Vars
-  const { mode, direction, themeColor } = settings
+  const { mode, direction, themeColor, branding } = settings
 
   // ** Create New object before removing user component overrides and typography objects from userThemeOptions
   const userThemeConfig: ThemeOptions = Object.assign({})
@@ -23,7 +23,7 @@ const themeOptions = (settings: Settings, overrideMode: PaletteMode, lang: strin
       breakpoints: makeBreakpoints(),
       direction,
       components: overrides(settings),
-      palette: makePalette(mode === 'semi-dark' ? overrideMode : mode),
+      palette: makePalette(mode === 'semi-dark' ? overrideMode : mode, branding.colors),
       spacing: spacing(2),
       shape: {
         borderRadius: 10
@@ -44,7 +44,7 @@ const themeOptions = (settings: Settings, overrideMode: PaletteMode, lang: strin
       primary: {
         ...(mergedThemeConfig.palette
           ? mergedThemeConfig.palette[themeColor]
-          : makePalette(mode === 'semi-dark' ? overrideMode : mode)?.primary)
+          : makePalette(mode === 'semi-dark' ? overrideMode : mode, branding.colors)?.primary)
       }
     }
   })

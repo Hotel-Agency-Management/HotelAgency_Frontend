@@ -10,9 +10,10 @@ export default async function HomeLayout({ children }: { children: React.ReactNo
   } catch (error) {
     console.error('Failed to fetch dynamic nav routes:', error)
   }
+  const agencyName = 'my-agency' // TODO: replace with real agency name
 
   return (
-    <SidebarLayout navItems={navigation()} dynamicNavItems={dynamicNavItems} appName={themeConfig.templateName}>
+    <SidebarLayout navItems={navigation(agencyName)} dynamicNavItems={dynamicNavItems} appName={themeConfig.templateName}>
       {children}
     </SidebarLayout>
   )

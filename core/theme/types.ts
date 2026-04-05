@@ -27,10 +27,22 @@ declare module '@mui/material/styles' {
       dark: string
       contrastText: string
     }
+    tertiary: {
+      light: string
+      main: string
+      dark: string
+      contrastText: string
+    }
   }
   interface PaletteOptions {
     customColors?: Palette['customColors']
     brand?: {
+      light: string
+      main: string
+      dark: string
+      contrastText: string
+    }
+    tertiary?: {
       light: string
       main: string
       dark: string
@@ -45,6 +57,19 @@ declare global {
     interface IntrinsicElements {
       'stripe-pricing-table': DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>
     }
+  }
+}
+declare module '@mui/material/Avatar' {
+  interface AvatarPropsVariantOverrides {
+    profileLarge: true
+  }
+}
+
+declare module '@mui/material/Avatar' {
+  interface AvatarPropsVariantOverrides {
+    user: true
+    soft: true
+    brand: true
   }
 }
 
