@@ -1,23 +1,13 @@
 import type { PaletteMode, ThemeOptions } from '@mui/material'
+import { alpha } from '@mui/material/styles'
+import { buildBrandingPalette, type BrandingColors } from './branding'
 
-const brand = {
-  50:  '#fdf8f3',
-  100: '#f5ece0',
-  200: '#e8d5b7',
-  300: '#d9b98a',
-  400: '#c49a5e',
-  500: '#a67c45',
-  600: '#8b6334',
-  700: '#6e4d27',
-  800: '#52391c',
-  900: '#362512'
-}
-
-export function makePalette(mode: PaletteMode): ThemeOptions['palette'] {
+export function makePalette(mode: PaletteMode, brandingColors?: Partial<BrandingColors> | null): ThemeOptions['palette'] {
   const isDark = mode === 'dark'
   const lightColor = '15, 17, 23'
   const darkColor = '230, 235, 255'
   const mainColor = mode === 'light' ? `rgb(${lightColor})` : `rgb(${darkColor})`
+  const brandingPalette = buildBrandingPalette(mode, brandingColors)
 
   return {
     customColors: {
@@ -31,22 +21,23 @@ export function makePalette(mode: PaletteMode): ThemeOptions['palette'] {
       tooltipBg: mode === 'light' ? '#1a1d28' : '#2c2c2c',
       tableHeaderBg: mode === 'light' ? '#f0f2f8' : '#181818',
       disabled: mode === 'light' ? '#dde0ea' : '#2e2e2e',
-      planAvatar: '#8B5CF6',
-      greenBackground: mode === 'light' ? '#DCFCE7' : 'rgba(17, 194, 139, 0.12)',
-      blueBackground: mode === 'light' ? '#DBEAFE' : 'rgba(249, 115, 22, 0.12)',
-      lightPurple: '#E9D5FF',
-      lightAqua: '#27AAE1',
-      subscriptionBlue: '#4285f4',
-      subscriptionPurple: '#9333EA'
+      planAvatar: brandingPalette.customColors.planAvatar,
+      greenBackground: brandingPalette.customColors.greenBackground,
+      blueBackground: brandingPalette.customColors.blueBackground,
+      lightPurple: brandingPalette.customColors.lightPurple,
+      lightAqua: brandingPalette.customColors.lightAqua,
+      subscriptionBlue: brandingPalette.customColors.subscriptionBlue,
+      subscriptionPurple: brandingPalette.customColors.subscriptionPurple
     },
     mode,
-    primary: { light: brand[400], main: brand[500], dark: brand[700], contrastText: '#fff' },
-    brand: { light: brand[400], main: brand[500], dark: brand[700], contrastText: '#fff' },
-    secondary: { light: '#64E1FF', main: '#00D0FF', dark: '#00A3CC', contrastText: '#001219' },
+    primary: brandingPalette.primary,
+    brand: brandingPalette.primary,
+    secondary: brandingPalette.secondary,
+    tertiary: brandingPalette.tertiary,
     error: { light: '#FF7A7A', main: '#FF4D4F', dark: '#C62828' },
     warning: { light: '#FFD166', main: '#FFB703', dark: '#C98A00' },
-    info: { light: '#9AD0FF', main: '#55ADFF', dark: '#1E7ED6' },
-    success: { light: '#33D69F', main: '#11C28B', dark: '#0E9B6F' },
+    info: brandingPalette.secondary,
+    success: brandingPalette.tertiary,
     divider: isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)',
     background: {
       default: isDark ? '#0c0c0c' : '#f6f8fc',
@@ -59,7 +50,7 @@ export function makePalette(mode: PaletteMode): ThemeOptions['palette'] {
     },
     action: {
       hover: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.03)',
-      selected: isDark ? 'rgba(249,115,22,0.12)' : 'rgba(249,115,22,0.08)',
+      selected: alpha(brandingPalette.primary.main, isDark ? 0.16 : 0.08),
       disabled: isDark ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.25)',
       disabledBackground: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)'
     }

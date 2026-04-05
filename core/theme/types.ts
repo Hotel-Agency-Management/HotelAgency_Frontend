@@ -27,10 +27,22 @@ declare module '@mui/material/styles' {
       dark: string
       contrastText: string
     }
+    tertiary: {
+      light: string
+      main: string
+      dark: string
+      contrastText: string
+    }
   }
   interface PaletteOptions {
     customColors?: Palette['customColors']
     brand?: {
+      light: string
+      main: string
+      dark: string
+      contrastText: string
+    }
+    tertiary?: {
       light: string
       main: string
       dark: string

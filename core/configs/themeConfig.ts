@@ -25,7 +25,7 @@ type ThemeConfig = {
 
 const themeConfig: ThemeConfig = {
   // ** Layout Configs
-  templateName: 'HotelAgency' /* App Name */,
+  templateName: 'Hotel Agency' /* App Name */,
   mode: 'dark' as PaletteMode,
   direction: 'ltr' /* ltr | rtl */,
 

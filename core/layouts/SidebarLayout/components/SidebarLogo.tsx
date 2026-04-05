@@ -2,26 +2,30 @@
 
 import type { ReactNode } from 'react'
 import { useEffect, useState } from 'react'
-import { IconButton, Stack, Tooltip, Typography, useMediaQuery, useTheme } from '@mui/material'
+import { Box, IconButton, Stack, Tooltip, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { AnimatePresence, motion } from 'framer-motion'
 import { X } from 'lucide-react'
 import { useSidebar } from '../SidebarContext'
 import { Icon } from '@iconify/react'
 import { useRouter } from 'next/navigation'
 import useLanguage from '@/core/hooks/useLanguage'
+import { useSettings } from '@/core/hooks/useSettings'
 
 interface SidebarLogoProps {
   logo?: ReactNode
   appName?: string
 }
 
-export default function SidebarLogo({ appName = 'Shortcut Next' }: SidebarLogoProps) {
+export default function SidebarLogo({ logo, appName = 'Shortcut Next' }: SidebarLogoProps) {
   const { isCollapsed, setIsMobileOpen } = useSidebar()
   const theme = useTheme()
   const router = useRouter()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   const { language } = useLanguage()
+  const { settings } = useSettings()
   const xDir = language === 'ar' ? 16 : -16
+  const customLogo = settings.branding.logo
+  const showUploadedLogo = !logo && Boolean(customLogo)
 
   const [cmdKey, setCmdKey] = useState<string | null>(null)
   useEffect(() => {
@@ -48,7 +52,18 @@ export default function SidebarLogo({ appName = 'Shortcut Next' }: SidebarLogoPr
     >
       <Tooltip title={appName} placement='right' disableHoverListener={!isCollapsed} disableInteractive>
         <Stack flexDirection='row' alignItems='center' justifyContent='center' flexShrink={0} width={36} height={36}>
-          <Icon icon='local:shortcut-next' width={36} height={36} color='currentColor' />
+          {logo ? (
+            logo
+          ) : showUploadedLogo ? (
+            <Box
+              component='img'
+              src={customLogo ?? undefined}
+              alt={`${appName} logo`}
+              sx={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: 1.5 }}
+            />
+          ) : (
+            <Icon icon='local:shortcut-next' width={36} height={36} color='currentColor' />
+          )}
         </Stack>
       </Tooltip>
 
