@@ -59,6 +59,9 @@
     "firstNameRequired": "First name is required",
     "lastNameRequired": "Last name is required",
     "phoneRequired": "Phone is required",
+    "agencyNameRequired": "Agency name is required",
+    "countryRequired": "Country is required",
+    "cityRequired": "City is required",
     "roleRequired": "Role is required",
     "passwordsDoNotMatch": "Passwords do not match",
     "confirmPasswordRequired": "Please confirm your password"
@@ -107,6 +110,11 @@
   "signup": {
     "title": "Create Account",
     "subtitle": "Sign up to get started",
+    "chooseType": "Choose account type",
+    "customer": "Customer",
+    "agencyOwner": "Agency Owner",
+    "customerHint": "Create a customer account and start right away.",
+    "agencyOwnerHint": "Register your agency in three quick steps.",
     "firstName": "First Name",
     "firstNamePlaceholder": "John",
     "lastName": "Last Name",
@@ -115,13 +123,52 @@
     "emailPlaceholder": "your@email.com",
     "phone": "Phone",
     "phonePlaceholder": "+1 234 567 8900",
-    "role": "Role",
-    "roleHelp": "Select a role for testing authorization",
     "password": "Password",
     "confirmPassword": "Confirm Password",
+    "continue": "Continue",
     "create": "Create Account",
+    "createAgency": "Create Agency Account",
+    "submitError": "Signup failed",
     "alreadyHaveAccount": "Already have an account?",
-    "signIn": "Sign In"
+    "signIn": "Sign In",
+    "steps": {
+      "account": "Account",
+      "agency": "Agency",
+      "files": "Files"
+    }
+  },
+  "agency": {
+    "title": "Agency Details",
+    "subtitle": "Tell us about your agency to complete setup",
+    "agencyName": "Agency Name",
+    "agencyNamePlaceholder": "Acme Real Estate",
+    "phone": "Agency Phone",
+    "phonePlaceholder": "+970 59 000 0000",
+    "country": "Country",
+    "selectCountry": "Select country",
+    "city": "City",
+    "cityPlaceholder": "Nablus",
+    "continue": "Continue",
+    "submitError": "Something went wrong",
+    "backPrompt": "Want to change your account info?",
+    "back": "Go Back"
+  },
+  "docs": {
+    "title": "Agency Files",
+    "subtitle": "Add a file type and upload the matching document for your agency.",
+    "fileType": "File Type",
+    "titlePlaceholder": "e.g. Agency ID",
+    "file": "File Upload",
+    "filePlaceholder": "Select a file",
+    "addDocument": "Add Document",
+    "continue": "Continue",
+    "submitError": "Something went wrong",
+    "backPrompt": "Need to update agency details?",
+    "back": "Go Back",
+    "validation": {
+      "fileTypeRequired": "File type is required",
+      "fileRequired": "File is required"
+    }
   },
   "changePassword": {
     "tab": "Change Password",

@@ -7,9 +7,13 @@ const select = () => {
       styleOverrides: {
         select: ({ theme }: OwnerStateThemeType) => ({
           borderRadius: themeConfig.borderRadius,
-          fontSize: 12,
-          padding: 14,
+          fontSize: '0.875rem',
+          padding: '8.5px 14px',
+          lineHeight: '1.4375em',
           minWidth: '6rem !important',
+          '.MuiInputBase-sizeSmall &': {
+            padding: '8.5px 14px'
+          },
           '&.MuiTablePagination-select': {
             minWidth: '1.5rem !important'
           },

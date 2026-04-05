@@ -31,15 +31,16 @@ export type AppAbility = MongoAbility<[Actions, Subjects]>
 /**
  * Supported user roles
  */
-export const USER_ROLES = ['admin', 'manager', 'agent', 'viewer'] as const
-
+export const USER_ROLES = ['admin', 'manager', 'agent', 'viewer', 'customer', 'agencyOwner'] as const
 export type UserRole = (typeof USER_ROLES)[number]
 
 export const USER_ROLE_LABELS: Record<UserRole, string> = {
   admin: 'Admin',
   manager: 'Manager',
   agent: 'Agent',
-  viewer: 'Viewer'
+  viewer: 'Viewer',
+  customer: 'Customer',
+  agencyOwner: 'Agency Owner'
 }
 
 export const USER_ROLE_OPTIONS: { value: UserRole; label: string }[] = USER_ROLES.map(role => ({
