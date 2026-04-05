@@ -7,7 +7,7 @@ import { authConfig } from '@/core/configs/clientConfig'
 import type {
   User,
   LoginCredentials,
-  SignupCredentials,
+  SignupPayload,
   AuthResponse,
   AuthContextType,
   ErrorCallback
@@ -110,7 +110,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }
 
   // ** Signup function
-  const signup = async (credentials: SignupCredentials, onError?: ErrorCallback): Promise<void> => {
+  const signup = async (credentials: SignupPayload, onError?: ErrorCallback): Promise<void> => {
     try {
       setIsLoading(true)
 

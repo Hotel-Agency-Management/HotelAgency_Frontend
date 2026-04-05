@@ -5,9 +5,9 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import LoginForm from '@/components/auth/LoginForm'
-import SignupForm from '@/components/auth/SignupForm'
 import LanguageDropdown from '@/components/common/LanguageDropdown'
 import useLanguage from '@/core/hooks/useLanguage'
+import SignupForm from '@/components/auth/signUp/SignupForm'
 
 const MotionBox = motion.create(Box)
 
@@ -193,7 +193,7 @@ export default function LoginPage() {
         }}
       >
         <Box sx={{ width: '100%', maxWidth: 480, py: 12 }}>
-          <Box
+          {/* <Box
             sx={{
               position: 'absolute',
               top: theme => theme.spacing(4),
@@ -206,7 +206,7 @@ export default function LoginPage() {
             }}
           >
             <LanguageDropdown />
-          </Box>
+          </Box> */}
 
           <AnimatePresence mode='wait'>
             {currentView === 'login' ? (

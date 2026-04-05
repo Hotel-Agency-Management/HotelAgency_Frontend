@@ -20,6 +20,8 @@ export interface SignupCredentials {
   [key: string]: unknown // Allow additional fields
 }
 
+export type SignupPayload = SignupCredentials | FormData
+
 export interface AuthResponse {
   user: User
   accessToken: string
@@ -35,7 +37,7 @@ export interface AuthContextType {
 
   // ** Actions
   login: (credentials: LoginCredentials, onError?: ErrorCallback) => Promise<void>
-  signup: (credentials: SignupCredentials, onError?: ErrorCallback) => Promise<void>
+  signup: (credentials: SignupPayload, onError?: ErrorCallback) => Promise<void>
   logout: () => Promise<void>
 
   // ** Utilities
