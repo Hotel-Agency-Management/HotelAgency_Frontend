@@ -10,9 +10,7 @@ import CloseIcon from '@mui/icons-material/Close'
 import { RoomTypeForm } from './RoomTypeForm'
 import { RoomTypeFormValues } from '../../schema/roomTypeSchema'
 import { RoomType } from '../../types/roomType'
-
-
-const FORM_ID = 'room-type-form'
+import { FORM_ID } from '../../constants/form'
 
 interface RoomTypeFormDialogProps {
   currency: string

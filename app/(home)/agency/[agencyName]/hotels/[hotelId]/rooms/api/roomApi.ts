@@ -5,9 +5,9 @@ import {
   RoomPhoto,
   UpdateRoomDto,
 } from "../types/room";
+import { sleep } from "../util/delay";
 
-const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
-
+// TODO: Remove when integrating backend
 let mockRooms: Room[] = [
   {
     id: "1",
@@ -62,9 +62,10 @@ let mockRooms: Room[] = [
   },
 ];
 
+// TODO: Remove when integrating backend — replace entire roomsApi with real API calls
 export const roomsApi = {
   getAll: async (filters?: RoomFilters): Promise<Room[]> => {
-    await delay(500);
+    await sleep(500); // TODO: Remove when integrating backend
     let result = [...mockRooms];
 
     if (filters?.status) result = result.filter((r) => r.status === filters.status);
@@ -82,14 +83,14 @@ export const roomsApi = {
   },
 
   getById: async (id: string): Promise<Room> => {
-    await delay(300);
+    await sleep(300); // TODO: Remove when integrating backend
     const room = mockRooms.find((r) => r.id === id);
     if (!room) throw new Error("Room not found");
     return room;
   },
 
   create: async (dto: CreateRoomDto): Promise<Room> => {
-    await delay(500);
+    await sleep(500); // TODO: Remove when integrating backend
     const newRoom: Room = {
       ...dto,
       id: Date.now().toString(),
@@ -102,7 +103,7 @@ export const roomsApi = {
   },
 
   update: async (id: string, dto: UpdateRoomDto): Promise<Room> => {
-    await delay(500);
+    await sleep(500); // TODO: Remove when integrating backend
     const index = mockRooms.findIndex((r) => r.id === id);
     if (index === -1) throw new Error("Room not found");
     mockRooms[index] = { ...mockRooms[index], ...dto, updatedAt: new Date().toISOString() };
@@ -110,7 +111,7 @@ export const roomsApi = {
   },
 
   updatePhotos: async (id: string, photos: RoomPhoto[]): Promise<Room> => {
-    await delay(400);
+    await sleep(400); // TODO: Remove when integrating backend
     const index = mockRooms.findIndex((r) => r.id === id);
     if (index === -1) throw new Error("Room not found");
     mockRooms[index] = {
@@ -122,12 +123,12 @@ export const roomsApi = {
   },
 
   delete: async (id: string): Promise<void> => {
-    await delay(300);
+    await sleep(300); // TODO: Remove when integrating backend
     mockRooms = mockRooms.filter((r) => r.id !== id);
   },
 
   importExcel: async (file: File): Promise<{ imported: number; failed: number }> => {
-    await delay(1000);
+    await sleep(1000); // TODO: Remove when integrating backend
     return { imported: 5, failed: 0 };
   },
 };

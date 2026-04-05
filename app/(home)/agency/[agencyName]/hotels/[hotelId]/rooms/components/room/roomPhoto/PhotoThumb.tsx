@@ -1,54 +1,38 @@
-import {
-  CardMedia,
-  IconButton,
-  Paper,
-  Stack,
-  Tooltip,
-  Typography,
-} from "@mui/material";
+import { Paper, CardMedia, Stack, Tooltip, IconButton, Typography } from "@mui/material";
+import { RoomPhoto } from "../../../types/room";
 import DeleteIcon from "@mui/icons-material/Delete";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
-import { RoomPhoto } from "../../../types/room";
-import { actionBtnSx } from "../../../constants/actionBtn";
-
-interface PhotoThumbProps {
-  photo: RoomPhoto;
-  onSetPrimary: () => void;
-  onDelete: () => void;
-}
-
 export function PhotoThumb({
   photo,
   onSetPrimary,
   onDelete,
-}: PhotoThumbProps) {
+}: {
+  photo: RoomPhoto;
+  onSetPrimary: () => void;
+  onDelete: () => void;
+}) {
   return (
     <Paper
-      variant="photoThumb"
+      variant="outlined"
       sx={{
+        position: "relative",
+        width: 120,
+        height: 90,
+        overflow: "hidden",
         borderWidth: photo.isPrimary ? 2 : 1,
         borderColor: photo.isPrimary ? "primary.main" : "divider",
+        borderStyle: "solid",
       }}
     >
       <CardMedia
         component="img"
         src={photo.url}
         alt=""
-        sx={{
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-        }}
+        sx={{ width: "100%", height: "100%", objectFit: "cover" }}
       />
 
-      <Stack
-        direction="row"
-        position="absolute"
-        top={2}
-        right={2}
-        gap={0.3}
-      >
+      <Stack direction="row" position="absolute" top={2} right={2} gap={0.3}>
         <Tooltip title={photo.isPrimary ? "Primary photo" : "Set as primary"}>
           <IconButton
             size="small"
@@ -57,11 +41,10 @@ export function PhotoThumb({
               onSetPrimary();
             }}
             sx={{
-              ...actionBtnSx,
-              color: photo.isPrimary ? "warning.light" : "common.white",
-              "&:hover": {
-                bgcolor: "rgba(0,0,0,0.7)",
-              },
+              bgcolor: "rgba(0,0,0,0.5)",
+              color: photo.isPrimary ? "warning.light" : "white",
+              p: 0.3,
+              "&:hover": { bgcolor: "rgba(0,0,0,0.7)" },
             }}
           >
             {photo.isPrimary ? (
@@ -80,10 +63,10 @@ export function PhotoThumb({
               onDelete();
             }}
             sx={{
-              ...actionBtnSx,
-              "&:hover": {
-                bgcolor: "error.main",
-              },
+              bgcolor: "rgba(0,0,0,0.5)",
+              color: "white",
+              p: 0.3,
+              "&:hover": { bgcolor: "error.main" },
             }}
           >
             <DeleteIcon sx={{ fontSize: 14 }} />
@@ -91,13 +74,26 @@ export function PhotoThumb({
         </Tooltip>
       </Stack>
 
-      {photo.isPrimary && (
-        <Paper variant="photoBadge" elevation={0} square>
+      {photo.isPrimary ? (
+        <Paper
+          elevation={0}
+          square
+          sx={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            bgcolor: "primary.main",
+            py: 0.3,
+            textAlign: "center",
+            borderRadius: 0,
+          }}
+        >
           <Typography variant="caption" color="common.white" fontWeight={600}>
             Primary
           </Typography>
         </Paper>
-      )}
+      ) : null}
     </Paper>
   );
 }

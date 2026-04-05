@@ -9,20 +9,7 @@ import { Room, RoomPhoto } from "../types/room";
 import { roomsApi } from "../api/roomApi";
 import { RoomType } from "../types/roomType";
 import { roomTypesApi } from "../api/roomTypeApi";
-
-const defaultFormValues: RoomFormValues = {
-  roomNumber: "",
-  floorNumber: 1,
-  roomTypeId: "",
-  status: "available",
-  description: "",
-  notes: "",
-  capacity: 1,
-  bedType: "single",
-  starRating: 3,
-  amenities: [],
-  pricePerNight: undefined,
-};
+import { defaultFormValues } from "../constants/roomFormValues";
 
 export interface UseRoomFormDialogArgs {
   open: boolean;
@@ -30,7 +17,6 @@ export interface UseRoomFormDialogArgs {
   room: Room | null | undefined;
   hotelId: string;
 }
-
 export function useRoomFormDialog({
   open,
   onClose,

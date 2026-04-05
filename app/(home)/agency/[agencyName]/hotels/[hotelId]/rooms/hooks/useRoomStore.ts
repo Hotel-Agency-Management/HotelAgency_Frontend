@@ -1,9 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { roomsApi } from "../api/roomApi";
 import { RoomFilters, CreateRoomDto, UpdateRoomDto } from "../types/room";
-
-
-const ROOMS_KEY = ["rooms"] as const;
+import { ROOMS_KEY } from "../constants/roomFormValues";
 
 // GET ALL
 export const useRooms = (filters?: RoomFilters) => {
