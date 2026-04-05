@@ -170,6 +170,19 @@
       "fileRequired": "الملف مطلوب"
     }
   },
+  "hotelRooms": {
+    "dialog": {
+      "addTitle": "إضافة غرفة",
+      "editTitle": "تعديل الغرفة — #{{number}}",
+      "stepDetails": "تفاصيل الغرفة",
+      "stepPhotos": "الصور",
+      "next": "التالي",
+      "back": "رجوع",
+      "finish": "إنهاء",
+      "cancel": "إلغاء",
+      "saveChanges": "حفظ التغييرات"
+    }
+  },
   "changePassword": {
     "tab": "تغيير كلمة المرور",
     "page": {
