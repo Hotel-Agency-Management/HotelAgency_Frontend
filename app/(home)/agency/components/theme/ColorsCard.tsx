@@ -1,16 +1,22 @@
 "use client";
-
 import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import { DEFAULT_BRANDING_COLORS } from "@/core/theme/palette/branding";
+import {
+  DEFAULT_BRANDING_COLORS,
+  type BrandingColors,
+} from "@/core/theme/palette/branding";
 import { ColorField } from "./ColorField";
 import { COLOR_FIELDS } from "../../constants/colorField";
 
+interface ColorsCardProps {
+  namePrefix?: string;
+  fallbackColors?: BrandingColors;
+}
 
-export function ColorsCard() {
+export function ColorsCard({ namePrefix, fallbackColors = DEFAULT_BRANDING_COLORS }: ColorsCardProps) {
   return (
     <Paper elevation={0} sx={cardSx}>
       <Stack spacing={0.5}>
@@ -19,23 +25,26 @@ export function ColorsCard() {
           Click any swatch to open the color picker.
         </Typography>
       </Stack>
-
       <Divider />
-
       <Grid container spacing={2.5}>
-        {COLOR_FIELDS.map(({ name, label, hint }) => (
-          <Grid key={name} size={{ xs: 12, md: 4 }}>
-            <ColorField
-              name={name}
-              label={label}
-              helperText={hint}
-              fallbackColor={DEFAULT_BRANDING_COLORS[name.split(".")[1] as keyof typeof DEFAULT_BRANDING_COLORS]}
-            />
-          </Grid>
-        ))}
+        {COLOR_FIELDS.map(({ name, label, hint }) => {
+          const fullName = namePrefix ? `${namePrefix}.${name}` : name
+          const colorKey = name.split(".")[1] as keyof BrandingColors
+
+          return (
+            <Grid key={fullName} size={{ xs: 12, md: 4 }}>
+              <ColorField
+                name={fullName}
+                label={label}
+                helperText={hint}
+                fallbackColor={fallbackColors[colorKey]}
+              />
+            </Grid>
+          )
+        })}
       </Grid>
     </Paper>
-  );
+  )
 }
 
 const cardSx = {
