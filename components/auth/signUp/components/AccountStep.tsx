@@ -9,6 +9,7 @@ import FormFieldWrapper from '@/components/ui/FormFieldWrapper'
 import ErrorMessage from '@/components/ui/ErrorMessage'
 import type { SignupAccountType, SignupFormData } from '../types/signup'
 import { staggerContainer, fadeInUp } from '../constants/signupAnimation'
+import FadeIn from '@/components/animation/FadeIn'
 
 interface AccountStepProps {
   control: Control<SignupFormData>
@@ -49,7 +50,7 @@ const AccountStep: React.FC<AccountStepProps> = ({
         animate='show'
         exit='hidden'
       >
-        <motion.div variants={fadeInUp} style={{ width: '100%' }}>
+        <FadeIn variants={fadeInUp} sx={{ width: '100%' }}>
           <FormFieldWrapper title={t('signup.firstName', 'First Name')}>
             <Controller
               name='firstName'
@@ -66,9 +67,9 @@ const AccountStep: React.FC<AccountStepProps> = ({
               )}
             />
           </FormFieldWrapper>
-        </motion.div>
+        </FadeIn>
 
-        <motion.div variants={fadeInUp} style={{ width: '100%' }}>
+        <FadeIn variants={fadeInUp} sx={{ width: '100%' }}>
           <FormFieldWrapper title={t('signup.lastName', 'Last Name')}>
             <Controller
               name='lastName'
@@ -85,10 +86,10 @@ const AccountStep: React.FC<AccountStepProps> = ({
               )}
             />
           </FormFieldWrapper>
-        </motion.div>
+        </FadeIn>
       </MotionStack>
 
-      <motion.div variants={fadeInUp}>
+      <FadeIn variants={fadeInUp}>
         <FormFieldWrapper title={t('signup.email', 'Email')}>
           <Controller
             name='email'
@@ -105,9 +106,9 @@ const AccountStep: React.FC<AccountStepProps> = ({
             )}
           />
         </FormFieldWrapper>
-      </motion.div>
+      </FadeIn>
 
-      <motion.div variants={fadeInUp}>
+      <FadeIn variants={fadeInUp}>
         <FormFieldWrapper title={t('signup.phone', 'Phone')}>
           <Controller
             name='phone'
@@ -124,9 +125,9 @@ const AccountStep: React.FC<AccountStepProps> = ({
             )}
           />
         </FormFieldWrapper>
-      </motion.div>
+      </FadeIn>
 
-      <motion.div variants={fadeInUp}>
+      <FadeIn variants={fadeInUp}>
         <FormFieldWrapper title={t('signup.password', 'Password')}>
           <Controller
             name='password'
@@ -160,9 +161,9 @@ const AccountStep: React.FC<AccountStepProps> = ({
             )}
           />
         </FormFieldWrapper>
-      </motion.div>
+      </FadeIn>
 
-      <motion.div variants={fadeInUp}>
+      <FadeIn variants={fadeInUp}>
         <FormFieldWrapper title={t('signup.confirmPassword', 'Confirm Password')}>
           <Controller
             name='confirmPassword'
@@ -180,9 +181,9 @@ const AccountStep: React.FC<AccountStepProps> = ({
             )}
           />
         </FormFieldWrapper>
-      </motion.div>
+      </FadeIn>
 
-      <motion.div variants={fadeInUp}>
+      <FadeIn variants={fadeInUp}>
         <LoadingButton
           loading={isLoading}
           type='submit'
@@ -196,16 +197,16 @@ const AccountStep: React.FC<AccountStepProps> = ({
               : t('signup.create', 'Create Account')
           )}
         </LoadingButton>
-      </motion.div>
+      </FadeIn>
 
-      <motion.div variants={fadeInUp}>
+      <FadeIn variants={fadeInUp}>
         <Typography variant='body2' textAlign='center' color='text.secondary'>
           {t('signup.alreadyHaveAccount', 'Already have an account?')}{' '}
           <Button variant='text' onClick={onSwitchToLogin} color='primary'>
             {t('signup.signIn', 'Sign In')}
           </Button>
         </Typography>
-      </motion.div>
+      </FadeIn>
     </MotionStack>
   )
 }

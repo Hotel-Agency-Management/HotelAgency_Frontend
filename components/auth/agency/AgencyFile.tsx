@@ -2,7 +2,7 @@
 
 import { Typography, Button, Stack } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
-import { motion, AnimatePresence } from 'framer-motion'
+import { AnimatePresence } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import { Plus } from 'lucide-react'
 import DocumentRow from './components/DocumentRow'
@@ -25,7 +25,6 @@ const AgencyDocumentsForm: React.FC<AgencyDocumentsFormProps> = ({
     remove, documents, canAddMore, isStepComplete,
     errorMessage, handleSubmit, onSubmit,
   } = useAgencyDocumentsForm({ onSubmit: onSubmitProp, defaultValues })
-
 
   return (
     <Stack gap={5}>
@@ -51,13 +50,15 @@ const AgencyDocumentsForm: React.FC<AgencyDocumentsFormProps> = ({
             <Stack spacing={3}>
               <AnimatePresence initial={false}>
                 {fields.map((field, index) => (
-                  <motion.div
+                  <FadeIn
                     key={field.id}
                     variants={fadeInUp}
                     initial='hidden'
                     animate='show'
                     exit='exit'
                     layout
+                    once={false}
+                    direction='none'
                   >
                     <DocumentRow
                       index={index}
@@ -68,7 +69,7 @@ const AgencyDocumentsForm: React.FC<AgencyDocumentsFormProps> = ({
                       canRemove={fields.length > 1}
                       currentFile={documents[index]?.file ?? null}
                     />
-                  </motion.div>
+                  </FadeIn>
                 ))}
               </AnimatePresence>
             </Stack>

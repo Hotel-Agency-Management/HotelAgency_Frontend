@@ -9,12 +9,15 @@ import { useSignupForm } from './hooks/useSignupForm'
 import AccountTypeToggle from './components/AccountTypeToggle'
 import AccountStep from './components/AccountStep'
 import SignupStepper from './components/SignupStepper'
+import FadeIn from '@/components/animation/FadeIn'
 import type { SignupFormProps } from './types/signup'
 import { fadeInUp, slideInFromLeft, slideInFromRight, slideTransition, staggerContainer } from './constants/signupAnimation'
 
 const defaultDocumentValues = {
   documents: [{ title: '', file: null }]
 }
+
+const MotionStack = motion.create(Stack)
 
 const SignupForm: React.FC<SignupFormProps> = ({ onSwitchToLogin }) => {
   const { t } = useTranslation()
@@ -47,27 +50,32 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSwitchToLogin }) => {
       <AnimatePresence mode='wait'>
 
         {activeStep === 0 && (
-          <motion.div
+          <FadeIn
             key='account-step'
             {...slideInFromLeft}
             transition={slideTransition}
+            direction='none'
           >
-            <motion.div variants={staggerContainer} initial='hidden' animate='show'>
-              <Stack spacing={2} >
-              <motion.div variants={fadeInUp}>
+            <MotionStack
+              spacing={2}
+              variants={staggerContainer}
+              initial='hidden'
+              animate='show'
+            >
+              <FadeIn variants={fadeInUp}>
                 <Typography variant='h4' textAlign='center'>
                   {t('signup.title', 'Create Account')}
                 </Typography>
-              </motion.div>
+              </FadeIn>
 
-              <motion.div variants={fadeInUp}>
+              <FadeIn variants={fadeInUp}>
                 <AccountTypeToggle
                   accountType={accountType}
                   activeStep={activeStep}
                   stepLabels={stepLabels}
                   onChange={handleAccountTypeChange}
                 />
-              </motion.div>
+              </FadeIn>
 
               <form onSubmit={handleSubmit(onAccountSubmit)}>
                 <AccountStep
@@ -82,16 +90,16 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSwitchToLogin }) => {
                   onSwitchToLogin={onSwitchToLogin}
                 />
               </form>
-              </Stack>
-            </motion.div>
-          </motion.div>
+            </MotionStack>
+          </FadeIn>
         )}
 
         {activeStep === 1 && (
-          <motion.div
+          <FadeIn
             key='agency-step'
             {...slideInFromRight}
             transition={slideTransition}
+            direction='none'
           >
             <Stack spacing={3}>
               <SignupStepper activeStep={activeStep} labels={stepLabels} />
@@ -101,14 +109,15 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSwitchToLogin }) => {
                 onSubmit={onAgencyInfoSubmit}
               />
             </Stack>
-          </motion.div>
+          </FadeIn>
         )}
 
         {activeStep === 2 && (
-          <motion.div
+          <FadeIn
             key='documents-step'
             {...slideInFromRight}
             transition={slideTransition}
+            direction='none'
           >
             <Stack spacing={3}>
               <SignupStepper activeStep={activeStep} labels={stepLabels} />
@@ -120,7 +129,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSwitchToLogin }) => {
                 isLoading={isLoading}
               />
             </Stack>
-          </motion.div>
+          </FadeIn>
         )}
 
       </AnimatePresence>

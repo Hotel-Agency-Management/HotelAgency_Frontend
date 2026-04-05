@@ -1,5 +1,5 @@
 import { Stepper, Step, StepLabel } from '@mui/material'
-import { motion } from 'framer-motion'
+import FadeIn from '@/components/animation/FadeIn'
 
 interface SignupStepperProps {
   activeStep: number
@@ -21,13 +21,9 @@ const SignupStepper: React.FC<SignupStepperProps> = ({ activeStep, labels, anima
   if (!animate) return stepper
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: -10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-    >
+    <FadeIn direction='down' distance={10} transition={{ duration: 0.3 }}>
       {stepper}
-    </motion.div>
+    </FadeIn>
   )
 }
 
