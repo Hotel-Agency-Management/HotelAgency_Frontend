@@ -59,6 +59,9 @@
     "firstNameRequired": "الاسم الأول مطلوب",
     "lastNameRequired": "اسم العائلة مطلوب",
     "phoneRequired": "رقم الهاتف مطلوب",
+    "agencyNameRequired": "اسم الوكالة مطلوب",
+    "countryRequired": "الدولة مطلوبة",
+    "cityRequired": "المدينة مطلوبة",
     "roleRequired": "الدور مطلوب",
     "passwordsDoNotMatch": "كلمتا المرور غير متطابقتين",
     "confirmPasswordRequired": "يرجى تأكيد كلمة المرور"
@@ -107,6 +110,11 @@
   "signup": {
     "title": "إنشاء حساب",
     "subtitle": "قم بالتسجيل للبدء",
+    "chooseType": "اختر نوع الحساب",
+    "customer": "عميل",
+    "agencyOwner": "صاحب وكالة",
+    "customerHint": "أنشئ حساب عميل وابدأ مباشرة.",
+    "agencyOwnerHint": "سجل وكالتك عبر ثلاث خطوات سريعة.",
     "firstName": "الاسم الأول",
     "firstNamePlaceholder": "أحمد",
     "lastName": "اسم العائلة",
@@ -115,13 +123,52 @@
     "emailPlaceholder": "your@email.com",
     "phone": "الهاتف",
     "phonePlaceholder": "+966 50 123 4567",
-    "role": "الدور",
-    "roleHelp": "اختر دوراً لاختبار التفويض",
     "password": "كلمة المرور",
     "confirmPassword": "تأكيد كلمة المرور",
+    "continue": "متابعة",
     "create": "إنشاء حساب",
+    "createAgency": "إنشاء حساب الوكالة",
+    "submitError": "فشل إنشاء الحساب",
     "alreadyHaveAccount": "هل لديك حساب بالفعل؟",
-    "signIn": "تسجيل الدخول"
+    "signIn": "تسجيل الدخول",
+    "steps": {
+      "account": "الحساب",
+      "agency": "الوكالة",
+      "files": "الملفات"
+    }
+  },
+  "agency": {
+    "title": "بيانات الوكالة",
+    "subtitle": "أخبرنا عن وكالتك لإكمال الإعداد",
+    "agencyName": "اسم الوكالة",
+    "agencyNamePlaceholder": "وكالة أكمي العقارية",
+    "phone": "هاتف الوكالة",
+    "phonePlaceholder": "+970 59 000 0000",
+    "country": "الدولة",
+    "selectCountry": "اختر الدولة",
+    "city": "المدينة",
+    "cityPlaceholder": "نابلس",
+    "continue": "متابعة",
+    "submitError": "حدث خطأ ما",
+    "backPrompt": "هل تريد تعديل معلومات الحساب؟",
+    "back": "العودة"
+  },
+  "docs": {
+    "title": "ملفات الوكالة",
+    "subtitle": "أضف نوع الملف وارفع المستند المطابق لوكالتك.",
+    "fileType": "نوع الملف",
+    "titlePlaceholder": "مثال: هوية الوكالة",
+    "file": "رفع الملف",
+    "filePlaceholder": "اختر ملفاً",
+    "addDocument": "إضافة مستند",
+    "continue": "متابعة",
+    "submitError": "حدث خطأ ما",
+    "backPrompt": "هل تريد تحديث بيانات الوكالة؟",
+    "back": "العودة",
+    "validation": {
+      "fileTypeRequired": "نوع الملف مطلوب",
+      "fileRequired": "الملف مطلوب"
+    }
   },
   "hotelRooms": {
     "dialog": {

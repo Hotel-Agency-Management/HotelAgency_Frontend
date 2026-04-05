@@ -13,6 +13,7 @@ import FormFieldWrapper from '@/components/ui/FormFieldWrapper'
 import ErrorMessage from '@/components/ui/ErrorMessage'
 import { useAuth } from '@/core/context/AuthContext'
 import useLanguage from '@/core/hooks/useLanguage'
+import FadeIn from '@/components/animation/FadeIn'
 
 interface LoginFormData {
   email: string
@@ -105,22 +106,22 @@ const LoginForm: React.FC<LoginFormProps> = ({ showEmailForm, setShowEmailForm, 
       animate='show'
       exit='hidden'
     >
-      <motion.div variants={fadeInUp}>
+      <FadeIn variants={fadeInUp}>
         <Typography variant='h4' textAlign='center' mb={1}>
           {t('login.brand', 'Welcome Back')}
         </Typography>
-      </motion.div>
+      </FadeIn>
 
-      <motion.div variants={fadeInUp}>
+      <FadeIn variants={fadeInUp}>
         <Typography variant='body2' textAlign='center' color='text.secondary' mb={showEmailForm ? 1 : 0}>
           {t('login.subtitle', 'Sign in to continue to your account')}
         </Typography>
-      </motion.div>
+      </FadeIn>
 
-      <motion.div variants={fadeInUp}>
+      <FadeIn variants={fadeInUp}>
         {!showEmailForm ? (
           <MotionStack spacing={3} variants={staggerContainer} initial='hidden' animate='show' exit='hidden'>
-            <motion.div variants={fadeInUp}>
+            <FadeIn variants={fadeInUp}>
               <Button
                 variant='contained'
                 fullWidth
@@ -129,9 +130,9 @@ const LoginForm: React.FC<LoginFormProps> = ({ showEmailForm, setShowEmailForm, 
               >
                 {t('login.signInWithEmail', 'Sign in with Email')}
               </Button>
-            </motion.div>
+            </FadeIn>
 
-            <motion.div variants={fadeInUp}>
+            <FadeIn variants={fadeInUp}>
               <Typography variant='body2' textAlign='center' color='text.secondary' sx={{ mt: 3 }}>
                 {t('login.dontHaveAccount', "Don't have an account?")}{' '}
                 <Button
@@ -145,14 +146,14 @@ const LoginForm: React.FC<LoginFormProps> = ({ showEmailForm, setShowEmailForm, 
                   {t('login.signUp', 'Sign Up')}
                 </Button>
               </Typography>
-            </motion.div>
+            </FadeIn>
           </MotionStack>
         ) : (
           <form onSubmit={handleSubmit(onSubmit)}>
             <MotionStack spacing={3} variants={staggerContainer} initial='hidden' animate='show' exit='hidden'>
               <ErrorMessage message={errorMessage} />
 
-              <motion.div variants={fadeInUp}>
+              <FadeIn variants={fadeInUp}>
                 <FormFieldWrapper title={t('login.email', 'Email')}>
                   <Controller
                     name='email'
@@ -169,9 +170,9 @@ const LoginForm: React.FC<LoginFormProps> = ({ showEmailForm, setShowEmailForm, 
                     )}
                   />
                 </FormFieldWrapper>
-              </motion.div>
+              </FadeIn>
 
-              <motion.div variants={fadeInUp}>
+              <FadeIn variants={fadeInUp}>
                 <FormFieldWrapper title={t('login.password', 'Password')}>
                   <Controller
                     name='password'
@@ -205,15 +206,15 @@ const LoginForm: React.FC<LoginFormProps> = ({ showEmailForm, setShowEmailForm, 
                     )}
                   />
                 </FormFieldWrapper>
-              </motion.div>
+              </FadeIn>
 
-              <motion.div variants={fadeInUp}>
+              <FadeIn variants={fadeInUp}>
                 <LoadingButton loading={isLoading} type='submit' variant='contained' fullWidth sx={{ mt: 2 }}>
                   {!isLoading && t('login.signIn', 'Sign In')}
                 </LoadingButton>
-              </motion.div>
+              </FadeIn>
 
-              <motion.div variants={fadeInUp}>
+              <FadeIn variants={fadeInUp}>
                 <Button
                   variant='text'
                   size='small'
@@ -224,11 +225,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ showEmailForm, setShowEmailForm, 
                 >
                   {t('login.backToSocial', 'Back to social login')}
                 </Button>
-              </motion.div>
+              </FadeIn>
             </MotionStack>
           </form>
         )}
-      </motion.div>
+      </FadeIn>
     </MotionStack>
   )
 }
