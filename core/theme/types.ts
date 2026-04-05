@@ -59,14 +59,16 @@ declare global {
     }
   }
 }
+
 declare module '@mui/material/Card' {
   interface CardPropsVariantOverrides {
-    hotel: true;
+    hotel: true
   }
 }
 
 declare module '@mui/material/Avatar' {
   interface AvatarPropsVariantOverrides {
+    profileLarge: true
     user: true
     soft: true
     brand: true

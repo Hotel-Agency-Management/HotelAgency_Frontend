@@ -19,6 +19,17 @@ const Avatar = () => {
       },
       variants: [
         {
+          props: { variant: 'profileLarge' },
+          style: ({ theme }: OwnerStateThemeType) => ({
+            width: 96,
+            height: 96,
+            backgroundColor: theme.palette.primary.main,
+            fontSize: '1.75rem',
+            fontWeight: 700,
+            border: `4px solid ${theme.palette.background.paper}`
+          })
+        },
+        {
           props: { variant: 'user' },
           style: ({ ownerState }: any) => ({
             width: 48,
@@ -33,33 +44,33 @@ const Avatar = () => {
           })
         },
         {
-      props: { variant: 'soft' },
-      style: ({ theme, ownerState }: any) => {
-        const color = ownerState.color || 'primary'
-        const palette = theme.palette[color]
+          props: { variant: 'soft' },
+          style: ({ theme, ownerState }: any) => {
+            const color = ownerState.color || 'primary'
+            const palette = theme.palette[color]
 
-        return {
-          width: 40,
-          height: 40,
-          backgroundColor: alpha(palette.main, 0.1),
-          border: `1px solid ${alpha(palette.main, 0.25)}`,
-          color: palette.main,
+            return {
+              width: 40,
+              height: 40,
+              backgroundColor: alpha(palette.main, 0.1),
+              border: `1px solid ${alpha(palette.main, 0.25)}`,
+              color: palette.main
+            }
+          }
+        },
+        {
+          props: { variant: 'brand' },
+          style: ({ ownerState }: any) => ({
+            width: 50,
+            height: 50,
+            fontWeight: 700,
+            fontSize: '1.2rem',
+            boxShadow: `0 4px 14px ${ownerState.color}55`,
+            backgroundColor: ownerState.color,
+            fontFamily: '"Cormorant Garamond", Georgia, serif',
+            letterSpacing: '0.03em'
+          })
         }
-      },
-    },
-    {
-      props: { variant: 'brand' },
-      style: ({ ownerState }: any) => ({
-        width: 50,
-        height: 50,
-        fontWeight: 700,
-        fontSize: '1.2rem',
-        boxShadow: `0 4px 14px ${ownerState.color}55`,
-        backgroundColor: ownerState.color,
-        fontFamily: '"Cormorant Garamond", Georgia, serif',
-        letterSpacing: '0.03em',
-      }),
-    },
       ]
     },
     MuiAvatarGroup: {
