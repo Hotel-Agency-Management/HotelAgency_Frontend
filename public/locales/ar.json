@@ -120,5 +120,18 @@
     "create": "إنشاء حساب",
     "alreadyHaveAccount": "هل لديك حساب بالفعل؟",
     "signIn": "تسجيل الدخول"
+  },
+  "hotelRooms": {
+    "dialog": {
+      "addTitle": "إضافة غرفة",
+      "editTitle": "تعديل الغرفة — #{{number}}",
+      "stepDetails": "تفاصيل الغرفة",
+      "stepPhotos": "الصور",
+      "next": "التالي",
+      "back": "رجوع",
+      "finish": "إنهاء",
+      "cancel": "إلغاء",
+      "saveChanges": "حفظ التغييرات"
+    }
   }
 }
