@@ -9,6 +9,10 @@ import { sleep } from "../util/delay";
 
 // TODO: Remove when integrating backend
 
+/** Stable Unsplash URLs for mock gallery (hotel / room interiors). */
+const US = (photoId: string, w = 1600) =>
+  `https://images.unsplash.com/${photoId}?auto=format&fit=crop&w=${w}&q=80`;
+
 let mockRooms: Room[] = [
   {
     id: "1",
@@ -22,7 +26,25 @@ let mockRooms: Room[] = [
     bedType: "single",
     starRating: 3,
     amenities: ["wifi", "ac", "tv"],
-    photos: [],
+    photos: [
+      {
+        id: "1a",
+        url: US("photo-1631049307264-da0ec9d70304"),
+        isPrimary: true,
+      },
+      {
+        id: "1b",
+        url: US("photo-1590490360182-c33d57733427", 1200),
+      },
+      {
+        id: "1c",
+        url: US("photo-1582719478250-c89cae4dc85b", 1200),
+      },
+      {
+        id: "1d",
+        url: US("photo-1566665797739-1674de7a421a", 1200),
+      },
+    ],
     pricePerNight: 80,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
@@ -39,7 +61,21 @@ let mockRooms: Room[] = [
     bedType: "queen",
     starRating: 4,
     amenities: ["wifi", "minibar", "ac", "tv", "balcony"],
-    photos: [],
+    photos: [
+      {
+        id: "2a",
+        url: US("photo-1611892440504-42a792e48d34"),
+        isPrimary: true,
+      },
+      {
+        id: "2b",
+        url: US("photo-1598928636135-d146006ff4be", 1200),
+      },
+      {
+        id: "2c",
+        url: US("photo-1566073771259-6a8506099945", 1200),
+      },
+    ],
     pricePerNight: 150,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
@@ -56,7 +92,25 @@ let mockRooms: Room[] = [
     bedType: "king",
     starRating: 5,
     amenities: ["wifi", "minibar", "jacuzzi", "ac", "tv", "balcony", "spa"],
-    photos: [],
+    photos: [
+      {
+        id: "3a",
+        url: US("photo-1591088398332-8a7791972843"),
+        isPrimary: true,
+      },
+      {
+        id: "3b",
+        url: US("photo-1618221195710-dd6b41faaea6", 1200),
+      },
+      {
+        id: "3c",
+        url: US("photo-1600210492493-0946911123ea", 1200),
+      },
+      {
+        id: "3d",
+        url: US("photo-1502672260266-1c1ef2d93688", 1200),
+      },
+    ],
     pricePerNight: 350,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),

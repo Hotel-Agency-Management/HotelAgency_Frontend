@@ -10,11 +10,24 @@ interface Props {
 export const RoomQuickActions = ({ id, onEdit, onDelete }: Props) => {
   return (
     <Stack direction="row" spacing={0.5}>
-      <IconButton size="small" onClick={() => onEdit(id)}>
+      <IconButton
+        size="small"
+        onClick={(e) => {
+          e.stopPropagation();
+          onEdit(id);
+        }}
+      >
         <Pencil size={16} />
       </IconButton>
 
-      <IconButton size="small" color="error" onClick={() => onDelete(id)}>
+      <IconButton
+        size="small"
+        color="error"
+        onClick={(e) => {
+          e.stopPropagation();
+          onDelete(id);
+        }}
+      >
         <Trash2 size={16} />
       </IconButton>
     </Stack>

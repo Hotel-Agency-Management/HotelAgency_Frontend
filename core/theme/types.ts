@@ -59,9 +59,10 @@ declare global {
     }
   }
 }
+
 declare module '@mui/material/Card' {
   interface CardPropsVariantOverrides {
-    hotel: true;
+    hotel: true
   }
 }
 declare module '@mui/material/Avatar' {
@@ -71,11 +72,28 @@ declare module '@mui/material/Avatar' {
     brand: true
   }
 }
-declare module "@mui/material/Paper" {
-  interface PaperPropsVariantOverrides {
+declare module '@mui/material/Paper' {  interface PaperPropsVariantOverrides {
     dashed: true
     photoThumb: true
     photoBadge: true
+    card: true
   }
 }
+
+declare module '@mui/material/IconButton' {
+  interface IconButtonPropsVariantOverrides {
+    amenity: true
+  }
+}
+
+declare module '@mui/material/Chip' {
+  interface ChipPropsVariantOverrides {
+    'status-available': true
+    'status-occupied': true
+    'status-maintenance': true
+    'status-reserved': true
+    'status-blocked': true
+  }
+}
+
 export {}

@@ -16,6 +16,7 @@ export const RoomsDataGrid = ({ onAddRoom, onEditRoom }: Props) => {
   const router = useRouter();
   const params = useParams();
   const hotelId = params.hotelId as string;
+  const agencyName = params.agencyName as string;
 
   const [filters, setFilters] = useState<RoomFilters>({});
   const { data: rooms = [], isLoading } = useRooms(filters);
@@ -37,7 +38,9 @@ export const RoomsDataGrid = ({ onAddRoom, onEditRoom }: Props) => {
         rows={rooms}
         columns={columns}
         loading={isLoading}
-        onRowClick={(params) => router.push(`/rooms/${params.id}`)}
+        onRowClick={(p) =>
+          router.push(`/agency/${agencyName}/hotels/${hotelId}/rooms/${String(p.id)}`)
+        }
         pageSizeOptions={[10, 25, 50]}
         disableRowSelectionOnClick
         sx={{ cursor: "pointer" }}

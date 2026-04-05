@@ -122,6 +122,26 @@
     "signIn": "Sign In"
   },
   "hotelRooms": {
+    "profile": {
+      "backAria": "Go back",
+      "type": "Type",
+      "floor": "Floor",
+      "capacity": "Capacity",
+      "bed": "Bed",
+      "pricePerNight": "Price / night",
+      "stars": "Star rating",
+      "edit": "Edit",
+      "delete": "Delete",
+      "amenities": "Amenities",
+      "noAmenities": "No amenities listed.",
+      "description": "Description",
+      "notes": "Notes",
+      "noDescription": "No description provided.",
+      "noNotes": "No notes.",
+      "noPhotos": "No photos available.",
+      "roomHeading": "Room {{number}} - {{type}}",
+      "loadError": "Could not load this room."
+    },
     "dialog": {
       "addTitle": "Add New Room",
       "editTitle": "Edit Room — #{{number}}",
