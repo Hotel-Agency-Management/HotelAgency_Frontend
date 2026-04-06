@@ -3,20 +3,13 @@ import { Stack, TextField, MenuItem, IconButton, Tooltip } from '@mui/material'
 import Icon from '@/components/icon/Icon'
 import { AGENCY_STATUS_OPTIONS, EMAIL_VERIFIED_OPTIONS } from '../constants/agencyConstants'
 import { AgencyFiltersState } from '../types/agency'
+import { COUNTRY_OPTIONS } from '../constants/contries'
 
 interface Props {
   filters: AgencyFiltersState
   onFilterChange: <K extends keyof AgencyFiltersState>(key: K, value: AgencyFiltersState[K]) => void
   onReset: () => void
 }
-
-const COUNTRY_OPTIONS = [
-  { label: 'All Countries', value: '' },
-  { label: 'Palestine', value: 'Palestine' },
-  { label: 'Jordan', value: 'Jordan' },
-  { label: 'Egypt', value: 'Egypt' },
-  { label: 'Saudi Arabia', value: 'Saudi Arabia' },
-]
 
 export default function AgencyFilters({ filters, onFilterChange, onReset }: Props) {
   return (

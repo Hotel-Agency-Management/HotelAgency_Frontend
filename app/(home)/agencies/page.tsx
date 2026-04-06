@@ -31,7 +31,6 @@ export default function AgenciesPage() {
 
   return (
     <Stack gap={3}>
-
       <FadeIn direction='down' distance={12}>
         <Stack direction='row' alignItems='center' justifyContent='space-between'>
           <Stack gap={0.5}>
