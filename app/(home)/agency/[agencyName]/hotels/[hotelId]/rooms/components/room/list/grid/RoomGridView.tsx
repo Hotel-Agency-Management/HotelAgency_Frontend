@@ -1,10 +1,10 @@
-import { Box, CircularProgress, Stack, Typography } from "@mui/material";
+import { CircularProgress, Grid, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import type { Room } from "../../../../types/room";
 import type { RoomType } from "../../../../types/roomType";
 import { RoomCard } from "./RoomCard";
-import { roomGridContainerSx, roomGridLoadingSx } from "./roomGridViewStyles";
-import FadeIn from "@/components/animation/FadeIn";
+import { RoomGridLoading } from "./roomGridViewStyles";
+import { StaggerGroup, StaggerItem } from "@/components/animation/StaggerGroup";
 
 export interface RoomGridViewProps {
   rooms: Room[];
@@ -30,41 +30,40 @@ export function RoomGridView({
 
   if (isLoading) {
     return (
-      <Stack sx={roomGridLoadingSx}>
+      <RoomGridLoading>
         <CircularProgress disableShrink />
-      </Stack>
+      </RoomGridLoading>
     );
   }
 
   if (rooms.length === 0) {
     return (
-      <Stack sx={roomGridLoadingSx}>
+      <RoomGridLoading>
         <Typography color="text.secondary">
           {t("hotelRooms.grid.noRooms", "No rooms match your filters.")}
         </Typography>
-      </Stack>
+      </RoomGridLoading>
     );
   }
 
   return (
-    <Box sx={roomGridContainerSx}>
-      {rooms.map((room, index) => (
-        <FadeIn
-          key={room.id}
-          direction="up"
-          distance={20}
-          transition={{ duration: 0.4, ease: "easeOut", delay: index * 0.06 }}
-        >
-          <RoomCard
-            room={room}
-            roomTypeName={typeNameById.get(room.roomTypeId) ?? "—"}
-            currency={currency}
-            onEdit={onEditRoom}
-            onDelete={onDeleteRoom}
-            onRoomClick={onRoomClick}
-          />
-        </FadeIn>
-      ))}
-    </Box>
+    <StaggerGroup staggerDelay={0.06} direction="up" distance={20} style={{ width: "100%" }}>
+      <Grid container spacing={2}>
+        {rooms.map((room) => (
+          <Grid size={{ xs: 12, sm: 6, md: 4 }} key={room.id}>
+            <StaggerItem>
+              <RoomCard
+                room={room}
+                roomTypeName={typeNameById.get(room.roomTypeId) ?? "—"}
+                currency={currency}
+                onEdit={onEditRoom}
+                onDelete={onDeleteRoom}
+                onRoomClick={onRoomClick}
+              />
+            </StaggerItem>
+          </Grid>
+        ))}
+      </Grid>
+    </StaggerGroup>
   );
 }

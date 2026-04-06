@@ -1,11 +1,7 @@
-import { CardMedia, Stack, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import type { RoomPhoto } from "../../../../types/room";
-import {
-  roomCardImageAreaSx,
-  roomCardImageMediaSx,
-  roomCardPlaceholderSx,
-} from "./roomGridViewStyles";
+import { RoomCardImageArea, RoomCardImg, RoomCardPlaceholder } from "./roomGridViewStyles";
 
 function getPrimaryPhotoUrl(photos: RoomPhoto[]): string | null {
   const primary = photos.find((p) => p.isPrimary);
@@ -24,24 +20,19 @@ export function RoomCardImage({ photos, title }: RoomCardImageProps) {
 
   if (!url) {
     return (
-      <Stack sx={roomCardImageAreaSx}>
-        <Stack sx={roomCardPlaceholderSx}>
+      <RoomCardImageArea>
+        <RoomCardPlaceholder>
           <Typography variant="body2" color="text.secondary">
             {t("hotelRooms.grid.noPhoto", "No photo")}
           </Typography>
-        </Stack>
-      </Stack>
+        </RoomCardPlaceholder>
+      </RoomCardImageArea>
     );
   }
 
   return (
-    <Stack sx={roomCardImageAreaSx}>
-      <CardMedia
-        component="img"
-        image={url}
-        alt={title}
-        sx={roomCardImageMediaSx}
-      />
-    </Stack>
+    <RoomCardImageArea>
+      <RoomCardImg src={url} alt={title} />
+    </RoomCardImageArea>
   );
 }

@@ -10,8 +10,8 @@ import { sleep } from "../util/delay";
 // TODO: Remove when integrating backend
 
 /** Stable Unsplash URLs for mock gallery (hotel / room interiors). */
-const US = (photoId: string, w = 1600) =>
-  `https://images.unsplash.com/${photoId}?auto=format&fit=crop&w=${w}&q=80`;
+const US = (photoId: string, targetWidth = 1600) =>
+  `https://images.unsplash.com/${photoId}?auto=format&fit=crop&w=${targetWidth}&q=80`;
 
 let mockRooms: Room[] = [
   {

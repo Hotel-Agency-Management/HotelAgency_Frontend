@@ -9,8 +9,8 @@ interface Props {
   roomTypes?: RoomType[];
   onFilterChange: (filters: RoomFilters) => void;
   onAddRoom: () => void;
-  view: "list" | "grid";
-  onViewChange: (view: "list" | "grid") => void;
+  view: "list" | "cards";
+  onViewChange: (view: "list" | "cards") => void;
 }
 
 export const RoomsToolbar = ({
@@ -111,7 +111,7 @@ export const RoomsToolbar = ({
               <List size={15} />
             </Tooltip>
           </ToggleButton>
-          <ToggleButton value="grid">
+          <ToggleButton value="cards">
             <Tooltip title="Grid view" placement="top">
               <LayoutGrid size={15} />
             </Tooltip>

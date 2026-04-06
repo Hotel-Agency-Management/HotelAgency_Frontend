@@ -3,7 +3,6 @@ import type { Room } from "../../../../types/room";
 import { RoomCardActions } from "./RoomCardActions";
 import { RoomCardImage } from "./RoomCardImage";
 import { RoomCardInfo } from "./RoomCardInfo";
-import { roomCardRootSx } from "./roomGridViewStyles";
 
 export interface RoomCardProps {
   room: Room;
@@ -22,25 +21,14 @@ export function RoomCard({
   onDelete,
   onRoomClick,
 }: RoomCardProps) {
-  const title = room.roomNumber;
-
   return (
     <Card
       variant="outlined"
-      sx={{
-        ...roomCardRootSx,
-        ...(onRoomClick != null ? { cursor: "pointer" } : {}),
-      }}
-      onClick={
-        onRoomClick != null
-          ? () => {
-              onRoomClick(room.id);
-            }
-          : undefined
-      }
+      sx={{ cursor: onRoomClick != null ? "pointer" : undefined }}
+      onClick={onRoomClick != null ? () => onRoomClick(room.id) : undefined}
     >
       <Stack spacing={2}>
-        <RoomCardImage photos={room.photos} title={title} />
+        <RoomCardImage photos={room.photos} title={room.roomNumber} />
         <Stack spacing={2} sx={{ px: 2, pb: 2 }}>
           <RoomCardInfo
             roomNumber={room.roomNumber}

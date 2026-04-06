@@ -15,14 +15,14 @@ interface Props {
   onEditRoom: (id: string) => void;
 }
 
-export const RoomsDataGrid = ({ onAddRoom, onEditRoom }: Props) => {
+export const RoomCardsView = ({ onAddRoom, onEditRoom }: Props) => {
   const router = useRouter();
   const params = useParams();
   const hotelId = params.hotelId as string;
   const agencyName = params.agencyName as string;
 
   const [filters, setFilters] = useState<RoomFilters>({});
-  const [view, setView] = useState<"list" | "grid">("list");
+  const [view, setView] = useState<"list" | "cards">("list");
 
   const { data: rooms = [], isLoading } = useRooms(filters);
   const { mutate: deleteRoom } = useDeleteRoom();
@@ -47,7 +47,7 @@ export const RoomsDataGrid = ({ onAddRoom, onEditRoom }: Props) => {
         view={view}
         onViewChange={setView}
       />
-      {view === "grid" ? (
+      {view === "cards" ? (
         <RoomGridView
           rooms={rooms}
           roomTypes={roomTypes}

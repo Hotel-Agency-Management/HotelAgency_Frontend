@@ -1,42 +1,30 @@
-import type { SxProps, Theme } from "@mui/material/styles";
+import { Box, Stack } from "@mui/material";
+import { styled } from "@mui/material/styles";
 
-export const roomGridContainerSx: SxProps<Theme> = {
-  display: "grid",
-  gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-  gap: 2,
-};
-
-export const roomCardRootSx: SxProps<Theme> = {
-  height: "100%",
-  display: "flex",
-  flexDirection: "column",
-  overflow: "hidden",
-};
-
-export const roomCardImageAreaSx: SxProps<Theme> = {
+export const RoomCardImageArea = styled(Box)({
   position: "relative",
   aspectRatio: "16 / 9",
   overflow: "hidden",
   flexShrink: 0,
-};
+  borderRadius: "12px 12px 0 0",
+});
 
-export const roomCardImageMediaSx: SxProps<Theme> = {
+export const RoomCardImg = styled("img")({
   width: "100%",
   height: "100%",
   objectFit: "cover",
-};
+});
 
-export const roomCardPlaceholderSx: SxProps<Theme> = {
+export const RoomCardPlaceholder = styled(Stack)(({ theme }) => ({
   width: "100%",
   height: "100%",
   alignItems: "center",
   justifyContent: "center",
-  bgcolor: "action.hover",
-};
+  backgroundColor: theme.palette.action.hover,
+}));
 
-export const roomGridLoadingSx: SxProps<Theme> = {
-  display: "flex",
+export const RoomGridLoading = styled(Stack)({
   alignItems: "center",
   justifyContent: "center",
   minHeight: 240,
-};
+});
