@@ -11,9 +11,15 @@ export function defineAbilitiesFor(role: UserRole): AppAbility {
   const { can, build } = new AbilityBuilder<AppAbility>(createMongoAbility)
 
   switch (role) {
-    case 'admin':
+    case 'SUPER_ADMIN':
       // Admin has full access to everything
       can('manage', 'all')
+      break
+    case 'AGENCY_OWNER':
+      can('manage', 'Users')
+      can('manage', 'Agency')
+      can('manage', 'Hotels')
+      can('manage', 'AgencySettings')
       break
 
     default:
