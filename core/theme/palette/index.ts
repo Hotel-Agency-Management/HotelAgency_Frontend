@@ -15,7 +15,7 @@ export function makePalette(mode: PaletteMode, brandingColors?: Partial<Branding
       light: `rgb(${lightColor})`,
       darkBg: '#0c0c0c',
       lightBg: '#f6f8fc',
-      bodyBg: mode === 'light' ? '#f6f8fc' : '#0c0c0c',
+      bodyBg: mode === 'light' ? '#eef0f7' : '#0c0c0c',
       trackBg: mode === 'light' ? '#eceef4' : '#1e1e1e',
       avatarBg: mode === 'light' ? '#e8eaf0' : '#1f1f1f',
       tooltipBg: mode === 'light' ? '#1a1d28' : '#2c2c2c',
@@ -36,11 +36,11 @@ export function makePalette(mode: PaletteMode, brandingColors?: Partial<Branding
     tertiary: brandingPalette.tertiary,
     error: { light: '#FF7A7A', main: '#FF4D4F', dark: '#C62828' },
     warning: { light: '#FFD166', main: '#FFB703', dark: '#C98A00' },
-    info: brandingPalette.secondary,
-    success: brandingPalette.tertiary,
-    divider: isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)',
+    success: { light: '#69db7c', main: '#2f9e44', dark: '#1e6e2e' },
+    info: { light: '#74c0fc', main: '#228be6', dark: '#1864ab' },
+    divider: isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.09)',
     background: {
-      default: isDark ? '#0c0c0c' : '#f6f8fc',
+      default: isDark ? '#0c0c0c' : '#eef0f7',  // 👈
       paper: isDark ? '#161616' : '#ffffff'
     },
     text: {
@@ -49,7 +49,7 @@ export function makePalette(mode: PaletteMode, brandingColors?: Partial<Branding
       disabled: isDark ? 'rgba(180,190,220,0.35)' : 'rgba(15,17,23,0.3)'
     },
     action: {
-      hover: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.03)',
+      hover: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)',
       selected: alpha(brandingPalette.primary.main, isDark ? 0.16 : 0.08),
       disabled: isDark ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.25)',
       disabledBackground: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)'

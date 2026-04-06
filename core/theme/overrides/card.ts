@@ -16,7 +16,6 @@ const Card = () => {
     MuiCard: {
       styleOverrides: {
         root: ({ theme, ownerState }: CardOwnerState) => ({
-          padding: theme.spacing(3),
           border: `1px solid ${theme.palette.divider}`,
           transition: theme.transitions.create(
             ['box-shadow', 'border-color', 'transform'],
