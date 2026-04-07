@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/core/context/AuthContext'
 import { authConfig } from '@/core/configs/clientConfig'
+import { createPostLoginRedirectStrategy } from '../../postLoginRedirect/factory'
 
 interface Options {
   onIncompleteSignup: () => void
@@ -15,15 +16,18 @@ export const usePostLoginRedirect = ({ onIncompleteSignup }: Options) => {
   useEffect(() => {
     if (!user || handledRef.current || !user.freshLogin) return
 
-    handledRef.current = true
-
-    const key = `${user.role}:${user.agencyStatus ?? 'none'}`
-
-    const actions: Record<string, () => void> = {
-      'agencyOwner:incomplete': onIncompleteSignup,
-      default: () => router.push(authConfig.homePageURL)
+    const redirectToHome = () => {
+      router.push(authConfig.homePageURL)
     }
 
-    ;(actions[key] || actions.default)()
+    const strategy = createPostLoginRedirectStrategy({
+      role: user.role,
+      agencyStatus: user.agencyStatus,
+      onIncompleteSignup,
+      redirectToHome,
+    })
+
+    handledRef.current = true
+    strategy.execute()
   }, [user, router, onIncompleteSignup])
 }
