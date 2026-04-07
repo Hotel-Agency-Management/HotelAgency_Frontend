@@ -12,7 +12,7 @@ export function RoomGallerySkeleton() {
         })}
       />
       <Grid container spacing={1.25} sx={{ mt: 1.5 }}>
-        {[0, 1, 2].map((i) => (
+        {Array.from({ length: 3 }).map((_, i) => (
           <Grid key={i} size={{ xs: 4, sm: 3 }}>
             <Skeleton variant="rounded" sx={{ height: { xs: 64, sm: 72 }, borderRadius: (th) => th.spacing(1) }} />
           </Grid>

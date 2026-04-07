@@ -28,7 +28,7 @@ export const RoomProfileHeader = memo(function RoomProfileHeader({
       alignItems="center"
       justifyContent="space-between"
       gap={2}
-      sx={{ borderBottom: 1, borderColor: "divider", pb: 2 }}
+      sx={{ borderBottom: 1, borderColor: "divider"}}
     >
       <Stack direction="row" alignItems="center" gap={1.5} sx={{ minWidth: 0, flex: 1 }}>
         <IconButton
