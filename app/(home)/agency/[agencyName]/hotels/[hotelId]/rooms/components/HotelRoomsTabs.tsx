@@ -37,13 +37,10 @@ export function HotelRoomsTabs() {
           aria-controls="hotel-rooms-tabpanel-1"
         />
       </Tabs>
-
       <Divider />
-
       <HotelRoomsTabPanel value={tab} index={0}>
         <RoomTypesView hotelId={hotelId} />
       </HotelRoomsTabPanel>
-
       <HotelRoomsTabPanel value={tab} index={1}>
         <RoomsPage />
       </HotelRoomsTabPanel>
