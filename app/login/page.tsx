@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 import LoginForm from '@/components/auth/LoginForm'
 import useLanguage from '@/core/hooks/useLanguage'
 import SignupForm from '@/components/auth/signUp/SignupForm'
-import PostLoginRedirect from '@/components/auth/signUp/components/PostLoginRedirect'
+import { usePostLoginRedirect } from '@/components/auth/signUp/hooks/usePostLoginRedirect'
 
 const MotionBox = motion.create(Box)
 
@@ -115,6 +115,13 @@ export default function LoginPage() {
   const { language } = useLanguage()
   const isRTL = language === 'ar'
 
+  usePostLoginRedirect({
+    onIncompleteSignup: () => {
+      setSignupInitialStep(2)
+      setCurrentView('signup')
+    }
+  })
+
   const handleFillCredentials = () => {
     setShowEmailForm(true)
     setFillTrigger(t => t + 1)
@@ -142,13 +149,6 @@ export default function LoginPage() {
         overflow: 'hidden'
       }}
     >
-      <PostLoginRedirect
-        onIncompleteSignup={() => {
-          setSignupInitialStep(2)
-          setCurrentView('signup')
-        }}
-      />
-
       <Box sx={{ position: 'relative', width: '100%', height: '100%', display: { xs: 'none', md: 'flex' }, zIndex: 1 }}>
         <MotionBox
           initial={false}
