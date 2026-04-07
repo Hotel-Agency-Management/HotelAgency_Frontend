@@ -14,14 +14,14 @@ const defaultAgencyValues: AgencyFormData = {
   city: ''
 }
 
-export const useSignupForm = () => {
+export const useSignupForm = ({ initialStep = 0 } = {}) => {
   const { t } = useTranslation()
   const { signup, isLoading } = useAuth()
 
   const [showPassword, setShowPassword] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const [accountType, setAccountType] = useState<SignupAccountType>('customer')
-  const [activeStep, setActiveStep] = useState(0)
+  const [activeStep, setActiveStep] = useState(initialStep)
   const [accountValues, setAccountValues] = useState<SignupFormData | null>(null)
   const [agencyValues, setAgencyValues] = useState<AgencyFormData>(defaultAgencyValues)
 
@@ -68,25 +68,46 @@ export const useSignupForm = () => {
   }
 
   const onAgencyInfoSubmit = async (data: AgencyFormData) => {
+    if (!accountValues) return
     setAgencyValues(data)
-    setActiveStep(2)
+
+    const { firstName, lastName } = accountValues
+
+    // Log the payload for debugging
+    console.log('Agency Signup Payload:', {
+    name: `${firstName} ${lastName}`,
+    email: accountValues.email,
+    password: accountValues.password,
+    phone: accountValues.phone,
+    role: 'agencyOwner',
+    type: 'BUSINESS',
+    agencyName: data.agencyName,
+    agencyPhone: data.phone,
+    agencyCity: data.city,
+  })
+
+
+    const success = await signup(
+      {
+        name: `${firstName} ${lastName}`,
+        email: accountValues.email,
+        password: accountValues.password,
+        phone: accountValues.phone,
+        role: 'agencyOwner',
+        type: 'BUSINESS',
+        agencyName: data.agencyName,
+        agencyPhone: data.phone,
+        agencyCity: data.city,
+      },
+      error => setErrorMessage(typeof error === 'string' ? error : 'Signup failed'),
+      false
+    )
+
+    if (success) setActiveStep(2)
   }
 
   const onAgencyDocumentsSubmit = async (data: AgencyDocumentsFormData) => {
-    if (!accountValues) return
-
     const formData = new FormData()
-    const { firstName, lastName } = accountValues
-
-    formData.append('name', `${firstName} ${lastName}`)
-    formData.append('email', accountValues.email)
-    formData.append('password', accountValues.password)
-    formData.append('phone', accountValues.phone)
-    formData.append('role', 'agencyOwner')
-    formData.append('type', 'BUSINESS')
-    formData.append('agencyName', agencyValues.agencyName)
-    formData.append('agencyPhone', agencyValues.phone)
-    formData.append('agencyCity', agencyValues.city)
 
     data.documents.forEach((doc, index) => {
       formData.append(`documents[${index}][title]`, doc.title)
@@ -94,24 +115,16 @@ export const useSignupForm = () => {
         formData.append(`documents[${index}][file]`, doc.file)
       }
     })
-
-    await signup(
-      formData as any,
-      error => setErrorMessage(typeof error === 'string' ? error : 'Signup failed')
-    )
   }
 
   return {
-    // state
     showPassword,
     errorMessage,
     accountType,
     activeStep,
     agencyValues,
     isLoading,
-    // form
     form,
-    // handlers
     togglePasswordVisibility,
     handleAccountTypeChange,
     onAccountSubmit,

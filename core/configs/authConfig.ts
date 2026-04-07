@@ -4,6 +4,7 @@ export interface User {
   email: string
   name?: string
   role?: string
+  agencyStatus?: 'incomplete' | 'pending' | 'approved' | 'rejected'
   [key: string]: unknown // Allow additional custom fields
 }
 
@@ -37,7 +38,7 @@ export interface AuthContextType {
 
   // ** Actions
   login: (credentials: LoginCredentials, onError?: ErrorCallback) => Promise<void>
-  signup: (credentials: SignupPayload, onError?: ErrorCallback) => Promise<void>
+  signup: (credentials: SignupPayload, onError?: ErrorCallback, redirect?: boolean) => Promise<boolean>
   logout: () => Promise<void>
 
   // ** Utilities
