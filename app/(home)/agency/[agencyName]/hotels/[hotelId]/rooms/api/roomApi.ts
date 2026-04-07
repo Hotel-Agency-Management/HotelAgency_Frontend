@@ -34,7 +34,16 @@ let mockRooms: Room[] = [
       },
       {
         id: "1b",
-        url: US("photo-1540518614846-7eded433c457", 1200),
+
+        url: US("photo-1590490360182-c33d57733427", 1200),
+      },
+      {
+        id: "1c",
+        url: US("photo-1582719478250-c89cae4dc85b", 1200),
+      },
+      {
+        id: "1d",
+        url: US("photo-1566665797739-1674de7a421a", 1200),
       },
     ],
     pricePerNight: 80,
@@ -56,7 +65,7 @@ let mockRooms: Room[] = [
     photos: [
       {
         id: "2a",
-        url: US("photo-1582719478250-c89cae4dc85b"),
+        url: US("photo-1611892440504-42a792e48d34"),
         isPrimary: true,
       },
       {
@@ -88,11 +97,20 @@ let mockRooms: Room[] = [
       {
         id: "3a",
         url: US("photo-1578683010236-d716f9a3f461"),
+
         isPrimary: true,
       },
       {
         id: "3b",
-        url: US("photo-1590490360182-c33d57733427", 1200),
+        url: US("photo-1618221195710-dd6b41faaea6", 1200),
+      },
+      {
+        id: "3c",
+        url: US("photo-1600210492493-0946911123ea", 1200),
+      },
+      {
+        id: "3d",
+        url: US("photo-1502672260266-1c1ef2d93688", 1200),
       },
     ],
     pricePerNight: 350,
