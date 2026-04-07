@@ -79,6 +79,7 @@ export function AgencyFileCards({
               cursor: "pointer",
               position: "relative",
               "&:hover .edit-btn": { opacity: 1 },
+              height: "100%",
             }}
           >
             <Tooltip title={`Replace ${file.documentType}`}>
@@ -100,7 +101,7 @@ export function AgencyFileCards({
               </IconButton>
             </Tooltip>
 
-            <CardContent>
+            <CardContent sx={{ height: "100%" }}>
               <Stack spacing={1} alignItems="center">
                 {getFileIcon(file.type)}
                 <Typography

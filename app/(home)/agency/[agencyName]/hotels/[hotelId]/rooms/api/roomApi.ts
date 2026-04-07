@@ -8,6 +8,11 @@ import {
 import { sleep } from "../util/delay";
 
 // TODO: Remove when integrating backend
+
+/** Stable Unsplash URLs for mock gallery (hotel / room interiors). */
+const US = (photoId: string, targetWidth = 1600) =>
+  `https://images.unsplash.com/${photoId}?auto=format&fit=crop&w=${targetWidth}&q=80`;
+
 let mockRooms: Room[] = [
   {
     id: "1",
@@ -21,7 +26,17 @@ let mockRooms: Room[] = [
     bedType: "single",
     starRating: 3,
     amenities: ["wifi", "ac", "tv"],
-    photos: [],
+    photos: [
+      {
+        id: "1a",
+        url: US("photo-1631049307264-da0ec9d70304"),
+        isPrimary: true,
+      },
+      {
+        id: "1b",
+        url: US("photo-1540518614846-7eded433c457", 1200),
+      },
+    ],
     pricePerNight: 80,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
@@ -38,7 +53,21 @@ let mockRooms: Room[] = [
     bedType: "queen",
     starRating: 4,
     amenities: ["wifi", "minibar", "ac", "tv", "balcony"],
-    photos: [],
+    photos: [
+      {
+        id: "2a",
+        url: US("photo-1582719478250-c89cae4dc85b"),
+        isPrimary: true,
+      },
+      {
+        id: "2b",
+        url: US("photo-1598928636135-d146006ff4be", 1200),
+      },
+      {
+        id: "2c",
+        url: US("photo-1566073771259-6a8506099945", 1200),
+      },
+    ],
     pricePerNight: 150,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
@@ -55,7 +84,17 @@ let mockRooms: Room[] = [
     bedType: "king",
     starRating: 5,
     amenities: ["wifi", "minibar", "jacuzzi", "ac", "tv", "balcony", "spa"],
-    photos: [],
+    photos: [
+      {
+        id: "3a",
+        url: US("photo-1578683010236-d716f9a3f461"),
+        isPrimary: true,
+      },
+      {
+        id: "3b",
+        url: US("photo-1590490360182-c33d57733427", 1200),
+      },
+    ],
     pricePerNight: 350,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
