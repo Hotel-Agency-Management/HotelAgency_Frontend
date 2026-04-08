@@ -1,51 +1,14 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
-import { gsap } from '@/lib/gsap'
 import { Box, Button, Container, Stack, Typography } from '@mui/material'
-import { landingContent as lc } from '@/components/landing/landingContent'
 import { alpha } from '@mui/material/styles'
+import { FadeIn, TextReveal } from '@/components/animation'
+import { landingContent as lc } from '@/components/landing/landingContent'
 
 export default function Hero() {
-  const sectionRef = useRef<HTMLElement>(null)
-
-  useEffect(() => {
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReduced) return
-
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        '.hero-fade',
-        { autoAlpha: 0, y: 28 },
-        {
-          autoAlpha: 1,
-          y: 0,
-          stagger: 0.14,
-          duration: 0.9,
-          ease: 'power3.out'
-        }
-      )
-
-      gsap.fromTo(
-        '.hero-panel',
-        { autoAlpha: 0, y: 18 },
-        {
-          autoAlpha: 1,
-          y: 0,
-          duration: 0.7,
-          delay: 0.4,
-          ease: 'power2.out'
-        }
-      )
-    }, sectionRef)
-
-    return () => ctx.revert()
-  }, [])
-
   return (
     <Box
       component='section'
-      ref={sectionRef}
       sx={theme => ({
         minHeight: { xs: '90vh', md: '100vh' },
         position: 'relative',
@@ -75,53 +38,57 @@ export default function Hero() {
 
       <Container maxWidth='lg' sx={{ zIndex: 2 }}>
         <Stack spacing={{ xs: 3.5, md: 5 }} alignItems='stretch'>
-          <Stack
-            className='hero-fade'
-            spacing={2.2}
-            alignItems={{ xs: 'center', md: 'flex-start' }}
-            textAlign={{ xs: 'center', md: 'left' }}
-            sx={{ maxWidth: 620 }}
-          >
-            <Typography
-              className='hero-fade'
-              variant='overline'
-              sx={theme => ({
-                color: alpha(theme.palette.common.white, 0.72),
-                letterSpacing: '0.14em',
-                alignSelf: { xs: 'center', md: 'flex-start' }
-              })}
-            >
-              {lc.hero.eyebrow}
-            </Typography>
-            <Typography
-              className='hero-fade'
-              variant='h1'
-              sx={{
-                color: 'common.white',
+          <Stack spacing={2.2} alignItems={{ xs: 'center', md: 'flex-start' }} textAlign={{ xs: 'center', md: 'left' }} sx={{ maxWidth: 620 }}>
+            <FadeIn direction='up' distance={20}>
+              <Typography
+                variant='overline'
+                sx={theme => ({
+                  color: alpha(theme.palette.common.white, 0.72),
+                  letterSpacing: '0.14em',
+                  alignSelf: { xs: 'center', md: 'flex-start' }
+                })}
+              >
+                {lc.hero.eyebrow}
+              </Typography>
+            </FadeIn>
+
+            <TextReveal
+              text={lc.hero.title}
+              as='h1'
+              splitBy='word'
+              staggerDelay={0.08}
+              duration={0.72}
+              style={{
+                color: '#fff',
                 maxWidth: 620,
+                fontFamily: 'var(--font)',
                 fontWeight: 500,
-                fontSize: { xs: '2.1rem', sm: '2.9rem', md: '4.4rem' },
+                fontSize: 'clamp(2.1rem, 6vw, 4.4rem)',
                 lineHeight: 1.03,
-                textWrap: 'balance'
+                textWrap: 'balance',
+                margin: 0
               }}
-            >
-              {lc.hero.title}
-            </Typography>
-            <Typography
-              className='hero-fade'
-              variant='body1'
-              sx={theme => ({
-                color: alpha(theme.palette.common.white, 0.8),
-                maxWidth: 560,
-                fontWeight: 400,
-                alignSelf: { xs: 'center', md: 'flex-start' }
-              })}
-            >
-              {lc.hero.subtitle}
-            </Typography>
-            <Button className='hero-fade' variant='contained' size='large' href={lc.hero.primaryCta.href} sx={{ minWidth: 180 }}>
-              {lc.hero.primaryCta.label}
-            </Button>
+            />
+
+            <FadeIn direction='up' distance={24} transition={{ delay: 0.12 }}>
+              <Typography
+                variant='body1'
+                sx={theme => ({
+                  color: alpha(theme.palette.common.white, 0.8),
+                  maxWidth: 560,
+                  fontWeight: 400,
+                  alignSelf: { xs: 'center', md: 'flex-start' }
+                })}
+              >
+                {lc.hero.subtitle}
+              </Typography>
+            </FadeIn>
+
+            <FadeIn direction='up' distance={24} transition={{ delay: 0.2 }}>
+              <Button variant='contained' size='large' href={lc.hero.primaryCta.href} sx={{ minWidth: 180 }}>
+                {lc.hero.primaryCta.label}
+              </Button>
+            </FadeIn>
           </Stack>
         </Stack>
       </Container>

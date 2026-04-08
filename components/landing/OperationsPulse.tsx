@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react'
 import { gsap } from '@/lib/gsap'
 import SectionLabel from '@/components/landing/SectionLabel'
 import { landingContent as lc } from '@/components/landing/landingContent'
+import FadeIn from '@/components/animation/FadeIn'
 import { useTheme } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 
@@ -30,21 +31,9 @@ export default function OperationsPulse() {
     if (prefersReduced || !sectionRef.current) return
 
     const ctx = gsap.context(() => {
-      const headerEls = sectionRef.current?.querySelectorAll('.pulse-header')
       const core = sectionRef.current?.querySelector('.pulse-core')
       const cards = gsap.utils.toArray<HTMLElement>('.pulse-card', sectionRef.current)
       const ring = sectionRef.current?.querySelector('.pulse-ring')
-
-      if (headerEls?.length) {
-        gsap.from(headerEls, {
-          y: 26,
-          autoAlpha: 0,
-          duration: 0.75,
-          stagger: 0.1,
-          ease: 'power3.out',
-          scrollTrigger: { trigger: sectionRef.current, start: 'top 84%', once: true }
-        })
-      }
 
       if (core) {
         gsap.from(core, {
@@ -99,37 +88,41 @@ export default function OperationsPulse() {
   return (
     <section id='operations-pulse' ref={sectionRef} style={{ maxWidth: '1200px', margin: '0 auto', padding: '120px 24px' }}>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-        <div className='pulse-header'>
+        <FadeIn direction='up' distance={26}>
           <SectionLabel>{section.label}</SectionLabel>
-        </div>
-        <h2
-          className='pulse-header'
-          style={{
-            fontFamily: 'var(--font)',
-            fontWeight: 700,
-            fontSize: 'clamp(2rem, 4vw, 3rem)',
-            color: textPrimary,
-            lineHeight: 1.08,
-            letterSpacing: '-0.03em',
-            margin: 0,
-            maxWidth: '860px'
-          }}
-        >
-          {section.heading}
-        </h2>
-        <p
-          className='pulse-header'
-          style={{
-            fontFamily: 'var(--font)',
-            color: textSecondary,
-            lineHeight: 1.75,
-            fontSize: '1rem',
-            maxWidth: '760px',
-            marginTop: '16px'
-          }}
-        >
-          {section.body}
-        </p>
+        </FadeIn>
+
+        <FadeIn direction='up' distance={26} transition={{ delay: 0.1 }}>
+          <h2
+            style={{
+              fontFamily: 'var(--font)',
+              fontWeight: 700,
+              fontSize: 'clamp(2rem, 4vw, 3rem)',
+              color: textPrimary,
+              lineHeight: 1.08,
+              letterSpacing: '-0.03em',
+              margin: 0,
+              maxWidth: '860px'
+            }}
+          >
+            {section.heading}
+          </h2>
+        </FadeIn>
+
+        <FadeIn direction='up' distance={26} transition={{ delay: 0.2 }}>
+          <p
+            style={{
+              fontFamily: 'var(--font)',
+              color: textSecondary,
+              lineHeight: 1.75,
+              fontSize: '1rem',
+              maxWidth: '760px',
+              marginTop: '16px'
+            }}
+          >
+            {section.body}
+          </p>
+        </FadeIn>
       </div>
 
       <div

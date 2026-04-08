@@ -52,6 +52,25 @@ export type LandingContent = {
     body: string
     items: { title: string; description: string; image: string }[]
   }>
+  whyBook: Section<{
+    label: string
+    heading: string
+    body: string
+    featureImage: string
+    items: { title: string; desc: string; kicker: string }[]
+  }>
+  offers: Section<{
+    label: string
+    heading: string
+    body: string
+    items: { badge: string; title: string; desc: string; value: string; note: string; image: string }[]
+  }>
+  guestExperience: Section<{
+    label: string
+    heading: string
+    body: string
+    items: { title: string; desc: string; image: string }[]
+  }>
   operationsPulse: Section<{
     label: string
     heading: string
@@ -131,6 +150,7 @@ export const landingContent: LandingContent = {
     visible: true,
     links: [
       { label: 'Features', href: '#features' },
+      { label: 'Offers', href: '#offers' },
       { label: 'How It Works', href: '#how-it-works' },
       { label: 'Docs', href: 'https://shortcut-documentation.vercel.app/docs' }
     ],
@@ -243,6 +263,115 @@ export const landingContent: LandingContent = {
         image: 'https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=1200&q=80'
       }
     ]
+  },
+
+  whyBook: {
+    visible: true,
+    label: 'WHY BOOK WITH US',
+    heading: 'Remove doubt fast and give guests a clear reason to book now',
+    body:
+      'When a guest compares properties, they want clarity, trust, and confidence. This section brings the strongest booking arguments forward before hesitation starts.',
+    featureImage:
+      'https://images.unsplash.com/photo-1551632436-cbf8dd35adfa?auto=format&fit=crop&w=1400&q=80',
+    items: [
+      {
+        kicker: 'DIRECT RATE',
+        title: 'Best value when booking directly',
+        desc: 'Show guests that direct booking unlocks the strongest room value, cleaner pricing, and fewer surprises at checkout.'
+      },
+      {
+        kicker: 'INSTANT CONFIRMATION',
+        title: 'No waiting for manual follow-up',
+        desc: 'Make the next step feel immediate and reassuring with instant confirmation messaging that removes uncertainty after checkout.'
+      },
+      {
+        kicker: 'FLEXIBLE STAY',
+        title: 'Policies that feel safe to commit to',
+        desc: 'Reassure hesitant guests with flexible changes, clear cancellation rules, and fewer reasons to postpone the reservation.'
+      },
+      {
+        kicker: 'TRUST SIGNALS',
+        title: 'Clear property details before payment',
+        desc: 'Verified amenities, accurate room visuals, and transparent inclusions help the guest feel they know exactly what they are booking.'
+      }
+    ]
+  },
+
+  offers: {
+    visible: true,
+    label: 'SPECIAL OFFERS',
+    heading: 'Put the most bookable packages in front of the user before they leave',
+    body:
+      'Strong offer framing gives the guest an easy reason to act now. Use simple, specific packages that feel relevant to real travel intent.',
+    items: [
+      {
+        badge: 'EARLY BOOKING',
+        title: 'Plan ahead and save on premium stays',
+        desc: 'Reward guests who book earlier with a better rate on selected room categories and peak-season dates.',
+        value: 'Save up to 12%',
+        note: 'Ideal for guests comparing several stays before making a final choice.',
+        image:
+          'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1200&q=80'
+      },
+      {
+        badge: 'FAMILY PACKAGE',
+        title: 'More value for longer family stays',
+        desc: 'Bundle family-friendly benefits such as breakfast, extra bedding, or late checkout into one clear offer.',
+        value: 'Breakfast + flexible checkout',
+        note: 'Helps families feel the offer is practical, not just promotional.',
+        image:
+          'https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&cs=tinysrgb&w=1200'
+      },
+      {
+        badge: 'LONG STAY',
+        title: 'A stronger rate when the stay gets longer',
+        desc: 'Encourage extended bookings with a visible multi-night advantage that makes the total value feel obvious.',
+        value: 'Better nightly rate after 3 nights',
+        note: 'Works well for business trips, work-from-hotel stays, and mixed leisure plans.',
+        image:
+          'https://images.unsplash.com/photo-1496417263034-38ec4f0b665a?auto=format&fit=crop&w=1200&q=80'
+      }
+    ]
+  },
+
+  guestExperience: {
+    visible: true,
+    label: 'GUEST EXPERIENCE',
+    heading: 'Highlight the stay details that help a guest imagine the experience',
+    body:
+      'The booking decision gets easier when the guest can picture the stay. Bring the comfort, convenience, and premium touches into one clean section.',
+    items: [
+  {
+    title: 'Rooms that look exactly like the photos — every time',
+    desc: 'No surprises at check-in. What you see is what you get — accurate room visuals, verified amenities, and honest descriptions that build confidence before you pay.',
+    image: 'https://images.unsplash.com/photo-1505692952047-1a78307da8f2?auto=format&fit=crop&w=1200&q=80'
+  },
+  {
+    title: 'Breakfast included — not hidden in the fine print',
+    desc: 'Breakfast, welcome service, and extras are clearly listed upfront so you know the full value of your stay before you confirm — not after.',
+    image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1200&q=80'
+  },
+  {
+    title: 'Fast Wi-Fi that actually works for remote work',
+    desc: 'Tested and verified connectivity in every room — so whether you are on a video call at 9am or streaming at midnight, the connection holds.',
+    image: 'https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1200&q=80'
+  },
+  {
+    title: '10 minutes from the airport — not 10 minutes on a good day',
+    desc: 'Honest distance and transit information to the airport, city center, and key attractions — so you can plan your trip without second-guessing the map.',
+    image: 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=1200&q=80'
+  },
+  {
+    title: 'A pool, a spa, and a reason to stay longer',
+    desc: 'Wellness and leisure amenities that make the property feel like part of the experience — not just a place to sleep between activities.',
+    image: 'https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=1200&q=80'
+  },
+  {
+    title: 'Someone available when your plans change',
+    desc: 'Real support before, during, and after your stay. Change a date, ask about check-in, or request an early arrival — and get an answer the same day.',
+    image: 'https://images.unsplash.com/photo-1522798514-97ceb8c4f1c8?auto=format&fit=crop&w=1200&q=80'
+  }
+]
   },
 
   operationsPulse: {
@@ -807,7 +936,10 @@ export const landingContent: LandingContent = {
     templateLinks: [
       { label: 'Features', href: '#features' },
       { label: 'Hotel Showcase', href: '#hotel-showcase' },
+      { label: 'Why Book', href: '#why-book' },
+      { label: 'Offers', href: '#offers' },
       { label: 'How It Works', href: '#how-it-works' },
+      { label: 'Guest Experience', href: '#guest-experience' },
       { label: 'FAQ', href: '#faq' }
     ],
     resourceLinks: [

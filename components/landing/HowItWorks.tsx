@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react'
 import { gsap } from '@/lib/gsap'
 import SectionLabel from '@/components/landing/SectionLabel'
 import { landingContent as lc } from '@/components/landing/landingContent'
+import FadeIn from '@/components/animation/FadeIn'
 import { useTheme } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 
@@ -24,23 +25,7 @@ export default function HowItWorks() {
     if (prefersReduced || !sectionRef.current) return
 
     const ctx = gsap.context(() => {
-      const titleEls = sectionRef.current?.querySelectorAll('.how-work-header')
       const rows = gsap.utils.toArray<HTMLElement>('.how-work-row', sectionRef.current)
-
-      if (titleEls?.length) {
-        gsap.from(titleEls, {
-          y: 28,
-          autoAlpha: 0,
-          duration: 0.8,
-          stagger: 0.1,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 82%',
-            once: true
-          }
-        })
-      }
 
       rows.forEach((row, index) => {
         const media = row.querySelector('.how-work-media')
@@ -75,16 +60,8 @@ export default function HowItWorks() {
         if (mediaImage) {
           tl.fromTo(
             mediaImage,
-            {
-              xPercent: 14 * direction,
-              scale: 1.14
-            },
-            {
-              xPercent: 0,
-              scale: 1,
-              duration: 1.15,
-              ease: 'power3.out'
-            },
+            { xPercent: 14 * direction, scale: 1.14 },
+            { xPercent: 0, scale: 1, duration: 1.15, ease: 'power3.out' },
             '<'
           )
         }
@@ -114,37 +91,41 @@ export default function HowItWorks() {
           marginBottom: '64px'
         }}
       >
-        <div className='how-work-header'>
+        <FadeIn direction='up' distance={28}>
           <SectionLabel>{section.label}</SectionLabel>
-        </div>
-        <h2
-          className='how-work-header'
-          style={{
-            fontFamily: 'var(--font)',
-            fontWeight: 700,
-            fontSize: 'clamp(1.95rem, 4vw, 3rem)',
-            color: textPrimary,
-            maxWidth: '860px',
-            lineHeight: 1.08,
-            letterSpacing: '-0.03em',
-            margin: 0
-          }}
-        >
-          {section.heading}
-        </h2>
-        <p
-          className='how-work-header'
-          style={{
-            fontFamily: 'var(--font)',
-            color: textSecondary,
-            fontSize: '1rem',
-            lineHeight: 1.75,
-            maxWidth: '760px',
-            marginTop: '16px'
-          }}
-        >
-          {section.body}
-        </p>
+        </FadeIn>
+
+        <FadeIn direction='up' distance={28} transition={{ delay: 0.1 }}>
+          <h2
+            style={{
+              fontFamily: 'var(--font)',
+              fontWeight: 700,
+              fontSize: 'clamp(1.95rem, 4vw, 3rem)',
+              color: textPrimary,
+              maxWidth: '860px',
+              lineHeight: 1.08,
+              letterSpacing: '-0.03em',
+              margin: 0
+            }}
+          >
+            {section.heading}
+          </h2>
+        </FadeIn>
+
+        <FadeIn direction='up' distance={28} transition={{ delay: 0.2 }}>
+          <p
+            style={{
+              fontFamily: 'var(--font)',
+              color: textSecondary,
+              fontSize: '1rem',
+              lineHeight: 1.75,
+              maxWidth: '760px',
+              marginTop: '16px'
+            }}
+          >
+            {section.body}
+          </p>
+        </FadeIn>
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
