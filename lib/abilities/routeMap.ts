@@ -32,6 +32,7 @@ export const publicRoutes: string[] = [
   '/signup',
   '/forgot-password',
   '/reset-password',
+  '/verify-email',
   '/unauthorized',
   '/animations/showcase'
 ]

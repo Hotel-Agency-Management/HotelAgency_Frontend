@@ -59,6 +59,7 @@ export interface AuthContextType {
   // ** Utilities
   setUser: (user: User | null) => void
   setLoading: (loading: boolean) => void
+  setAuthData: (response: AuthResponse) => void
 }
 
 // ** Error callback type

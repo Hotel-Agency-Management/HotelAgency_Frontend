@@ -32,7 +32,7 @@ const themeConfig: ThemeConfig = {
   // ** Other Configs
   responsiveFontSizes: true /* true | false */,
   disableRipple: true /* true | false */,
-  toastPosition: 'bottom-center' /* top-left | top-center | top-right | bottom-left | bottom-center | bottom-right */,
+  toastPosition: 'top-center' /* top-left | top-center | top-right | bottom-left | bottom-center | bottom-right */,
   borderRadius: 10,
   common: {
     commonBorderRadius: 1,
