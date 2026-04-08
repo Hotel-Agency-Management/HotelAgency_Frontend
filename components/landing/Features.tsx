@@ -99,7 +99,7 @@ export default function Features() {
   }, [primaryAlpha50])
 
   return (
-    <section ref={sectionRef} style={{ maxWidth: '1200px', margin: '0 auto', padding: '120px 24px' }}>
+    <section id='features' ref={sectionRef} style={{ maxWidth: '1200px', margin: '0 auto', padding: '120px 24px' }}>
       <div style={{ textAlign: 'center', marginBottom: '64px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <SectionLabel>{lc.features.label}</SectionLabel>
         <h2
@@ -115,6 +115,18 @@ export default function Features() {
         >
           {lc.features.heading}
         </h2>
+        <p
+          style={{
+            fontFamily: 'var(--font)',
+            color: textSecondary,
+            fontSize: '1rem',
+            lineHeight: 1.7,
+            maxWidth: '760px',
+            marginTop: '14px'
+          }}
+        >
+          Built to help hospitality businesses scale faster, improve booking conversion, and operate with full visibility.
+        </p>
       </div>
 
       <div ref={gridRef} style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
@@ -156,6 +168,19 @@ export default function Features() {
             </h3>
             <p style={{ fontFamily: 'var(--font)', color: textSecondary, fontSize: '0.9rem', lineHeight: 1.6, position: 'relative', zIndex: 1 }}>
               {f.desc}
+            </p>
+            <p
+              style={{
+                fontFamily: 'var(--font)',
+                color: primaryMain,
+                fontSize: '0.78rem',
+                letterSpacing: '0.05em',
+                marginTop: '18px',
+                position: 'relative',
+                zIndex: 1
+              }}
+            >
+              BUSINESS VALUE
             </p>
           </div>
         ))}

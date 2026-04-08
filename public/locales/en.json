@@ -2,7 +2,7 @@
   "HomePage": {
     "title": "Hello world!",
     "cta": "Get started",
-    "heroTitle": "Shortcut Next",
+    "heroTitle": "Hotel Agency",
     "heroDescription": "A modern Next.js boilerplate powered by MUI with room for React Query, React Hook Form, and optional Tailwind v4.",
     "toggleTheme": "Toggle Theme",
     "chips": {

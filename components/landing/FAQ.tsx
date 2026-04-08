@@ -146,7 +146,7 @@ export default function FAQ() {
   )
 
   return (
-    <section ref={containerRef} style={{ padding: '100px 24px', maxWidth: '700px', margin: '0 auto' }}>
+    <section id='faq' ref={containerRef} style={{ padding: '100px 24px', maxWidth: '700px', margin: '0 auto' }}>
       <div style={{ textAlign: 'center', marginBottom: '48px' }}>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <SectionLabel>{lc.faq.label}</SectionLabel>

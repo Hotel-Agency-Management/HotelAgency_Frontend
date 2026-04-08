@@ -33,6 +33,7 @@ export type LandingContent = {
     subtitle: string
     primaryCta: { label: string; href: string }
     secondaryCta: { label: string; href: string; target: string }
+    bookingCta: string
     command: string
     scrollLabel: string
   }>
@@ -45,10 +46,34 @@ export type LandingContent = {
     heading: string
     cards: { num: string; name: string; desc: string }[]
   }>
+  hotelShowcase: Section<{
+    label: string
+    heading: string
+    body: string
+    items: { title: string; description: string; image: string }[]
+  }>
+  operationsPulse: Section<{
+    label: string
+    heading: string
+    body: string
+    mainBadge: string
+    mainTitle: string
+    mainBody: string
+    cards: { eyebrow: string; title: string; desc: string }[]
+  }>
+  momentumWall: Section<{
+    label: string
+    heading: string
+    body: string
+    cards: { stat: string; title: string; desc: string }[]
+    note: string
+  }>
   codeDemo: Section<{
     label: string
     heading: string
     body: string
+    panelTitle: string
+    panelBadge: string
     bullets: string[]
     terminalLines: TerminalLine[]
   }>
@@ -71,7 +96,8 @@ export type LandingContent = {
   howItWorks: Section<{
     label: string
     heading: string
-    steps: { number: string; title: string; desc: string }[]
+    body: string
+    steps: { number: string; tag: string; title: string; desc: string; image: string; points: string[] }[]
   }>
   stats: Section<{
     items: { animateTo: number | null; suffix: string; display: string; label: string }[]
@@ -114,23 +140,24 @@ export const landingContent: LandingContent = {
   // ─── Hero ─────────────────────────────────────────────────────────────────
   hero: {
     visible: true,
-    eyebrow: 'NEXT.JS SCAFFOLDING CLI',
-    title: 'Stop Starting From Scratch',
+    eyebrow: 'MULTI-AGENCY HOTEL PLATFORM',
+    title: 'Manage Agencies, Hotels, and Bookings in One Place',
     subtitle:
-      'One command scaffolds a complete Next.js 15 app — MUI v7, CASL RBAC, TanStack Query, i18n with RTL, and a protected dashboard. A CLI that builds your mid-way project in seconds, not tutorial-grade boilerplate.',
-    primaryCta: { label: 'Get Started', href: '#get-started' },
+      'Operate multiple agencies, control hotel inventory, and enable seamless booking workflows from a single dashboard.',
+    primaryCta: { label: 'Discover More', href: '#features' },
     secondaryCta: {
-      label: 'View Documentation',
+      label: 'Explore Hotels',
       href: 'https://shortcut-documentation.vercel.app/docs',
       target: '_blank'
     },
+    bookingCta: 'Check Now',
     command: 'npx create-shortcut-next',
     scrollLabel: 'SCROLL'
   },
 
   // ─── Install Banner ────────────────────────────────────────────────────────
   installBanner: {
-    visible: true,
+    visible: false,
     row1: [
       'Next.js 15',
       'App Router',
@@ -158,81 +185,237 @@ export const landingContent: LandingContent = {
   // ─── Features ─────────────────────────────────────────────────────────────
   features: {
     visible: true,
-    label: 'FEATURES',
-    heading: 'A complete app, not a starter kit.',
+    label: 'OUR SERVICES',
+    heading: 'Everything your agency needs to run hotel operations smoothly',
     cards: [
       {
         num: '01',
-        name: 'MUI v7 Design System',
-        desc: 'Dark mode, light mode, RTL, and per-component theme overrides in /theme/. Switch palette tokens globally without touching component code.'
+        name: 'Multi-Agency Management',
+        desc: 'Manage multiple agencies from one platform with separated workspaces, team roles, and full control over each business unit.'
       },
       {
         num: '02',
-        name: 'CASL Role-Based Auth',
-        desc: 'Four roles: admin, manager, agent, viewer. Middleware enforces permissions on every route. Add a protected route by editing one file.'
+        name: 'Hotel & Property Operations',
+        desc: 'Add hotels, organize branches, and keep property information centralized so your teams move faster with less operational confusion.'
       },
       {
         num: '03',
-        name: 'Protected Dashboard Layout',
-        desc: 'Collapsible sidebar, nested route groups, responsive layout shell — wired to auth so only permitted roles see each page.'
+        name: 'Room Inventory Control',
+        desc: 'Track room types, availability, and status in real time to reduce errors and keep inventory ready for booking teams.'
       },
       {
         num: '04',
-        name: 'i18n with RTL Support',
-        desc: 'English and Arabic out of the box. Language auto-detected from the browser; layout direction flips automatically.'
+        name: 'Smart Booking Workflows',
+        desc: 'Handle booking requests from creation to confirmation with a streamlined flow that improves conversion and customer experience.'
       },
       {
         num: '05',
-        name: 'TanStack Query + Axios',
-        desc: 'Server state and caching configured with sensible defaults. Axios interceptors handle JWT refresh and auto-logout on 401/403.'
+        name: 'Role-Based Team Access',
+        desc: 'Give each user the right level of access, so agencies, managers, and staff can collaborate securely without permission conflicts.'
       },
       {
         num: '06',
-        name: 'React Hook Form + TypeScript',
-        desc: 'Strongly-typed forms throughout. Full TypeScript coverage including CASL types, role enums, and API response shapes.'
+        name: 'Actionable Performance Insights',
+        desc: 'Monitor booking activity, property performance, and agency productivity with clear insights that support faster decisions.'
       }
     ]
   },
 
+  hotelShowcase: {
+    visible: true,
+    label: 'HOTELS YOU CAN SCALE',
+    heading: 'Present premium properties that build instant trust',
+    body: 'Showcase your network of hotels with a polished experience that helps agencies convert more customers into confirmed bookings.',
+    items: [
+      {
+        title: 'Luxury City Properties',
+        description: 'Highlight high-demand city hotels with full room details, dynamic pricing, and fast booking actions.',
+        image: 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=1200&q=80'
+      },
+      {
+        title: 'Resort & Leisure Destinations',
+        description: 'Promote leisure stays with rich visuals and structured availability to increase booking confidence.',
+        image: 'https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=1200&q=80'
+      },
+      {
+        title: 'Executive Business Hotels',
+        description: 'Serve corporate and agency clients with reliable booking workflows and professional property presentation.',
+        image: 'https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=1200&q=80'
+      }
+    ]
+  },
+
+  operationsPulse: {
+    visible: true,
+    label: 'OPERATIONS PULSE',
+    heading: 'One control layer for every moving part of your hotel business',
+    body:
+      'Instead of switching between teams, spreadsheets, and property updates, your operation can move through one connected rhythm that keeps everyone aligned.',
+    mainBadge: 'LIVE CONTROL',
+    mainTitle: 'Hotel Agency Command Flow',
+    mainBody:
+      'Hotels, availability, booking requests, and agency actions stay visible in one operational view so decisions happen faster and with more confidence.',
+    cards: [
+      {
+        eyebrow: 'REQUEST FLOW',
+        title: 'Capture guest demand before it gets lost',
+        desc: 'Keep every inquiry, stay detail, and follow-up in a structured path that helps your team respond without chaos.'
+      },
+      {
+        eyebrow: 'ROOM SIGNALS',
+        title: 'See inventory changes as they happen',
+        desc: 'Track room availability, status, and hotel updates in a cleaner system that reduces booking mistakes and repeated checking.'
+      },
+      {
+        eyebrow: 'AGENCY VIEW',
+        title: 'Give every agency a clearer operating lane',
+        desc: 'Separate workspaces and organized visibility let teams focus on their own pipeline while leadership still sees the bigger picture.'
+      },
+      {
+        eyebrow: 'TEAM ACCESS',
+        title: 'Keep people fast without losing control',
+        desc: 'Role-based access makes sure the right people can move quickly while the system keeps actions structured and secure.'
+      }
+    ]
+  },
+
+  momentumWall: {
+    visible: true,
+    label: 'WHY IT FEELS BETTER',
+    heading: 'Built to make hotel operations feel lighter, faster, and more premium',
+    body:
+      'This is not just a dashboard that stores data. It is a system designed to reduce friction, improve team confidence, and make every booking interaction feel more organized.',
+    cards: [
+      {
+        stat: '01',
+        title: 'Less back-and-forth between teams',
+        desc: 'One shared workflow means agencies, reservation staff, and management stop chasing updates across separate tools.'
+      },
+      {
+        stat: '02',
+        title: 'Faster answers for the guest',
+        desc: 'When room status, hotel details, and request history are visible, your team can quote and confirm with less delay.'
+      },
+      {
+        stat: '03',
+        title: 'A cleaner premium impression',
+        desc: 'Better structure behind the scenes creates a smoother experience in front of the customer and builds stronger trust.'
+      },
+      {
+        stat: '04',
+        title: 'More confidence at every step',
+        desc: 'From first inquiry to final confirmation, the system helps teams work with clarity instead of guessing what happens next.'
+      }
+    ],
+    note: 'Organized systems do more than save time. They make the whole hospitality experience feel more trustworthy.'
+  },
+
   // ─── Code Demo ────────────────────────────────────────────────────────────
   codeDemo: {
-    visible: true,
-    label: 'QUICK START',
-    heading: 'From zero to dashboard in under 30 seconds',
-    body: 'The CLI asks three questions: project name, template preset, and package manager. Auth middleware, theme, providers, forms, and i18n — all configured and wired before you open your editor.',
+    visible: false,
+    label: 'SYSTEM OVERVIEW',
+    heading: 'Run hotel operations from one clear control center',
+    body:
+      'Your team can monitor hotels, room inventory, booking requests, and agency activity from a single workflow built for fast decisions and cleaner coordination.',
+    panelTitle: 'operations-feed.hotel',
+    panelBadge: 'LIVE SYSTEM',
     bullets: [
-      'JWT auth context with token refresh built in',
-      'CASL middleware guards routes before they render',
-      'Arabic + English i18n with automatic RTL layout'
+      'Track hotel inventory, room availability, and booking status in one place',
+      'Give each agency and staff member the right role with controlled access',
+      'Move requests from inquiry to confirmation with a cleaner booking workflow'
     ],
     terminalLines: [
-      { tokens: [{ text: '# Install and scaffold', color: 'muted' }] },
+      { tokens: [{ text: '# Morning operations snapshot', color: 'muted' }] },
       {
         tokens: [
-          { text: '$ ', color: 'muted' },
-          { text: 'npx', color: 'primary' },
-          { text: ' create-shortcut-next ', color: 'text' },
-          { text: 'my-app', color: 'secondary' }
+          { text: 'agency', color: 'primary' },
+          { text: '.active', color: 'text' },
+          { text: ' = ', color: 'muted' },
+          { text: '12', color: 'secondary' }
+        ]
+      },
+      {
+        tokens: [
+          { text: 'hotels', color: 'primary' },
+          { text: '.listed', color: 'text' },
+          { text: ' = ', color: 'muted' },
+          { text: '48', color: 'secondary' }
+        ]
+      },
+      {
+        tokens: [
+          { text: 'bookings', color: 'primary' },
+          { text: '.today', color: 'text' },
+          { text: ' = ', color: 'muted' },
+          { text: '126', color: 'secondary' }
+        ]
+      },
+      {
+        tokens: [
+          { text: 'pending', color: 'primary' },
+          { text: '.confirmation', color: 'text' },
+          { text: ' = ', color: 'muted' },
+          { text: '14', color: 'secondary' }
         ]
       },
       { blank: true, tokens: [] },
-      { tokens: [{ text: '# Start developing', color: 'muted' }] },
+      { tokens: [{ text: '# Live property activity', color: 'muted' }] },
       {
         tokens: [
-          { text: '$ ', color: 'muted' },
-          { text: 'cd', color: 'primary' },
-          { text: ' ', color: 'text' },
-          { text: 'my-app', color: 'secondary' },
-          { text: ' && ', color: 'muted' },
-          { text: 'npm', color: 'primary' },
-          { text: ' run dev', color: 'text' }
+          { text: 'hotel', color: 'primary' },
+          { text: '.name', color: 'text' },
+          { text: ' = ', color: 'muted' },
+          { text: 'Grand Horizon / Amman', color: 'secondary' }
+        ]
+      },
+      {
+        tokens: [
+          { text: 'room', color: 'primary' },
+          { text: '.deluxe.available', color: 'text' },
+          { text: ' = ', color: 'muted' },
+          { text: '08', color: 'secondary' }
+        ]
+      },
+      {
+        tokens: [
+          { text: 'room', color: 'primary' },
+          { text: '.suite.available', color: 'text' },
+          { text: ' = ', color: 'muted' },
+          { text: '03', color: 'secondary' }
+        ]
+      },
+      {
+        tokens: [
+          { text: 'housekeeping', color: 'primary' },
+          { text: '.in_service', color: 'text' },
+          { text: ' = ', color: 'muted' },
+          { text: '02 rooms', color: 'secondary' }
         ]
       },
       { blank: true, tokens: [] },
+      { tokens: [{ text: '# Guest request pipeline', color: 'muted' }] },
       {
         tokens: [
-          { text: '# Your app is ready at ', color: 'muted' },
-          { text: 'localhost:3000', color: 'secondary' }
+          { text: 'request', color: 'primary' },
+          { text: '.guest', color: 'text' },
+          { text: ' = ', color: 'muted' },
+          { text: 'Family stay / 3 nights', color: 'secondary' }
+        ]
+      },
+      {
+        tokens: [
+          { text: 'quote', color: 'primary' },
+          { text: '.status', color: 'text' },
+          { text: ' = ', color: 'muted' },
+          { text: 'Sent to customer', color: 'secondary' }
+        ]
+      },
+      {
+        tokens: [
+          { text: 'payment', color: 'primary' },
+          { text: '.status', color: 'text' },
+          { text: ' = ', color: 'muted' },
+          { text: 'Awaiting confirmation', color: 'secondary' }
         ]
       }
     ]
@@ -505,23 +688,49 @@ export const landingContent: LandingContent = {
   // ─── How It Works ─────────────────────────────────────────────────────────
   howItWorks: {
     visible: true,
-    label: 'HOW IT WORKS',
-    heading: 'Interactive setup. Instant structure.',
+    label: 'HOW WE WORK',
+    heading: 'A polished hotel booking flow, built to feel premium from the first click',
+    body:
+      'Guide every guest from inquiry to confirmation with a workflow that feels organized, fast, and worthy of the properties you represent.',
     steps: [
       {
         number: 'STEP 01',
-        title: 'Run the CLI',
-        desc: 'Launch the interactive prompt. Answer three questions: project name, template preset, and package manager. The CLI handles the rest — git init, dependency install, project structure.'
+        tag: 'Guest Discovery',
+        title: 'Capture the stay request with clarity',
+        desc:
+          'Start with the guest brief, travel dates, room preferences, and budget so your team can respond with options that already feel tailored and premium.',
+        image:
+          'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80',
+        points: [
+          'Collect dates, destination, room type, and guest count in one clean step.',
+          'Keep requests organized so your team replies faster and with fewer follow-ups.'
+        ]
       },
       {
         number: 'STEP 02',
-        title: 'Choose your preset',
-        desc: 'Pick the base MUI stack or add Tailwind v4. Dependencies install automatically with a clean initial commit ready to push.'
+        tag: 'Hotel Matching',
+        title: 'Present hotel options that match the vibe',
+        desc:
+          'Show curated hotel choices with strong visuals, clear room details, and confident pricing so the customer quickly understands the value of each stay.',
+        image:
+          'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80',
+        points: [
+          'Highlight premium rooms, amenities, and property style in a polished format.',
+          'Make comparisons easy so guests can decide without friction or confusion.'
+        ]
       },
       {
         number: 'STEP 03',
-        title: 'Open your editor and ship',
-        desc: 'Your project has a working login page, a protected dashboard, JWT handling, CASL middleware, and MUI theming — ready for your first feature commit.'
+        tag: 'Booking Confirmation',
+        title: 'Close the booking with confidence',
+        desc:
+          'Move from selected property to confirmed reservation with a smooth confirmation step that keeps the experience professional and reassuring.',
+        image:
+          'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=1200&q=80',
+        points: [
+          'Confirm booking details, guest information, and payment status in one place.',
+          'Deliver a reliable final step that feels clean, secure, and ready to trust.'
+        ]
       }
     ]
   },
@@ -540,32 +749,32 @@ export const landingContent: LandingContent = {
   faq: {
     visible: true,
     label: 'FAQ',
-    heading: 'What developers ask first',
+    heading: 'What agencies and hotel teams ask first',
     items: [
       {
-        question: 'What exactly does the scaffolded project contain?',
+        question: 'Can I manage more than one agency from the same system?',
         answer:
-          'A working login and signup page under /app/login/, a protected dashboard with sidebar navigation under /app/(dashboard)/, CASL middleware that guards every route, MUI theme overrides, Auth and Settings contexts, an Axios client with token refresh interceptors, and i18n for English and Arabic. All wired together before you write a line of code.'
+          'Yes. The platform is designed for multi-agency operations, so each agency can work inside a structured environment while management still keeps clear oversight across hotels, bookings, and team activity.'
       },
       {
-        question: 'Do I need to install anything globally?',
+        question: 'Can the system track hotels, rooms, and availability in one place?',
         answer:
-          'No. npx runs the latest version without a global install. The CLI scaffolds the project, installs dependencies with your chosen package manager, and initializes a git repository automatically.'
+          'Yes. You can organize hotels, manage room types, monitor room status, and follow availability from one dashboard so booking teams always work with updated inventory.'
       },
       {
-        question: 'How does the CASL authorization system work?',
+        question: 'How does the booking workflow move from inquiry to confirmation?',
         answer:
-          'Roles map to abilities in a single file at lib/abilities/roles.ts. A route map at lib/abilities/routeMap.ts lists every protected path with the required action and subject. Next.js middleware decodes the JWT on every request and checks the user role against that map — no per-page auth guards needed.'
+          'The workflow is built to move clearly from guest request to hotel matching, quotation, follow-up, and final booking confirmation. This helps teams reduce confusion and respond faster with a more professional experience.'
       },
       {
-        question: 'Can I add Tailwind to the base preset later?',
+        question: 'Can different team members have different access levels?',
         answer:
-          'Tailwind v4 is a scaffolding-time choice because it needs PostCSS config and a globals.css import. To add it manually: install @tailwindcss/postcss, create postcss.config.mjs, and prepend @import "tailwindcss" to globals.css — the same three steps the CLI performs for the tailwind preset.'
+          'Yes. The system supports role-based access so admins, managers, agency staff, and other users can each work within the permissions that match their responsibility.'
       },
       {
-        question: 'Is the JWT handling production-safe?',
+        question: 'Does the platform support Arabic and English usage?',
         answer:
-          'Tokens are stored in localStorage and mirrored to cookies so server components can read them via SSR. The Axios client intercepts 401 responses, attempts a token refresh, retries the original request, and triggers logout only if the refresh also fails. The middleware uses jose to verify and decode the JWT without exposing secrets to the client.'
+          'Yes. The interface is built to support both Arabic and English, which makes it easier for teams to work in the language and layout direction that fits their daily operations.'
       }
     ]
   },
@@ -591,38 +800,38 @@ export const landingContent: LandingContent = {
   footer: {
     visible: true,
     brand: {
-      name: '.shortcut',
-      desc: 'A CLI tool that scaffolds production-ready Next.js 15 apps with MUI, auth, CASL RBAC, i18n, and a full data layer — wired in under 30 seconds.'
+      name: '.Hotel Agency',
+      desc: 'A premium platform for managing agencies, hotels, room inventory, and booking requests through one organized operational flow.'
     },
-    techBadges: ['Next.js 15', 'MUI v7', 'CASL', 'TanStack Query', 'TypeScript', 'i18next'],
+    techBadges: ['Multi-Agency', 'Hotel Inventory', 'Room Control', 'Bookings', 'Role Access', 'Arabic + English'],
     templateLinks: [
       { label: 'Features', href: '#features' },
-      { label: 'Tech Stack', href: '#tech-stack' },
+      { label: 'Hotel Showcase', href: '#hotel-showcase' },
       { label: 'How It Works', href: '#how-it-works' },
       { label: 'FAQ', href: '#faq' }
     ],
     resourceLinks: [
       {
-        label: 'Getting Started',
-        href: 'https://shortcut-documentation.vercel.app/docs/getting-started',
-        external: true
+        label: 'Login Dashboard',
+        href: '/login',
+        external: false
       },
       {
-        label: 'Authentication',
-        href: 'https://shortcut-documentation.vercel.app/docs/authentication',
-        external: true
+        label: 'Subscription Plans',
+        href: '/subscription-plans',
+        external: false
       },
-      { label: 'API Client', href: 'https://shortcut-documentation.vercel.app/docs/api-client', external: true },
-      { label: 'Authorization', href: 'https://shortcut-documentation.vercel.app/docs/authorization', external: true },
-      { label: 'MUI Overrides', href: 'https://shortcut-documentation.vercel.app/docs/mui-overrides', external: true },
-      { label: 'i18n', href: 'https://shortcut-documentation.vercel.app/docs/i18n', external: true }
+      { label: 'Agencies', href: '/agencies', external: false },
+      { label: 'Admin Dashboard', href: '/admin-dashboard', external: false },
+      { label: 'Support Tickets', href: '/support-tickets', external: false },
+      { label: 'Profile', href: '/profile', external: false }
     ],
     getStarted: {
-      heading: 'Run this in your terminal:',
-      command: 'npx create-shortcut-next',
-      note: 'No global install required.'
+      heading: 'Start managing hotels and bookings from one clean dashboard.',
+      command: 'Access Dashboard',
+      note: 'Sign in to monitor agencies, hotels, room availability, and booking activity in real time.'
     },
-    copyright: 'shortcut-next · MIT License',
-    builtWith: 'Built with Next.js · Deployed on Vercel'
+    copyright: 'Hotel Agency Platform',
+    builtWith: 'Built for hospitality operations'
   }
 }

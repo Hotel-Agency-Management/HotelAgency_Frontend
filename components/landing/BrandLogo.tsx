@@ -33,7 +33,7 @@ export default function BrandLogo({ size = 'md' }: Props) {
         component='span'
         sx={{ fontWeight: 800, fontSize: fontSizes[size], color: 'text.primary', lineHeight: 1 }}
       >
-        <Box component='span' sx={{ color: 'primary.main' }}>.</Box>shortcut
+        <Box component='span' sx={{ color: 'primary.main' }}>.</Box>HotelAgency
       </Typography>
     </Box>
   )
