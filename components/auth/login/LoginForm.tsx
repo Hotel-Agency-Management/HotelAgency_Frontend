@@ -14,6 +14,7 @@ import FadeIn from '@/components/animation/FadeIn'
 import EmailVerificationDialog from '@/components/auth/login/components/EmailVerificationDialog'
 import { createLoginSchema } from './schema/loginSchema'
 import { useLoginForm } from './hooks/useLoginForm'
+import ForgotPasswordDialog from '../components/forgotPassword/ForgotPasswordDialog'
 
 interface LoginFormData {
   email: string
@@ -37,6 +38,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
   const { t } = useTranslation()
   const { language } = useLanguage()
   const [showPassword, setShowPassword] = useState(false)
+  const [forgotPasswordOpen, setForgotPasswordOpen] = useState(false)
 
   const {
     isLoading,
@@ -56,6 +58,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
   const {
     control,
     handleSubmit,
+    watch,
     setValue,
     formState: { errors }
   } = useForm<LoginFormData>({
@@ -65,6 +68,8 @@ const LoginForm: React.FC<LoginFormProps> = ({
     },
     resolver: yupResolver(schema)
   })
+
+  const emailValue = watch('email')
 
   useEffect(() => {
     if (fillTrigger) {
@@ -195,6 +200,18 @@ const LoginForm: React.FC<LoginFormProps> = ({
                 </FadeIn>
 
                 <FadeIn>
+                  <Button
+                    type='button'
+                    variant='text'
+                    size='small'
+                    sx={{ alignSelf: 'flex-end', mt: -2 }}
+                    onClick={() => setForgotPasswordOpen(true)}
+                  >
+                    {t('login.forgotPassword', 'Forgot password?')}
+                  </Button>
+                </FadeIn>
+
+                <FadeIn>
                   <LoadingButton
                     loading={isLoading}
                     type='submit'
@@ -208,6 +225,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
 
                 <FadeIn>
                   <Button
+                    type='button'
                     variant='text'
                     size='small'
                     onClick={() => setShowEmailForm(false)}
@@ -235,6 +253,12 @@ const LoginForm: React.FC<LoginFormProps> = ({
         successMessage={verificationDialogSuccess}
         onClose={handleCloseVerificationDialog}
         onResend={handleResendVerificationEmail}
+      />
+
+      <ForgotPasswordDialog
+        open={forgotPasswordOpen}
+        initialEmail={typeof emailValue === 'string' ? emailValue : ''}
+        onClose={() => setForgotPasswordOpen(false)}
       />
     </>
   )
