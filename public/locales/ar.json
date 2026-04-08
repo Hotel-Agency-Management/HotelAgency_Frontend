@@ -78,6 +78,7 @@
     "email": "البريد الإلكتروني",
     "emailPlaceholder": "your@email.com",
     "password": "كلمة المرور",
+    "forgotPassword": "هل نسيت كلمة المرور؟",
     "signIn": "تسجيل الدخول",
     "backToSocial": "العودة إلى تسجيل الدخول الاجتماعي",
     "heroBefore": {
@@ -105,6 +106,36 @@
         "title": "التعاون الجماعي",
         "desc": "ادعُ فريقك واعملوا معاً بسلاسة"
       }
+    }
+  },
+  "forgotPassword": {
+    "steps": {
+      "email": "نسيت كلمة المرور",
+      "code": "التحقق من الرمز",
+      "password": "إعادة تعيين كلمة المرور"
+    },
+    "email": {
+      "label": "البريد الإلكتروني",
+      "placeholder": "your@email.com",
+      "sendCode": "إرسال الرمز",
+      "backToLogin": "العودة إلى تسجيل الدخول"
+    },
+    "code": {
+      "sent": "تم إرسال رمز التحقق إلى",
+      "verify": "تحقق من الرمز",
+      "backToEmail": "العودة إلى البريد الإلكتروني"
+    },
+    "resetPassword": {
+      "newPassword": "كلمة المرور الجديدة",
+      "confirmPassword": "تأكيد كلمة المرور الجديدة",
+      "submit": "إعادة تعيين كلمة المرور",
+      "backToEmail": "العودة إلى البريد الإلكتروني"
+    },
+    "validation": {
+      "minLength": "يجب أن تتكون كلمة المرور من 6 أحرف على الأقل",
+      "newRequired": "كلمة المرور الجديدة مطلوبة",
+      "mustMatch": "كلمتا المرور غير متطابقتين",
+      "confirmRequired": "يرجى تأكيد كلمة المرور الجديدة"
     }
   },
   "signup": {
