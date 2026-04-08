@@ -9,4 +9,5 @@ export interface AgencySignupFormProps {
   onSubmit: (data: AgencyFormData) => Promise<void>
   isLoading?: boolean
   defaultValues?: AgencyFormData
+  errorMessage?: string
 }

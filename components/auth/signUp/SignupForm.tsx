@@ -105,8 +105,10 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSwitchToLogin }) => {
               <SignupStepper activeStep={activeStep} labels={stepLabels} />
               <AgencyForm
                 defaultValues={agencyValues}
+                errorMessage={errorMessage}
                 onBack={() => setActiveStep(0)}
                 onSubmit={onAgencyInfoSubmit}
+                isLoading={isLoading}
               />
             </Stack>
           </FadeIn>
@@ -125,7 +127,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSwitchToLogin }) => {
                 defaultValues={defaultDocumentValues}
                 onBack={() => setActiveStep(1)}
                 onSubmit={onAgencyDocumentsSubmit}
-                submitLabel={t('signup.createAgency', 'Create Agency Account')}
+                submitLabel={t('signup.uploadFiles', 'Upload Files')}
                 isLoading={isLoading}
               />
             </Stack>

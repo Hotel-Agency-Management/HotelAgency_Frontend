@@ -36,13 +36,13 @@ export interface AuthContextType {
   isLoading: boolean
 
   // ** Actions
-  login: (credentials: LoginCredentials, onError?: ErrorCallback) => Promise<void>
   signup: (credentials: SignupPayload, onError?: ErrorCallback) => Promise<void>
   logout: () => Promise<void>
 
   // ** Utilities
   setUser: (user: User | null) => void
   setLoading: (loading: boolean) => void
+  setAuthData: (response: AuthResponse) => void
 }
 
 // ** Error callback type

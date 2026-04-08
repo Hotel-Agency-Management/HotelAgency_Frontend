@@ -91,9 +91,9 @@ apiClient.interceptors.response.use(
     }
 
     // ** Forbidden (invalid token) -> logout
-    if (error.response?.status === 403) {
-      await logoutUser()
-    }
+    // if (error.response?.status === 403) {
+    //   await logoutUser()
+    // }
 
     return Promise.reject(error)
   }

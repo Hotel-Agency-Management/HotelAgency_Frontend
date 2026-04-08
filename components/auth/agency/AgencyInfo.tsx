@@ -20,13 +20,14 @@ const AgencyForm: React.FC<AgencySignupFormProps> = ({
   onBack,
   onSubmit: onSubmitProp,
   isLoading = false,
-  defaultValues
+  defaultValues,
+  errorMessage: externalErrorMessage
 }) => {
   const { t } = useTranslation()
   const {
     control, errors, isSubmitting, isStepComplete,
     errorMessage, handleSubmit, onSubmit,
-  } = useAgencyForm({ onSubmit: onSubmitProp, defaultValues })
+  } = useAgencyForm({ onSubmit: onSubmitProp, defaultValues, errorMessage: externalErrorMessage })
 
   return (
     <MotionStack

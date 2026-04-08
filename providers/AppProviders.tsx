@@ -10,6 +10,7 @@ import { useSettings } from '@/core/hooks/useSettings'
 import Spinner from '@/components/loaders/Spinner'
 import { AuthProvider } from '@/core/context/AuthContext'
 import MSWProvider from '@/providers/MSWProvider'
+import AppToaster from '@/providers/AppToaster'
 import '@/core/icons/customIcons'
 
 function InnerProviders({ children, client }: { children: React.ReactNode; client: QueryClient }) {
@@ -20,6 +21,7 @@ function InnerProviders({ children, client }: { children: React.ReactNode; clien
       <QueryClientProvider client={client}>
         <I18nProvider>
           <HydrationGate fallback={<Spinner />}>{children}</HydrationGate>
+          <AppToaster />
         </I18nProvider>
       </QueryClientProvider>
     </ThemeComponent>
