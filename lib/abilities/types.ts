@@ -79,6 +79,10 @@ export const USER_ROLE_OPTIONS: { value: UserRole; label: string }[] = USER_ROLE
   label: USER_ROLE_LABELS[role]
 }))
 
+export function isUserRole(value: unknown): value is UserRole {
+  return typeof value === 'string' && USER_ROLES.includes(value as UserRole)
+}
+
 /**
  * Minimal user type for authorization checks
  */

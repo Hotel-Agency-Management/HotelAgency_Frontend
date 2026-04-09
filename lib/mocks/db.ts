@@ -6,19 +6,27 @@
  */
 
 import type { UserRole } from '@/lib/abilities'
+import type { HotelFormValues } from '@/app/(home)/agency/[agencyName]/hotels/types/hotel'
+import { ProfileAgencyData } from '@/app/(home)/profile/types/profile'
 
 export interface MockUser {
   id: string
   email: string
-  password: string // In real app, this would be hashed
+  password: string
   name: string
   role: UserRole
   agencyName?: string
   hotelId?: string
-  phone?: string
   agencyStatus? : 'incomplete' | 'pending' | 'approved' | 'rejected' // For agency owners
+  phoneNumber?: string
+  dateOfBirth?: string
+  gender?: string
+  bio?: string
+  location?: string
   companyName?: string
   type?: 'BUSINESS' | 'CUSTOMER'
+  agency?: ProfileAgencyData
+  hotel?: HotelFormValues
   createdAt: string
 }
 
@@ -33,24 +41,46 @@ const defaultUsers: MockUser[] = [
     name: 'Admin User',
     role: 'SUPER_ADMIN',
     agencyStatus: 'incomplete', // For testing incomplete agency flow
-    createdAt: new Date().toISOString()
+    bio: 'Platform administrator managing agencies, approvals, and overall system operations.',
+    location: 'San Francisco, CA',
+    createdAt: new Date().toISOString(),
   },
   {
     id: 'user_manager_001',
     email: 'manager@test.com',
     password: 'password123',
-    name: 'Manager User',
+    name: 'Maya Bennett',
     role: 'AGENCY_OWNER',
     agencyName: 'my-agency',
-    createdAt: new Date().toISOString()
+    phoneNumber: '+1 555 000 1200',
+    dateOfBirth: '1989-04-12',
+    gender: 'female',
+    bio: 'Leads agency operations, onboarding, and hotel performance across partner properties.',
+    location: 'San Francisco, CA',
+    companyName: 'Bright Horizons Agency',
+    type: 'BUSINESS',
+    agency: {
+      name: 'Bright Horizons Agency',
+      logo: null,
+      phone: '+1 555 000 1234',
+      country: 'USA',
+      city: 'San Francisco',
+    },
+    createdAt: new Date().toISOString(),
   },
   {
     id: 'user_agent_001',
     email: 'agent@test.com',
     password: 'password123',
-    name: 'Agent User',
+    name: 'Nina Patel',
     role: 'CUSTOMER',
-    createdAt: new Date().toISOString()
+    phoneNumber: '+1 555 000 1220',
+    dateOfBirth: '1995-09-21',
+    gender: 'female',
+    bio: 'Customer account used for testing guest-facing flows and booking experiences.',
+    location: 'New York, NY',
+    type: 'CUSTOMER',
+    createdAt: new Date().toISOString(),
   },
   {
     id: 'user_viewer_001',
@@ -94,8 +124,8 @@ export function findUserById(id: string): MockUser | undefined {
 export function createUser(userData: Omit<MockUser, 'id' | 'createdAt'>): MockUser {
   const newUser: MockUser = {
     ...userData,
-    id: `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-    createdAt: new Date().toISOString()
+    id: `user_${Date.now()}_${Math.random().toString(36).slice(2, 11)}`,
+    createdAt: new Date().toISOString(),
   }
 
   usersDb.push(newUser)

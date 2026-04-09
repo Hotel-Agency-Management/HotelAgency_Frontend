@@ -13,6 +13,7 @@ export {
   USER_ROLES,
   USER_ROLE_LABELS,
   USER_ROLE_OPTIONS,
+  isUserRole,
 } from './types'
 
 // Role definitions

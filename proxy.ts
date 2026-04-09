@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { decodeJwt } from 'jose'
 import { checkAuthorization, isPublicRoute } from '@/lib/abilities'
+import { USER_ROLES } from '@/lib/abilities'
 import type { UserRole } from '@/lib/abilities'
 import { authConfig } from './core/configs/clientConfig'
 
@@ -16,11 +17,6 @@ const ACCESS_TOKEN_COOKIE = 'accessToken'
  * These are static assets and API routes handled elsewhere
  */
 const SKIP_ROUTES = ['/_next', '/api', '/favicon.ico', '/locales', '/images']
-
-/**
- * Valid user roles for type checking
- */
-const VALID_ROLES: UserRole[] = ['admin', 'manager', 'agent', 'viewer']
 
 /**
  * JWT payload structure expected from the auth system
@@ -55,12 +51,11 @@ function getUserRoleFromToken(token: string): UserRole | null {
 
     // Validate and return role
     const role = payload.role as UserRole
-    if (VALID_ROLES.includes(role)) {
+    if (USER_ROLES.includes(role)) {
       return role
     }
 
-    // Default to viewer if no valid role found
-    return 'viewer'
+    return null
   } catch {
     // Invalid JWT format
     return null

@@ -1,4 +1,6 @@
 import type { UserRole } from '@/lib/abilities'
+import { HotelFormValues } from "@/app/(home)/agency/[agencyName]/hotels/types/hotel"
+import { ProfileAgencyData } from "@/app/(home)/profile/types/profile"
 
 // ** Auth Types - Simple and modifiable
 export interface User {
@@ -9,7 +11,16 @@ export interface User {
   agencyName?: string
   hotelId?: string
   agencyStatus?: 'incomplete' | 'pending' | 'approved' | 'rejected'
-  [key: string]: unknown // Allow additional custom fields
+  firstName?: string
+  lastName?: string
+  phoneNumber?: string
+  dateOfBirth?: string
+  gender?: string
+  updatedAt?: string
+  createdAt?: string
+  agency?: ProfileAgencyData
+  hotel?: HotelFormValues
+  [key: string]: unknown
 }
 
 export interface LoginCredentials {
