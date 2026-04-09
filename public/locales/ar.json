@@ -171,6 +171,26 @@
     }
   },
   "hotelRooms": {
+    "profile": {
+      "backAria": "رجوع",
+      "type": "النوع",
+      "floor": "الطابق",
+      "capacity": "السعة",
+      "bed": "السرير",
+      "pricePerNight": "السعر / ليلة",
+      "stars": "التقييم بالنجوم",
+      "edit": "تعديل",
+      "delete": "حذف",
+      "amenities": "المرافق",
+      "noAmenities": "لا توجد مرافق مدرجة.",
+      "description": "الوصف",
+      "notes": "ملاحظات",
+      "noDescription": "لا يوجد وصف.",
+      "noNotes": "لا توجد ملاحظات.",
+      "noPhotos": "لا توجد صور.",
+      "roomHeading": "غرفة {{number}} — {{type}}",
+      "loadError": "تعذر تحميل هذه الغرفة."
+    },
     "dialog": {
       "addTitle": "إضافة غرفة",
       "editTitle": "تعديل الغرفة — #{{number}}",
@@ -210,6 +230,45 @@
     "toast": {
       "success": "تم تحديث كلمة المرور بنجاح",
       "failed": "فشل في تحديث كلمة المرور"
+    }
+  },
+  "hotelRooms": {
+    "profile": {
+      "backAria": "رجوع",
+      "type": "النوع",
+      "floor": "الطابق",
+      "capacity": "السعة",
+      "bed": "السرير",
+      "pricePerNight": "السعر / ليلة",
+      "stars": "التقييم بالنجوم",
+      "edit": "تعديل",
+      "delete": "حذف",
+      "amenities": "المرافق",
+      "noAmenities": "لا توجد مرافق مدرجة.",
+      "description": "الوصف",
+      "notes": "ملاحظات",
+      "noDescription": "لا يوجد وصف.",
+      "noNotes": "لا توجد ملاحظات.",
+      "noPhotos": "لا توجد صور.",
+      "roomHeading": "غرفة {{number}} — {{type}}",
+      "loadError": "تعذر تحميل هذه الغرفة."
+    },
+    "grid": {
+      "noPhoto": "لا توجد صورة",
+      "noRooms": "لا توجد غرف مطابقة لعوامل التصفية.",
+      "editRoom": "تعديل الغرفة",
+      "deleteRoom": "حذف الغرفة"
+    },
+    "dialog": {
+      "addTitle": "إضافة غرفة",
+      "editTitle": "تعديل الغرفة — #{{number}}",
+      "stepDetails": "تفاصيل الغرفة",
+      "stepPhotos": "الصور",
+      "next": "التالي",
+      "back": "رجوع",
+      "finish": "إنهاء",
+      "cancel": "إلغاء",
+      "saveChanges": "حفظ التغييرات"
     }
   }
 }

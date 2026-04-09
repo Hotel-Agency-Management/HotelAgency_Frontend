@@ -15,24 +15,24 @@ const navigation = (agencyName?: string): SidebarNavItems => [
         action: 'read'
       },
       {
-      title: 'Agency Approval',
-      path: 'agency-approval',
-      icon: 'lucide:check-circle',
-      subject: 'AgencyApproval',
-      action: 'manage'
+        title: 'Agency Approval',
+        path: '/agency-approval',
+        icon: 'lucide:check-circle',
+        subject: 'AgencyApproval',
+        action: 'manage'
       },
       {
         title: 'Subscription Plans',
-        path: 'subscription-plans',
+        path: '/subscription-plans',
         icon: 'lucide:credit-card',
         subject: 'SubscriptionPlans',
         action: 'manage'
       },
       {
-        title: 'Supports Tickets',
-        path: 'support-tickets',
-        icon: 'lucide:help-circle',
-        subject: 'Tickets',
+        title: 'Support Tickets',
+        path: '/support-tickets',
+        icon: 'lucide:life-buoy',
+        subject: 'SupportTickets',
         action: 'manage'
       }
     ]
@@ -51,17 +51,10 @@ const navigation = (agencyName?: string): SidebarNavItems => [
         action: 'manage'
       },
       {
-        title: 'Hotels',
-        path: `/agency/${agencyName}/hotels`,
-        icon: 'lucide:hotel',
-        subject: 'Hotels',
-        action: 'manage'
-      },
-      {
-        title: 'User Management',
-        path: `/agency/${agencyName}/users`,
-        icon: 'lucide:users',
-        subject: 'Users',
+        title: 'Agencies',
+        path: '/agencies',
+        icon: 'lucide:building-2',
+        subject: 'Agencies',
         action: 'manage'
       }
     ]

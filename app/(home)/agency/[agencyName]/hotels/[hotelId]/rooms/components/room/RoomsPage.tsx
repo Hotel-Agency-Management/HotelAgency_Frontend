@@ -3,8 +3,8 @@ import Stack from "@mui/material/Stack";
 import { useParams } from "next/navigation";
 import { useRoom } from "../../hooks/useRoomStore";
 import { RoomFormDialog } from "./form/RoomFormDialog";
-import { RoomsDataGrid } from "./list/RoomsDataGrid";
 import { RoomsPageHeader } from "./RoomsPageHeader";
+import { RoomCardsView } from "./list/RoomCardsView";
 
 export default function RoomsPage() {
   const params = useParams();
@@ -34,7 +34,7 @@ export default function RoomsPage() {
     <Stack spacing={3}>
       <RoomsPageHeader onOpenAddDialog={openAddDialog} />
 
-      <RoomsDataGrid onAddRoom={openAddDialog} onEditRoom={handleEdit} />
+      <RoomCardsView onAddRoom={openAddDialog} onEditRoom={handleEdit} />
 
       <RoomFormDialog
         open={dialogOpen}

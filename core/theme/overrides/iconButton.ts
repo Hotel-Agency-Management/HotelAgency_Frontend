@@ -27,7 +27,22 @@ const IconButton = () => {
           '&.MuiIconButton-colorInfo:hover': {
             boxShadow: `0 0 0 4px ${hexToRGBA(theme.palette.info.main, 0.16)}`
           }
-        })
+        }),
+          variants: [
+            {
+              props: { variant: "amenity" },
+              style: {
+                width: 40,
+                height: 40,
+                borderRadius: 8,
+                backgroundColor: "var(--mui-palette-action-hover)",
+                color: "var(--mui-palette-primary-main)",
+                "&:hover": {
+                  backgroundColor: "var(--mui-palette-action-hover)",
+                },
+              },
+            },
+          ],
       }
     }
   }
