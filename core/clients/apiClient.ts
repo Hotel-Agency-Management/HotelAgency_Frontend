@@ -23,6 +23,17 @@ let failedQueue: {
   reject: (reason?: unknown) => void
 }[] = []
 
+const shouldAttemptTokenRefresh = (config?: CustomAxiosRequestConfig) => {
+  if (typeof window === 'undefined') return false
+
+  const requestUrl = config?.url ?? ''
+  const hasStoredToken = !!localStorage.getItem(authConfig.storageTokenKeyName)
+  const isLoginRequest = requestUrl.includes(authConfig.loginEndpoint)
+  const isRefreshRequest = requestUrl.includes(authConfig.refreshEndpoint)
+
+  return hasStoredToken && !isLoginRequest && !isRefreshRequest
+}
+
 const processQueue = (error: AxiosError | null, token: string | null = null) => {
   failedQueue.forEach(prom => {
     if (error) {
@@ -52,7 +63,11 @@ apiClient.interceptors.response.use(
     const originalRequest = error.config as CustomAxiosRequestConfig
 
     // ** Unauthorized -> try refresh
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      shouldAttemptTokenRefresh(originalRequest)
+    ) {
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject })
