@@ -2,29 +2,29 @@ import type { SidebarNavItems } from '@/core/layouts/types'
 
 const navigation = (agencyName?: string): SidebarNavItems => [
   {
-    sectionTitle: 'Adminstartion',
-    icon: 'lucide:shield',
-    subject: 'Administration',
+    sectionTitle: 'Administration',
+    icon: 'lucide:shield-check',
+    subject: 'SuperAdmin',
     action: 'manage',
     items: [
       {
         title: 'Admin Dashboard',
         path: '/admin-dashboard',
-        icon: 'lucide:home',
+        icon: 'lucide:layout-dashboard',
         subject: 'Dashboard',
-        action: 'manage'
+        action: 'read'
       },
       {
         title: 'Agency Approval',
         path: '/agency-approval',
-        icon: 'lucide:user-check',
+        icon: 'lucide:check-circle',
         subject: 'AgencyApproval',
         action: 'manage'
       },
       {
         title: 'Subscription Plans',
         path: '/subscription-plans',
-        icon: 'lucide:tag',
+        icon: 'lucide:credit-card',
         subject: 'SubscriptionPlans',
         action: 'manage'
       },
@@ -43,6 +43,13 @@ const navigation = (agencyName?: string): SidebarNavItems => [
     subject: 'Agency',
     action: 'manage',
     items: [
+      {
+        title: 'Agency Settings',
+        path: `/agency/${agencyName}/settings`,
+        icon: 'lucide:settings',
+        subject: 'AgencySettings',
+        action: 'manage'
+      },
       {
         title: 'Agencies',
         path: '/agencies',

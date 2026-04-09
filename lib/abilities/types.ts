@@ -11,6 +11,11 @@ export type Subjects =
   | 'Settings'
   | 'Reports'
   | 'Tickets'
+  | 'Agency'
+  | 'Hotels'
+  |'AgencySettings'
+  |'AgencyApproval'
+  |'SubscriptionPlans'
   | 'all'
 
 /**
@@ -31,16 +36,32 @@ export type AppAbility = MongoAbility<[Actions, Subjects]>
 /**
  * Supported user roles
  */
-export const USER_ROLES = ['admin', 'manager', 'agent', 'viewer', 'customer', 'agencyOwner'] as const
+export const USER_ROLES = [
+  'SUPER_ADMIN',
+  'AGENCY_OWNER',
+  'PROPERTY_MANAGER',
+  'FRONT_DESK_STAFF',
+  'HOUSEKEEPING_MANAGER',
+  'HOUSEKEEPING_EMPLOYEE',
+  'ACCOUNTANT',
+  'CUSTOMER_SUPPORT',
+  'AUDITOR',
+  'CUSTOMER',
+] as const
+
 export type UserRole = (typeof USER_ROLES)[number]
 
 export const USER_ROLE_LABELS: Record<UserRole, string> = {
-  admin: 'Admin',
-  manager: 'Manager',
-  agent: 'Agent',
-  viewer: 'Viewer',
-  customer: 'Customer',
-  agencyOwner: 'Agency Owner'
+  SUPER_ADMIN: 'Super Admin',
+  AGENCY_OWNER: 'Agency Owner',
+  PROPERTY_MANAGER: 'Property Manager',
+  FRONT_DESK_STAFF: 'Front Desk Staff',
+  HOUSEKEEPING_MANAGER: 'Housekeeping Manager',
+  HOUSEKEEPING_EMPLOYEE: 'Housekeeping Employee',
+  ACCOUNTANT: 'Accountant',
+  CUSTOMER_SUPPORT: 'Customer Support',
+  AUDITOR: 'Auditor',
+  CUSTOMER: 'Customer',
 }
 
 export const USER_ROLE_OPTIONS: { value: UserRole; label: string }[] = USER_ROLES.map(role => ({

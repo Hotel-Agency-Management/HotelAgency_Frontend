@@ -28,7 +28,7 @@ const defaultUsers: MockUser[] = [
     email: 'admin@test.com',
     password: 'password123',
     name: 'Admin User',
-    role: 'admin',
+    role: 'SUPER_ADMIN',
     createdAt: new Date().toISOString()
   },
   {
@@ -36,7 +36,7 @@ const defaultUsers: MockUser[] = [
     email: 'manager@test.com',
     password: 'password123',
     name: 'Manager User',
-    role: 'manager',
+    role: 'AGENCY_OWNER',
     createdAt: new Date().toISOString()
   },
   {
@@ -44,7 +44,7 @@ const defaultUsers: MockUser[] = [
     email: 'agent@test.com',
     password: 'password123',
     name: 'Agent User',
-    role: 'agent',
+    role: 'CUSTOMER',
     createdAt: new Date().toISOString()
   },
   {
@@ -52,7 +52,7 @@ const defaultUsers: MockUser[] = [
     email: 'viewer@test.com',
     password: 'password123',
     name: 'Viewer User',
-    role: 'viewer',
+    role: 'CUSTOMER',
     createdAt: new Date().toISOString()
   }
 ]
