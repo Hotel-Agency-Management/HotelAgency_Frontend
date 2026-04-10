@@ -6,8 +6,14 @@ import { useThemeForm } from "../../hooks/useThemeForm";
 import { ColorsCard } from "./ColorsCard";
 import { LogoCard } from "./LogoCard";
 import { ThemeFooter } from "./ThemeFooter";
+import type { BrandingSettings } from "@/core/theme/palette/branding";
 
-export function CustomThemeTab() {
+interface CustomThemeTabProps {
+  initialValues?: BrandingSettings;
+  onSave?: (values: BrandingSettings) => Promise<void> | void;
+}
+
+export function CustomThemeTab({ initialValues, onSave }: CustomThemeTabProps) {
   const {
     form,
     isDefault,
@@ -15,7 +21,7 @@ export function CustomThemeTab() {
     handleApply,
     handleDiscard,
     handleRestoreDefaults,
-  } = useThemeForm();
+  } = useThemeForm({ initialValues, onSave });
 
   return (
     <FormProvider {...form}>

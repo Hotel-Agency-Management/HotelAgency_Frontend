@@ -13,9 +13,19 @@ export type Subjects =
   | 'Tickets'
   | 'Agency'
   | 'Hotels'
-  |'AgencySettings'
-  |'AgencyApproval'
-  |'SubscriptionPlans'
+  | 'Agencies'
+  | 'AgencySettings'
+  | 'AgencyApproval'
+  | 'SubscriptionPlans'
+  | 'HotelSettings'
+  | 'HotelManagement'
+  | 'Rooms'
+  | 'Operations'
+  | 'Housekeeping'
+  | 'Maintenance'
+  | 'Insurance'
+  | 'Finance'
+  | 'Bookings'
   | 'all'
 
 /**
@@ -75,6 +85,8 @@ export const USER_ROLE_OPTIONS: { value: UserRole; label: string }[] = USER_ROLE
 export interface AuthUser {
   id: string
   role: UserRole
+  agencyName?: string
+  hotelId?: string
 }
 
 /**

@@ -11,18 +11,24 @@ import {
   type BrandingSettings,
 } from "@/core/theme/palette/branding";
 
-export function useThemeForm() {
+interface UseThemeFormOptions {
+  initialValues?: BrandingSettings;
+  onSave?: (values: BrandingSettings) => Promise<void> | void;
+}
+
+export function useThemeForm(options?: UseThemeFormOptions) {
   const { settings, saveSettings } = useSettings();
   const [isSaving, setIsSaving] = useState(false);
+  const initialValues = options?.initialValues ?? settings.branding;
 
   const form = useForm<BrandingSettings>({
-    defaultValues: settings.branding,
+    defaultValues: initialValues,
     mode: "onBlur",
   });
 
   useEffect(() => {
-    form.reset(settings.branding);
-  }, [form, settings.branding]);
+    form.reset(initialValues);
+  }, [form, initialValues]);
 
   const currentValues = form.watch();
   const previewColors = resolveBrandingColors(currentValues.colors);
@@ -37,7 +43,11 @@ export function useThemeForm() {
     setIsSaving(true);
     try {
       const clean = sanitizeBrandingSettings(values);
-      saveSettings({ ...settings, branding: clean });
+      if (options?.onSave) {
+        await options.onSave(clean);
+      } else {
+        saveSettings({ ...settings, branding: clean });
+      }
       form.reset(clean);
     } finally {
       setIsSaving(false);
@@ -45,11 +55,13 @@ export function useThemeForm() {
   });
 
   const handleDiscard = () => {
-    form.reset(settings.branding);
+    form.reset(initialValues);
   };
 
   const handleRestoreDefaults = () => {
-    saveSettings({ ...settings, branding: DEFAULT_BRANDING_SETTINGS });
+    if (!options?.onSave) {
+      saveSettings({ ...settings, branding: DEFAULT_BRANDING_SETTINGS });
+    }
     form.reset(DEFAULT_BRANDING_SETTINGS);
   };
 

@@ -8,18 +8,35 @@ import type { AppAbility, UserRole, Actions, Subjects } from './types'
  * @returns CASL Ability instance with permissions for that role
  */
 export function defineAbilitiesFor(role: UserRole): AppAbility {
-  const { can, build } = new AbilityBuilder<AppAbility>(createMongoAbility)
+  const { can, build, cannot } = new AbilityBuilder<AppAbility>(createMongoAbility)
 
   switch (role) {
     case 'SUPER_ADMIN':
       // Admin has full access to everything
       can('manage', 'all')
+      cannot('manage', 'AgencySettings')
+
       break
     case 'AGENCY_OWNER':
+      can('manage', 'Dashboard')
       can('manage', 'Users')
       can('manage', 'Agency')
       can('manage', 'Hotels')
       can('manage', 'AgencySettings')
+      break
+
+    case 'PROPERTY_MANAGER':
+      can('manage', 'Dashboard')
+      can('manage', 'Users')
+      can('manage', 'HotelManagement')
+      can('manage', 'HotelSettings')
+      can('manage', 'Rooms')
+      can('manage', 'Operations')
+      can('manage', 'Housekeeping')
+      can('manage', 'Maintenance')
+      can('manage', 'Insurance')
+      can('manage', 'Finance')
+      can('manage', 'Bookings')
       break
 
     default:

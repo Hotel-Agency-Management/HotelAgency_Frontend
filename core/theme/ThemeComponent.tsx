@@ -1,5 +1,5 @@
 // ** React Imports
-import { ReactNode } from 'react'
+import { ReactNode, useMemo } from 'react'
 
 // ** MUI Imports
 import CssBaseline from '@mui/material/CssBaseline'
@@ -18,6 +18,7 @@ import themeOptions from './ThemeOptions'
 // ** Global Styles
 import GlobalStyling from './globalStyles'
 import themeConfig from '../configs/themeConfig'
+import { useActiveBranding } from '../hooks/useActiveBranding'
 
 // ** Third Party Import
 import { useTranslation } from 'react-i18next'
@@ -31,13 +32,22 @@ const ThemeComponent = (props: Props) => {
   // ** Props
   const { settings, children } = props
   const { i18n } = useTranslation()
+  const activeBranding = useActiveBranding()
+
+  const themedSettings = useMemo(
+    () => ({
+      ...settings,
+      branding: activeBranding
+    }),
+    [activeBranding, settings]
+  )
 
   // ** Map custom mode to MUI PaletteMode
-  const paletteMode: 'light' | 'dark' = settings.mode === 'dark' ? 'dark' : 'light'
+  const paletteMode: 'light' | 'dark' = themedSettings.mode === 'dark' ? 'dark' : 'light'
   const lang = i18n.language
 
   // ** Pass merged ThemeOptions (of core and user) to createTheme function
-  let theme = createTheme(themeOptions(settings, paletteMode, lang))
+  let theme = createTheme(themeOptions(themedSettings, paletteMode, lang))
 
   // ** Set responsive font sizes to true
   if (themeConfig.responsiveFontSizes) {

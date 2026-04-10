@@ -44,7 +44,9 @@ export const authHandlers = [
       id: user.id,
       email: user.email,
       name: user.name,
-      role: user.role
+      role: user.role,
+      agencyName: user.agencyName,
+      hotelId: user.hotelId
     })
 
     const refreshToken = createMockRefreshToken(user.id)
@@ -111,7 +113,9 @@ export const authHandlers = [
       email: body.email,
       password: body.password,
       name: body.name,
-      role: body.role || 'viewer', // Allow role override for testing
+      role: body.role || 'CUSTOMER', // Allow role override for testing
+      agencyName: body.role === 'PROPERTY_MANAGER' ? 'my-agency' : undefined,
+      hotelId: body.role === 'PROPERTY_MANAGER' ? '1' : undefined,
       phone: body.phone || undefined,
       companyName: body.companyName || undefined,
       type: body.type
@@ -121,7 +125,9 @@ export const authHandlers = [
       id: newUser.id,
       email: newUser.email,
       name: newUser.name,
-      role: newUser.role
+      role: newUser.role,
+      agencyName: newUser.agencyName,
+      hotelId: newUser.hotelId
     })
 
     const refreshToken = createMockRefreshToken(newUser.id)
@@ -167,7 +173,9 @@ export const authHandlers = [
       id: user.id,
       email: user.email,
       name: user.name,
-      role: user.role
+      role: user.role,
+      agencyName: user.agencyName,
+      hotelId: user.hotelId
     })
 
     const refreshToken = createMockRefreshToken(user.id)

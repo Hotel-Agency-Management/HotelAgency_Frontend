@@ -1,7 +1,5 @@
-import SidebarLayout from '@/core/layouts/SidebarLayout'
-import navigation from '@/navigation/sidebarRoutes'
 import { fetchDynamicRoutes } from '@/navigation/dynamicRoutes'
-import themeConfig from '@/core/configs/themeConfig'
+import HomeSidebarShell from './HomeSidebarShell'
 
 export default async function HomeLayout({ children }: { children: React.ReactNode }) {
   let dynamicNavItems: Awaited<ReturnType<typeof fetchDynamicRoutes>> = []
@@ -10,11 +8,10 @@ export default async function HomeLayout({ children }: { children: React.ReactNo
   } catch (error) {
     console.error('Failed to fetch dynamic nav routes:', error)
   }
-  const agencyName = 'my-agency' // TODO: replace with real agency name
 
   return (
-    <SidebarLayout navItems={navigation(agencyName)} dynamicNavItems={dynamicNavItems} appName={themeConfig.templateName}>
+    <HomeSidebarShell dynamicNavItems={dynamicNavItems}>
       {children}
-    </SidebarLayout>
+    </HomeSidebarShell>
   )
 }
