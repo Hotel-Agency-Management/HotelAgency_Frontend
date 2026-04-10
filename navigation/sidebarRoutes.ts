@@ -60,16 +60,12 @@ const navigation = (agencyName?: string, hotelId?: string): SidebarNavItems => {
         {
           title: 'Agency Settings',
           path: `/agency/${agencyName}/settings`,
-          icon: 'lucide:settings',
-          // subject: 'AgencySettings',
-          // action: 'manage'
+          icon: 'lucide:settings'
         },
         {
           title: 'Agencies',
           path: '/agencies',
-          icon: 'lucide:building-2',
-          // subject: 'Agencies',
-          // action: 'manage'
+          icon: 'lucide:building-2'
         }
       ]
     },
@@ -118,19 +114,43 @@ const navigation = (agencyName?: string, hotelId?: string): SidebarNavItems => {
         }
       ]
     },
+
+    {
+      sectionTitle: 'Housekeeping',
+      icon: 'lucide:sparkles',
+      subject: 'Housekeeping',
+      action: 'manage',
+      items: [
+        {
+          title: 'Dashboard',
+          path: `/agency/${agencyName}/hotels/${hotelId}/housekeeping`,
+          icon: 'lucide:layout-dashboard',
+          subject: 'Housekeeping',
+          action: 'manage'
+        },
+        {
+          title: 'Task Management',
+          path: `/agency/${agencyName}/hotels/${hotelId}/housekeeping/tasks`,
+          icon: 'lucide:clipboard-check',
+          subject: 'HousekeepingTasks',
+          action: 'manage'
+        },
+        {
+          title: 'Staff Management',
+          path: `/agency/${agencyName}/hotels/${hotelId}/housekeeping/staff`,
+          icon: 'lucide:users',
+          subject: 'HousekeepingStaff',
+          action: 'manage'
+        }
+      ]
+    },
+
     {
       sectionTitle: 'Operations',
       icon: 'lucide:briefcase',
       subject: 'Operations',
       action: 'manage',
       items: [
-        {
-          title: 'Housekeeping',
-          path: `/agency/${agencyName}/hotels/${hotelId}/housekeeping`,
-          icon: 'lucide:sparkles',
-          subject: 'Housekeeping',
-          action: 'manage'
-        },
         {
           title: 'Maintenance',
           path: `/agency/${agencyName}/hotels/${hotelId}/maintenance`,
@@ -147,6 +167,7 @@ const navigation = (agencyName?: string, hotelId?: string): SidebarNavItems => {
         }
       ]
     },
+
     {
       sectionTitle: 'Finance',
       icon: 'lucide:wallet',
@@ -162,6 +183,7 @@ const navigation = (agencyName?: string, hotelId?: string): SidebarNavItems => {
         }
       ]
     },
+
     {
       sectionTitle: 'Bookings',
       icon: 'lucide:book-open-check',

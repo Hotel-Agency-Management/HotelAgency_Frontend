@@ -12,6 +12,7 @@ export interface ChartLegendProps {
   items: ChartLegendItem[]
   hiddenLabels: Set<string>
   onToggle: (label: string) => void
+  align?: 'start' | 'center'
 }
 
 /**
@@ -24,7 +25,7 @@ export interface ChartLegendProps {
  * - Visible  → colored dot, normal text
  * - Hidden   → outlined dot, dimmed + strikethrough text
  */
-export default function ChartLegend({ items, hiddenLabels, onToggle }: ChartLegendProps) {
+export default function ChartLegend({ items, hiddenLabels, onToggle, align = 'start' }: ChartLegendProps) {
   return (
     <Box
       sx={{
@@ -32,7 +33,8 @@ export default function ChartLegend({ items, hiddenLabels, onToggle }: ChartLege
         flexWrap: 'wrap',
         gap: 2,
         mb: 2,
-        px: 1
+        px: 1,
+        justifyContent: align === 'center' ? 'center' : 'flex-start'
       }}
     >
       {items.map(({ label, color }) => {
