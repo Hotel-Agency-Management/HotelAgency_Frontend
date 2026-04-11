@@ -69,13 +69,11 @@ export const usePasswordReset = (
   ) => {
     setIsLoading(true)
     try {
-      const payload: ResetPassRequest = {
+      await submitResetPassword({
         email,
         code,
         newPassword
-      }
-
-      await submitResetPassword(payload)
+      })
       reset()
       onSuccess?.()
     } catch (error) {
