@@ -53,8 +53,7 @@ export const usePasswordReset = (
   const verifyCode = async (email: string, code: string) => {
     setIsLoading(true)
     try {
-      const payload: VerifyCodeRequest = { email, code }
-      await validateResetCode(payload)
+      await validateResetCode({ email, code })
       goToStep('password')
     } catch (error) {
       toast.error(getErrorMessage(error, 'Failed to verify code. Please try again.'))
