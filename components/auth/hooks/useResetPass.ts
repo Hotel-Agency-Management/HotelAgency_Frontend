@@ -5,10 +5,6 @@ import {
   validateResetCode,
   submitResetPassword
 } from '../client/forgetPasswordClient'
-import {
-  ResetPassRequest,
-  VerifyCodeRequest
-} from '../config/passwordConfig'
 import { getErrorMessage } from '@/core/utils/apiError'
 import { ResetStep } from '../components/forgotPassword/types'
 
