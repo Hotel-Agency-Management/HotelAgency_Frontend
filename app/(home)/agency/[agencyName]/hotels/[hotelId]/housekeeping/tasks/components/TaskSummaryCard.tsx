@@ -12,12 +12,14 @@ interface TaskSummaryCardProps {
   title: string;
   value: number;
   subtitle: string;
+  color?: string;
+  icon?: string;
 }
 
-export function TaskSummaryCard({ title, value, subtitle }: TaskSummaryCardProps) {
+export function TaskSummaryCard({ title, value, subtitle, color, icon }: TaskSummaryCardProps) {
   const theme = useTheme();
 
-  const config = {
+  const defaultConfig = {
     "Total Tasks": {
       color: theme.palette.primary.main,
       icon: "lucide:list"
@@ -33,10 +35,30 @@ export function TaskSummaryCard({ title, value, subtitle }: TaskSummaryCardProps
     "Completed": {
       color: theme.palette.success.main,
       icon: "lucide:check-circle"
+    },
+    "Critical Issues": {
+      color: theme.palette.error.main,
+      icon: "lucide:alert-triangle"
+    },
+    "Delayed Rooms": {
+      color: theme.palette.warning.main,
+      icon: "lucide:clock"
+    },
+    "Re-clean Required": {
+      color: theme.palette.info.main,
+      icon: "lucide:rotate-ccw"
+    },
+    "Resolved Today": {
+      color: theme.palette.success.main,
+      icon: "lucide:check-circle"
     }
   }[title] ?? {
     color: theme.palette.primary.main,
     icon: "lucide:list"
+  };
+  const config = {
+    color: color ?? defaultConfig.color,
+    icon: icon ?? defaultConfig.icon
   };
 
   return (

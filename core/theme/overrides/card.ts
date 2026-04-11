@@ -143,7 +143,11 @@ const Card = () => {
     MuiCardContent: {
       styleOverrides: {
         root: ({ theme }: OwnerStateThemeType) => ({
-          padding: theme.spacing(5),
+          padding: theme.spacing(3),
+          display: 'flex',
+          flexDirection: 'column',
+          gap: theme.spacing(2),
+          height: '100%',
           '& + .MuiCardHeader-root, & + .MuiCardContent-root, & + .MuiCardActions-root': {
             paddingTop: 0
           },

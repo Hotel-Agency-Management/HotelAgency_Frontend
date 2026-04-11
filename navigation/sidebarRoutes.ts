@@ -136,6 +136,13 @@ const navigation = (agencyName?: string, hotelId?: string): SidebarNavItems => {
           action: 'manage'
         },
         {
+          title: 'Issues & Alerts',
+          path: `/agency/${agencyName}/hotels/${hotelId}/housekeeping/issues-alerts`,
+          icon: 'lucide:alert-triangle',
+          subject: 'Housekeeping',
+          action: 'manage'
+        },
+        {
           title: 'Staff Management',
           path: `/agency/${agencyName}/hotels/${hotelId}/housekeeping/staff`,
           icon: 'lucide:users',
