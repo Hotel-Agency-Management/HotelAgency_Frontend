@@ -1,3 +1,5 @@
+import { User } from "@/core/configs/authConfig"
+
 export type ActivityType = 'task' | 'review' | 'comment' | 'commit'
 
 export interface ProfileSocialLinks {
@@ -54,4 +56,10 @@ export interface ProfilePageData {
   overview: ProfileFields
   agency?: ProfileAgencyData
   hotel?: ProfileHotelData
+}
+
+export type ProfileUser = User & {
+  social?: Partial<ProfileSocialLinks>
+  location?: string
+  bio?: string
 }

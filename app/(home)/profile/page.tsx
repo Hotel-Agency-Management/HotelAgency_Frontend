@@ -1,60 +1,30 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Container, Tabs, Tab, Stack } from '@mui/material'
 import { FadeIn } from '@/components/animation'
 import { useAuth } from '@/core/context/AuthContext'
 import { useAbility } from '@/core/hooks/useAbility'
 import { HeroCard } from './components/HeroCard'
 import { TabPanel } from './components/TabPanel'
-import { OverviewTab } from './components/OverviewTab'
-import { AgencyTab } from './components/AgencyTab'
-import { HotelTab } from './components/HotelTab'
-import ChangePassword from './components/ChangePassword'
 import { buildProfilePageData } from './util/buildProfilePageData'
+import { TAB_LIST } from './constants/tabs'
+import Can from '@/components/ability/Can'
 
 export default function ProfilePage() {
   const [tab, setTab] = useState(0)
   const { user } = useAuth()
-  console.log('user from auth:', user)
   const ability = useAbility()
   const data = useMemo(() => buildProfilePageData(user), [user])
 
-  const tabs = useMemo(() => {
-    const profileTabs = [
-      {
-        label: 'Overview',
-        content: <OverviewTab data={data.overview} />,
-      },
-    ]
-
-    if (ability.can('read', 'Agency') && data.agency) {
-      profileTabs.push({
-        label: 'Agency Information',
-        content: <AgencyTab data={data.agency} />,
-      })
-    }
-
-    if (ability.can('read', 'Hotels') && data.hotel) {
-      profileTabs.push({
-        label: 'Hotel Information',
-        content: <HotelTab data={data.hotel} />,
-      })
-    }
-
-    profileTabs.push({
-      label: 'Change Password',
-      content: <ChangePassword />,
-    })
-
-    return profileTabs
-  }, [ability, data.agency, data.hotel, data.overview])
-
-  useEffect(() => {
-    if (tab >= tabs.length) {
-      setTab(0)
-    }
-  }, [tab, tabs.length])
+  const visibleTabs = useMemo(
+    () => TAB_LIST.filter((t) =>
+      t.passthrough
+        ? true
+        : ability.can(t.action!, t.subject!) && (t.dataKey ? !!data[t.dataKey] : true)
+    ),
+    [ability, data]
+  )
 
   return (
     <Container maxWidth='md' sx={{ py: 4 }}>
@@ -62,18 +32,26 @@ export default function ProfilePage() {
         <HeroCard data={data.hero} />
         <FadeIn direction='up' distance={12} transition={{ delay: 0.15, duration: 0.22 }}>
           <Tabs value={tab} onChange={(_, v) => setTab(v)} sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            {tabs.map((tabItem) => (
+            {visibleTabs.map((tabItem) => (
               <Tab key={tabItem.label} label={tabItem.label} />
             ))}
           </Tabs>
         </FadeIn>
       </Stack>
 
-      {tabs.map((tabItem, index) => (
-        <TabPanel key={tabItem.label} value={tab} index={index}>
-          {tabItem.content}
-        </TabPanel>
-      ))}
+      {visibleTabs.map((tabItem, index) =>
+        tabItem.passthrough ? (
+          <TabPanel key={tabItem.label} value={tab} index={index}>
+            <tabItem.component data={tabItem.dataKey ? data[tabItem.dataKey] : undefined} />
+          </TabPanel>
+        ) : (
+          <Can key={tabItem.label} do={tabItem.action!} this={tabItem.subject!}>
+            <TabPanel value={tab} index={index}>
+              <tabItem.component data={tabItem.dataKey ? data[tabItem.dataKey] : undefined} />
+            </TabPanel>
+          </Can>
+        )
+      )}
     </Container>
   )
 }

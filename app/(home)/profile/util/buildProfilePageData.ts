@@ -1,13 +1,7 @@
 import type { User } from '@/core/configs/authConfig'
 import { USER_ROLE_LABELS, isUserRole } from '@/lib/abilities'
 import { profileDummyData } from '@/lib/profileDummyData'
-import type { ProfilePageData, ProfileSocialLinks } from '../types/profile'
-
-type ProfileUser = User & {
-  social?: Partial<ProfileSocialLinks>
-  location?: string
-  bio?: string
-}
+import type { ProfilePageData, ProfileUser } from '../types/profile'
 
 export function buildProfilePageData(user: User | null): ProfilePageData {
   const u = user as ProfileUser | null
