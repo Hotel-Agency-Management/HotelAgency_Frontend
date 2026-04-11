@@ -10,8 +10,7 @@ import {
   VerifyCodeRequest
 } from '../config/passwordConfig'
 import { getErrorMessage } from '@/core/utils/apiError'
-
-export type ResetStep = 'email' | 'code' | 'password'
+import { ResetStep } from '../components/forgotPassword/types'
 
 interface UsePasswordResetReturn {
   resetStep: ResetStep

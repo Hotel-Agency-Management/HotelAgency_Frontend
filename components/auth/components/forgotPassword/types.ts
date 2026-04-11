@@ -13,3 +13,14 @@ export interface PasswordFormData {
 
 export const OTP_LENGTH = 6
 
+export type ResetStepFactoryProps = {
+  resetStep: ResetStep
+  email: string
+  isLoading: boolean
+  onChangeEmail: (email: string) => void
+  onSendCode: (email: string) => void
+  onClose: () => void
+  onVerifyOtp: (code: string) => void
+  onSubmitPassword: (data: any) => void
+  onGoToStep: (step: ResetStep) => void
+}
