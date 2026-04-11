@@ -4,10 +4,8 @@ import { Dialog, DialogTitle, DialogContent } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { ForgotPasswordDialogProps, PasswordFormData } from './types'
-import EmailStep from './steps/EmailStep'
-import OtpStep from './steps/OtpStep'
-import PasswordStep from './steps/PasswordStep'
 import { usePasswordReset } from '../../hooks/useResetPass'
+import { renderResetStep } from '../../factory/renderResetStep'
 
 const ForgotPasswordDialog: React.FC<ForgotPasswordDialogProps> = ({
   open,
@@ -17,12 +15,6 @@ const ForgotPasswordDialog: React.FC<ForgotPasswordDialogProps> = ({
   const { t } = useTranslation()
   const [email, setEmail] = useState('')
   const [otp, setOtp] = useState('')
-
-  const stepTitles: Record<string, string> = {
-    email: t('forgotPassword.steps.email'),
-    code: t('forgotPassword.steps.code'),
-    password: t('forgotPassword.steps.password')
-  }
 
   const {
     resetStep,
@@ -58,48 +50,33 @@ const ForgotPasswordDialog: React.FC<ForgotPasswordDialogProps> = ({
     await verifyCode(email, nextOtp)
   }
 
+  const stepTitles: Record<string, string> = {
+    email: t('forgotPassword.steps.email'),
+    code: t('forgotPassword.steps.code'),
+    password: t('forgotPassword.steps.password')
+  }
+
   return (
     <Dialog
       open={open}
       onClose={handleClose}
-      PaperProps={{
-        sx: {
-          width: 400,
-          maxWidth: '90%',
-        }
-      }}
+      maxWidth='xs'
+      fullWidth
     >
-      <DialogTitle>
-        {stepTitles[resetStep]}
-      </DialogTitle>
+      <DialogTitle>{stepTitles[resetStep]}</DialogTitle>
 
       <DialogContent>
-        {resetStep === 'email' && (
-          <EmailStep
-            email={email}
-            isLoading={isLoading}
-            onChange={setEmail}
-            onSend={() => sendCode(email)}
-            onClose={handleClose}
-          />
-        )}
-
-        {resetStep === 'code' && (
-          <OtpStep
-            email={email}
-            isLoading={isLoading}
-            onVerify={handleVerifyOtp}
-            onBack={() => goToStep('email')}
-          />
-        )}
-
-        {resetStep === 'password' && (
-          <PasswordStep
-            isLoading={isLoading}
-            onSubmit={handleSubmitPassword}
-            onBack={() => goToStep('email')}
-          />
-        )}
+        {renderResetStep({
+          resetStep,
+          email,
+          isLoading,
+          onChangeEmail: setEmail,
+          onSendCode: sendCode,
+          onClose: handleClose,
+          onVerifyOtp: handleVerifyOtp,
+          onSubmitPassword: handleSubmitPassword,
+          onGoToStep: goToStep
+        })}
       </DialogContent>
     </Dialog>
   )
