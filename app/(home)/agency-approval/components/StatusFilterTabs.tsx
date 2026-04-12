@@ -1,6 +1,7 @@
 import { Stack, Button, Box, useTheme } from '@mui/material'
 import { br } from '@/core/utils/themeUtils'
 import Badge from '@/components/landing/Badge'
+import { AGENCY_STATUS } from '@/components/auth/types/authType'
 
 interface TabItem<T> {
   label: string
@@ -45,7 +46,7 @@ export default function StatusFilterTabs<T extends string>({
             <Stack direction='row' alignItems='center' spacing={0.75}>
               <Box component='span'>{tab.label}</Box>
 
-              {tab.value === 'pending' && pendingCount > 0 && (
+              {tab.value === AGENCY_STATUS.PENDING && pendingCount > 0 && (
                 <Badge label={pendingCount.toString()} variant='yellow' />
               )}
             </Stack>

@@ -1,4 +1,5 @@
 import {
+  USER_ROLES,
   USER_ROLE_LABELS,
   USER_ROLE_OPTIONS,
   type UserRole,
@@ -17,7 +18,10 @@ export type AgencyTeamMemberInput = Omit<AgencyTeamMember, "id">;
 
 export const AGENCY_ROLE_OPTIONS = USER_ROLE_OPTIONS;
 
-const HOTEL_MANAGER_ROLES: UserRole[] = ["admin", "manager"];
+const HOTEL_MANAGER_ROLES: UserRole[] = [
+  USER_ROLES.AGENCY_OWNER,
+  USER_ROLES.PROPERTY_MANAGER,
+];
 
 export const canAssignAsHotelManager = (role: UserRole) =>
   HOTEL_MANAGER_ROLES.includes(role);

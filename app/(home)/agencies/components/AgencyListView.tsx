@@ -14,7 +14,7 @@ export default function AgencyListView({ agencies, onAgencyClick }: Props) {
     <FadeIn direction='up' distance={16}>
       <DataGrid
         rows={agencies}
-        columns={columns(onAgencyClick)}
+        columns={columns()}
         onRowClick={({ row }: GridRowParams<Agency>) => onAgencyClick(row.agency_name)}
         pageSizeOptions={[10, 25, 50]}
         initialState={{

@@ -3,7 +3,7 @@
 import { useEffect, useRef, useCallback, useState } from 'react'
 import { gsap } from '@/lib/gsap'
 import SectionLabel from '@/components/landing/SectionLabel'
-import MagneticButton from '@/components/landing/MagneticButton'
+import MagneticButton from '@/components/animation/MagneticButton'
 import { landingContent as lc } from '@/components/landing/landingContent'
 import { useTheme } from '@mui/material'
 import { alpha } from '@mui/material/styles'

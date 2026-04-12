@@ -8,6 +8,7 @@ import { CLOSED_CONFIRM, CLOSED_SNACKBAR } from '@/core/constant/pageStatus'
 import { PageStatus, SnackbarState } from '@/core/types/pageStatus'
 import { DEFAULT_FILTERS } from '../constants/filter'
 import { ConfirmDialogState, ActionType } from '../types/agency'
+import { AGENCY_STATUS } from '@/components/auth/types/authType'
 
 export function useAgencyApprovals() {
   const [requests, setRequests] = useState<AgencyRequest[]>(MOCK_REQUESTS)
@@ -20,7 +21,7 @@ export function useAgencyApprovals() {
   const [drawerOpen, setDrawerOpen] = useState(false)
 
   const filtered = useMemo(() => filterAndSort(requests, filters), [requests, filters])
-  const pendingCount = useMemo(() => requests.filter(r => r.status === 'pending').length, [requests])
+  const pendingCount = useMemo(() => requests.filter(r => r.status === AGENCY_STATUS.PENDING).length, [requests])
   const hasFilters = filters.search !== '' || filters.status !== 'all'
 
   const handleFilterChange = useCallback((partial: Partial<FilterState>) => {
@@ -46,7 +47,7 @@ export function useAgencyApprovals() {
 
     await new Promise(resolve => setTimeout(resolve, 1200))
 
-    const newStatus = action === 'approve' ? 'approved' : 'rejected'
+    const newStatus = action === 'approve' ? AGENCY_STATUS.APPROVED : AGENCY_STATUS.REJECTED
     setRequests(prev =>
       prev.map(r => r.id === request.id ? { ...r, status: newStatus } : r),
     )

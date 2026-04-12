@@ -7,6 +7,7 @@ import {
 } from '@mui/icons-material'
 import { AgencyRequest } from '../types/agency'
 import { StatCard } from './StatCard'
+import { AGENCY_STATUS } from '@/components/auth/types/authType'
 interface SummaryStatsProps {
   requests: AgencyRequest[]
 }
@@ -16,9 +17,9 @@ export default function SummaryStats({ requests }: SummaryStatsProps) {
 
   const stats = [
     { label: 'Total Requests', count: requests.length,                                       icon: <BusinessOutlined />,       color: theme.palette.primary.main },
-    { label: 'Pending Review', count: requests.filter(r => r.status === 'pending').length,   icon: <HourglassEmptyOutlined />, color: theme.palette.warning.main },
-    { label: 'Approved',       count: requests.filter(r => r.status === 'approved').length,  icon: <CheckCircleOutline />,     color: theme.palette.success.main },
-    { label: 'Rejected',       count: requests.filter(r => r.status === 'rejected').length,  icon: <CancelOutlined />,         color: theme.palette.error.main   },
+    { label: 'Pending Review', count: requests.filter(r => r.status === AGENCY_STATUS.PENDING).length,   icon: <HourglassEmptyOutlined />, color: theme.palette.warning.main },
+    { label: 'Approved',       count: requests.filter(r => r.status === AGENCY_STATUS.APPROVED).length,  icon: <CheckCircleOutline />,     color: theme.palette.success.main },
+    { label: 'Rejected',       count: requests.filter(r => r.status === AGENCY_STATUS.REJECTED).length,  icon: <CancelOutlined />,         color: theme.palette.error.main   },
   ]
 
   return (

@@ -55,6 +55,6 @@ export interface RefreshTokenRequest {
 }
 
 export interface RefreshTokenResponse {
-  accessToken: string
+  token: string
   refreshToken: string
 }

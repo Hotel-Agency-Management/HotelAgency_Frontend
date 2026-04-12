@@ -51,7 +51,7 @@ function getUserRoleFromToken(token: string): UserRole | null {
 
     // Validate and return role
     const role = payload.role as UserRole
-    if (USER_ROLES.includes(role)) {
+    if (Object.values(USER_ROLES).includes(role)) {
       return role
     }
 

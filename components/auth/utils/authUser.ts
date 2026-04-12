@@ -1,4 +1,5 @@
 import type { AuthResponse, User } from '@/core/configs/authConfig'
+import type { AgencyStatus } from '../types/authType'
 
 type AuthResponseLike = AuthResponse & {
   id?: string | number
@@ -6,6 +7,9 @@ type AuthResponseLike = AuthResponse & {
   name?: string
   firstName?: string
   lastName?: string
+  role?: string
+  agencyStatus?: AgencyStatus
+  agencyId?: string | number
 }
 
 const isUserRecord = (value: unknown): value is Record<string, unknown> =>
@@ -24,8 +28,13 @@ export const getAuthResponseUser = (response: AuthResponseLike): User | null => 
     return {
       id: String(response.id ?? response.email),
       email: response.email,
-      name: response.name ?? (fullName || undefined)
-    }
+      name: response.name ?? (fullName || undefined),
+      firstName: response.firstName,
+      lastName: response.lastName,
+      role: response.role,
+      agencyStatus: response.agencyStatus,
+      agencyId: response.agencyId ? Number(response.agencyId) : undefined
+    } as User
   }
 
   return null

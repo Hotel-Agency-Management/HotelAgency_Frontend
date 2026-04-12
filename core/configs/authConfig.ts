@@ -1,6 +1,7 @@
 import type { UserRole } from '@/lib/abilities'
 import { HotelFormValues } from "@/app/(home)/agency/[agencyName]/hotels/types/hotel"
 import { ProfileAgencyData } from "@/app/(home)/profile/types/profile"
+import { AgencyStatus } from '@/components/auth/types/authType'
 
 // ** Auth Types - Simple and modifiable
 export interface User {
@@ -10,7 +11,7 @@ export interface User {
   role?: UserRole
   agencyName?: string
   hotelId?: string
-  agencyStatus?: 'incomplete' | 'pending' | 'approved' | 'rejected'
+  agencyStatus?: AgencyStatus
   firstName?: string
   lastName?: string
   phoneNumber?: string
@@ -40,7 +41,7 @@ export type SignupPayload = SignupCredentials | FormData
 
 export interface AuthResponse {
   user: User
-  accessToken: string
+  token: string
   refreshToken?: string
   [key: string]: unknown // Allow additional response fields
 }

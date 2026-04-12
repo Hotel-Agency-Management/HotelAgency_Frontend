@@ -1,4 +1,5 @@
 import { Agency } from "../types/agency";
+import { AGENCY_STATUS } from "@/components/auth/types/authType";
 
 export const MOCK_AGENCIES: Agency[] = [
   {
@@ -15,7 +16,7 @@ export const MOCK_AGENCIES: Agency[] = [
     primary_color: '#1976d2',
     secondary_color: '#42a5f5',
     tertiary_color: '#90caf9',
-    status: 'approval',
+    status: AGENCY_STATUS.APPROVED,
     email_verified: true,
     reviewed_by: 1,
     created_at: '2024-01-01T00:00:00',
@@ -35,7 +36,7 @@ export const MOCK_AGENCIES: Agency[] = [
     primary_color: '#388e3c',
     secondary_color: '#66bb6a',
     tertiary_color: '#a5d6a7',
-    status: 'pending',
+    status: AGENCY_STATUS.PENDING,
     email_verified: false,
     reviewed_by: 0,
     created_at: '2024-02-01T00:00:00',
@@ -55,7 +56,7 @@ export const MOCK_AGENCIES: Agency[] = [
     primary_color: '#f57c00',
     secondary_color: '#ffa726',
     tertiary_color: '#ffcc80',
-    status: 'rejected',
+    status: AGENCY_STATUS.REJECTED,
     email_verified: true,
     reviewed_by: 1,
     created_at: '2024-03-01T00:00:00',

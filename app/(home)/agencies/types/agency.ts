@@ -1,4 +1,4 @@
-export type AgencyStatus = 'approval' | 'rejected' | 'pending'
+import { AgencyStatus } from "@/components/auth/types/authType"
 
 export type ViewMode = 'list' | 'grid'
 

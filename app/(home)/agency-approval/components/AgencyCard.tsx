@@ -20,6 +20,7 @@ import { InfoRow } from './InfoRow'
 import { AGENCY_INFO_FIELDS } from '../constants/agencyConfig'
 import AgencyCardActions from './AgencyCardActions'
 import { fromNow } from '@/core/utils/Dateutils'
+import { AGENCY_STATUS } from '@/components/auth/types/authType'
 
 interface AgencyCardProps {
   request: AgencyRequest
@@ -29,7 +30,7 @@ interface AgencyCardProps {
 
 export default function AgencyCard({ request, onAction, onViewDetails }: AgencyCardProps) {
   const theme = useTheme()
-  const isPending = request.status === 'pending'
+  const isPending = request.status === AGENCY_STATUS.PENDING
 
   const formattedDate = fromNow(request.submittedAt)
 

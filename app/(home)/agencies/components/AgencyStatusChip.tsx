@@ -1,7 +1,7 @@
 
 import { Chip } from '@mui/material'
-import { AgencyStatus } from '../types/agency';
 import { statusConfig } from '../constants/statusConfig';
+import { AgencyStatus } from '@/components/auth/types/authType';
 
 interface Props {
   status: AgencyStatus

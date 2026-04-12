@@ -27,6 +27,7 @@ import { AgencyRequest } from '.'
 import { ActionType } from '../types/agency'
 import { DetailItem } from './DetailItem'
 import { fromNow } from '@/core/utils/Dateutils'
+import { AGENCY_STATUS } from '@/components/auth/types/authType'
 
 interface DetailDrawerProps {
   request: AgencyRequest | null
@@ -40,7 +41,7 @@ export default function DetailDrawer({ request, open, onClose, onAction }: Detai
 
   if (!request) return null
 
-  const isPending = request.status === 'pending'
+  const isPending = request.status === AGENCY_STATUS.PENDING
   const formattedDate = fromNow(request.submittedAt)
 
   return (
