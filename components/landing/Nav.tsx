@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react'
 import { gsap, ScrollTrigger } from '@/lib/gsap'
 import BrandLogo from '@/components/landing/BrandLogo'
-import MagneticButton from '@/components/landing/MagneticButton'
+import { MagneticButton } from '@/components/animation'
 import { landingContent as lc } from '@/components/landing/landingContent'
 import { useTheme } from '@mui/material'
 import { alpha } from '@mui/material/styles'
@@ -21,29 +21,18 @@ export default function Nav() {
 
   useEffect(() => {
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReduced) return
 
-    const ctx = gsap.context(() => {
-      /* Border glow on scroll */
-      const handleScroll = () => {
-        if (!borderRef.current || !navRef.current) return
-        const scrollY = window.scrollY
+    const handleScroll = () => {
+      if (!borderRef.current || !navRef.current) return
+      const scrollY = window.scrollY
 
-        if (scrollY > 80) {
-          gsap.to(borderRef.current, {
-            borderColor: primaryBorderHover,
-            duration: 0.3,
-            overwrite: true
-          })
-        } else {
-          gsap.to(borderRef.current, {
-            borderColor: dividerColor,
-            duration: 0.3,
-            overwrite: true
-          })
-        }
+      gsap.to(borderRef.current, {
+        borderColor: scrollY > 80 ? primaryBorderHover : dividerColor,
+        duration: 0.3,
+        overwrite: true
+      })
 
-        /* Micro-bounce parallax — nav translates down 2px on scroll */
+      if (!prefersReduced) {
         const offset = Math.min(scrollY / 200, 1) * 2
         gsap.to(navRef.current, {
           y: offset,
@@ -52,60 +41,27 @@ export default function Nav() {
           ease: 'power1.out'
         })
       }
-
-      window.addEventListener('scroll', handleScroll, { passive: true })
-
-      /* Scroll progress bar */
-      ScrollTrigger.create({
-        trigger: document.documentElement,
-        start: 'top top',
-        end: 'bottom bottom',
-        onUpdate: self => {
-          if (progressRef.current) {
-            progressRef.current.style.width = `${self.progress * 100}%`
-          }
-        }
-      })
-
-      return () => {
-        window.removeEventListener('scroll', handleScroll)
-      }
-    }, navRef)
-
-    const handleScroll = () => {
-      if (!borderRef.current || !navRef.current) return
-      const scrollY = window.scrollY
-
-      if (scrollY > 80) {
-        gsap.to(borderRef.current, {
-          borderColor: primaryBorderHover,
-          duration: 0.3,
-          overwrite: true
-        })
-      } else {
-        gsap.to(borderRef.current, {
-          borderColor: dividerColor,
-          duration: 0.3,
-          overwrite: true
-        })
-      }
-
-      const offset = Math.min(scrollY / 200, 1) * 2
-      gsap.to(navRef.current, {
-        y: offset,
-        duration: 0.2,
-        overwrite: true,
-        ease: 'power1.out'
-      })
     }
 
+    handleScroll()
     window.addEventListener('scroll', handleScroll, { passive: true })
 
+    const progressTrigger = ScrollTrigger.create({
+      trigger: document.documentElement,
+      start: 'top top',
+      end: 'bottom bottom',
+      onUpdate: self => {
+        if (progressRef.current) {
+          progressRef.current.style.width = `${self.progress * 100}%`
+        }
+      }
+    })
+
     return () => {
-      ctx.revert()
       window.removeEventListener('scroll', handleScroll)
+      progressTrigger.kill()
     }
-  }, [primaryBorderHover, dividerColor])
+  }, [dividerColor, primaryBorderHover])
 
   return (
     <nav
@@ -139,10 +95,8 @@ export default function Nav() {
           transition: 'border-color 0.3s ease'
         }}
       >
-        {/* Logo */}
         <BrandLogo size='md' />
 
-        {/* CTA Button */}
         <MagneticButton
           as='a'
           href={lc.nav.cta.href}
@@ -152,11 +106,8 @@ export default function Nav() {
             fontWeight: 600,
             background: primaryMain,
             color: '#fff',
-            border: 'none',
             borderRadius: themeConfig.borderRadius,
             padding: '8px 20px',
-            cursor: 'pointer',
-            textDecoration: 'none',
             letterSpacing: '0.02em'
           }}
         >
@@ -164,7 +115,6 @@ export default function Nav() {
         </MagneticButton>
       </div>
 
-      {/* Scroll progress bar */}
       <div
         ref={progressRef}
         style={{
@@ -178,15 +128,6 @@ export default function Nav() {
           zIndex: 1001
         }}
       />
-
-      {/* Responsive styles */}
-      <style>{`
-        @media (max-width: 767px) {
-          .nav-links {
-            display: none !important;
-          }
-        }
-      `}</style>
     </nav>
   )
 }

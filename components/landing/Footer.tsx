@@ -30,6 +30,7 @@ export default function Footer() {
   const textSecondary = theme.palette.text.secondary
   const divider = theme.palette.divider
   const bgPaper = theme.palette.background.paper
+  const bgDefault = theme.palette.background.default
 
   const linkStyle: React.CSSProperties = {
     fontFamily: 'var(--font)',
@@ -58,7 +59,8 @@ export default function Footer() {
     <footer
       style={{
         borderTop: `1px solid ${divider}`,
-        padding: '64px 24px 32px'
+        padding: '72px 24px 32px',
+        background: `linear-gradient(180deg, ${alpha(primaryMain, 0.04)} 0%, ${bgDefault} 26%)`
       }}
     >
       <div
@@ -84,9 +86,9 @@ export default function Footer() {
               style={{
                 fontFamily: 'var(--font)',
                 fontWeight: 800,
-                fontSize: '1.1rem',
+                fontSize: '1.15rem',
                 color: textPrimary,
-                margin: '0 0 8px'
+                margin: '0 0 12px'
               }}
             >
               <span style={{ color: primaryMain }}>.</span>{lc.footer.brand.name.slice(1)}
@@ -95,11 +97,11 @@ export default function Footer() {
               style={{
                 fontFamily: 'var(--font)',
                 fontWeight: 400,
-                fontSize: '0.82rem',
+                fontSize: '0.86rem',
                 color: textSecondary,
                 lineHeight: 1.7,
-                margin: '0 0 20px',
-                maxWidth: '280px'
+                margin: '0 0 24px',
+                maxWidth: '320px'
               }}
             >
               {lc.footer.brand.desc}
@@ -138,9 +140,9 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Template links */}
+          {/* Navigation links */}
           <div>
-            <p style={colHeadingStyle}>Template</p>
+            <p style={colHeadingStyle}>Navigation</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               {lc.footer.templateLinks.map(link => (
                 <a
@@ -156,9 +158,9 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Resources / Docs */}
+          {/* Platform links */}
           <div>
-            <p style={colHeadingStyle}>Docs</p>
+            <p style={colHeadingStyle}>Platform</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               {lc.footer.resourceLinks.map(link => (
                 <a
@@ -170,60 +172,69 @@ export default function Footer() {
                   onMouseEnter={e => { e.currentTarget.style.color = primaryMain }}
                   onMouseLeave={e => { e.currentTarget.style.color = textSecondary }}
                 >
-                  <ExternalLinkIcon />
+                  {link.external && <ExternalLinkIcon />}
                   {link.label}
                 </a>
               ))}
             </div>
           </div>
 
-          {/* Get started */}
+          {/* Access card */}
           <div>
-            <p style={colHeadingStyle}>Get Started</p>
+            <p style={colHeadingStyle}>Access</p>
             <div
               style={{
-                background: bgPaper,
-                border: `1px solid ${divider}`,
+                background: `linear-gradient(180deg, ${alpha(primaryMain, 0.08)} 0%, ${bgPaper} 40%)`,
+                border: `1px solid ${alpha(primaryMain, 0.14)}`,
                 borderRadius: themeConfig.borderRadius,
-                padding: '16px'
+                padding: '18px',
+                textAlign: 'center'
               }}
             >
               <p
                 style={{
                   fontFamily: 'var(--font)',
-                  fontSize: '0.72rem',
-                  color: textSecondary,
+                  fontSize: '0.9rem',
+                  fontWeight: 600,
+                  color: textPrimary,
                   margin: '0 0 10px',
                   lineHeight: 1.5
                 }}
               >
                 {lc.footer.getStarted.heading}
               </p>
-              <code
-                style={{
-                  display: 'block',
-                  fontFamily: 'var(--font)',
-                  fontSize: '0.75rem',
-                  fontWeight: 500,
-                  color: primaryMain,
-                  letterSpacing: '0.02em',
-                  userSelect: 'all'
-                }}
-              >
-                <span style={{ color: textSecondary }}>$ </span>
-                {lc.footer.getStarted.command}
-              </code>
               <p
                 style={{
                   fontFamily: 'var(--font)',
-                  fontSize: '0.65rem',
+                  fontSize: '0.74rem',
                   color: textSecondary,
-                  margin: '10px 0 0',
+                  margin: '0 0 16px',
                   lineHeight: 1.5
                 }}
               >
                 {lc.footer.getStarted.note}
               </p>
+              <a
+                href={lc.nav.cta.href}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  minWidth: '150px',
+                  padding: '11px 18px',
+                  borderRadius: '999px',
+                  background: primaryMain,
+                  color: theme.palette.common.white,
+                  textDecoration: 'none',
+                  fontFamily: 'var(--font)',
+                  fontSize: '0.78rem',
+                  fontWeight: 600,
+                  letterSpacing: '0.04em',
+                  margin: '0 auto'
+                }}
+              >
+                {lc.footer.getStarted.command}
+              </a>
             </div>
           </div>
         </div>

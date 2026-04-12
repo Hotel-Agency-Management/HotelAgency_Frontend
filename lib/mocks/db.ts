@@ -16,6 +16,7 @@ export interface MockUser {
   agencyName?: string
   hotelId?: string
   phone?: string
+  agencyStatus? : 'incomplete' | 'pending' | 'approved' | 'rejected' // For agency owners
   companyName?: string
   type?: 'BUSINESS' | 'CUSTOMER'
   createdAt: string
@@ -31,6 +32,7 @@ const defaultUsers: MockUser[] = [
     password: 'password123',
     name: 'Admin User',
     role: 'SUPER_ADMIN',
+    agencyStatus: 'incomplete', // For testing incomplete agency flow
     createdAt: new Date().toISOString()
   },
   {

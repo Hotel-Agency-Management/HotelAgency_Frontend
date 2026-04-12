@@ -19,7 +19,7 @@ const defaultDocumentValues = {
 
 const MotionStack = motion.create(Stack)
 
-const SignupForm: React.FC<SignupFormProps> = ({ onSwitchToLogin }) => {
+const SignupForm: React.FC<SignupFormProps> = ({ onSwitchToLogin, initialStep = 0 }) => {
   const { t } = useTranslation()
   const {
     showPassword,
@@ -35,7 +35,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSwitchToLogin }) => {
     onAgencyInfoSubmit,
     onAgencyDocumentsSubmit,
     setActiveStep
-  } = useSignupForm()
+  } = useSignupForm({ initialStep }) 
 
   const { control, handleSubmit, formState: { errors, isSubmitting } } = form
 

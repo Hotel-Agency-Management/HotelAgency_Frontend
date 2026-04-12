@@ -5,9 +5,9 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import LoginForm from '@/components/auth/LoginForm'
-import LanguageDropdown from '@/components/common/LanguageDropdown'
 import useLanguage from '@/core/hooks/useLanguage'
 import SignupForm from '@/components/auth/signUp/SignupForm'
+import { usePostLoginRedirect } from '@/components/auth/signUp/hooks/usePostLoginRedirect'
 
 const MotionBox = motion.create(Box)
 
@@ -111,8 +111,16 @@ export default function LoginPage() {
   const [currentView, setCurrentView] = useState<'login' | 'signup'>('login')
   const [showEmailForm, setShowEmailForm] = useState(false)
   const [fillTrigger, setFillTrigger] = useState(0)
+  const [signupInitialStep, setSignupInitialStep] = useState(0)
   const { language } = useLanguage()
   const isRTL = language === 'ar'
+
+  usePostLoginRedirect({
+    onIncompleteSignup: () => {
+      setSignupInitialStep(2)
+      setCurrentView('signup')
+    }
+  })
 
   const handleFillCredentials = () => {
     setShowEmailForm(true)
@@ -126,6 +134,7 @@ export default function LoginPage() {
 
   const handleSwitchToLogin = () => {
     setShowEmailForm(false)
+    setSignupInitialStep(0)
     setCurrentView('login')
   }
 
@@ -193,21 +202,6 @@ export default function LoginPage() {
         }}
       >
         <Box sx={{ width: '100%', maxWidth: 480, py: 12 }}>
-          {/* <Box
-            sx={{
-              position: 'absolute',
-              top: theme => theme.spacing(4),
-              left: theme => theme.spacing(4),
-              right: theme => theme.spacing(4),
-              zIndex: 11,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'flex-end'
-            }}
-          >
-            <LanguageDropdown />
-          </Box> */}
-
           <AnimatePresence mode='wait'>
             {currentView === 'login' ? (
               <MotionBox
@@ -232,7 +226,10 @@ export default function LoginPage() {
                 exit={{ opacity: 0, x: 20 }}
                 transition={{ duration: 0.5 }}
               >
-                <SignupForm onSwitchToLogin={handleSwitchToLogin} />
+                <SignupForm
+                  onSwitchToLogin={handleSwitchToLogin}
+                  initialStep={signupInitialStep}
+                />
               </MotionBox>
             )}
           </AnimatePresence>

@@ -14,4 +14,5 @@ export interface SignupFormData {
 
 export interface SignupFormProps {
   onSwitchToLogin: () => void
+  initialStep?: number
 }
