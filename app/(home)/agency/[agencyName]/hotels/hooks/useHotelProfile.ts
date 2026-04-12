@@ -1,22 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useForm, type UseFormReturn } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import type { HotelFormValues } from "../types/hotel";
-
-interface UseHotelProfileOptions {
-  defaultValues: HotelFormValues;
-  onSave: (data: HotelFormValues) => Promise<void> | void;
-}
-
-interface UseHotelProfileReturn {
-  isEditing: boolean;
-  isSaving: boolean;
-  form: UseFormReturn<HotelFormValues>;
-  handleEdit: () => void;
-  handleSave: () => Promise<void>;
-  handleCancel: () => void;
-}
+import { UseHotelProfileOptions, UseHotelProfileReturn } from "../types/hotelProfile";
 
 export function useHotelProfile({
   defaultValues,

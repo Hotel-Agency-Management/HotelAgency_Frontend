@@ -1,5 +1,5 @@
 import { fetchDynamicRoutes } from '@/navigation/dynamicRoutes'
-import HomeSidebarShell from './HomeSidebarShell'
+import HomeSidebarShell from './agency/components/HomeSidebarShell'
 
 export default async function HomeLayout({ children }: { children: React.ReactNode }) {
   let dynamicNavItems: Awaited<ReturnType<typeof fetchDynamicRoutes>> = []

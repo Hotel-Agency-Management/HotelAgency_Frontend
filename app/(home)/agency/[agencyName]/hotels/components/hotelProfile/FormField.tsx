@@ -1,7 +1,7 @@
 import Skeleton from "@mui/material/Skeleton";
 import { InfoCard } from "./InfoCard";
 import { FieldHeader } from "./FieldHeader";
-import { FieldValue } from "./FieldValue";
+import Typography from "@mui/material/Typography";
 
 interface FormFieldProps {
   icon: React.ReactNode;
@@ -30,7 +30,9 @@ export function FormField({
       ) : isEditing ? (
         children
       ) : (
-        <FieldValue value={value} />
+        <Typography variant="h6" fontWeight={600}>
+          {value || "—"}
+        </Typography>
       )}
     </InfoCard>
   );

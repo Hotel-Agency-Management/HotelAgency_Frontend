@@ -14,7 +14,6 @@ export function InfoCard({
       variant="outlined"
       sx={{
         height: fullHeight ? "100%" : "auto",
-        borderRadius: 2.5,
         bgcolor: (theme) => alpha(theme.palette.background.default, 0.4),
       }}
     >

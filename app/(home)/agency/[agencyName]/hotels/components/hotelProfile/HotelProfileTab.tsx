@@ -16,6 +16,7 @@ import { Building2, CircleDollarSign, MapPin } from "lucide-react";
 import { useHotelProfile } from "../../hooks/useHotelProfile";
 import type { HotelFormValues } from "../../types/hotel";
 import { HotelInfoFields } from "./HotelInfoFields";
+import Box from "@mui/material/Box";
 
 interface HotelProfileTabProps {
   defaultValues: HotelFormValues;
@@ -118,16 +119,12 @@ export function HotelProfileTab({
               )}
 
               <Tooltip title={isEditing ? "Save changes" : "Edit hotel"}>
-                <span>
+                <Box component='span'>
                   <IconButton
                     size="small"
                     onClick={isEditing ? handleSave : handleEdit}
                     disabled={isSaving}
                     color={isEditing ? "primary" : "default"}
-                    sx={{
-                      transition: "transform 0.2s ease, color 0.2s ease",
-                      "&:hover": { transform: "scale(1.1)" },
-                    }}
                   >
                     {isSaving ? (
                       <CircularProgress size={18} color="inherit" />
@@ -137,7 +134,7 @@ export function HotelProfileTab({
                       <EditOutlinedIcon fontSize="small" />
                     )}
                   </IconButton>
-                </span>
+                </Box>
               </Tooltip>
             </Stack>
           </Stack>
