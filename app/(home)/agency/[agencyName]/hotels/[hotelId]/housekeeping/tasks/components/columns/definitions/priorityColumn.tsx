@@ -1,17 +1,11 @@
 import type { GridColDef } from "@mui/x-data-grid";
-import type { HousekeepingTask } from "../../../types/task";
-import { TaskPriorityChip } from "../../TaskPriorityChip";
-import type { HousekeepingColumnStrategy } from "../types";
+import { PriorityCell } from "../../PriorityCell";
+import type { HousekeepingTask, HousekeepingTaskPriority } from "../../../types/task";
 
 export const priorityColumn: GridColDef<HousekeepingTask> = {
   field: "priority",
   headerName: "Priority",
   minWidth: 120,
   flex: 0.6,
-  renderCell: ({ value }) => <TaskPriorityChip priority={value} />
-};
-
-export const priorityColumnStrategy: HousekeepingColumnStrategy = {
-  key: "priority",
-  build: () => priorityColumn
+  renderCell: ({ value }) => <PriorityCell value={value as HousekeepingTaskPriority} />
 };

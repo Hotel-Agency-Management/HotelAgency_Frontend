@@ -2,7 +2,6 @@ import type { GridColDef } from "@mui/x-data-grid";
 import { Typography } from "@mui/material";
 import { TASK_TYPE_LABELS } from "../../../constants/task";
 import type { HousekeepingTask, HousekeepingTaskType } from "../../../types/task";
-import type { HousekeepingColumnStrategy } from "../types";
 
 export const typeColumn: GridColDef<HousekeepingTask> = {
   field: "type",
@@ -14,9 +13,4 @@ export const typeColumn: GridColDef<HousekeepingTask> = {
       {TASK_TYPE_LABELS[value as HousekeepingTaskType]}
     </Typography>
   )
-};
-
-export const typeColumnStrategy: HousekeepingColumnStrategy = {
-  key: "type",
-  build: () => typeColumn
 };

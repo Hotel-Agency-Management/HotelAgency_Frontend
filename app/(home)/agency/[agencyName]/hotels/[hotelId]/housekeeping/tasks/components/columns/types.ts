@@ -1,5 +1,4 @@
 import type { Theme } from "@mui/material/styles";
-import type { GridColDef } from "@mui/x-data-grid";
 import type { HousekeepingTask } from "../../types/task";
 
 export type HousekeepingTaskColumnKey =
@@ -16,9 +15,4 @@ export interface ColumnStrategyContext {
   theme: Theme;
   onEdit: (task: HousekeepingTask) => void;
   onDelete: (task: HousekeepingTask) => void;
-}
-
-export interface HousekeepingColumnStrategy {
-  key: HousekeepingTaskColumnKey;
-  build: (context: ColumnStrategyContext) => GridColDef<HousekeepingTask>;
 }

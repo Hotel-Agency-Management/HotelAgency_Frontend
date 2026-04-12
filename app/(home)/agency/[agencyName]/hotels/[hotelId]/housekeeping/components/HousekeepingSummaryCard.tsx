@@ -48,18 +48,18 @@ export function HousekeepingSummaryCard({
             sx={{
               width: 10,
               height: 10,
-              borderRadius: "999px",
+              borderRadius: "50%",
               bgcolor: color,
               flexShrink: 0
             }}
           />
-          <Typography variant="body2" color="text.secondary" fontWeight={600}>
+          <Typography variant="body2" fontWeight={600}>
             {title}
           </Typography>
         </Stack>
 
         <Stack direction="row" alignItems="center" gap={1.5} flexWrap="wrap">
-          <Typography variant="h4" fontWeight={700} lineHeight={1}>
+          <Typography variant="h4" fontWeight={700}>
             {value}
           </Typography>
           <Stack direction="row" alignItems="center" gap={0.75}>
@@ -69,7 +69,7 @@ export function HousekeepingSummaryCard({
               sx={{
                 width: 24,
                 height: 24,
-                borderRadius: "999px",
+                borderRadius: "50%",
                 bgcolor: trendColor,
                 color: theme.palette.common.white
               }}
@@ -82,7 +82,7 @@ export function HousekeepingSummaryCard({
           </Stack>
         </Stack>
 
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2">
           {subtitle}
         </Typography>
       </CardContent>

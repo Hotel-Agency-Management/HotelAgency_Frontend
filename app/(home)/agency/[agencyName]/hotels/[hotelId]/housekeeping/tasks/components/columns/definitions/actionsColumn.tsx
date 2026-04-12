@@ -3,7 +3,6 @@ import { Stack, Tooltip, IconButton } from "@mui/material";
 import { alpha, type Theme } from "@mui/material/styles";
 import { Pencil, Trash2 } from "lucide-react";
 import type { HousekeepingTask } from "../../../types/task";
-import type { HousekeepingColumnStrategy } from "../types";
 
 type ActionParams = {
   primaryColor: string;
@@ -52,9 +51,3 @@ export function createActionsColumn({
     )
   };
 }
-
-export const actionsColumnStrategy: HousekeepingColumnStrategy = {
-  key: "actions",
-  build: ({ primaryColor, theme, onEdit, onDelete }) =>
-    createActionsColumn({ primaryColor, theme, onEdit, onDelete })
-};

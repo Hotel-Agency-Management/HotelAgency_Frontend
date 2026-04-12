@@ -3,7 +3,6 @@ import { Stack, Typography, Avatar } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 import { getInitials } from "../../../../utils/task";
 import type { HousekeepingTask } from "../../../types/task";
-import type { HousekeepingColumnStrategy } from "../types";
 
 type AssignedColumnParams = { primaryColor: string };
 
@@ -23,8 +22,3 @@ export function createAssignedColumn({ primaryColor }: AssignedColumnParams): Gr
     )
   };
 }
-
-export const assignedColumnStrategy: HousekeepingColumnStrategy = {
-  key: "assigned",
-  build: ({ primaryColor }) => createAssignedColumn({ primaryColor })
-};

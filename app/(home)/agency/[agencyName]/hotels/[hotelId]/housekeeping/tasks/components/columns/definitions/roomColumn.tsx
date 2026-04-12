@@ -1,7 +1,6 @@
 import type { GridColDef } from "@mui/x-data-grid";
 import { Stack, Typography } from "@mui/material";
 import type { HousekeepingTask } from "../../../types/task";
-import type { HousekeepingColumnStrategy } from "../types";
 
 export const roomColumn: GridColDef<HousekeepingTask> = {
   field: "roomNumber",
@@ -14,9 +13,4 @@ export const roomColumn: GridColDef<HousekeepingTask> = {
       <Typography variant="caption" color="text.secondary">Floor {row.floor}</Typography>
     </Stack>
   )
-};
-
-export const roomColumnStrategy: HousekeepingColumnStrategy = {
-  key: "room",
-  build: () => roomColumn
 };

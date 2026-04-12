@@ -1,19 +1,10 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { alpha, darken, lighten, useTheme } from "@mui/material/styles";
+import { useTheme } from "@mui/material/styles";
 import { useHotelStore } from "../../../hooks/useHotelStore";
 import { getHousekeepingDashboardSeed } from "../data/housekeepingDashboard";
-
-function buildHousekeepingPalette(primary: string, secondary: string, tertiary: string, isDarkMode: boolean) {
-  return [
-    primary,
-    secondary,
-    tertiary,
-    isDarkMode ? lighten(primary, 0.18) : darken(primary, 0.12),
-    isDarkMode ? alpha(secondary, 0.88) : darken(secondary, 0.08)
-  ];
-}
+import { buildHousekeepingPalette } from "../utils/housekeepingPalette";
 
 export function useHousekeepingDashboard() {
   const params = useParams<{ hotelId?: string }>();
