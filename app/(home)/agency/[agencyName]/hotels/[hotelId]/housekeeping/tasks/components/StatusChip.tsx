@@ -1,14 +1,12 @@
-"use client";
-
+import { alpha, useTheme } from "@mui/material";
 import Chip from "@mui/material/Chip";
-import { alpha } from "@mui/material/styles";
+import type { Palette } from "@mui/material/styles";
 
-interface StatusChipProps {
-  label: string;
-  color: string;
-}
+type PaletteColorKey = keyof Pick<Palette, "primary" | "secondary" | "error" | "warning" | "info" | "success">;
 
-export function StatusChip({ label, color }: StatusChipProps) {
+export function StatusChip({ label, colorKey }: { label: string; colorKey: PaletteColorKey }) {
+  const theme = useTheme();
+  const color = theme.palette[colorKey].main;
 
   return (
     <Chip
