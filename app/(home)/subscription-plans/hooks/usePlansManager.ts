@@ -1,4 +1,5 @@
 import { getErrorMessage } from '@/core/utils/apiError'
+import { PAGE_STATUS } from '@/core/types/pageStatus'
 import { useMemo, useState, useCallback } from 'react'
 import {
   useCreateSubscriptionPlan,
@@ -6,7 +7,7 @@ import {
   useUpdateSubscriptionPlan,
 } from './mutations/usePlanMutations'
 import { useGetSubscriptionPlans } from './queries/usePlanQueries'
-import { PageStatus, SubscriptionPlan, SnackbarState, PlanFormValues } from '../types/plans'
+import type { PageStatus, SubscriptionPlan, SnackbarState, PlanFormValues } from '../types/plans'
 
 export function usePlansManager() {
   const plansQuery = useGetSubscriptionPlans({ includeInactive: true })
@@ -16,10 +17,10 @@ export function usePlansManager() {
 
   const plans = useMemo(() => plansQuery.data ?? [], [plansQuery.data])
   const pageStatus: PageStatus = plansQuery.isLoading
-    ? 'loading'
+    ? PAGE_STATUS.LOADING
     : plansQuery.isError
-      ? 'error'
-      : 'idle'
+      ? PAGE_STATUS.ERROR
+      : PAGE_STATUS.IDLE
 
   const [editPlan, setEditPlan] = useState<SubscriptionPlan | null>(null)
   const [editOpen, setEditOpen] = useState(false)

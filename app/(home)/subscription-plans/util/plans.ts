@@ -1,4 +1,4 @@
-import { PlanFeature, PlanFormValues } from "../types/plans"
+import type { PlanFeature, PlanFormValues } from "../types/plans"
 
 let temporaryId = 0
 
