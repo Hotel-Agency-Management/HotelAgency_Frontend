@@ -94,6 +94,8 @@ declare module '@mui/material/Chip' {
     'status-maintenance': true
     'status-reserved': true
     'status-blocked': true
+    'live-alert': true
+    'dot': true
   }
 }
 export {}

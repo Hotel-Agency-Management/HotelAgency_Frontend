@@ -22,6 +22,8 @@ export interface DoughnutChartProps extends BaseChartProps {
   outerRadius?: number
   cornerRadius?: number
   paddingAngle?: number
+  legendPosition?: 'top' | 'bottom'
+  legendAlign?: 'start' | 'center'
 }
 
 /**
@@ -43,6 +45,8 @@ export default function DoughnutChart({
   height = 300,
   colors,
   showLegend = true,
+  legendPosition = 'top',
+  legendAlign = 'start',
   percentage = false,
   percentageData
 }: DoughnutChartProps) {
@@ -83,7 +87,9 @@ export default function DoughnutChart({
 
   return (
     <Box sx={{ width: '100%' }}>
-      {showLegend && <ChartLegend items={legendItems} hiddenLabels={hiddenLabels} onToggle={toggle} />}
+      {showLegend && legendPosition === 'top' && (
+        <ChartLegend items={legendItems} hiddenLabels={hiddenLabels} onToggle={toggle} align={legendAlign} />
+      )}
       <MuiPieChart
         series={[
           {
@@ -100,6 +106,9 @@ export default function DoughnutChart({
         hideLegend
         margin={{ top: 16, right: 16, bottom: 16, left: 16 }}
       />
+      {showLegend && legendPosition === 'bottom' && (
+        <ChartLegend items={legendItems} hiddenLabels={hiddenLabels} onToggle={toggle} align={legendAlign} />
+      )}
     </Box>
   )
 }

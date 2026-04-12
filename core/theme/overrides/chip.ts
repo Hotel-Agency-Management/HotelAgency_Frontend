@@ -99,6 +99,30 @@ const Chip = () => {
             borderColor: alpha(theme.palette.text.disabled, 0.45),
           }),
         },
+        {
+        props: { variant: 'live-alert' },
+        style: ({ theme }: OwnerStateThemeType) => ({
+          borderRadius: 8,
+          fontWeight: 700,
+          color: theme.palette.error.main,
+          backgroundColor: alpha(theme.palette.error.main, 0.1),
+
+          '& .MuiChip-icon': {
+            color: theme.palette.error.main
+          }
+        }),
+      },
+      {
+        props: { variant: 'dot' },
+        style: () => ({
+          width: 8,
+          height: 8,
+          minWidth: 8,
+          borderRadius: '50%',
+          padding: 0,
+          backgroundColor: 'currentColor',
+        }),
+      }
       ],
     },
   }
