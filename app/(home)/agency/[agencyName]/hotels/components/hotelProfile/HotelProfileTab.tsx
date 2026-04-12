@@ -104,7 +104,7 @@ export function HotelProfileTab({
               {isEditing && (
                 <Fade in={isEditing}>
                   <Tooltip title="Cancel">
-                    <span>
+                    <Box component='span'>
                       <IconButton
                         size="small"
                         onClick={handleCancel}
@@ -113,7 +113,7 @@ export function HotelProfileTab({
                       >
                         <CloseOutlinedIcon fontSize="small" />
                       </IconButton>
-                    </span>
+                    </Box>
                   </Tooltip>
                 </Fade>
               )}
