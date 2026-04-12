@@ -3,8 +3,6 @@ export function useChangePassword() {
     current_password: string
     new_password: string
   }) => {
-    console.log('Mock change password:', data)
-
     await new Promise((res) => setTimeout(res, 1000))
 
     return { success: true }

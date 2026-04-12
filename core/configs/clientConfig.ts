@@ -3,7 +3,10 @@ const authConfig = {
   // ** API Configuration
   baseURL: '/api',
   loginEndpoint: '/auth/login',
-  signupEndpoint: '/auth/signup',
+  signupEndpoint: '/auth/register',
+  verifyEmailEndpoint: '/auth/verify-email',
+  resendVerificationEmailEndpoint: '/auth/resend-verification-email',
+  logoutEndpoint: '/auth/logout',
   refreshEndpoint: '/auth/refresh',
 
   // ** Storage Keys
@@ -13,6 +16,7 @@ const authConfig = {
 
   // ** Routes
   loginPageURL: '/login',
+  verifyEmailPageURL: '/verify-email',
   homePageURL: '/home',
 
   // ** Request Configuration

@@ -10,9 +10,10 @@ import { AgencyFormData, AgencySignupFormProps } from '../types/agency'
 export function useAgencyForm({
   onSubmit: onSubmitProp,
   defaultValues,
-}: Pick<AgencySignupFormProps, 'onSubmit' | 'defaultValues'>) {
+  errorMessage
+}: Pick<AgencySignupFormProps, 'onSubmit' | 'defaultValues' | 'errorMessage'>) {
   const { t } = useTranslation()
-  const [errorMessage, setErrorMessage] = useState('')
+  const [submitErrorMessage, setSubmitErrorMessage] = useState('')
   const agencySchema = getAgencySchema(t)
 
   const {
@@ -39,11 +40,11 @@ export function useAgencyForm({
     isValid
 
   const onSubmit = async (data: AgencyFormData) => {
-    setErrorMessage('')
+    setSubmitErrorMessage('')
     try {
       await onSubmitProp(data)
     } catch (err) {
-      setErrorMessage(
+      setSubmitErrorMessage(
         typeof err === 'string' ? err : t('agency.submitError', 'Something went wrong')
       )
     }
@@ -54,7 +55,7 @@ export function useAgencyForm({
     errors,
     isSubmitting,
     isStepComplete,
-    errorMessage,
+    errorMessage: errorMessage || submitErrorMessage,
     handleSubmit,
     onSubmit,
   }

@@ -78,6 +78,7 @@
     "email": "Email",
     "emailPlaceholder": "your@email.com",
     "password": "Password",
+    "forgotPassword": "Forgot password?",
     "signIn": "Sign In",
     "backToSocial": "Back to social login",
     "heroBefore": {
@@ -105,6 +106,36 @@
         "title": "Team Collaboration",
         "desc": "Invite your team and work together seamlessly"
       }
+    }
+  },
+  "forgotPassword": {
+    "steps": {
+      "email": "Forgot Password",
+      "code": "Verify Code",
+      "password": "Reset Password"
+    },
+    "email": {
+      "label": "Email",
+      "placeholder": "your@email.com",
+      "sendCode": "Send Code",
+      "backToLogin": "Back to login"
+    },
+    "code": {
+      "sent": "We sent a verification code to",
+      "verify": "Verify Code",
+      "backToEmail": "Back to email"
+    },
+    "resetPassword": {
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm New Password",
+      "submit": "Reset Password",
+      "backToEmail": "Back to email"
+    },
+    "validation": {
+      "minLength": "Password must be at least 6 characters",
+      "newRequired": "New password is required",
+      "mustMatch": "Passwords must match",
+      "confirmRequired": "Please confirm your new password"
     }
   },
   "signup": {

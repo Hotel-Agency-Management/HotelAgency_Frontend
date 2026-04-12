@@ -4,10 +4,10 @@ import { Box, Button, Snackbar, Stack, Typography } from '@mui/material'
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
-import LoginForm from '@/components/auth/LoginForm'
 import useLanguage from '@/core/hooks/useLanguage'
-import SignupForm from '@/components/auth/signUp/SignupForm'
-import { usePostLoginRedirect } from '@/components/auth/signUp/hooks/usePostLoginRedirect'
+import LoginForm from '@/components/auth/login/LoginForm'
+import SignupForm from '@/components/auth/sign-up'
+import { usePostLoginRedirect } from '@/components/auth/sign-up/hooks/usePostLoginRedirect'
 
 const MotionBox = motion.create(Box)
 

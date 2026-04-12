@@ -1,8 +1,12 @@
 'use client'
+
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react'
 import { useRouter } from 'next/navigation'
-import axios from 'axios'
+import apiClient from '@/core/clients/apiClient'
 import { authConfig } from '@/core/configs/clientConfig'
+import { loginRequest } from '@/components/auth/client/authClient'
+import { getAuthResponseUser } from '@/components/auth/utils/authUser'
+import { getErrorMessage } from '@/core/utils/apiError'
 import type {
   User,
   LoginCredentials,
@@ -20,7 +24,8 @@ const defaultProvider: AuthContextType = {
   signup: () => Promise.resolve(false),
   logout: () => Promise.resolve(),
   setUser: () => null,
-  setLoading: () => null
+  setLoading: () => null,
+  setAuthData: () => null
 }
 
 const AuthContext = createContext<AuthContextType>(defaultProvider)
@@ -56,66 +61,75 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     initAuth()
   }, [])
 
-const login = async (credentials: LoginCredentials, onError?: ErrorCallback): Promise<void> => {
-  try {
-    setIsLoading(true)
-    const response = await axios.post<AuthResponse>(`${authConfig.baseURL}${authConfig.loginEndpoint}`, credentials, {
-      timeout: authConfig.requestTimeout
-    })
-    const { user: userData, accessToken, refreshToken } = response.data
+  const setAuthData = (response: AuthResponse): void => {
+    const { accessToken, refreshToken } = response
+    const userData = getAuthResponseUser(response)
 
     localStorage.setItem(authConfig.storageTokenKeyName, accessToken)
-    localStorage.setItem(authConfig.storageUserDataKeyName, JSON.stringify(userData))
+    if (userData) {
+      localStorage.setItem(authConfig.storageUserDataKeyName, JSON.stringify(userData))
+    } else {
+      localStorage.removeItem(authConfig.storageUserDataKeyName)
+    }
+
     if (refreshToken) {
       localStorage.setItem(authConfig.storageRefreshTokenKeyName, refreshToken)
+    } else {
+      localStorage.removeItem(authConfig.storageRefreshTokenKeyName)
     }
 
-    const isIncompleteAgencyOwner = userData.role === 'agencyOwner' && userData.agencyStatus === 'incomplete'
+    document.cookie = `${authConfig.cookieName}=${accessToken}; path=/; max-age=${authConfig.cookieMaxAge}; SameSite=${authConfig.cookieSameSite}${
+      authConfig.cookieSecure ? '; Secure' : ''
+    }`
 
-    if (!isIncompleteAgencyOwner) {
-      document.cookie = `${authConfig.cookieName}=${accessToken}; path=/; max-age=${authConfig.cookieMaxAge}; SameSite=${authConfig.cookieSameSite}${authConfig.cookieSecure ? '; Secure' : ''}`
-      router.push(authConfig.homePageURL)
-    }
-
-    setUser({ ...userData, freshLogin: true })
-  } catch (error) {
-    console.error('Login failed:', error)
-    const message =
-      axios.isAxiosError(error) && error.response?.data?.message
-        ? error.response.data.message
-        : 'Login failed. Please try again.'
-    onError?.(message)
-  } finally {
-    setIsLoading(false)
+    setUser(userData ? { ...userData, freshLogin: true } : null)
   }
-}
 
-  const signup = async (credentials: SignupPayload, onError?: ErrorCallback): Promise<boolean> => {
+  const login = async (credentials: LoginCredentials, onError?: ErrorCallback): Promise<void> => {
     try {
       setIsLoading(true)
-      const response = await axios.post<AuthResponse>(
-        `${authConfig.baseURL}${authConfig.signupEndpoint}`,
+      const response = await loginRequest(credentials)
+      const userData = getAuthResponseUser(response)
+
+      setAuthData(response)
+
+      const isIncompleteAgencyOwner =
+        userData?.role === 'AGENCY_OWNER' && userData.agencyStatus === 'incomplete'
+
+      if (!isIncompleteAgencyOwner) {
+        router.push(authConfig.homePageURL)
+      }
+    } catch (error) {
+      console.error('Login failed:', error)
+      onError?.(getErrorMessage(error, 'Login failed. Please try again.'))
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const signup = async (
+    credentials: SignupPayload,
+    onError?: ErrorCallback,
+    redirect = true
+  ): Promise<boolean> => {
+    try {
+      setIsLoading(true)
+      const response = await apiClient.post<AuthResponse>(
+        authConfig.signupEndpoint,
         credentials,
         { timeout: authConfig.requestTimeout }
       )
-      const { user: userData, accessToken, refreshToken } = response.data
 
-      localStorage.setItem(authConfig.storageTokenKeyName, accessToken)
-      localStorage.setItem(authConfig.storageUserDataKeyName, JSON.stringify(userData))
-      if (refreshToken) {
-        localStorage.setItem(authConfig.storageRefreshTokenKeyName, refreshToken)
+      setAuthData(response.data)
+
+      if (redirect) {
+        router.push(authConfig.homePageURL)
       }
 
-      document.cookie = `${authConfig.cookieName}=${accessToken}; path=/; max-age=${authConfig.cookieMaxAge}; SameSite=${authConfig.cookieSameSite}${authConfig.cookieSecure ? '; Secure' : ''}`
-
-      setUser(userData)
       return true
     } catch (error) {
       console.error('Signup failed:', error)
-      const message =
-        axios.isAxiosError(error) && error.response?.data?.message
-          ? error.response.data.message
-          : 'Signup failed. Please try again.'
+      const message = error instanceof Error ? error.message : 'Signup failed. Please try again.'
       onError?.(message)
       return false
     } finally {
@@ -140,7 +154,8 @@ const login = async (credentials: LoginCredentials, onError?: ErrorCallback): Pr
     signup,
     logout,
     setUser,
-    setLoading: setIsLoading
+    setLoading: setIsLoading,
+    setAuthData
   }
 
   return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
