@@ -7,11 +7,11 @@ import {
 import { Calendar, MapPin } from 'lucide-react'
 import { Icon } from '@iconify/react'
 import { FadeIn, StaggerGroup, StaggerItem, TextReveal } from '@/components/animation'
-import { profileDummyData } from '@/lib/profileDummyData'
 import Avatar from '@/components/ui/Avatar'
+import type { ProfileHeroData } from '../types/profile'
 
 interface HeroCardProps {
-  data: typeof profileDummyData
+  data: ProfileHeroData
 }
 
 export function HeroCard({ data }: HeroCardProps) {
@@ -65,7 +65,7 @@ export function HeroCard({ data }: HeroCardProps) {
           </FadeIn>
 
           <TextReveal
-            text='Passionate about building great user experiences that are both beautiful and functional.\nI focus on simplicity, usability, and accessibility in everything I create.'
+            text={data.bio}
             as='p'
             splitBy='word'
             staggerDelay={0.02}

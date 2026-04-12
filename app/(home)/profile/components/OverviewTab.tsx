@@ -14,7 +14,6 @@ import {
   CloseOutlined,
 } from '@mui/icons-material'
 import { SpotlightCard } from '@/components/animation'
-import { profileDummyData } from '@/lib/profileDummyData'
 import { useTheme } from '@mui/material'
 import { ProfileFields } from '../types/profile'
 import { fieldsMeta, GENDER_OPTIONS } from '../constants/profileFields'
@@ -22,7 +21,7 @@ import { ProfileFieldEditor } from './ProfileFieldEditor'
 import { ProfileFieldDisplay } from './ProfileFieldDisplay'
 
 interface OverviewTabProps {
-  data: typeof profileDummyData
+  data: ProfileFields
 }
 
 export function OverviewTab({ data }: OverviewTabProps) {
@@ -33,9 +32,9 @@ export function OverviewTab({ data }: OverviewTabProps) {
   const [fields, setFields] = useState<ProfileFields>({
     name: data.name ?? '',
     email: data.email ?? '',
-    phone: (data as any).phone ?? '',
-    birthDate: (data as any).birthDate ?? '',
-    gender: (data as any).gender ?? '',
+    phone: data.phone ?? '',
+    birthDate: data.birthDate ?? '',
+    gender: data.gender ?? '',
   })
 
   const [draft, setDraft] = useState<ProfileFields>(fields)

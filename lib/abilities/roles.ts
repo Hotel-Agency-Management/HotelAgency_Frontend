@@ -20,9 +20,17 @@ export function defineAbilitiesFor(role: UserRole): AppAbility {
     case 'AGENCY_OWNER':
       can('manage', 'Dashboard')
       can('manage', 'Users')
+      can('read', 'Agency')
       can('manage', 'Agency')
-      can('manage', 'Hotels')
       can('manage', 'AgencySettings')
+      break
+    case 'PROPERTY_MANAGER':
+    case 'FRONT_DESK_STAFF':
+    case 'HOUSEKEEPING_MANAGER':
+    case 'HOUSEKEEPING_EMPLOYEE':
+    case 'ACCOUNTANT':
+      can('read', 'Agency')
+      can('read', 'Hotels')
       break
 
     case 'PROPERTY_MANAGER':
