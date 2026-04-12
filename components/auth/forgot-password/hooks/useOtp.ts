@@ -1,26 +1,12 @@
 import { useRef, useState } from 'react'
 import { OTP_LENGTH } from '../types'
 
-/**
- * Custom hook for handling OTP (One-Time Password) input fields.
- *
- * This hook manages:
- * - The OTP value as a single string
- * - Input refs for each OTP field (to control focus programmatically)
- * - Handling user input (only digits allowed)
- * - Auto-focus to the next input when typing
- * - Moving focus backward on backspace
- * - Handling paste (distributes pasted digits across inputs)
- * - Resetting OTP state and refs
- *
- * Commonly used in verification screens (e.g., email/SMS code confirmation).
- */
-
 export const useOtp = () => {
   const [otp, setOtp] = useState('')
   const otpRefs = useRef<Array<HTMLInputElement | null>>([])
 
   const handleChange = (value: string, index: number) => {
+    // Allow only a single digit (0-9) or an empty string (for deletion)
     if (!/^\d?$/.test(value)) return
 
     const otpArray = Array.from({ length: OTP_LENGTH }, (_, i) => otp[i] || '')
@@ -43,6 +29,7 @@ export const useOtp = () => {
     event.preventDefault()
     const pasted = event.clipboardData
       .getData('text')
+      // Strip any non-digit characters from the pasted text
       .replace(/\D/g, '')
       .slice(0, OTP_LENGTH)
 
