@@ -73,20 +73,6 @@ export const useSignupForm = ({ initialStep = 0 } = {}) => {
 
     const { firstName, lastName } = accountValues
 
-    // Log the payload for debugging
-    console.log('Agency Signup Payload:', {
-    name: `${firstName} ${lastName}`,
-    email: accountValues.email,
-    password: accountValues.password,
-    phone: accountValues.phone,
-    role: 'agencyOwner',
-    type: 'BUSINESS',
-    agencyName: data.agencyName,
-    agencyPhone: data.phone,
-    agencyCity: data.city,
-  })
-
-
     const success = await signup(
       {
         name: `${firstName} ${lastName}`,
