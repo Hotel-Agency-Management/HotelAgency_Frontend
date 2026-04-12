@@ -1,11 +1,9 @@
 import type { SubscriptionPlan } from "@/app/(home)/subscription-plans/types/plans"
-
 export const BILLING_CYCLE_LABELS: Record<string, string> = {
   monthly: 'per month',
   yearly: 'per year',
   custom: 'custom',
 }
-
 export const MOCK_PLANS: SubscriptionPlan[] = [
   {
     id: 1,
