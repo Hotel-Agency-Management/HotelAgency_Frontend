@@ -227,22 +227,50 @@ export default function CodeDemo() {
               background: bgPaper,
               border: `1px solid ${divider}`,
               borderRadius: themeConfig.borderRadius,
-              overflow: 'hidden'
+              overflow: 'hidden',
+              boxShadow: `0 24px 70px ${alpha(theme.palette.common.black, 0.12)}`
             }}
           >
-            {/* Terminal top bar */}
+            {/* Panel top bar */}
             <div
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '8px',
+                justifyContent: 'space-between',
                 padding: '14px 20px',
                 borderBottom: `1px solid ${divider}`
               }}
             >
-              <span style={{ width: '12px', height: '12px', borderRadius: '50%', background: errorMain }} />
-              <span style={{ width: '12px', height: '12px', borderRadius: '50%', background: warningMain }} />
-              <span style={{ width: '12px', height: '12px', borderRadius: '50%', background: successMain }} />
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{ width: '12px', height: '12px', borderRadius: '50%', background: errorMain }} />
+                <span style={{ width: '12px', height: '12px', borderRadius: '50%', background: warningMain }} />
+                <span style={{ width: '12px', height: '12px', borderRadius: '50%', background: successMain }} />
+                <span
+                  style={{
+                    marginInlineStart: '10px',
+                    fontFamily: 'var(--font)',
+                    fontSize: '0.76rem',
+                    color: textSecondary,
+                    letterSpacing: '0.08em'
+                  }}
+                >
+                  {lc.codeDemo.panelTitle}
+                </span>
+              </div>
+              <span
+                style={{
+                  padding: '7px 12px',
+                  borderRadius: '999px',
+                  border: `1px solid ${alpha(primaryMain, 0.18)}`,
+                  background: alpha(primaryMain, 0.08),
+                  color: primaryMain,
+                  fontFamily: 'var(--font)',
+                  fontSize: '0.72rem',
+                  letterSpacing: '0.12em'
+                }}
+              >
+                {lc.codeDemo.panelBadge}
+              </span>
             </div>
 
             {/* Code content */}
@@ -256,7 +284,8 @@ export default function CodeDemo() {
                 fontSize: '0.85rem',
                 lineHeight: 1.8,
                 color: textPrimary,
-                overflowX: 'auto'
+                overflowX: 'auto',
+                background: `linear-gradient(180deg, ${alpha(primaryMain, 0.04)} 0%, ${bgPaper} 22%)`
               }}
             >
               {lc.codeDemo.terminalLines.map((line, i) => (

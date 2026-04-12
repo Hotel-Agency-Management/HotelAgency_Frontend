@@ -4,6 +4,7 @@ import { useEffect, useRef, useCallback } from 'react'
 import { gsap } from '@/lib/gsap'
 import SectionLabel from '@/components/landing/SectionLabel'
 import { landingContent as lc } from '@/components/landing/landingContent'
+import FadeIn from '@/components/animation/FadeIn'
 import { useTheme } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 import themeConfig from '@/core/configs/themeConfig'
@@ -29,42 +30,15 @@ export default function Features() {
     if (prefersReduced) return
 
     const ctx = gsap.context(() => {
-      const cards = gridRef.current?.querySelectorAll('.feature-card')
-      if (!cards || cards.length === 0) return
-
-      cards.forEach(card => {
-        if (card instanceof HTMLElement) card.style.willChange = 'transform, opacity'
-      })
-
-      const title = sectionRef.current?.querySelector('h2')
-      if (title) {
-        gsap.from(title, {
-          y: 30,
-          autoAlpha: 0,
-          duration: 0.8,
-          ease: 'power3.out',
-          scrollTrigger: { trigger: sectionRef.current, start: 'top 80%', once: true }
-        })
-      }
-
-      gsap.from(cards, {
-        y: 60,
-        autoAlpha: 0,
-        duration: 0.8,
-        stagger: { amount: 0.4, from: 'start', ease: 'power2.out' },
-        ease: 'power3.out',
-        scrollTrigger: { trigger: gridRef.current, start: 'top 75%', once: true },
-        onComplete: () => {
-          cards.forEach(card => {
-            if (card instanceof HTMLElement) card.style.willChange = 'auto'
-          })
-        }
-      })
-
       gsap.to(gridRef.current, {
         y: -30,
         ease: 'none',
-        scrollTrigger: { trigger: sectionRef.current, start: 'top bottom', end: 'bottom top', scrub: 1.5 }
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1.5
+        }
       })
     }, sectionRef)
 
@@ -99,65 +73,114 @@ export default function Features() {
   }, [primaryAlpha50])
 
   return (
-    <section ref={sectionRef} style={{ maxWidth: '1200px', margin: '0 auto', padding: '120px 24px' }}>
+    <section id='features' ref={sectionRef} style={{ maxWidth: '1200px', margin: '0 auto', padding: '120px 24px' }}>
       <div style={{ textAlign: 'center', marginBottom: '64px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <SectionLabel>{lc.features.label}</SectionLabel>
-        <h2
-          style={{
-            fontFamily: 'var(--font)',
-            fontWeight: 700,
-            fontSize: 'clamp(1.8rem, 4vw, 2.8rem)',
-            color: textPrimary,
-            letterSpacing: '-0.03em',
-            lineHeight: 1.1,
-            marginTop: '8px'
-          }}
-        >
-          {lc.features.heading}
-        </h2>
+        <FadeIn direction='up' distance={18}>
+          <SectionLabel>{lc.features.label}</SectionLabel>
+        </FadeIn>
+
+        <FadeIn direction='up' distance={24} transition={{ delay: 0.08 }}>
+          <h2
+            style={{
+              fontFamily: 'var(--font)',
+              fontWeight: 700,
+              fontSize: 'clamp(1.8rem, 4vw, 2.8rem)',
+              color: textPrimary,
+              letterSpacing: '-0.03em',
+              lineHeight: 1.1,
+              marginTop: '8px',
+              marginBottom: 0
+            }}
+          >
+            {lc.features.heading}
+          </h2>
+        </FadeIn>
+
+        <FadeIn direction='up' distance={24} transition={{ delay: 0.14 }}>
+          <p
+            style={{
+              fontFamily: 'var(--font)',
+              color: textSecondary,
+              fontSize: '1rem',
+              lineHeight: 1.7,
+              maxWidth: '760px',
+              marginTop: '14px'
+            }}
+          >
+            Built to help hospitality businesses scale faster, improve booking conversion, and operate with full visibility.
+          </p>
+        </FadeIn>
       </div>
 
+      {/* Grid */}
       <div ref={gridRef} style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
         {features.map((f, i) => (
-          <div
+          <FadeIn
             key={f.num}
-            ref={el => { cardRefs.current[i] = el }}
-            className='feature-card'
-            style={{
-              background: bgPaper,
-              border: `1px solid ${divider}`,
-              borderRadius: themeConfig.borderRadius,
-              padding: '32px',
-              position: 'relative',
-              overflow: 'hidden',
-              cursor: 'default',
-              transformStyle: 'preserve-3d'
-            }}
-            onMouseEnter={() => handleMouseEnter(i)}
-            onMouseMove={e => handleMouseMove(e, i)}
-            onMouseLeave={() => handleMouseLeave(i)}
+            direction='up'
+            distance={40}
+            transition={{ delay: i * 0.08, duration: 0.7 }}
+            // stretch to fill grid row height
+            style={{ display: 'flex', flexDirection: 'column' }}
           >
             <div
-              className='card-overlay'
+              ref={el => { cardRefs.current[i] = el }}
+              className='feature-card'
               style={{
-                position: 'absolute',
-                inset: 0,
-                background: `linear-gradient(135deg, ${primaryAlpha04}, transparent)`,
-                opacity: 0,
-                transition: 'opacity 0.3s ease',
-                pointerEvents: 'none'
+                background: bgPaper,
+                border: `1px solid ${divider}`,
+                borderRadius: themeConfig.borderRadius,
+                padding: '32px',
+                position: 'relative',
+                overflow: 'hidden',
+                cursor: 'default',
+                transformStyle: 'preserve-3d',
+                flex: 1,
+                display: 'flex',
+                flexDirection: 'column'
               }}
-            />
-            <span style={{ fontFamily: 'var(--font)', fontWeight: 400, letterSpacing: '0.06em', fontSize: '0.7rem', color: primaryMain, display: 'block', marginBottom: '16px', position: 'relative', zIndex: 1 }}>
-              {f.num}
-            </span>
-            <h3 style={{ fontFamily: 'var(--font)', fontWeight: 700, fontSize: '1.2rem', color: textPrimary, marginBottom: '12px', position: 'relative', zIndex: 1 }}>
-              {f.name}
-            </h3>
-            <p style={{ fontFamily: 'var(--font)', color: textSecondary, fontSize: '0.9rem', lineHeight: 1.6, position: 'relative', zIndex: 1 }}>
-              {f.desc}
-            </p>
-          </div>
+              onMouseEnter={() => handleMouseEnter(i)}
+              onMouseMove={e => handleMouseMove(e, i)}
+              onMouseLeave={() => handleMouseLeave(i)}
+            >
+              {/* Hover overlay */}
+              <div
+                className='card-overlay'
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: `linear-gradient(135deg, ${primaryAlpha04}, transparent)`,
+                  opacity: 0,
+                  pointerEvents: 'none'
+                }}
+              />
+
+              <span style={{ fontFamily: 'var(--font)', fontWeight: 400, letterSpacing: '0.06em', fontSize: '0.7rem', color: primaryMain, display: 'block', marginBottom: '16px', position: 'relative', zIndex: 1 }}>
+                {f.num}
+              </span>
+              <h3 style={{ fontFamily: 'var(--font)', fontWeight: 700, fontSize: '1.2rem', color: textPrimary, marginBottom: '12px', position: 'relative', zIndex: 1 }}>
+                {f.name}
+              </h3>
+              <p style={{ fontFamily: 'var(--font)', color: textSecondary, fontSize: '0.9rem', lineHeight: 1.6, position: 'relative', zIndex: 1 }}>
+                {f.desc}
+              </p>
+              <p
+                style={{
+                  fontFamily: 'var(--font)',
+                  color: primaryMain,
+                  fontSize: '0.78rem',
+                  letterSpacing: '0.05em',
+                  marginTop: 'auto',
+                  paddingTop: '18px',
+                  marginBottom: 0,
+                  position: 'relative',
+                  zIndex: 1
+                }}
+              >
+                BUSINESS VALUE
+              </p>
+            </div>
+          </FadeIn>
         ))}
       </div>
 

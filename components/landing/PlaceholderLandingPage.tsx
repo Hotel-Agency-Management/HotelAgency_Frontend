@@ -27,13 +27,14 @@ import Nav from '@/components/landing/Nav'
 import Hero from '@/components/landing/Hero'
 import InstallBanner from '@/components/landing/InstallBanner'
 import Features from '@/components/landing/Features'
-import CodeDemo from '@/components/landing/CodeDemo'
-import TechStack from '@/components/landing/TechStack'
-import WhatYouGet from '@/components/landing/WhatYouGet'
+import HotelShowcase from '@/components/landing/HotelShowcase'
+import WhyBook from '@/components/landing/WhyBook'
+import SpecialOffers from '@/components/landing/SpecialOffers'
+import OperationsPulse from '@/components/landing/OperationsPulse'
+import MomentumWall from '@/components/landing/MomentumWall'
 import HowItWorks from '@/components/landing/HowItWorks'
-import Stats from '@/components/landing/Stats'
+import GuestExperience from '@/components/landing/GuestExperience'
 import FAQ from '@/components/landing/FAQ'
-import CTA from '@/components/landing/CTA'
 import Footer from '@/components/landing/Footer'
 import { landingContent as lc } from '@/components/landing/landingContent'
 
@@ -246,15 +247,23 @@ export default function PlaceholderLandingPage() {
 
         <ParallaxDivider direction='left' />
 
-        {lc.codeDemo.visible && <CodeDemo />}
+        {lc.hotelShowcase.visible && <HotelShowcase />}
 
         <ParallaxDivider direction='right' />
 
-        {lc.techStack.visible && <TechStack />}
+        {lc.whyBook.visible && <WhyBook />}
 
         <ParallaxDivider direction='left' />
 
-        {lc.whatYouGet.visible && <WhatYouGet />}
+        {lc.offers.visible && <SpecialOffers />}
+
+        <ParallaxDivider direction='right' />
+
+        {lc.operationsPulse.visible && <OperationsPulse />}
+
+        <ParallaxDivider direction='left' />
+
+        {lc.momentumWall.visible && <MomentumWall />}
 
         <ParallaxDivider direction='right' />
 
@@ -262,15 +271,13 @@ export default function PlaceholderLandingPage() {
 
         <ParallaxDivider direction='left' />
 
-        {lc.stats.visible && <Stats />}
+        {lc.guestExperience.visible && <GuestExperience />}
 
         <ParallaxDivider direction='right' />
 
         {lc.faq.visible && <FAQ />}
 
         <ParallaxDivider direction='left' />
-
-        {lc.cta.visible && <CTA />}
 
         {lc.footer.visible && <Footer />}
       </main>
