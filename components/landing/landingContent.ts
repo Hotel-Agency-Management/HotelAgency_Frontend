@@ -65,6 +65,16 @@ export type LandingContent = {
     body: string
     items: { badge: string; title: string; desc: string; value: string; note: string; image: string }[]
   }>
+  plans: Section<{
+    label: string
+    heading: string
+    body: string
+    featuredPlanId: string
+    featuredBadge: string
+    ctaLabel: string
+    ctaHref: string
+    inactiveFeatureLabel: string
+  }>
   guestExperience: Section<{
     label: string
     heading: string
@@ -151,6 +161,7 @@ export const landingContent: LandingContent = {
     links: [
       { label: 'Features', href: '#features' },
       { label: 'Offers', href: '#offers' },
+      { label: 'Plans', href: '#plans' },
       { label: 'How It Works', href: '#how-it-works' },
       { label: 'Docs', href: 'https://shortcut-documentation.vercel.app/docs' }
     ],
@@ -161,7 +172,7 @@ export const landingContent: LandingContent = {
   hero: {
     visible: true,
     eyebrow: 'MULTI-AGENCY HOTEL PLATFORM',
-    title: 'Manage Agencies, Hotels, and Bookings in One Place',
+    title: 'Run Your Agency & Hotels, or Book Your Dream Trip All in One Place',
     subtitle:
       'Operate multiple agencies, control hotel inventory, and enable seamless booking workflows from a single dashboard.',
     primaryCta: { label: 'Discover More', href: '#features' },
@@ -334,45 +345,58 @@ export const landingContent: LandingContent = {
     ]
   },
 
-  guestExperience: {
+  plans: {
     visible: true,
-    label: 'GUEST EXPERIENCE',
-    heading: 'Highlight the stay details that help a guest imagine the experience',
+    label: 'SUBSCRIPTION PLANS',
+    heading: 'Choose the right plan for the way your hotel business operates',
     body:
-      'The booking decision gets easier when the guest can picture the stay. Bring the comfort, convenience, and premium touches into one clean section.',
-    items: [
-  {
-    title: 'Rooms that look exactly like the photos — every time',
-    desc: 'No surprises at check-in. What you see is what you get — accurate room visuals, verified amenities, and honest descriptions that build confidence before you pay.',
-    image: 'https://images.unsplash.com/photo-1505692952047-1a78307da8f2?auto=format&fit=crop&w=1200&q=80'
+      'Start with a simple plan, grow into deeper reporting and multi-property control, or move to a custom enterprise setup when your operation needs full flexibility.',
+    featuredPlanId: 'plan-pro',
+    featuredBadge: 'Most selected',
+    ctaLabel: 'Start with this plan',
+    ctaHref: '/login',
+    inactiveFeatureLabel: 'Not included'
   },
-  {
-    title: 'Breakfast included — not hidden in the fine print',
-    desc: 'Breakfast, welcome service, and extras are clearly listed upfront so you know the full value of your stay before you confirm — not after.',
-    image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1200&q=80'
-  },
-  {
-    title: 'Fast Wi-Fi that actually works for remote work',
-    desc: 'Tested and verified connectivity in every room — so whether you are on a video call at 9am or streaming at midnight, the connection holds.',
-    image: 'https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1200&q=80'
-  },
-  {
-    title: '10 minutes from the airport — not 10 minutes on a good day',
-    desc: 'Honest distance and transit information to the airport, city center, and key attractions — so you can plan your trip without second-guessing the map.',
-    image: 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=1200&q=80'
-  },
-  {
-    title: 'A pool, a spa, and a reason to stay longer',
-    desc: 'Wellness and leisure amenities that make the property feel like part of the experience — not just a place to sleep between activities.',
-    image: 'https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=1200&q=80'
-  },
-  {
-    title: 'Someone available when your plans change',
-    desc: 'Real support before, during, and after your stay. Change a date, ask about check-in, or request an early arrival — and get an answer the same day.',
-    image: 'https://images.unsplash.com/photo-1522798514-97ceb8c4f1c8?auto=format&fit=crop&w=1200&q=80'
-  }
-]
-  },
+
+guestExperience: {
+  visible: true,
+  label: 'BOOK WITH CONFIDENCE',
+  heading: 'Everything you need to book with confidence — no surprises, no stress',
+  body:
+    'We make sure every listing is accurate, every deal is fair, and every booking is protected — so you can focus on enjoying your trip.',
+  items: [
+    {
+      title: 'Your booking is protected from the moment you confirm',
+      desc: 'Every reservation is secured and documented. No cancellations without notice, no hidden changes — your plans stay exactly as you made them.',
+      image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1200&q=80'
+    },
+    {
+      title: 'Prices you see are prices you pay',
+      desc: 'No hidden fees added at checkout. The total shown includes everything — so you can budget your trip without any last-minute surprises.',
+      image: 'https://images.unsplash.com/photo-1580519542036-c47de6196ba5?auto=format&fit=crop&w=1200&q=80'
+    },
+    {
+      title: 'Verified hotels and agencies — only the trusted ones',
+      desc: 'Every hotel and agency on our platform goes through a verification process. You are only seeing listings from providers we have reviewed and approved.',
+      image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80'
+    },
+    {
+      title: 'Real reviews from real guests',
+      desc: 'Ratings and feedback come from verified bookings only — not anonymous posts. What you read reflects what people actually experienced.',
+      image: 'https://images.unsplash.com/photo-1531973576160-7125cd663d86?auto=format&fit=crop&w=1200&q=80'
+    },
+    {
+      title: 'Support that responds before your trip, not after',
+      desc: 'Have a question before you book or need to make a change? Our support team is here to help — fast, clear, and on your side.',
+      image: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=1200&q=80'
+    },
+    {
+      title: 'Your rights as a guest are always respected',
+      desc: 'Clear cancellation policies, fair refund terms, and transparent communication — because we believe every traveler deserves to be treated right.',
+      image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1200&q=80'
+    }
+  ]
+},
 
   operationsPulse: {
     visible: true,

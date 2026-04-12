@@ -30,6 +30,7 @@ import Features from '@/components/landing/Features'
 import HotelShowcase from '@/components/landing/HotelShowcase'
 import WhyBook from '@/components/landing/WhyBook'
 import SpecialOffers from '@/components/landing/SpecialOffers'
+import Plans from '@/components/landing/Plans'
 import OperationsPulse from '@/components/landing/OperationsPulse'
 import MomentumWall from '@/components/landing/MomentumWall'
 import HowItWorks from '@/components/landing/HowItWorks'
@@ -259,25 +260,29 @@ export default function PlaceholderLandingPage() {
 
         <ParallaxDivider direction='right' />
 
-        {lc.operationsPulse.visible && <OperationsPulse />}
+        {lc.plans.visible && <Plans />}
 
         <ParallaxDivider direction='left' />
+
+        {lc.operationsPulse.visible && <OperationsPulse />}
+
+        <ParallaxDivider direction='right' />
 
         {lc.momentumWall.visible && <MomentumWall />}
 
-        <ParallaxDivider direction='right' />
+        <ParallaxDivider direction='left' />
 
         {lc.howItWorks.visible && <HowItWorks />}
 
-        <ParallaxDivider direction='left' />
+        <ParallaxDivider direction='right' />
 
         {lc.guestExperience.visible && <GuestExperience />}
 
-        <ParallaxDivider direction='right' />
+        <ParallaxDivider direction='left' />
 
         {lc.faq.visible && <FAQ />}
 
-        <ParallaxDivider direction='left' />
+        <ParallaxDivider direction='right' />
 
         {lc.footer.visible && <Footer />}
       </main>
