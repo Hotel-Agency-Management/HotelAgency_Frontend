@@ -41,6 +41,8 @@ export function defineAbilitiesFor(role: UserRole): AppAbility {
       can('manage', 'Rooms')
       can('manage', 'Operations')
       can('manage', 'Housekeeping')
+      can('manage', 'HousekeepingTasks')
+      can('manage', 'HousekeepingStaff')
       can('manage', 'Maintenance')
       can('manage', 'Insurance')
       can('manage', 'Finance')
