@@ -13,8 +13,9 @@ export const MOCK_HOTELS: (HotelFormValues & { id: string; isActive: boolean })[
       coverImage: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800",
     },
     branding: {
-      logo: null,
-      colors: { primary: "#1a1a2e", secondary: "#16213e", tertiary: "#0f3460" },
+      logo: "https://cdn-icons-png.flaticon.com/512/235/235889.png",
+      colors: { primary: "#FB8C00", secondary: "#FFB74D", tertiary: "#FFF3E0"
+}
     },
     managerId: "team_manager_001",
   },

@@ -1,9 +1,13 @@
+import type { UserRole } from '@/lib/abilities'
+
 // ** Auth Types - Simple and modifiable
 export interface User {
   id: string
   email: string
   name?: string
-  role?: string
+  role?: UserRole
+  agencyName?: string
+  hotelId?: string
   agencyStatus?: 'incomplete' | 'pending' | 'approved' | 'rejected'
   [key: string]: unknown // Allow additional custom fields
 }

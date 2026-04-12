@@ -13,6 +13,8 @@ export interface MockUser {
   password: string // In real app, this would be hashed
   name: string
   role: UserRole
+  agencyName?: string
+  hotelId?: string
   phone?: string
   agencyStatus? : 'incomplete' | 'pending' | 'approved' | 'rejected' // For agency owners
   companyName?: string
@@ -39,6 +41,7 @@ const defaultUsers: MockUser[] = [
     password: 'password123',
     name: 'Manager User',
     role: 'AGENCY_OWNER',
+    agencyName: 'my-agency',
     createdAt: new Date().toISOString()
   },
   {
@@ -54,7 +57,9 @@ const defaultUsers: MockUser[] = [
     email: 'viewer@test.com',
     password: 'password123',
     name: 'Viewer User',
-    role: 'CUSTOMER',
+    role: 'PROPERTY_MANAGER',
+    agencyName: 'my-agency',
+    hotelId: '1',
     createdAt: new Date().toISOString()
   }
 ]

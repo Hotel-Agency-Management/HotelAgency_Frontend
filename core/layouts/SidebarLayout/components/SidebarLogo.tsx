@@ -9,7 +9,7 @@ import { useSidebar } from '../SidebarContext'
 import { Icon } from '@iconify/react'
 import { useRouter } from 'next/navigation'
 import useLanguage from '@/core/hooks/useLanguage'
-import { useSettings } from '@/core/hooks/useSettings'
+import { useActiveBranding } from '@/core/hooks/useActiveBranding'
 
 interface SidebarLogoProps {
   logo?: ReactNode
@@ -22,9 +22,9 @@ export default function SidebarLogo({ logo, appName = 'Shortcut Next' }: Sidebar
   const router = useRouter()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   const { language } = useLanguage()
-  const { settings } = useSettings()
   const xDir = language === 'ar' ? 16 : -16
-  const customLogo = settings.branding.logo
+  const activeBranding = useActiveBranding()
+  const customLogo = activeBranding.logo
   const showUploadedLogo = !logo && Boolean(customLogo)
 
   const [cmdKey, setCmdKey] = useState<string | null>(null)

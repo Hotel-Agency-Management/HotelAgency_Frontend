@@ -12,6 +12,8 @@ interface TokenPayload {
   email: string
   name: string
   role: UserRole
+  agencyName?: string
+  hotelId?: string
   iat: number
   exp: number
 }
@@ -27,6 +29,8 @@ export function createMockAccessToken(user: {
   email: string
   name: string
   role: UserRole
+  agencyName?: string
+  hotelId?: string
 }): string {
   const header = { alg: 'HS256', typ: 'JWT' }
 
@@ -35,6 +39,8 @@ export function createMockAccessToken(user: {
     email: user.email,
     name: user.name,
     role: user.role,
+    agencyName: user.agencyName,
+    hotelId: user.hotelId,
     iat: Math.floor(Date.now() / 1000),
     exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7 // 7 days
   }
