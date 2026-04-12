@@ -19,7 +19,6 @@ export type Subjects =
   | 'SubscriptionPlans'
   | 'HotelSettings'
   | 'HotelManagement'
-  | 'HotelInformation'
   | 'Rooms'
   | 'Operations'
   | 'Housekeeping'
@@ -62,14 +61,10 @@ export const USER_ROLES = {
   CUSTOMER: 'CUSTOMER',
 } as const
 
-/**
- * User role type derived from USER_ROLES values
- */
 export type UserRole = (typeof USER_ROLES)[keyof typeof USER_ROLES]
 
-/**
- * Human-readable labels for each role
- */
+export const USER_ROLE_VALUES = Object.values(USER_ROLES)
+
 export const USER_ROLE_LABELS: Record<UserRole, string> = {
   SUPER_ADMIN: 'Super Admin',
   AGENCY_OWNER: 'Agency Owner',
@@ -83,23 +78,13 @@ export const USER_ROLE_LABELS: Record<UserRole, string> = {
   CUSTOMER: 'Customer',
 }
 
-/**
- * Options list for select inputs (value + label)
- */
-export const USER_ROLE_OPTIONS: { value: UserRole; label: string }[] =
-  Object.values(USER_ROLES).map(role => ({
-    value: role,
-    label: USER_ROLE_LABELS[role]
-  }))
+export const USER_ROLE_OPTIONS: { value: UserRole; label: string }[] = USER_ROLE_VALUES.map(role => ({
+  value: role,
+  label: USER_ROLE_LABELS[role]
+}))
 
-/**
- * Type guard to check if a value is a valid UserRole
- */
 export function isUserRole(value: unknown): value is UserRole {
-  return (
-    typeof value === 'string' &&
-    Object.values(USER_ROLES).includes(value as UserRole)
-  )
+  return typeof value === 'string' && USER_ROLE_VALUES.includes(value as UserRole)
 }
 
 /**

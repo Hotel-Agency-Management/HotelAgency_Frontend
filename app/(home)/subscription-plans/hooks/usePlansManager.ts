@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react'
 import { generateId } from '../util/plans'
-import { SubscriptionPlan, SnackbarState, PlanFormValues } from '../types/plans'
+import { SubscriptionPlan, SnackbarState, PlanFormValues, PageStatus } from '../types/plans'
+import { PAGE_STATUS } from '@/core/types/pageStatus'
 
 interface UsePlansManagerProps {
   initialPlans: SubscriptionPlan[]
@@ -8,7 +9,7 @@ interface UsePlansManagerProps {
 
 export function usePlansManager({ initialPlans }: UsePlansManagerProps) {
   const [plans, setPlans] = useState<SubscriptionPlan[]>(initialPlans)
-  const [pageStatus, setPageStatus] = useState<'idle' | 'loading' | 'error'>('idle')
+  const [pageStatus, setPageStatus] = useState<PageStatus>(PAGE_STATUS.IDLE)
 
   const [editPlan, setEditPlan] = useState<SubscriptionPlan | null>(null)
   const [editOpen, setEditOpen] = useState(false)
@@ -99,11 +100,11 @@ export function usePlansManager({ initialPlans }: UsePlansManagerProps) {
   }, [deletePlan, showSnackbar, closeDelete])
 
   const handleRetry = useCallback(() => {
-    setPageStatus('loading')
+    setPageStatus(PAGE_STATUS.LOADING)
 
     setTimeout(() => {
       setPlans(initialPlans)
-      setPageStatus('idle')
+      setPageStatus(PAGE_STATUS.IDLE)
     }, 1000)
   }, [initialPlans])
 

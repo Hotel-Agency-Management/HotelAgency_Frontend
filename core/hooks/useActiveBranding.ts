@@ -9,6 +9,7 @@ import {
   type BrandingSettings
 } from '@/core/theme/palette/branding'
 import { useHotelStore } from '@/app/(home)/agency/[agencyName]/hotels/hooks/useHotelStore'
+import { USER_ROLES } from '@/lib/abilities'
 
 export function useActiveBranding(): BrandingSettings {
   const { user } = useAuth()
@@ -24,7 +25,7 @@ export function useActiveBranding(): BrandingSettings {
       }
     }
 
-    if (user?.role === 'AGENCY_OWNER') {
+    if (user?.role === USER_ROLES.AGENCY_OWNER) {
       return settings.branding
     }
 

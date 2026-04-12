@@ -7,6 +7,7 @@ import axios from 'axios'
 import toast from 'react-hot-toast'
 import { authConfig } from '@/core/configs/clientConfig'
 import { getErrorMessage } from '@/core/utils/apiError'
+import { USER_ROLES } from '@/lib/abilities'
 import {
   isAgencyAlreadyExistsError,
   isEmailAlreadyRegisteredError
@@ -20,7 +21,7 @@ import {
   useSignUpAgencyOwnerMutation,
   useSignUpCustomerMutation
 } from '../../hooks/mutations/authMutations'
-import { SignupAccountType, SignupFormData } from '../types/signup'
+import { SIGNUP_UI_ACCOUNT_TYPE, SignupUiAccountType, SignupFormData } from '../types/signup'
 import { AgencyFormData } from '../../agency/types/agency'
 import {
   createAgencyOwnerSignupPayload,
@@ -42,8 +43,8 @@ export const useSignupForm = ({ initialStep = 0 } = {}) => {
 
   const [showPassword, setShowPassword] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
-  const [accountType, setAccountType] = useState<SignupAccountType>(
-    initialStep > 0 ? 'agencyOwner' : 'customer'
+  const [accountType, setAccountType] = useState<SignupUiAccountType>(
+    initialStep > 0 ? SIGNUP_UI_ACCOUNT_TYPE.AGENCY_OWNER : SIGNUP_UI_ACCOUNT_TYPE.CUSTOMER
   )
   const [activeStep, setActiveStep] = useState(initialStep)
   const [agencyValues, setAgencyValues] = useState<AgencyFormData>(defaultAgencyValues)
@@ -59,7 +60,7 @@ export const useSignupForm = ({ initialStep = 0 } = {}) => {
       phone: '',
       password: '',
       confirmPassword: '',
-      role: 'customer' as SignupFormData['role'],
+      role: USER_ROLES.CUSTOMER,
     },
     resolver: yupResolver(schema) as Resolver<SignupFormData>
   })
@@ -67,7 +68,7 @@ export const useSignupForm = ({ initialStep = 0 } = {}) => {
   useEffect(() => {
     setActiveStep(initialStep)
     if (initialStep > 0) {
-      setAccountType('agencyOwner')
+      setAccountType(SIGNUP_UI_ACCOUNT_TYPE.AGENCY_OWNER)
     }
   }, [initialStep])
 
@@ -75,7 +76,7 @@ export const useSignupForm = ({ initialStep = 0 } = {}) => {
 
   const handleAccountTypeChange = (
     _event: React.MouseEvent<HTMLElement>,
-    nextValue: SignupAccountType | null
+    nextValue: SignupUiAccountType | null
   ) => {
     if (!nextValue || nextValue === accountType) return
     setAccountType(nextValue)
@@ -86,7 +87,7 @@ export const useSignupForm = ({ initialStep = 0 } = {}) => {
     setErrorMessage('')
     form.clearErrors('email')
 
-    if (accountType === 'agencyOwner') {
+    if (accountType === SIGNUP_UI_ACCOUNT_TYPE.AGENCY_OWNER) {
       setActiveStep(1)
       return
     }

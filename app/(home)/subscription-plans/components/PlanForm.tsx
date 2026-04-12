@@ -11,6 +11,7 @@ import {
 } from '@mui/material'
 import { useState } from 'react'
 import type { PlanFormValues, SubscriptionPlan } from '../types/plans'
+import { BILLING_CYCLE } from '../types/plans'
 import FeatureEditor from './FeatureEditor'
 import { makeEmptyForm, FormErrors, validatePlanForm, hasErrors } from '../util/plans'
 import { BILLING_OPTIONS } from '../constants/billingOptions'
@@ -131,7 +132,7 @@ export default function PlanForm({
             ))}
           </TextField>
 
-          {values.billingCycle !== 'custom' ? (
+          {values.billingCycle !== BILLING_CYCLE.CUSTOM ? (
             <TextField
               label='Price (USD)'
               type='number'

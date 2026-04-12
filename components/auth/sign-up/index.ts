@@ -1,2 +1,2 @@
 export { default } from './SignupForm'
-export type { SignupFormProps, SignupFormData, SignupAccountType } from './types/signup'
+export type { SignupFormProps, SignupFormData, SignupUiAccountType } from './types/signup'

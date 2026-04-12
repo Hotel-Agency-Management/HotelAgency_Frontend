@@ -1,3 +1,6 @@
+export { USER_ROLES } from '@/lib/abilities'
+export type { UserRole } from '@/lib/abilities'
+
 export const AGENCY_STATUS = {
   INCOMPLETE: 'InComplete',
   APPROVED: 'Approved',

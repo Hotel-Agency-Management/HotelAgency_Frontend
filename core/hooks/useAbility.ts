@@ -2,7 +2,7 @@
 
 import { useMemo } from 'react'
 import { useAuth } from '@/core/context/AuthContext'
-import { defineAbilitiesFor, isUserRole } from '@/lib/abilities'
+import { defineAbilitiesFor, isUserRole, USER_ROLES } from '@/lib/abilities'
 import type { Actions, AppAbility, Subjects, UserRole } from '@/lib/abilities'
 
 /**
@@ -27,7 +27,7 @@ export function useAbility(): AppAbility {
   const { user } = useAuth()
 
   const ability = useMemo(() => {
-    const role: UserRole = isUserRole(user?.role) ? user.role : 'CUSTOMER'
+    const role: UserRole = isUserRole(user?.role) ? user.role : USER_ROLES.CUSTOMER
     return defineAbilitiesFor(role)
   }, [user?.role])
 

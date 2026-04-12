@@ -8,7 +8,7 @@
 import { http, HttpResponse, delay } from 'msw'
 import { findUserByEmail, createUser } from '../db'
 import { createMockAccessToken, createMockRefreshToken, decodeMockToken } from '../jwt'
-import type { UserRole } from '@/lib/abilities'
+import { USER_ROLES, type UserRole } from '@/lib/abilities'
 
 const API_BASE = '/api'
 
@@ -113,9 +113,9 @@ export const authHandlers = [
       email: body.email,
       password: body.password,
       name: body.name,
-      role: body.role || 'CUSTOMER', // Allow role override for testing
-      agencyName: body.role === 'PROPERTY_MANAGER' ? 'my-agency' : undefined,
-      hotelId: body.role === 'PROPERTY_MANAGER' ? '1' : undefined,
+      role: body.role || USER_ROLES.CUSTOMER, // Allow role override for testing
+      agencyName: body.role === USER_ROLES.PROPERTY_MANAGER ? 'my-agency' : undefined,
+      hotelId: body.role === USER_ROLES.PROPERTY_MANAGER ? '1' : undefined,
       phone: body.phone || undefined,
       companyName: body.companyName || undefined,
       type: body.type

@@ -1,11 +1,36 @@
-export type RoomStatus =
-  | "available"
-  | "occupied"
-  | "maintenance"
-  | "reserved"
-  | "blocked";
+export const ROOM_STATUS = {
+  AVAILABLE: "available",
+  OCCUPIED: "occupied",
+  MAINTENANCE: "maintenance",
+  RESERVED: "reserved",
+  BLOCKED: "blocked",
+} as const;
 
-export type BedType = "single" | "double" | "queen" | "king"
+export const ROOM_STATUS_VALUES = [
+  ROOM_STATUS.AVAILABLE,
+  ROOM_STATUS.OCCUPIED,
+  ROOM_STATUS.MAINTENANCE,
+  ROOM_STATUS.RESERVED,
+  ROOM_STATUS.BLOCKED,
+] as const;
+
+export type RoomStatus = (typeof ROOM_STATUS_VALUES)[number];
+
+export const BED_TYPE = {
+  SINGLE: "single",
+  DOUBLE: "double",
+  QUEEN: "queen",
+  KING: "king",
+} as const;
+
+export const BED_TYPE_VALUES = [
+  BED_TYPE.SINGLE,
+  BED_TYPE.DOUBLE,
+  BED_TYPE.QUEEN,
+  BED_TYPE.KING,
+] as const;
+
+export type BedType = (typeof BED_TYPE_VALUES)[number]
 
 
 export interface RoomPhoto {

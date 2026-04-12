@@ -1,4 +1,4 @@
-import { HousekeepingTask } from "../tasks/types/task";
+import { HOUSEKEEPING_TASK_STATUS, HousekeepingTask } from "../tasks/types/task";
 
 export function getInitials(name: string) {
   return name
@@ -12,8 +12,8 @@ export function getInitials(name: string) {
 export function getTaskSummary(tasks: HousekeepingTask[]) {
   return {
     total: tasks.length,
-    pending: tasks.filter(task => task.status === "PENDING").length,
-    inProgress: tasks.filter(task => task.status === "IN_PROGRESS").length,
-    completed: tasks.filter(task => task.status === "COMPLETED").length
+    pending: tasks.filter(task => task.status === HOUSEKEEPING_TASK_STATUS.PENDING).length,
+    inProgress: tasks.filter(task => task.status === HOUSEKEEPING_TASK_STATUS.IN_PROGRESS).length,
+    completed: tasks.filter(task => task.status === HOUSEKEEPING_TASK_STATUS.COMPLETED).length
   };
 }

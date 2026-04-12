@@ -1,6 +1,12 @@
 import type { UserRole } from '@/lib/abilities'
 
-export type SignupAccountType = 'customer' | 'agencyOwner'
+export const SIGNUP_UI_ACCOUNT_TYPE = {
+  CUSTOMER: 'customer',
+  AGENCY_OWNER: 'agencyOwner',
+} as const
+
+export type SignupUiAccountType =
+  (typeof SIGNUP_UI_ACCOUNT_TYPE)[keyof typeof SIGNUP_UI_ACCOUNT_TYPE]
 
 export interface SignupFormData {
   firstName: string

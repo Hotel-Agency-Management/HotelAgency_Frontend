@@ -9,6 +9,7 @@ import {
   HOUSEKEEPING_ALERT_TIMELINE,
   RECENT_HOUSEKEEPING_ISSUES
 } from "../data/mockIssues";
+import { HOUSEKEEPING_ISSUE_KIND, HOUSEKEEPING_ISSUE_SEVERITY } from "../types/issue";
 
 export function useIssuesAlertsPage() {
   const params = useParams<{ hotelId?: string }>();
@@ -19,9 +20,9 @@ export function useIssuesAlertsPage() {
 
   const summary = useMemo(
     () => ({
-      critical: CRITICAL_HOUSEKEEPING_ISSUES.filter((issue) => issue.severity === "HIGH").length,
-      delayed: CRITICAL_HOUSEKEEPING_ISSUES.filter((issue) => issue.kind === "DELAYED").length,
-      reclean: CRITICAL_HOUSEKEEPING_ISSUES.filter((issue) => issue.kind === "RECLEAN").length,
+      critical: CRITICAL_HOUSEKEEPING_ISSUES.filter((issue) => issue.severity === HOUSEKEEPING_ISSUE_SEVERITY.HIGH).length,
+      delayed: CRITICAL_HOUSEKEEPING_ISSUES.filter((issue) => issue.kind === HOUSEKEEPING_ISSUE_KIND.DELAYED).length,
+      reclean: CRITICAL_HOUSEKEEPING_ISSUES.filter((issue) => issue.kind === HOUSEKEEPING_ISSUE_KIND.RECLEAN).length,
       resolvedToday: 9
     }),
     []

@@ -2,14 +2,14 @@ import { Stack, Typography, ToggleButtonGroup, ToggleButton } from '@mui/materia
 import { UserRound, Building2 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import type { MouseEvent } from 'react'
-import type { SignupAccountType } from '../types/signup'
+import { SIGNUP_UI_ACCOUNT_TYPE, type SignupUiAccountType } from '../types/signup'
 import SignupStepper from './SignupStepper'
 
 interface AccountTypeToggleProps {
-  accountType: SignupAccountType
+  accountType: SignupUiAccountType
   activeStep: number
   stepLabels: string[]
-  onChange: (event: MouseEvent<HTMLElement>, nextValue: SignupAccountType | null) => void
+  onChange: (event: MouseEvent<HTMLElement>, nextValue: SignupUiAccountType | null) => void
 }
 
 const AccountTypeToggle: React.FC<AccountTypeToggleProps> = ({
@@ -33,24 +33,24 @@ const AccountTypeToggle: React.FC<AccountTypeToggleProps> = ({
         fullWidth
         color='primary'
       >
-        <ToggleButton value='customer'>
+        <ToggleButton value={SIGNUP_UI_ACCOUNT_TYPE.CUSTOMER}>
           <UserRound size={16} />
           {t('signup.customer', 'Customer')}
         </ToggleButton>
 
-        <ToggleButton value='agencyOwner'>
+        <ToggleButton value={SIGNUP_UI_ACCOUNT_TYPE.AGENCY_OWNER}>
           <Building2 size={16} />
           {t('signup.agencyOwner', 'Agency Owner')}
         </ToggleButton>
       </ToggleButtonGroup>
 
       <Typography variant='caption' textAlign='center'>
-        {accountType === 'agencyOwner'
+        {accountType === SIGNUP_UI_ACCOUNT_TYPE.AGENCY_OWNER
           ? t('signup.agencyOwnerHint', 'Register your agency in three quick steps.')
           : t('signup.customerHint', 'Create a customer account and start right away.')}
       </Typography>
 
-      {accountType === 'agencyOwner' && (
+      {accountType === SIGNUP_UI_ACCOUNT_TYPE.AGENCY_OWNER && (
         <SignupStepper activeStep={activeStep} labels={stepLabels} animate />
       )}
     </Stack>
