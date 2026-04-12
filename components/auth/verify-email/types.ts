@@ -60,3 +60,17 @@ export interface VerifyEmailStrategyContext {
   isSubmitting: boolean
   onVerify: () => void
 }
+
+export interface CreateVerifyEmailMessageParams {
+  hasValidParams: boolean
+  hasStartedVerification: boolean
+  isPending: boolean
+  isSuccess: boolean
+  successMessage?: string
+  successAlreadyVerified?: boolean
+  error: unknown
+}
+
+export type MessageResolver = (params: CreateVerifyEmailMessageParams) => string | null
+
+export type StatusResolver = (verifyEmailContext: VerifyEmailStateContext) => VerifyEmailStatus | null

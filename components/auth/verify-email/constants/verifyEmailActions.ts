@@ -16,21 +16,21 @@ export const dashboardAction: VerifyEmailAction = {
   href: authConfig.homePageURL
 }
 
-export const verifyAction = (ctx: VerifyEmailStrategyContext): VerifyEmailAction => ({
+export const verifyAction = (verifyContext: VerifyEmailStrategyContext): VerifyEmailAction => ({
   key: 'verify',
   label: 'Verify Email',
   variant: 'contained',
-  onClick: ctx.onVerify,
-  loading: ctx.isSubmitting,
-  disabled: !ctx.canSubmit
+  onClick: verifyContext.onVerify,
+  loading: verifyContext.isSubmitting,
+  disabled: !verifyContext.canSubmit
 })
 
-export const retryAction = (ctx: VerifyEmailStrategyContext): VerifyEmailAction => ({
+export const retryAction = (verifyContext: VerifyEmailStrategyContext): VerifyEmailAction => ({
   key: 'retry',
   label: 'Try Again',
   variant: 'outlined',
-  onClick: ctx.onVerify,
-  loading: ctx.isSubmitting,
-  disabled: !ctx.canSubmit,
+  onClick: verifyContext.onVerify,
+  loading: verifyContext.isSubmitting,
+  disabled: !verifyContext.canSubmit,
   icon: RefreshCw
 })

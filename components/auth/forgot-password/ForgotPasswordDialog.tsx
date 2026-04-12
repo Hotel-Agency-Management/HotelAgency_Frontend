@@ -3,9 +3,9 @@
 import { Dialog, DialogTitle, DialogContent } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { ForgotPasswordDialogProps, PasswordFormData } from './types'
-import { usePasswordReset } from '../../hooks/useResetPass'
-import { renderResetStep } from '../../factory/renderResetStep'
+import type { ForgotPasswordDialogProps, PasswordFormData, ResetStep } from './types'
+import { renderResetStep } from './factories/renderResetStep'
+import { usePasswordReset } from './hooks/usePasswordReset'
 
 const ForgotPasswordDialog: React.FC<ForgotPasswordDialogProps> = ({
   open,
@@ -50,7 +50,7 @@ const ForgotPasswordDialog: React.FC<ForgotPasswordDialogProps> = ({
     await verifyCode(email, nextOtp)
   }
 
-  const stepTitles: Record<string, string> = {
+  const stepTitles: Record<ResetStep, string> = {
     email: t('forgotPassword.steps.email'),
     code: t('forgotPassword.steps.code'),
     password: t('forgotPassword.steps.password')

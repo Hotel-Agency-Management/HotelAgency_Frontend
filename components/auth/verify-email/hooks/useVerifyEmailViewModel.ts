@@ -5,7 +5,7 @@ import { createVerifyEmailStatus } from '../factories/createVerifyEmailStatus'
 import { createVerifyEmailViewModel } from '../factories/createVerifyEmailViewModel'
 import type { VerifyEmailViewProps } from '../types'
 import { getErrorMessage } from '@/core/utils/apiError'
-import { extractEmailFromMessage } from '../util/extractEmail'
+import { extractEmailFromMessage } from '../utils/extractEmail'
 
 export const useVerifyEmailViewModel = ({ userId, token }: VerifyEmailViewProps) => {
   const [hasStartedVerification, setHasStartedVerification] = useState(false)

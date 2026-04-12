@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { verifyEmailRequest } from '@/components/auth/client/authClient'
-import { VerifyEmailParams, VerifyEmailResponse } from '@/components/auth/config/authConfig'
+import { VerifyEmailParams, VerifyEmailResponse } from '@/components/auth/configs/authConfig'
 
 interface UseVerifyEmailQueryOptions {
   enabled?: boolean

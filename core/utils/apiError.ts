@@ -1,11 +1,6 @@
 import axios from 'axios'
+import { ApiValidationError } from '../types/apiErrors'
 
-interface ApiValidationError {
-  message?: string
-  detail?: string
-  title?: string
-  errors?: Record<string, string | string[]>
-}
 
 const getValidationMessage = (errors?: Record<string, string | string[]>) => {
   if (!errors) {

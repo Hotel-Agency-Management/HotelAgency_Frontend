@@ -8,7 +8,7 @@ import { Eye, EyeOff } from 'lucide-react'
 import { useState, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import FormFieldWrapper from '@/components/ui/FormFieldWrapper'
-import { createPasswordSchema } from '../schema/password'
+import { createPasswordSchema } from '../schemas/password'
 import { PasswordFormData } from '../types'
 
 interface PasswordStepProps {

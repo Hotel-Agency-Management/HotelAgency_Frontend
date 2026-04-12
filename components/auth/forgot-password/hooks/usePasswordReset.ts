@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import toast from 'react-hot-toast'
 import {
-  forgetPassword,
+  requestPasswordReset,
   validateResetCode,
   submitResetPassword
-} from '../client/forgetPasswordClient'
+} from '../client/forgotPasswordClient'
 import { getErrorMessage } from '@/core/utils/apiError'
-import { ResetStep } from '../components/forgotPassword/types'
+import type { ResetStep } from '../types'
 
 interface UsePasswordResetReturn {
   resetStep: ResetStep
@@ -36,7 +36,7 @@ export const usePasswordReset = (
 
     setIsLoading(true)
     try {
-      await forgetPassword(email)
+      await requestPasswordReset(email)
       goToStep('code')
     } catch (error) {
       toast.error(getErrorMessage(error, 'Failed to send code. Please try again.'))

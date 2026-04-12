@@ -11,6 +11,22 @@ export interface PasswordFormData {
   confirmPassword: string
 }
 
+export interface ForgotPasswordResponse {
+  success: boolean
+  message: string
+}
+
+export interface VerifyResetCodeRequest {
+  email: string
+  code: string
+}
+
+export interface ResetPasswordRequest {
+  email: string
+  code: string
+  newPassword: string
+}
+
 export const OTP_LENGTH = 6
 
 export type ResetStepFactoryProps = {
@@ -21,6 +37,6 @@ export type ResetStepFactoryProps = {
   onSendCode: (email: string) => void
   onClose: () => void
   onVerifyOtp: (code: string) => void
-  onSubmitPassword: (data: any) => void
+  onSubmitPassword: (data: PasswordFormData) => void
   onGoToStep: (step: ResetStep) => void
 }

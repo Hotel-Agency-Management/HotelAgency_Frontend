@@ -11,7 +11,6 @@ import FormFieldWrapper from '@/components/ui/FormFieldWrapper'
 import ErrorMessage from '@/components/ui/ErrorMessage'
 import { AgencySignupFormProps } from './types/agency'
 import { useAgencyForm } from './hooks/useAgencyForm'
-import { fadeInUp, staggerContainer } from '../signUp/constants/signupAnimation'
 import FadeIn from '@/components/animation/FadeIn'
 
 const MotionStack = motion.create(Stack)
@@ -30,37 +29,25 @@ const AgencyForm: React.FC<AgencySignupFormProps> = ({
   } = useAgencyForm({ onSubmit: onSubmitProp, defaultValues, errorMessage: externalErrorMessage })
 
   return (
-    <MotionStack
-      spacing={3}
-      variants={staggerContainer}
-      initial='hidden'
-      animate='show'
-      exit='hidden'
-    >
-      <FadeIn variants={fadeInUp}>
+    <MotionStack spacing={3}>
+      <FadeIn>
         <Typography variant='h4' textAlign='center'>
           {t('agency.title', 'Agency Details')}
         </Typography>
       </FadeIn>
 
-      <FadeIn variants={fadeInUp}>
+      <FadeIn>
         <Typography variant='body2' textAlign='center' color='text.secondary'>
           {t('agency.subtitle', 'Tell us about your agency to complete setup')}
         </Typography>
       </FadeIn>
 
-      <FadeIn variants={fadeInUp}>
+      <FadeIn>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <MotionStack
-            spacing={3}
-            variants={staggerContainer}
-            initial='hidden'
-            animate='show'
-            exit='hidden'
-          >
+          <Stack spacing={3}>
             <ErrorMessage message={errorMessage} />
 
-            <FadeIn variants={fadeInUp}>
+            <FadeIn>
               <FormFieldWrapper title={t('agency.agencyName', 'Agency Name')}>
                 <Controller
                   name='agencyName'
@@ -86,7 +73,7 @@ const AgencyForm: React.FC<AgencySignupFormProps> = ({
               </FormFieldWrapper>
             </FadeIn>
 
-            <FadeIn variants={fadeInUp}>
+            <FadeIn>
               <FormFieldWrapper title={t('agency.phone', 'Phone')}>
                 <Controller
                   name='phone'
@@ -105,7 +92,7 @@ const AgencyForm: React.FC<AgencySignupFormProps> = ({
               </FormFieldWrapper>
             </FadeIn>
 
-            <FadeIn variants={fadeInUp}>
+            <FadeIn>
               <FormFieldWrapper title={t('agency.city', 'City')}>
                 <Controller
                   name='city'
@@ -131,7 +118,7 @@ const AgencyForm: React.FC<AgencySignupFormProps> = ({
               </FormFieldWrapper>
             </FadeIn>
 
-            <FadeIn variants={fadeInUp}>
+            <FadeIn>
               <LoadingButton
                 loading={isLoading}
                 type='submit'
@@ -143,7 +130,7 @@ const AgencyForm: React.FC<AgencySignupFormProps> = ({
               </LoadingButton>
             </FadeIn>
 
-            <FadeIn variants={fadeInUp}>
+            <FadeIn>
               <Typography variant='body2' textAlign='center'>
                 {t('agency.backPrompt', 'Want to change your account info?')}{' '}
                 <Button variant='text' onClick={onBack} color='primary'>
@@ -151,7 +138,7 @@ const AgencyForm: React.FC<AgencySignupFormProps> = ({
                 </Button>
               </Typography>
             </FadeIn>
-          </MotionStack>
+          </Stack>
         </form>
       </FadeIn>
     </MotionStack>

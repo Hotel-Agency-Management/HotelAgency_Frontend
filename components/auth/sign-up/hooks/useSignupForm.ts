@@ -14,7 +14,7 @@ import {
 import { buildSignupSchema } from '@/core/schemas/signupSchema'
 import type {
   SignupResponse
-} from '@/components/auth/config/authConfig'
+} from '@/components/auth/configs/authConfig'
 import type { AgencyDocumentsFormData } from '@/components/auth/agency/types/documents'
 import {
   useSignUpAgencyOwnerMutation,
@@ -157,7 +157,6 @@ export const useSignupForm = ({ initialStep = 0 } = {}) => {
       }
     })
   }
-
   return {
     showPassword,
     errorMessage,

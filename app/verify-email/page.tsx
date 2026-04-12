@@ -1,4 +1,4 @@
-import VerifyEmailView from '@/components/auth/verifyEmail/VerifyEmailView'
+import VerifyEmailView from '@/components/auth/verify-email/VerifyEmailView'
 
 interface VerifyEmailPageProps {
   searchParams: Promise<{

@@ -14,7 +14,7 @@ import FadeIn from '@/components/animation/FadeIn'
 import EmailVerificationDialog from '@/components/auth/login/components/EmailVerificationDialog'
 import { createLoginSchema } from './schema/loginSchema'
 import { useLoginForm } from './hooks/useLoginForm'
-import ForgotPasswordDialog from '../components/forgotPassword/ForgotPasswordDialog'
+import ForgotPasswordDialog from '../forgot-password/ForgotPasswordDialog'
 
 interface LoginFormData {
   email: string

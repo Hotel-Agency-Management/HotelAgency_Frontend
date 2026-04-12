@@ -1,7 +1,7 @@
 import apiClient from '@/core/clients/apiClient'
 import { AuthResponse, LoginCredentials } from '@/core/configs/authConfig'
 import { authConfig } from '@/core/configs/clientConfig'
-import { CustomerSignupRequest, SignupResponse, AgencyOwnerSignupRequest, VerifyEmailParams, VerifyEmailResponse, ResendVerificationEmailRequest, ResendVerificationEmailResponse, RefreshTokenRequest, RefreshTokenResponse } from '../config/authConfig'
+import { CustomerSignupRequest, SignupResponse, AgencyOwnerSignupRequest, VerifyEmailParams, VerifyEmailResponse, ResendVerificationEmailRequest, ResendVerificationEmailResponse, RefreshTokenRequest, RefreshTokenResponse } from '../configs/authConfig'
 
 export const loginRequest = async (credentials: LoginCredentials): Promise<AuthResponse> => {
   const response = await apiClient.post<AuthResponse>(

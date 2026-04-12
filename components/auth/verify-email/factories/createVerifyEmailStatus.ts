@@ -1,8 +1,6 @@
 import axios from 'axios'
 import { getErrorMessage } from '@/core/utils/apiError'
-import type { VerifyEmailStateContext, VerifyEmailStatus } from '../types'
-
-type StatusResolver = (ctx: VerifyEmailStateContext) => VerifyEmailStatus | null
+import type { StatusResolver, VerifyEmailStateContext, VerifyEmailStatus } from '../types'
 
 const invalidResolver: StatusResolver = ({ hasValidParams }) =>
   !hasValidParams ? 'invalid' : null
@@ -36,5 +34,5 @@ const resolvers: StatusResolver[] = [
   errorResolver
 ]
 
-export const createVerifyEmailStatus = (ctx: VerifyEmailStateContext): VerifyEmailStatus =>
-  resolvers.reduce<VerifyEmailStatus | null>((result, resolver) => result ?? resolver(ctx), null) ?? 'error'
+export const createVerifyEmailStatus = (verifyEmailContext: VerifyEmailStateContext): VerifyEmailStatus =>
+  resolvers.reduce<VerifyEmailStatus | null>((result, resolver) => result ?? resolver(verifyEmailContext), null) ?? 'error'

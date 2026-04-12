@@ -1,7 +1,7 @@
-import EmailStep from "../components/forgotPassword/steps/EmailStep"
-import OtpStep from "../components/forgotPassword/steps/OtpStep"
-import PasswordStep from "../components/forgotPassword/steps/PasswordStep"
-import { ResetStepFactoryProps } from "../components/forgotPassword/types"
+import EmailStep from '../steps/EmailStep'
+import OtpStep from '../steps/OtpStep'
+import PasswordStep from '../steps/PasswordStep'
+import type { ResetStepFactoryProps } from '../types'
 
 export function renderResetStep({
   resetStep,

@@ -1,7 +1,7 @@
 import type {
   AgencyOwnerSignupRequest,
   CustomerSignupRequest
-} from '@/components/auth/config/authConfig'
+} from '@/components/auth/configs/authConfig'
 import { getCountryFromPhone } from '@/components/auth/utils/getCountryFromPhone'
 import type { AgencyFormData } from '@/components/auth/agency/types/agency'
 import type { SignupFormData } from '../types/signup'

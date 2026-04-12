@@ -1,16 +1,6 @@
 import { getErrorMessage } from "@/core/utils/apiError"
+import { MessageResolver, CreateVerifyEmailMessageParams } from "../types"
 
-interface CreateVerifyEmailMessageParams {
-  hasValidParams: boolean
-  hasStartedVerification: boolean
-  isPending: boolean
-  isSuccess: boolean
-  successMessage?: string
-  successAlreadyVerified?: boolean
-  error: unknown
-}
-
-type MessageResolver = (params: CreateVerifyEmailMessageParams) => string | null
 
 const invalidLinkResolver: MessageResolver = ({ hasValidParams }) =>
   !hasValidParams ? 'This verification link is incomplete. Make sure it includes both userId and token.' : null
