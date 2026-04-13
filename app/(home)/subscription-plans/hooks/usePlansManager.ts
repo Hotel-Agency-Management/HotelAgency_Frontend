@@ -1,22 +1,31 @@
-import { useState, useCallback } from 'react'
-import { generateId } from '../util/plans'
-import { SubscriptionPlan, SnackbarState, PlanFormValues, PageStatus } from '../types/plans'
-import { PAGE_STATUS } from '@/core/types/pageStatus'
+import { getErrorMessage } from '@/core/utils/apiError'
+import { useMemo, useState, useCallback } from 'react'
+import {
+  useCreateSubscriptionPlan,
+  useDeleteSubscriptionPlan,
+  useUpdateSubscriptionPlan,
+} from './mutations/usePlanMutations'
+import { useGetSubscriptionPlans } from './queries/usePlanQueries'
+import { PageStatus, SubscriptionPlan, SnackbarState, PlanFormValues } from '../types/plans'
 
-interface UsePlansManagerProps {
-  initialPlans: SubscriptionPlan[]
-}
+export function usePlansManager() {
+  const plansQuery = useGetSubscriptionPlans({ includeInactive: true })
+  const createPlanMutation = useCreateSubscriptionPlan()
+  const updatePlanMutation = useUpdateSubscriptionPlan()
+  const deletePlanMutation = useDeleteSubscriptionPlan()
 
-export function usePlansManager({ initialPlans }: UsePlansManagerProps) {
-  const [plans, setPlans] = useState<SubscriptionPlan[]>(initialPlans)
-  const [pageStatus, setPageStatus] = useState<PageStatus>(PAGE_STATUS.IDLE)
+  const plans = useMemo(() => plansQuery.data ?? [], [plansQuery.data])
+  const pageStatus: PageStatus = plansQuery.isLoading
+    ? 'loading'
+    : plansQuery.isError
+      ? 'error'
+      : 'idle'
 
   const [editPlan, setEditPlan] = useState<SubscriptionPlan | null>(null)
   const [editOpen, setEditOpen] = useState(false)
 
   const [deletePlan, setDeletePlan] = useState<SubscriptionPlan | null>(null)
   const [deleteOpen, setDeleteOpen] = useState(false)
-  const [deleteLoading, setDeleteLoading] = useState(false)
 
   const [snackbar, setSnackbar] = useState<SnackbarState>({
     open: false,
@@ -36,18 +45,14 @@ export function usePlansManager({ initialPlans }: UsePlansManagerProps) {
   )
 
   const handleCreate = useCallback(async (values: PlanFormValues) => {
-    await new Promise(r => setTimeout(r, 800))
-
-    const newPlan: SubscriptionPlan = {
-      ...values,
-      id: generateId(),
-      createdAt: NOW(),
-      updatedAt: NOW(),
+    try {
+      const newPlan = await createPlanMutation.mutateAsync(values)
+      showSnackbar(`Plan "${newPlan.name}" created successfully.`, 'success')
+    } catch (error) {
+      showSnackbar(getErrorMessage(error), 'error')
+      throw error
     }
-
-    setPlans(prev => [...prev, newPlan])
-    showSnackbar(`Plan "${newPlan.name}" created successfully.`, 'success')
-  }, [showSnackbar])
+  }, [createPlanMutation, showSnackbar])
 
   const openEdit = useCallback((plan: SubscriptionPlan) => {
     setEditPlan(plan)
@@ -62,19 +67,18 @@ export function usePlansManager({ initialPlans }: UsePlansManagerProps) {
   const handleEdit = useCallback(async (values: PlanFormValues) => {
     if (!editPlan) return
 
-    await new Promise(r => setTimeout(r, 800))
+    try {
+      const updatedPlan = await updatePlanMutation.mutateAsync({
+        id: editPlan.id,
+        data: values,
+      })
 
-    setPlans(prev =>
-      prev.map(p =>
-        p.id === editPlan.id
-          ? { ...p, ...values, updatedAt: NOW() }
-          : p
-      )
-    )
-
-    showSnackbar(`Plan "${values.name}" updated successfully.`, 'success')
-    closeEdit()
-  }, [editPlan, showSnackbar, closeEdit])
+      showSnackbar(`Plan "${updatedPlan.name}" updated successfully.`, 'success')
+      closeEdit()
+    } catch (error) {
+      showSnackbar(getErrorMessage(error), 'error')
+    }
+  }, [editPlan, updatePlanMutation, showSnackbar, closeEdit])
 
   const openDelete = useCallback((plan: SubscriptionPlan) => {
     setDeletePlan(plan)
@@ -89,24 +93,18 @@ export function usePlansManager({ initialPlans }: UsePlansManagerProps) {
   const handleDelete = useCallback(async () => {
     if (!deletePlan) return
 
-    setDeleteLoading(true)
-    await new Promise(r => setTimeout(r, 700))
-
-    setPlans(prev => prev.filter(p => p.id !== deletePlan.id))
-    showSnackbar(`Plan "${deletePlan.name}" deleted.`, 'info')
-
-    setDeleteLoading(false)
-    closeDelete()
-  }, [deletePlan, showSnackbar, closeDelete])
+    try {
+      await deletePlanMutation.mutateAsync(deletePlan.id)
+      showSnackbar(`Plan "${deletePlan.name}" deleted.`, 'info')
+      closeDelete()
+    } catch (error) {
+      showSnackbar(getErrorMessage(error), 'error')
+    }
+  }, [deletePlan, deletePlanMutation, showSnackbar, closeDelete])
 
   const handleRetry = useCallback(() => {
-    setPageStatus(PAGE_STATUS.LOADING)
-
-    setTimeout(() => {
-      setPlans(initialPlans)
-      setPageStatus(PAGE_STATUS.IDLE)
-    }, 1000)
-  }, [initialPlans])
+    void plansQuery.refetch()
+  }, [plansQuery])
 
   return {
     plans,
@@ -115,10 +113,8 @@ export function usePlansManager({ initialPlans }: UsePlansManagerProps) {
     editOpen,
     deletePlan,
     deleteOpen,
-    deleteLoading,
+    deleteLoading: deletePlanMutation.isPending,
     snackbar,
-    setPageStatus,
-    setDeleteOpen,
     handleCreate,
     openEdit,
     closeEdit,

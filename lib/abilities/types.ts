@@ -18,6 +18,7 @@ export type Subjects =
   | 'AgencyApproval'
   | 'SubscriptionPlans'
   | 'HotelSettings'
+  | 'HotelInformation'
   | 'HotelManagement'
   | 'Rooms'
   | 'Operations'

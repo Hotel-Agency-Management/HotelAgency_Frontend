@@ -11,8 +11,8 @@ import {
   Tooltip,
 } from '@mui/material'
 import { Add, DeleteOutline } from '@mui/icons-material'
-import { PlanFeature } from '../types/plans'
-import { makeEmptyFeature } from '../util/plans'
+import { FeatureLimit, PlanFeature } from '../types/plans'
+import { generateId, makeEmptyFeature } from '../util/plans'
 import { updateFeature } from '../util/updateFeature'
 
 
@@ -25,10 +25,25 @@ interface FeatureEditorProps {
 export default function FeatureEditor({ features, errors = {}, onChange }: FeatureEditorProps) {
   const handleAdd = () => onChange([...features, makeEmptyFeature()])
 
-  const handleRemove = (id: string) => onChange(features.filter(f => f.id !== id))
+  const handleRemove = (id: number) => onChange(features.filter(f => f.id !== id))
 
-  const handleChange = (id: string, patch: Partial<PlanFeature>) =>
+  const handleChange = (id: number, patch: Partial<PlanFeature>) =>
     onChange(updateFeature(features, id, patch))
+
+  const handleLimitChange = (feature: PlanFeature, value: string) => {
+    const primaryLimit = feature.featureLimits[0]
+    const featureLimits: FeatureLimit[] =
+      value === ''
+        ? []
+        : [
+            {
+              id: primaryLimit?.id ?? generateId(),
+              limitValue: Number(value),
+            },
+          ]
+
+    handleChange(feature.id, { featureLimits })
+  }
 
   return (
     <Box>
@@ -63,20 +78,19 @@ export default function FeatureEditor({ features, errors = {}, onChange }: Featu
                   control={
                     <Switch
                       size='small'
-                      checked={feature.enabled}
-                      onChange={e => handleChange(feature.id, { enabled: e.target.checked })}
+                      checked={feature.isEnabled}
+                      onChange={e => handleChange(feature.id, { isEnabled: e.target.checked })}
                     />
                   }
                   label=''
-                  sx={{ m: 0 }}
                 />
 
                 <TextField
                   size='small'
                   fullWidth
                   placeholder='Feature name *'
-                  value={feature.name}
-                  onChange={e => handleChange(feature.id, { name: e.target.value })}
+                  value={feature.featureName}
+                  onChange={e => handleChange(feature.id, { featureName: e.target.value })}
                   error={!!errors[feature.id]}
                   helperText={errors[feature.id]}
                 />
@@ -99,24 +113,11 @@ export default function FeatureEditor({ features, errors = {}, onChange }: Featu
                 <TextField
                   size='small'
                   fullWidth
-                  placeholder='Limit (optional) e.g. 100 rooms'
-                  value={feature.limit ?? ''}
-                  onChange={e =>
-                    handleChange(feature.id, {
-                      limit: e.target.value || undefined,
-                    })
-                  }
-                />
-                <TextField
-                  size='small'
-                  fullWidth
-                  placeholder='Description (optional)'
-                  value={feature.description ?? ''}
-                  onChange={e =>
-                    handleChange(feature.id, {
-                      description: e.target.value || undefined,
-                    })
-                  }
+                  type='number'
+                  placeholder='Limit value (optional)'
+                  value={feature.featureLimits[0]?.limitValue ?? ''}
+                  onChange={e => handleLimitChange(feature, e.target.value)}
+                  inputProps={{ min: 0 }}
                 />
               </Stack>
             </Stack>

@@ -14,10 +14,10 @@ import {
   Divider,
   useTheme,
 } from '@mui/material'
-
 import { Pencil, Trash2, CheckCircle, XCircle } from 'lucide-react'
 import type { SubscriptionPlan } from '../types/plans'
 import { formatPrice } from '../util/plans'
+import { formatFeatureLimits } from '../util/planFormatter'
 
 interface PlanCardProps {
   plan: SubscriptionPlan
@@ -27,6 +27,7 @@ interface PlanCardProps {
 
 export default function PlanCard({ plan, onEdit, onDelete }: PlanCardProps) {
   const theme = useTheme()
+  const isActive = plan.status === 'Active'
 
   return (
     <Card
@@ -46,73 +47,69 @@ export default function PlanCard({ plan, onEdit, onDelete }: PlanCardProps) {
             </Typography>
 
             <Typography variant='body2'>
-              {formatPrice(plan.price, plan.billingCycle, plan.customBillingLabel)}
+              {formatPrice(plan.price)}
             </Typography>
           </Stack>
 
           <Chip
-            label={plan.isActive ? 'Active' : 'Inactive'}
+            label={plan.status}
             size='small'
-            color={plan.isActive ? 'success' : 'default'}
+            color={isActive ? 'success' : 'default'}
             variant='outlined'
           />
         </Stack>
 
-        <Typography
-          variant='body2'>
+        <Typography variant='body2'>
           {plan.description}
         </Typography>
 
         <Divider />
 
         <List dense disablePadding>
-          {plan.features.map(feature => (
-            <ListItem key={feature.id} disablePadding sx={{ py: 0.25 }}>
-              <ListItemIcon sx={{ minWidth: 28 }}>
-                {feature.enabled ? (
-                  <CheckCircle
-                    size={16}
-                    color={theme.palette.success.main}
-                  />
-                ) : (
-                  <XCircle
-                    size={16}
-                    color={theme.palette.text.disabled}
-                  />
-                )}
-              </ListItemIcon>
+          {plan.planFeatures.map(feature => {
+            const featureLimits = formatFeatureLimits(feature.featureLimits)
 
-              <ListItemText
-                primary={
-                  <Stack direction='row' alignItems='center' spacing={0.75}>
-                    <Typography
-                      variant='body2'
-                      color={
-                        feature.enabled ? 'text.primary' : 'text.disabled'
-                      }
-                    >
-                      {feature.name}
-                    </Typography>
+            return (
+              <ListItem key={feature.id} disablePadding sx={{ py: 0.25 }}>
+                <ListItemIcon sx={{ minWidth: 28 }}>
+                  {feature.isEnabled ? (
+                    <CheckCircle
+                      size={16}
+                      color={theme.palette.success.main}
+                    />
+                  ) : (
+                    <XCircle
+                      size={16}
+                      color={theme.palette.text.disabled}
+                    />
+                  )}
+                </ListItemIcon>
 
-                    {feature.limit && (
-                      <Chip
-                        label={feature.limit}
-                        size='small'
-                        sx={{ height: 18, fontSize: '0.65rem' }}
-                      />
-                    )}
-                  </Stack>
-                }
-                secondary={
-                  feature.description ? (
-                    <Typography variant='caption' color='text.disabled'>
-                      {feature.description}
-                    </Typography>
-                  ) : undefined
-                }
-              />
-            </ListItem>
-          ))}
+                <ListItemText
+                  primary={
+                    <Stack direction='row' alignItems='center' spacing={0.75}>
+                      <Typography
+                        variant='body2'
+                        color={
+                          feature.isEnabled ? 'text.primary' : 'text.disabled'
+                        }
+                      >
+                        {feature.featureName}
+                      </Typography>
+
+                      {featureLimits !== '-' && (
+                        <Chip
+                          label={featureLimits}
+                          size='small'
+                          sx={{ height: 18, fontSize: '0.65rem' }}
+                        />
+                      )}
+                    </Stack>
+                  }
+                />
+              </ListItem>
+            )
+          })}
         </List>
       </CardContent>
 

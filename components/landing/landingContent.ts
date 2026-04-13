@@ -69,7 +69,7 @@ export type LandingContent = {
     label: string
     heading: string
     body: string
-    featuredPlanId: string
+    featuredPlanId: number
     featuredBadge: string
     ctaLabel: string
     ctaHref: string
@@ -351,7 +351,7 @@ export const landingContent: LandingContent = {
     heading: 'Choose the right plan for the way your hotel business operates',
     body:
       'Start with a simple plan, grow into deeper reporting and multi-property control, or move to a custom enterprise setup when your operation needs full flexibility.',
-    featuredPlanId: 'plan-pro',
+    featuredPlanId: 2,
     featuredBadge: 'Most selected',
     ctaLabel: 'Start with this plan',
     ctaHref: '/login',
