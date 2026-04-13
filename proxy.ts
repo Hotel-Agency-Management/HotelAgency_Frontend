@@ -28,6 +28,7 @@ interface JWTPayload {
   name?: string
   exp?: number
   iat?: number
+  'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'?: string
 }
 
 /**
@@ -48,16 +49,17 @@ function getUserRoleFromToken(token: string): UserRole | null {
     if (payload.exp && payload.exp * 1000 < Date.now()) {
       return null
     }
-
     // Validate and return role
-    const role = payload.role as UserRole
-    if (Object.values(USER_ROLES).includes(role)) {
-      return role
+    const role =
+      payload.role ??
+      payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
+
+    if (role && Object.values(USER_ROLES).includes(role as UserRole)) {
+      return role as UserRole
     }
 
     return null
   } catch {
-    // Invalid JWT format
     return null
   }
 }
