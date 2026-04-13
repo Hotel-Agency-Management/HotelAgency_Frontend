@@ -17,6 +17,7 @@ import { useHotelProfile } from "../../hooks/useHotelProfile";
 import type { HotelFormValues } from "../../types/hotel";
 import { HotelInfoFields } from "./HotelInfoFields";
 import Box from "@mui/material/Box";
+import Can from "@/components/ability/Can";
 
 interface HotelProfileTabProps {
   defaultValues: HotelFormValues;
@@ -117,7 +118,7 @@ export function HotelProfileTab({
                   </Tooltip>
                 </Fade>
               )}
-
+              <Can do="update" this="HotelInformation">
               <Tooltip title={isEditing ? "Save changes" : "Edit hotel"}>
                 <Box component='span'>
                   <IconButton
@@ -136,6 +137,7 @@ export function HotelProfileTab({
                   </IconButton>
                 </Box>
               </Tooltip>
+              </Can>
             </Stack>
           </Stack>
 
