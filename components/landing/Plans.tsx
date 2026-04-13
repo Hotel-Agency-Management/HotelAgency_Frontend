@@ -3,23 +3,24 @@
 import SectionLabel from '@/components/landing/SectionLabel'
 import { landingContent as lc } from '@/components/landing/landingContent'
 import { FadeIn, MagneticButton, StaggerGroup, StaggerItem } from '@/components/animation'
-import { MOCK_PLANS } from '@/app/(home)/subscription-plans/data/MockPlan'
+import { useGetSubscriptionPlans } from '@/app/(home)/subscription-plans/hooks/queries/usePlanQueries'
 import { formatPrice } from '@/app/(home)/subscription-plans/util/plans'
 import { useTheme } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 import { CheckCircle, XCircle } from 'lucide-react'
-
-const activePlans = MOCK_PLANS.filter(plan => plan.isActive)
+import { formatFeatureLimits } from '@/app/(home)/subscription-plans/util/planFormatter'
 
 export default function Plans() {
+  const { data: plans = [], isLoading, isError } = useGetSubscriptionPlans()
   const theme = useTheme()
   const primaryMain = theme.palette.primary.main
   const textPrimary = theme.palette.text.primary
   const textSecondary = theme.palette.text.secondary
   const bgPaper = theme.palette.background.paper
   const divider = theme.palette.divider
+  const activePlans = plans.filter(plan => plan.status === 'Active')
 
-  if (!activePlans.length) return null
+  if (isLoading || isError || !activePlans.length) return null
 
   return (
     <section id='plans' style={{ maxWidth: '1200px', margin: '0 auto', padding: '120px 24px' }}>
@@ -144,7 +145,13 @@ export default function Plans() {
                   </p>
                 </div>
 
-                <div style={{ marginTop: '24px', paddingBottom: '22px', borderBottom: `1px solid ${alpha(primaryMain, 0.14)}` }}>
+                <div
+                  style={{
+                    marginTop: '24px',
+                    paddingBottom: '22px',
+                    borderBottom: `1px solid ${alpha(primaryMain, 0.14)}`
+                  }}
+                >
                   <p
                     style={{
                       fontFamily: 'var(--font)',
@@ -156,7 +163,7 @@ export default function Plans() {
                       margin: 0
                     }}
                   >
-                    {formatPrice(plan.price, plan.billingCycle, plan.customBillingLabel)}
+                    {formatPrice(plan.price)}
                   </p>
                 </div>
 
@@ -171,72 +178,73 @@ export default function Plans() {
                     flex: 1
                   }}
                 >
-                  {plan.features.map(feature => (
-                    <li key={feature.id} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
-                      <span style={{ display: 'inline-flex', paddingTop: '2px' }}>
-                        {feature.enabled ? (
-                          <CheckCircle size={17} color={theme.palette.success.main} />
-                        ) : (
-                          <XCircle size={17} color={theme.palette.text.disabled} />
-                        )}
-                      </span>
+                  {plan.planFeatures.map(feature => {
+                    const featureLimits = formatFeatureLimits(feature.featureLimits)
 
-                      <span style={{ display: 'flex', flexDirection: 'column', gap: '5px', minWidth: 0 }}>
-                        <span
-                          style={{
-                            fontFamily: 'var(--font)',
-                            color: feature.enabled ? textPrimary : theme.palette.text.disabled,
-                            fontSize: '0.9rem',
-                            lineHeight: 1.45
-                          }}
-                        >
-                          {feature.name}
-                          {feature.limit && (
-                            <span
-                              style={{
-                                display: 'inline-block',
-                                marginLeft: '8px',
-                                borderRadius: 8,
-                                border: `1px solid ${alpha(primaryMain, 0.18)}`,
-                                color: feature.enabled ? primaryMain : theme.palette.text.disabled,
-                                fontSize: '0.68rem',
-                                lineHeight: 1.2,
-                                padding: '3px 7px'
-                              }}
-                            >
-                              {feature.limit}
-                            </span>
+                    return (
+                      <li
+                        key={feature.id}
+                        style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}
+                      >
+                        <span style={{ display: 'inline-flex', paddingTop: '2px' }}>
+                          {feature.isEnabled ? (
+                            <CheckCircle size={17} color={theme.palette.success.main} />
+                          ) : (
+                            <XCircle size={17} color={theme.palette.text.disabled} />
                           )}
                         </span>
 
-                        {!feature.enabled && (
+                        <span
+                          style={{ display: 'flex', flexDirection: 'column', gap: '5px', minWidth: 0 }}
+                        >
                           <span
                             style={{
                               fontFamily: 'var(--font)',
-                              color: theme.palette.text.disabled,
-                              fontSize: '0.74rem',
-                              lineHeight: 1.4
-                            }}
-                          >
-                            {lc.plans.inactiveFeatureLabel}
-                          </span>
-                        )}
-
-                        {feature.description && (
-                          <span
-                            style={{
-                              fontFamily: 'var(--font)',
-                              color: textSecondary,
-                              fontSize: '0.76rem',
+                              color: feature.isEnabled
+                                ? textPrimary
+                                : theme.palette.text.disabled,
+                              fontSize: '0.9rem',
                               lineHeight: 1.45
                             }}
                           >
-                            {feature.description}
+                            {feature.featureName}
+
+                            {featureLimits !== '-' && (
+                              <span
+                                style={{
+                                  display: 'inline-block',
+                                  marginLeft: '8px',
+                                  borderRadius: 8,
+                                  border: `1px solid ${alpha(primaryMain, 0.18)}`,
+                                  color: feature.isEnabled
+                                    ? primaryMain
+                                    : theme.palette.text.disabled,
+                                  fontSize: '0.68rem',
+                                  lineHeight: 1.2,
+                                  padding: '3px 7px'
+                                }}
+                              >
+                                {featureLimits}
+                              </span>
+                            )}
                           </span>
-                        )}
-                      </span>
-                    </li>
-                  ))}
+
+                          {!feature.isEnabled && (
+                            <span
+                              style={{
+                                fontFamily: 'var(--font)',
+                                color: theme.palette.text.disabled,
+                                fontSize: '0.74rem',
+                                lineHeight: 1.4
+                              }}
+                            >
+                              {lc.plans.inactiveFeatureLabel}
+                            </span>
+                          )}
+                        </span>
+                      </li>
+                    )
+                  })}
                 </ul>
 
                 <MagneticButton

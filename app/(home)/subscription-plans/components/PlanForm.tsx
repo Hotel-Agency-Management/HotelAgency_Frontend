@@ -1,7 +1,6 @@
 import {
   Stack,
   TextField,
-  MenuItem,
   FormControlLabel,
   Switch,
   Button,
@@ -10,11 +9,10 @@ import {
   CircularProgress,
 } from '@mui/material'
 import { useState } from 'react'
-import type { PlanFormValues, SubscriptionPlan } from '../types/plans'
-import { BILLING_CYCLE } from '../types/plans'
+import type { PlanFormState, PlanFormValues, SubscriptionPlan } from '../types/plans'
 import FeatureEditor from './FeatureEditor'
-import { makeEmptyForm, FormErrors, validatePlanForm, hasErrors } from '../util/plans'
-import { BILLING_OPTIONS } from '../constants/billingOptions'
+import { FormErrors, validatePlanForm, hasErrors } from '../util/plans'
+import { makeInitialFormState, makeEmptyFormState, toSubmitValues } from '../util/planFormMapper'
 
 interface PlanFormProps {
   initial?: SubscriptionPlan
@@ -23,43 +21,44 @@ interface PlanFormProps {
   submitLabel?: string
 }
 
-
 export default function PlanForm({
   initial,
   onSubmit,
   onCancel,
   submitLabel = 'Save Plan',
 }: PlanFormProps) {
-  const [values, setValues] = useState<PlanFormValues>(
-    initial
-      ? {
-          name: initial.name,
-          description: initial.description,
-          price: initial.price,
-          billingCycle: initial.billingCycle,
-          customBillingLabel: initial.customBillingLabel ?? '',
-          isActive: initial.isActive,
-          features: initial.features,
-        }
-      : makeEmptyForm(),
+  const isCreateMode = !initial
+  const [values, setValues] = useState<PlanFormState>(
+    initial ? makeInitialFormState(initial) : makeEmptyFormState(),
   )
   const [errors, setErrors] = useState<FormErrors>({})
   const [submitting, setSubmitting] = useState(false)
 
-  const set = <K extends keyof PlanFormValues>(key: K, value: PlanFormValues[K]) => {
+  const set = <K extends keyof PlanFormState>(key: K, value: PlanFormState[K]) => {
     setValues(prev => ({ ...prev, [key]: value }))
     setErrors(prev => ({ ...prev, [key]: undefined }))
   }
 
   const handleSubmit = async () => {
-    const errs = validatePlanForm(values)
+    const errs =
+      values.price === ''
+        ? { ...validatePlanForm(toSubmitValues(values)), price: 'Price is required' }
+        : validatePlanForm(toSubmitValues(values))
+
     if (hasErrors(errs)) {
       setErrors(errs)
       return
     }
     setSubmitting(true)
     try {
-      await onSubmit(values)
+      await onSubmit(toSubmitValues(values))
+
+      if (isCreateMode) {
+        setValues(makeEmptyFormState())
+        setErrors({})
+      }
+    } catch {
+      // The parent submit handler owns API error messaging.
     } finally {
       setSubmitting(false)
     }
@@ -87,8 +86,8 @@ export default function PlanForm({
           <FormControlLabel
             control={
               <Switch
-                checked={values.isActive}
-                onChange={e => set('isActive', e.target.checked)}
+                checked={values.status === 'Active'}
+                onChange={e => set('status', e.target.checked ? 'Active' : 'Inactive')}
               />
             }
             label='Active'
@@ -117,53 +116,24 @@ export default function PlanForm({
           Pricing
         </Typography>
 
-        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-          <TextField
-            select
-            label='Billing Cycle'
-            value={values.billingCycle}
-            onChange={e => set('billingCycle', e.target.value as PlanFormValues['billingCycle'])}
-            sx={{ minWidth: 160 }}
-          >
-            {BILLING_OPTIONS.map(opt => (
-              <MenuItem key={opt.value} value={opt.value}>
-                {opt.label}
-              </MenuItem>
-            ))}
-          </TextField>
-
-          {values.billingCycle !== BILLING_CYCLE.CUSTOM ? (
-            <TextField
-              label='Price (USD)'
-              type='number'
-              fullWidth
-              value={values.price}
-              onChange={e => set('price', Number(e.target.value))}
-              error={!!errors.price}
-              helperText={errors.price}
-              inputProps={{ min: 0 }}
-            />
-          ) : (
-            <TextField
-              label='Billing Label'
-              fullWidth
-              required
-              value={values.customBillingLabel}
-              onChange={e => set('customBillingLabel', e.target.value)}
-              error={!!errors.customBillingLabel}
-              helperText={errors.customBillingLabel}
-              placeholder='e.g. Contact Sales'
-            />
-          )}
-        </Stack>
+        <TextField
+          label='Price (USD)'
+          type='number'
+          fullWidth
+          value={values.price}
+          onChange={e => set('price', e.target.value === '' ? '' : Number(e.target.value))}
+          error={!!errors.price}
+          helperText={errors.price}
+          inputProps={{ min: 0 }}
+        />
       </Stack>
 
       <Divider />
 
       <FeatureEditor
-        features={values.features}
+        features={values.planFeatures}
         errors={errors.features}
-        onChange={features => set('features', features)}
+        onChange={features => set('planFeatures', features)}
       />
 
       <Divider />
