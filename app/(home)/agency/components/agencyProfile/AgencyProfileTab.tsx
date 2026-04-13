@@ -39,12 +39,6 @@ export function AgencyProfileTab({
       <Paper
         elevation={0}
         variant="outlined"
-        sx={{
-          borderRadius: 3,
-          overflow: "hidden",
-          transition: "box-shadow 0.3s ease",
-          "&:hover": { boxShadow: 2 },
-        }}
       >
         <Stack spacing={3} sx={{ p: 3 }}>
           <Stack direction="row" alignItems="center" justifyContent="space-between">
@@ -97,6 +91,7 @@ export function AgencyProfileTab({
             isEditing={isEditing}
             isLoading={isLoading}
             control={form.control}
+            setValue={form.setValue}
             currentValues={currentValues}
           />
         </Stack>
@@ -104,13 +99,7 @@ export function AgencyProfileTab({
 
       <Paper
         elevation={0}
-        variant="outlined"
-        sx={{
-          borderRadius: 3,
-          overflow: "hidden",
-          transition: "box-shadow 0.3s ease",
-          "&:hover": { boxShadow: 2 },
-        }}
+        variant="card"
       >
         <Stack spacing={3} sx={{ p: 3 }}>
           <Typography variant="h5">Uploaded Files</Typography>
