@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   Grid,
   Typography,
@@ -19,34 +19,42 @@ import { ProfileFields } from '../types/profile'
 import { fieldsMeta, GENDER_OPTIONS } from '../constants/profileFields'
 import { ProfileFieldEditor } from './ProfileFieldEditor'
 import { ProfileFieldDisplay } from './ProfileFieldDisplay'
+import { useUpdateUserProfile } from '../hooks/mutations/useUpdateUserProfile'
+import { getProfileFields, buildUpdatePayload } from '../util/profileMappers'
 
 interface OverviewTabProps {
   data: ProfileFields
 }
-
 export function OverviewTab({ data }: OverviewTabProps) {
   const theme = useTheme()
+  const updateUserProfile = useUpdateUserProfile()
 
   const [isEditing, setIsEditing] = useState(false)
 
-  const [fields, setFields] = useState<ProfileFields>({
-    name: data.name ?? '',
-    email: data.email ?? '',
-    phone: data.phone ?? '',
-    birthDate: data.birthDate ?? '',
-    gender: data.gender ?? '',
-  })
+  const [fields, setFields] = useState<ProfileFields>(() => getProfileFields(data))
 
   const [draft, setDraft] = useState<ProfileFields>(fields)
+
+  useEffect(() => {
+    if (isEditing) return
+
+    const nextFields = getProfileFields(data)
+    setFields(nextFields)
+    setDraft(nextFields)
+  }, [data, isEditing])
 
   const handleEdit = () => {
     setDraft(fields)
     setIsEditing(true)
   }
 
-  const handleSave = () => {
-    setFields(draft)
-    setIsEditing(false)
+  const handleSave = async () => {
+    try {
+      await updateUserProfile.mutateAsync(buildUpdatePayload(draft))
+      setIsEditing(false)
+    } catch {
+      // Error toast is handled by useUpdateUserProfile.
+    }
   }
 
   const handleCancel = () => {
@@ -114,6 +122,7 @@ export function OverviewTab({ data }: OverviewTabProps) {
                       <IconButton
                         size='small'
                         onClick={handleSave}
+                        disabled={updateUserProfile.isPending}
                         sx={{
                           color: theme.palette.success.main,
                           '&:hover': {
@@ -129,6 +138,7 @@ export function OverviewTab({ data }: OverviewTabProps) {
                       <IconButton
                         size='small'
                         onClick={handleCancel}
+                        disabled={updateUserProfile.isPending}
                         sx={{
                           color: theme.palette.error.main,
                           '&:hover': {
