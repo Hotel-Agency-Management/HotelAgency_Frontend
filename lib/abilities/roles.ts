@@ -23,6 +23,7 @@ export function defineAbilitiesFor(role: UserRole): AppAbility {
       can('read', 'Agency')
       can('manage', 'Agency')
       can('manage', 'AgencySettings')
+      can ('update', 'HotelInformation')
       break
     case 'PROPERTY_MANAGER':
     case 'FRONT_DESK_STAFF':
