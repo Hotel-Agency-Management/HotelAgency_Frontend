@@ -40,6 +40,7 @@ export interface SignupResponse {
 export interface AgencySignupResponse extends SignupResponse {
   agencyId: number
   token?: string
+  accessToken?: string
   refreshToken?: string
 }
 
