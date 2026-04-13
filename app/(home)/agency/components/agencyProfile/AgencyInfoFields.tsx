@@ -1,42 +1,21 @@
 "use client";
 import { Controller } from "react-hook-form";
 import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
 import Skeleton from "@mui/material/Skeleton";
-import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import { alpha } from "@mui/material/styles";
 import { MuiTelInput } from "mui-tel-input";
 import { Building2, MapPin, Phone } from "lucide-react";
 import { AgencyInfoFieldsProps } from "../../types/agencyProfile";
 import TextField from "@mui/material/TextField";
 import { FieldLabel } from "./FieldLabel";
-function InfoCard({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return (
-    <Paper
-      elevation={0}
-      variant="outlined"
-      sx={{
-        height: "100%",
-        borderRadius: 2.5,
-        bgcolor: theme => alpha(theme.palette.background.default, 0.35),
-      }}
-    >
-      <Stack spacing={1.75} sx={{ p: 2.25, minHeight: 132 }}>
-        {children}
-      </Stack>
-    </Paper>
-  );
-}
+import { getCountryName } from "../../util/phoneUtils";
+import { InfoCard } from "./InfoCard";
 
 export function AgencyInfoFields({
   isEditing,
   isLoading,
   control,
+  setValue,
   currentValues,
 }: AgencyInfoFieldsProps) {
   return (
@@ -89,6 +68,17 @@ export function AgencyInfoFields({
                   defaultCountry="US"
                   error={!!fieldState.error}
                   helperText={fieldState.error?.message}
+                  onChange={(value, info) => {
+                    field.onChange(value);
+
+                    const countryName = getCountryName(info);
+                    if (countryName) {
+                      setValue("country", countryName, {
+                        shouldDirty: true,
+                        shouldValidate: true,
+                      });
+                    }
+                  }}
                 />
               )}
             />
