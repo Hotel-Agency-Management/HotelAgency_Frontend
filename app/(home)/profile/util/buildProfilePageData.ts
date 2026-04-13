@@ -9,15 +9,15 @@ export function buildProfilePageData(
   user: User | null,
   profile: UserProfile | null
 ): ProfilePageData {
-  const u = user as ProfileUser | null
-  const role = u?.role ?? ''
+  const userData = user as ProfileUser | null
+  const role = userData?.role ?? ''
   const roleLabel = isUserRole(role) ? USER_ROLE_LABELS[role] : 'User'
 
   const fullName =
     joinName(profile?.firstName, profile?.lastName) ||
-    u?.name ||
-    joinName(u?.firstName, u?.lastName)
-  const joinedRaw = profile?.updatedAt ?? u?.updatedAt ?? u?.createdAt
+    userData?.name ||
+    joinName(userData?.firstName, userData?.lastName)
+  const joinedRaw = profile?.updatedAt ?? userData?.updatedAt ?? userData?.createdAt
 
   const joinedDate = joinedRaw
     ? (() => {
@@ -28,7 +28,7 @@ export function buildProfilePageData(
       })()
     : profileDummyData.joinedDate
 
-  const agencySource = u?.agency
+  const agencySource = userData?.agency
   const agency = agencySource
     ? {
         name: agencySource.name ?? '—',
@@ -39,7 +39,7 @@ export function buildProfilePageData(
       }
     : undefined
 
-  const hotelSource = u?.hotel
+  const hotelSource = userData?.hotel
   const colors = hotelSource?.branding?.colors
   const hotel = hotelSource
     ? {
@@ -58,24 +58,24 @@ export function buildProfilePageData(
   return {
     hero: {
       name: fullName,
-      email: profile?.email ?? u?.email ?? '',
+      email: profile?.email ?? userData?.email ?? '',
       title: roleLabel,
-      bio: u?.bio ?? profileDummyData.bio,
-      location: u?.location ?? profileDummyData.location,
+      bio: userData?.bio ?? profileDummyData.bio,
+      location: userData?.location ?? profileDummyData.location,
       joinedDate,
       social: {
-        github: u?.social?.github ?? profileDummyData.social.github,
-        linkedin: u?.social?.linkedin ?? profileDummyData.social.linkedin,
-        twitter: u?.social?.twitter ?? profileDummyData.social.twitter,
-        website: u?.social?.website ?? profileDummyData.social.website,
+        github: userData?.social?.github ?? profileDummyData.social.github,
+        linkedin: userData?.social?.linkedin ?? profileDummyData.social.linkedin,
+        twitter: userData?.social?.twitter ?? profileDummyData.social.twitter,
+        website: userData?.social?.website ?? profileDummyData.social.website,
       },
     },
     overview: {
       name: fullName,
-      email: profile?.email ?? u?.email ?? '',
-      phone: profile?.phoneNumber ?? u?.phoneNumber ?? '',
-      birthDate: profile?.dateOfBirth ?? u?.dateOfBirth ?? '',
-      gender: profile?.gender ?? u?.gender ?? '',
+      email: profile?.email ?? userData?.email ?? '',
+      phone: profile?.phoneNumber ?? userData?.phoneNumber ?? '',
+      birthDate: profile?.dateOfBirth ?? userData?.dateOfBirth ?? '',
+      gender: profile?.gender ?? userData?.gender ?? '',
     },
     agency,
     hotel,
