@@ -8,7 +8,16 @@ import {
   refreshTokenRequest,
   resendVerificationEmailRequest
 } from '@/components/auth/client/authClient'
-import { SignupResponse, CustomerSignupRequest, AgencyOwnerSignupRequest, ResendVerificationEmailResponse, ResendVerificationEmailRequest, RefreshTokenResponse, RefreshTokenRequest } from '@/components/auth/configs/authConfig'
+import {
+  AgencyOwnerSignupRequest,
+  AgencySignupResponse,
+  CustomerSignupRequest,
+  RefreshTokenRequest,
+  RefreshTokenResponse,
+  ResendVerificationEmailRequest,
+  ResendVerificationEmailResponse,
+  SignupResponse
+} from '@/components/auth/configs/authConfig'
 
 export const useLoginMutation = () =>
   useMutation<AuthResponse, Error, LoginCredentials>({
@@ -21,7 +30,7 @@ export const useSignUpCustomerMutation = () =>
   })
 
 export const useSignUpAgencyOwnerMutation = () =>
-  useMutation<SignupResponse, Error, AgencyOwnerSignupRequest>({
+  useMutation<AgencySignupResponse, Error, AgencyOwnerSignupRequest>({
     mutationFn: registerAgencyOwnerRequest
   })
 
