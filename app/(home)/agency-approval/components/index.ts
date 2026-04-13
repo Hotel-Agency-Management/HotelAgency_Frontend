@@ -1,1 +1,1 @@
-export type { AgencyRequest, AgencyStatus, FilterState } from '../types/agency'
+export type { AgencyRequest, FilterState } from '../types/agency'

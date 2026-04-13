@@ -1,4 +1,4 @@
-import { USER_ROLES } from "../types/authType"
+import { USER_ROLES } from "@/lib/abilities"
 import { createAgencyOwnerRedirectStrategy } from "./strategies/agencyOwnerStrategy"
 import { createDefaultRedirectStrategy } from "./strategies/defaultStrategy"
 import { FactoryParams, PostLoginRedirectStrategy } from "./types"

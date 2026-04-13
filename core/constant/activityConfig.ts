@@ -6,7 +6,7 @@ import {
   SquarePlus,
   Ban,
 } from "lucide-react"
-import { ActivityType } from "@/core/types/dashboardTypes";
+import { ActivityType } from "@/app/(home)/admin-dashboard/types/dashboardTypes";
 
 
 type ActivityConfig = {

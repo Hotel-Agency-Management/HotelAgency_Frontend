@@ -1,3 +1,4 @@
+import { AgencyStatus } from "@/components/auth/types/authType";
 
 export interface StatCardProps {
   title: string;
@@ -42,7 +43,6 @@ export interface PieChartProps {
 }
 
 
-export type AgencyStatus = "Active" | "Pending" | "Rejected";
 export type AgencyPlan = "Basic" | "Pro" | "Enterprise";
 
 export interface LatestAgency {

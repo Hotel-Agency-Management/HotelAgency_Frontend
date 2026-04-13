@@ -1,4 +1,5 @@
 import { AgencyRequest } from "../types/agency";
+import { AGENCY_STATUS } from "@/components/auth/types/authType";
 
 export const MOCK_REQUESTS: AgencyRequest[] = [
   {
@@ -10,7 +11,7 @@ export const MOCK_REQUESTS: AgencyRequest[] = [
     location: 'Dubai, UAE',
     country: 'UAE',
     submittedAt: '2024-11-28T09:14:00Z',
-    status: 'pending',
+    status: AGENCY_STATUS.PENDING,
     description: 'Premium travel agency specializing in luxury hotel bookings across the GCC region. Operating since 2018 with 40+ hotel partnerships.',
     logoInitials: 'HT',
     avatarColor: '#7d6030',
@@ -26,7 +27,7 @@ export const MOCK_REQUESTS: AgencyRequest[] = [
     location: 'Riyadh, Saudi Arabia',
     country: 'Saudi Arabia',
     submittedAt: '2024-11-26T14:30:00Z',
-    status: 'pending',
+    status: AGENCY_STATUS.PENDING,
     description: 'Corporate travel management agency focusing on business travel solutions for Fortune 500 companies in MENA.',
     logoInitials: 'VE',
     avatarColor: '#7d6030',
@@ -42,7 +43,7 @@ export const MOCK_REQUESTS: AgencyRequest[] = [
     location: 'Amman, Jordan',
     country: 'Jordan',
     submittedAt: '2024-11-25T11:05:00Z',
-    status: 'pending',
+    status: AGENCY_STATUS.PENDING,
     description: 'Boutique travel agency curating bespoke cultural and heritage tours across the Levant region.',
     logoInitials: 'OJ',
     avatarColor: '#7d6030',
@@ -57,7 +58,7 @@ export const MOCK_REQUESTS: AgencyRequest[] = [
     location: 'Muscat, Oman',
     country: 'Oman',
     submittedAt: '2024-11-22T08:45:00Z',
-    status: 'approved',
+    status: AGENCY_STATUS.APPROVED,
     description: 'Full-service MICE and corporate travel agency with ISO 9001 certification and presence in 6 GCC countries.',
     logoInitials: 'MC',
     avatarColor: '#7d6030',
@@ -72,7 +73,7 @@ export const MOCK_REQUESTS: AgencyRequest[] = [
     location: 'Manama, Bahrain',
     country: 'Bahrain',
     submittedAt: '2024-11-20T16:20:00Z',
-    status: 'rejected',
+    status: AGENCY_STATUS.REJECTED,
     description: 'New agency seeking to provide hotel booking services for leisure travelers in the Gulf region.',
     logoInitials: 'PH',
     avatarColor: '#7d6030',
@@ -86,7 +87,7 @@ export const MOCK_REQUESTS: AgencyRequest[] = [
     location: 'Cairo, Egypt',
     country: 'Egypt',
     submittedAt: '2024-11-18T10:10:00Z',
-    status: 'pending',
+    status: AGENCY_STATUS.PENDING,
     description: 'Egypt\'s leading luxury travel consultancy with partnerships across 5-star properties in North Africa and Mediterranean.',
     logoInitials: 'AP',
     avatarColor: '#7d6030',

@@ -62,10 +62,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }, [])
 
   const setAuthData = (response: AuthResponse): void => {
-    const { accessToken, refreshToken } = response
+    const { token, refreshToken } = response
     const userData = getAuthResponseUser(response)
 
-    localStorage.setItem(authConfig.storageTokenKeyName, accessToken)
+    localStorage.setItem(authConfig.storageTokenKeyName, token)
     if (userData) {
       localStorage.setItem(authConfig.storageUserDataKeyName, JSON.stringify(userData))
     } else {
@@ -78,7 +78,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       localStorage.removeItem(authConfig.storageRefreshTokenKeyName)
     }
 
-    document.cookie = `${authConfig.cookieName}=${accessToken}; path=/; max-age=${authConfig.cookieMaxAge}; SameSite=${authConfig.cookieSameSite}${
+    document.cookie = `${authConfig.cookieName}=${token}; path=/; max-age=${authConfig.cookieMaxAge}; SameSite=${authConfig.cookieSameSite}${
       authConfig.cookieSecure ? '; Secure' : ''
     }`
 
@@ -89,16 +89,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     try {
       setIsLoading(true)
       const response = await loginRequest(credentials)
-      const userData = getAuthResponseUser(response)
-
       setAuthData(response)
-
-      const isIncompleteAgencyOwner =
-        userData?.role === 'AGENCY_OWNER' && userData.agencyStatus === 'incomplete'
-
-      if (!isIncompleteAgencyOwner) {
-        router.push(authConfig.homePageURL)
-      }
     } catch (error) {
       console.error('Login failed:', error)
       onError?.(getErrorMessage(error, 'Login failed. Please try again.'))

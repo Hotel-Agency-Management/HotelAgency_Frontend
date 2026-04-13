@@ -8,6 +8,7 @@
 import type { UserRole } from '@/lib/abilities'
 import type { HotelFormValues } from '@/app/(home)/agency/[agencyName]/hotels/types/hotel'
 import { ProfileAgencyData } from '@/app/(home)/profile/types/profile'
+import { AGENCY_STATUS, type AgencyStatus } from '@/components/auth/types/authType'
 
 export interface MockUser {
   id: string
@@ -17,7 +18,8 @@ export interface MockUser {
   role: UserRole
   agencyName?: string
   hotelId?: string
-  agencyStatus? : 'incomplete' | 'pending' | 'approved' | 'rejected' // For agency owners
+  agencyStatus? : AgencyStatus
+  phone?: string
   phoneNumber?: string
   dateOfBirth?: string
   gender?: string
@@ -40,7 +42,7 @@ const defaultUsers: MockUser[] = [
     password: 'password123',
     name: 'Admin User',
     role: 'SUPER_ADMIN',
-    agencyStatus: 'incomplete', // For testing incomplete agency flow
+    agencyStatus: AGENCY_STATUS.INCOMPLETE, // For testing incomplete agency flow
     bio: 'Platform administrator managing agencies, approvals, and overall system operations.',
     location: 'San Francisco, CA',
     createdAt: new Date().toISOString(),

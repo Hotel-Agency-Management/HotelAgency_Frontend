@@ -1,6 +1,5 @@
+import { AgencyStatus } from "@/components/auth/types/authType"
 import { LucideIcon } from "lucide-react"
-
-export type AgencyStatus = 'pending' | 'approved' | 'rejected'
 
 export interface AgencyRequest {
   id: string

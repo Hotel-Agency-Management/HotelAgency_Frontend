@@ -5,7 +5,7 @@ import AgencyStatusChip from "../components/AgencyStatusChip";
 import { Agency } from "../types/agency";
 import { PLAN_NAMES } from "./agencyConstants";
 
-export const columns = (onAgencyClick: (agencyName: string) => void): GridColDef<Agency>[] => [
+export const columns = (): GridColDef<Agency>[] => [
   {
     field: 'agency_name',
     headerName: 'Agency',

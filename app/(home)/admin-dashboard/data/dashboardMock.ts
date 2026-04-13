@@ -1,5 +1,6 @@
 import type { PieDataPoint } from '@/components/charts/types'
 import { StatCardProps, LatestAgency, ActivityItem } from '../types/dashboardTypes'
+import { AGENCY_STATUS } from '@/components/auth/types/authType'
 
 export const STAT_CARDS: StatCardProps[] = [
   {
@@ -55,13 +56,13 @@ export const APPROVAL_CHART_DATA: PieDataPoint[] = [
 ]
 
 export const LATEST_AGENCIES: LatestAgency[] = [
-  { id: '1', name: 'Horizon Travel Co.', status: 'Active', plan: 'Enterprise', createdAt: '2025-07-01', country: 'UAE' },
-  { id: '2', name: 'Wanderlust Agency', status: 'Pending', plan: 'Pro', createdAt: '2025-07-02', country: 'Egypt' },
-  { id: '3', name: 'Sky Route Tours', status: 'Active', plan: 'Basic', createdAt: '2025-07-03', country: 'Jordan' },
-  { id: '4', name: 'Alpine Escapes', status: 'Active', plan: 'Pro', createdAt: '2025-07-04', country: 'Saudi Arabia' },
-  { id: '5', name: 'Nomad Collective', status: 'Pending', plan: 'Enterprise', createdAt: '2025-07-05', country: 'Qatar' },
-  { id: '6', name: 'BlueSea Holidays', status: 'Rejected', plan: 'Basic', createdAt: '2025-07-06', country: 'Kuwait' },
-  { id: '7', name: 'Meridian Journeys', status: 'Active', plan: 'Pro', createdAt: '2025-07-07', country: 'Bahrain' }
+  { id: '1', name: 'Horizon Travel Co.', status: AGENCY_STATUS.APPROVED, plan: 'Enterprise', createdAt: '2025-07-01', country: 'UAE' },
+  { id: '2', name: 'Wanderlust Agency', status: AGENCY_STATUS.PENDING, plan: 'Pro', createdAt: '2025-07-02', country: 'Egypt' },
+  { id: '3', name: 'Sky Route Tours', status: AGENCY_STATUS.APPROVED, plan: 'Basic', createdAt: '2025-07-03', country: 'Jordan' },
+  { id: '4', name: 'Alpine Escapes', status: AGENCY_STATUS.APPROVED, plan: 'Pro', createdAt: '2025-07-04', country: 'Saudi Arabia' },
+  { id: '5', name: 'Nomad Collective', status: AGENCY_STATUS.PENDING, plan: 'Enterprise', createdAt: '2025-07-05', country: 'Qatar' },
+  { id: '6', name: 'BlueSea Holidays', status: AGENCY_STATUS.REJECTED, plan: 'Basic', createdAt: '2025-07-06', country: 'Kuwait' },
+  { id: '7', name: 'Meridian Journeys', status: AGENCY_STATUS.APPROVED, plan: 'Pro', createdAt: '2025-07-07', country: 'Bahrain' }
 ]
 
 export const RECENT_ACTIVITY: ActivityItem[] = [
