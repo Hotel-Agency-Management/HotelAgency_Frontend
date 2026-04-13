@@ -101,11 +101,6 @@ const navigation = (hotelId?: string): SidebarNavItems => {
           subject: 'RoomAmenities',
           action: 'manage'
         },
-      ]
-    },
-      subject: 'RoomTypes',
-      action: 'manage',
-      items: [
         {
           title: 'Room Types',
           path: '/room-types',
@@ -114,7 +109,7 @@ const navigation = (hotelId?: string): SidebarNavItems => {
           action: 'manage'
         },
       ]
-    }
+    },
   ]
 
   if (!hotelId) {

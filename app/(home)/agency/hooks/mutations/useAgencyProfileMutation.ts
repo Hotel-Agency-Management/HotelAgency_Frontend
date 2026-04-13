@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { updateAgencyProfile, updateAgencyLogo } from '../../clients/agencyProfileClient'
 import { UpdateAgencyInfoRequest } from '../../configs/agencyProfileConfig'
-import { AGENCY_PROFILE_KEY } from '../../constants/agencyProfileKey'
 import toast from 'react-hot-toast'
 import { getErrorMessage } from '@/core/utils/apiError'
+import { AGENCY_PROFILE_KEY } from '../../constants/agencyProfileConstants'
 
 export function useUpdateAgencyProfile() {
   const queryClient = useQueryClient()
