@@ -9,3 +9,5 @@ export const EMPTY_PROFILE: AgencyProfile = {
   city: '',
   files: [],
 }
+
+export const AGENCY_PROFILE_KEY = ['agencyProfile']

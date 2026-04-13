@@ -7,6 +7,7 @@ export function resolveAgencyLogoUrl(logoUrl?: string | null): string | null {
   const value = logoUrl?.trim()
 
   if (!value) return null
+  // Match URLs that already have a protocol (data:, blob:, http, https)
   if (/^(data:|blob:|https?:\/\/)/.test(value)) return value
   if (value.startsWith('/')) return BACKEND_ORIGIN ? `${BACKEND_ORIGIN}${value}` : value
 

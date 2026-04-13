@@ -91,7 +91,7 @@ const navigation = (hotelId?: string): SidebarNavItems => {
     {
       sectionTitle: 'Rooms',
       icon: 'lucide:hotel',
-      subject: 'RoomTypes',
+      subject: 'Rooms',
       action: 'manage',
       items: [
         {
