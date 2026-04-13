@@ -1,4 +1,4 @@
-import { Control } from "react-hook-form";
+import { Control, UseFormSetValue } from "react-hook-form";
 import type { DocumentType } from "../constants/documentTypes";
 
 export interface FileItem {
@@ -12,6 +12,7 @@ export interface FileItem {
 export interface AgencyProfile {
   name: string;
   phone: string;
+  country: string;
   city: string;
   files: FileItem[];
 }
@@ -20,6 +21,7 @@ export interface AgencyInfoFieldsProps {
   isEditing: boolean;
   isLoading?: boolean;
   control: Control<AgencyProfile>;
+  setValue: UseFormSetValue<AgencyProfile>;
   currentValues: AgencyProfile;
 }
 
