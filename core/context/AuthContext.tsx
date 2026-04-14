@@ -61,29 +61,38 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     initAuth()
   }, [])
 
-  const setAuthData = (response: AuthResponse): void => {
-    const { token, refreshToken } = response
-    const userData = getAuthResponseUser(response)
+const setAuthData = (response: AuthResponse): void => {
+  const { token, refreshToken } = response
+  const userData = getAuthResponseUser(response)
 
-    localStorage.setItem(authConfig.storageTokenKeyName, token)
-    if (userData) {
-      localStorage.setItem(authConfig.storageUserDataKeyName, JSON.stringify(userData))
-    } else {
-      localStorage.removeItem(authConfig.storageUserDataKeyName)
-    }
+  localStorage.setItem(authConfig.storageTokenKeyName, token)
 
-    if (refreshToken) {
-      localStorage.setItem(authConfig.storageRefreshTokenKeyName, refreshToken)
-    } else {
-      localStorage.removeItem(authConfig.storageRefreshTokenKeyName)
-    }
+  if (userData) {
+    localStorage.setItem(authConfig.storageUserDataKeyName, JSON.stringify(userData))
+  } else {
+    localStorage.removeItem(authConfig.storageUserDataKeyName)
+  }
 
-    document.cookie = `${authConfig.cookieName}=${token}; path=/; max-age=${authConfig.cookieMaxAge}; SameSite=${authConfig.cookieSameSite}${
+  if (refreshToken) {
+    localStorage.setItem(authConfig.storageRefreshTokenKeyName, refreshToken)
+  } else {
+    localStorage.removeItem(authConfig.storageRefreshTokenKeyName)
+  }
+
+  document.cookie = `${authConfig.cookieName}=${token}; path=/; max-age=${authConfig.cookieMaxAge}; SameSite=${authConfig.cookieSameSite}${
+    authConfig.cookieSecure ? '; Secure' : ''
+  }`
+
+  if (userData?.role) {
+    document.cookie = `userRole=${userData.role}; path=/; max-age=${authConfig.cookieMaxAge}; SameSite=${authConfig.cookieSameSite}${
       authConfig.cookieSecure ? '; Secure' : ''
     }`
-
-    setUser(userData ? { ...userData, freshLogin: true } : null)
+  } else {
+    document.cookie = `userRole=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT`
   }
+
+  setUser(userData ? { ...userData, freshLogin: true } : null)
+}
 
   const login = async (credentials: LoginCredentials, onError?: ErrorCallback): Promise<void> => {
     try {
@@ -129,13 +138,16 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }
 
   const logout = async (): Promise<void> => {
-    setUser(null)
-    localStorage.removeItem(authConfig.storageTokenKeyName)
-    localStorage.removeItem(authConfig.storageUserDataKeyName)
-    localStorage.removeItem(authConfig.storageRefreshTokenKeyName)
-    document.cookie = `${authConfig.cookieName}=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT`
-    router.push(authConfig.loginPageURL)
-  }
+  setUser(null)
+  localStorage.removeItem(authConfig.storageTokenKeyName)
+  localStorage.removeItem(authConfig.storageUserDataKeyName)
+  localStorage.removeItem(authConfig.storageRefreshTokenKeyName)
+
+  document.cookie = `${authConfig.cookieName}=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT`
+  document.cookie = `userRole=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT`
+
+  router.push(authConfig.loginPageURL)
+}
 
   const contextValue: AuthContextType = {
     user,
@@ -161,3 +173,4 @@ export const useAuth = (): AuthContextType => {
 }
 
 export { AuthContext }
+

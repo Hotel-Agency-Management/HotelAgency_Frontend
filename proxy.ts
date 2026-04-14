@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { decodeJwt } from 'jose'
 import { checkAuthorization, isPublicRoute } from '@/lib/abilities'
 import { USER_ROLES } from '@/lib/abilities'
 import type { UserRole } from '@/lib/abilities'
@@ -13,53 +12,36 @@ import { authConfig } from './core/configs/clientConfig'
 const ACCESS_TOKEN_COOKIE = 'accessToken'
 
 /**
+ * Cookie name for user role
+ * This role is stored after login/signup and used by middleware
+ * to avoid decoding the JWT on every request
+ */
+const USER_ROLE_COOKIE = 'userRole'
+
+/**
  * Routes that middleware should skip entirely
  * These are static assets and API routes handled elsewhere
  */
 const SKIP_ROUTES = ['/_next', '/api', '/favicon.ico', '/locales', '/images']
 
 /**
- * JWT payload structure expected from the auth system
- */
-interface JWTPayload {
-  sub: string
-  email?: string
-  role?: string
-  name?: string
-  exp?: number
-  iat?: number
-}
-
-/**
- * Extract user role from JWT token
+ * Extract user role from cookie
  *
- * Note: This only decodes the JWT, it does NOT verify the signature.
- * Signature verification should happen in API routes.
- * Middleware decoding is for early rejection of clearly unauthorized requests.
+ * Middleware can only access request data such as cookies and headers.
+ * Since we do not want to decode the JWT here, the role is read directly
+ * from the cookie set during authentication.
  *
- * @param token - JWT access token
+ * @param request - Incoming Next.js request
  * @returns UserRole if valid, null otherwise
  */
-function getUserRoleFromToken(token: string): UserRole | null {
-  try {
-    const payload = decodeJwt(token) as JWTPayload
+function getUserRoleFromCookie(request: NextRequest): UserRole | null {
+  const role = request.cookies.get(USER_ROLE_COOKIE)?.value as UserRole | undefined
 
-    // Check if token is expired
-    if (payload.exp && payload.exp * 1000 < Date.now()) {
-      return null
-    }
-
-    // Validate and return role
-    const role = payload.role as UserRole
-    if (Object.values(USER_ROLES).includes(role)) {
-      return role
-    }
-
-    return null
-  } catch {
-    // Invalid JWT format
-    return null
+  if (role && Object.values(USER_ROLES).includes(role)) {
+    return role
   }
+
+  return null
 }
 
 /**
@@ -71,7 +53,7 @@ function getUserRoleFromToken(token: string): UserRole | null {
  * Flow:
  * 1. Skip static assets and API routes
  * 2. Allow public routes without auth
- * 3. Extract session from cookie
+ * 3. Extract session from cookies
  * 4. Check authorization
  * 5. Redirect if unauthorized
  */
@@ -83,9 +65,9 @@ export function proxy(request: NextRequest) {
     return NextResponse.next()
   }
 
-  // Get token from cookie (needed for both public and protected route checks)
+  // Get token and role from cookies
   const token = request.cookies.get(ACCESS_TOKEN_COOKIE)?.value
-  const userRole = token ? getUserRoleFromToken(token) : null
+  const userRole = getUserRoleFromCookie(request)
 
   // Redirect authenticated users away from login page
   if (token && userRole && pathname === '/login') {
