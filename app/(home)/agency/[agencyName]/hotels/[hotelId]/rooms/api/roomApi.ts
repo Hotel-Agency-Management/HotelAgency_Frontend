@@ -1,8 +1,10 @@
 import {
+  BED_TYPE,
   CreateRoomDto,
   Room,
   RoomFilters,
   RoomPhoto,
+  ROOM_STATUS,
   UpdateRoomDto,
 } from "../types/room";
 import { sleep } from "../util/delay";
@@ -19,11 +21,11 @@ let mockRooms: Room[] = [
     roomNumber: "101",
     floorNumber: 1,
     roomTypeId: "1",
-    status: "available",
+    status: ROOM_STATUS.AVAILABLE,
     description: "Cozy single room with garden view",
     notes: "",
     capacity: 1,
-    bedType: "single",
+    bedType: BED_TYPE.SINGLE,
     starRating: 3,
     amenities: ["wifi", "ac", "tv"],
     photos: [
@@ -55,11 +57,11 @@ let mockRooms: Room[] = [
     roomNumber: "201",
     floorNumber: 2,
     roomTypeId: "2",
-    status: "occupied",
+    status: ROOM_STATUS.OCCUPIED,
     description: "Spacious double room with city view",
     notes: "VIP guest",
     capacity: 2,
-    bedType: "queen",
+    bedType: BED_TYPE.QUEEN,
     starRating: 4,
     amenities: ["wifi", "minibar", "ac", "tv", "balcony"],
     photos: [
@@ -86,11 +88,11 @@ let mockRooms: Room[] = [
     roomNumber: "301",
     floorNumber: 3,
     roomTypeId: "3",
-    status: "reserved",
+    status: ROOM_STATUS.RESERVED,
     description: "Luxury suite with panoramic view",
     notes: "",
     capacity: 3,
-    bedType: "king",
+    bedType: BED_TYPE.KING,
     starRating: 5,
     amenities: ["wifi", "minibar", "jacuzzi", "ac", "tv", "balcony", "spa"],
     photos: [
@@ -184,7 +186,7 @@ export const roomsApi = {
     mockRooms = mockRooms.filter((r) => r.id !== id);
   },
 
-  importExcel: async (_file: File): Promise<{ imported: number; failed: number }> => {
+  importExcel: async (): Promise<{ imported: number; failed: number }> => {
     await sleep(1000); // TODO: Remove when integrating backend
     return { imported: 5, failed: 0 };
   },

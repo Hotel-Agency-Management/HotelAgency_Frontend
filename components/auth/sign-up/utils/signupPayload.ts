@@ -2,6 +2,7 @@ import type {
   AgencyOwnerSignupRequest,
   CustomerSignupRequest
 } from '@/components/auth/configs/authConfig'
+import { SIGNUP_API_ACCOUNT_TYPE } from '@/components/auth/configs/authConfig'
 import { getCountryFromPhone } from '@/components/auth/utils/getCountryFromPhone'
 import type { AgencyFormData } from '@/components/auth/agency/types/agency'
 import type { SignupFormData } from '../types/signup'
@@ -14,7 +15,7 @@ export const createCustomerSignupPayload = (
   return {
     ...rest,
     phoneNumber: phone,
-    accountType: 'Customer'
+    accountType: SIGNUP_API_ACCOUNT_TYPE.CUSTOMER
   }
 }
 
@@ -28,7 +29,7 @@ export const createAgencyOwnerSignupPayload = (
   return {
     ...rest,
     phoneNumber: phone,
-    accountType: 'AgencyOwner',
+    accountType: SIGNUP_API_ACCOUNT_TYPE.AGENCY_OWNER,
     agencyName: agencyData.agencyName,
     city: agencyData.city,
     country,

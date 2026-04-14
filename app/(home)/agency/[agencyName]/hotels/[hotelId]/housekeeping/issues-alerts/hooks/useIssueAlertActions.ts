@@ -7,6 +7,7 @@ import type {
   HousekeepingIssueSeverity,
   RecentIssue
 } from "../types/issue";
+import { HOUSEKEEPING_ISSUE_KIND, HOUSEKEEPING_ISSUE_SEVERITY } from "../types/issue";
 import type { IssueAlertSummary } from "../constants/issueAlerts";
 import { getCurrentTimeLabel } from "../utils/time";
 
@@ -33,9 +34,9 @@ export function useIssueAlertActions({
 
   const summary = useMemo<IssueAlertSummary>(
     () => ({
-      critical: criticalIssues.filter((issue) => issue.severity === "HIGH").length,
-      delayed: criticalIssues.filter((issue) => issue.kind === "DELAYED").length,
-      reclean: criticalIssues.filter((issue) => issue.kind === "RECLEAN").length,
+      critical: criticalIssues.filter((issue) => issue.severity === HOUSEKEEPING_ISSUE_SEVERITY.HIGH).length,
+      delayed: criticalIssues.filter((issue) => issue.kind === HOUSEKEEPING_ISSUE_KIND.DELAYED).length,
+      reclean: criticalIssues.filter((issue) => issue.kind === HOUSEKEEPING_ISSUE_KIND.RECLEAN).length,
       resolvedToday
     }),
     [criticalIssues, resolvedToday]
@@ -72,7 +73,7 @@ export function useIssueAlertActions({
     setCriticalIssues((current) => current.filter((item) => item.id !== issue.id));
     setReassigningIssue((current) => (current?.id === issue.id ? null : current));
     setResolvedToday((current) => current + 1);
-    addTimelineItem(`Room ${issue.roomNumber} resolved`, "LOW");
+    addTimelineItem(`Room ${issue.roomNumber} resolved`, HOUSEKEEPING_ISSUE_SEVERITY.LOW);
     setMessage(`Room ${issue.roomNumber} resolved.`);
   };
 

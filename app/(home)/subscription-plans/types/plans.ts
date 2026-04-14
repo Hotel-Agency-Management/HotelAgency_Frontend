@@ -1,4 +1,6 @@
 
+import type { PageStatus } from "@/core/types/pageStatus"
+
 export interface PlanFeature {
   id: string
   name: string
@@ -8,7 +10,13 @@ export interface PlanFeature {
 }
 
 
-export type BillingCycle = 'monthly' | 'yearly' | 'custom'
+export const BILLING_CYCLE = {
+  MONTHLY: 'monthly',
+  YEARLY: 'yearly',
+  CUSTOM: 'custom',
+} as const
+
+export type BillingCycle = (typeof BILLING_CYCLE)[keyof typeof BILLING_CYCLE]
 
 export interface SubscriptionPlan {
   id: string
@@ -27,7 +35,7 @@ export interface SubscriptionPlan {
 export type PlanFormValues = Omit<SubscriptionPlan, 'id' | 'createdAt' | 'updatedAt'>
 
 
-export type PageStatus = 'idle' | 'loading' | 'error'
+export type { PageStatus }
 
 export interface SnackbarState {
   open: boolean

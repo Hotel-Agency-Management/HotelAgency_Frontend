@@ -7,7 +7,7 @@ import { Eye, EyeOff } from 'lucide-react'
 import { MuiTelInput } from 'mui-tel-input'
 import FormFieldWrapper from '@/components/ui/FormFieldWrapper'
 import ErrorMessage from '@/components/ui/ErrorMessage'
-import type { SignupAccountType, SignupFormData } from '../types/signup'
+import { SIGNUP_UI_ACCOUNT_TYPE, type SignupUiAccountType, type SignupFormData } from '../types/signup'
 import { staggerContainer, fadeInUp } from '../constants/signupAnimation'
 import FadeIn from '@/components/animation/FadeIn'
 
@@ -18,7 +18,7 @@ interface AccountStepProps {
   isSubmitting: boolean
   showPassword: boolean
   errorMessage: string
-  accountType: SignupAccountType
+  accountType: SignupUiAccountType
   onTogglePassword: () => void
   onSwitchToLogin: () => void
 }
@@ -192,7 +192,7 @@ const AccountStep: React.FC<AccountStepProps> = ({
           disabled={isSubmitting}
         >
           {!isLoading && (
-            accountType === 'agencyOwner'
+            accountType === SIGNUP_UI_ACCOUNT_TYPE.AGENCY_OWNER
               ? t('signup.continue', 'Continue')
               : t('signup.create', 'Create Account')
           )}

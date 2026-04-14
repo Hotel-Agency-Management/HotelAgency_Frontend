@@ -2,15 +2,19 @@ import type {
   HousekeepingTaskFilters,
   HousekeepingTaskType
 } from "../types/task";
+import {
+  HOUSEKEEPING_FILTER_ALL,
+  HOUSEKEEPING_TASK_TYPE
+} from "../types/task";
 
 export const TASK_TYPE_LABELS: Record<HousekeepingTaskType, string> = {
-  CHECKOUT: "Checkout",
-  STAYOVER: "Stayover",
-  INSPECTION: "Inspection"
+  [HOUSEKEEPING_TASK_TYPE.CHECKOUT]: "Checkout",
+  [HOUSEKEEPING_TASK_TYPE.STAYOVER]: "Stayover",
+  [HOUSEKEEPING_TASK_TYPE.INSPECTION]: "Inspection"
 };
 
 export const INITIAL_FILTERS: HousekeepingTaskFilters = {
-  status: "ALL",
-  assignedTo: "ALL",
-  floor: "ALL"
+  status: HOUSEKEEPING_FILTER_ALL,
+  assignedTo: HOUSEKEEPING_FILTER_ALL,
+  floor: HOUSEKEEPING_FILTER_ALL
 };

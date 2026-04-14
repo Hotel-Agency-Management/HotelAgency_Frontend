@@ -1,9 +1,9 @@
-import { SubscriptionPlan } from "@/app/(home)/subscription-plans/types/plans"
+import { BILLING_CYCLE, SubscriptionPlan } from "@/app/(home)/subscription-plans/types/plans"
 
-export const BILLING_CYCLE_LABELS: Record<string, string> = {
-  monthly: 'per month',
-  yearly:  'per year',
-  custom:  'custom',
+export const BILLING_CYCLE_LABELS: Record<SubscriptionPlan['billingCycle'], string> = {
+  [BILLING_CYCLE.MONTHLY]: 'per month',
+  [BILLING_CYCLE.YEARLY]: 'per year',
+  [BILLING_CYCLE.CUSTOM]: 'custom',
 }
 
 export const MOCK_PLANS: SubscriptionPlan[] = [
@@ -12,7 +12,7 @@ export const MOCK_PLANS: SubscriptionPlan[] = [
     name: 'Basic',
     description: 'Essential tools for small independent hotels getting started.',
     price: 29,
-    billingCycle: 'monthly',
+    billingCycle: BILLING_CYCLE.MONTHLY,
     isActive: true,
     createdAt: '2024-09-01T10:00:00Z',
     updatedAt: '2024-11-01T10:00:00Z',
@@ -29,7 +29,7 @@ export const MOCK_PLANS: SubscriptionPlan[] = [
     name: 'Pro',
     description: 'Advanced features for growing hotels and boutique chains.',
     price: 79,
-    billingCycle: 'monthly',
+    billingCycle: BILLING_CYCLE.MONTHLY,
     isActive: true,
     createdAt: '2024-09-01T10:00:00Z',
     updatedAt: '2024-11-15T10:00:00Z',
@@ -46,7 +46,7 @@ export const MOCK_PLANS: SubscriptionPlan[] = [
     name: 'Enterprise',
     description: 'Full-suite solution for large hotel groups and chains.',
     price: 0,
-    billingCycle: 'custom',
+    billingCycle: BILLING_CYCLE.CUSTOM,
     customBillingLabel: 'Contact Sales',
     isActive: true,
     createdAt: '2024-09-01T10:00:00Z',

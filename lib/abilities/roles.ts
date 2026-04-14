@@ -1,5 +1,5 @@
 import { AbilityBuilder, createMongoAbility } from '@casl/ability'
-import type { AppAbility, UserRole, Actions, Subjects } from './types'
+import { USER_ROLES, type AppAbility, type UserRole, type Actions, type Subjects } from './types'
 
 /**
  * Define CASL abilities for each role
@@ -11,13 +11,13 @@ export function defineAbilitiesFor(role: UserRole): AppAbility {
   const { can, build, cannot } = new AbilityBuilder<AppAbility>(createMongoAbility)
 
   switch (role) {
-    case 'SUPER_ADMIN':
+    case USER_ROLES.SUPER_ADMIN:
       // Admin has full access to everything
       can('manage', 'all')
       cannot('manage', 'AgencySettings')
 
       break
-    case 'AGENCY_OWNER':
+    case USER_ROLES.AGENCY_OWNER:
       can('manage', 'Dashboard')
       can('manage', 'Users')
       can('read', 'Agency')
@@ -25,16 +25,16 @@ export function defineAbilitiesFor(role: UserRole): AppAbility {
       can('manage', 'AgencySettings')
       can ('update', 'HotelInformation')
       break
-    case 'PROPERTY_MANAGER':
-    case 'FRONT_DESK_STAFF':
-    case 'HOUSEKEEPING_MANAGER':
-    case 'HOUSEKEEPING_EMPLOYEE':
-    case 'ACCOUNTANT':
+    case USER_ROLES.PROPERTY_MANAGER:
+    case USER_ROLES.FRONT_DESK_STAFF:
+    case USER_ROLES.HOUSEKEEPING_MANAGER:
+    case USER_ROLES.HOUSEKEEPING_EMPLOYEE:
+    case USER_ROLES.ACCOUNTANT:
       can('read', 'Agency')
       can('read', 'Hotels')
       break
 
-    case 'PROPERTY_MANAGER':
+    case USER_ROLES.PROPERTY_MANAGER:
       can('manage', 'Dashboard')
       can('manage', 'Users')
       can('manage', 'HotelManagement')

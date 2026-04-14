@@ -1,10 +1,11 @@
 import { Grid } from '@mui/material'
-import { SubscriptionPlan } from '../types/plans'
+import { PageStatus, SubscriptionPlan } from '../types/plans'
 import PlanCard from './PlanCard'
 import { LoadingState, ErrorState, EmptyState } from './StateViews'
+import { PAGE_STATUS } from '@/core/types/pageStatus'
 
 interface PlansContentFactoryProps {
-  pageStatus: 'idle' | 'loading' | 'error'
+  pageStatus: PageStatus
   plans: SubscriptionPlan[]
   onRetry: () => void
   onEdit: (plan: SubscriptionPlan) => void
@@ -19,13 +20,13 @@ export function PlansContentFactory({
   onDelete,
 }: PlansContentFactoryProps) {
   switch (pageStatus) {
-    case 'loading':
+    case PAGE_STATUS.LOADING:
       return <LoadingState />
 
-    case 'error':
+    case PAGE_STATUS.ERROR:
       return <ErrorState onRetry={onRetry} />
 
-    case 'idle':
+    case PAGE_STATUS.IDLE:
       if (plans.length === 0) {
         return <EmptyState />
       }

@@ -1,4 +1,10 @@
-export type SignupAccountType = 'Customer' | 'AgencyOwner'
+export const SIGNUP_API_ACCOUNT_TYPE = {
+  CUSTOMER: 'Customer',
+  AGENCY_OWNER: 'AgencyOwner',
+} as const
+
+export type SignupApiAccountType =
+  (typeof SIGNUP_API_ACCOUNT_TYPE)[keyof typeof SIGNUP_API_ACCOUNT_TYPE]
 
 interface BaseSignupRequest {
   email: string
@@ -6,15 +12,15 @@ interface BaseSignupRequest {
   firstName: string
   lastName: string
   phoneNumber: string
-  accountType: SignupAccountType
+  accountType: SignupApiAccountType
 }
 
 export interface CustomerSignupRequest extends BaseSignupRequest {
-  accountType: 'Customer'
+  accountType: typeof SIGNUP_API_ACCOUNT_TYPE.CUSTOMER
 }
 
 export interface AgencyOwnerSignupRequest extends BaseSignupRequest {
-  accountType: 'AgencyOwner'
+  accountType: typeof SIGNUP_API_ACCOUNT_TYPE.AGENCY_OWNER
   agencyName: string
   city: string
   country: string

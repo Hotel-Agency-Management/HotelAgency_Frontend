@@ -1,4 +1,4 @@
-import { PlanFeature, PlanFormValues } from "../types/plans"
+import { BILLING_CYCLE, BillingCycle, PlanFeature, PlanFormValues } from "../types/plans"
 
 export function generateId(): string {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`
@@ -13,16 +13,16 @@ export function makeEmptyForm(): PlanFormValues {
     name: '',
     description: '',
     price: 0,
-    billingCycle: 'monthly',
+    billingCycle: BILLING_CYCLE.MONTHLY,
     customBillingLabel: '',
     isActive: true,
     features: [makeEmptyFeature()],
   }
 }
 
-export function formatPrice(price: number, billingCycle: string, customLabel?: string): string {
-  if (billingCycle === 'custom') return customLabel ?? 'Contact Sales'
-  return `$${price} / ${billingCycle === 'monthly' ? 'mo' : 'yr'}`
+export function formatPrice(price: number, billingCycle: BillingCycle, customLabel?: string): string {
+  if (billingCycle === BILLING_CYCLE.CUSTOM) return customLabel ?? 'Contact Sales'
+  return `$${price} / ${billingCycle === BILLING_CYCLE.MONTHLY ? 'mo' : 'yr'}`
 }
 
 // ─── Validation ───────────────────────────────────────────────────────────────
@@ -44,10 +44,10 @@ export function validatePlanForm(values: PlanFormValues): FormErrors {
   if (!values.description.trim()) {
     errors.description = 'Description is required'
   }
-  if (values.billingCycle !== 'custom' && values.price < 0) {
+  if (values.billingCycle !== BILLING_CYCLE.CUSTOM && values.price < 0) {
     errors.price = 'Price must be 0 or greater'
   }
-  if (values.billingCycle === 'custom' && !values.customBillingLabel?.trim()) {
+  if (values.billingCycle === BILLING_CYCLE.CUSTOM && !values.customBillingLabel?.trim()) {
     errors.customBillingLabel = 'Billing label is required for custom plans'
   }
 

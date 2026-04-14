@@ -21,7 +21,13 @@ import type {
   HousekeepingTaskPriority,
   HousekeepingTaskType
 } from "../types/task";
+import {
+  HOUSEKEEPING_TASK_PRIORITY,
+  HOUSEKEEPING_TASK_TYPE
+} from "../types/task";
 import { INITIAL_FORM } from "../constants/form";
+import { PRIORITY_LABELS } from "../constants/taskChip";
+import { TASK_TYPE_LABELS } from "../constants/task";
 
 interface CreateTaskDialogProps {
   open: boolean;
@@ -125,9 +131,11 @@ export function CreateTaskDialog({
                     }))
                   }
                 >
-                  <MenuItem value="CHECKOUT">Checkout</MenuItem>
-                  <MenuItem value="STAYOVER">Stayover</MenuItem>
-                  <MenuItem value="INSPECTION">Inspection</MenuItem>
+                  {Object.values(HOUSEKEEPING_TASK_TYPE).map((type) => (
+                    <MenuItem key={type} value={type}>
+                      {TASK_TYPE_LABELS[type]}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </Grid>
@@ -146,9 +154,11 @@ export function CreateTaskDialog({
                     }))
                   }
                 >
-                  <MenuItem value="LOW">Low</MenuItem>
-                  <MenuItem value="MEDIUM">Medium</MenuItem>
-                  <MenuItem value="HIGH">High</MenuItem>
+                  {Object.values(HOUSEKEEPING_TASK_PRIORITY).map((priority) => (
+                    <MenuItem key={priority} value={priority}>
+                      {PRIORITY_LABELS[priority]}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </Grid>

@@ -1,11 +1,13 @@
+import { HOUSEKEEPING_TASK_PRIORITY, HOUSEKEEPING_TASK_STATUS } from "../types/task";
+
 export const STATUS_COLOR_KEY = {
-  PENDING: "warning",
-  IN_PROGRESS: "info",
-  COMPLETED: "success",
+  [HOUSEKEEPING_TASK_STATUS.PENDING]: "warning",
+  [HOUSEKEEPING_TASK_STATUS.IN_PROGRESS]: "info",
+  [HOUSEKEEPING_TASK_STATUS.COMPLETED]: "success",
 } as const;
 
 export const PRIORITY_COLOR_KEY = {
-  LOW: "success",
-  MEDIUM: "warning",
-  HIGH: "error",
+  [HOUSEKEEPING_TASK_PRIORITY.LOW]: "success",
+  [HOUSEKEEPING_TASK_PRIORITY.MEDIUM]: "warning",
+  [HOUSEKEEPING_TASK_PRIORITY.HIGH]: "error",
 } as const;

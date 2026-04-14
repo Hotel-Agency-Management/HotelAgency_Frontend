@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { HOUSEKEEPING_TASKS } from "../data/mockTasks";
-import { HousekeepingTaskType, HousekeepingTask } from "../types/task";
+import {
+  HOUSEKEEPING_TASK_STATUS,
+  HousekeepingTaskType,
+  HousekeepingTask
+} from "../types/task";
 
 type TaskValues = {
   roomNumber: string;
@@ -21,7 +25,7 @@ export function useTaskManager() {
       {
         id: `hk-task-${crypto.randomUUID()}`,
         ...values,
-        status: "PENDING"
+        status: HOUSEKEEPING_TASK_STATUS.PENDING
       },
       ...current
     ]);

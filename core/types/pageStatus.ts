@@ -4,4 +4,10 @@ export interface SnackbarState {
   severity: 'success' | 'error' | 'info'
 }
 
-export type PageStatus = 'idle' | 'loading' | 'error'
+export const PAGE_STATUS = {
+  IDLE: 'idle',
+  LOADING: 'loading',
+  ERROR: 'error',
+} as const
+
+export type PageStatus = (typeof PAGE_STATUS)[keyof typeof PAGE_STATUS]

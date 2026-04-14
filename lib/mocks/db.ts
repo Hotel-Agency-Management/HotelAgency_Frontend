@@ -5,7 +5,7 @@
  * This simulates a database for development/testing purposes.
  */
 
-import type { UserRole } from '@/lib/abilities'
+import { USER_ROLES, type UserRole } from '@/lib/abilities'
 import type { HotelFormValues } from '@/app/(home)/agency/[agencyName]/hotels/types/hotel'
 import { ProfileAgencyData } from '@/app/(home)/profile/types/profile'
 import { AGENCY_STATUS, type AgencyStatus } from '@/components/auth/types/authType'
@@ -41,8 +41,8 @@ const defaultUsers: MockUser[] = [
     email: 'admin@test.com',
     password: 'password123',
     name: 'Admin User',
-    role: 'SUPER_ADMIN',
     agencyStatus: AGENCY_STATUS.INCOMPLETE, // For testing incomplete agency flow
+    role: USER_ROLES.SUPER_ADMIN,
     bio: 'Platform administrator managing agencies, approvals, and overall system operations.',
     location: 'San Francisco, CA',
     createdAt: new Date().toISOString(),
@@ -52,7 +52,7 @@ const defaultUsers: MockUser[] = [
     email: 'manager@test.com',
     password: 'password123',
     name: 'Maya Bennett',
-    role: 'AGENCY_OWNER',
+    role: USER_ROLES.AGENCY_OWNER,
     agencyName: 'my-agency',
     phoneNumber: '+1 555 000 1200',
     dateOfBirth: '1989-04-12',
@@ -75,7 +75,7 @@ const defaultUsers: MockUser[] = [
     email: 'agent@test.com',
     password: 'password123',
     name: 'Nina Patel',
-    role: 'CUSTOMER',
+    role: USER_ROLES.CUSTOMER,
     phoneNumber: '+1 555 000 1220',
     dateOfBirth: '1995-09-21',
     gender: 'female',
@@ -89,7 +89,7 @@ const defaultUsers: MockUser[] = [
     email: 'viewer@test.com',
     password: 'password123',
     name: 'Viewer User',
-    role: 'PROPERTY_MANAGER',
+    role: USER_ROLES.PROPERTY_MANAGER,
     agencyName: 'my-agency',
     hotelId: '1',
     createdAt: new Date().toISOString()
