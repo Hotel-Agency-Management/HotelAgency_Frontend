@@ -4,6 +4,7 @@ import { checkAuthorization, isPublicRoute } from '@/lib/abilities'
 import { USER_ROLES } from '@/lib/abilities'
 import type { UserRole } from '@/lib/abilities'
 import { authConfig } from './core/configs/clientConfig'
+import { getCookie } from 'cookies-next/server'
 
 /**
  * Cookie name for access token
@@ -34,8 +35,8 @@ const SKIP_ROUTES = ['/_next', '/api', '/favicon.ico', '/locales', '/images']
  * @param request - Incoming Next.js request
  * @returns UserRole if valid, null otherwise
  */
-function getUserRoleFromCookie(request: NextRequest): UserRole | null {
-  const role = request.cookies.get(USER_ROLE_COOKIE)?.value as UserRole | undefined
+async function getUserRoleFromCookie(request: NextRequest, response: NextResponse): Promise<UserRole | null> {
+  const role = await getCookie(USER_ROLE_COOKIE, { req: request, res: response }) as UserRole | undefined
 
   if (role && Object.values(USER_ROLES).includes(role)) {
     return role
@@ -57,17 +58,18 @@ function getUserRoleFromCookie(request: NextRequest): UserRole | null {
  * 4. Check authorization
  * 5. Redirect if unauthorized
  */
-export function proxy(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
+  const response = NextResponse.next()
 
   // Skip middleware for static assets and API routes
   if (SKIP_ROUTES.some(route => pathname.startsWith(route))) {
-    return NextResponse.next()
+    return response
   }
 
   // Get token and role from cookies
-  const token = request.cookies.get(ACCESS_TOKEN_COOKIE)?.value
-  const userRole = getUserRoleFromCookie(request)
+  const token = await getCookie(ACCESS_TOKEN_COOKIE, { req: request, res: response }) as string | undefined
+  const userRole = await getUserRoleFromCookie(request, response)
 
   // Redirect authenticated users away from login page
   if (token && userRole && pathname === '/login') {
@@ -77,14 +79,14 @@ export function proxy(request: NextRequest) {
 
   // Allow public routes without further checks
   if (isPublicRoute(pathname)) {
-    return NextResponse.next()
+    return response
   }
 
   // Check authorization
   const result = checkAuthorization(pathname, userRole)
 
   if (result.authorized) {
-    return NextResponse.next()
+    return response
   }
 
   // Handle unauthorized access
@@ -108,7 +110,7 @@ export function proxy(request: NextRequest) {
     return NextResponse.redirect(unauthorizedUrl)
   }
 
-  return NextResponse.next()
+  return response
 }
 
 /**

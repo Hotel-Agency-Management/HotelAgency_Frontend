@@ -7,6 +7,7 @@ import { authConfig } from '@/core/configs/clientConfig'
 import { loginRequest } from '@/components/auth/client/authClient'
 import { getAuthResponseUser } from '@/components/auth/utils/authUser'
 import { getErrorMessage } from '@/core/utils/apiError'
+import { setCookie, deleteCookie } from 'cookies-next'
 import type {
   User,
   LoginCredentials,
@@ -15,6 +16,7 @@ import type {
   AuthContextType,
   ErrorCallback
 } from '@/core/configs/authConfig'
+import { cookieOptions } from '../constant/cookieOption'
 
 const defaultProvider: AuthContextType = {
   user: null,
@@ -79,16 +81,12 @@ const setAuthData = (response: AuthResponse): void => {
     localStorage.removeItem(authConfig.storageRefreshTokenKeyName)
   }
 
-  document.cookie = `${authConfig.cookieName}=${token}; path=/; max-age=${authConfig.cookieMaxAge}; SameSite=${authConfig.cookieSameSite}${
-    authConfig.cookieSecure ? '; Secure' : ''
-  }`
+    setCookie(authConfig.cookieName, token, cookieOptions)
 
   if (userData?.role) {
-    document.cookie = `userRole=${userData.role}; path=/; max-age=${authConfig.cookieMaxAge}; SameSite=${authConfig.cookieSameSite}${
-      authConfig.cookieSecure ? '; Secure' : ''
-    }`
+    setCookie('userRole', userData.role, cookieOptions)
   } else {
-    document.cookie = `userRole=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT`
+    deleteCookie('userRole', { path: '/' })
   }
 
   setUser(userData ? { ...userData, freshLogin: true } : null)
@@ -143,8 +141,9 @@ const setAuthData = (response: AuthResponse): void => {
   localStorage.removeItem(authConfig.storageUserDataKeyName)
   localStorage.removeItem(authConfig.storageRefreshTokenKeyName)
 
-  document.cookie = `${authConfig.cookieName}=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT`
-  document.cookie = `userRole=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT`
+  deleteCookie(authConfig.cookieName, { path: '/' })
+  deleteCookie('userRole', { path: '/' })
+
 
   router.push(authConfig.loginPageURL)
 }
