@@ -27,6 +27,7 @@ import {
   createAgencyOwnerSignupPayload,
   createCustomerSignupPayload
 } from '../utils/signupPayload'
+import { getAgencyIdFromToken, getNumericAgencyId } from '../utils/agencyToken'
 
 const defaultAgencyValues: AgencyFormData = {
   agencyName: '',
@@ -49,8 +50,13 @@ export const useSignupForm = ({ initialStep = 0 } = {}) => {
   const [activeStep, setActiveStep] = useState(initialStep)
   const [agencyValues, setAgencyValues] = useState<AgencyFormData>(defaultAgencyValues)
   const [agencySignupResponse, setAgencySignupResponse] = useState<AgencySignupResponse | null>(null)
-  const agencyId = agencySignupResponse?.agencyId
-  const agencyAccessToken = agencySignupResponse?.accessToken ?? agencySignupResponse?.token
+  const [loginAccessToken, setLoginAccessToken] = useState<string | undefined>(() => {
+    if (typeof window === 'undefined') return undefined
+
+    return localStorage.getItem(authConfig.storageTokenKeyName) ?? undefined
+  })
+  const agencyAccessToken = agencySignupResponse?.accessToken ?? agencySignupResponse?.token ?? loginAccessToken
+  const agencyId = getNumericAgencyId(agencySignupResponse?.agencyId) ?? getAgencyIdFromToken(agencyAccessToken)
   const { mutateAsync: uploadAgencyDocument, isPending: isAgencyDocumentUploadLoading } =
     useUploadAgencyDocumentMutation(agencyId, agencyAccessToken)
 
@@ -74,6 +80,12 @@ export const useSignupForm = ({ initialStep = 0 } = {}) => {
     if (initialStep > 0) {
       setAccountType('agencyOwner')
     }
+  }, [initialStep])
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    setLoginAccessToken(localStorage.getItem(authConfig.storageTokenKeyName) ?? undefined)
   }, [initialStep])
 
   const togglePasswordVisibility = () => setShowPassword(prev => !prev)
@@ -149,7 +161,7 @@ export const useSignupForm = ({ initialStep = 0 } = {}) => {
   }
 
   const onAgencyDocumentsSubmit = async (data: AgencyDocumentsFormData) => {
-    if (!agencySignupResponse?.agencyId) {
+    if (!agencyId) {
       throw new Error('Agency id is missing. Please complete agency registration again.')
     }
 
