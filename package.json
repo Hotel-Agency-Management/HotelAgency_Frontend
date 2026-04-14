@@ -25,6 +25,7 @@
     "@mui/x-tree-view": "^8.27.0",
     "@tanstack/react-query": "latest",
     "axios": "^1.12.2",
+    "cookies-next": "^6.1.1",
     "date-fns": "^4.1.0",
     "dayjs": "^1.11.20",
     "framer-motion": "^12.33.0",
