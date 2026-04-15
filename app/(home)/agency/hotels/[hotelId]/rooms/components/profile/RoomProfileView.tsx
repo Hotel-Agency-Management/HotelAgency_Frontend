@@ -20,10 +20,10 @@ import { RoomProfileSkeleton } from "./profileSkelton/RoomProfileSkeleton";
 export function RoomProfileView() {
   const { t } = useTranslation();
   const router = useRouter();
-  const params = useParams<{ agencyName: string; hotelId: string; roomId: string }>();
-  const { agencyName, hotelId, roomId } = params;
+  const params = useParams<{ hotelId: string; roomId: string }>();
+  const { hotelId, roomId } = params;
 
-  const roomsListPath = `/agency/${agencyName}/hotels/${hotelId}/rooms`;
+  const roomsListPath = `/agency/hotels/${hotelId}/rooms`;
 
   const { data: room, isLoading, isError, error } = useRoom(roomId);
   const { data: roomTypes = [] } = useRoomTypes(hotelId);

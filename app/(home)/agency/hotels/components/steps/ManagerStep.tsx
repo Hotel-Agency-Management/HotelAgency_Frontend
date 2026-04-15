@@ -10,7 +10,6 @@ import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import { useParams } from "next/navigation";
 import { useAgencyTeamStore } from "@/app/(home)/agency/hooks/useAgencyTeamStore";
 import {
   canAssignAsHotelManager,
@@ -30,7 +29,6 @@ interface ManagerStepProps {
 }
 
 export function ManagerStep({ isFirst, isLast, isSubmitting, mode, onBack, onNext }: ManagerStepProps) {
-  const { agencyName } = useParams<{ agencyName: string }>();
   const { members, getMemberById } = useAgencyTeamStore();
   const {
     control,
@@ -70,7 +68,7 @@ export function ManagerStep({ isFirst, isLast, isSubmitting, mode, onBack, onNex
             action={
               <Button
                 component={Link}
-                href={`/agency/${agencyName}/users`}
+                href="/agency/users"
                 size="small"
                 color="inherit"
               >

@@ -1,5 +1,5 @@
 import type { UserRole } from '@/lib/abilities'
-import { HotelFormValues } from "@/app/(home)/agency/[agencyName]/hotels/types/hotel"
+import { HotelFormValues } from "@/app/(home)/agency/hotels/types/hotel"
 import { ProfileAgencyData } from "@/app/(home)/profile/types/profile"
 import { AgencyStatus } from '@/components/auth/types/authType'
 

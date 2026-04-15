@@ -18,10 +18,7 @@ interface HotelFormPageProps {
 
 export function HotelFormPage({ mode }: HotelFormPageProps) {
   const router = useRouter()
-  const { agencyName, hotelId } = useParams<{
-    agencyName: string
-    hotelId?: string
-  }>()
+  const { hotelId } = useParams<{ hotelId?: string }>()
   const { settings } = useSettings()
 
   const { addHotel, updateHotel, getHotelById, isLoading } = useHotelStore()
@@ -39,11 +36,11 @@ export function HotelFormPage({ mode }: HotelFormPageProps) {
     } else {
       await addHotel(values)
     }
-    router.push(`/agency/${agencyName}/hotels`)
+    router.push('/agency/hotels')
   })
 
   if (mode === 'edit' && !existingHotel) {
-    router.push(`/agency/${agencyName}/hotels`)
+    router.push('/agency/hotels')
     return null
   }
 
