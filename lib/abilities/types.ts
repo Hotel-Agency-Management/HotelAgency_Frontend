@@ -19,6 +19,7 @@ export type Subjects =
   | 'SubscriptionPlans'
   | 'HotelSettings'
   | 'HotelManagement'
+  | 'HotelInformation'
   | 'Rooms'
   | 'Operations'
   | 'Housekeeping'

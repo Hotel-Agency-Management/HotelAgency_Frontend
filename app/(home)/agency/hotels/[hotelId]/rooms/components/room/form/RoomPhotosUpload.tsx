@@ -16,12 +16,20 @@ interface Props {
   roomId: string;
   existingPhotos: RoomPhoto[];
   onPhotosChange?: (photos: RoomPhoto[]) => void;
+  title?: string;
+  uploadButtonLabel?: string;
+  emptyLabel?: string;
+  summaryLabel?: string;
 }
 
 export const RoomPhotosUpload = ({
   roomId,
   existingPhotos,
   onPhotosChange,
+  title = "Room Photos",
+  uploadButtonLabel = "Upload Photos",
+  emptyLabel = "Click to upload room photos",
+  summaryLabel = "Star = set as primary cover",
 }: Props) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [photos, setPhotos] = useState<RoomPhoto[]>(existingPhotos);
@@ -75,7 +83,7 @@ export const RoomPhotosUpload = ({
     <Stack spacing={2}>
       <Stack direction="row" alignItems="center" justifyContent="space-between">
         <Typography variant="subtitle2" fontWeight={600} component="span">
-          Room Photos
+          {title}
         </Typography>
         <Button
           size="small"
@@ -86,7 +94,7 @@ export const RoomPhotosUpload = ({
           onClick={openFilePicker}
           disabled={uploading}
         >
-          Upload Photos
+          {uploadButtonLabel}
         </Button>
       </Stack>
 
@@ -104,7 +112,7 @@ export const RoomPhotosUpload = ({
         <PhotoDropSurface onActivate={openFilePicker}>
           <AddPhotoAlternateIcon sx={{ fontSize: 40, color: "text.disabled" }} />
           <Typography variant="body2" color="text.secondary" mt={1}>
-            Click to upload room photos
+            {emptyLabel}
           </Typography>
         </PhotoDropSurface>
       ) : (
@@ -122,8 +130,7 @@ export const RoomPhotosUpload = ({
       )}
 
       <Typography variant="caption" color="text.secondary" component="p" sx={{ m: 0 }}>
-        {photos.length} photo{photos.length !== 1 ? "s" : ""} — Star = set as
-        primary cover
+        {photos.length} photo{photos.length !== 1 ? "s" : ""} — {summaryLabel}
       </Typography>
     </Stack>
   );
