@@ -2,13 +2,14 @@ import { useMemo, useState } from "react";
 import Stack from "@mui/material/Stack";
 import { DataGrid } from "@mui/x-data-grid";
 import { useDeleteFacility } from "../../hooks/mutations/facilityMutations";
-import { toNumericId, useFacilityScope } from "../../hooks/useFacilityScope";
+import { useFacilityScope } from "../../hooks/useFacilityScope";
 import { useFacilities } from "../../hooks/useFacilityStore";
 import type { FacilityFilters, HotelFacility } from "../../types/facility";
 import { getFacilityGridColumns } from "../../utils/facilityGridColumns";
 import { DeleteFacilityDialog } from "./DeleteFacilityDialog";
 import { FacilitiesToolbar } from "./FacilitiesToolbar";
 import { FacilityGridView } from "./grid/FacilityGridView";
+import { toNumericId } from "../../utils/numericId";
 
 interface Props {
   hotelId: string;
@@ -20,9 +21,25 @@ export function FacilitiesView({ hotelId, onEditFacility }: Props) {
   const [view, setView] = useState<"list" | "cards">("list");
   const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
 
-  const { agencyId, hotelId: numericHotelId } = useFacilityScope(hotelId);
   const { data: facilities = [], isLoading } = useFacilities(hotelId);
+  const { agencyId, hotelId: numericHotelId } = useFacilityScope(hotelId);
   const { mutate: deleteFacility, isPending: isDeleting } = useDeleteFacility();
+  const filteredFacilities = useMemo(() => {
+    const search = filters.search?.trim().toLowerCase();
+
+    return facilities.filter((facility) => {
+      const matchesSearch =
+        !search ||
+        facility.name.toLowerCase().includes(search) ||
+        facility.facilityType.toLowerCase().includes(search) ||
+        facility.description.toLowerCase().includes(search);
+      const matchesStatus = !filters.status || facility.status === filters.status;
+      const matchesType =
+        !filters.facilityType || facility.facilityType === filters.facilityType;
+
+      return matchesSearch && matchesStatus && matchesType;
+    });
+  }, [facilities, filters]);
 
   const deleteTarget = useMemo<HotelFacility | null>(
     () => facilities.find((facility) => facility.id === deleteTargetId) ?? null,
@@ -66,14 +83,14 @@ export function FacilitiesView({ hotelId, onEditFacility }: Props) {
 
       {view === "cards" ? (
         <FacilityGridView
-          facilities={facilities}
+          facilities={filteredFacilities}
           isLoading={isLoading}
           onEditFacility={onEditFacility}
           onDeleteFacility={setDeleteTargetId}
         />
       ) : (
         <DataGrid
-          rows={facilities}
+          rows={filteredFacilities}
           columns={columns}
           loading={isLoading}
           pageSizeOptions={[10, 25, 50]}

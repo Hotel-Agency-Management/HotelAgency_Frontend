@@ -10,7 +10,8 @@ import {
   facilityPhotoQueryKeys,
   useGetFacilityPhotos,
 } from "./queries/facilityPhotosQueries";
-import { toNumericId, useFacilityScope } from "./useFacilityScope";
+import { useFacilityScope } from "./useFacilityScope";
+import { toNumericId } from "../utils/numericId";
 
 export const useFacilities = (hotelId: string) => {
   const { agencyId, hotelId: numericHotelId } = useFacilityScope(hotelId);
