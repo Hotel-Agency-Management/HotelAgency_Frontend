@@ -20,6 +20,7 @@ export type Subjects =
   | 'HotelSettings'
   | 'HotelInformation'
   | 'HotelManagement'
+  | 'HotelInformation'
   | 'Rooms'
   | 'RoomTypes'
   | 'Operations'

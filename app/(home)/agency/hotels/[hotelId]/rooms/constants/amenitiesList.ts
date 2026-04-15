@@ -10,5 +10,4 @@ export const AMENITIES_LIST = [
   { key: "parking", label: "Parking" },
   { key: "pool", label: "Pool Access" },
   { key: "gym", label: "Gym Access" },
-  { key: "spa", label: "Spa Access" },
 ];

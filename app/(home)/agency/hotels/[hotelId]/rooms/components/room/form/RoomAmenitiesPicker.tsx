@@ -6,10 +6,16 @@ import {
 } from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
 import { AMENITIES_LIST } from "../../../constants/amenitiesList";
+import { useRoomAmenities } from "../../../hooks/useRoomAmenityStore";
 import { RoomFormValues } from "../../../schema/roomSchema";
+import { ROOM_AMENITY_STATUS } from "../../../types/roomAmenity";
 
 export const RoomAmenitiesPicker = () => {
   const { control, formState: { errors } } = useFormContext<RoomFormValues>();
+  const { data: activeAmenities = [] } = useRoomAmenities({
+    status: ROOM_AMENITY_STATUS.ACTIVE,
+  });
+  const amenities = activeAmenities.length > 0 ? activeAmenities : AMENITIES_LIST;
 
   return (
     <Box>
@@ -32,7 +38,7 @@ export const RoomAmenitiesPicker = () => {
 
           return (
             <Stack direction="row" flexWrap="wrap" gap={1}>
-              {AMENITIES_LIST.map(({ key, label }) => {
+              {amenities.map(({ key, label }) => {
                 const isSelected = selected.includes(key);
                 return (
                   <Chip

@@ -181,6 +181,36 @@ export const roomsApi = {
     return mockRooms[index];
   },
 
+  assignAmenityToRooms: async (amenityKey: string, roomIds: string[]): Promise<Room[]> => {
+    await sleep(350); // TODO: Remove when integrating backend
+    const selectedRoomIds = new Set(roomIds);
+
+    mockRooms = mockRooms.map((room) => {
+      const shouldHaveAmenity = selectedRoomIds.has(room.id);
+      const hasAmenity = room.amenities.includes(amenityKey);
+
+      if (shouldHaveAmenity && !hasAmenity) {
+        return {
+          ...room,
+          amenities: [...room.amenities, amenityKey],
+          updatedAt: new Date().toISOString(),
+        };
+      }
+
+      if (!shouldHaveAmenity && hasAmenity) {
+        return {
+          ...room,
+          amenities: room.amenities.filter((key) => key !== amenityKey),
+          updatedAt: new Date().toISOString(),
+        };
+      }
+
+      return room;
+    });
+
+    return mockRooms;
+  },
+
   delete: async (id: string): Promise<void> => {
     await sleep(300); // TODO: Remove when integrating backend
     mockRooms = mockRooms.filter((r) => r.id !== id);

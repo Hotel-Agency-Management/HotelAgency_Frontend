@@ -54,6 +54,18 @@ export const useDeleteRoom = () => {
   });
 };
 
+export const useAssignAmenityToRooms = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ amenityKey, roomIds }: { amenityKey: string; roomIds: string[] }) =>
+      roomsApi.assignAmenityToRooms(amenityKey, roomIds),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ROOMS_KEY });
+    },
+  });
+};
+
 // IMPORT EXCEL
 export const useImportRooms = () => {
   const queryClient = useQueryClient();
