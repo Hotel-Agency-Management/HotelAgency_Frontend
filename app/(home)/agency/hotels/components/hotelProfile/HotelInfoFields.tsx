@@ -1,6 +1,6 @@
 "use client";
 
-import { Controller, type Control } from "react-hook-form";
+import { Controller, type Control, type UseFormSetValue } from "react-hook-form";
 import Grid from "@mui/material/Grid";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
@@ -8,12 +8,14 @@ import { MuiTelInput } from "mui-tel-input";
 import { Hotel, MapPin, Phone, Wallet, MapPinned } from "lucide-react";
 import { CURRENCIES } from "../../constants/currencies";
 import type { HotelFormValues } from "../../types/hotel";
+import { getCountryNameFromPhoneCountry } from "../../utils/phoneCountry";
 import { FormField } from "./FormField";
 
 interface HotelInfoFieldsProps {
   isEditing: boolean;
   isLoading?: boolean;
   control: Control<HotelFormValues>;
+  setValue: UseFormSetValue<HotelFormValues>;
   currentValues: HotelFormValues;
 }
 
@@ -21,6 +23,7 @@ export function HotelInfoFields({
   isEditing,
   isLoading = false,
   control,
+  setValue,
   currentValues,
 }: HotelInfoFieldsProps) {
   return (
@@ -70,6 +73,14 @@ export function HotelInfoFields({
                 size="small"
                 label="Phone"
                 defaultCountry="US"
+                onChange={(value, info) => {
+                  field.onChange(value);
+                  setValue(
+                    "basicInfo.country",
+                    getCountryNameFromPhoneCountry(info.countryCode),
+                    { shouldDirty: true }
+                  );
+                }}
                 error={!!fieldState.error}
                 helperText={fieldState.error?.message}
               />

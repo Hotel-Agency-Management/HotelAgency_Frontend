@@ -9,6 +9,7 @@ import { Building2, Palette } from "lucide-react";
 import { CustomThemeTab } from "@/app/(home)/agency/components/theme/CustomThemeTab";
 import { HotelProfileTab } from "../../components/hotelProfile/HotelProfileTab";
 import { useHotelStore } from "../../hooks/useHotelStore";
+import { useAuth } from "@/core/context/AuthContext";
 import type { HotelFormValues } from "../../types/hotel";
 import type { BrandingSettings } from "@/core/theme/palette/branding";
 
@@ -29,8 +30,12 @@ function TabPanel({ children, value, index }: TabPanelProps) {
 export default function HotelSettingsPage() {
   const [tab, setTab] = useState(0);
   const { hotelId } = useParams<{ hotelId: string }>();
-  const { getHotelById, updateHotel, isLoading } = useHotelStore();
-  const hotel = getHotelById(hotelId);
+  const { user } = useAuth();
+  const numericHotelId = Number(hotelId);
+  const { hotel, updateHotel, isLoading } = useHotelStore(
+    user?.agencyId,
+    Number.isFinite(numericHotelId) ? numericHotelId : undefined
+  );
 
   if (!hotel) {
     return <Alert severity="error">Hotel not found.</Alert>;

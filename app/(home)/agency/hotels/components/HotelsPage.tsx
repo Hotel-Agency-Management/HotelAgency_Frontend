@@ -1,20 +1,33 @@
 'use client'
-
-import Container from "@mui/material/Container";
-import { useRouter } from "next/navigation";
-import { HotelGrid } from "./HotelGrid";
-import { useHotelStore } from "../hooks/useHotelStore";
+import Container from '@mui/material/Container'
+import { DeleteHotelDialog } from './DeleteHotelDialog'
+import { HotelGrid } from './HotelGrid'
+import { useHotelsPage } from '../hooks/useHotelsPage'
 
 export function HotelsPage() {
-  const router = useRouter()
-  const { hotels, deleteHotel } = useHotelStore()
+  const {
+    hotels,
+    deletingHotel,
+    deleteLoading,
+    setDeletingHotelId,
+    closeDeleteDialog,
+    confirmDeleteHotel,
+    handleUpdate,
+  } = useHotelsPage()
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <HotelGrid
         hotels={hotels}
-        onDelete={deleteHotel}
-        onUpdate={(id) => router.push(`/agency/hotels/${id}/edit`)}
+        onDelete={setDeletingHotelId}
+        onUpdate={handleUpdate}
+      />
+      <DeleteHotelDialog
+        hotel={deletingHotel}
+        loading={deleteLoading}
+        open={deletingHotel != null}
+        onClose={closeDeleteDialog}
+        onConfirm={confirmDeleteHotel}
       />
     </Container>
   )

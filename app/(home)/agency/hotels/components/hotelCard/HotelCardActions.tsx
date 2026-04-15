@@ -17,7 +17,11 @@ export function HotelCardActions({ hotelId, onEdit, onDelete }: HotelCardActions
       <Tooltip title="Edit">
         <IconButton
           size="small"
-          onClick={() => onEdit?.(hotelId)}
+          onClick={(e) => {
+            e.stopPropagation();
+            onEdit?.(hotelId);
+          }}
+          aria-label="Edit hotel"
         >
           <Pencil size={14} />
         </IconButton>
@@ -26,7 +30,11 @@ export function HotelCardActions({ hotelId, onEdit, onDelete }: HotelCardActions
       <Tooltip title="Delete">
         <IconButton
           size="small"
-          onClick={() => onDelete?.(hotelId)}
+          onClick={(e) => {
+            e.stopPropagation();
+            onDelete?.(hotelId);
+          }}
+          aria-label="Delete hotel"
         >
           <Trash2 size={14} color="red"/>
         </IconButton>

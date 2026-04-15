@@ -3,6 +3,7 @@
 import { useMemo } from "react";
 import { useParams } from "next/navigation";
 import { useTheme } from "@mui/material/styles";
+import { useAuth } from "@/core/context/AuthContext";
 import { useHotelStore } from "../../../../hooks/useHotelStore";
 import {
   CRITICAL_HOUSEKEEPING_ISSUES,
@@ -14,8 +15,11 @@ import { HOUSEKEEPING_ISSUE_KIND, HOUSEKEEPING_ISSUE_SEVERITY } from "../types/i
 export function useIssuesAlertsPage() {
   const params = useParams<{ hotelId?: string }>();
   const theme = useTheme();
-  const hotel = useHotelStore((state) =>
-    params.hotelId ? state.getHotelById(params.hotelId) : undefined
+  const { user } = useAuth();
+  const numericHotelId = params.hotelId ? Number(params.hotelId) : undefined;
+  const { hotel } = useHotelStore(
+    user?.agencyId,
+    Number.isFinite(numericHotelId) ? numericHotelId : undefined
   );
 
   const summary = useMemo(
