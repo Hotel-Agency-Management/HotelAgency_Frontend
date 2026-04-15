@@ -10,6 +10,7 @@ export interface User {
   name?: string
   role?: UserRole
   agencyName?: string
+  agencyId?: number
   hotelId?: string
   agencyStatus?: AgencyStatus
   firstName?: string
@@ -40,9 +41,17 @@ export interface SignupCredentials {
 export type SignupPayload = SignupCredentials | FormData
 
 export interface AuthResponse {
-  user: User
+  user?: User
   token: string
   refreshToken?: string
+  id?: string | number
+  email?: string
+  name?: string
+  firstName?: string
+  lastName?: string
+  role?: UserRole
+  agencyStatus?: AgencyStatus
+  agencyId?: number
   [key: string]: unknown // Allow additional response fields
 }
 

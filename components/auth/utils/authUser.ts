@@ -9,7 +9,7 @@ type AuthResponseLike = AuthResponse & {
   lastName?: string
   role?: string
   agencyStatus?: AgencyStatus
-  agencyId?: string | number
+  agencyId?: number
 }
 
 const isUserRecord = (value: unknown): value is Record<string, unknown> =>
@@ -17,7 +17,10 @@ const isUserRecord = (value: unknown): value is Record<string, unknown> =>
 
 export const getAuthResponseUser = (response: AuthResponseLike): User | null => {
   if (isUserRecord(response.user)) {
-    return response.user as User
+    const user = response.user as User
+    const agencyId = user.agencyId ?? response.agencyId
+
+    return agencyId === undefined ? user : { ...user, agencyId }
   }
 
   if (response.email) {
@@ -33,7 +36,7 @@ export const getAuthResponseUser = (response: AuthResponseLike): User | null => 
       lastName: response.lastName,
       role: response.role,
       agencyStatus: response.agencyStatus,
-      agencyId: response.agencyId ? Number(response.agencyId) : undefined
+      agencyId: response.agencyId
     } as User
   }
 

@@ -7,6 +7,7 @@ import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 import { CURRENCIES } from "../../constants/currencies";
 import type { HotelFormValues } from "../../types/hotel";
+import { getCountryNameFromPhoneCountry } from "../../utils/phoneCountry";
 import { StepLayout } from "../layout/StepLayout";
 import { CoverImageField } from "./CoverImage/CoverImageField";
 
@@ -18,7 +19,7 @@ interface BasicInfoStepProps {
 }
 
 export function BasicInfoStep({ isFirst, isLast, onBack, onNext }: BasicInfoStepProps) {
-  const { register, control, formState: { errors }, trigger } = useFormContext<HotelFormValues>();
+  const { register, control, formState: { errors }, setValue, trigger } = useFormContext<HotelFormValues>();
 
   const handleNext = async () => {
     const valid = await trigger("basicInfo");
@@ -62,6 +63,14 @@ export function BasicInfoStep({ isFirst, isLast, onBack, onNext }: BasicInfoStep
                 size="small"
                 label="Phone"
                 defaultCountry="US"
+                onChange={(value, info) => {
+                  field.onChange(value);
+                  setValue(
+                    "basicInfo.country",
+                    getCountryNameFromPhoneCountry(info.countryCode),
+                    { shouldDirty: true }
+                  );
+                }}
                 error={!!fieldState.error}
                 helperText={fieldState.error?.message}
               />

@@ -14,7 +14,7 @@ import { useHotelStore } from '@/app/(home)/agency/hotels/hooks/useHotelStore'
 export function useActiveBranding(): BrandingSettings {
   const { user } = useAuth()
   const { settings } = useSettings()
-  const hotels = useHotelStore(state => state.hotels)
+  const { hotels } = useHotelStore(user?.agencyId)
 
   return useMemo(() => {
     if (user?.hotelId) {

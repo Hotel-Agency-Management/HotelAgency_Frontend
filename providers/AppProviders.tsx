@@ -17,14 +17,14 @@ function InnerProviders({ children, client }: { children: React.ReactNode; clien
   const { settings } = useSettings()
 
   return (
-    <ThemeComponent settings={settings}>
-      <QueryClientProvider client={client}>
+    <QueryClientProvider client={client}>
+      <ThemeComponent settings={settings}>
         <I18nProvider>
           <HydrationGate fallback={<Spinner />}>{children}</HydrationGate>
           <AppToaster />
         </I18nProvider>
-      </QueryClientProvider>
-    </ThemeComponent>
+      </ThemeComponent>
+    </QueryClientProvider>
   )
 }
 

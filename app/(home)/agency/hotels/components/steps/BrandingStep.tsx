@@ -36,7 +36,7 @@ export function BrandingStep({ isFirst, isLast, onBack, onNext }: BrandingStepPr
       onNext={handleNext}
     >
       <Stack spacing={2.5}>
-        <LogoCard />
+        <LogoCard namePrefix="branding" />
         <ColorsCard namePrefix="branding" fallbackColors={fallbackColors} />
       </Stack>
     </StepLayout>
