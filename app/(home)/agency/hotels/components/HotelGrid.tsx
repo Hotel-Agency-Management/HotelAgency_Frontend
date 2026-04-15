@@ -5,7 +5,7 @@ import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { Plus } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { HotelCard } from "./hotelCard/HotelCard";
 import type { HotelFormValues } from "../types/hotel";
 
@@ -17,7 +17,6 @@ interface HotelGridProps {
 
 export function HotelGrid({ hotels, onDelete, onUpdate }: HotelGridProps) {
   const router = useRouter()
-  const { agencyName } = useParams<{ agencyName: string }>()
 
   return (
     <Stack spacing={3}>
@@ -33,7 +32,7 @@ export function HotelGrid({ hotels, onDelete, onUpdate }: HotelGridProps) {
           variant="contained"
           disableElevation
           startIcon={<Plus size={15} />}
-          onClick={() => router.push(`/agency/${agencyName}/hotels/addHotel`)}
+          onClick={() => router.push('/agency/hotels/addHotel')}
         >
           Add hotel
         </Button>

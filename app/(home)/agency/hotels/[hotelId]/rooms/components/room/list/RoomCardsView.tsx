@@ -19,7 +19,6 @@ export const RoomCardsView = ({ onAddRoom, onEditRoom }: Props) => {
   const router = useRouter();
   const params = useParams();
   const hotelId = params.hotelId as string;
-  const agencyName = params.agencyName as string;
 
   const [filters, setFilters] = useState<RoomFilters>({});
   const [view, setView] = useState<"list" | "cards">("list");
@@ -34,7 +33,7 @@ export const RoomCardsView = ({ onAddRoom, onEditRoom }: Props) => {
   const columns = getRoomGridColumns(onEditRoom, deleteRoom, roomTypes);
 
   const goToRoomProfile = (roomId: string) => {
-    router.push(`/agency/${agencyName}/hotels/${hotelId}/rooms/${roomId}`);
+    router.push(`/agency/hotels/${hotelId}/rooms/${roomId}`);
   };
 
   return (

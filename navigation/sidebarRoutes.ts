@@ -1,6 +1,6 @@
 import type { SidebarNavItems } from '@/core/layouts/types'
 
-const navigation = (agencyName?: string, hotelId?: string): SidebarNavItems => {
+const navigation = (hotelId?: string): SidebarNavItems => {
   const items: SidebarNavItems = [
     {
       sectionTitle: 'General',
@@ -15,7 +15,7 @@ const navigation = (agencyName?: string, hotelId?: string): SidebarNavItems => {
         },
         {
           title: 'Users',
-          path: `/agency/${agencyName}/users`,
+          path: '/agency/users',
           icon: 'lucide:user',
           subject: 'Users',
           action: 'manage'
@@ -59,7 +59,7 @@ const navigation = (agencyName?: string, hotelId?: string): SidebarNavItems => {
       items: [
         {
           title: 'Agency Settings',
-          path: `/agency/${agencyName}/settings`,
+          path: '/agency/settings',
           icon: 'lucide:settings'
         },
         {
@@ -77,7 +77,7 @@ const navigation = (agencyName?: string, hotelId?: string): SidebarNavItems => {
       items: [
         {
           title: 'Hotels',
-          path: `/agency/${agencyName}/hotels`,
+          path: '/agency/hotels',
           icon: 'lucide:hotel',
           subject: 'Hotels',
           action: 'manage'
@@ -100,14 +100,14 @@ const navigation = (agencyName?: string, hotelId?: string): SidebarNavItems => {
       items: [
         {
           title: 'Hotel Settings',
-          path: `/agency/${agencyName}/hotels/${hotelId}/settings`,
+          path: `/agency/hotels/${hotelId}/settings`,
           icon: 'lucide:settings-2',
           subject: 'HotelSettings',
           action: 'manage'
         },
         {
           title: 'Rooms',
-          path: `/agency/${agencyName}/hotels/${hotelId}/rooms`,
+          path: `/agency/hotels/${hotelId}/rooms`,
           icon: 'lucide:bed-double',
           subject: 'Rooms',
           action: 'manage'
@@ -123,28 +123,28 @@ const navigation = (agencyName?: string, hotelId?: string): SidebarNavItems => {
       items: [
         {
           title: 'Dashboard',
-          path: `/agency/${agencyName}/hotels/${hotelId}/housekeeping`,
+          path: `/agency/hotels/${hotelId}/housekeeping`,
           icon: 'lucide:layout-dashboard',
           subject: 'Housekeeping',
           action: 'manage'
         },
         {
           title: 'Task Management',
-          path: `/agency/${agencyName}/hotels/${hotelId}/housekeeping/tasks`,
+          path: `/agency/hotels/${hotelId}/housekeeping/tasks`,
           icon: 'lucide:clipboard-check',
           subject: 'HousekeepingTasks',
           action: 'manage'
         },
         {
           title: 'Issues & Alerts',
-          path: `/agency/${agencyName}/hotels/${hotelId}/housekeeping/issues-alerts`,
+          path: `/agency/hotels/${hotelId}/housekeeping/issues-alerts`,
           icon: 'lucide:alert-triangle',
           subject: 'Housekeeping',
           action: 'manage'
         },
         {
           title: 'Staff Management',
-          path: `/agency/${agencyName}/hotels/${hotelId}/housekeeping/staff`,
+          path: `/agency/hotels/${hotelId}/housekeeping/staff`,
           icon: 'lucide:users',
           subject: 'HousekeepingStaff',
           action: 'manage'
@@ -160,14 +160,14 @@ const navigation = (agencyName?: string, hotelId?: string): SidebarNavItems => {
       items: [
         {
           title: 'Maintenance',
-          path: `/agency/${agencyName}/hotels/${hotelId}/maintenance`,
+          path: `/agency/hotels/${hotelId}/maintenance`,
           icon: 'lucide:wrench',
           subject: 'Maintenance',
           action: 'manage'
         },
         {
           title: 'Insurance',
-          path: `/agency/${agencyName}/hotels/${hotelId}/insurance`,
+          path: `/agency/hotels/${hotelId}/insurance`,
           icon: 'lucide:shield',
           subject: 'Insurance',
           action: 'manage'
@@ -183,7 +183,7 @@ const navigation = (agencyName?: string, hotelId?: string): SidebarNavItems => {
       items: [
         {
           title: 'Financial Management',
-          path: `/agency/${agencyName}/hotels/${hotelId}/finance`,
+          path: `/agency/hotels/${hotelId}/finance`,
           icon: 'lucide:badge-dollar-sign',
           subject: 'Finance',
           action: 'manage'
@@ -199,7 +199,7 @@ const navigation = (agencyName?: string, hotelId?: string): SidebarNavItems => {
       items: [
         {
           title: 'Booking Overview',
-          path: `/agency/${agencyName}/hotels/${hotelId}/bookings`,
+          path: `/agency/hotels/${hotelId}/bookings`,
           icon: 'lucide:clipboard-list',
           subject: 'Bookings',
           action: 'manage'

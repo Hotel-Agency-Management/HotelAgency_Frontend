@@ -7,7 +7,7 @@ import type { SidebarNavItems } from '@/core/layouts/types'
 import { useAuth } from '@/core/context/AuthContext'
 import navigation from '@/navigation/sidebarRoutes'
 import themeConfig from '@/core/configs/themeConfig'
-import { useHotelStore } from '@/app/(home)/agency/[agencyName]/hotels/hooks/useHotelStore'
+import { useHotelStore } from '@/app/(home)/agency/hotels/hooks/useHotelStore'
 
 interface HomeSidebarShellProps {
   children: ReactNode
@@ -28,11 +28,11 @@ export default function HomeSidebarShell({
   children,
   dynamicNavItems
 }: HomeSidebarShellProps) {
-  const params = useParams<{ agencyName?: string; hotelId?: string }>()
+  const params = useParams<{ hotelId?: string }>()
   const { user } = useAuth()
   const hotels = useHotelStore(state => state.hotels)
 
-  const agencyName = params.agencyName ?? user?.agencyName ?? 'my-agency'
+  const agencyName = user?.agencyName ?? 'my-agency'
   const hotelId = params.hotelId ?? user?.hotelId
   const appName = useMemo(() => {
     if (hotelId) {
@@ -53,7 +53,7 @@ export default function HomeSidebarShell({
 
   return (
     <SidebarLayout
-      navItems={navigation(agencyName, hotelId)}
+      navItems={navigation(hotelId)}
       dynamicNavItems={dynamicNavItems}
       appName={appName}
     >

@@ -6,7 +6,7 @@
  */
 
 import { USER_ROLES, type UserRole } from '@/lib/abilities'
-import type { HotelFormValues } from '@/app/(home)/agency/[agencyName]/hotels/types/hotel'
+import type { HotelFormValues } from '@/app/(home)/agency/hotels/types/hotel'
 import { ProfileAgencyData } from '@/app/(home)/profile/types/profile'
 import { AGENCY_STATUS, type AgencyStatus } from '@/components/auth/types/authType'
 

@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { useParams } from "next/navigation";
 import { useTheme } from "@mui/material/styles";
 import { useHotelStore } from "../../../../hooks/useHotelStore";
-import { useTaskManager } from "../hooks/useTaskManager";
+import { useTaskManager } from "./useTaskManager";
 import { getTaskSummary } from "../../utils/task";
 
 export function useHousekeepingTasksPage() {

@@ -8,8 +8,8 @@ import {
   sanitizeBrandingSettings,
   type BrandingSettings
 } from '@/core/theme/palette/branding'
-import { useHotelStore } from '@/app/(home)/agency/[agencyName]/hotels/hooks/useHotelStore'
 import { USER_ROLES } from '@/lib/abilities'
+import { useHotelStore } from '@/app/(home)/agency/hotels/hooks/useHotelStore'
 
 export function useActiveBranding(): BrandingSettings {
   const { user } = useAuth()

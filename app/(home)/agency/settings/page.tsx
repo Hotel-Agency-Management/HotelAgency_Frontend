@@ -4,10 +4,10 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import { Building2, Palette } from "lucide-react";
-import { AgencyProfileTab } from "../../components/agencyProfile/AgencyProfileTab";
-import { CustomThemeTab } from "../../components/theme/CustomThemeTab";
-import { MOCK_PROFILE } from "../../data/agency";
-import { AgencyProfile } from "../../types/agencyProfile";
+import { AgencyProfileTab } from "../components/agencyProfile/AgencyProfileTab";
+import { CustomThemeTab } from "../components/theme/CustomThemeTab";
+import { MOCK_PROFILE } from "../data/agency";
+import { AgencyProfile } from "../types/agencyProfile";
 
 interface TabPanelProps {
   children?: React.ReactNode;
