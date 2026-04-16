@@ -7,7 +7,6 @@ const textFields = () => {
       styleOverrides: {
         root: ({ theme }: OwnerStateThemeType) => ({
           color: theme.palette.text.secondary,
-          backgroundColor: theme.palette.background.paper,
           paddingLeft: theme.spacing(1),
           paddingRight: theme.spacing(1),
           '&.MuiInputLabel-shrink': {
