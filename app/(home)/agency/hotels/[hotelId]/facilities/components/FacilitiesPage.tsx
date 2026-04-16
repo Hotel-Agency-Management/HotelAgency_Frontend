@@ -16,7 +16,8 @@ export function FacilitiesPage() {
   const [selectedFacilityId, setSelectedFacilityId] = useState<string | null>(null);
 
   const { data: selectedFacility, isLoading: selectedFacilityLoading } = useFacility(
-    selectedFacilityId ?? ""
+    selectedFacilityId ?? "",
+    hotelId
   );
 
   const openAddDialog = () => {

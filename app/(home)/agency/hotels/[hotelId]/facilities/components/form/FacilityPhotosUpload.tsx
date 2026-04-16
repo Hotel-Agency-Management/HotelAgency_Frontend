@@ -7,11 +7,17 @@ import { FacilityPhotoGrid } from "../list/grid/FacilityPhotoGrid";
 
 interface Props {
   facilityId: string;
+  hotelId: string;
   existingPhotos: FacilityPhoto[];
   onPhotosChange: (photos: FacilityPhoto[]) => void;
 }
 
-export function FacilityPhotosUpload({ facilityId, existingPhotos, onPhotosChange }: Props) {
+export function FacilityPhotosUpload({
+  facilityId,
+  hotelId,
+  existingPhotos,
+  onPhotosChange,
+}: Props) {
   const {
     inputRef,
     photos,
@@ -20,7 +26,7 @@ export function FacilityPhotosUpload({ facilityId, existingPhotos, onPhotosChang
     handleFileChange,
     handleDelete,
     handleSetPrimary,
-  } = useFacilityPhotos(facilityId, existingPhotos, onPhotosChange);
+  } = useFacilityPhotos(facilityId, hotelId, existingPhotos, onPhotosChange);
 
   return (
     <Stack spacing={2}>
