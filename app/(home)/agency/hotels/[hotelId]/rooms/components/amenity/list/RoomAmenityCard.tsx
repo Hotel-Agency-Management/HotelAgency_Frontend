@@ -1,12 +1,14 @@
-import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Chip from "@mui/material/Chip";
+import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
+import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
+import { Link2, Pencil, Trash2 } from "lucide-react";
 import {
   ROOM_AMENITY_STATUS,
   type RoomAmenity,
@@ -80,16 +82,38 @@ export function RoomAmenityCard({ amenity, onEdit, onDelete, onAssign }: Props) 
         </Stack>
       </CardContent>
 
-      <CardActions sx={{ justifyContent: "flex-end" }}>
-        <Button size="small" onClick={() => onAssign(amenity)}>
-          Assign to rooms
-        </Button>
-        <Button size="small" color="error" onClick={() => onDelete(amenity)}>
-          Delete
-        </Button>
-        <Button size="small" variant="outlined" onClick={() => onEdit(amenity)}>
-          Edit
-        </Button>
+      <CardActions sx={{ justifyContent: "flex-end", gap: 0.5 }}>
+        <Tooltip title="Assign to rooms">
+          <IconButton
+            size="small"
+            aria-label="Assign to rooms"
+            onClick={() => onAssign(amenity)}
+            sx={{ width: 32, height: 32 }}
+          >
+            <Link2 size={16} />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Edit amenity">
+          <IconButton
+            size="small"
+            aria-label="Edit amenity"
+            onClick={() => onEdit(amenity)}
+            sx={{ width: 32, height: 32 }}
+          >
+            <Pencil size={16} />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Delete amenity">
+          <IconButton
+            size="small"
+            color="error"
+            aria-label="Delete amenity"
+            onClick={() => onDelete(amenity)}
+            sx={{ width: 32, height: 32 }}
+          >
+            <Trash2 size={16} />
+          </IconButton>
+        </Tooltip>
       </CardActions>
     </Card>
   );

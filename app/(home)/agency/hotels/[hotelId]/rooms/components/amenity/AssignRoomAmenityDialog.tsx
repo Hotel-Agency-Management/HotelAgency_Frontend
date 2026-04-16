@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import Autocomplete from "@mui/material/Autocomplete";
 import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -7,13 +7,11 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import FormControlLabel from "@mui/material/FormControlLabel";
+import ListItem from "@mui/material/ListItem";
 import Stack from "@mui/material/Stack";
+import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import {
-  useAssignAmenityToRooms,
-  useRooms,
-} from "../../hooks/useRoomStore";
+import { useAssignRoomAmenityDialog } from "../../hooks/useAssignRoomAmenityDialog";
 import type { RoomAmenity } from "../../types/roomAmenity";
 
 interface Props {
@@ -23,37 +21,15 @@ interface Props {
 }
 
 export function AssignRoomAmenityDialog({ open, amenity, onClose }: Props) {
-  const [selectedRoomIds, setSelectedRoomIds] = useState<string[]>([]);
-  const { data: rooms = [], isLoading } = useRooms();
-  const { mutateAsync: assignAmenityToRooms, isPending } = useAssignAmenityToRooms();
-
-  useEffect(() => {
-    if (!open || !amenity) return;
-
-    setSelectedRoomIds(
-      rooms
-        .filter((room) => room.amenities.includes(amenity.key))
-        .map((room) => room.id)
-    );
-  }, [amenity, open, rooms]);
-
-  const handleToggleRoom = (roomId: string) => {
-    setSelectedRoomIds((previous) =>
-      previous.includes(roomId)
-        ? previous.filter((id) => id !== roomId)
-        : [...previous, roomId]
-    );
-  };
-
-  const handleSave = async () => {
-    if (!amenity) return;
-
-    await assignAmenityToRooms({
-      amenityKey: amenity.key,
-      roomIds: selectedRoomIds,
-    });
-    onClose();
-  };
+  const {
+    rooms,
+    selectedRooms,
+    selectedRoomIds,
+    isLoading,
+    isPending,
+    handleSelectedRoomsChange,
+    handleSave,
+  } = useAssignRoomAmenityDialog({ open, amenity, onClose });
 
   return (
     <Dialog open={open} onClose={isPending ? undefined : onClose} maxWidth="sm" fullWidth>
@@ -73,21 +49,41 @@ export function AssignRoomAmenityDialog({ open, amenity, onClose }: Props) {
               No rooms available.
             </Typography>
           ) : (
-            <Stack spacing={1}>
-              {rooms.map((room) => (
-                <FormControlLabel
-                  key={room.id}
-                  control={
-                    <Checkbox
-                      checked={selectedRoomIds.includes(room.id)}
-                      onChange={() => handleToggleRoom(room.id)}
-                    />
-                  }
-                  label={`Room ${room.roomNumber} - Floor ${room.floorNumber}`}
+            <Autocomplete
+              multiple
+              disableCloseOnSelect
+              options={rooms}
+              value={selectedRooms}
+              getOptionLabel={(room) => `Room ${room.roomNumber} - Floor ${room.floorNumber}`}
+              isOptionEqualToValue={(option, value) => option.id === value.id}
+              onChange={(_, selectedOptions) => {
+                handleSelectedRoomsChange(selectedOptions);
+              }}
+              renderOption={(props, room, { selected }) => {
+                const { key, ...optionProps } = props;
+
+                return (
+                  <ListItem key={key} {...optionProps}>
+                    <Checkbox checked={selected} sx={{ mr: 1 }} />
+                    {`Room ${room.roomNumber} - Floor ${room.floorNumber}`}
+                  </ListItem>
+                );
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Rooms"
+                  placeholder={selectedRooms.length === 0 ? "Select rooms" : undefined}
                 />
-              ))}
-            </Stack>
+              )}
+            />
           )}
+
+          {!isLoading && rooms.length > 0 ? (
+            <Typography variant="caption" color="text.secondary">
+              {selectedRoomIds.length} room{selectedRoomIds.length !== 1 ? "s" : ""} selected
+            </Typography>
+          ) : null}
         </Stack>
       </DialogContent>
       <DialogActions>

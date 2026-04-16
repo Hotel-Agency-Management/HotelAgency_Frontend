@@ -36,7 +36,7 @@ export function RoomAmenitiesToolbar({
       <Stack direction={{ xs: "column", md: "row" }} spacing={2}>
         <TextField
           size="small"
-          label="Search amenities"
+          placeholder="Search amenities"
           value={filters.search ?? ""}
           onChange={(event) =>
             onFilterChange({ ...filters, search: event.target.value || undefined })
