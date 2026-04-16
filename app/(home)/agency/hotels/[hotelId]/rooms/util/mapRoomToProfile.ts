@@ -1,5 +1,5 @@
 import type { Room } from "../types/room";
-import type { RoomKind } from "../constants/roomTypes";
+import type { RoomKind } from "../../../../../room-types/constants/roomTypes";
 import type { RoomProfile } from "../components/profile/types";
 
 /** Maps API room type name to a display `RoomKind` for profile UI. */

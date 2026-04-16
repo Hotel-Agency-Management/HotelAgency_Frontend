@@ -1,7 +1,7 @@
 import { CircularProgress, Grid, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import type { Room } from "../../../../types/room";
-import type { RoomType } from "../../../../types/roomType";
+import type { RoomType } from "../../../../../../../../room-types/types/roomType";
 import { RoomCard } from "./RoomCard";
 import { RoomGridLoading } from "./roomGridViewStyles";
 import { StaggerGroup, StaggerItem } from "@/components/animation/StaggerGroup";

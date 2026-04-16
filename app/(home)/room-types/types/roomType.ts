@@ -1,6 +1,5 @@
 export interface RoomType {
   id: string
-  hotelId: string
   name: string
   description: string
   capacity: number
@@ -12,4 +11,4 @@ export interface RoomType {
 }
 
 export type CreateRoomTypePayload = Omit<RoomType, 'id' | 'createdAt' | 'updatedAt'>
-export type UpdateRoomTypePayload = Partial<Omit<CreateRoomTypePayload, 'hotelId'>> & { id: string }
+export type UpdateRoomTypePayload = Partial<CreateRoomTypePayload> & { id: string }

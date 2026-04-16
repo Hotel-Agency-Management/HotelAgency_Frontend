@@ -83,6 +83,21 @@ const navigation = (hotelId?: string): SidebarNavItems => {
           action: 'manage'
         }
       ]
+    },
+    {
+      sectionTitle: 'Rooms',
+      icon: 'lucide:hotel',
+      subject: 'RoomTypes',
+      action: 'manage',
+      items: [
+        {
+          title: 'Room Types',
+          path: '/room-types',
+          icon: 'lucide:bed-single',
+          subject: 'RoomTypes',
+          action: 'manage'
+        },
+      ]
     }
   ]
 

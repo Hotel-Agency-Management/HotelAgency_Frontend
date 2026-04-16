@@ -7,24 +7,18 @@ import { DeleteRoomTypeDialog } from './DeleteRoomTypeDialog'
 import { RoomTypesEmptyState } from './RoomTypesEmptyState'
 import { RoomTypesHeader } from './RoomTypesHeader'
 import { RoomTypesLoadingGrid } from './RoomTypesLoadingGrid'
-import { RoomTypeFormValues } from '../../schema/roomTypeSchema'
-import { RoomType } from '../../types/roomType'
+import { RoomTypeFormValues } from '../schema/roomTypeSchema'
+import { RoomType } from '../types/roomType'
 import { RoomTypesGrid } from './RoomTypesGrid'
-import { useHotelStore } from '../../../../hooks/useHotelStore'
-import { useRoomTypes, useCreateRoomType, useUpdateRoomType, useDeleteRoomType } from '../../hooks/uesRoomType'
+import { useRoomTypes, useCreateRoomType, useUpdateRoomType, useDeleteRoomType } from '../hooks/uesRoomType'
 
-interface RoomTypesViewProps {
-  hotelId: string
-}
+export function RoomTypesView() {
+  const currency = 'USD'
 
-export function RoomTypesView({ hotelId }: RoomTypesViewProps) {
-  const hotel = useHotelStore(state => state.getHotelById(hotelId))
-  const currency = hotel?.basicInfo.currency ?? 'USD'
-
-  const { data: roomTypes = [], isLoading, error } = useRoomTypes(hotelId)
+  const { data: roomTypes = [], isLoading, error } = useRoomTypes()
   const { mutateAsync: createRoomType } = useCreateRoomType()
   const { mutateAsync: updateRoomType } = useUpdateRoomType()
-  const { mutateAsync: deleteRoomType } = useDeleteRoomType(hotelId)
+  const { mutateAsync: deleteRoomType } = useDeleteRoomType()
 
   const [formOpen, setFormOpen] = useState(false)
   const [editingRoomType, setEditingRoomType] = useState<RoomType | null>(null)
@@ -53,7 +47,6 @@ export function RoomTypesView({ hotelId }: RoomTypesViewProps) {
       })
     } else {
       await createRoomType({
-        hotelId,
         ...values,
       })
     }

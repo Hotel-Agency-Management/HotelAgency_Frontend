@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { TFunction } from "i18next";
 import { RoomPhoto } from "../../../types/room";
-import { RoomType } from "../../../types/roomType";
+import { RoomType } from "../../../../../../../room-types/types/roomType";
 import { RoomAmenitiesPicker } from "./RoomAmenitiesPicker";
 import { RoomFormFields } from "./RoomFormFields";
 import { RoomPhotosUpload } from "./RoomPhotosUpload";

@@ -19,6 +19,12 @@ export const routePermissions: RoutePermission[] = [
     action: 'read',
     subject: 'Home',
     description: 'Home page for authenticated users'
+  },
+  {
+    pattern: '/room-types',
+    action: 'manage',
+    subject: 'RoomTypes',
+    description: 'Global room type catalog'
   }
 ]
 

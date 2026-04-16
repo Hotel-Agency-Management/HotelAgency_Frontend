@@ -1,7 +1,7 @@
 import { Stack, TextField, MenuItem, ToggleButtonGroup, ToggleButton, Tooltip } from "@mui/material";
 import { ROOM_STATUSES } from "../../../constants/roomStatuses";
 import { RoomFilters, RoomStatus } from "../../../types/room";
-import { RoomType } from "../../../types/roomType";
+import { RoomType } from "../../../../../../../room-types/types/roomType";
 import { LayoutGrid, List } from "lucide-react";
 
 interface Props {
