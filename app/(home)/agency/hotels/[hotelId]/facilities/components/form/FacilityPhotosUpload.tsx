@@ -27,7 +27,6 @@ export function FacilityPhotosUpload({
     handleDelete,
     handleSetPrimary,
   } = useFacilityPhotos(facilityId, hotelId, existingPhotos, onPhotosChange);
-  
   return (
     <Stack spacing={2}>
       <FacilityPhotoHeader uploading={uploading} onUploadClick={openFilePicker} />
