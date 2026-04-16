@@ -1,7 +1,7 @@
 import { memo, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { BED_TYPES } from "../../constants/bedTypes";
-import { ROOM_TYPES } from "../../constants/roomTypes";
+import { ROOM_TYPES } from "../../../../../../room-types/constants/roomTypes";
 import type { RoomProfile } from "./types";
 import { RoomInfoCardFilled } from "./RoomInfoCardFilled";
 import { buildRoomInfoRows } from "./roomInfoRows";

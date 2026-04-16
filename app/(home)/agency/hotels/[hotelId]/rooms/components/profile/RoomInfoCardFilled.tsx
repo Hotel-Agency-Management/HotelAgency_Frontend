@@ -5,7 +5,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import type { TFunction } from "i18next";
 import Icon from "@/components/icon/Icon";
-import { ROOM_TYPES } from "../../constants/roomTypes";
+import { ROOM_TYPES } from "../../../../../../room-types/constants/roomTypes";
 import type { RoomProfile } from "./types";
 
 type InfoRow = [string, string];

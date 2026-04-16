@@ -98,4 +98,10 @@ declare module '@mui/material/Chip' {
     'dot': true
   }
 }
+declare module '@mui/material/MenuItem' {
+  interface MenuItemPropsVariantOverrides {
+    default: true
+    danger: true
+  }
+}
 export {}

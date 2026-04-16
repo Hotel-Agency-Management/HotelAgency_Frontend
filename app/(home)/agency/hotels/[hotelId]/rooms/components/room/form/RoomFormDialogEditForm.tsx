@@ -9,7 +9,7 @@ import { UseFormReturn } from "react-hook-form";
 import { TFunction } from "i18next";
 import { RoomFormValues } from "../../../schema/roomSchema";
 import { Room } from "../../../types/room";
-import { RoomType } from "../../../types/roomType";
+import { RoomType } from "../../../../../../../room-types/types/roomType";
 import { RoomAmenitiesPicker } from "./RoomAmenitiesPicker";
 import { RoomFormFields } from "./RoomFormFields";
 import { RoomPhotosUpload } from "./RoomPhotosUpload";

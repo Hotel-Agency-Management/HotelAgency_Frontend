@@ -8,9 +8,9 @@ import {
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import { RoomTypeForm } from './RoomTypeForm'
-import { RoomTypeFormValues } from '../../schema/roomTypeSchema'
-import { RoomType } from '../../types/roomType'
-import { FORM_ID } from '../../constants/form'
+import { RoomTypeFormValues } from '../schema/roomTypeSchema'
+import { RoomType } from '../types/roomType'
+import { FORM_ID } from '../constants/form'
 
 interface RoomTypeFormDialogProps {
   currency: string
@@ -37,7 +37,7 @@ export function RoomTypeFormDialog({
           <CloseIcon fontSize='small' />
         </IconButton>
       </DialogTitle>
-      <DialogContent dividers>
+      <DialogContent>
         <RoomTypeForm
           formId={FORM_ID}
           defaultValues={editingRoomType ?? undefined}

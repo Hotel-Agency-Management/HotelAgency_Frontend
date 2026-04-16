@@ -1,7 +1,7 @@
 import { GridColDef } from "@mui/x-data-grid";
 import { RoomStatusChip } from "../components/room/list/RoomStatusChip";
 import { RoomQuickActions } from "../components/room/list/RoomQuickActions";
-import { RoomType } from "../types/roomType";
+import { RoomType } from "../../../../../room-types/types/roomType";
 
 export const getRoomGridColumns = (
   onEdit: (id: string) => void,

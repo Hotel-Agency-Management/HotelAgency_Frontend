@@ -45,7 +45,7 @@ const Dialog = () => {
     MuiDialogTitle: {
       styleOverrides: {
         root: ({ theme }: OwnerStateThemeType) => ({
-          padding: theme.spacing(5),
+          padding: theme.spacing(3, 4, 2, 4),
           color: theme.palette.text.primary
         })
       }
@@ -53,8 +53,9 @@ const Dialog = () => {
     MuiDialogContent: {
       styleOverrides: {
         root: ({ theme }: OwnerStateThemeType) => ({
-          padding: theme.spacing(5),
+          padding: theme.spacing(3, 4, 2, 4),
           color: theme.palette.text.primary,
+          overflow: 'visible',
           '& + .MuiDialogContent-root': {
             paddingTop: 0
           },
@@ -67,8 +68,9 @@ const Dialog = () => {
     MuiDialogActions: {
       styleOverrides: {
         root: ({ theme }: OwnerStateThemeType) => ({
-          padding: theme.spacing(5),
+          padding: theme.spacing(2, 4, 2, 4),
           backgroundColor: theme.palette.background.paper,
+          alignItems: 'center',
           '&.dialog-actions-dense': {
             padding: theme.spacing(2.5),
             paddingTop: 0

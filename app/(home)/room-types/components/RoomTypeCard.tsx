@@ -1,20 +1,22 @@
+import { useState, type MouseEvent } from 'react'
 import {
   Box,
-  Button,
   Card,
-  CardActions,
   CardContent,
   Chip,
   Divider,
   Grid,
+  IconButton,
+  Menu,
   Stack,
   Typography,
 } from '@mui/material'
 import { alpha } from '@mui/material/styles'
-import { RoomType } from '../../types/roomType'
-import { BedDouble, Users } from 'lucide-react'
-import { formatCapacity, formatPrice } from '../../util/formatters'
+import { RoomType } from '../types/roomType'
+import { BedDouble, MoreVertical, Pencil, Trash2, Users } from 'lucide-react'
+import { formatCapacity, formatPrice } from '../../agency/hotels/[hotelId]/rooms/util/formatters'
 import { SecondaryRate } from './SecondaryRate'
+import MenuItem from '@/components/ui/Menu'
 
 interface RoomTypeCardProps {
   roomType: RoomType
@@ -24,6 +26,27 @@ interface RoomTypeCardProps {
 }
 
 export function RoomTypeCard({ roomType, currency, onEdit, onDelete }: RoomTypeCardProps) {
+  const [menuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null)
+  const menuOpen = Boolean(menuAnchor)
+
+  const handleOpenMenu = (event: MouseEvent<HTMLElement>) => {
+    setMenuAnchor(event.currentTarget)
+  }
+
+  const handleCloseMenu = () => {
+    setMenuAnchor(null)
+  }
+
+  const handleEdit = () => {
+    handleCloseMenu()
+    onEdit(roomType)
+  }
+
+  const handleDelete = () => {
+    handleCloseMenu()
+    onDelete(roomType)
+  }
+
   return (
     <Card sx={{ display: 'flex', flexDirection: 'column', height: '100%' }} >
       <CardContent sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 2.5 }}>
@@ -38,14 +61,26 @@ export function RoomTypeCard({ roomType, currency, onEdit, onDelete }: RoomTypeC
               Room type
             </Typography>
           </Stack>
-          <Chip
-            icon={<Users size={14} />}
-            label={`Up to ${formatCapacity(roomType.capacity)}`}
-            size='small'
-            variant='outlined'
-            color='primary'
-            sx={{ p: 1 }}
-          />
+          <Stack direction='row' spacing={1} alignItems='center'>
+            <Chip
+              icon={<Users size={14} />}
+              label={`Up to ${formatCapacity(roomType.capacity)}`}
+              size='small'
+              variant='outlined'
+              color='primary'
+              sx={{ p: 1 }}
+            />
+            <IconButton
+              size='small'
+              aria-label='Room type actions'
+              aria-controls={menuOpen ? `room-type-actions-${roomType.id}` : undefined}
+              aria-haspopup='menu'
+              aria-expanded={menuOpen ? 'true' : undefined}
+              onClick={handleOpenMenu}
+            >
+              <MoreVertical size={18} />
+            </IconButton>
+          </Stack>
         </Stack>
 
         <Typography variant='h6' fontWeight={700}>
@@ -75,21 +110,30 @@ export function RoomTypeCard({ roomType, currency, onEdit, onDelete }: RoomTypeC
             <Grid size={{ xs: 6 }}>
               <SecondaryRate label='Weekly' value={roomType.weeklyPrice} currency={currency} />
             </Grid>
-            <Grid size={{ xs: 6 }}>
+            <Grid size={{ xs: 6 }} sx={{ textAlign: 'right' }}>
               <SecondaryRate label='Monthly' value={roomType.monthlyPrice} currency={currency} />
             </Grid>
           </Grid>
         </Box>
       </CardContent>
 
-      <CardActions sx={{ justifyContent: 'flex-end' }}>
-        <Button size='small' color='error' onClick={() => onDelete(roomType)}>
+      <Menu
+        id={`room-type-actions-${roomType.id}`}
+        anchorEl={menuAnchor}
+        open={menuOpen}
+        onClose={handleCloseMenu}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      >
+        <MenuItem onClick={handleEdit} variant='default'>
+          <Pencil size={16} style={{ marginRight: 8 }} />
+          Edit room type
+        </MenuItem>
+        <MenuItem onClick={handleDelete} variant='danger'>
+          <Trash2 size={16} style={{ marginRight: 8 }} />
           Delete
-        </Button>
-        <Button size='small' variant='outlined' onClick={() => onEdit(roomType)}>
-          Edit room
-        </Button>
-      </CardActions>
+        </MenuItem>
+      </Menu>
     </Card>
   )
 }
