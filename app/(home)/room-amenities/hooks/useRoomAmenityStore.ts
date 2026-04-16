@@ -4,7 +4,6 @@ import { ROOM_AMENITIES_KEY } from "../constants/roomAmenityFormValues";
 import type {
   CreateRoomAmenityDto,
   RoomAmenityFilters,
-  RoomAmenityPhoto,
   UpdateRoomAmenityDto,
 } from "../types/roomAmenity";
 
@@ -51,18 +50,6 @@ export const useDeleteRoomAmenity = () => {
 
   return useMutation({
     mutationFn: (id: string) => roomAmenityApi.delete(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ROOM_AMENITIES_KEY });
-    },
-  });
-};
-
-export const useUpdateRoomAmenityPhotos = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: ({ id, photos }: { id: string; photos: RoomAmenityPhoto[] }) =>
-      roomAmenityApi.updatePhotos(id, photos),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ROOM_AMENITIES_KEY });
     },

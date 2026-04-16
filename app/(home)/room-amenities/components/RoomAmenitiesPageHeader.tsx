@@ -17,7 +17,7 @@ export function RoomAmenitiesPageHeader({ count, isLoading, onAdd }: Props) {
           Room amenities
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Manage the amenities guests can assign to individual rooms.
+          Manage room amenity titles.
         </Typography>
         <Typography variant="caption" color="text.secondary">
           {isLoading ? "Loading amenities..." : `${count} amenities configured`}

@@ -6,7 +6,7 @@ export const AMENITIES_LIST = [
   { key: "ac", label: "Air Conditioning" },
   { key: "tv", label: "Smart TV" },
   { key: "safe", label: "In-room Safe" },
-  { key: "breakfast", label: "Breakfast Included" },
+  { key: "breakfast", label: "Complimentary Daily Breakfast Buffet with Fresh Juices and International Menu" },
   { key: "parking", label: "Parking" },
   { key: "pool", label: "Pool Access" },
   { key: "gym", label: "Gym Access" },
