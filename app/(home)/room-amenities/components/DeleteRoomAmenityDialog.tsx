@@ -4,7 +4,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import type { RoomAmenity } from "../../types/roomAmenity";
+import type { RoomAmenity } from "../types/roomAmenity";
 
 interface Props {
   open: boolean;
@@ -26,8 +26,8 @@ export function DeleteRoomAmenityDialog({
       <DialogTitle>Delete room amenity</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Are you sure you want to delete {amenity?.label ?? "this amenity"}? Rooms that
-          already reference this key may need to be updated later.
+          Are you sure you want to delete {amenity?.title ?? "this amenity"}? Rooms that
+          already reference this amenity may need to be updated later.
         </DialogContentText>
       </DialogContent>
       <DialogActions>

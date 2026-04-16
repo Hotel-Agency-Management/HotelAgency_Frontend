@@ -6,16 +6,17 @@ import {
 } from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
 import { AMENITIES_LIST } from "../../../constants/amenitiesList";
-import { useRoomAmenities } from "../../../hooks/useRoomAmenityStore";
 import { RoomFormValues } from "../../../schema/roomSchema";
-import { ROOM_AMENITY_STATUS } from "../../../types/roomAmenity";
+import { getRoomAmenityIcon } from "@/app/(home)/room-amenities/constants/roomAmenityIcons";
+import { useRoomAmenities } from "@/app/(home)/room-amenities/hooks/useRoomAmenityStore";
 
 export const RoomAmenitiesPicker = () => {
   const { control, formState: { errors } } = useFormContext<RoomFormValues>();
-  const { data: activeAmenities = [] } = useRoomAmenities({
-    status: ROOM_AMENITY_STATUS.ACTIVE,
-  });
-  const amenities = activeAmenities.length > 0 ? activeAmenities : AMENITIES_LIST;
+  const { data: activeAmenities = [] } = useRoomAmenities();
+  const amenities =
+    activeAmenities.length > 0
+      ? activeAmenities.map(({ id, title, icon }) => ({ key: id, label: title, icon }))
+      : AMENITIES_LIST.map((amenity) => ({ ...amenity, icon: amenity.key }));
 
   return (
     <Box>
@@ -38,12 +39,15 @@ export const RoomAmenitiesPicker = () => {
 
           return (
             <Stack direction="row" flexWrap="wrap" gap={1}>
-              {amenities.map(({ key, label }) => {
+              {amenities.map(({ key, label, icon }) => {
                 const isSelected = selected.includes(key);
+                const Icon = getRoomAmenityIcon(icon);
+
                 return (
                   <Chip
                     key={key}
                     label={label}
+                    icon={<Icon size={16} />}
                     clickable
                     onClick={() => toggle(key)}
                     color={isSelected ? "primary" : "default"}

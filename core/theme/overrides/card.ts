@@ -1,9 +1,16 @@
 import themeConfig from '@/core/configs/themeConfig'
 import { OwnerStateThemeType } from './'
 
+declare module '@mui/material/Paper' {
+  interface PaperPropsVariantOverrides {
+    roomAmenity: true
+  }
+}
+
 declare module '@mui/material/Card' {
   interface CardPropsVariantOverrides {
     hotel: true
+    roomAmenity: true
   }
 }
 
@@ -105,6 +112,43 @@ const Card = () => {
               '& .base-gradient': { opacity: 0 },
             },
           }),
+
+          ...(ownerState.variant === 'roomAmenity' && {
+            height: '100%',
+            minHeight: 116,
+            display: 'flex',
+            flexDirection: 'column' as const,
+
+            '& .MuiCardContent-root': {
+              height: '100%',
+              justifyContent: 'center',
+              padding: theme.spacing(2.25, 2, 2.25, 2.5),
+              '&:last-of-type': {
+                paddingBottom: theme.spacing(2.25)
+              }
+            },
+
+            '& .room-amenity-action-trigger': {
+              position: 'absolute' as const,
+              top: theme.spacing(1),
+              right: theme.spacing(1),
+              zIndex: 1,
+              flexShrink: 0,
+              color: theme.palette.text.secondary,
+              backgroundColor: theme.palette.action.hover,
+              '&:hover': {
+                color: theme.palette.primary.main,
+                backgroundColor: theme.palette.action.selected,
+              },
+            },
+
+            '& .MuiCardActions-root': {
+              marginTop: 'auto',
+              justifyContent: 'flex-end',
+              gap: theme.spacing(0.5),
+              padding: theme.spacing(0, 2, 1.25)
+            },
+          }),
         }),
       },
       defaultProps: {
@@ -162,6 +206,7 @@ const Card = () => {
       styleOverrides: {
         root: ({ theme }: OwnerStateThemeType) => ({
           padding: theme.spacing(5),
+          justifyContent: "flex-end",
           '& .MuiButton-text': {
             paddingLeft: theme.spacing(2.5),
             paddingRight: theme.spacing(2.5)

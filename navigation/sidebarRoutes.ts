@@ -60,12 +60,16 @@ const navigation = (hotelId?: string): SidebarNavItems => {
         {
           title: 'Agency Settings',
           path: '/agency/settings',
-          icon: 'lucide:settings'
+          icon: 'lucide:settings',
+          subject: 'AgencySettings',
+          action: 'manage'
         },
         {
           title: 'Agencies',
           path: '/agencies',
-          icon: 'lucide:building-2'
+          icon: 'lucide:building-2',
+          subject: 'Agencies',
+          action : 'manage'
         }
       ]
     },
@@ -81,9 +85,24 @@ const navigation = (hotelId?: string): SidebarNavItems => {
           icon: 'lucide:hotel',
           subject: 'Hotels',
           action: 'manage'
-        }
+        },
       ]
-    }
+    },
+    {
+      sectionTitle: 'Rooms',
+      icon: 'lucide:hotel',
+      subject: 'Rooms',
+      action: 'manage',
+      items: [
+        {
+          title: 'Rooms Amenities',
+          path: '/room-amenities',
+          icon: 'lucide:bed-double',
+          subject: 'RoomAmenities',
+          action: 'manage'
+        },
+      ]
+    },
   ]
 
   if (!hotelId) {
@@ -111,7 +130,7 @@ const navigation = (hotelId?: string): SidebarNavItems => {
           icon: 'lucide:bed-double',
           subject: 'Rooms',
           action: 'manage'
-        }
+        },
       ]
     },
 
