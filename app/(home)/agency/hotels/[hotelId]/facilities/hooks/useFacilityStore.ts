@@ -1,72 +1,74 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { facilityApi } from "../data/facilityApi";
-import { FACILITIES_KEY } from "../constants/facilityFormValues";
-import type {
-  CreateFacilityDto,
-  FacilityFilters,
-  FacilityPhoto,
-  UpdateFacilityDto,
-} from "../types/facility";
+import { useMemo } from "react";
+import { useQueries } from "@tanstack/react-query";
+import { getFacilityPhotos } from "../clients/facilityPhotoClient";
+import { mapFacilityResponse } from "../utils/facilityAdapters";
+import {
+  useGetFacilities,
+  useGetFacilityById,
+} from "./queries/facilityQueries";
+import {
+  facilityPhotoQueryKeys,
+  useGetFacilityPhotos,
+} from "./queries/facilityPhotosQueries";
+import { toNumericId, useFacilityScope } from "./useFacilityScope";
 
-export const useFacilities = (hotelId: string, filters?: FacilityFilters) => {
-  return useQuery({
-    queryKey: [...FACILITIES_KEY, hotelId, filters],
-    queryFn: () => facilityApi.getAll(hotelId, filters),
-    enabled: !!hotelId,
+export const useFacilities = (hotelId: string) => {
+  const { agencyId, hotelId: numericHotelId } = useFacilityScope(hotelId);
+  const facilitiesQuery = useGetFacilities(agencyId, numericHotelId);
+  const rawFacilities = facilitiesQuery.data ?? [];
+
+  const photoQueries = useQueries({
+    queries: rawFacilities.map((facility) => ({
+      queryKey: facilityPhotoQueryKeys.list(
+        agencyId,
+        numericHotelId,
+        facility.id
+      ),
+      queryFn: () =>
+        getFacilityPhotos(
+          agencyId as number,
+          numericHotelId as number,
+          facility.id
+        ),
+      enabled:
+        Number.isFinite(agencyId) &&
+        Number.isFinite(numericHotelId) &&
+        Number.isFinite(facility.id),
+    })),
   });
+
+  const facilities = useMemo(
+    () =>
+      rawFacilities.map((facility, index) =>
+        mapFacilityResponse(facility, photoQueries[index]?.data ?? [])
+      ),
+    [photoQueries, rawFacilities]
+  );
+
+  const arePhotosLoading = photoQueries.some((query) => query.isLoading);
+
+  return {
+    ...facilitiesQuery,
+    data: facilities,
+    isLoading: facilitiesQuery.isLoading || arePhotosLoading,
+  };
 };
 
-export const useFacility = (id: string) => {
-  return useQuery({
-    queryKey: [...FACILITIES_KEY, "detail", id],
-    queryFn: () => facilityApi.getById(id),
-    enabled: !!id,
-  });
-};
+export const useFacility = (id: string, hotelId?: string) => {
+  const { agencyId, hotelId: numericHotelId } = useFacilityScope(hotelId);
+  const facilityId = toNumericId(id);
+  const facilityQuery = useGetFacilityById(agencyId, numericHotelId, facilityId);
+  const photosQuery = useGetFacilityPhotos(agencyId, numericHotelId, facilityId);
 
-export const useCreateFacility = () => {
-  const queryClient = useQueryClient();
+  const facility = useMemo(() => {
+    if (!facilityQuery.data) return undefined;
 
-  return useMutation({
-    mutationFn: ({ hotelId, dto }: { hotelId: string; dto: CreateFacilityDto }) =>
-      facilityApi.create(hotelId, dto),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: FACILITIES_KEY });
-    },
-  });
-};
+    return mapFacilityResponse(facilityQuery.data, photosQuery.data ?? []);
+  }, [facilityQuery.data, photosQuery.data]);
 
-export const useUpdateFacility = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: ({ id, dto }: { id: string; dto: UpdateFacilityDto }) =>
-      facilityApi.update(id, dto),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: FACILITIES_KEY });
-    },
-  });
-};
-
-export const useUpdateFacilityPhotos = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: ({ id, photos }: { id: string; photos: FacilityPhoto[] }) =>
-      facilityApi.updatePhotos(id, photos),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: FACILITIES_KEY });
-    },
-  });
-};
-
-export const useDeleteFacility = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: (id: string) => facilityApi.delete(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: FACILITIES_KEY });
-    },
-  });
+  return {
+    ...facilityQuery,
+    data: facility,
+    isLoading: facilityQuery.isLoading || photosQuery.isLoading,
+  };
 };

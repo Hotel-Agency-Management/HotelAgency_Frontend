@@ -7,8 +7,8 @@ import type { FacilityPhoto, HotelFacility } from "../types/facility";
 import {
   useCreateFacility,
   useUpdateFacility,
-  useUpdateFacilityPhotos,
-} from "./useFacilityStore";
+} from "./mutations/facilityMutations";
+import { toNumericId, useFacilityScope } from "./useFacilityScope";
 
 interface Args {
   open: boolean;
@@ -40,6 +40,7 @@ export function useFacilityFormDialog({
   const [activeStep, setActiveStep] = useState(0);
   const [workingFacilityId, setWorkingFacilityId] = useState<string | null>(null);
   const [flowPhotos, setFlowPhotos] = useState<FacilityPhoto[]>([]);
+  const { agencyId, hotelId: numericHotelId } = useFacilityScope(hotelId);
 
   const methods = useForm<FacilityFormValues>({
     resolver: zodResolver(facilitySchema),
@@ -50,10 +51,9 @@ export function useFacilityFormDialog({
 
   const { mutate: createFacility, isPending: isCreating } = useCreateFacility();
   const { mutate: updateFacility, isPending: isUpdating } = useUpdateFacility();
-  const { mutate: updateFacilityPhotos, isPending: isSavingPhotos } =
-    useUpdateFacilityPhotos();
 
   const stepLabels = useMemo(() => ["Main information", "Facility photos"], []);
+  const isSavingPhotos = false;
   const busy = isCreating || isUpdating || isSavingPhotos;
 
   const resetWizardState = useCallback(() => {
@@ -92,15 +92,22 @@ export function useFacilityFormDialog({
   };
 
   const handleDetailsNext = handleSubmit((values) => {
+    if (!agencyId || !numericHotelId) return;
+
     if (facility || workingFacilityId) {
-      const id = facility?.id ?? workingFacilityId;
-      if (!id) return;
+      const facilityIdNumber = toNumericId(facility?.id ?? workingFacilityId);
+      if (!facilityIdNumber) return;
 
       updateFacility(
-        { id, dto: values },
+        {
+          agencyId,
+          hotelId: numericHotelId,
+          facilityId: facilityIdNumber,
+          data: values,
+        },
         {
           onSuccess: (updatedFacility) => {
-            setWorkingFacilityId(updatedFacility.id);
+            setWorkingFacilityId(String(updatedFacility.id));
             setActiveStep(1);
           },
         }
@@ -109,11 +116,11 @@ export function useFacilityFormDialog({
     }
 
     createFacility(
-      { hotelId, dto: values },
+      { agencyId, hotelId: numericHotelId, data: values },
       {
         onSuccess: (createdFacility) => {
-          setWorkingFacilityId(createdFacility.id);
-          setFlowPhotos(createdFacility.photos);
+          setWorkingFacilityId(String(createdFacility.id));
+          setFlowPhotos([]);
           setActiveStep(1);
         },
       }
@@ -123,15 +130,8 @@ export function useFacilityFormDialog({
   const handleFinish = () => {
     if (!workingFacilityId) return;
 
-    updateFacilityPhotos(
-      { id: workingFacilityId, photos: flowPhotos },
-      {
-        onSuccess: () => {
-          onClose();
-          resetAllAndClose();
-        },
-      }
-    );
+    onClose();
+    resetAllAndClose();
   };
 
   return {

@@ -37,6 +37,12 @@ export interface SignupResponse {
   message: string
 }
 
+export interface AgencySignupResponse extends SignupResponse {
+  agencyId: number
+  token?: string
+  refreshToken?: string
+}
+
 export interface VerifyEmailParams {
   userId: number
   token: string

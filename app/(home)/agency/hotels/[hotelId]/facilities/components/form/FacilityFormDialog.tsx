@@ -57,6 +57,7 @@ export function FacilityFormDialog({
             activeStep={dialogState.activeStep}
             stepLabels={dialogState.stepLabels}
             workingFacilityId={dialogState.workingFacilityId}
+            hotelId={hotelId}
             photos={dialogState.flowPhotos}
             onPhotosChange={dialogState.setFlowPhotos}
             onClose={dialogState.handleClose}
