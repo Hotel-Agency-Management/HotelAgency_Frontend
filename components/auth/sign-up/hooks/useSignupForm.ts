@@ -14,9 +14,10 @@ import {
 } from '@/components/auth/utils/authError'
 import { buildSignupSchema } from '@/core/schemas/signupSchema'
 import type {
-  SignupResponse
+  AgencySignupResponse
 } from '@/components/auth/configs/authConfig'
 import type { AgencyDocumentsFormData } from '@/components/auth/agency/types/documents'
+import { useUploadAgencyDocumentMutation } from '@/components/auth/agency/hooks/mutations/useAgencyDocumentsMutations'
 import {
   useSignUpAgencyOwnerMutation,
   useSignUpCustomerMutation
@@ -27,6 +28,7 @@ import {
   createAgencyOwnerSignupPayload,
   createCustomerSignupPayload
 } from '../utils/signupPayload'
+import { getAgencyIdFromToken, getNumericAgencyId } from '../utils/agencyToken'
 
 const defaultAgencyValues: AgencyFormData = {
   agencyName: '',
@@ -48,7 +50,16 @@ export const useSignupForm = ({ initialStep = 0 } = {}) => {
   )
   const [activeStep, setActiveStep] = useState(initialStep)
   const [agencyValues, setAgencyValues] = useState<AgencyFormData>(defaultAgencyValues)
-  const [agencySignupResponse, setAgencySignupResponse] = useState<SignupResponse | null>(null)
+  const [agencySignupResponse, setAgencySignupResponse] = useState<AgencySignupResponse | null>(null)
+  const [loginAccessToken, setLoginAccessToken] = useState<string | undefined>(() => {
+    if (typeof window === 'undefined') return undefined
+
+    return localStorage.getItem(authConfig.storageTokenKeyName) ?? undefined
+  })
+  const agencyAccessToken = agencySignupResponse?.accessToken ?? agencySignupResponse?.token ?? loginAccessToken
+  const agencyId = getNumericAgencyId(agencySignupResponse?.agencyId) ?? getAgencyIdFromToken(agencyAccessToken)
+  const { mutateAsync: uploadAgencyDocument, isPending: isAgencyDocumentUploadLoading } =
+    useUploadAgencyDocumentMutation(agencyId, agencyAccessToken)
 
   const schema = buildSignupSchema(t)
 
@@ -70,6 +81,12 @@ export const useSignupForm = ({ initialStep = 0 } = {}) => {
     if (initialStep > 0) {
       setAccountType(SIGNUP_UI_ACCOUNT_TYPE.AGENCY_OWNER)
     }
+  }, [initialStep])
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    setLoginAccessToken(localStorage.getItem(authConfig.storageTokenKeyName) ?? undefined)
   }, [initialStep])
 
   const togglePasswordVisibility = () => setShowPassword(prev => !prev)
@@ -145,18 +162,26 @@ export const useSignupForm = ({ initialStep = 0 } = {}) => {
   }
 
   const onAgencyDocumentsSubmit = async (data: AgencyDocumentsFormData) => {
-    const formData = new FormData()
-
-    if (agencySignupResponse?.userId) {
-      formData.append('userId', String(agencySignupResponse.userId))
+    if (!agencyId) {
+      throw new Error('Agency id is missing. Please complete agency registration again.')
     }
 
-    data.documents.forEach((doc, index) => {
-      formData.append(`documents[${index}][title]`, doc.title)
-      if (doc.file) {
-        formData.append(`documents[${index}][file]`, doc.file)
-      }
-    })
+    const documents = data.documents.filter(
+      (doc): doc is { title: string; file: File } =>
+        (doc.title ?? '').trim().length > 0 && doc.file !== null
+    )
+
+    await Promise.all(
+      documents.map(doc =>
+        uploadAgencyDocument({
+          file: doc.file,
+          documentType: doc.title
+        })
+      )
+    )
+
+    toast.success('Agency documents uploaded successfully. Please verify your email.')
+    router.push(authConfig.loginPageURL)
   }
   return {
     showPassword,
@@ -164,7 +189,7 @@ export const useSignupForm = ({ initialStep = 0 } = {}) => {
     accountType,
     activeStep,
     agencyValues,
-    isLoading: isCustomerSignupLoading || isAgencyOwnerSignupLoading,
+    isLoading: isCustomerSignupLoading || isAgencyOwnerSignupLoading || isAgencyDocumentUploadLoading,
     form,
     togglePasswordVisibility,
     handleAccountTypeChange,

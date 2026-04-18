@@ -1,7 +1,18 @@
 import apiClient from '@/core/clients/apiClient'
 import { AuthResponse, LoginCredentials } from '@/core/configs/authConfig'
 import { authConfig } from '@/core/configs/clientConfig'
-import { CustomerSignupRequest, SignupResponse, AgencyOwnerSignupRequest, VerifyEmailParams, VerifyEmailResponse, ResendVerificationEmailRequest, ResendVerificationEmailResponse, RefreshTokenRequest, RefreshTokenResponse } from '../configs/authConfig'
+import {
+  AgencyOwnerSignupRequest,
+  AgencySignupResponse,
+  CustomerSignupRequest,
+  RefreshTokenRequest,
+  RefreshTokenResponse,
+  ResendVerificationEmailRequest,
+  ResendVerificationEmailResponse,
+  SignupResponse,
+  VerifyEmailParams,
+  VerifyEmailResponse
+} from '../configs/authConfig'
 
 export const loginRequest = async (credentials: LoginCredentials): Promise<AuthResponse> => {
   const response = await apiClient.post<AuthResponse>(
@@ -12,10 +23,10 @@ export const loginRequest = async (credentials: LoginCredentials): Promise<AuthR
   return response.data
 }
 
-const registerRequest = async (
+const registerRequest = async <TResponse extends SignupResponse>(
   payload: CustomerSignupRequest | AgencyOwnerSignupRequest
-): Promise<SignupResponse> => {
-  const response = await apiClient.post<SignupResponse>(
+): Promise<TResponse> => {
+  const response = await apiClient.post<TResponse>(
     `${authConfig.signupEndpoint}`,
     payload,
     { timeout: authConfig.requestTimeout }
@@ -25,11 +36,11 @@ const registerRequest = async (
 }
 
 export const registerCustomerRequest = (payload: CustomerSignupRequest): Promise<SignupResponse> =>
-  registerRequest(payload)
+  registerRequest<SignupResponse>(payload)
 
 export const registerAgencyOwnerRequest = (
   payload: AgencyOwnerSignupRequest
-): Promise<SignupResponse> => registerRequest(payload)
+): Promise<AgencySignupResponse> => registerRequest<AgencySignupResponse>(payload)
 
 export const verifyEmailRequest = async (
   params: VerifyEmailParams
