@@ -2,17 +2,23 @@ import type { User } from '@/core/configs/authConfig'
 import { USER_ROLE_LABELS, isUserRole } from '@/lib/abilities'
 import { profileDummyData } from '@/lib/profileDummyData'
 import type { ProfilePageData, ProfileUser } from '../types/profile'
+import type { UserProfile } from '../configs/userProfileConfig'
+import { joinName } from './formatters'
 
-export function buildProfilePageData(user: User | null): ProfilePageData {
-  const u = user as ProfileUser | null
-  const role = u?.role ?? ''
+export function buildProfilePageData(
+  user: User | null,
+  profile: UserProfile | null
+): ProfilePageData {
+  const userData = user as ProfileUser | null
+  const role = userData?.role ?? ''
   const roleLabel = isUserRole(role) ? USER_ROLE_LABELS[role] : 'User'
 
   const fullName =
-    (u?.name ?? [u?.firstName, u?.lastName].filter(Boolean).join(' ')) ||
-    profileDummyData.name
+    joinName(profile?.firstName, profile?.lastName) ||
+    userData?.name ||
+    joinName(userData?.firstName, userData?.lastName)
+  const joinedRaw = profile?.updatedAt ?? userData?.updatedAt ?? userData?.createdAt
 
-  const joinedRaw = u?.createdAt ?? u?.updatedAt
   const joinedDate = joinedRaw
     ? (() => {
         const d = new Date(joinedRaw)
@@ -22,7 +28,7 @@ export function buildProfilePageData(user: User | null): ProfilePageData {
       })()
     : profileDummyData.joinedDate
 
-  const agencySource = u?.agency
+  const agencySource = userData?.agency
   const agency = agencySource
     ? {
         name: agencySource.name ?? '—',
@@ -33,7 +39,7 @@ export function buildProfilePageData(user: User | null): ProfilePageData {
       }
     : undefined
 
-  const hotelSource = u?.hotel
+  const hotelSource = userData?.hotel
   const colors = hotelSource?.branding?.colors
   const hotel = hotelSource
     ? {
@@ -52,24 +58,24 @@ export function buildProfilePageData(user: User | null): ProfilePageData {
   return {
     hero: {
       name: fullName,
-      email: u?.email ?? profileDummyData.email,
+      email: profile?.email ?? userData?.email ?? '',
       title: roleLabel,
-      bio: u?.bio ?? profileDummyData.bio,
-      location: u?.location ?? profileDummyData.location,
+      bio: userData?.bio ?? profileDummyData.bio,
+      location: userData?.location ?? profileDummyData.location,
       joinedDate,
       social: {
-        github: u?.social?.github ?? profileDummyData.social.github,
-        linkedin: u?.social?.linkedin ?? profileDummyData.social.linkedin,
-        twitter: u?.social?.twitter ?? profileDummyData.social.twitter,
-        website: u?.social?.website ?? profileDummyData.social.website,
+        github: userData?.social?.github ?? profileDummyData.social.github,
+        linkedin: userData?.social?.linkedin ?? profileDummyData.social.linkedin,
+        twitter: userData?.social?.twitter ?? profileDummyData.social.twitter,
+        website: userData?.social?.website ?? profileDummyData.social.website,
       },
     },
     overview: {
       name: fullName,
-      email: u?.email ?? profileDummyData.email,
-      phone: u?.phoneNumber ?? '',
-      birthDate: u?.dateOfBirth ?? '',
-      gender: u?.gender ?? '',
+      email: profile?.email ?? userData?.email ?? '',
+      phone: profile?.phoneNumber ?? userData?.phoneNumber ?? '',
+      birthDate: profile?.dateOfBirth ?? userData?.dateOfBirth ?? '',
+      gender: profile?.gender ?? userData?.gender ?? '',
     },
     agency,
     hotel,
