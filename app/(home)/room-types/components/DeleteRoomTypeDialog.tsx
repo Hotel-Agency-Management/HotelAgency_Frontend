@@ -6,7 +6,7 @@ import {
   Button,
   Typography,
 } from '@mui/material'
-import { RoomType } from '../../types/roomType'
+import { RoomType } from '../types/roomType'
 
 interface DeleteRoomTypeDialogProps {
   open: boolean

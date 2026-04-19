@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { formatPrice } from "../../util/formatters";
+import { formatPrice } from "../../agency/hotels/[hotelId]/rooms/util/formatters";
 
 export function SecondaryRate({ label, value, currency }: { label: string; value: number; currency: string }) {
   return (

@@ -7,8 +7,8 @@ import { useCreateRoom, useUpdateRoom } from "./useRoomStore";
 import { RoomFormValues, roomSchema } from "../schema/roomSchema";
 import { Room, RoomPhoto } from "../types/room";
 import { roomsApi } from "../api/roomApi";
-import { RoomType } from "../types/roomType";
-import { roomTypesApi } from "../api/roomTypeApi";
+import { RoomType } from "../../../../../room-types/types/roomType";
+import { roomTypesApi } from "../../../../../room-types/api/roomTypeApi";
 import { defaultFormValues } from "../constants/roomFormValues";
 
 export interface UseRoomFormDialogArgs {
@@ -22,7 +22,6 @@ export function useRoomFormDialog({
   open,
   onClose,
   room,
-  hotelId,
 }: UseRoomFormDialogArgs) {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
@@ -64,9 +63,9 @@ export function useRoomFormDialog({
   }, [reset, resetWizardState]);
 
   useEffect(() => {
-    if (!open || !hotelId) return;
-    roomTypesApi.getAll(hotelId).then(setRoomTypes);
-  }, [open, hotelId]);
+    if (!open) return;
+    roomTypesApi.getAll().then(setRoomTypes);
+  }, [open]);
 
   useEffect(() => {
     if (open && !room) {
