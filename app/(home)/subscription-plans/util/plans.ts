@@ -1,11 +1,20 @@
-import { BILLING_CYCLE, BillingCycle, PlanFeature, PlanFormValues } from "../types/plans"
+import { PlanFeature } from "../configs/planConfig"
+import { PlanFormValues } from "../types/plans"
 
-export function generateId(): string {
-  return `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`
+let temporaryId = 0
+
+export function generateId(): number {
+  temporaryId -= 1
+  return temporaryId
 }
 
 export function makeEmptyFeature(): PlanFeature {
-  return { id: generateId(), name: '', enabled: true }
+  return {
+    id: generateId(),
+    featureName: '',
+    isEnabled: true,
+    featureLimits: [],
+  }
 }
 
 export function makeEmptyForm(): PlanFormValues {
@@ -13,16 +22,13 @@ export function makeEmptyForm(): PlanFormValues {
     name: '',
     description: '',
     price: 0,
-    billingCycle: BILLING_CYCLE.MONTHLY,
-    customBillingLabel: '',
-    isActive: true,
-    features: [makeEmptyFeature()],
+    status: 'Active',
+    planFeatures: [makeEmptyFeature()],
   }
 }
 
-export function formatPrice(price: number, billingCycle: BillingCycle, customLabel?: string): string {
-  if (billingCycle === BILLING_CYCLE.CUSTOM) return customLabel ?? 'Contact Sales'
-  return `$${price} / ${billingCycle === BILLING_CYCLE.MONTHLY ? 'mo' : 'yr'}`
+export function formatPrice(price: number): string {
+  return `$${price}`
 }
 
 // ─── Validation ───────────────────────────────────────────────────────────────
@@ -31,7 +37,6 @@ export interface FormErrors {
   name?: string
   description?: string
   price?: string
-  customBillingLabel?: string
   features?: Record<string, string>
 }
 
@@ -44,16 +49,24 @@ export function validatePlanForm(values: PlanFormValues): FormErrors {
   if (!values.description.trim()) {
     errors.description = 'Description is required'
   }
-  if (values.billingCycle !== BILLING_CYCLE.CUSTOM && values.price < 0) {
+  if (values.price < 0) {
     errors.price = 'Price must be 0 or greater'
-  }
-  if (values.billingCycle === BILLING_CYCLE.CUSTOM && !values.customBillingLabel?.trim()) {
-    errors.customBillingLabel = 'Billing label is required for custom plans'
   }
 
   const featureErrors: Record<string, string> = {}
-  values.features.forEach(f => {
-    if (!f.name.trim()) featureErrors[f.id] = 'Feature name is required'
+  values.planFeatures.forEach(feature => {
+    if (!feature.featureName.trim()) {
+      featureErrors[feature.id] = 'Feature name is required'
+      return
+    }
+
+    const hasInvalidLimit = feature.featureLimits.some(
+      limit => !Number.isFinite(limit.limitValue) || limit.limitValue < 0
+    )
+
+    if (hasInvalidLimit) {
+      featureErrors[feature.id] = 'Limit must be a valid number'
+    }
   })
   if (Object.keys(featureErrors).length) errors.features = featureErrors
 
@@ -61,7 +74,7 @@ export function validatePlanForm(values: PlanFormValues): FormErrors {
 }
 
 export function hasErrors(errors: FormErrors): boolean {
-  if (errors.name || errors.description || errors.price || errors.customBillingLabel) return true
+  if (errors.name || errors.description || errors.price) return true
   if (errors.features && Object.keys(errors.features).length) return true
   return false
 }
