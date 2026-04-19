@@ -94,7 +94,7 @@ export function RoomAmenitiesCards({ amenities, isLoading, onEdit, onDelete }: P
                         variant="body2"
                         fontWeight={700}
                         noWrap
-                        sx={{ minWidth: 0, flex: 1, overflow: "hidden", textOverflow: "ellipsis" }}
+                        sx={{ maxWidth: 180 }}
                       >
                         {amenity.title}
                       </Typography>
