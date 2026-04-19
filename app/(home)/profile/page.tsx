@@ -10,12 +10,17 @@ import { TabPanel } from './components/TabPanel'
 import { buildProfilePageData } from './util/buildProfilePageData'
 import { TAB_LIST } from './constants/tabs'
 import Can from '@/components/ability/Can'
+import { useUserProfile } from './hooks/queries/useUserProfile'
 
 export default function ProfilePage() {
   const [tab, setTab] = useState(0)
   const { user } = useAuth()
+  const { data: profile } = useUserProfile()
   const ability = useAbility()
-  const data = useMemo(() => buildProfilePageData(user), [user])
+  const data = useMemo(
+  () => buildProfilePageData(user, profile ?? null),
+  [user, profile]
+)
 
   const visibleTabs = useMemo(
     () => TAB_LIST.filter((t) =>

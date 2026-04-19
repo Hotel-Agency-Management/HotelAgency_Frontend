@@ -14,17 +14,15 @@ import {
   Typography
 } from '@mui/material'
 import { yupResolver } from '@hookform/resolvers/yup'
-import axios from 'axios'
 import { Eye, EyeOff } from 'lucide-react'
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import toast from 'react-hot-toast'
 import { useTranslation } from 'react-i18next'
 import { getPasswordStrength } from '../util/password'
 import { ChangePasswordValues } from '../types/changePassword'
 import { getFields } from '../constants/changePassword'
 import { getChangePasswordSchema } from '@/core/schema/changePassword'
-import { useChangePassword } from '../hooks/useChangePassword'
+import { useChangePassword } from '../hooks/mutations/useChangePassword'
 
 function ChangePassword() {
   const { t } = useTranslation()
@@ -38,6 +36,7 @@ function ChangePassword() {
   const {
     control,
     watch,
+    reset,
     handleSubmit,
     formState: { errors }
   } = useForm<ChangePasswordValues>({
@@ -60,15 +59,13 @@ function ChangePassword() {
   const onSubmit = async (data: ChangePasswordValues) => {
     try {
       await changePassword({
-        current_password: data.currentPassword,
-        new_password: data.newPassword
+        currentPassword: data.currentPassword,
+        newPassword: data.newPassword
       })
 
-      toast.success(t('changePassword.toast.success'))
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        toast.error(error.response?.data?.message || t('changePassword.toast.failed'))
-      }
+      reset()
+    } catch {
+      // Error toast is handled by useChangePassword.
     }
   }
 
@@ -119,6 +116,7 @@ function ChangePassword() {
                               fullWidth
                               size='small'
                               label={label}
+                              disabled={isPending}
                               type={show[key] ? 'text' : 'password'}
                               error={!!errors[name]}
                               helperText={errors[name]?.message}
@@ -129,6 +127,7 @@ function ChangePassword() {
                                       size='small'
                                       onClick={() => toggle(key)}
                                       edge='end'
+                                      disabled={isPending}
                                     >
                                       {show[key] ? <EyeOff size={15} /> : <Eye size={15} />}
                                     </IconButton>
@@ -166,7 +165,12 @@ function ChangePassword() {
                     py: 2
                   }}
                 >
-                  <Button variant='outlined' size='small'>
+                  <Button
+                    variant='outlined'
+                    size='small'
+                    disabled={isPending}
+                    onClick={() => reset()}
+                  >
                     {t('common.cancel')}
                   </Button>
 
@@ -178,7 +182,7 @@ function ChangePassword() {
                     type='submit'
                     loading={isPending}
                   >
-                    {!isPending && t('changePassword.page.updateButton')}
+                    {t('changePassword.page.updateButton')}
                   </LoadingButton>
                 </Stack>
               </Stack>

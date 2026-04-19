@@ -7,7 +7,7 @@ import { RoomGridView } from "./grid/RoomGridView";
 import { useRooms, useDeleteRoom } from "../../../hooks/useRoomStore";
 import { RoomFilters } from "../../../types/room";
 import { getRoomGridColumns } from "../../../util/roomGridColumns";
-import { useRoomTypes } from "../../../hooks/uesRoomType";
+import { useRoomTypes } from "../../../../../../../room-types/hooks/uesRoomType";
 import { useHotelStore } from "../../../../../hooks/useHotelStore";
 
 interface Props {
@@ -25,7 +25,7 @@ export const RoomCardsView = ({ onAddRoom, onEditRoom }: Props) => {
 
   const { data: rooms = [], isLoading } = useRooms(filters);
   const { mutate: deleteRoom } = useDeleteRoom();
-  const { data: roomTypes = [] } = useRoomTypes(hotelId);
+  const { data: roomTypes = [] } = useRoomTypes();
 
   const hotel = useHotelStore((state) => state.getHotelById(hotelId));
   const currency = hotel?.basicInfo.currency ?? "USD";

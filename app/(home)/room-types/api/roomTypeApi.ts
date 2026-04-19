@@ -3,7 +3,6 @@ import { RoomType, CreateRoomTypePayload, UpdateRoomTypePayload } from "../types
 let roomTypes: RoomType[] = [
   {
     id: '1',
-    hotelId: '1',
     name: 'Standard Room',
     description: 'Comfortable room with essential amenities for a pleasant stay.',
     capacity: 2,
@@ -15,7 +14,6 @@ let roomTypes: RoomType[] = [
   },
   {
     id: '2',
-    hotelId: '1',
     name: 'Deluxe Suite',
     description: 'Spacious suite with premium furnishings and stunning city view.',
     capacity: 4,
@@ -27,7 +25,6 @@ let roomTypes: RoomType[] = [
   },
   {
     id: '3',
-    hotelId: '1',
     name: 'Presidential Suite',
     description: 'Luxury suite with private pool and dedicated butler service.',
     capacity: 6,
@@ -40,8 +37,8 @@ let roomTypes: RoomType[] = [
 ]
 
 export const roomTypesApi = {
-  getAll: (hotelId: string): Promise<RoomType[]> =>
-    Promise.resolve(roomTypes.filter(r => r.hotelId === hotelId)),
+  getAll: (): Promise<RoomType[]> =>
+    Promise.resolve(roomTypes),
 
   getById: (id: string): Promise<RoomType | undefined> =>
     Promise.resolve(roomTypes.find(r => r.id === id)),

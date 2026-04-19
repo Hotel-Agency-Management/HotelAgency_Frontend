@@ -2,11 +2,12 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { roomTypesApi } from "../api/roomTypeApi";
 import { CreateRoomTypePayload, UpdateRoomTypePayload } from "../types/roomType";
 
-export const useRoomTypes = (hotelId: string) => {
+const ROOM_TYPES_KEY = ["roomTypes"] as const;
+
+export const useRoomTypes = () => {
   return useQuery({
-    queryKey: ["roomTypes", hotelId],
-    queryFn: () => roomTypesApi.getAll(hotelId),
-    enabled: !!hotelId,
+    queryKey: ROOM_TYPES_KEY,
+    queryFn: roomTypesApi.getAll,
   });
 };
 
@@ -22,10 +23,8 @@ export const useCreateRoomType = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (payload: CreateRoomTypePayload) => roomTypesApi.create(payload),
-    onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({
-        queryKey: ["roomTypes", variables.hotelId],
-      });
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ROOM_TYPES_KEY });
     },
   });
 };
@@ -35,9 +34,7 @@ export const useUpdateRoomType = () => {
   return useMutation({
     mutationFn: (payload: UpdateRoomTypePayload) => roomTypesApi.update(payload),
     onSuccess: (updatedRoomType) => {
-      queryClient.invalidateQueries({
-        queryKey: ["roomTypes", updatedRoomType.hotelId],
-      });
+      queryClient.invalidateQueries({ queryKey: ROOM_TYPES_KEY });
       queryClient.invalidateQueries({
         queryKey: ["roomType", updatedRoomType.id],
       });
@@ -45,14 +42,12 @@ export const useUpdateRoomType = () => {
   });
 };
 
-export const useDeleteRoomType = (hotelId: string) => {
+export const useDeleteRoomType = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (id: string) => roomTypesApi.delete(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["roomTypes", hotelId],
-      });
+      queryClient.invalidateQueries({ queryKey: ROOM_TYPES_KEY });
     },
   });
 };

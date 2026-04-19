@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import { getErrorMessage } from '@/core/utils/apiError'
 import { AgencyDocumentsFormData, AgencyDocumentsFormProps } from '../types/documents'
 
 export function useAgencyDocumentsForm({
@@ -45,7 +46,7 @@ export function useAgencyDocumentsForm({
     try {
       await onSubmitProp(data)
     } catch (error) {
-      setErrorMessage(typeof error === 'string' ? error : t('docs.submitError', 'Something went wrong'))
+      setErrorMessage(getErrorMessage(error, t('docs.submitError', 'Something went wrong')))
     }
   }
 

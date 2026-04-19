@@ -5,9 +5,9 @@ import { useParams, useRouter } from "next/navigation";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import { useTranslation } from "react-i18next";
-import { ROOM_TYPES } from "../../constants/roomTypes";
+import { ROOM_TYPES } from "../../../../../../room-types/constants/roomTypes";
 import { useRoom, useDeleteRoom } from "../../hooks/useRoomStore";
-import { useRoomTypes } from "../../hooks/uesRoomType";
+import { useRoomTypes } from "../../../../../../room-types/hooks/uesRoomType";
 import { mapRoomToProfile } from "../../util/mapRoomToProfile";
 import { RoomAmenitiesList } from "./RoomAmenitiesList";
 import { RoomGallery } from "./RoomGallery";
@@ -26,7 +26,7 @@ export function RoomProfileView() {
   const roomsListPath = `/agency/hotels/${hotelId}/rooms`;
 
   const { data: room, isLoading, isError, error } = useRoom(roomId);
-  const { data: roomTypes = [] } = useRoomTypes(hotelId);
+  const { data: roomTypes = [] } = useRoomTypes();
   const { mutate: deleteRoom, isPending: isDeleting } = useDeleteRoom();
 
   const handleBack = () => router.push(roomsListPath);

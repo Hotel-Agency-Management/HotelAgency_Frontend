@@ -1,6 +1,6 @@
 "use client";
-import { HotelRoomsTabs } from "./components/HotelRoomsTabs";
+import RoomsPage from "./components/room/RoomsPage";
 
 export default function HotelRoomsPage() {
-  return <HotelRoomsTabs />;
+  return <RoomsPage />;
 }

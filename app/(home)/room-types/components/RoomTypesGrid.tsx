@@ -1,5 +1,5 @@
 import Grid from '@mui/material/Grid'
-import { RoomType } from '../../types/roomType'
+import { RoomType } from '../types/roomType'
 import { RoomTypeCard } from './RoomTypeCard'
 
 interface RoomTypesGridProps {
