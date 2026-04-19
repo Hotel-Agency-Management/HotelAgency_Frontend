@@ -186,7 +186,7 @@ export const roomsApi = {
     mockRooms = mockRooms.filter((r) => r.id !== id);
   },
 
-  importExcel: async (_file: File): Promise<{ imported: number; failed: number }> => {
+  importExcel: async (): Promise<{ imported: number; failed: number }> => {
     await sleep(1000); // TODO: Remove when integrating backend
     return { imported: 5, failed: 0 };
   },

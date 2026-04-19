@@ -1,12 +1,13 @@
-import type { HotelFormValues } from "../types/hotel";
+import type { Hotel } from "../types/hotel";
 
-export const MOCK_HOTELS: (HotelFormValues & { id: string; isActive: boolean })[] = [
+export const MOCK_HOTELS: Hotel[] = [
   {
     id: "1",
     isActive: true,
     basicInfo: {
       name: "Grand Palace Hotel",
       phone: "+1 212 555 0101",
+      country: "USA",
       city: "New York",
       address: "123 Fifth Avenue, Manhattan",
       currency: "USD",
@@ -25,6 +26,7 @@ export const MOCK_HOTELS: (HotelFormValues & { id: string; isActive: boolean })[
     basicInfo: {
       name: "Azure Sea Resort",
       phone: "+44 20 7946 0301",
+      country: "United Kingdom",
       city: "London",
       address: "45 Harbour Road, Chelsea",
       currency: "GBP",
@@ -42,6 +44,7 @@ export const MOCK_HOTELS: (HotelFormValues & { id: string; isActive: boolean })[
     basicInfo: {
       name: "Desert Rose Inn",
       phone: "+971 4 555 0201",
+      country: "United Arab Emirates",
       city: "Dubai",
       address: "Sheikh Zayed Road, Downtown",
       currency: "AED",

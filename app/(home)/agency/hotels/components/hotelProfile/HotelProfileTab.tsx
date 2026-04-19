@@ -147,6 +147,7 @@ export function HotelProfileTab({
             isEditing={isEditing}
             isLoading={isLoading}
             control={form.control}
+            setValue={form.setValue}
             currentValues={currentValues}
           />
         </Stack>

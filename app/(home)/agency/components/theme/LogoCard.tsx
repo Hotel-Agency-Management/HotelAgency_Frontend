@@ -9,15 +9,19 @@ import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { ImageIcon, Trash2, Upload } from "lucide-react";
-import type { BrandingSettings } from "@/core/theme/palette/branding";
 import { MAX_LOGO_SIZE } from "../../constants/logoDetails";
 import { readFileAsDataUrl } from "../../util/fileUtils";
 
-export function LogoCard() {
-  const { watch, setValue } = useFormContext<BrandingSettings>();
+interface LogoCardProps {
+  namePrefix?: string;
+}
+
+export function LogoCard({ namePrefix }: LogoCardProps) {
+  const { watch, setValue } = useFormContext();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [uploadError, setUploadError] = useState<string | null>(null);
-  const logo = watch("logo");
+  const logoFieldName = namePrefix ? `${namePrefix}.logo` : "logo";
+  const logo = watch(logoFieldName) as string | null | undefined;
 
   const handleUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -36,7 +40,7 @@ export function LogoCard() {
     }
 
     try {
-      setValue("logo", await readFileAsDataUrl(file), { shouldDirty: true });
+      setValue(logoFieldName, await readFileAsDataUrl(file), { shouldDirty: true });
       setUploadError(null);
     } catch (err) {
       setUploadError(err instanceof Error ? err.message : "Upload failed.");
@@ -81,7 +85,7 @@ export function LogoCard() {
               color="inherit"
               startIcon={<Trash2 size={15} />}
               disabled={!logo}
-              onClick={() => setValue("logo", null, { shouldDirty: true })}
+              onClick={() => setValue(logoFieldName, null, { shouldDirty: true })}
               sx={{ borderColor: "divider" }}
             >
               Remove

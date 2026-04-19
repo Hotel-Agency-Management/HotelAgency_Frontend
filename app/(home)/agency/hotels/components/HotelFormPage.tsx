@@ -1,4 +1,5 @@
 'use client'
+import { useEffect } from "react"
 import { FormProvider } from "react-hook-form"
 import Container from "@mui/material/Container"
 import Stack from "@mui/material/Stack"
@@ -11,6 +12,7 @@ import { ManagerStep } from "./steps/ManagerStep"
 import { useHotelForm } from "../hooks/useHotelForm"
 import { useHotelStepper } from "../hooks/useHotelStepper"
 import { useHotelStore } from "../hooks/useHotelStore"
+import { useAuth } from "@/core/context/AuthContext"
 
 interface HotelFormPageProps {
   mode: 'add' | 'edit'
@@ -19,13 +21,18 @@ interface HotelFormPageProps {
 export function HotelFormPage({ mode }: HotelFormPageProps) {
   const router = useRouter()
   const { hotelId } = useParams<{ hotelId?: string }>()
+  const { user } = useAuth()
+  const numericHotelId = hotelId ? Number(hotelId) : undefined
+  const agencyId = user?.agencyId
   const { settings } = useSettings()
 
-  const { addHotel, updateHotel, getHotelById, isLoading } = useHotelStore()
+  const { addHotel, updateHotel, hotel, isLoading } = useHotelStore(
+    agencyId,
+    Number.isFinite(numericHotelId) ? numericHotelId : undefined
+  )
+  const hotelsPath = '/agency/hotels'
 
-  const existingHotel = mode === 'edit' && hotelId
-  ? getHotelById(hotelId)
-  : undefined
+  const existingHotel = mode === 'edit' ? hotel : undefined
 
   const form = useHotelForm(existingHotel, settings.branding.colors)
   const { activeStep, goNext, goBack, isFirst, isLast } = useHotelStepper()
@@ -36,13 +43,19 @@ export function HotelFormPage({ mode }: HotelFormPageProps) {
     } else {
       await addHotel(values)
     }
-    router.push('/agency/hotels')
+    router.push(hotelsPath)
   })
 
-  if (mode === 'edit' && !existingHotel) {
-    router.push('/agency/hotels')
-    return null
-  }
+  const shouldRedirectToHotels =
+    mode === 'edit' && (!hotelId || (!isLoading && !existingHotel))
+
+  useEffect(() => {
+    if (!shouldRedirectToHotels) return
+
+    router.replace(hotelsPath)
+  }, [hotelsPath, router, shouldRedirectToHotels])
+
+  if (mode === 'edit' && !existingHotel) return null
 
   const stepProps = { isFirst, isLast, onBack: goBack, mode }
 

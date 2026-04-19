@@ -30,11 +30,17 @@ export default function HomeSidebarShell({
 }: HomeSidebarShellProps) {
   const params = useParams<{ hotelId?: string }>()
   const { user } = useAuth()
-  const hotels = useHotelStore(state => state.hotels)
+  const { hotels } = useHotelStore(user?.agencyId)
 
   const agencyName = user?.agencyName ?? 'my-agency'
   const hotelId = params.hotelId ?? user?.hotelId
   const appName = useMemo(() => {
+    const agencyDisplayName = formatDisplayName(user?.agency?.name ?? user?.agencyName ?? agencyName)
+
+    if (user?.role === 'AGENCY_OWNER' && agencyDisplayName) {
+      return agencyDisplayName
+    }
+
     if (hotelId) {
       const hotelName = hotels.find(hotel => hotel.id === hotelId)?.basicInfo.name
 
@@ -43,13 +49,12 @@ export default function HomeSidebarShell({
       }
     }
 
-    const agencyDisplayName = formatDisplayName(agencyName)
     if (agencyDisplayName) {
       return agencyDisplayName
     }
 
     return themeConfig.templateName
-  }, [agencyName, hotelId, hotels])
+  }, [agencyName, hotelId, hotels, user?.agency?.name, user?.agencyName, user?.role])
 
   return (
     <SidebarLayout
