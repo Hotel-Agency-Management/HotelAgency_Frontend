@@ -61,8 +61,11 @@ export function useThemeForm(options?: UseThemeFormOptions) {
   const handleRestoreDefaults = () => {
     if (!options?.onSave) {
       saveSettings({ ...settings, branding: DEFAULT_BRANDING_SETTINGS });
+      form.reset(DEFAULT_BRANDING_SETTINGS);
+      return;
     }
-    form.reset(DEFAULT_BRANDING_SETTINGS);
+
+    form.reset(DEFAULT_BRANDING_SETTINGS, { keepDefaultValues: true });
   };
 
   return {

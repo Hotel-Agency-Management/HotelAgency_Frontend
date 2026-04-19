@@ -18,7 +18,7 @@ interface ColorsCardProps {
 
 export function ColorsCard({ namePrefix, fallbackColors = DEFAULT_BRANDING_COLORS }: ColorsCardProps) {
   return (
-    <Paper elevation={0} sx={cardSx}>
+    <Paper elevation={0} variant="card">
       <Stack spacing={0.5}>
         <Typography variant="subtitle1" fontWeight={500}>Theme colors</Typography>
         <Typography variant="body2">
@@ -47,11 +47,3 @@ export function ColorsCard({ namePrefix, fallbackColors = DEFAULT_BRANDING_COLOR
   )
 }
 
-const cardSx = {
-  borderRadius: 3,
-  border: "0.5px solid",
-  borderColor: "divider",
-  bgcolor: "background.paper",
-  boxShadow: "none",
-  p: 3,
-};

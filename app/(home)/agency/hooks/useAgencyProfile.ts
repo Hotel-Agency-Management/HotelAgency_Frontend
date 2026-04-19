@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm, type UseFormReturn } from "react-hook-form";
 import { AgencyProfile } from "../types/agencyProfile";
 
@@ -29,6 +29,12 @@ export function useAgencyProfile({
     defaultValues,
     mode: "onBlur",
   });
+
+  useEffect(() => {
+    if (!isEditing) {
+      form.reset(defaultValues);
+    }
+  }, [defaultValues, form, isEditing]);
 
   const handleEdit = () => {
     setIsEditing(true);
