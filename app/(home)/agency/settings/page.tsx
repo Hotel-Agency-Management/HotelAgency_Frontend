@@ -5,7 +5,8 @@ import Tab from '@mui/material/Tab'
 import Box from '@mui/material/Box'
 import { Building2, Palette } from 'lucide-react'
 import { AgencyProfileSection } from '../components/agencyProfile/AgencyProfileSection'
-import { CustomThemeSection } from '../components/agencyProfile/CustomThemeSection'
+import { CustomThemeTab } from '../components/theme/CustomThemeTab'
+import { useCustomThemeSection } from '../hooks/useCustomThemeSection'
 
 function TabPanel({
   children,
@@ -24,6 +25,13 @@ function TabPanel({
 }
 export default function AgencyPage() {
   const [tab, setTab] = useState(0)
+  const {
+    brandingValues,
+    handleThemeSave,
+    handleLogoUpload,
+    isSaving,
+    isLogoUploading,
+  } = useCustomThemeSection()
 
   return (
     <Box>
@@ -41,7 +49,14 @@ export default function AgencyPage() {
       </TabPanel>
 
       <TabPanel value={tab} index={1}>
-        <CustomThemeSection />
+        <CustomThemeTab
+          initialValues={brandingValues}
+          onSave={handleThemeSave}
+          isSaving={isSaving}
+          displayLogo={brandingValues.logo}
+          onLogoUpload={handleLogoUpload}
+          isLogoUploading={isLogoUploading}
+        />
       </TabPanel>
     </Box>
   )
