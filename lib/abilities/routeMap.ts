@@ -25,6 +25,18 @@ export const routePermissions: RoutePermission[] = [
     action: 'manage',
     subject: 'RoomTypes',
     description: 'Global room type catalog'
+  },
+  {
+    pattern: '/hotels',
+    action: 'read',
+    subject: 'Hotels',
+    description: 'Global hotel booking catalog'
+  },
+  {
+    pattern: '/hotels/[hotelId]',
+    action: 'read',
+    subject: 'Hotels',
+    description: 'Customer hotel details and rooms'
   }
 ]
 
