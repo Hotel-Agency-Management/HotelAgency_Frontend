@@ -52,6 +52,7 @@ export function CustomerHotelDetailsPage() {
           totalRooms={rooms.length}
           roomTypes={roomTypes}
           currency={hotel?.currency ?? 'USD'}
+          filters={filters}
           isLoading={isRoomsLoading}
           onResetFilters={resetFilters}
         />

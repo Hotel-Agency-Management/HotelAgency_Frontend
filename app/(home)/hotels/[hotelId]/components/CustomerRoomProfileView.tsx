@@ -1,7 +1,7 @@
 'use client'
 
 import { Container, Grid, Paper, Stack, Typography } from '@mui/material'
-import { useParams, useRouter } from 'next/navigation'
+import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { useTranslation } from 'react-i18next'
 import { DynamicBreadcrumbs } from '@/components/common/breadcrumbs/DynamicBreadcrumbs'
 import { ROOM_TYPES } from '@/app/(home)/room-types/constants/roomTypes'
@@ -12,19 +12,24 @@ import { RoomProfileHeader } from '@/app/(home)/agency/hotels/[hotelId]/rooms/co
 import { RoomProfileSkeleton } from '@/app/(home)/agency/hotels/[hotelId]/rooms/components/profile/profileSkelton/RoomProfileSkeleton'
 import { customerHotelBreadcrumbFactory } from '../../factories/customerHotelBreadcrumbFactory'
 import { useCustomerRoomProfile } from '../hooks/useCustomerRoomProfile'
+import { parsePositiveNumber } from '../utils/number'
 import { CustomerRoomBookingCard } from './CustomerRoomBookingCard'
 
 export function CustomerRoomProfileView() {
   const { t } = useTranslation()
   const router = useRouter()
+  const searchParams = useSearchParams()
   const params = useParams<{ hotelId: string; roomId: string }>()
 
   const hotelId = decodeURIComponent(params.hotelId ?? '')
   const roomId = decodeURIComponent(params.roomId ?? '')
 
   const { hotel, room, profile, isLoading, isError } = useCustomerRoomProfile(hotelId, roomId)
+  const reservationSearch = searchParams.toString()
 
-  const handleBack = () => router.push(`/hotels/${hotelId}`)
+  const handleBack = () => {
+    router.push(reservationSearch ? `/hotels/${hotelId}?${reservationSearch}` : `/hotels/${hotelId}`)
+  }
 
   const title = profile
     ? t('hotelRooms.profile.roomHeading', {
@@ -77,7 +82,18 @@ export function CustomerRoomProfileView() {
           </Grid>
 
           <Grid size={{ xs: 12, lg: 4 }}>
-            <CustomerRoomBookingCard room={profile} />
+            <CustomerRoomBookingCard
+              room={profile}
+              reservation={{
+                hotelName: hotel?.name ?? 'Selected hotel',
+                roomNumber: profile.roomNumber,
+                checkIn: searchParams.get('checkIn') ?? '',
+                checkOut: searchParams.get('checkOut') ?? '',
+                guests: parsePositiveNumber(searchParams.get('guests') ?? '', 1),
+                rooms: parsePositiveNumber(searchParams.get('rooms') ?? '', 1),
+                currency: hotel?.currency ?? 'USD',
+              }}
+            />
           </Grid>
 
           <Grid size={12}>
