@@ -4,6 +4,7 @@ import { Stack } from '@mui/material'
 import { useParams, useRouter } from 'next/navigation'
 import type { Room } from '@/app/(home)/agency/hotels/[hotelId]/rooms/types/room'
 import type { RoomType } from '@/app/(home)/room-types/types/roomType'
+import type { CustomerRoomSearchFilters } from '../types/customerHotelDetails'
 import { HotelRoomsSectionEmpty } from './HotelRoomsSectionEmpty'
 import { HotelRoomsSectionGrid } from './HotelRoomsSectionGrid'
 import { HotelRoomsSectionHeader } from './HotelRoomsSectionHeader'
@@ -14,6 +15,7 @@ interface HotelRoomsSectionProps {
   totalRooms: number
   roomTypes: RoomType[]
   currency: string
+  filters: CustomerRoomSearchFilters
   isLoading: boolean
   onResetFilters: () => void
 }
@@ -23,6 +25,7 @@ export function HotelRoomsSection({
   totalRooms,
   roomTypes,
   currency,
+  filters,
   isLoading,
   onResetFilters,
 }: HotelRoomsSectionProps) {
@@ -30,8 +33,16 @@ export function HotelRoomsSection({
   const params = useParams<{ hotelId?: string }>()
   const hotelId = params.hotelId ? decodeURIComponent(params.hotelId) : ''
   const roomTypeNameById = new Map(roomTypes.map(roomType => [roomType.id, roomType.name]))
+
   const goToRoomProfile = (roomId: string) => {
-    router.push(`/hotels/${hotelId}/rooms/${roomId}`)
+    const query = new URLSearchParams({
+      checkIn: filters.checkIn,
+      checkOut: filters.checkOut,
+      guests: String(filters.guests),
+      rooms: String(filters.rooms),
+    })
+
+    router.push(`/hotels/${hotelId}/rooms/${roomId}?${query.toString()}`)
   }
 
   return (
