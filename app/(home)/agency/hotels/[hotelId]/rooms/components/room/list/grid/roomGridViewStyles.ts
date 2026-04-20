@@ -6,7 +6,7 @@ export const RoomCardImageArea = styled(Box)({
   aspectRatio: "16 / 9",
   overflow: "hidden",
   flexShrink: 0,
-  borderRadius: "12px 12px 0 0",
+  borderRadius: "8px 8px 0 0",
 });
 
 export const RoomCardImg = styled("img")({

@@ -67,7 +67,7 @@ let mockRooms: Room[] = [
     photos: [
       {
         id: "2a",
-        url: US("photo-1611892440504-42a792e48d34"),
+        url: US("photo-1566073771259-6a8506099945"),
         isPrimary: true,
       },
       {

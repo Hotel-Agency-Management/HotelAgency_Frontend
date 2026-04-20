@@ -64,6 +64,7 @@ declare module '@mui/material/Card' {
   interface CardPropsVariantOverrides {
     hotel: true
     customerHotel: true
+    customerRoom: true
   }
 }
 
@@ -86,6 +87,10 @@ declare module '@mui/material/Paper' {  interface PaperPropsVariantOverrides {
     customerHotelSearch: true
     customerHotelEmpty: true
     customerHotelSkeleton: true
+    customerHotelDetailHero: true
+    customerHotelRoomSearch: true
+    customerHotelRoomEmpty: true
+    customerRoom: true
   }
 }
 declare module '@mui/material/IconButton' {

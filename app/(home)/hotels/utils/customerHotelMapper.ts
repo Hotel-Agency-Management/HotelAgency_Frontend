@@ -1,4 +1,5 @@
 import type { CustomerHotel, CustomerHotelApiResponse, CustomerHotelsApiPayload } from '../types/customerHotel'
+import { resolveBrandingColors, sanitizeBrandingSettings } from '@/core/theme/palette/branding'
 
 const BLOB_URL = process.env.NEXT_PUBLIC_BLOB_URL?.replace(/\/$/, '')
 const CONTAINER = process.env.NEXT_PUBLIC_BLOB_CONTAINER_PROFILES
@@ -32,6 +33,14 @@ export const extractCustomerHotelsPayload = (
 
 export const mapCustomerHotelApiResponse = (hotel: CustomerHotelApiResponse): CustomerHotel => {
   const id = String(hotel.id)
+  const branding = sanitizeBrandingSettings({
+    logo: buildAssetUrl(hotel.logoUrl ?? hotel.logo ?? hotel.branding?.logo),
+    colors: resolveBrandingColors(hotel.branding?.colors ?? {
+      primary: hotel.primaryColor,
+      secondary: hotel.secondaryColor,
+      tertiary: hotel.tertiaryColor,
+    }),
+  })
 
   return {
     id,
@@ -44,7 +53,8 @@ export const mapCustomerHotelApiResponse = (hotel: CustomerHotelApiResponse): Cu
     address: hotel.address,
     currency: hotel.currency,
     coverImage: buildAssetUrl(hotel.coverImage ?? hotel.coverPath),
-    logo: buildAssetUrl(hotel.logoUrl),
+    logo: branding.logo,
+    branding,
     managerId: hotel.managerUserId == null ? undefined : String(hotel.managerUserId),
     isActive: hotel.isActive ?? true,
     rating: hotel.rating ?? Number((4.4 + stableNumber(id, 0, 5) / 10).toFixed(1)),
