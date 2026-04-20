@@ -5,6 +5,7 @@ import { OwnerStateThemeType } from './'
 declare module '@mui/material/Paper' {
   interface PaperPropsVariantOverrides {
     customerHotel: true
+    customerRoom: true
     roomAmenity: true
   }
 }
@@ -13,6 +14,7 @@ declare module '@mui/material/Card' {
   interface CardPropsVariantOverrides {
     hotel: true
     customerHotel: true
+    customerRoom: true
     roomAmenity: true
   }
 }
@@ -234,6 +236,36 @@ const Card = () => {
               justifyContent: 'flex-end',
               gap: theme.spacing(0.5),
               padding: theme.spacing(0, 2, 1.25)
+            },
+          }),
+
+          ...(ownerState.variant === 'customerRoom' && {
+            height: '100%',
+            overflow: 'hidden',
+            borderRadius: 8,
+            borderColor: alpha(theme.palette.primary.main, 0.18),
+            backgroundColor: theme.palette.background.paper,
+
+            '& > .MuiStack-root': {
+              height: '100%',
+            },
+
+            '& .MuiCardContent-root': {
+              flexGrow: 1,
+              padding: theme.spacing(2),
+              '&:last-child': {
+                paddingBottom: theme.spacing(2),
+              },
+            },
+
+            '& .MuiChip-root': {
+              borderRadius: 8,
+              textTransform: 'capitalize',
+            },
+
+            '& .MuiCardActions-root': {
+              padding: theme.spacing(0, 2, 2),
+              marginTop: 'auto',
             },
           }),
         }),

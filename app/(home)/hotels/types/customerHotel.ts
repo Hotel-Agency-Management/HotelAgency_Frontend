@@ -1,3 +1,5 @@
+import type { BrandingSettings } from '@/core/theme/palette/branding'
+
 export interface CustomerHotel {
   id: string
   agencyId?: number
@@ -10,6 +12,7 @@ export interface CustomerHotel {
   currency: string
   coverImage: string | null
   logo: string | null
+  branding: BrandingSettings
   managerId?: string
   isActive: boolean
   rating: number
@@ -27,9 +30,11 @@ export interface CustomerHotelApiResponse {
   city: string
   address: string
   currency: string
+  logo?: string | null
   logoUrl?: string | null
   coverPath?: string | null
   coverImage?: string | null
+  branding?: Partial<BrandingSettings> | null
   primaryColor?: string
   secondaryColor?: string
   tertiaryColor?: string

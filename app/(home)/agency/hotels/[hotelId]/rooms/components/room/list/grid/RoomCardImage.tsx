@@ -1,12 +1,16 @@
+import { useEffect, useMemo, useState } from "react";
 import { Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import type { RoomPhoto } from "../../../../types/room";
 import { RoomCardImageArea, RoomCardImg, RoomCardPlaceholder } from "./roomGridViewStyles";
 
-function getPrimaryPhotoUrl(photos: RoomPhoto[]): string | null {
-  const primary = photos.find((p) => p.isPrimary);
-  if (primary?.url) return primary.url;
-  return photos[0]?.url ?? null;
+function getPhotoCandidates(photos: RoomPhoto[]): string[] {
+  const primary = photos.find((p) => p.isPrimary)?.url;
+  const ordered = primary
+    ? [primary, ...photos.map((photo) => photo.url).filter((url) => url !== primary)]
+    : photos.map((photo) => photo.url);
+
+  return Array.from(new Set(ordered.filter(Boolean)));
 }
 
 export interface RoomCardImageProps {
@@ -16,7 +20,14 @@ export interface RoomCardImageProps {
 
 export function RoomCardImage({ photos, title }: RoomCardImageProps) {
   const { t } = useTranslation();
-  const url = getPrimaryPhotoUrl(photos);
+  const candidates = useMemo(() => getPhotoCandidates(photos), [photos]);
+  const [imageIndex, setImageIndex] = useState(0);
+
+  useEffect(() => {
+    setImageIndex(0);
+  }, [candidates]);
+
+  const url = candidates[imageIndex] ?? null;
 
   if (!url) {
     return (
@@ -32,7 +43,13 @@ export function RoomCardImage({ photos, title }: RoomCardImageProps) {
 
   return (
     <RoomCardImageArea>
-      <RoomCardImg src={url} alt={title} />
+      <RoomCardImg
+        src={url}
+        alt={title}
+        onError={() => {
+          setImageIndex((current) => current + 1);
+        }}
+      />
     </RoomCardImageArea>
   );
 }
