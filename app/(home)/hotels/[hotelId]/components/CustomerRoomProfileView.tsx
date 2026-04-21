@@ -15,6 +15,7 @@ import { customerHotelBreadcrumbFactory } from '../../factories/customerHotelBre
 import { useCustomerRoomReservation } from '../hooks/useCustomerRoomReservation'
 import { useCustomerRoomProfile } from '../hooks/useCustomerRoomProfile'
 import { CustomerRoomBookingCard } from './CustomerRoomBookingCard'
+import { CustomerReservationManagementSection } from './CustomerReservationManagementSection'
 
 export function CustomerRoomProfileView() {
   const { t } = useTranslation()
@@ -87,6 +88,8 @@ export function CustomerRoomProfileView() {
 
           <Grid size={{ xs: 12, lg: 4 }}>
             <CustomerRoomBookingCard
+              hotelId={hotelId}
+              roomId={roomId}
               room={profile}
               reservation={reservation}
               onReservationDateChange={handleReservationDateChange}
@@ -99,6 +102,10 @@ export function CustomerRoomProfileView() {
 
           <Grid size={12}>
             <RoomNotesSection description={profile.description} notes={profile.notes} loading={false} />
+          </Grid>
+
+          <Grid size={12}>
+            <CustomerReservationManagementSection hotelId={hotelId} roomId={roomId} room={profile} />
           </Grid>
         </Grid>
       </Stack>

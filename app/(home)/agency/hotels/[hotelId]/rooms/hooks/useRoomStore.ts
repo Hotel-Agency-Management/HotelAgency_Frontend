@@ -58,7 +58,7 @@ export const useDeleteRoom = () => {
 export const useImportRooms = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (file: File) => roomsApi.importExcel(file),
+    mutationFn: async (_file: File) => roomsApi.importExcel(),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ROOMS_KEY });
     },
