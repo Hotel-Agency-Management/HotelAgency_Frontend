@@ -37,6 +37,12 @@ export const routePermissions: RoutePermission[] = [
     action: 'read',
     subject: 'Hotels',
     description: 'Customer hotel details and rooms'
+  },
+  {
+    pattern: '/reservations/[hotelId]/create',
+    action: 'create',
+    subject: 'Reservations',
+    description: 'Hotel reservation creation page'
   }
 ]
 
