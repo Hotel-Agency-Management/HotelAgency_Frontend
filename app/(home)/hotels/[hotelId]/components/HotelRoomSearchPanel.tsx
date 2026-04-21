@@ -10,7 +10,9 @@ import {
   Select,
   TextField,
 } from '@mui/material'
-import { CalendarDays, Search, Users } from 'lucide-react'
+import { DatePickerField } from '@/components/common/DatePickerField'
+import dayjs from 'dayjs'
+import { Search, Users } from 'lucide-react'
 import type { RoomType } from '@/app/(home)/room-types/types/roomType'
 import type { CustomerRoomSearchFilters } from '../types/customerHotelDetails'
 import { parsePositiveNumber } from '../utils/number'
@@ -29,42 +31,19 @@ export function HotelRoomSearchPanel({ filters, roomTypes, onChange }: HotelRoom
     <Paper elevation={0} variant="customerHotelRoomSearch">
       <Grid container spacing={2}>
         <Grid size={{ xs: 12, md: 3 }}>
-          <TextField
-            fullWidth
+          <DatePickerField
             label="Check-in"
-            type="date"
             value={filters.checkIn}
-            onChange={event => onChange('checkIn', event.target.value)}
-            slotProps={{
-              input: {
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <CalendarDays size={18} />
-                  </InputAdornment>
-                ),
-              },
-              inputLabel: { shrink: true },
-            }}
+            onChange={value => onChange('checkIn', value)}
           />
         </Grid>
 
         <Grid size={{ xs: 12, md: 3 }}>
-          <TextField
-            fullWidth
+          <DatePickerField
             label="Check-out"
-            type="date"
             value={filters.checkOut}
-            onChange={event => onChange('checkOut', event.target.value)}
-            slotProps={{
-              input: {
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <CalendarDays size={18} />
-                  </InputAdornment>
-                ),
-              },
-              inputLabel: { shrink: true },
-            }}
+            minDate={filters.checkIn ? dayjs(filters.checkIn).add(1, 'day').format('YYYY-MM-DD') : undefined}
+            onChange={value => onChange('checkOut', value)}
           />
         </Grid>
 
