@@ -18,13 +18,13 @@ export function ReservationSummaryCard({ totalAmount, snapshot }: ReservationSum
     <Paper variant='card'>
       <Stack spacing={2.5} sx={{ height: 1 }}>
         <Box>
-          <Typography variant='overline' sx={{ color: 'text.disabled' }}>
+          <Typography variant='overline' sx={{ letterSpacing: '0.12em', color: 'text.disabled' }}>
             Reservation Snapshot
           </Typography>
           <Typography variant='h6' sx={{ fontWeight: 700 }}>
             Direct Hotel Reservation
           </Typography>
-          <Typography variant='body2'>
+          <Typography variant='body2' color='text.secondary'>
             A cleaner handoff for guest details, stay dates, and payment status.
           </Typography>
         </Box>
