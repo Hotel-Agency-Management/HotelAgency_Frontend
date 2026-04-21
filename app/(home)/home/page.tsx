@@ -1,7 +1,17 @@
 'use client'
 
-import SuperAdminDashboardPage from "../admin-dashboard/page"
+import Spinner from '@/components/loaders/Spinner'
+import { useAuth } from '@/core/context/AuthContext'
+import { getHomePageComponent } from './factories/homePageFactory'
 
 export default function HomePage() {
-  return <SuperAdminDashboardPage />
+  const { user, isLoading } = useAuth()
+
+  if (isLoading) {
+    return <Spinner />
+  }
+
+  const HomePageComponent = getHomePageComponent(user?.role)
+
+  return <HomePageComponent />
 }

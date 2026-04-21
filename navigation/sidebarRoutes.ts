@@ -7,6 +7,13 @@ const navigation = (hotelId?: string): SidebarNavItems => {
       icon: 'lucide:home',
       items: [
         {
+          title: 'Explore Hotels',
+          path: '/hotels',
+          icon: 'lucide:map',
+          subject: 'Hotels',
+          action: 'read'
+        },
+        {
           title: 'Dashboard',
           path: '/dashboard',
           icon: 'lucide:layout-dashboard',
@@ -77,7 +84,7 @@ const navigation = (hotelId?: string): SidebarNavItems => {
       sectionTitle: 'Hotels',
       icon: 'lucide:hotel',
       subject: 'Hotels',
-      action: 'manage',
+      action: 'read',
       items: [
         {
           title: 'Hotels',

@@ -1,8 +1,11 @@
 import themeConfig from '@/core/configs/themeConfig'
+import { alpha } from '@mui/material/styles'
 import { OwnerStateThemeType } from './'
 
 declare module '@mui/material/Paper' {
   interface PaperPropsVariantOverrides {
+    customerHotel: true
+    customerRoom: true
     roomAmenity: true
   }
 }
@@ -10,6 +13,8 @@ declare module '@mui/material/Paper' {
 declare module '@mui/material/Card' {
   interface CardPropsVariantOverrides {
     hotel: true
+    customerHotel: true
+    customerRoom: true
     roomAmenity: true
   }
 }
@@ -113,6 +118,90 @@ const Card = () => {
             },
           }),
 
+          ...(ownerState.variant === 'customerHotel' && {
+            height: '100%',
+            minHeight: 450,
+            overflow: 'hidden',
+            display: 'flex',
+            flexDirection: 'column' as const,
+            transform: 'translateY(0)',
+            transition: theme.transitions.create(['transform', 'box-shadow'], {
+              duration: theme.transitions.duration.short,
+            }),
+
+            '&:hover': {
+              transform: 'translateY(-4px)',
+              boxShadow: `0 18px 38px ${alpha(theme.palette.common.black, 0.14)}`,
+            },
+
+            '& .MuiCardActionArea-root': {
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'stretch',
+            },
+
+            '& .MuiCardMedia-root': {
+              position: 'relative' as const,
+              aspectRatio: '4 / 3',
+            },
+
+            '& .MuiCardMedia-root > .MuiStack-root': {
+              position: 'absolute' as const,
+              top: theme.spacing(1.5),
+              left: theme.spacing(1.5),
+              right: theme.spacing(1.5),
+              justifyContent: 'space-between',
+              alignItems: 'flex-start',
+            },
+
+            '& .MuiCardMedia-root .MuiChip-root': {
+              borderRadius: theme.shape.borderRadius,
+            },
+
+            '& .MuiCardMedia-root .MuiChip-root:first-of-type': {
+              backgroundColor: alpha(theme.palette.background.paper, 0.92),
+              color: theme.palette.text.primary,
+            },
+
+            '& .MuiCardContent-root': {
+              flexGrow: 1,
+              padding: theme.spacing(2.25),
+              '&:last-of-type': {
+                paddingBottom: theme.spacing(2.25),
+              },
+            },
+
+            '& .MuiCardContent-root > .MuiStack-root:first-of-type > .MuiStack-root:first-of-type': {
+              minWidth: 0,
+            },
+
+            '& .MuiCardContent-root > .MuiStack-root:first-of-type > .MuiStack-root:last-of-type': {
+              color: theme.palette.warning.main,
+              flexShrink: 0,
+            },
+
+            '& .MuiCardContent-root > .MuiStack-root:nth-of-type(2)': {
+              color: theme.palette.text.secondary,
+            },
+
+            '& .MuiCardContent-root > .MuiStack-root:nth-of-type(3)': {
+              flexWrap: 'wrap',
+              rowGap: theme.spacing(0.75),
+            },
+
+            '& .MuiCardContent-root .MuiChip-root': {
+              borderRadius: theme.shape.borderRadius,
+            },
+
+            '& .MuiCardActions-root': {
+              width: '100%',
+              padding: theme.spacing(0, 2.25, 2.25),
+              justifyContent: 'space-between',
+              alignItems: 'flex-end',
+            },
+          }),
+
           ...(ownerState.variant === 'roomAmenity' && {
             height: '100%',
             minHeight: 116,
@@ -147,6 +236,36 @@ const Card = () => {
               justifyContent: 'flex-end',
               gap: theme.spacing(0.5),
               padding: theme.spacing(0, 2, 1.25)
+            },
+          }),
+
+          ...(ownerState.variant === 'customerRoom' && {
+            height: '100%',
+            overflow: 'hidden',
+            borderRadius: 8,
+            borderColor: alpha(theme.palette.primary.main, 0.18),
+            backgroundColor: theme.palette.background.paper,
+
+            '& > .MuiStack-root': {
+              height: '100%',
+            },
+
+            '& .MuiCardContent-root': {
+              flexGrow: 1,
+              padding: theme.spacing(2),
+              '&:last-child': {
+                paddingBottom: theme.spacing(2),
+              },
+            },
+
+            '& .MuiChip-root': {
+              borderRadius: 8,
+              textTransform: 'capitalize',
+            },
+
+            '& .MuiCardActions-root': {
+              padding: theme.spacing(0, 2, 2),
+              marginTop: 'auto',
             },
           }),
         }),
