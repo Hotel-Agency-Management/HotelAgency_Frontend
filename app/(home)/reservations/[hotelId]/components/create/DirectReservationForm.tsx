@@ -1,6 +1,6 @@
 'use client'
 
-import { type FormEventHandler } from 'react'
+import type { FormEventHandler } from 'react'
 import { Stack } from '@mui/material'
 import type { Control, FieldErrors, UseFormTrigger } from 'react-hook-form'
 import { DirectReservationFormActions } from './DirectReservationFormActions'
