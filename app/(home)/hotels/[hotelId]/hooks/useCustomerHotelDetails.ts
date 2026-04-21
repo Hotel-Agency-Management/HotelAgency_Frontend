@@ -3,7 +3,8 @@
 import { useMemo, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { useRoomTypes } from '@/app/(home)/room-types/hooks/uesRoomType'
-import { getCustomerHotelById, getCustomerHotelRooms } from '../data/customerHotelRooms'
+import { getCustomerHotelById } from '../data/customerHotelRooms'
+import { customerHotelRoomsQueryKeys, useCustomerHotelRooms } from './useCustomerHotelRooms'
 import {
   DEFAULT_CUSTOMER_ROOM_SEARCH_FILTERS,
   filterCustomerRooms,
@@ -12,7 +13,7 @@ import type { CustomerRoomSearchFilters } from '../types/customerHotelDetails'
 
 export const customerHotelDetailsQueryKeys = {
   hotel: (hotelId: string) => ['customer-hotel', hotelId] as const,
-  rooms: (hotelId: string) => ['customer-hotel-rooms', hotelId] as const,
+  rooms: customerHotelRoomsQueryKeys.rooms,
 }
 
 export const useCustomerHotelDetails = (hotelId: string) => {
@@ -26,11 +27,7 @@ export const useCustomerHotelDetails = (hotelId: string) => {
     enabled: hotelId.length > 0,
   })
 
-  const roomsQuery = useQuery({
-    queryKey: customerHotelDetailsQueryKeys.rooms(hotelId),
-    queryFn: () => getCustomerHotelRooms(hotelId),
-    enabled: hotelId.length > 0,
-  })
+  const roomsQuery = useCustomerHotelRooms(hotelId)
 
   const { data: roomTypes = [], isLoading: roomTypesLoading } = useRoomTypes()
 
