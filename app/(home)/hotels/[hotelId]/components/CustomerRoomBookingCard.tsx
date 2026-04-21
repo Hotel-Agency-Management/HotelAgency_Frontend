@@ -1,76 +1,61 @@
 'use client'
 
-import { useMemo, useState } from 'react'
-import {
-  Alert,
-  Button,
-  Paper,
-  Rating,
-  Snackbar,
-  Stack,
-  Typography,
-} from '@mui/material'
-import dayjs from 'dayjs'
+import { Alert, Button, Paper, Rating, Snackbar, Stack, Typography } from '@mui/material'
 import { CalendarDays } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import type { RoomProfile } from '@/app/(home)/agency/hotels/[hotelId]/rooms/components/profile/types'
 import { DatePickerField } from '@/components/common/DatePickerField'
 import Icon from '@/components/icon/Icon'
-import { ROOM_STATUS } from '@/app/(home)/agency/hotels/[hotelId]/rooms/types/room'
-import { ROOM_TYPES } from '@/app/(home)/room-types/constants/roomTypes'
-import type { RoomProfile } from '@/app/(home)/agency/hotels/[hotelId]/rooms/components/profile/types'
+import { useCustomerRoomBookingCard } from '../hooks/useCustomerRoomBookingCard'
 import {
   CustomerReservationConfirmationDialog,
   type ReservationDetails,
 } from './CustomerReservationConfirmationDialog'
-import {
-  formatBookingDate,
-  formatCurrency,
-  getRoomDetails,
-  getStayLength,
-  getTotalReservationPrice,
-} from '../utils/roomBooking'
+import { formatBookingDate, formatCurrency } from '../utils/roomBooking'
 
 interface CustomerRoomBookingCardProps {
-  room: Pick<RoomProfile, 'type' | 'status' | 'floorNumber' | 'capacity' | 'pricePerNight' | 'starRating'>
+  hotelId: string
+  roomId: string
+  room: Pick<
+    RoomProfile,
+    'type' | 'status' | 'floorNumber' | 'capacity' | 'pricePerNight' | 'starRating'
+  >
   reservation: ReservationDetails
   onReservationDateChange: (key: 'checkIn' | 'checkOut', value: string) => void
 }
 
 export function CustomerRoomBookingCard({
+  hotelId,
+  roomId,
   room,
   reservation,
   onReservationDateChange,
 }: CustomerRoomBookingCardProps) {
-  const { t, i18n } = useTranslation()
-  const [confirmOpen, setConfirmOpen] = useState(false)
-  const [successOpen, setSuccessOpen] = useState(false)
-
-  const roomType = ROOM_TYPES[room.type]
-  const details = getRoomDetails(room, t, i18n.language, reservation.currency)
-  const stayLength = useMemo(
-    () => getStayLength(reservation.checkIn, reservation.checkOut),
-    [reservation.checkIn, reservation.checkOut]
-  )
-  const totalPrice = useMemo(
-    () => getTotalReservationPrice(room.pricePerNight, stayLength, reservation.rooms),
-    [reservation.rooms, room.pricePerNight, stayLength]
-  )
-  const isAvailable = room.status === ROOM_STATUS.AVAILABLE
-  const isReservationReady =
-    reservation.checkIn.length > 0 &&
-    reservation.checkOut.length > 0 &&
-    reservation.guests > 0 &&
-    reservation.rooms > 0 &&
-    stayLength > 0
-
-  const handleConfirmReservation = () => {
-    if (!isAvailable || !isReservationReady) {
-      return
-    }
-
-    setConfirmOpen(false)
-    setSuccessOpen(true)
-  }
+  const { t } = useTranslation()
+  const {
+    language,
+    roomType,
+    details,
+    currentReservation,
+    isBookable,
+    draftAvailabilityConflict,
+    feedback,
+    confirmOpen,
+    reservationSummary,
+    checkInMinDate,
+    checkOutMinDate,
+    canOpenConfirmationDialog,
+    isReserveDisabled,
+    openConfirm,
+    closeConfirm,
+    closeFeedback,
+    handleConfirmReservation,
+  } = useCustomerRoomBookingCard({
+    hotelId,
+    roomId,
+    room,
+    reservation,
+  })
 
   return (
     <>
@@ -100,6 +85,7 @@ export function CustomerRoomBookingCard({
               </Typography>
             </Stack>
           ))}
+
           <Stack gap={0.5}>
             <Typography variant="body2" color="text.secondary">
               {t('hotelRooms.profile.stars')}
@@ -113,87 +99,114 @@ export function CustomerRoomBookingCard({
             <DatePickerField
               label="Check-in"
               value={reservation.checkIn}
+              minDate={checkInMinDate}
+              disabled={currentReservation != null}
               onChange={value => onReservationDateChange('checkIn', value)}
             />
 
             <DatePickerField
               label="Check-out"
               value={reservation.checkOut}
-              minDate={reservation.checkIn ? dayjs(reservation.checkIn).add(1, 'day').format('YYYY-MM-DD') : undefined}
+              disabled={currentReservation != null}
+              minDate={checkOutMinDate}
               onChange={value => onReservationDateChange('checkOut', value)}
             />
           </Stack>
 
           <Stack gap={0.75}>
             <Typography variant="subtitle2">Reservation summary</Typography>
+
             <Stack direction="row" justifyContent="space-between" gap={1}>
               <Typography variant="body2" color="text.secondary">
                 Check-in
               </Typography>
               <Typography variant="body2" fontWeight={600}>
-                {formatBookingDate(reservation.checkIn, i18n.language)}
+                {formatBookingDate(reservationSummary.checkIn, language)}
               </Typography>
             </Stack>
+
             <Stack direction="row" justifyContent="space-between" gap={1}>
               <Typography variant="body2" color="text.secondary">
                 Check-out
               </Typography>
               <Typography variant="body2" fontWeight={600}>
-                {formatBookingDate(reservation.checkOut, i18n.language)}
+                {formatBookingDate(reservationSummary.checkOut, language)}
               </Typography>
             </Stack>
+
             <Stack direction="row" justifyContent="space-between" gap={1}>
               <Typography variant="body2" color="text.secondary">
                 Guests
               </Typography>
               <Typography variant="body2" fontWeight={600}>
-                {reservation.guests}
+                {reservationSummary.guests}
               </Typography>
             </Stack>
+
             <Stack direction="row" justifyContent="space-between" gap={1}>
               <Typography variant="body2" color="text.secondary">
                 Estimated total
               </Typography>
               <Typography variant="body2" fontWeight={700}>
-                {formatCurrency(totalPrice, i18n.language, reservation.currency)}
+                {formatCurrency(reservationSummary.estimatedTotal, language, reservation.currency)}
               </Typography>
             </Stack>
           </Stack>
 
-          {isAvailable ? (
-            <>
-              <Button
-                fullWidth
-                variant="contained"
-                startIcon={<CalendarDays size={17} />}
-                disabled={!isReservationReady}
-                onClick={() => setConfirmOpen(true)}
-              >
-                Reserve this room
-              </Button>
-            </>
+          {!isBookable ? (
+            <Alert severity="warning">
+              This room cannot be booked right now because it is under maintenance or blocked.
+            </Alert>
           ) : null}
+
+          {room.pricePerNight == null ? (
+            <Alert severity="info">This room needs a nightly rate before it can be reserved.</Alert>
+          ) : null}
+
+          {draftAvailabilityConflict != null ? (
+            <Alert severity="error">
+              This room is already booked between {draftAvailabilityConflict.checkIn} and{' '}
+              {draftAvailabilityConflict.checkOut}.
+            </Alert>
+          ) : null}
+
+          {currentReservation ? (
+            <Alert severity="success">
+              You already have an active reservation for this room. Use the reservation section below
+              to edit, extend, or cancel it.
+            </Alert>
+          ) : (
+            <Button
+              fullWidth
+              variant="contained"
+              startIcon={<CalendarDays size={17} />}
+              disabled={isReserveDisabled}
+              onClick={openConfirm}
+            >
+              Reserve this room
+            </Button>
+          )}
         </Stack>
       </Paper>
 
-      {isAvailable && isReservationReady ? (
+      {canOpenConfirmationDialog ? (
         <CustomerReservationConfirmationDialog
           open={confirmOpen}
           room={room}
           reservation={reservation}
-          onClose={() => setConfirmOpen(false)}
+          onClose={closeConfirm}
           onConfirm={handleConfirmReservation}
         />
       ) : null}
 
       <Snackbar
-        open={successOpen}
+        open={feedback.open}
         autoHideDuration={4500}
-        onClose={() => setSuccessOpen(false)}
+        onClose={closeFeedback}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       >
-        <Alert onClose={() => setSuccessOpen(false)} severity="success" variant="filled">
-          Your reservation has been confirmed. Please check your email.
+        <Alert onClose={closeFeedback} severity={feedback.severity} variant="filled">
+          {feedback.message}
         </Alert>
       </Snackbar>
     </>
