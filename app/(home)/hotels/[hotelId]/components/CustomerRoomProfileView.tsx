@@ -1,7 +1,8 @@
 'use client'
 
 import { Container, Grid, Paper, Stack, Typography } from '@mui/material'
-import { useParams, useRouter, useSearchParams } from 'next/navigation'
+import { useMemo } from 'react'
+import { useParams } from 'next/navigation'
 import { useTranslation } from 'react-i18next'
 import { DynamicBreadcrumbs } from '@/components/common/breadcrumbs/DynamicBreadcrumbs'
 import { ROOM_TYPES } from '@/app/(home)/room-types/constants/roomTypes'
@@ -11,32 +12,35 @@ import { RoomNotesSection } from '@/app/(home)/agency/hotels/[hotelId]/rooms/com
 import { RoomProfileHeader } from '@/app/(home)/agency/hotels/[hotelId]/rooms/components/profile/RoomProfileHeader'
 import { RoomProfileSkeleton } from '@/app/(home)/agency/hotels/[hotelId]/rooms/components/profile/profileSkelton/RoomProfileSkeleton'
 import { customerHotelBreadcrumbFactory } from '../../factories/customerHotelBreadcrumbFactory'
+import { useCustomerRoomReservation } from '../hooks/useCustomerRoomReservation'
 import { useCustomerRoomProfile } from '../hooks/useCustomerRoomProfile'
-import { parsePositiveNumber } from '../utils/number'
 import { CustomerRoomBookingCard } from './CustomerRoomBookingCard'
 
 export function CustomerRoomProfileView() {
   const { t } = useTranslation()
-  const router = useRouter()
-  const searchParams = useSearchParams()
   const params = useParams<{ hotelId: string; roomId: string }>()
 
   const hotelId = decodeURIComponent(params.hotelId ?? '')
   const roomId = decodeURIComponent(params.roomId ?? '')
 
   const { hotel, room, profile, isLoading, isError } = useCustomerRoomProfile(hotelId, roomId)
-  const reservationSearch = searchParams.toString()
-
-  const handleBack = () => {
-    router.push(reservationSearch ? `/hotels/${hotelId}?${reservationSearch}` : `/hotels/${hotelId}`)
-  }
-
-  const title = profile
-    ? t('hotelRooms.profile.roomHeading', {
-        number: profile.roomNumber,
-        type: ROOM_TYPES[profile.type].label,
-      })
-    : ''
+  const title = useMemo(
+    () =>
+      profile
+        ? t('hotelRooms.profile.roomHeading', {
+            number: profile.roomNumber,
+            type: ROOM_TYPES[profile.type].label,
+          })
+        : '',
+    [profile, t]
+  )
+  const { reservation, handleBack, handleReservationDateChange } = useCustomerRoomReservation({
+    hotelId,
+    roomId,
+    hotelName: hotel?.name,
+    roomNumber: profile?.roomNumber ?? '',
+    currency: hotel?.currency,
+  })
 
   if (isLoading && !profile) {
     return (
@@ -84,15 +88,8 @@ export function CustomerRoomProfileView() {
           <Grid size={{ xs: 12, lg: 4 }}>
             <CustomerRoomBookingCard
               room={profile}
-              reservation={{
-                hotelName: hotel?.name ?? 'Selected hotel',
-                roomNumber: profile.roomNumber,
-                checkIn: searchParams.get('checkIn') ?? '',
-                checkOut: searchParams.get('checkOut') ?? '',
-                guests: parsePositiveNumber(searchParams.get('guests') ?? '', 1),
-                rooms: parsePositiveNumber(searchParams.get('rooms') ?? '', 1),
-                currency: hotel?.currency ?? 'USD',
-              }}
+              reservation={reservation}
+              onReservationDateChange={handleReservationDateChange}
             />
           </Grid>
 

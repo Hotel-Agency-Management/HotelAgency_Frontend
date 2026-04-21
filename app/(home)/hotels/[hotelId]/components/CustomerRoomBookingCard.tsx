@@ -1,9 +1,19 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import { Alert, Button, Paper, Rating, Snackbar, Stack, Typography } from '@mui/material'
+import {
+  Alert,
+  Button,
+  Paper,
+  Rating,
+  Snackbar,
+  Stack,
+  Typography,
+} from '@mui/material'
+import dayjs from 'dayjs'
 import { CalendarDays } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import { DatePickerField } from '@/components/common/DatePickerField'
 import Icon from '@/components/icon/Icon'
 import { ROOM_STATUS } from '@/app/(home)/agency/hotels/[hotelId]/rooms/types/room'
 import { ROOM_TYPES } from '@/app/(home)/room-types/constants/roomTypes'
@@ -23,9 +33,14 @@ import {
 interface CustomerRoomBookingCardProps {
   room: Pick<RoomProfile, 'type' | 'status' | 'floorNumber' | 'capacity' | 'pricePerNight' | 'starRating'>
   reservation: ReservationDetails
+  onReservationDateChange: (key: 'checkIn' | 'checkOut', value: string) => void
 }
 
-export function CustomerRoomBookingCard({ room, reservation }: CustomerRoomBookingCardProps) {
+export function CustomerRoomBookingCard({
+  room,
+  reservation,
+  onReservationDateChange,
+}: CustomerRoomBookingCardProps) {
   const { t, i18n } = useTranslation()
   const [confirmOpen, setConfirmOpen] = useState(false)
   const [successOpen, setSuccessOpen] = useState(false)
@@ -92,9 +107,24 @@ export function CustomerRoomBookingCard({ room, reservation }: CustomerRoomBooki
             <Rating value={room.starRating} readOnly size="small" />
           </Stack>
 
-          <Stack
-            gap={0.75}
-          >
+          <Stack gap={1.25}>
+            <Typography variant="subtitle2">Stay dates</Typography>
+
+            <DatePickerField
+              label="Check-in"
+              value={reservation.checkIn}
+              onChange={value => onReservationDateChange('checkIn', value)}
+            />
+
+            <DatePickerField
+              label="Check-out"
+              value={reservation.checkOut}
+              minDate={reservation.checkIn ? dayjs(reservation.checkIn).add(1, 'day').format('YYYY-MM-DD') : undefined}
+              onChange={value => onReservationDateChange('checkOut', value)}
+            />
+          </Stack>
+
+          <Stack gap={0.75}>
             <Typography variant="subtitle2">Reservation summary</Typography>
             <Stack direction="row" justifyContent="space-between" gap={1}>
               <Typography variant="body2" color="text.secondary">
@@ -132,12 +162,6 @@ export function CustomerRoomBookingCard({ room, reservation }: CustomerRoomBooki
 
           {isAvailable ? (
             <>
-              {!isReservationReady ? (
-                <Alert severity="info" variant="outlined">
-                  Select check-in, check-out, guests, and rooms to continue with your reservation.
-                </Alert>
-              ) : null}
-
               <Button
                 fullWidth
                 variant="contained"

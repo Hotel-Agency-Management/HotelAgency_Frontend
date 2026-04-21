@@ -11,6 +11,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
 import { MapPin, Star } from 'lucide-react'
 import type { CustomerHotel } from '../../types/customerHotel'
 import { formatReviewCount } from '../../utils/formatters'
@@ -22,6 +23,7 @@ interface HotelDetailsHeroProps {
 }
 
 export function HotelDetailsHero({ hotel, isLoading }: HotelDetailsHeroProps) {
+  const theme = useTheme()
   const coverImage = hotel?.coverImage ?? fallbackCover
   const style = {
     '--customer-hotel-detail-hero-image': `url(${coverImage})`,
@@ -82,7 +84,14 @@ export function HotelDetailsHero({ hotel, isLoading }: HotelDetailsHeroProps) {
             </Stack>
 
             <Box>
-              <Button variant="contained" color="primary" href="#available-rooms">
+              <Button
+                variant="contained"
+                href="#available-rooms"
+                sx={{
+                  color: theme.palette.getContrastText(theme.palette.secondary.main),
+                  background: `linear-gradient(135deg, ${theme.palette.secondary.main} 0%, ${theme.palette.tertiary.main} 100%)`,
+                }}
+              >
                 View available rooms
               </Button>
             </Box>
