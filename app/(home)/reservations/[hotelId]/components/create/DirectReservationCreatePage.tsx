@@ -53,7 +53,7 @@ export default function DirectReservationCreatePage({
         </Stack>
       </GradientCard>
 
-      <Grid container spacing={3.5} >
+      <Grid container spacing={3.5} alignItems='flex-start'>
         <Grid size={{ xs: 12, lg: 8 }}>
           <DirectReservationForm
             control={control}
