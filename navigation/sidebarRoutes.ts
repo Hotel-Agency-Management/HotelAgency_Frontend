@@ -10,7 +10,7 @@ const navigation = (hotelId?: string): SidebarNavItems => {
           title: 'Explore Hotels',
           path: '/hotels',
           icon: 'lucide:map',
-          subject: 'Hotels',
+          subject: 'AllHotels',
           action: 'read'
         },
         {
@@ -227,8 +227,6 @@ const navigation = (hotelId?: string): SidebarNavItems => {
     {
       sectionTitle: 'Bookings',
       icon: 'lucide:book-open-check',
-      subject: 'Bookings',
-      action: 'manage',
       items: [
         {
           title: 'Booking Overview',
@@ -236,6 +234,13 @@ const navigation = (hotelId?: string): SidebarNavItems => {
           icon: 'lucide:clipboard-list',
           subject: 'Bookings',
           action: 'manage'
+        },
+        {
+          title: 'Create Reservation',
+          path: `/reservations/${hotelId}/create`,
+          icon: 'lucide:clipboard-plus',
+          subject: 'Reservations',
+          action: 'create'
         }
       ]
     }
