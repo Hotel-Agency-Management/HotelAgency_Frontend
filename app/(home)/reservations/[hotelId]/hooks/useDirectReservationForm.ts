@@ -24,6 +24,7 @@ export function useDirectReservationForm({
     formState: { errors, isSubmitting },
     handleSubmit,
     setValue,
+    trigger,
     watch,
   } = useForm<DirectReservationFormInput, unknown, DirectReservationFormValues>({
     resolver: zodResolver(directReservationSchema),
@@ -67,5 +68,6 @@ export function useDirectReservationForm({
     isSubmitting,
     reservationSnapshot,
     handleFormSubmit: handleSubmit(values => onSubmit(values)),
+    trigger,
   }
 }
