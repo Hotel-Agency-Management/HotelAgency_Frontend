@@ -28,6 +28,7 @@ export function defineAbilitiesFor(role: UserRole): AppAbility {
       can('manage', 'RoomTypes')
       can ('update', 'HotelInformation')
       can('create', 'Reservations')
+      can('manage' , 'HotelTerms')
       break
 
     case USER_ROLES.PROPERTY_MANAGER:
@@ -46,6 +47,7 @@ export function defineAbilitiesFor(role: UserRole): AppAbility {
       can('manage', 'Finance')
       can('manage', 'Bookings')
       can('create', 'Reservations')
+      can('manage' , 'HotelTerms')
       break
 
     case USER_ROLES.FRONT_DESK_STAFF:
