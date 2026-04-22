@@ -1,18 +1,19 @@
 'use client'
 
-import type { FormEventHandler } from 'react'
-import { Button, Paper, Stack, Typography } from '@mui/material'
-import type { Control, FieldErrors } from 'react-hook-form'
-import { AdditionalSection } from './AdditionalSection'
-import { GuestInformationSection } from './GuestInformationSection'
-import { PaymentSection } from './PaymentSection'
-import { ReservationDetailsSection } from './ReservationDetailsSection'
+import { type FormEventHandler } from 'react'
+import { Stack } from '@mui/material'
+import type { Control, FieldErrors, UseFormTrigger } from 'react-hook-form'
+import { DirectReservationFormActions } from './DirectReservationFormActions'
+import { DirectReservationStepContent } from './DirectReservationStepContent'
+import { DirectReservationStepHeader } from './DirectReservationStepHeader'
+import { useDirectReservationStepper } from '../../hooks/useDirectReservationStepper'
 import type { DirectReservationFormInput } from '../../schema/directReservationSchema'
 
 interface DirectReservationFormProps {
   control: Control<DirectReservationFormInput>
   errors: FieldErrors<DirectReservationFormInput>
   onSubmit: FormEventHandler<HTMLFormElement>
+  trigger: UseFormTrigger<DirectReservationFormInput>
   isSubmitting?: boolean
 }
 
@@ -20,43 +21,45 @@ export function DirectReservationForm({
   control,
   errors,
   onSubmit,
+  trigger,
   isSubmitting = false,
 }: DirectReservationFormProps) {
+  const {
+    activeStep,
+    currentStep,
+    handleBackStep,
+    handleFormSubmit,
+    handleNextStep,
+    isFirstStep,
+    isLastStep,
+    steps,
+  } = useDirectReservationStepper({
+    onSubmit,
+    trigger,
+  })
+
   return (
-    <form onSubmit={onSubmit} noValidate>
+    <form onSubmit={handleFormSubmit} noValidate>
       <Stack spacing={3.5}>
-        <GuestInformationSection control={control} errors={errors} />
-        <ReservationDetailsSection control={control} errors={errors} />
-        <PaymentSection control={control} errors={errors} />
-        <AdditionalSection control={control} errors={errors} />
+        <DirectReservationStepHeader
+          activeStep={activeStep}
+          currentStep={currentStep}
+          steps={steps}
+        />
 
-        <Paper
-          variant='card'>
-          <Stack
-            direction={{ xs: 'column', md: 'row' }}
-            spacing={2}
-            alignItems={{ md: 'center' }}
-            justifyContent='space-between'
-          >
-            <Stack spacing={0.5}>
-              <Typography variant='subtitle1' sx={{ fontWeight: 700 }}>
-                Finalize this reservation
-              </Typography>
-              <Typography variant='body2' color='text.secondary'>
-                Review the reservation details and confirm it in one step.
-              </Typography>
-            </Stack>
+        <DirectReservationStepContent
+          activeStep={activeStep}
+          control={control}
+          errors={errors}
+        />
 
-            <Button
-              type='submit'
-              variant='contained'
-              disabled={isSubmitting}
-              size='small'
-            >
-              Create Reservation
-            </Button>
-          </Stack>
-        </Paper>
+        <DirectReservationFormActions
+          isFirstStep={isFirstStep}
+          isLastStep={isLastStep}
+          isSubmitting={isSubmitting}
+          onBack={handleBackStep}
+          onNext={handleNextStep}
+        />
       </Stack>
     </form>
   )
