@@ -21,10 +21,17 @@ export default function DirectReservationCreatePage({
   totalAmount = 0,
   onSubmit = defaultSubmit,
 }: DirectReservationCreatePageProps) {
-  const { control, errors, isSubmitting, reservationSnapshot, handleFormSubmit } =
+  const {
+    control,
+    errors,
+    isSubmitting,
+    reservationSnapshot,
+    handleFormSubmit,
+    trigger,
+  } =
     useDirectReservationForm({
-    totalAmount,
-    onSubmit,
+      totalAmount,
+      onSubmit,
     })
 
   return (
@@ -51,19 +58,20 @@ export default function DirectReservationCreatePage({
               Create a hotel reservation
             </Typography>
             <Typography variant='body1' color='text.secondary' sx={{ maxWidth: 760 }}>
-              Capture walk-in and phone reservations with guest details, stay dates, room selection, and payment in one clear flow.
+              Capture walk-in and phone reservations with guest details, stay dates, room selection, and payment in a guided step-by-step flow.
             </Typography>
           </Stack>
         </Stack>
       </Paper>
 
-      <Grid container spacing={3.5} alignItems='flex-start'>
+      <Grid container spacing={3.5} >
         <Grid size={{ xs: 12, lg: 8 }}>
           <DirectReservationForm
             control={control}
             errors={errors}
             isSubmitting={isSubmitting}
             onSubmit={handleFormSubmit}
+            trigger={trigger}
           />
         </Grid>
 
