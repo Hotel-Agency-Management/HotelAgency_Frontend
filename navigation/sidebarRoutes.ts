@@ -1,4 +1,5 @@
 import type { SidebarNavItems } from '@/core/layouts/types'
+import { AGENCY_TERMS_ROUTE } from '@/app/(home)/agency/hotels/terms-and-conditions/utils/routes'
 
 const navigation = (hotelId?: string): SidebarNavItems => {
   const items: SidebarNavItems = [
@@ -93,6 +94,13 @@ const navigation = (hotelId?: string): SidebarNavItems => {
           subject: 'Hotels',
           action: 'manage'
         },
+        {
+          title: 'Terms & Conditions',
+          path: AGENCY_TERMS_ROUTE,
+          icon: 'lucide:file-text',
+          subject: 'Hotels',
+          action: 'manage'
+        },
       ]
     },
     {
@@ -135,6 +143,13 @@ const navigation = (hotelId?: string): SidebarNavItems => {
           title: 'Hotel Settings',
           path: `/agency/hotels/${hotelId}/settings`,
           icon: 'lucide:settings-2',
+          subject: 'HotelSettings',
+          action: 'manage'
+        },
+        {
+          title: 'Terms & Conditions',
+          path: `/agency/hotels/${hotelId}/settings/terms-and-conditions`,
+          icon: 'lucide:file-text',
           subject: 'HotelSettings',
           action: 'manage'
         },
