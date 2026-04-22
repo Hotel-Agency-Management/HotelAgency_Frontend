@@ -1,5 +1,6 @@
 import { Controller, type Control, type FieldErrors } from 'react-hook-form'
 import { Grid, TextField } from '@mui/material'
+import { MuiTelInput } from 'mui-tel-input'
 import { FormSection } from './FormSection'
 import type { DirectReservationFormInput } from '../../schema/directReservationSchema'
 
@@ -40,11 +41,12 @@ export function GuestInformationSection({
             name='phoneNumber'
             control={control}
             render={({ field }) => (
-              <TextField
+              <MuiTelInput
                 {...field}
-                label='Phone Number'
                 fullWidth
                 size='small'
+                label='Phone Number'
+                defaultCountry='PS'
                 error={!!errors.phoneNumber}
                 helperText={errors.phoneNumber?.message}
               />
