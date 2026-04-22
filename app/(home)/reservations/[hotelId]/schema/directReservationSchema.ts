@@ -27,6 +27,7 @@ export interface DirectReservationFormInput {
   specialRequests: string
   reservationSource: string
   notes: string
+  signatureDataUrl: string
 }
 
 const requiredTextField = (label: string) =>
@@ -93,6 +94,7 @@ export const directReservationSchema = z
     specialRequests: z.string().trim(),
     reservationSource: requiredEnumField(RESERVATION_SOURCES, 'Reservation source'),
     notes: z.string().trim(),
+    signatureDataUrl: requiredTextField('Signature'),
   })
   .superRefine((values, ctx) => {
     if (!dayjs(values.checkOutDate).isAfter(dayjs(values.checkInDate))) {
@@ -124,5 +126,6 @@ export function getDirectReservationDefaultValues(totalAmount: number): DirectRe
     specialRequests: '',
     reservationSource: '',
     notes: '',
+    signatureDataUrl: '',
   }
 }
