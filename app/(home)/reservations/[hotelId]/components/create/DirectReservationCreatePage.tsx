@@ -28,11 +28,11 @@ export default function DirectReservationCreatePage({
     reservationSnapshot,
     handleFormSubmit,
     trigger,
-  } = useDirectReservationForm({
-    totalAmount,
-    onSubmit,
-  })
-
+  } =
+    useDirectReservationForm({
+      totalAmount,
+      onSubmit,
+    })
   return (
     <Stack spacing={3.5}>
       <Paper
@@ -63,7 +63,7 @@ export default function DirectReservationCreatePage({
         </Stack>
       </Paper>
 
-      <Grid container spacing={3.5} alignItems='flex-start'>
+      <Grid container spacing={3.5} >
         <Grid size={{ xs: 12, lg: 8 }}>
           <DirectReservationForm
             control={control}
