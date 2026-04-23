@@ -6,11 +6,9 @@ import { useTranslation } from 'react-i18next'
 import type { RoomProfile } from '@/app/(home)/agency/hotels/[hotelId]/rooms/components/profile/types'
 import { DatePickerField } from '@/components/common/DatePickerField'
 import Icon from '@/components/icon/Icon'
+import type { ReservationDetails } from '../types/customerReservationConfirmation'
 import { useCustomerRoomBookingCard } from '../hooks/useCustomerRoomBookingCard'
-import {
-  CustomerReservationConfirmationDialog,
-  type ReservationDetails,
-} from './CustomerReservationConfirmationDialog'
+import { CustomerReservationConfirmationModal } from './CustomerReservationConfirmationModal'
 import { formatBookingDate, formatCurrency } from '../utils/roomBooking'
 
 interface CustomerRoomBookingCardProps {
@@ -37,6 +35,7 @@ export function CustomerRoomBookingCard({
     roomType,
     details,
     currentReservation,
+    isBusy,
     isBookable,
     draftAvailabilityConflict,
     feedback,
@@ -44,7 +43,7 @@ export function CustomerRoomBookingCard({
     reservationSummary,
     checkInMinDate,
     checkOutMinDate,
-    canOpenConfirmationDialog,
+    canOpenConfirmationModal,
     isReserveDisabled,
     openConfirm,
     closeConfirm,
@@ -189,11 +188,13 @@ export function CustomerRoomBookingCard({
         </Stack>
       </Paper>
 
-      {canOpenConfirmationDialog ? (
-        <CustomerReservationConfirmationDialog
+      {canOpenConfirmationModal ? (
+        <CustomerReservationConfirmationModal
           open={confirmOpen}
+          hotelId={hotelId}
           room={room}
           reservation={reservation}
+          confirming={isBusy}
           onClose={closeConfirm}
           onConfirm={handleConfirmReservation}
         />
