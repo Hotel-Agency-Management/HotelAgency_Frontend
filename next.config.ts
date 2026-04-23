@@ -10,16 +10,14 @@ const nextConfig: NextConfig = {
     ]
   },
   async rewrites() {
-    const apiUrl = process.env.NEXT_PUBLIC_URL
+    const apiUrl = process.env.BACKEND_URL
 
-    if (!apiUrl || apiUrl.includes('localhost')) {
-      return []
-    }
+    if (!apiUrl) return []
 
     return [
       {
         source: `${baseURL}/:api_path*`,
-        destination: `${apiUrl}/:api_path*`
+        destination: `${apiUrl}${baseURL}/:api_path*`
       }
     ]
   }
