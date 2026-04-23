@@ -77,7 +77,8 @@ declare module '@mui/material/Avatar' {
   }
 }
 
-declare module '@mui/material/Paper' {  interface PaperPropsVariantOverrides {
+declare module '@mui/material/Paper' {
+  interface PaperPropsVariantOverrides {
     dashed: true
     photoThumb: true
     photoBadge: true
@@ -91,6 +92,9 @@ declare module '@mui/material/Paper' {  interface PaperPropsVariantOverrides {
     customerHotelRoomSearch: true
     customerHotelRoomEmpty: true
     customerRoom: true
+    customerReservationConfirmationModal: true
+    customerReservationConfirmationPanel: true
+    customerReservationTermsContent: true
   }
 }
 declare module '@mui/material/IconButton' {

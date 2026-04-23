@@ -7,7 +7,10 @@ import { ROOM_STATUS } from '@/app/(home)/agency/hotels/[hotelId]/rooms/types/ro
 import type { RoomProfile } from '@/app/(home)/agency/hotels/[hotelId]/rooms/components/profile/types'
 import { ROOM_TYPES } from '@/app/(home)/room-types/constants/roomTypes'
 import { getErrorMessage } from '@/core/utils/apiError'
-import type { ReservationDetails } from '../components/CustomerReservationConfirmationDialog'
+import type {
+  CustomerReservationConfirmationPayload,
+  ReservationDetails,
+} from '../types/customerReservationConfirmation'
 import { useCustomerReservationManager } from './useCustomerReservationManager'
 import { useReservationFeedback } from './useReservationFeedback'
 import { findAvailabilityConflict } from '../utils/customerReservationPolicy'
@@ -75,7 +78,10 @@ export function useCustomerRoomBookingCard({
     roomReservations,
   ])
 
-  const handleConfirmReservation = async () => {
+  const handleConfirmReservation = async ({
+    termsAccepted,
+    customerSignatureDataUrl,
+  }: CustomerReservationConfirmationPayload) => {
     if (
       !isBookable ||
       !isReservationReady ||
@@ -97,6 +103,8 @@ export function useCustomerRoomBookingCard({
         rooms: reservation.rooms,
         currency: reservation.currency,
         nightlyRate: room.pricePerNight,
+        termsAccepted,
+        customerSignatureDataUrl,
       })
 
       setConfirmOpen(false)
@@ -127,7 +135,7 @@ export function useCustomerRoomBookingCard({
     checkOutMinDate: reservation.checkIn
       ? dayjs(reservation.checkIn).add(1, 'day').format('YYYY-MM-DD')
       : undefined,
-    canOpenConfirmationDialog: currentReservation == null && isBookable && isReservationReady,
+    canOpenConfirmationModal: currentReservation == null && isBookable && isReservationReady,
     isReserveDisabled:
       !isBookable || !isReservationReady || draftAvailabilityConflict != null || isBusy,
     openConfirm: () => setConfirmOpen(true),

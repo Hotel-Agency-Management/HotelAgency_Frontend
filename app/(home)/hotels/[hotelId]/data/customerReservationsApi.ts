@@ -139,12 +139,17 @@ export const customerReservationsApi = {
       throw new Error('You already have an active reservation for this room.')
     }
 
+    if (!input.termsAccepted || !input.customerSignatureDataUrl) {
+      throw new Error('Terms acceptance and customer signature are required.')
+    }
+
     assertAvailability(input.hotelId, input.roomId, input.checkIn, input.checkOut)
 
     const now = new Date().toISOString()
+    const { termsAccepted, customerSignatureDataUrl, ...reservationInput } = input
     const reservation: CustomerReservation = {
       id: `reservation-${Date.now()}`,
-      ...input,
+      ...reservationInput,
       totalPrice: calculateReservationTotal(
         input.nightlyRate,
         input.checkIn,
@@ -153,6 +158,8 @@ export const customerReservationsApi = {
       ),
       status: CUSTOMER_RESERVATION_STATUS.CONFIRMED,
       source: 'customer',
+      termsAcceptedAt: termsAccepted ? now : undefined,
+      customerSignatureDataUrl,
       createdAt: now,
       updatedAt: now,
     }
