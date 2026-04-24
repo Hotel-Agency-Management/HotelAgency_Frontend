@@ -19,7 +19,7 @@ export function TermsStep({
 }: TermsStepProps) {
   return (
     <Stack spacing={2}>
-      <Typography variant="body2" color="text.secondary">
+      <Typography variant="body2">
         Read the terms and conditions, then accept them to continue.
       </Typography>
 
@@ -38,7 +38,7 @@ export function TermsStep({
           <Typography variant="subtitle2" fontWeight={700}>
             {termsTitle}
           </Typography>
-          <Typography variant="body2" color="text.secondary" whiteSpace="pre-line">
+          <Typography variant="body2" whiteSpace="pre-line">
             {termsContent}
           </Typography>
         </Stack>

@@ -14,7 +14,7 @@ export function SignatureStep({
 }: SignatureStepProps) {
   return (
     <Stack className="customer-reservation-signature-pad" spacing={2}>
-      <Typography variant="body2" color="text.secondary">
+      <Typography variant="body2">
         Add your signature in the box below to attach it to this reservation.
       </Typography>
 
