@@ -25,7 +25,7 @@ export function ReviewConfirmStep({
 }: ReviewConfirmStepProps) {
   return (
     <Stack spacing={2}>
-      <Typography variant="body2" color="text.secondary">
+      <Typography variant="body2">
         Review the final reservation summary before confirming.
       </Typography>
 
