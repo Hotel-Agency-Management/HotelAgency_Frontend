@@ -238,7 +238,9 @@ export function CustomerReservationManagementSection({
             >
               <ReservationActionsMenu
                 canModify={currentReservationCanModify}
+                canViewContract={Boolean(currentReservation.customerSignatureDataUrl)}
                 isBusy={isBusy}
+                onViewContract={openCurrentReservationContract}
                 onEdit={edit.openEdit}
                 onExtend={extend.openExtend}
                 onCancel={cancellation.openCancel}
