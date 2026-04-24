@@ -112,6 +112,11 @@ export function useCustomerRoomBookingCard({
       return
     }
 
+    const contractWindow = window.open('about:blank', '_blank')
+    if (contractWindow) {
+      contractWindow.opener = null
+    }
+
     try {
       const confirmedReservation = await createReservation({
         hotelId,
@@ -157,9 +162,11 @@ export function useCustomerRoomBookingCard({
         contract,
         invoice: confirmedReservation.invoice ?? null,
       })
+      await openReservationContractPdf(contract, contractWindow)
       setConfirmOpen(false)
       showFeedback('success', 'Reservation created successfully.')
     } catch (error) {
+      contractWindow?.close()
       showFeedback('error', getErrorMessage(error, 'Failed to create reservation.'))
     }
   }
