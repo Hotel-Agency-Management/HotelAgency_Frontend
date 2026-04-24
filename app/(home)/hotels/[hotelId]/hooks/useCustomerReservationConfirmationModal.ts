@@ -148,6 +148,8 @@ export function useCustomerReservationConfirmationModal({
     onConfirm({
       termsAccepted,
       customerSignatureDataUrl: signatureDataUrl,
+      acceptedTermsTitle: termsTitle,
+      acceptedTermsContent: termsContent,
     })
   }
 

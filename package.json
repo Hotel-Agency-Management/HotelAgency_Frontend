@@ -23,6 +23,7 @@
     "@mui/x-data-grid": "^8.25.0",
     "@mui/x-date-pickers": "^8.27.0",
     "@mui/x-tree-view": "^8.27.0",
+    "@react-pdf/renderer": "^4.5.1",
     "@tanstack/react-query": "latest",
     "axios": "^1.12.2",
     "cookies-next": "^6.1.1",

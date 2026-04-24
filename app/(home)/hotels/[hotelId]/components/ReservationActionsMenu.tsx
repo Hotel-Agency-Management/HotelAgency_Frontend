@@ -8,11 +8,13 @@ import {
   Stack,
   Typography,
 } from '@mui/material'
-import { CalendarDays, MoreVertical, PencilLine, Trash2 } from 'lucide-react'
+import { CalendarDays, FileText, MoreVertical, PencilLine, Trash2 } from 'lucide-react'
 
 interface ReservationActionsMenuProps {
   canModify: boolean
+  canViewContract: boolean
   isBusy: boolean
+  onViewContract: () => void
   onEdit: () => void
   onExtend: () => void
   onCancel: () => void
@@ -20,7 +22,9 @@ interface ReservationActionsMenuProps {
 
 export function ReservationActionsMenu({
   canModify,
+  canViewContract,
   isBusy,
+  onViewContract,
   onEdit,
   onExtend,
   onCancel,
@@ -63,6 +67,13 @@ export function ReservationActionsMenu({
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
+        <MenuItem disabled={!canViewContract || isBusy} onClick={() => runAction(onViewContract)}>
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <FileText size={15} />
+            <Typography variant="inherit">View contract</Typography>
+          </Stack>
+        </MenuItem>
+
         <MenuItem disabled={!canModify || isBusy} onClick={() => runAction(onEdit)}>
           <Stack direction="row" alignItems="center" spacing={1}>
             <PencilLine size={15} />
@@ -87,4 +98,3 @@ export function ReservationActionsMenu({
     </>
   )
 }
-

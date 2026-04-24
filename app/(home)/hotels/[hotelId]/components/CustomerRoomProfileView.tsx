@@ -90,6 +90,7 @@ export function CustomerRoomProfileView() {
             <CustomerRoomBookingCard
               hotelId={hotelId}
               roomId={roomId}
+              hotel={hotel}
               room={profile}
               reservation={reservation}
               onReservationDateChange={handleReservationDateChange}
@@ -105,7 +106,12 @@ export function CustomerRoomProfileView() {
           </Grid>
 
           <Grid size={12}>
-            <CustomerReservationManagementSection hotelId={hotelId} roomId={roomId} room={profile} />
+            <CustomerReservationManagementSection
+              hotelId={hotelId}
+              roomId={roomId}
+              hotel={hotel}
+              room={profile}
+            />
           </Grid>
         </Grid>
       </Stack>
