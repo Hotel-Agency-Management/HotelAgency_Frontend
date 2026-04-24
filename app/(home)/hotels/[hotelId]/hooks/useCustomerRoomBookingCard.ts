@@ -6,19 +6,24 @@ import { useTranslation } from 'react-i18next'
 import { ROOM_STATUS } from '@/app/(home)/agency/hotels/[hotelId]/rooms/types/room'
 import type { RoomProfile } from '@/app/(home)/agency/hotels/[hotelId]/rooms/components/profile/types'
 import { ROOM_TYPES } from '@/app/(home)/room-types/constants/roomTypes'
+import type { CustomerHotel } from '@/app/(home)/hotels/types/customerHotel'
+import { useAuth } from '@/core/context/AuthContext'
 import { getErrorMessage } from '@/core/utils/apiError'
+import { openReservationContractPdf } from '../components/customerReservationContract/openReservationContractPdf'
 import type {
   CustomerReservationConfirmationPayload,
   ReservationDetails,
 } from '../types/customerReservationConfirmation'
 import { useCustomerReservationManager } from './useCustomerReservationManager'
 import { useReservationFeedback } from './useReservationFeedback'
+import { buildReservationContract } from '../utils/buildReservationContract'
 import { findAvailabilityConflict } from '../utils/customerReservationPolicy'
 import { getRoomDetails, getStayLength, getTotalReservationPrice } from '../utils/roomBooking'
 
 interface UseCustomerRoomBookingCardOptions {
   hotelId: string
   roomId: string
+  hotel: CustomerHotel | null
   room: Pick<
     RoomProfile,
     'type' | 'status' | 'floorNumber' | 'capacity' | 'pricePerNight' | 'starRating'
@@ -29,10 +34,12 @@ interface UseCustomerRoomBookingCardOptions {
 export function useCustomerRoomBookingCard({
   hotelId,
   roomId,
+  hotel,
   room,
   reservation,
 }: UseCustomerRoomBookingCardOptions) {
   const { t, i18n } = useTranslation()
+  const { user } = useAuth()
   const { currentReservation, roomReservations, createReservation, isBusy } =
     useCustomerReservationManager(hotelId, roomId)
   const { feedback, showFeedback, closeFeedback } = useReservationFeedback()
@@ -81,6 +88,8 @@ export function useCustomerRoomBookingCard({
   const handleConfirmReservation = async ({
     termsAccepted,
     customerSignatureDataUrl,
+    acceptedTermsTitle,
+    acceptedTermsContent,
   }: CustomerReservationConfirmationPayload) => {
     if (
       !isBookable ||
@@ -91,8 +100,13 @@ export function useCustomerRoomBookingCard({
       return
     }
 
+    const contractWindow = window.open('about:blank', '_blank')
+    if (contractWindow) {
+      contractWindow.opener = null
+    }
+
     try {
-      await createReservation({
+      const confirmedReservation = await createReservation({
         hotelId,
         roomId,
         hotelName: reservation.hotelName,
@@ -107,9 +121,22 @@ export function useCustomerRoomBookingCard({
         customerSignatureDataUrl,
       })
 
+      const reservationContract = buildReservationContract({
+        reservation: confirmedReservation,
+        hotel,
+        user,
+        roomCapacity: room.capacity,
+        roomTypeLabel: roomType.label,
+        language: i18n.language,
+        termsTitle: acceptedTermsTitle,
+        termsContent: acceptedTermsContent,
+      })
+
+      await openReservationContractPdf(reservationContract, contractWindow)
       setConfirmOpen(false)
       showFeedback('success', 'Reservation created successfully.')
     } catch (error) {
+      contractWindow?.close()
       showFeedback('error', getErrorMessage(error, 'Failed to create reservation.'))
     }
   }

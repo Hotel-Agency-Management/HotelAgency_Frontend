@@ -4,9 +4,15 @@ import { Alert, Chip, Grid, Paper, Snackbar, Stack, Typography } from '@mui/mate
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useTranslation } from 'react-i18next'
 import { useGetRoomTypes } from '@/app/(home)/room-types/hooks/queries/roomTypeQueries'
+import { ROOM_TYPES } from '@/app/(home)/room-types/constants/roomTypes'
 import { ROOM_STATUS } from '@/app/(home)/agency/hotels/[hotelId]/rooms/types/room'
 import type { RoomProfile } from '@/app/(home)/agency/hotels/[hotelId]/rooms/components/profile/types'
+import type { CustomerHotel } from '@/app/(home)/hotels/types/customerHotel'
+import { HOTEL_TERMS_STATUSES } from '@/app/(home)/agency/hotels/terms-and-conditions/constants/status'
+import { useHotelTerms } from '@/app/(home)/agency/hotels/terms-and-conditions/hooks/useHotelTermsQueries'
+import { useAuth } from '@/core/context/AuthContext'
 import { buildReservationDetailsItems } from '../constants/reservationDetails'
+import { FALLBACK_TERMS_CONTENT } from '../constants/customerReservationConfirmation'
 import { useCustomerReservationManager } from '../hooks/useCustomerReservationManager'
 import { useCustomerHotelRooms } from '../hooks/useCustomerHotelRooms'
 import type { ReservationEditRoomOption } from '../hooks/useReservationEdit'
@@ -21,10 +27,12 @@ import {
   getReservationEditDeadline,
   isFreeCancellationEligible,
 } from '../utils/customerReservationPolicy'
+import { buildReservationContract } from '../utils/buildReservationContract'
 import { formatBookingDate, formatCurrency, getStayLength } from '../utils/roomBooking'
 import { CancelReservationDialog } from './CancelReservationDialog'
 import { EditReservationDialog } from './EditReservationDialog'
 import { ExtendReservationDialog } from './ExtendReservationDialog'
+import { openReservationContractPdf } from './customerReservationContract/openReservationContractPdf'
 import { ReservationActionsMenu } from './ReservationActionsMenu'
 import { ReservationDetailsGrid } from './ReservationDetailsGrid'
 import { ReservationPoliciesSection } from './ReservationPoliciesSection'
@@ -32,15 +40,18 @@ import { ReservationPoliciesSection } from './ReservationPoliciesSection'
 interface CustomerReservationManagementSectionProps {
   hotelId: string
   roomId: string
-  room: Pick<RoomProfile, 'capacity' | 'pricePerNight'>
+  hotel: CustomerHotel | null
+  room: Pick<RoomProfile, 'type' | 'capacity' | 'pricePerNight'>
 }
 
 export function CustomerReservationManagementSection({
   hotelId,
   roomId,
+  hotel,
   room,
 }: CustomerReservationManagementSectionProps) {
   const { i18n } = useTranslation()
+  const { user } = useAuth()
   const router = useRouter()
   const searchParams = useSearchParams()
   const {
@@ -55,6 +66,7 @@ export function CustomerReservationManagementSection({
   const { feedback, showFeedback, closeFeedback } = useReservationFeedback()
   const roomsQuery = useCustomerHotelRooms(hotelId)
   const { data: roomTypes = [] } = useGetRoomTypes()
+  const { data: hotelTerms } = useHotelTerms(hotelId)
   const currentReservationCanModify =
     currentReservation != null ? canModifyReservation(currentReservation) : false
   const currentReservationFreeCancellation =
@@ -136,6 +148,8 @@ export function CustomerReservationManagementSection({
     currentReservation.currency
   )
   const roomTypeNameById = new Map(roomTypes.map(roomType => [String(roomType.id), roomType.name]))
+  const activeTerms = hotelTerms?.status === HOTEL_TERMS_STATUSES.ACTIVE ? hotelTerms : null
+  const currentRoomTypeLabel = ROOM_TYPES[room.type].label
   const roomOptions: ReservationEditRoomOption[] = (roomsQuery.data ?? []).map(hotelRoom => ({
     id: hotelRoom.id,
     label: `${hotelRoom.roomNumber} • ${roomTypeNameById.get(hotelRoom.roomTypeId) ?? 'Room'}`,
@@ -145,6 +159,37 @@ export function CustomerReservationManagementSection({
       hotelRoom.id !== currentReservation.roomId &&
       (hotelRoom.status === ROOM_STATUS.MAINTENANCE || hotelRoom.status === ROOM_STATUS.BLOCKED),
   }))
+
+  const openCurrentReservationContract = async () => {
+    if (!currentReservation.customerSignatureDataUrl) {
+      showFeedback('error', 'No signed contract is available for this reservation.')
+      return
+    }
+
+    const contractWindow = window.open('about:blank', '_blank')
+    if (contractWindow) {
+      contractWindow.opener = null
+    }
+
+    try {
+      await openReservationContractPdf(
+        buildReservationContract({
+          reservation: currentReservation,
+          hotel,
+          user,
+          roomCapacity: room.capacity,
+          roomTypeLabel: currentRoomTypeLabel,
+          language: i18n.language,
+          termsTitle: activeTerms?.title ?? 'Hotel Reservation Terms',
+          termsContent: activeTerms?.content ?? FALLBACK_TERMS_CONTENT,
+        }),
+        contractWindow
+      )
+    } catch (error) {
+      contractWindow?.close()
+      showFeedback('error', 'Failed to open the reservation contract.')
+    }
+  }
 
   return (
     <>
@@ -172,7 +217,9 @@ export function CustomerReservationManagementSection({
             >
               <ReservationActionsMenu
                 canModify={currentReservationCanModify}
+                canViewContract={Boolean(currentReservation.customerSignatureDataUrl)}
                 isBusy={isBusy}
+                onViewContract={openCurrentReservationContract}
                 onEdit={edit.openEdit}
                 onExtend={extend.openExtend}
                 onCancel={cancellation.openCancel}

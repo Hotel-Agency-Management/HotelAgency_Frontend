@@ -13,6 +13,8 @@ export interface ReservationDetails {
 export interface CustomerReservationConfirmationPayload {
   termsAccepted: boolean
   customerSignatureDataUrl: string
+  acceptedTermsTitle: string
+  acceptedTermsContent: string
 }
 
 export interface ReservationSummaryItem {

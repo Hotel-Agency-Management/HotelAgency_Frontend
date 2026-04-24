@@ -4,6 +4,7 @@ import { Alert, Button, Paper, Rating, Snackbar, Stack, Typography } from '@mui/
 import { CalendarDays } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import type { RoomProfile } from '@/app/(home)/agency/hotels/[hotelId]/rooms/components/profile/types'
+import type { CustomerHotel } from '@/app/(home)/hotels/types/customerHotel'
 import { DatePickerField } from '@/components/common/DatePickerField'
 import Icon from '@/components/icon/Icon'
 import type { ReservationDetails } from '../types/customerReservationConfirmation'
@@ -14,6 +15,7 @@ import { formatBookingDate, formatCurrency } from '../utils/roomBooking'
 interface CustomerRoomBookingCardProps {
   hotelId: string
   roomId: string
+  hotel: CustomerHotel | null
   room: Pick<
     RoomProfile,
     'type' | 'status' | 'floorNumber' | 'capacity' | 'pricePerNight' | 'starRating'
@@ -25,6 +27,7 @@ interface CustomerRoomBookingCardProps {
 export function CustomerRoomBookingCard({
   hotelId,
   roomId,
+  hotel,
   room,
   reservation,
   onReservationDateChange,
@@ -52,6 +55,7 @@ export function CustomerRoomBookingCard({
   } = useCustomerRoomBookingCard({
     hotelId,
     roomId,
+    hotel,
     room,
     reservation,
   })
