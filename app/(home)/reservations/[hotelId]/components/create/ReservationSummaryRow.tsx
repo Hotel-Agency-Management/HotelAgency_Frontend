@@ -23,7 +23,7 @@ export function ReservationSummaryRow({
         <Typography variant='caption' color='text.disabled'>
           {label}
         </Typography>
-        <Typography variant='body2' sx={{ fontWeight: 600 }}>
+        <Typography variant='body2' fontWeight={600}>
           {value}
         </Typography>
       </Box>

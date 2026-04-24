@@ -26,10 +26,10 @@ export function DirectReservationFormActions({
         justifyContent='space-between'
       >
         <Stack spacing={0.5}>
-          <Typography variant='subtitle1' sx={{ fontWeight: 700 }}>
+          <Typography variant='subtitle1' fontWeight={700}>
             {isLastStep ? 'Finalize this reservation' : 'Continue to the next step'}
           </Typography>
-          <Typography variant='body2' color='text.secondary'>
+          <Typography variant='body2'>
             {isLastStep
               ? 'Review the reservation details and confirm it in the final step.'
               : 'Save the current section validation before moving forward.'}

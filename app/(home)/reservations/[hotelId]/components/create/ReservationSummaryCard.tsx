@@ -3,8 +3,8 @@ import { BedDouble, CalendarDays, CreditCard, Users } from 'lucide-react'
 import { ReservationSummaryRow } from './ReservationSummaryRow'
 import {
   buildReservationSummaryCardData,
-  type ReservationSummarySnapshot,
 } from '../../utils/buildReservationSummaryCardData'
+import { ReservationSummarySnapshot } from '../../../types/reservationSummary'
 
 interface ReservationSummaryCardProps {
   totalAmount: number
@@ -23,7 +23,7 @@ export function ReservationSummaryCard({ totalAmount, snapshot }: ReservationSum
           <Typography variant='overline' sx={{ color: 'text.disabled' }}>
             Reservation Snapshot
           </Typography>
-          <Typography variant='h6' sx={{ fontWeight: 700 }}>
+          <Typography variant='h6' fontWeight={700}>
             Direct Hotel Reservation
           </Typography>
           <Typography variant='body2'>
@@ -33,7 +33,7 @@ export function ReservationSummaryCard({ totalAmount, snapshot }: ReservationSum
 
         <Divider />
 
-        <Stack sx={{ flex: 1, justifyContent: 'space-between' }}>
+        <Stack flex={1} justifyContent="space-between">
           <Stack spacing={2.5}>
             <ReservationSummaryRow icon={BedDouble} label='Room Type' value={summary.roomTypeLabel} />
             <ReservationSummaryRow icon={CalendarDays} label='Stay' value={summary.stayValue} />
@@ -45,10 +45,10 @@ export function ReservationSummaryCard({ totalAmount, snapshot }: ReservationSum
 
           <Stack spacing={2}>
             <Stack direction='row' justifyContent='space-between'>
-              <Typography variant='body2' color='text.secondary'>
+              <Typography variant='body2'>
                 Paid Amount
               </Typography>
-              <Typography variant='body2' sx={{ fontWeight: 700 }}>
+              <Typography variant='body2' fontWeight={700}>
                 {summary.paidAmount}
               </Typography>
             </Stack>
@@ -57,7 +57,7 @@ export function ReservationSummaryCard({ totalAmount, snapshot }: ReservationSum
               <Typography variant='body2'>
                 Remaining
               </Typography>
-              <Typography variant='body2' sx={{ fontWeight: 700 }}>
+              <Typography variant='body2' fontWeight={700}>
                 {summary.remainingAmount}
               </Typography>
             </Stack>
@@ -66,7 +66,7 @@ export function ReservationSummaryCard({ totalAmount, snapshot }: ReservationSum
               <Typography variant='subtitle2' color='text.secondary'>
                 Total Reservation
               </Typography>
-              <Typography variant='subtitle1' sx={{ fontWeight: 800 }}>
+              <Typography variant='subtitle1' fontWeight={800}>
                 {summary.totalAmount}
               </Typography>
             </Stack>

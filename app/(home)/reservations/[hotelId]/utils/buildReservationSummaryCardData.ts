@@ -1,24 +1,6 @@
 import dayjs from 'dayjs'
 import { ROOM_TYPES } from '@/app/(home)/room-types/constants/roomTypes'
-import type { DirectReservationFormInput } from '../schema/directReservationSchema'
-
-export type ReservationSummarySnapshot = Pick<
-  DirectReservationFormInput,
-  | 'checkInDate'
-  | 'checkOutDate'
-  | 'numberOfGuests'
-  | 'numberOfRooms'
-  | 'roomType'
-  | 'paymentMethod'
-  | 'paidAmount'
-  | 'remainingAmount'
->
-
-interface BuildReservationSummaryCardDataArgs {
-  totalAmount: number
-  snapshot: ReservationSummarySnapshot
-}
-
+import { BuildReservationSummaryCardDataArgs } from '../../types/reservationSummary'
 export function buildReservationSummaryCardData({
   totalAmount,
   snapshot,

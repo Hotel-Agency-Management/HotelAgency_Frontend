@@ -18,7 +18,7 @@ export function DirectReservationStepHeader({
     <Paper variant='card'>
       <Stack spacing={2.5}>
         <Stack spacing={0.75}>
-          <Typography variant='subtitle1' sx={{ fontWeight: 700 }}>
+          <Typography variant='subtitle1' fontWeight={700}>
             Reservation setup
           </Typography>
           <Typography variant='body2'>

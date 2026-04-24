@@ -2,12 +2,12 @@
 
 import type { ReactNode } from 'react'
 import { alpha, useTheme } from '@mui/material/styles'
-import { Box, Button, FormHelperText, Paper, Stack, Typography } from '@mui/material'
+import { Box, Button, FormHelperText, Stack, Typography } from '@mui/material'
 import type { SxProps, Theme } from '@mui/material/styles'
 import SignatureCanvas from 'react-signature-canvas'
 import { useSignaturePadField } from './useSignaturePadField'
-
-const DEFAULT_SIGNATURE_HEIGHT = 190
+import { DEFAULT_SIGNATURE_HEIGHT } from './constants/signature'
+import { SignaturePaper } from './styles/SignaturePaper'
 
 interface SignaturePadFieldProps {
   value: string
@@ -69,17 +69,11 @@ export function SignaturePadField({
         </Button>
       </Stack>
 
-      <Paper
-        ref={containerRef}
-        elevation={0}
-        sx={[
-          {
-            bgcolor: resolvedBackgroundColor,
-            position: 'relative',
-            overflow: 'hidden',
-          },
-          ...(Array.isArray(paperSx) ? paperSx : paperSx ? [paperSx] : []),
-        ]}
+      <SignaturePaper
+          ref={containerRef}
+          elevation={0}
+          bgColor={resolvedBackgroundColor}
+          sx={Array.isArray(paperSx) ? paperSx : paperSx ? [paperSx] : []}
       >
         {canvasWidth > 0 ? (
           <SignatureCanvas
@@ -100,7 +94,7 @@ export function SignaturePadField({
             }}
           />
         ) : null}
-      </Paper>
+      </SignaturePaper>
 
       {error ? <FormHelperText error>{error}</FormHelperText> : null}
     </Stack>
