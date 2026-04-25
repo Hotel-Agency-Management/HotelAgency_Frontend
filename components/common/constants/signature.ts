@@ -1,0 +1,1 @@
+export const DEFAULT_SIGNATURE_HEIGHT = 190
