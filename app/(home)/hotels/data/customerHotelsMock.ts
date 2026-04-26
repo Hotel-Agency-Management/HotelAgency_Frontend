@@ -9,6 +9,7 @@ export const CUSTOMER_HOTELS_MOCK: CustomerHotel[] = [
     phone: '+1 212 555 0101',
     country: 'United States',
     city: 'New York',
+    hotelZip: '10011',
     address: '123 Fifth Avenue, Manhattan',
     currency: 'USD',
     coverImage: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&q=80',

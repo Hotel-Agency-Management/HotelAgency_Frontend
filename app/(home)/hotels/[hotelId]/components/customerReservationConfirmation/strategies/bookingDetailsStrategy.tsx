@@ -7,6 +7,11 @@ export const createBookingDetailsStepStrategy = (): ConfirmationStepStrategy => 
       bookingDetails={modalState.bookingDetails}
       pricePerNightLabel={modalState.pricePerNightLabel}
       totalPriceLabel={modalState.totalPriceLabel}
+      taxAmountLabel={modalState.taxAmountLabel}
+      estimatedTotalLabel={modalState.estimatedTotalLabel}
+      taxPostalCode={modalState.taxPostalCode}
+      taxRequiresPostalCode={modalState.taxRequiresPostalCode}
+      onTaxPostalCodeChange={modalState.setTaxPostalCode}
     />
   ),
 })

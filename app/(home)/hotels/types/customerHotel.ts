@@ -8,6 +8,7 @@ export interface CustomerHotel {
   phone?: string
   country: string
   city: string
+  hotelZip?: string
   address: string
   currency: string
   coverImage: string | null
@@ -28,6 +29,9 @@ export interface CustomerHotelApiResponse {
   name: string
   country: string
   city: string
+  hotelZip?: string | null
+  postalCode?: string | null
+  zip?: string | null
   address: string
   currency: string
   logo?: string | null
