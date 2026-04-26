@@ -5,24 +5,20 @@ import Chip from "@mui/material/Chip";
 import Divider from "@mui/material/Divider";
 import Fade from "@mui/material/Fade";
 import IconButton from "@mui/material/IconButton";
-import MenuItem from "@mui/material/MenuItem";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
-import TextField from "@mui/material/TextField";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import { FileText } from "lucide-react";
-import { Controller, type UseFormReturn } from "react-hook-form";
-import { HOTEL_TERMS_FORM_ID } from "../constants/form";
-import { HOTEL_TERMS_STATUS_OPTIONS } from "../constants/status";
+import type { UseFormReturn } from "react-hook-form";
 import type { HotelTermsAndConditions } from "../types/terms";
 import type { HotelTermsFormValues } from "../schema/hotelTermsSchema";
+import { HotelTermsForm } from "./HotelTermsForm";
 
 interface HotelTermsFormCardProps {
   form: UseFormReturn<HotelTermsFormValues>;
@@ -51,8 +47,7 @@ export function HotelTermsFormCard({
   onDelete,
 }: HotelTermsFormCardProps) {
   const {
-    control,
-    formState: { errors, isDirty, isValid },
+    formState: { isDirty, isValid },
   } = form;
   const currentValues = form.watch();
   const isExistingTerms = Boolean(terms);
@@ -153,88 +148,14 @@ export function HotelTermsFormCard({
 
         <Divider />
 
-        <form
-          id={HOTEL_TERMS_FORM_ID}
-          noValidate
-          onSubmit={event => {
-            event.preventDefault();
-            void onSave();
-          }}
-        >
-          <Stack spacing={2.5}>
-            <Controller
-              name="title"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  label="Title"
-                  fullWidth
-                  disabled={isReadOnly}
-                  error={Boolean(errors.title)}
-                  helperText={errors.title?.message}
-                />
-              )}
-            />
-
-            <Controller
-              name="status"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  select
-                  label="Status"
-                  fullWidth
-                  disabled={isReadOnly}
-                  error={Boolean(errors.status)}
-                  helperText={errors.status?.message ?? "Draft can be reviewed before activation."}
-                >
-                  {HOTEL_TERMS_STATUS_OPTIONS.map(option => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              )}
-            />
-
-            <Controller
-              name="content"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  label="Terms content"
-                  fullWidth
-                  multiline
-                  minRows={12}
-                  disabled={isReadOnly}
-                  error={Boolean(errors.content)}
-                  helperText={
-                    errors.content?.message ??
-                    "Write the hotel-specific booking, cancellation, liability, and stay terms."
-                  }
-                />
-              )}
-            />
-
-            {!isExistingTerms ? (
-              <Stack direction="row" justifyContent="flex-end">
-                <Button
-                  type="submit"
-                  form={HOTEL_TERMS_FORM_ID}
-                  variant="contained"
-                  size="small"
-                  disabled={isBusy || !isValid}
-                  startIcon={isSaving ? <CircularProgress size={16} color="inherit" /> : null}
-                >
-                  Save terms
-                </Button>
-              </Stack>
-            ) : null}
-          </Stack>
-        </form>
+        <HotelTermsForm
+          form={form}
+          isExistingTerms={isExistingTerms}
+          isReadOnly={isReadOnly}
+          isBusy={isBusy}
+          isSaving={isSaving}
+          onSave={onSave}
+        />
       </Stack>
     </Paper>
   );

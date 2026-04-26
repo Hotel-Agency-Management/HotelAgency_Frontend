@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import { Building2, FileText, Palette } from "lucide-react";
@@ -31,7 +31,7 @@ export function HotelSettingsShell({
     pathname === termsPath ? "terms" : activeGeneralTab;
 
   return (
-    <Box>
+    <Stack spacing={3}>
       <Tabs
         value={currentTab}
         sx={{ borderBottom: 1, borderColor: "divider" }}
@@ -62,7 +62,7 @@ export function HotelSettingsShell({
         />
       </Tabs>
 
-      <Box sx={{ pt: 3 }}>{children}</Box>
-    </Box>
+      {children}
+    </Stack>
   );
 }
