@@ -1,7 +1,6 @@
 "use client";
 
 import Alert from "@mui/material/Alert";
-import Box from "@mui/material/Box";
 import { useAuth } from "@/core/context/AuthContext";
 import { CustomThemeTab } from "@/app/(home)/agency/components/theme/CustomThemeTab";
 import type { BrandingSettings } from "@/core/theme/palette/branding";
@@ -44,23 +43,14 @@ export function HotelGeneralSettingsSection({
     });
   };
 
-  return (
-    <Box>
-      <Box sx={{ pt: 3 }}>
-        {activeTab === "profile" ? (
-          <HotelProfileTab
-            defaultValues={hotel}
-            onSave={handleSave}
-            isLoading={isLoading}
-            isActive={hotel.isActive}
-          />
-        ) : (
-          <CustomThemeTab
-            initialValues={hotel.branding}
-            onSave={handleThemeSave}
-          />
-        )}
-      </Box>
-    </Box>
+  return activeTab === "profile" ? (
+    <HotelProfileTab
+      defaultValues={hotel}
+      onSave={handleSave}
+      isLoading={isLoading}
+      isActive={hotel.isActive}
+    />
+  ) : (
+    <CustomThemeTab initialValues={hotel.branding} onSave={handleThemeSave} />
   );
 }
