@@ -33,6 +33,7 @@ import { CancelReservationDialog } from './CancelReservationDialog'
 import { EditReservationDialog } from './EditReservationDialog'
 import { ExtendReservationDialog } from './ExtendReservationDialog'
 import { openReservationContractPdf } from './customerReservationContract/openReservationContractPdf'
+import { openCustomerInvoicePdf } from '../invoice/components/openCustomerInvoicePdf'
 import { ReservationActionsMenu } from './ReservationActionsMenu'
 import { ReservationDetailsGrid } from './ReservationDetailsGrid'
 import { ReservationPoliciesSection } from './ReservationPoliciesSection'
@@ -191,6 +192,25 @@ export function CustomerReservationManagementSection({
     }
   }
 
+  const openCurrentReservationInvoice = async () => {
+    if (!currentReservation.invoice) {
+      showFeedback('error', 'No invoice is available for this reservation.')
+      return
+    }
+
+    const invoiceWindow = window.open('about:blank', '_blank')
+    if (invoiceWindow) {
+      invoiceWindow.opener = null
+    }
+
+    try {
+      await openCustomerInvoicePdf(currentReservation.invoice, invoiceWindow)
+    } catch (error) {
+      invoiceWindow?.close()
+      showFeedback('error', 'Failed to open the reservation invoice.')
+    }
+  }
+
   return (
     <>
       <Paper variant="card">
@@ -218,8 +238,10 @@ export function CustomerReservationManagementSection({
               <ReservationActionsMenu
                 canModify={currentReservationCanModify}
                 canViewContract={Boolean(currentReservation.customerSignatureDataUrl)}
+                canViewInvoice={Boolean(currentReservation.invoice)}
                 isBusy={isBusy}
                 onViewContract={openCurrentReservationContract}
+                onViewInvoice={openCurrentReservationInvoice}
                 onEdit={edit.openEdit}
                 onExtend={extend.openExtend}
                 onCancel={cancellation.openCancel}

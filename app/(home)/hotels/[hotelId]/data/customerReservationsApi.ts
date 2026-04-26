@@ -3,6 +3,7 @@
 
 import dayjs from 'dayjs'
 import { sleep } from '@/app/(home)/agency/hotels/[hotelId]/rooms/util/delay'
+import { customerInvoicesApi } from '../invoice/data/customerInvoicesApi'
 import {
   CUSTOMER_RESERVATION_STATUS,
   type CreateCustomerReservationInput,
@@ -147,8 +148,9 @@ export const customerReservationsApi = {
 
     const now = new Date().toISOString()
     const { termsAccepted, customerSignatureDataUrl, ...reservationInput } = input
+    const reservationId = `reservation-${Date.now()}`
     const reservation: CustomerReservation = {
-      id: `reservation-${Date.now()}`,
+      id: reservationId,
       ...reservationInput,
       totalPrice: calculateReservationTotal(
         input.nightlyRate,
@@ -163,6 +165,33 @@ export const customerReservationsApi = {
       createdAt: now,
       updatedAt: now,
     }
+
+    const invoice = await customerInvoicesApi.createInvoice({
+      reservationId,
+      customerName: input.customerName ?? 'Guest customer',
+      customerEmail: input.customerEmail ?? 'guest@example.com',
+      hotelName: input.hotelName,
+      hotelLogo: input.hotelLogo,
+      hotelPrimaryColor: input.hotelPrimaryColor,
+      hotelSecondaryColor: input.hotelSecondaryColor,
+      hotelCountry: input.hotelCountry,
+      hotelCity: input.hotelCity,
+      hotelState: input.hotelState,
+      hotelAddress: input.hotelAddress,
+      hotelZip: input.hotelZip,
+      roomName: input.roomNumber,
+      roomType: input.roomType ?? input.roomNumber,
+      currency: input.currency,
+      checkInDate: input.checkIn,
+      checkOutDate: input.checkOut,
+      nights: dayjs(input.checkOut).diff(dayjs(input.checkIn), 'day'),
+      numberOfRooms: input.rooms,
+      pricePerNight: input.nightlyRate,
+      paymentMethod: input.paymentMethod ?? 'Online payment',
+      bookingSource: 'Customer portal',
+    })
+
+    reservation.invoice = invoice
 
     mockReservations = [...mockReservations, reservation]
     return reservation

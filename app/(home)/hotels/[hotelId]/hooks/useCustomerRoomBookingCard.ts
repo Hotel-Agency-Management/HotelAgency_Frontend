@@ -9,16 +9,24 @@ import { ROOM_TYPES } from '@/app/(home)/room-types/constants/roomTypes'
 import type { CustomerHotel } from '@/app/(home)/hotels/types/customerHotel'
 import { useAuth } from '@/core/context/AuthContext'
 import { getErrorMessage } from '@/core/utils/apiError'
+import { openCustomerInvoicePdf } from '../invoice/components/openCustomerInvoicePdf'
 import { openReservationContractPdf } from '../components/customerReservationContract/openReservationContractPdf'
+import type { CustomerInvoice } from '../invoice/types/customerInvoice'
 import type {
   CustomerReservationConfirmationPayload,
   ReservationDetails,
 } from '../types/customerReservationConfirmation'
+import type { ReservationContractData } from '../types/customerReservationContract'
 import { useCustomerReservationManager } from './useCustomerReservationManager'
 import { useReservationFeedback } from './useReservationFeedback'
 import { buildReservationContract } from '../utils/buildReservationContract'
 import { findAvailabilityConflict } from '../utils/customerReservationPolicy'
 import { getRoomDetails, getStayLength, getTotalReservationPrice } from '../utils/roomBooking'
+
+interface ReservationCreatedDocuments {
+  contract: ReservationContractData
+  invoice: CustomerInvoice | null
+}
 
 interface UseCustomerRoomBookingCardOptions {
   hotelId: string
@@ -44,6 +52,9 @@ export function useCustomerRoomBookingCard({
     useCustomerReservationManager(hotelId, roomId)
   const { feedback, showFeedback, closeFeedback } = useReservationFeedback()
   const [confirmOpen, setConfirmOpen] = useState(false)
+  const [createdDocuments, setCreatedDocuments] = useState<ReservationCreatedDocuments | null>(null)
+  const [openingContract, setOpeningContract] = useState(false)
+  const [openingInvoice, setOpeningInvoice] = useState(false)
 
   const roomType = ROOM_TYPES[room.type]
   const details = useMemo(
@@ -90,6 +101,7 @@ export function useCustomerRoomBookingCard({
     customerSignatureDataUrl,
     acceptedTermsTitle,
     acceptedTermsContent,
+    taxPostalCode,
   }: CustomerReservationConfirmationPayload) => {
     if (
       !isBookable ||
@@ -100,17 +112,26 @@ export function useCustomerRoomBookingCard({
       return
     }
 
-    const contractWindow = window.open('about:blank', '_blank')
-    if (contractWindow) {
-      contractWindow.opener = null
-    }
-
     try {
       const confirmedReservation = await createReservation({
         hotelId,
         roomId,
         hotelName: reservation.hotelName,
+        hotelLogo: hotel?.logo ?? hotel?.branding.logo,
+        hotelPrimaryColor: hotel?.branding.colors.primary,
+        hotelSecondaryColor: hotel?.branding.colors.secondary,
+        hotelCountry: hotel?.country,
+        hotelCity: hotel?.city,
+        hotelAddress: hotel?.address,
+        hotelZip: hotel?.hotelZip ?? taxPostalCode,
         roomNumber: reservation.roomNumber,
+        roomType: roomType.label,
+        customerName:
+          user?.name ??
+          [user?.firstName, user?.lastName].filter(Boolean).join(' ') ??
+          'Guest customer',
+        customerEmail: user?.email ?? 'guest@example.com',
+        paymentMethod: 'Online payment',
         checkIn: reservation.checkIn,
         checkOut: reservation.checkOut,
         guests: reservation.guests,
@@ -121,7 +142,7 @@ export function useCustomerRoomBookingCard({
         customerSignatureDataUrl,
       })
 
-      const reservationContract = buildReservationContract({
+      const contract = buildReservationContract({
         reservation: confirmedReservation,
         hotel,
         user,
@@ -132,12 +153,57 @@ export function useCustomerRoomBookingCard({
         termsContent: acceptedTermsContent,
       })
 
-      await openReservationContractPdf(reservationContract, contractWindow)
+      setCreatedDocuments({
+        contract,
+        invoice: confirmedReservation.invoice ?? null,
+      })
       setConfirmOpen(false)
       showFeedback('success', 'Reservation created successfully.')
     } catch (error) {
-      contractWindow?.close()
       showFeedback('error', getErrorMessage(error, 'Failed to create reservation.'))
+    }
+  }
+
+  const handleOpenContract = async () => {
+    if (!createdDocuments) {
+      return
+    }
+
+    const targetWindow = window.open('about:blank', '_blank')
+    if (targetWindow) {
+      targetWindow.opener = null
+    }
+
+    try {
+      setOpeningContract(true)
+      await openReservationContractPdf(createdDocuments.contract, targetWindow)
+    } catch (error) {
+      targetWindow?.close()
+      showFeedback('error', getErrorMessage(error, 'Failed to open reservation contract.'))
+    } finally {
+      setOpeningContract(false)
+    }
+  }
+
+  const handleOpenInvoice = async () => {
+    if (!createdDocuments?.invoice) {
+      showFeedback('error', 'No invoice is available for this reservation.')
+      return
+    }
+
+    const targetWindow = window.open('about:blank', '_blank')
+    if (targetWindow) {
+      targetWindow.opener = null
+    }
+
+    try {
+      setOpeningInvoice(true)
+      await openCustomerInvoicePdf(createdDocuments.invoice, targetWindow)
+    } catch (error) {
+      targetWindow?.close()
+      showFeedback('error', getErrorMessage(error, 'Failed to open invoice.'))
+    } finally {
+      setOpeningInvoice(false)
     }
   }
 
@@ -152,6 +218,9 @@ export function useCustomerRoomBookingCard({
     draftAvailabilityConflict,
     feedback,
     confirmOpen,
+    createdDocuments,
+    openingContract,
+    openingInvoice,
     reservationSummary: {
       checkIn: currentReservation?.checkIn ?? reservation.checkIn,
       checkOut: currentReservation?.checkOut ?? reservation.checkOut,
@@ -167,7 +236,10 @@ export function useCustomerRoomBookingCard({
       !isBookable || !isReservationReady || draftAvailabilityConflict != null || isBusy,
     openConfirm: () => setConfirmOpen(true),
     closeConfirm: () => setConfirmOpen(false),
+    closeCreatedDocuments: () => setCreatedDocuments(null),
     closeFeedback,
     handleConfirmReservation,
+    handleOpenContract,
+    handleOpenInvoice,
   }
 }
