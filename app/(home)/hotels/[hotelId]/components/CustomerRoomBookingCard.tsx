@@ -10,6 +10,7 @@ import Icon from '@/components/icon/Icon'
 import type { ReservationDetails } from '../types/customerReservationConfirmation'
 import { useCustomerRoomBookingCard } from '../hooks/useCustomerRoomBookingCard'
 import { CustomerReservationConfirmationModal } from './CustomerReservationConfirmationModal'
+import { ReservationCreatedDialog } from './ReservationCreatedDialog'
 import { formatBookingDate, formatCurrency } from '../utils/roomBooking'
 
 interface CustomerRoomBookingCardProps {
@@ -43,6 +44,9 @@ export function CustomerRoomBookingCard({
     draftAvailabilityConflict,
     feedback,
     confirmOpen,
+    createdDocuments,
+    openingContract,
+    openingInvoice,
     reservationSummary,
     checkInMinDate,
     checkOutMinDate,
@@ -50,8 +54,11 @@ export function CustomerRoomBookingCard({
     isReserveDisabled,
     openConfirm,
     closeConfirm,
+    closeCreatedDocuments,
     closeFeedback,
     handleConfirmReservation,
+    handleOpenContract,
+    handleOpenInvoice,
   } = useCustomerRoomBookingCard({
     hotelId,
     roomId,
@@ -196,6 +203,7 @@ export function CustomerRoomBookingCard({
         <CustomerReservationConfirmationModal
           open={confirmOpen}
           hotelId={hotelId}
+          hotel={hotel}
           room={room}
           reservation={reservation}
           confirming={isBusy}
@@ -203,6 +211,15 @@ export function CustomerRoomBookingCard({
           onConfirm={handleConfirmReservation}
         />
       ) : null}
+
+      <ReservationCreatedDialog
+        open={createdDocuments != null}
+        openingContract={openingContract}
+        openingInvoice={openingInvoice}
+        onClose={closeCreatedDocuments}
+        onOpenContract={handleOpenContract}
+        onOpenInvoice={handleOpenInvoice}
+      />
 
       <Snackbar
         open={feedback.open}

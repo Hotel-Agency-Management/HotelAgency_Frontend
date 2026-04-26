@@ -15,6 +15,7 @@ import {
 } from '@mui/material'
 import { ArrowLeft, ArrowRight, CheckCircle2 } from 'lucide-react'
 import type { RoomProfile } from '@/app/(home)/agency/hotels/[hotelId]/rooms/components/profile/types'
+import type { CustomerHotel } from '@/app/(home)/hotels/types/customerHotel'
 import { BOOKING_CONFIRMATION_STEP_IDS } from '../constants/customerReservationConfirmation'
 import { useCustomerReservationConfirmationModal } from '../hooks/useCustomerReservationConfirmationModal'
 import type {
@@ -26,6 +27,7 @@ import { ConfirmationStepContent } from './customerReservationConfirmation/Confi
 interface CustomerReservationConfirmationModalProps {
   open: boolean
   hotelId: string
+  hotel: CustomerHotel | null
   room: Pick<RoomProfile, 'type' | 'capacity' | 'pricePerNight'>
   reservation: ReservationDetails
   confirming?: boolean
@@ -36,6 +38,7 @@ interface CustomerReservationConfirmationModalProps {
 export function CustomerReservationConfirmationModal({
   open,
   hotelId,
+  hotel,
   room,
   reservation,
   confirming = false,
@@ -45,6 +48,7 @@ export function CustomerReservationConfirmationModal({
   const modalState = useCustomerReservationConfirmationModal({
     open,
     hotelId,
+    hotel,
     room,
     reservation,
     onConfirm,
