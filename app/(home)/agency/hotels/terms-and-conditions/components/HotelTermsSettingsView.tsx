@@ -124,7 +124,7 @@ export function HotelTermsSettingsView({
         <Alert severity="error">
           You do not have permission to manage Terms & Conditions for this hotel.
         </Alert>
-      // </Can>
+      </Can>
     </>
   );
 }
