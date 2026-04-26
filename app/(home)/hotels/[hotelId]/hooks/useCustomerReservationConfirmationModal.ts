@@ -4,8 +4,10 @@ import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ROOM_TYPES } from '@/app/(home)/room-types/constants/roomTypes'
 import type { RoomProfile } from '@/app/(home)/agency/hotels/[hotelId]/rooms/components/profile/types'
+import type { CustomerHotel } from '@/app/(home)/hotels/types/customerHotel'
 import { HOTEL_TERMS_STATUSES } from '@/app/(home)/agency/hotels/terms-and-conditions/constants/status'
 import { useHotelTerms } from '@/app/(home)/agency/hotels/terms-and-conditions/hooks/useHotelTermsQueries'
+import { useReservationTaxEstimate } from '../invoice/hooks/useReservationTaxEstimate'
 import { createConfirmationStepStrategy } from '../components/customerReservationConfirmation/factory'
 import {
   BOOKING_CONFIRMATION_STEP_IDS,
@@ -28,6 +30,7 @@ import {
 interface UseCustomerReservationConfirmationModalOptions {
   open: boolean
   hotelId: string
+  hotel: CustomerHotel | null
   room: Pick<RoomProfile, 'type' | 'capacity' | 'pricePerNight'>
   reservation: ReservationDetails
   onConfirm: (payload: CustomerReservationConfirmationPayload) => void
@@ -42,6 +45,7 @@ const getStepIndexById = (stepId: BookingConfirmationStepId) =>
 export function useCustomerReservationConfirmationModal({
   open,
   hotelId,
+  hotel,
   room,
   reservation,
   onConfirm,
@@ -57,11 +61,30 @@ export function useCustomerReservationConfirmationModal({
   const currentStep = BOOKING_CONFIRMATION_STEPS[activeStep] ?? BOOKING_CONFIRMATION_STEPS[0]
   const stayLength = getStayLength(reservation.checkIn, reservation.checkOut)
   const totalPrice = getTotalReservationPrice(room.pricePerNight, stayLength, reservation.rooms)
+  const {
+    taxAmount,
+    taxLoading,
+    taxPostalCode,
+    taxRequiresPostalCode,
+    setTaxPostalCode,
+    resolvedTaxPostalCode,
+  } = useReservationTaxEstimate({
+    open,
+    hotel,
+    subtotal: totalPrice ?? 0,
+  })
+  const estimatedTotal = (totalPrice ?? 0) + (taxAmount ?? 0)
   const activeTerms = hotelTerms?.status === HOTEL_TERMS_STATUSES.ACTIVE ? hotelTerms : null
 
   const termsContent = activeTerms?.content ?? FALLBACK_TERMS_CONTENT
   const termsTitle = activeTerms?.title ?? 'Hotel Reservation Terms'
   const totalPriceLabel = formatCurrency(totalPrice, i18n.language, reservation.currency)
+  const taxAmountLabel = taxLoading
+    ? 'Calculating...'
+    : taxAmount == null
+      ? 'Tax unavailable'
+      : formatCurrency(taxAmount, i18n.language, reservation.currency)
+  const estimatedTotalLabel = formatCurrency(estimatedTotal, i18n.language, reservation.currency)
   const pricePerNightLabel = formatCurrency(room.pricePerNight, i18n.language, reservation.currency)
   const stayLengthLabel = stayLength > 0 ? `${stayLength} night${stayLength > 1 ? 's' : ''}` : '-'
 
@@ -150,6 +173,7 @@ export function useCustomerReservationConfirmationModal({
       customerSignatureDataUrl: signatureDataUrl,
       acceptedTermsTitle: termsTitle,
       acceptedTermsContent: termsContent,
+      taxPostalCode: resolvedTaxPostalCode,
     })
   }
 
@@ -182,6 +206,11 @@ export function useCustomerReservationConfirmationModal({
     termsContent,
     termsLoading,
     termsTitle,
+    taxAmountLabel,
+    taxPostalCode,
+    taxRequiresPostalCode,
+    setTaxPostalCode,
+    estimatedTotalLabel,
     totalPriceLabel,
   }
 }

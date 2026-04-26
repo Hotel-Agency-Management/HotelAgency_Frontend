@@ -50,6 +50,7 @@ export const mapCustomerHotelApiResponse = (hotel: CustomerHotelApiResponse): Cu
     phone: hotel.phone ?? undefined,
     country: hotel.country,
     city: hotel.city,
+    hotelZip: hotel.hotelZip ?? hotel.postalCode ?? hotel.zip ?? undefined,
     address: hotel.address,
     currency: hotel.currency,
     coverImage: buildAssetUrl(hotel.coverImage ?? hotel.coverPath),
