@@ -13,6 +13,7 @@ import {
 } from '../types/customerReservation'
 import {
   calculateCancellationFee,
+  calculateReservationExtensionTotal,
   calculateReservationTotal,
   canModifyReservation,
   findAvailabilityConflict,
@@ -43,6 +44,7 @@ let mockReservations: CustomerReservation[] = [
     rooms: 1,
     currency: 'USD',
     nightlyRate: 110,
+    extendPrice: 200,
   }),
   buildSeedReservation({
     id: 'seed-2',
@@ -56,6 +58,7 @@ let mockReservations: CustomerReservation[] = [
     rooms: 1,
     currency: 'GBP',
     nightlyRate: 95,
+    extendPrice: 105,
   }),
 ]
 
@@ -268,12 +271,13 @@ export const customerReservationsApi = {
     const updatedReservation: CustomerReservation = {
       ...reservation,
       checkOut: input.checkOut,
-      totalPrice: calculateReservationTotal(
-        reservation.nightlyRate,
-        reservation.checkIn,
-        input.checkOut,
-        reservation.rooms
-      ),
+      totalPrice:
+        reservation.totalPrice +
+        calculateReservationExtensionTotal(
+          reservation.extendPrice,
+          reservation.checkOut,
+          input.checkOut
+        ),
       updatedAt: new Date().toISOString(),
     }
 

@@ -12,8 +12,11 @@ export const roomTypeSchema = z.object({
   weeklyPrice: z
     .number({ invalid_type_error: 'Weekly price is required' })
     .min(0, 'Price must be 0 or more'),
-  monthlyPrice: z
+    monthlyPrice: z
     .number({ invalid_type_error: 'Monthly price is required' })
+    .min(0, 'Price must be 0 or more'),
+  extendPrice: z
+    .number({ invalid_type_error: 'Extension price is required' })
     .min(0, 'Price must be 0 or more'),
 })
 
