@@ -13,6 +13,22 @@ export const formatCurrency = (
   }).format(value)
 }
 
+export const formatCardCurrency = (
+  value: number | null | undefined,
+  language: string,
+  currency = 'USD'
+) => {
+  if (value == null) {
+    return '—'
+  }
+
+  return new Intl.NumberFormat(language, {
+    style: 'currency',
+    currency,
+    maximumFractionDigits: Number.isInteger(value) ? 0 : 2,
+  }).format(value)
+}
+
 export const formatBookingDate = (value: string, language: string) => {
   if (!value) {
     return 'To be selected'
