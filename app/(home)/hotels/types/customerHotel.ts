@@ -11,6 +11,7 @@ export interface CustomerHotel {
   hotelZip?: string
   address: string
   currency: string
+  cancellationFeeRate: number
   coverImage: string | null
   logo: string | null
   branding: BrandingSettings
@@ -34,6 +35,7 @@ export interface CustomerHotelApiResponse {
   zip?: string | null
   address: string
   currency: string
+  cancellationFeeRate?: number | null
   logo?: string | null
   logoUrl?: string | null
   coverPath?: string | null

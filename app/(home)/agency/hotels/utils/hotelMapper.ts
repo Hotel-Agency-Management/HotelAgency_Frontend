@@ -1,6 +1,21 @@
 import type { Hotel, HotelApiResponse, HotelFormValues } from '../types/hotel'
 import type { HotelBase } from '../configs/hotelConfig'
 
+const DEFAULT_CANCELLATION_FEE_RATE = 0.4
+
+const clampPercentage = (value: number) => Math.min(Math.max(value, 0), 100)
+
+const rateToPercentage = (rate?: number | null) => {
+  if (rate == null || !Number.isFinite(rate)) {
+    return DEFAULT_CANCELLATION_FEE_RATE * 100
+  }
+
+  return clampPercentage(Math.round(rate > 1 ? rate : rate * 100))
+}
+
+const percentageToRate = (percentage: number) =>
+  clampPercentage(Number.isFinite(percentage) ? percentage : 40) / 100
+
 const BLOB_URL = process.env.NEXT_PUBLIC_BLOB_URL?.replace(/\/$/, '')
 const CONTAINER = process.env.NEXT_PUBLIC_BLOB_CONTAINER_PROFILES
 const ABSOLUTE_URL_PATTERN = /^(?:https?:|data:|blob:)/i
@@ -29,6 +44,7 @@ export const mapHotelResponseToFormValues = (
     city: hotel.city,
     address: hotel.address,
     currency: hotel.currency,
+    cancellationFeePercentage: rateToPercentage(hotel.cancellationFeeRate),
     coverImage: buildAssetUrl(hotel.coverPath),
   },
   branding: {
@@ -59,6 +75,7 @@ export const mapHotelFormValuesToHotelBase = (
   city: values.basicInfo.city,
   currency: values.basicInfo.currency,
   phone: values.basicInfo.phone,
+  cancellationFeeRate: percentageToRate(values.basicInfo.cancellationFeePercentage),
   primaryColor: values.branding.colors.primary,
   secondaryColor: values.branding.colors.secondary,
   tertiaryColor: values.branding.colors.tertiary,
