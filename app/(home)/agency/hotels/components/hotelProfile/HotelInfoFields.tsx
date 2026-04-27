@@ -5,7 +5,7 @@ import Grid from "@mui/material/Grid";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 import { MuiTelInput } from "mui-tel-input";
-import { Hotel, MapPin, Phone, Wallet, MapPinned } from "lucide-react";
+import { Hotel, MapPin, Phone, Wallet, MapPinned, ReceiptText } from "lucide-react";
 import { CURRENCIES } from "../../constants/currencies";
 import type { HotelFormValues } from "../../types/hotel";
 import { getCountryNameFromPhoneCountry } from "../../utils/phoneCountry";
@@ -142,6 +142,38 @@ export function HotelInfoFields({
                   </MenuItem>
                 ))}
               </TextField>
+            )}
+          />
+        </FormField>
+      </Grid>
+
+      <Grid size={{ xs: 12, md: 6 }}>
+        <FormField
+          icon={<ReceiptText size={15} />}
+          label="Cancellation Fee"
+          isEditing={isEditing}
+          isLoading={isLoading}
+          value={`${currentValues.basicInfo.cancellationFeePercentage ?? 0}%`}
+        >
+          <Controller
+            name="basicInfo.cancellationFeePercentage"
+            control={control}
+            rules={{
+              required: "Cancellation fee percentage is required",
+              min: { value: 0, message: "Percentage cannot be less than 0" },
+              max: { value: 100, message: "Percentage cannot exceed 100" },
+            }}
+            render={({ field, fieldState }) => (
+              <TextField
+                {...field}
+                fullWidth
+                size="small"
+                type="number"
+                inputProps={{ min: 0, max: 100, step: 1 }}
+                error={!!fieldState.error}
+                helperText={fieldState.error?.message}
+                onChange={event => field.onChange(Number(event.target.value))}
+              />
             )}
           />
         </FormField>

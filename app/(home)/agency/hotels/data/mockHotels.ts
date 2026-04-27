@@ -11,6 +11,7 @@ export const MOCK_HOTELS: Hotel[] = [
       city: "New York",
       address: "123 Fifth Avenue, Manhattan",
       currency: "USD",
+      cancellationFeePercentage: 35,
       coverImage: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800",
     },
     branding: {
@@ -30,6 +31,7 @@ export const MOCK_HOTELS: Hotel[] = [
       city: "London",
       address: "45 Harbour Road, Chelsea",
       currency: "GBP",
+      cancellationFeePercentage: 25,
       coverImage: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800",
     },
     branding: {
@@ -48,6 +50,7 @@ export const MOCK_HOTELS: Hotel[] = [
       city: "Dubai",
       address: "Sheikh Zayed Road, Downtown",
       currency: "AED",
+      cancellationFeePercentage: 50,
       coverImage: "https://images.unsplash.com/photo-1582719508461-905c673771fd?w=800",
     },
     branding: {
