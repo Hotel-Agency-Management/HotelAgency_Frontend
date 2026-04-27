@@ -173,6 +173,15 @@ export const createReservationContractStyles = (theme: ReservationContractTheme)
       objectFit: 'contain',
       marginBottom: 3,
     },
+    signaturePlaceholder: {
+      width: 145,
+      height: 30,
+      marginBottom: 3,
+      alignItems: 'center',
+      justifyContent: 'center',
+      color: theme.text.secondary,
+      fontSize: 6.3,
+    },
     signatureLine: {
       width: 170,
       borderBottom: `1 solid ${theme.border.strong}`,

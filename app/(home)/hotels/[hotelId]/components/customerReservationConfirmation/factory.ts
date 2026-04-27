@@ -4,6 +4,7 @@ import {
 } from '../../constants/customerReservationConfirmation'
 import type { ConfirmationStepStrategy } from './types'
 import { createBookingDetailsStepStrategy } from './strategies/bookingDetailsStrategy'
+import { createContractPreviewStepStrategy } from './strategies/contractPreviewStrategy'
 import { createReviewConfirmStepStrategy } from './strategies/reviewConfirmStrategy'
 import { createSignatureStepStrategy } from './strategies/signatureStrategy'
 import { createTermsStepStrategy } from './strategies/termsStrategy'
@@ -17,6 +18,9 @@ export const createConfirmationStepStrategy = (
 
     case BOOKING_CONFIRMATION_STEP_IDS.TERMS:
       return createTermsStepStrategy()
+
+    case BOOKING_CONFIRMATION_STEP_IDS.CONTRACT_PREVIEW:
+      return createContractPreviewStepStrategy()
 
     case BOOKING_CONFIRMATION_STEP_IDS.SIGNATURE:
       return createSignatureStepStrategy()
