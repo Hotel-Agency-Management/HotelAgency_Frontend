@@ -21,6 +21,8 @@ export type Subjects =
   | 'HotelInformation'
   | 'HotelManagement'
   | 'HotelInformation'
+  | 'HotelTerms'
+  | 'AllHotels'
   | 'Rooms'
   | 'RoomAmenities'
   | 'RoomTypes'
@@ -32,6 +34,7 @@ export type Subjects =
   | 'Insurance'
   | 'Finance'
   | 'Bookings'
+  | 'Reservations'
   | 'all'
 
 /**

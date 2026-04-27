@@ -1,4 +1,5 @@
 import type { SidebarNavItems } from '@/core/layouts/types'
+import { AGENCY_TERMS_ROUTE } from '@/app/(home)/agency/hotels/terms-and-conditions/utils/routes'
 
 const navigation = (hotelId?: string): SidebarNavItems => {
   const items: SidebarNavItems = [
@@ -10,7 +11,7 @@ const navigation = (hotelId?: string): SidebarNavItems => {
           title: 'Explore Hotels',
           path: '/hotels',
           icon: 'lucide:map',
-          subject: 'Hotels',
+          subject: 'AllHotels',
           action: 'read'
         },
         {
@@ -93,6 +94,13 @@ const navigation = (hotelId?: string): SidebarNavItems => {
           subject: 'Hotels',
           action: 'manage'
         },
+        {
+          title: 'Terms & Conditions',
+          path: AGENCY_TERMS_ROUTE,
+          icon: 'lucide:file-text',
+          subject: 'Hotels',
+          action: 'manage'
+        },
       ]
     },
     {
@@ -135,6 +143,13 @@ const navigation = (hotelId?: string): SidebarNavItems => {
           title: 'Hotel Settings',
           path: `/agency/hotels/${hotelId}/settings`,
           icon: 'lucide:settings-2',
+          subject: 'HotelSettings',
+          action: 'manage'
+        },
+        {
+          title: 'Terms & Conditions',
+          path: `/agency/hotels/${hotelId}/settings/terms-and-conditions`,
+          icon: 'lucide:file-text',
           subject: 'HotelSettings',
           action: 'manage'
         },
@@ -227,8 +242,6 @@ const navigation = (hotelId?: string): SidebarNavItems => {
     {
       sectionTitle: 'Bookings',
       icon: 'lucide:book-open-check',
-      subject: 'Bookings',
-      action: 'manage',
       items: [
         {
           title: 'Booking Overview',
@@ -236,6 +249,13 @@ const navigation = (hotelId?: string): SidebarNavItems => {
           icon: 'lucide:clipboard-list',
           subject: 'Bookings',
           action: 'manage'
+        },
+        {
+          title: 'Create Reservation',
+          path: `/reservations/${hotelId}/create`,
+          icon: 'lucide:clipboard-plus',
+          subject: 'Reservations',
+          action: 'create'
         }
       ]
     }
