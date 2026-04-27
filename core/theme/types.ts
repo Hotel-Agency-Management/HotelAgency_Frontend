@@ -95,6 +95,7 @@ declare module '@mui/material/Paper' {
     customerReservationConfirmationModal: true
     customerReservationConfirmationPanel: true
     customerReservationTermsContent: true
+    customerReservationContractPreview: true
   }
 }
 declare module '@mui/material/IconButton' {
