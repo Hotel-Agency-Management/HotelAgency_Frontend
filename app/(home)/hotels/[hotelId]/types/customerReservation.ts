@@ -34,6 +34,7 @@ export interface CustomerReservation {
   rooms: number
   currency: string
   nightlyRate: number
+  extendPrice: number
   totalPrice: number
   status: CustomerReservationStatus
   source: CustomerReservationSource
@@ -69,6 +70,7 @@ export interface CreateCustomerReservationInput {
   rooms: number
   currency: string
   nightlyRate: number
+  extendPrice: number
   termsAccepted: boolean
   customerSignatureDataUrl: string
 }
@@ -82,6 +84,7 @@ export interface UpdateCustomerReservationInput {
   guests: number
   rooms: number
   nightlyRate: number
+  extendPrice: number
 }
 
 export interface ExtendCustomerReservationInput {

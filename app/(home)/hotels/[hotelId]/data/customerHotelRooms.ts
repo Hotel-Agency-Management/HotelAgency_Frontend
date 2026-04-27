@@ -33,6 +33,10 @@ export const getCustomerHotelRooms = async (hotelId: string): Promise<Room[]> =>
       room.pricePerNight == null
         ? undefined
         : Math.round((room.pricePerNight * profile.priceMultiplier + index * 12) / 5) * 5,
+    extendPrice:
+      room.extendPrice == null
+        ? undefined
+        : Math.round((room.extendPrice * profile.priceMultiplier + index * 12) / 5) * 5,
   }))
 }
 

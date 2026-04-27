@@ -43,7 +43,7 @@ interface CustomerReservationManagementSectionProps {
   hotelId: string
   roomId: string
   hotel: CustomerHotel | null
-  room: Pick<RoomProfile, 'type' | 'capacity' | 'pricePerNight'>
+  room: Pick<RoomProfile, 'type' | 'capacity' | 'pricePerNight' | 'extendPrice'>
 }
 
 export function CustomerReservationManagementSection({
@@ -80,6 +80,7 @@ export function CustomerReservationManagementSection({
       ? getStayLength(currentReservation.checkIn, currentReservation.checkOut)
       : 0
   const nightlyRate = currentReservation?.nightlyRate ?? room.pricePerNight ?? 0
+  const extendPrice = currentReservation?.extendPrice ?? room.extendPrice ?? nightlyRate
 
   const formatReservationTimestamp = (value: string) =>
     new Intl.DateTimeFormat(i18n.language, {
@@ -157,6 +158,7 @@ export function CustomerReservationManagementSection({
     label: `${hotelRoom.roomNumber} • ${roomTypeNameById.get(hotelRoom.roomTypeId) ?? 'Room'}`,
     capacity: hotelRoom.capacity,
     nightlyRate: hotelRoom.pricePerNight ?? 0,
+    extendPrice: hotelRoom.extendPrice ?? hotelRoom.pricePerNight ?? 0,
     disabled:
       hotelRoom.id !== currentReservation.roomId &&
       (hotelRoom.status === ROOM_STATUS.MAINTENANCE || hotelRoom.status === ROOM_STATUS.BLOCKED),
@@ -354,9 +356,7 @@ export function CustomerReservationManagementSection({
       <ExtendReservationDialog
         open={extend.extendOpen}
         currentCheckOut={currentReservation.checkOut}
-        currentCheckIn={currentReservation.checkIn}
-        currentRooms={currentReservation.rooms}
-        nightlyRate={nightlyRate}
+        extendPrice={extendPrice}
         language={i18n.language}
         currency={currentReservation.currency}
         extendCheckOut={extend.extendCheckOut}
