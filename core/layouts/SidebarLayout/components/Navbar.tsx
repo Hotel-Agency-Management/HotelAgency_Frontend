@@ -1,28 +1,43 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { alpha, Box, IconButton, Menu, MenuItem, Tooltip, useMediaQuery, useTheme } from '@mui/material'
-import { Languages, Menu as MenuIcon } from 'lucide-react'
-import ThemeToggle from '@/components/common/ThemeToggle'
+import { useState, useEffect, useMemo } from 'react'
+import { useRouter } from 'next/navigation'
+import { Box, useMediaQuery, useTheme } from '@mui/material'
+import { Menu as MenuIcon } from 'lucide-react'
 import useLanguage from '@/core/hooks/useLanguage'
-import type { Locale } from '@/core/configs/i18n'
 import { useSidebar } from '../SidebarContext'
 import { SIDEBAR_WIDTH, SIDEBAR_COLLAPSED_WIDTH } from '../Sidebar'
+import { SidebarUtils } from '../utils/SidebarUtils'
+import { useAbility } from '@/core/hooks/useAbility'
+import { useActiveRoute } from '../ActiveRouteContext'
+import { useActiveBranding } from '@/core/hooks/useActiveBranding'
+import { NavbarActions } from './NavbarActions'
+import { NavbarBrand } from './NavbarBrand'
+import type { NavbarProps } from './Navbar.types'
+import { NavbarRoot, SidebarMobileMenuButton } from './Navbar.styles'
+import { TopNavbarContent } from './TopNavbarContent'
+import { TopNavbarMobileMenu } from './TopNavbarMobileMenu'
 
-export const NAVBAR_HEIGHT = 52
+export const NAVBAR_HEIGHT = 60
 
-interface NavbarProps {
-  appBarRight?: React.ReactNode
-}
-
-export default function Navbar({ appBarRight }: NavbarProps) {
+export default function Navbar({ appBarRight, appName = 'Shortcut Next', logo, navItems = [], variant = 'sidebar' }: NavbarProps) {
   const theme = useTheme()
   const { isCollapsed, toggleMobileOpen } = useSidebar()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   const { language, handleLanguageChange } = useLanguage()
   const isRtl = language === 'ar'
+  const router = useRouter()
+  const ability = useAbility()
+  const activePath = useActiveRoute()
+  const activeBranding = useActiveBranding()
   const [scrolled, setScrolled] = useState(false)
   const [langAnchor, setLangAnchor] = useState<null | HTMLElement>(null)
+  const [navAnchor, setNavAnchor] = useState<null | HTMLElement>(null)
+
+  const navLinks = useMemo(() => SidebarUtils.flattenPermittedNavItems(navItems, ability), [ability, navItems])
+  const isTopNav = variant === 'top-nav'
+  const customLogo = activeBranding.logo
+  const showUploadedLogo = !logo && Boolean(customLogo)
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 8)
@@ -30,11 +45,39 @@ export default function Navbar({ appBarRight }: NavbarProps) {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const sidebarOffset = isMobile ? 0 : isCollapsed ? SIDEBAR_COLLAPSED_WIDTH : SIDEBAR_WIDTH
+  const sidebarOffset = isTopNav || isMobile ? 0 : isCollapsed ? SIDEBAR_COLLAPSED_WIDTH : SIDEBAR_WIDTH
+
+  const handleNavigate = (path: string) => {
+    setNavAnchor(null)
+    router.push(path)
+  }
+
+  const brand = (
+    <NavbarBrand
+      appName={appName}
+      customLogo={customLogo}
+      logo={logo}
+      showUploadedLogo={showUploadedLogo}
+      onClick={() => router.push('/')}
+    />
+  )
+
+  const rightActions = (
+    <NavbarActions
+      appBarRight={appBarRight}
+      isTopNav={isTopNav}
+      language={language}
+      langAnchor={langAnchor}
+      onLanguageMenuOpen={setLangAnchor}
+      onLanguageMenuClose={() => setLangAnchor(null)}
+      onLanguageChange={handleLanguageChange}
+    />
+  )
 
   return (
-    <Box
-      component='header'
+    <NavbarRoot
+      scrolled={scrolled}
+      topNav={isTopNav}
       // left/right use style (not sx) to bypass MUI's RTL auto-swap,
       // matching the same pattern used in Sidebar.tsx's Framer Motion style prop.
       style={{
@@ -48,78 +91,37 @@ export default function Navbar({ appBarRight }: NavbarProps) {
           'border-color 0.25s ease'
         ].join(', ')
       }}
-      sx={{
-        position: 'fixed',
-        top: 0,
-        height: NAVBAR_HEIGHT,
-        zIndex: theme.zIndex.appBar,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        // Force LTR internally so icons always sit at the physical right edge
-        // regardless of document direction (mirrors sidebar-on-right in RTL).
-        direction: 'ltr',
-        px: 2,
-        backdropFilter: scrolled ? 'blur(12px)' : 'none',
-        WebkitBackdropFilter: scrolled ? 'blur(12px)' : 'none',
-        bgcolor: scrolled ? alpha(theme.palette.background.paper, 0.75) : 'transparent',
-        borderBottom: '1px solid',
-        borderColor: scrolled ? 'divider' : 'transparent'
-      }}
     >
-      {/* Left — hamburger on mobile, empty spacer on desktop */}
-      {isMobile ? (
-        <IconButton onClick={toggleMobileOpen} size='small' sx={{ color: 'text.secondary' }}>
+      {isTopNav ? (
+        <>
+          <TopNavbarContent
+            activePath={activePath}
+            brand={brand}
+            isMobile={isMobile}
+            navLinks={navLinks}
+            rightActions={rightActions}
+            scrolled={scrolled}
+            onMobileMenuOpen={setNavAnchor}
+            onNavigate={handleNavigate}
+          />
+
+          <TopNavbarMobileMenu
+            activePath={activePath}
+            anchorEl={navAnchor}
+            navLinks={navLinks}
+            onClose={() => setNavAnchor(null)}
+            onNavigate={handleNavigate}
+          />
+        </>
+      ) : isMobile ? (
+        <SidebarMobileMenuButton onClick={toggleMobileOpen} size='small'>
           <MenuIcon size={18} />
-        </IconButton>
+        </SidebarMobileMenuButton>
       ) : (
         <Box />
       )}
 
-      {/* Right — custom slot + theme toggle + language picker */}
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-        {appBarRight}
-
-        <ThemeToggle />
-
-        <Tooltip title='Language'>
-          <IconButton
-            size='small'
-            onClick={e => setLangAnchor(e.currentTarget)}
-            sx={{ color: 'text.secondary', '&:hover': { color: 'text.primary', bgcolor: 'action.hover' } }}
-          >
-            <Languages size={18} />
-          </IconButton>
-        </Tooltip>
-
-        <Menu
-          anchorEl={langAnchor}
-          open={Boolean(langAnchor)}
-          onClose={() => setLangAnchor(null)}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-          transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-          slotProps={{ paper: { elevation: 3, sx: { minWidth: 130, mt: 0.5, borderRadius: 2 } } }}
-        >
-          <MenuItem
-            selected={language === 'en'}
-            onClick={() => {
-              handleLanguageChange('en' as Locale)
-              setLangAnchor(null)
-            }}
-          >
-            English
-          </MenuItem>
-          <MenuItem
-            selected={language === 'ar'}
-            onClick={() => {
-              handleLanguageChange('ar' as Locale)
-              setLangAnchor(null)
-            }}
-          >
-            العربية
-          </MenuItem>
-        </Menu>
-      </Box>
-    </Box>
+      {!isTopNav && rightActions}
+    </NavbarRoot>
   )
 }
