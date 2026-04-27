@@ -24,9 +24,11 @@ import { useReservationFeedback } from '../hooks/useReservationFeedback'
 import {
   calculateCancellationFee,
   canModifyReservation,
+  formatPolicyPercentage,
   getFreeCancellationDeadline,
   getReservationEditDeadline,
   isFreeCancellationEligible,
+  RESERVATION_POLICY,
 } from '../utils/customerReservationPolicy'
 import { buildReservationContract } from '../utils/buildReservationContract'
 import { formatBookingDate, formatCurrency, getStayLength } from '../utils/roomBooking'
@@ -148,6 +150,15 @@ export function CustomerReservationManagementSection({
   )
   const cancellationFeeLabel = formatCurrencyValue(
     currentReservationCancellationFee,
+    currentReservation.currency
+  )
+  const cancellationFeeRateLabel = formatPolicyPercentage(RESERVATION_POLICY.cancellationFeeRate)
+  const reservationTotalLabel = formatCurrencyValue(
+    currentReservation.totalPrice,
+    currentReservation.currency
+  )
+  const refundAmountLabel = formatCurrencyValue(
+    Math.max(currentReservation.totalPrice - currentReservationCancellationFee, 0),
     currentReservation.currency
   )
   const roomTypeNameById = new Map(roomTypes.map(roomType => [String(roomType.id), roomType.name]))
@@ -304,6 +315,7 @@ export function CustomerReservationManagementSection({
                   freeCancellation={currentReservationFreeCancellation}
                   modificationDeadlineLabel={modificationDeadlineLabel}
                   freeCancellationDeadlineLabel={freeCancellationDeadlineLabel}
+                  cancellationFeeRateLabel={cancellationFeeRateLabel}
                   cancellationFeeLabel={cancellationFeeLabel}
                 />
 
@@ -372,7 +384,10 @@ export function CustomerReservationManagementSection({
         open={cancellation.cancelOpen}
         freeCancellation={currentReservationFreeCancellation}
         freeCancellationDeadlineLabel={freeCancellationDeadlineLabel}
+        reservationTotalLabel={reservationTotalLabel}
+        cancellationFeeRateLabel={cancellationFeeRateLabel}
         cancellationFeeLabel={cancellationFeeLabel}
+        refundAmountLabel={refundAmountLabel}
         isBusy={isBusy}
         onClose={cancellation.closeCancel}
         onConfirm={cancellation.confirmCancel}
