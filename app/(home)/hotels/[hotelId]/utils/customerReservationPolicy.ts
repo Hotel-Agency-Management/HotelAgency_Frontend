@@ -20,6 +20,12 @@ export const calculateReservationTotal = (
   rooms: number
 ) => roundCurrency(nightlyRate * getStayLength(checkIn, checkOut) * rooms)
 
+export const calculateReservationExtensionTotal = (
+  extendPrice: number,
+  currentCheckOut: string,
+  newCheckOut: string
+) => roundCurrency(extendPrice * getStayLength(currentCheckOut, newCheckOut))
+
 export const isValidReservationRange = (checkIn: string, checkOut: string) =>
   dayjs(checkIn).isValid() && dayjs(checkOut).isValid() && dayjs(checkOut).isAfter(dayjs(checkIn), 'day')
 
