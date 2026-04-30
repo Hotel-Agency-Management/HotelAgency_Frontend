@@ -8,7 +8,7 @@ export const getRoomGridColumns = (
   onDelete: (id: string) => void,
   roomTypes: RoomType[]
 ): GridColDef[] => {
-  const typeNameById = new Map(roomTypes.map((rt) => [rt.id, rt.name]));
+  const typeNameById = new Map(roomTypes.map((rt) => [String(rt.id), rt.name]));
 
   return [
   { field: "roomNumber", headerName: "Room #", flex: 0.8, minWidth: 80 },

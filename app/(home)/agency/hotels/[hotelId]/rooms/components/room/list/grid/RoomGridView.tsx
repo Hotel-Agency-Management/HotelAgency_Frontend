@@ -26,7 +26,7 @@ export function RoomGridView({
   onRoomClick,
 }: RoomGridViewProps) {
   const { t } = useTranslation();
-  const typeNameById = new Map(roomTypes.map((rt) => [rt.id, rt.name]));
+  const typeNameById = new Map(roomTypes.map((rt) => [String(rt.id), rt.name]));
 
   if (isLoading) {
     return (

@@ -20,7 +20,7 @@ export const filterCustomerRooms = (
   const query = filters.query.trim().toLowerCase()
   const maxPrice = Number(filters.maxPrice)
   const hasMaxPrice = filters.maxPrice.trim().length > 0 && Number.isFinite(maxPrice)
-  const roomTypeNameById = new Map(roomTypes.map(roomType => [roomType.id, roomType.name.toLowerCase()]))
+  const roomTypeNameById = new Map(roomTypes.map(roomType => [String(roomType.id), roomType.name.toLowerCase()]))
 
   return rooms.filter(room => {
     const roomTypeName = roomTypeNameById.get(room.roomTypeId) ?? ''

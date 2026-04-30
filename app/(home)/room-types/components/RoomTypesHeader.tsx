@@ -1,7 +1,7 @@
-import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import AddIcon from '@mui/icons-material/Add'
+import LoadingButton from '@mui/lab/LoadingButton'
 
 interface RoomTypesHeaderProps {
   count: number
@@ -20,9 +20,9 @@ export function RoomTypesHeader({ count, isLoading, onAdd }: RoomTypesHeaderProp
           {isLoading ? '...' : `${count} type${count !== 1 ? 's' : ''} configured`}
         </Typography>
       </Stack>
-      <Button variant='contained' startIcon={<AddIcon />} onClick={onAdd} size='small'>
+      <LoadingButton variant='contained' startIcon={<AddIcon />} onClick={onAdd} size='small'>
         Add room type
-      </Button>
+      </LoadingButton>
     </Stack>
   )
 }

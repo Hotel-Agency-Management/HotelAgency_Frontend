@@ -6,11 +6,14 @@ import {
   Button,
   Typography,
 } from '@mui/material'
+import LoadingButton from '@mui/lab/LoadingButton'
+import DeleteIcon from '@mui/icons-material/Delete'
 import { RoomType } from '../types/roomType'
 
 interface DeleteRoomTypeDialogProps {
   open: boolean
   roomType?: RoomType | null
+  isLoading?: boolean
   onClose: () => void
   onConfirm: () => void
 }
@@ -18,6 +21,7 @@ interface DeleteRoomTypeDialogProps {
 export function DeleteRoomTypeDialog({
   open,
   roomType,
+  isLoading = false,
   onClose,
   onConfirm,
 }: DeleteRoomTypeDialogProps) {
@@ -26,7 +30,7 @@ export function DeleteRoomTypeDialog({
       <DialogTitle>Delete room type</DialogTitle>
 
       <DialogContent>
-        <Typography variant='body2' color='text.secondary'>
+        <Typography variant='body2'>
           Are you sure you want to delete{' '}
           <Typography component='span' variant='body2' fontWeight={500} color='text.primary'>
             {roomType?.name}
@@ -36,12 +40,19 @@ export function DeleteRoomTypeDialog({
       </DialogContent>
 
       <DialogActions>
-        <Button onClick={onClose} color='inherit'>
+        <Button onClick={onClose} color='inherit' disabled={isLoading}>
           Cancel
         </Button>
-        <Button onClick={onConfirm} variant='contained' color='error'>
+        <LoadingButton
+          onClick={onConfirm}
+          variant='contained'
+          color='error'
+          loading={isLoading}
+          loadingPosition='start'
+          startIcon={<DeleteIcon />}
+        >
           Delete
-        </Button>
+        </LoadingButton>
       </DialogActions>
     </Dialog>
   )

@@ -7,7 +7,7 @@ import { RoomGridView } from "./grid/RoomGridView";
 import { useRooms, useDeleteRoom } from "../../../hooks/useRoomStore";
 import { RoomFilters } from "../../../types/room";
 import { getRoomGridColumns } from "../../../util/roomGridColumns";
-import { useRoomTypes } from "../../../../../../../room-types/hooks/uesRoomType";
+import { useGetRoomTypes } from "../../../../../../../room-types/hooks/queries/roomTypeQueries";
 import { useHotelStore } from "../../../../../hooks/useHotelStore";
 import { useAuth } from "@/core/context/AuthContext";
 
@@ -28,7 +28,7 @@ export const RoomCardsView = ({ onAddRoom, onEditRoom }: Props) => {
 
   const { data: rooms = [], isLoading } = useRooms(filters);
   const { mutate: deleteRoom } = useDeleteRoom();
-  const { data: roomTypes = [] } = useRoomTypes();
+  const { data: roomTypes = [] } = useGetRoomTypes();
 
   const { hotel } = useHotelStore(
     user?.agencyId,
