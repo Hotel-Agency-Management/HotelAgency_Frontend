@@ -1,7 +1,7 @@
 import type { Hotel, HotelApiResponse, HotelFormValues } from '../types/hotel'
 import type { HotelBase } from '../configs/hotelConfig'
-
-const DEFAULT_CANCELLATION_FEE_RATE = 0.4
+import { ABSOLUTE_URL_PATTERN, BLOB_URL, CONTAINER } from '@/core/constant/blob'
+import { DEFAULT_CANCELLATION_FEE_RATE } from '../constants/hotel'
 
 const clampPercentage = (value: number) => Math.min(Math.max(value, 0), 100)
 
@@ -15,10 +15,6 @@ const rateToPercentage = (rate?: number | null) => {
 
 const percentageToRate = (percentage: number) =>
   clampPercentage(Number.isFinite(percentage) ? percentage : 40) / 100
-
-const BLOB_URL = process.env.NEXT_PUBLIC_BLOB_URL?.replace(/\/$/, '')
-const CONTAINER = process.env.NEXT_PUBLIC_BLOB_CONTAINER_PROFILES
-const ABSOLUTE_URL_PATTERN = /^(?:https?:|data:|blob:)/i
 
 const buildAssetUrl = (path?: string | null): string | null => {
   if (!path) return null
