@@ -3,7 +3,7 @@ import { USER_ROLES } from "@/lib/abilities";
 
 export const MOCK_TEAM_MEMBERS: AgencyTeamMember[] = [
   {
-    id: "team_admin_001",
+    id: "1",
     firstName: "Maya",
     lastName: "Bennett",
     email: "maya@brighthorizons.agency",
@@ -11,7 +11,7 @@ export const MOCK_TEAM_MEMBERS: AgencyTeamMember[] = [
     role: USER_ROLES.AGENCY_OWNER,
   },
   {
-    id: "team_manager_001",
+    id: "2",
     firstName: "James",
     lastName: "Anderson",
     email: "j.anderson@grandpalace.com",
@@ -19,7 +19,7 @@ export const MOCK_TEAM_MEMBERS: AgencyTeamMember[] = [
     role: USER_ROLES.PROPERTY_MANAGER,
   },
   {
-    id: "team_manager_002",
+    id: "3",
     firstName: "Sophie",
     lastName: "Williams",
     email: "s.williams@azuresea.co.uk",
@@ -27,7 +27,7 @@ export const MOCK_TEAM_MEMBERS: AgencyTeamMember[] = [
     role: USER_ROLES.PROPERTY_MANAGER,
   },
   {
-    id: "team_manager_003",
+    id: "4",
     firstName: "Omar",
     lastName: "Al-Rashid",
     email: "o.alrashid@desertrose.ae",
@@ -35,7 +35,7 @@ export const MOCK_TEAM_MEMBERS: AgencyTeamMember[] = [
     role: USER_ROLES.PROPERTY_MANAGER,
   },
   {
-    id: "team_agent_001",
+    id: "5",
     firstName: "Nina",
     lastName: "Patel",
     email: "n.patel@brighthorizons.agency",

@@ -5,7 +5,7 @@ import { HotelCardOverlay } from "./HotelCardOverlay";
 import type { HotelCardProps } from "./types";
 import { useRouter } from "next/navigation";
 
-export function HotelCard({ hotel, onEdit, onDelete }: HotelCardProps) {
+export function HotelCard({ hotel, onEdit }: HotelCardProps) {
   const { basicInfo, branding } = hotel;
   const router = useRouter();
 
@@ -21,7 +21,7 @@ export function HotelCard({ hotel, onEdit, onDelete }: HotelCardProps) {
         coverImage={basicInfo.coverImage}
         primaryColor={branding.colors.primary}
       />
-      <HotelCardOverlay hotel={hotel} onEdit={onEdit} onDelete={onDelete} />
+      <HotelCardOverlay hotel={hotel} onEdit={onEdit} />
     </Card>
   );
 }

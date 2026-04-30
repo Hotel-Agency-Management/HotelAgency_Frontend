@@ -14,10 +14,9 @@ import type { HotelCardHotel } from "./types";
 interface HotelCardOverlayProps {
   hotel: HotelCardHotel;
   onEdit?: (id: string) => void;
-  onDelete?: (id: string) => void;
 }
 
-export function HotelCardOverlay({ hotel, onEdit, onDelete }: HotelCardOverlayProps) {
+export function HotelCardOverlay({ hotel, onEdit }: HotelCardOverlayProps) {
   const { getMemberById } = useAgencyTeamStore();
   const { basicInfo, branding, managerId } = hotel;
   const manager = getMemberById(managerId);
@@ -45,7 +44,7 @@ export function HotelCardOverlay({ hotel, onEdit, onDelete }: HotelCardOverlayPr
             </Stack>
           </Stack>
 
-          <HotelCardActions hotelId={hotel.id} onEdit={onEdit} onDelete={onDelete} />
+          <HotelCardActions hotelId={hotel.id} onEdit={onEdit} />
         </Stack>
 
         <Stack spacing={0.4}>

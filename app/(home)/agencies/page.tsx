@@ -25,8 +25,8 @@ export default function AgenciesPage() {
     filteredCount
   } = useAgencies()
 
-  const handleAgencyClick = () => {
-    router.push('/agency/hotels')
+  const handleAgencyClick = (agencyId: number) => {
+    router.push(`/agencies/${agencyId}/hotels`)
   }
 
   return (

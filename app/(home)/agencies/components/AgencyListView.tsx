@@ -6,7 +6,7 @@ import { columns } from '../constants/agencyColumns'
 
 interface Props {
   agencies: Agency[]
-  onAgencyClick: (agencyName: string) => void
+  onAgencyClick: (id: number) => void
 }
 
 export default function AgencyListView({ agencies, onAgencyClick }: Props) {
@@ -15,7 +15,7 @@ export default function AgencyListView({ agencies, onAgencyClick }: Props) {
       <DataGrid
         rows={agencies}
         columns={columns()}
-        onRowClick={({ row }: GridRowParams<Agency>) => onAgencyClick(row.agency_name)}
+        onRowClick={({ row }: GridRowParams<Agency>) => onAgencyClick(row.id)}
         pageSizeOptions={[10, 25, 50]}
         initialState={{
           pagination: { paginationModel: { pageSize: 10 } }

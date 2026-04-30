@@ -84,8 +84,8 @@ const navigation = (hotelId?: string): SidebarNavItems => {
     {
       sectionTitle: 'Hotels',
       icon: 'lucide:hotel',
-      subject: 'Hotels',
-      action: 'read',
+      subject: 'AgencySettings',
+      action: 'manage',
       items: [
         {
           title: 'Hotels',
