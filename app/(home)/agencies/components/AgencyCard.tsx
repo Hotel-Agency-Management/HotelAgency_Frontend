@@ -7,14 +7,14 @@ import { PLAN_NAMES } from '../constants/agencyConstants'
 
 interface Props {
   agency: Agency
-  onClick: (agencyName: string) => void
+  onClick: (id: number) => void
 }
 
 export default function AgencyCard({ agency, onClick }: Props) {
   return (
     <Card variant='outlined'>
-      <CardActionArea onClick={() => onClick(agency.agency_name)} sx={{ borderRadius: 'inherit', overflow: 'visible' }}>
-        <Stack gap={2} sx={{ p: 2 }}>
+      <CardActionArea onClick={() => onClick(agency.id)} sx={{ borderRadius: 'inherit', overflow: 'visible' }}>
+        <Stack gap={2}>
 
           <Stack direction='row' alignItems='flex-start' justifyContent='space-between' gap={1}>
             <Stack direction='row' alignItems='center' gap={1.5} sx={{ minWidth: 0 }}>

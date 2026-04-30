@@ -8,5 +8,4 @@ export interface HotelCardHotel extends HotelFormValues {
 export interface HotelCardProps {
   hotel: HotelCardHotel;
   onEdit?: (id: string) => void;
-  onDelete?: (id: string) => void;
 }

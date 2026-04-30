@@ -5,7 +5,7 @@ import { StaggerGroup, StaggerItem } from '@/components/animation/StaggerGroup'
 
 interface Props {
   agencies: Agency[]
-  onAgencyClick: (agencyName: string) => void
+  onAgencyClick: (id: number) => void
 }
 
 export default function AgencyGridView({ agencies, onAgencyClick }: Props) {

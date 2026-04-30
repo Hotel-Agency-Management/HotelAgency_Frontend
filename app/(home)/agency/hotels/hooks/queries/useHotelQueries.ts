@@ -12,7 +12,7 @@ export const hotelQueryKeys = {
 export const useGetHotels = (agencyId?: number) => {
   return useQuery<HotelResponse[], unknown, Hotel[]>({
     queryKey: hotelQueryKeys.list(agencyId),
-    queryFn: () => getHotels(agencyId as number),
+    queryFn: () => getHotels(),
     enabled: Number.isFinite(agencyId),
     select: hotels => hotels.map(mapHotelResponseToHotel)
   })
@@ -24,7 +24,7 @@ export const useGetHotelById = (
 ) => {
   return useQuery<HotelResponse, unknown, Hotel>({
     queryKey: hotelQueryKeys.detail(agencyId, hotelId),
-    queryFn: () => getHotelById(agencyId as number, hotelId as number),
+    queryFn: () => getHotelById(hotelId as number),
     enabled: Number.isFinite(agencyId) && Number.isFinite(hotelId),
     select: mapHotelResponseToHotel
   })
