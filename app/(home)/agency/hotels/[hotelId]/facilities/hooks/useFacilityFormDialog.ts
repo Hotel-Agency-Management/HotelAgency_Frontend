@@ -8,7 +8,8 @@ import {
   useCreateFacility,
   useUpdateFacility,
 } from "./mutations/facilityMutations";
-import { toNumericId, useFacilityScope } from "./useFacilityScope";
+import { useFacilityScope } from "./useFacilityScope";
+import { toNumericId } from "../utils/numericId";
 
 interface Args {
   open: boolean;

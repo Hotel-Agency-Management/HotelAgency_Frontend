@@ -9,7 +9,8 @@ import {
   mapFacilityPhoto,
   normalizeFacilityPhotos,
 } from "../utils/facilityAdapters";
-import { toNumericId, useFacilityScope } from "./useFacilityScope";
+import { useFacilityScope } from "./useFacilityScope";
+import { toNumericId } from "../utils/numericId";
 
 export function useFacilityPhotos(
   facilityId: string,

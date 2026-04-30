@@ -2,13 +2,14 @@ import { useMemo, useState } from "react";
 import Stack from "@mui/material/Stack";
 import { DataGrid } from "@mui/x-data-grid";
 import { useDeleteFacility } from "../../hooks/mutations/facilityMutations";
-import { toNumericId, useFacilityScope } from "../../hooks/useFacilityScope";
+import { useFacilityScope } from "../../hooks/useFacilityScope";
 import { useFacilities } from "../../hooks/useFacilityStore";
 import type { FacilityFilters, HotelFacility } from "../../types/facility";
 import { getFacilityGridColumns } from "../../utils/facilityGridColumns";
 import { DeleteFacilityDialog } from "./DeleteFacilityDialog";
 import { FacilitiesToolbar } from "./FacilitiesToolbar";
 import { FacilityGridView } from "./grid/FacilityGridView";
+import { toNumericId } from "../../utils/numericId";
 
 interface Props {
   hotelId: string;
