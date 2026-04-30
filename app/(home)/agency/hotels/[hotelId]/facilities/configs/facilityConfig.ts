@@ -20,8 +20,18 @@ export interface FacilityResponse {
   updatedAt: string
 }
 
+export type FacilityEndpointScope =
+  | {
+      type: "hotel"
+      hotelId?: number
+    }
+  | {
+      type: "admin"
+      agencyId: number
+      hotelId?: number
+    }
+
 type FacilityVariables = {
-  agencyId: number
   hotelId: number
 }
 
@@ -38,3 +48,21 @@ export type UpdateFacilityVariables = WithFacilityId & {
 }
 
 export type DeleteFacilityVariables = WithFacilityId
+
+type AdminFacilityVariables = FacilityVariables & {
+  agencyId: number
+}
+
+export type AdminWithFacilityId = AdminFacilityVariables & {
+  facilityId: number
+}
+
+export type CreateAdminFacilityVariables = AdminFacilityVariables & {
+  data: CreateFacilityRequest
+}
+
+export type UpdateAdminFacilityVariables = AdminWithFacilityId & {
+  data: CreateFacilityRequest
+}
+
+export type DeleteAdminFacilityVariables = AdminWithFacilityId

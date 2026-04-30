@@ -8,16 +8,22 @@ import { FacilitiesPageHeader } from "./FacilitiesPageHeader";
 import { FacilityFormDialog } from "./form/FacilityFormDialog";
 import { FacilitiesView } from "./list/FacilitiesView";
 
+function getRouteParam(value: string | string[] | undefined) {
+  return Array.isArray(value) ? value[0] : value;
+}
+
 export function FacilitiesPage() {
   const params = useParams();
-  const hotelId = params.hotelId as string;
+  const hotelId = getRouteParam(params.hotelId);
+  const agencyId = getRouteParam(params.agencyId);
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedFacilityId, setSelectedFacilityId] = useState<string | null>(null);
 
   const { data: selectedFacility, isLoading: selectedFacilityLoading } = useFacility(
     selectedFacilityId ?? "",
-    hotelId
+    hotelId,
+    agencyId
   );
 
   const openAddDialog = () => {
@@ -38,14 +44,19 @@ export function FacilitiesPage() {
   return (
     <Stack spacing={3}>
       <FacilitiesPageHeader onOpenAddDialog={openAddDialog} />
-      <FacilitiesView hotelId={hotelId} onEditFacility={handleEdit} />
+      <FacilitiesView
+        hotelId={hotelId ?? ""}
+        agencyId={agencyId}
+        onEditFacility={handleEdit}
+      />
       <FacilityFormDialog
         open={dialogOpen}
         onClose={handleCloseDialog}
         facilityId={selectedFacilityId}
         facility={selectedFacility ?? null}
         isLoading={selectedFacilityLoading}
-        hotelId={hotelId}
+        hotelId={hotelId ?? ""}
+        agencyId={agencyId}
       />
     </Stack>
   );

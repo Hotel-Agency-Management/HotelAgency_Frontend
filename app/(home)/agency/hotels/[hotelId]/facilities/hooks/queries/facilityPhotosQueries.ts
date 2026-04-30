@@ -1,45 +1,65 @@
 import { useQuery } from "@tanstack/react-query"
 import { getFacilityPhotos, getFacilityPhotoById } from "../../clients/facilityPhotoClient"
+import {
+  getAdminFacilityPhotos,
+  getAdminFacilityPhotoById,
+} from "../../clients/adminFacilityPhotoClient"
 import { FacilityPhotoItem, WithPhotoId, FacilityPhotoResponse } from "../../configs/facilityPhotosConfig"
-
-export const facilityPhotoQueryKeys = {
-  all: ["facility-photos"] as const,
-
-  list: (
-    agencyId?: number,
-    hotelId?: number,
-    facilityId?: number
-  ) => ["facility-photos", "list", agencyId, hotelId, facilityId] as const,
-
-  detail: (
-    agencyId?: number,
-    hotelId?: number,
-    facilityId?: number,
-    photoId?: number
-  ) =>
-    [
-      "facility-photos",
-      "detail",
-      agencyId,
-      hotelId,
-      facilityId,
-      photoId,
-    ] as const,
-}
+import { facilityPhotoQueryKeys } from "../../constants/facilityPhotoQueryKeys"
 
 export const useGetFacilityPhotos = (
-  agencyId?: number,
   hotelId?: number,
   facilityId?: number
 ) => {
   return useQuery<FacilityPhotoItem[]>({
     queryKey: facilityPhotoQueryKeys.list(
-      agencyId,
       hotelId,
       facilityId
     ),
     queryFn: () =>
       getFacilityPhotos(
+        hotelId as number,
+        facilityId as number
+      ),
+    enabled:
+      Number.isFinite(hotelId) &&
+      Number.isFinite(facilityId),
+  })
+}
+
+export const useGetFacilityPhotoById = ({
+  hotelId,
+  facilityId,
+  photoId,
+}: WithPhotoId) => {
+  return useQuery<FacilityPhotoResponse>({
+    queryKey: facilityPhotoQueryKeys.detail(
+      hotelId,
+      facilityId,
+      photoId
+    ),
+    queryFn: () =>
+      getFacilityPhotoById(
+        hotelId,
+        facilityId,
+        photoId
+      ),
+  })
+}
+
+export const useGetAdminFacilityPhotos = (
+  agencyId?: number,
+  hotelId?: number,
+  facilityId?: number
+) => {
+  return useQuery<FacilityPhotoItem[]>({
+    queryKey: facilityPhotoQueryKeys.adminList(
+      agencyId,
+      hotelId,
+      facilityId
+    ),
+    queryFn: () =>
+      getAdminFacilityPhotos(
         agencyId as number,
         hotelId as number,
         facilityId as number
@@ -51,21 +71,21 @@ export const useGetFacilityPhotos = (
   })
 }
 
-export const useGetFacilityPhotoById = ({
+export const useGetAdminFacilityPhotoById = ({
   agencyId,
   hotelId,
   facilityId,
   photoId,
-}: WithPhotoId) => {
+}: WithPhotoId & { agencyId: number }) => {
   return useQuery<FacilityPhotoResponse>({
-    queryKey: facilityPhotoQueryKeys.detail(
+    queryKey: facilityPhotoQueryKeys.adminDetail(
       agencyId,
       hotelId,
       facilityId,
       photoId
     ),
     queryFn: () =>
-      getFacilityPhotoById(
+      getAdminFacilityPhotoById(
         agencyId,
         hotelId,
         facilityId,

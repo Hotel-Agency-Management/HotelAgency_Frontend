@@ -8,6 +8,7 @@ import { FacilityPhotoGrid } from "../list/grid/FacilityPhotoGrid";
 interface Props {
   facilityId: string;
   hotelId: string;
+  agencyId?: string;
   existingPhotos: FacilityPhoto[];
   onPhotosChange: (photos: FacilityPhoto[]) => void;
 }
@@ -15,6 +16,7 @@ interface Props {
 export function FacilityPhotosUpload({
   facilityId,
   hotelId,
+  agencyId,
   existingPhotos,
   onPhotosChange,
 }: Props) {
@@ -26,7 +28,13 @@ export function FacilityPhotosUpload({
     handleFileChange,
     handleDelete,
     handleSetPrimary,
-  } = useFacilityPhotos(facilityId, hotelId, existingPhotos, onPhotosChange);
+  } = useFacilityPhotos(
+    facilityId,
+    hotelId,
+    agencyId,
+    existingPhotos,
+    onPhotosChange
+  );
 
   return (
     <Stack spacing={2}>

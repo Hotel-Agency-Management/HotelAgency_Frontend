@@ -15,6 +15,7 @@ interface Props {
   stepLabels: string[];
   workingFacilityId: string | null;
   hotelId: string;
+  agencyId?: string;
   photos: FacilityPhoto[];
   onPhotosChange: (photos: FacilityPhoto[]) => void;
   onClose: () => void;
@@ -31,6 +32,7 @@ export function FacilityFormDialogFlow({
   stepLabels,
   workingFacilityId,
   hotelId,
+  agencyId,
   photos,
   onPhotosChange,
   onClose,
@@ -61,6 +63,7 @@ export function FacilityFormDialogFlow({
             <FacilityPhotosUpload
               facilityId={workingFacilityId}
               hotelId={hotelId}
+              agencyId={agencyId}
               existingPhotos={photos}
               onPhotosChange={onPhotosChange}
             />

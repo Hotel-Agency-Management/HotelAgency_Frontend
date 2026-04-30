@@ -16,6 +16,7 @@ interface Props {
   facilityId?: string | null;
   isLoading?: boolean;
   hotelId: string;
+  agencyId?: string;
 }
 
 export function FacilityFormDialog({
@@ -25,6 +26,7 @@ export function FacilityFormDialog({
   facilityId,
   isLoading = false,
   hotelId,
+  agencyId,
 }: Props) {
   const dialogState = useFacilityFormDialog({
     open,
@@ -32,6 +34,7 @@ export function FacilityFormDialog({
     facility: facility ?? null,
     facilityId,
     hotelId,
+    agencyId,
   });
 
   return (
@@ -58,6 +61,7 @@ export function FacilityFormDialog({
             stepLabels={dialogState.stepLabels}
             workingFacilityId={dialogState.workingFacilityId}
             hotelId={hotelId}
+            agencyId={agencyId}
             photos={dialogState.flowPhotos}
             onPhotosChange={dialogState.setFlowPhotos}
             onClose={dialogState.handleClose}
