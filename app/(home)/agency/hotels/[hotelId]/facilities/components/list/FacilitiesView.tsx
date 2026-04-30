@@ -1,12 +1,15 @@
 import { useMemo, useState } from "react";
 import Stack from "@mui/material/Stack";
 import { DataGrid } from "@mui/x-data-grid";
-import { useDeleteFacility, useFacilities } from "../../hooks/useFacilityStore";
+import { useDeleteFacility } from "../../hooks/mutations/facilityMutations";
+import { useFacilityScope } from "../../hooks/useFacilityScope";
+import { useFacilities } from "../../hooks/useFacilityStore";
 import type { FacilityFilters, HotelFacility } from "../../types/facility";
 import { getFacilityGridColumns } from "../../utils/facilityGridColumns";
 import { DeleteFacilityDialog } from "./DeleteFacilityDialog";
 import { FacilitiesToolbar } from "./FacilitiesToolbar";
 import { FacilityGridView } from "./grid/FacilityGridView";
+import { toNumericId } from "../../utils/numericId";
 
 interface Props {
   hotelId: string;
@@ -18,7 +21,8 @@ export function FacilitiesView({ hotelId, onEditFacility }: Props) {
   const [view, setView] = useState<"list" | "cards">("list");
   const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
 
-  const { data: facilities = [], isLoading } = useFacilities(hotelId, filters);
+  const { agencyId, hotelId: numericHotelId } = useFacilityScope(hotelId);
+  const { data: facilities = [], isLoading } = useFacilities(hotelId);
   const { mutate: deleteFacility, isPending: isDeleting } = useDeleteFacility();
 
   const deleteTarget = useMemo<HotelFacility | null>(
@@ -37,10 +41,19 @@ export function FacilitiesView({ hotelId, onEditFacility }: Props) {
 
   const handleConfirmDelete = () => {
     if (!deleteTargetId) return;
+    const facilityId = toNumericId(deleteTargetId);
+    if (!agencyId || !numericHotelId || !facilityId) return;
 
-    deleteFacility(deleteTargetId, {
-      onSuccess: () => setDeleteTargetId(null),
-    });
+    deleteFacility(
+      {
+        agencyId,
+        hotelId: numericHotelId,
+        facilityId,
+      },
+      {
+        onSuccess: () => setDeleteTargetId(null),
+      }
+    );
   };
 
   return (

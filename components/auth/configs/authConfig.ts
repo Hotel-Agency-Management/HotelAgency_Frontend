@@ -41,6 +41,7 @@ export interface AgencySignupResponse extends SignupResponse {
   agencyId: number
   accessToken?: string
   token?: string
+  refreshToken?: string
 }
 
 export interface VerifyEmailParams {

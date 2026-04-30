@@ -1,14 +1,31 @@
+import type { ChangeEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 import { FacilityPhoto } from "../types/facility";
+import {
+  useDeleteFacilityPhoto,
+  useUploadFacilityPhoto,
+} from "./mutations/facilityPhotosMutations";
+import {
+  mapFacilityPhoto,
+  normalizeFacilityPhotos,
+} from "../utils/facilityAdapters";
+import { useFacilityScope } from "./useFacilityScope";
+import { toNumericId } from "../utils/numericId";
 
 export function useFacilityPhotos(
   facilityId: string,
+  hotelId: string,
   existingPhotos: FacilityPhoto[],
   onPhotosChange: (photos: FacilityPhoto[]) => void
 ) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [photos, setPhotos] = useState<FacilityPhoto[]>(existingPhotos);
   const [uploading, setUploading] = useState(false);
+  const { agencyId, hotelId: numericHotelId } = useFacilityScope(hotelId);
+  const facilityIdNumber = toNumericId(facilityId);
+  const { mutateAsync: uploadFacilityPhoto } = useUploadFacilityPhoto();
+  const { mutate: deleteFacilityPhoto, isPending: deleting } =
+    useDeleteFacilityPhoto();
 
   useEffect(() => {
     setPhotos(existingPhotos);
@@ -20,33 +37,63 @@ export function useFacilityPhotos(
 
   const openFilePicker = () => inputRef.current?.click();
 
-  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files ?? []);
     if (!files.length) return;
+    if (!agencyId || !numericHotelId || !facilityIdNumber) return;
 
     setUploading(true);
-    await new Promise((resolve) => setTimeout(resolve, 600));
 
-    const newPhotos: FacilityPhoto[] = files.map((file, index) => ({
-      id: `${Date.now()}-${index}`,
-      url: URL.createObjectURL(file),
-      isPrimary: photos.length === 0 && index === 0,
-    }));
+    try {
+      const uploadResults = await Promise.allSettled(
+        files.map((file) =>
+          uploadFacilityPhoto({
+            agencyId,
+            hotelId: numericHotelId,
+            facilityId: facilityIdNumber,
+            file,
+          })
+        )
+      );
+      const uploadedPhotos = uploadResults
+        .filter((result) => result.status === "fulfilled")
+        .map((result) => result.value);
 
-    setPhotos((prev) => [...prev, ...newPhotos]);
-    setUploading(false);
-    event.target.value = "";
+      if (uploadedPhotos.length === 0) return;
+
+      setPhotos((prev) =>
+        normalizeFacilityPhotos([
+          ...prev,
+          ...uploadedPhotos.map((photo, index) =>
+            mapFacilityPhoto(photo, prev.length + index)
+          ),
+        ])
+      );
+    } finally {
+      setUploading(false);
+      event.target.value = "";
+    }
   };
 
   const handleDelete = (id: string) => {
-    setPhotos((prev) => {
-      const filtered = prev.filter((p) => p.id !== id);
-      const hasPrimary = filtered.some((p) => p.isPrimary);
-      if (!hasPrimary && filtered.length > 0) {
-        filtered[0] = { ...filtered[0], isPrimary: true };
+    const photoId = toNumericId(id);
+    if (!agencyId || !numericHotelId || !facilityIdNumber || !photoId) return;
+
+    deleteFacilityPhoto(
+      {
+        agencyId,
+        hotelId: numericHotelId,
+        facilityId: facilityIdNumber,
+        photoId,
+      },
+      {
+        onSuccess: () => {
+          setPhotos((prev) =>
+            normalizeFacilityPhotos(prev.filter((p) => p.id !== id))
+          );
+        },
       }
-      return filtered;
-    });
+    );
   };
 
   const handleSetPrimary = (id: string) => {
@@ -58,7 +105,7 @@ export function useFacilityPhotos(
   return {
     inputRef,
     photos,
-    uploading,
+    uploading: uploading || deleting,
     facilityId,
     openFilePicker,
     handleFileChange,
