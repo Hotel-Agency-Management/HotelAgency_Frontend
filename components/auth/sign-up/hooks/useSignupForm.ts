@@ -28,7 +28,6 @@ import {
   createAgencyOwnerSignupPayload,
   createCustomerSignupPayload
 } from '../utils/signupPayload'
-import { getAgencyIdFromToken, getNumericAgencyId } from '../utils/agencyToken'
 
 const defaultAgencyValues: AgencyFormData = {
   agencyName: '',
@@ -57,9 +56,8 @@ export const useSignupForm = ({ initialStep = 0 } = {}) => {
     return localStorage.getItem(authConfig.storageTokenKeyName) ?? undefined
   })
   const agencyAccessToken = agencySignupResponse?.accessToken ?? agencySignupResponse?.token ?? loginAccessToken
-  const agencyId = getNumericAgencyId(agencySignupResponse?.agencyId) ?? getAgencyIdFromToken(agencyAccessToken)
   const { mutateAsync: uploadAgencyDocument, isPending: isAgencyDocumentUploadLoading } =
-    useUploadAgencyDocumentMutation(agencyId, agencyAccessToken)
+    useUploadAgencyDocumentMutation(agencyAccessToken)
 
   const schema = buildSignupSchema(t)
 
@@ -162,10 +160,6 @@ export const useSignupForm = ({ initialStep = 0 } = {}) => {
   }
 
   const onAgencyDocumentsSubmit = async (data: AgencyDocumentsFormData) => {
-    if (!agencyId) {
-      throw new Error('Agency id is missing. Please complete agency registration again.')
-    }
-
     const documents = data.documents.filter(
       (doc): doc is { title: string; file: File } =>
         (doc.title ?? '').trim().length > 0 && doc.file !== null

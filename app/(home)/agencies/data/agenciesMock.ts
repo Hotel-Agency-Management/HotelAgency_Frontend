@@ -1,65 +1,37 @@
 import { Agency } from "../types/agency";
-import { AGENCY_STATUS } from "@/components/auth/types/authType";
 
 export const MOCK_AGENCIES: Agency[] = [
   {
     id: 1,
-    plan_id: 1,
-    owner_id: 1,
-    agency_name: 'travel-plus',
-    email: 'contact@travelplus.com',
+    ownerId: 1,
+    name: 'travel-plus',
     phone: '+970591234567',
     country: 'Palestine',
     city: 'Ramallah',
-    address: '123 Main St',
-    logo_url: '',
-    primary_color: '#1976d2',
-    secondary_color: '#42a5f5',
-    tertiary_color: '#90caf9',
-    status: AGENCY_STATUS.APPROVED,
-    email_verified: true,
-    reviewed_by: 1,
-    created_at: '2024-01-01T00:00:00',
-    updated_at: '2024-01-01T00:00:00'
+    logoUrl: null,
+    createdAt: '2024-01-01T00:00:00',
+    updatedAt: '2024-01-01T00:00:00'
   },
   {
     id: 2,
-    plan_id: 2,
-    owner_id: 2,
-    agency_name: 'sky-tours',
-    email: 'info@skytours.com',
+    ownerId: 2,
+    name: 'sky-tours',
     phone: '+970599876543',
     country: 'Palestine',
     city: 'Nablus',
-    address: '456 Second St',
-    logo_url: '',
-    primary_color: '#388e3c',
-    secondary_color: '#66bb6a',
-    tertiary_color: '#a5d6a7',
-    status: AGENCY_STATUS.PENDING,
-    email_verified: false,
-    reviewed_by: 0,
-    created_at: '2024-02-01T00:00:00',
-    updated_at: '2024-02-01T00:00:00'
+    logoUrl: null,
+    createdAt: '2024-02-01T00:00:00',
+    updatedAt: '2024-02-01T00:00:00'
   },
   {
     id: 3,
-    plan_id: 1,
-    owner_id: 3,
-    agency_name: 'horizon-travel',
-    email: 'hello@horizontravel.com',
+    ownerId: 3,
+    name: 'horizon-travel',
     phone: '+970592345678',
     country: 'Jordan',
     city: 'Amman',
-    address: '789 Third St',
-    logo_url: '',
-    primary_color: '#f57c00',
-    secondary_color: '#ffa726',
-    tertiary_color: '#ffcc80',
-    status: AGENCY_STATUS.REJECTED,
-    email_verified: true,
-    reviewed_by: 1,
-    created_at: '2024-03-01T00:00:00',
-    updated_at: '2024-03-01T00:00:00'
+    logoUrl: null,
+    createdAt: '2024-03-01T00:00:00',
+    updatedAt: '2024-03-01T00:00:00'
   }
 ]

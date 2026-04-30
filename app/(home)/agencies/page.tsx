@@ -26,7 +26,11 @@ export default function AgenciesPage() {
   } = useAgencies()
 
   const handleAgencyClick = (agencyId: number) => {
-    router.push(`/agencies/${agencyId}/hotels`)
+    router.push(`/agencies/${agencyId}`)
+  }
+
+  const handleSettingsClick = (agencyId: number) => {
+    router.push(`/agencies/${agencyId}`)
   }
 
   return (
@@ -50,7 +54,7 @@ export default function AgenciesPage() {
           <SearchInput
             value={search}
             onChange={setSearch}
-            placeholder='Search by name, email, city...'
+            placeholder='Search by name, phone, city...'
             sx={{ flex: 2, minWidth: 200 }}
           />
           <AgencyFilters
@@ -63,9 +67,9 @@ export default function AgenciesPage() {
 
       <FadeIn direction='up' distance={16} transition={{ delay: 0.15 }}>
         {viewMode === 'list' ? (
-          <AgencyListView agencies={agencies} onAgencyClick={handleAgencyClick} />
+          <AgencyListView agencies={agencies} onAgencyClick={handleAgencyClick} onSettingsClick={handleSettingsClick} />
         ) : (
-          <AgencyGridView agencies={agencies} onAgencyClick={handleAgencyClick} />
+          <AgencyGridView agencies={agencies} onAgencyClick={handleAgencyClick} onSettingsClick={handleSettingsClick} />
         )}
       </FadeIn>
 

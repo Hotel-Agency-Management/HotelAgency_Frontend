@@ -1,17 +1,13 @@
-import { AgencyProfile } from '../types/agencyProfile'
+import { AgencyProfile, FileItem } from '../types/agencyProfile'
 import { AgencyProfileResponse } from '../configs/agencyProfileConfig'
 import { resolveBrandingColors, sanitizeBrandingSettings, type BrandingSettings } from '@/core/theme/palette/branding'
-import { BACKEND_ORIGIN, EMPTY_PROFILE } from '../constants/agencyProfileConstants'
+import { EMPTY_PROFILE } from '../constants/agencyProfileConstants'
+import { resolveProfileBlobUrl } from '@/core/constant/blobStorage'
+import type { UploadAgencyDocumentResponse } from '@/components/auth/agency/configs/agencyDocumentsConfig'
+import type { DocumentType } from '../constants/documentTypes'
 
 export function resolveAgencyLogoUrl(logoUrl?: string | null): string | null {
-  const value = logoUrl?.trim()
-
-  if (!value) return null
-  // Match URLs that already have a protocol (data:, blob:, http, https)
-  if (/^(data:|blob:|https?:\/\/)/.test(value)) return value
-  if (value.startsWith('/')) return BACKEND_ORIGIN ? `${BACKEND_ORIGIN}${value}` : value
-
-  return BACKEND_ORIGIN ? `${BACKEND_ORIGIN}/${value}` : value
+  return resolveProfileBlobUrl(logoUrl)
 }
 
 export function mapAgencyProfile(profile?: AgencyProfileResponse): AgencyProfile {
@@ -23,6 +19,21 @@ export function mapAgencyProfile(profile?: AgencyProfileResponse): AgencyProfile
     country: profile.country ?? '',
     city: profile.city ?? '',
     files: [],
+    planId: profile.planId,
+  }
+}
+
+export function mapDocumentToFileItem(doc: UploadAgencyDocumentResponse): FileItem {
+  const url = resolveAgencyLogoUrl(doc.filePath ?? doc.url)
+  const ext = url?.split('?')[0]?.split('.').pop()?.toLowerCase()
+  const type = ext === 'pdf' ? 'application/pdf' : ext?.match(/^(png|jpe?g|gif|webp)$/) ? `image/${ext}` : 'application/octet-stream'
+
+  return {
+    id: String(doc.id),
+    name: doc.documentType,
+    documentType: doc.documentType as DocumentType,
+    url: url ?? '',
+    type,
   }
 }
 
@@ -31,7 +42,7 @@ export function mapBrandingSettings(
   fallback?: BrandingSettings
 ): BrandingSettings {
   return sanitizeBrandingSettings({
-    logo: fallback?.logo ?? resolveAgencyLogoUrl(profile?.logoUrl),
+    logo: resolveAgencyLogoUrl(profile?.logoUrl) ?? fallback?.logo,
     colors: resolveBrandingColors({
       primary: profile?.primaryColor ?? fallback?.colors.primary,
       secondary: profile?.secondaryColor ?? fallback?.colors.secondary,

@@ -3,13 +3,12 @@ import { UploadAgencyDocumentResponse } from '../../configs/agencyDocumentsConfi
 import { getAgencyDocuments } from '../../clients/uploadDocumentsClient'
 
 export const agencyDocumentsKeys = {
-  all: (agencyId: number) => ['agencyDocuments', agencyId] as const,
+  all: () => ['agencyDocuments'] as const,
 }
 
-export const useGetAgencyDocumentsQuery = (agencyId: number) => {
-  return useQuery<UploadAgencyDocumentResponse>({
-    queryKey: agencyDocumentsKeys.all(agencyId),
-    queryFn: () => getAgencyDocuments(agencyId),
-    enabled: !!agencyId,
+export const useGetAgencyDocumentsQuery = () => {
+  return useQuery<UploadAgencyDocumentResponse[]>({
+    queryKey: agencyDocumentsKeys.all(),
+    queryFn: getAgencyDocuments,
   })
 }
