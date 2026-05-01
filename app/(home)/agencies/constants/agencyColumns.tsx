@@ -7,7 +7,7 @@ import { PLAN_NAMES } from "./agencyConstants";
 
 export const columns = (): GridColDef<Agency>[] => [
   {
-    field: 'agency_name',
+    field: 'name',
     headerName: 'Agency',
     flex: 1.5,
     minWidth: 200,
@@ -15,14 +15,14 @@ export const columns = (): GridColDef<Agency>[] => [
       <Stack direction='row' alignItems='center' gap={1.5} sx={{ height: '100%' }}>
         <Avatar
           src={row.logo_url}
-          alt={row.agency_name}
+          alt={row.name}
           sx={{ width: 32, height: 32, bgcolor: row.primary_color }}
         >
-          {row.agency_name[0].toUpperCase()}
+          {row.name[0].toUpperCase()}
         </Avatar>
         <Stack>
           <Typography variant='body2' fontWeight={600}>
-            {row.agency_name}
+            {row.name}
           </Typography>
           <Typography variant='caption' color='text.secondary'>
             {row.email}

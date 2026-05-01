@@ -12,7 +12,7 @@ export function useAgencies() {
   const filtered = useMemo(() => {
     return MOCK_AGENCIES.filter((agency: Agency) => {
       const matchesSearch =
-        agency.agency_name.toLowerCase().includes(search.toLowerCase()) ||
+        agency.name.toLowerCase().includes(search.toLowerCase()) ||
         agency.email.toLowerCase().includes(search.toLowerCase()) ||
         agency.city.toLowerCase().includes(search.toLowerCase())
 

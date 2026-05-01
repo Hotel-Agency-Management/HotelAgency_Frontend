@@ -20,14 +20,14 @@ export default function AgencyCard({ agency, onClick }: Props) {
             <Stack direction='row' alignItems='center' gap={1.5} sx={{ minWidth: 0 }}>
               <Avatar
                 src={agency.logo_url}
-                alt={agency.agency_name}
+                alt={agency.name}
                 sx={{ width: 40, height: 40, bgcolor: agency.primary_color, flexShrink: 0 }}
               >
-                {agency.agency_name[0].toUpperCase()}
+                {agency.name[0].toUpperCase()}
               </Avatar>
               <Stack gap={0.5} sx={{ minWidth: 0 }}>
                 <Typography variant='body1' fontWeight={600} noWrap>
-                  {agency.agency_name}
+                  {agency.name}
                 </Typography>
                 <Typography variant='caption' color='text.secondary' noWrap>
                   {agency.email}
