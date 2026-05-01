@@ -19,9 +19,14 @@ export const columns = (onSettingsClick: (agencyId: number) => void): GridColDef
         >
           {row.name[0].toUpperCase()}
         </Avatar>
-        <Typography variant='body2' fontWeight={600}>
-          {row.name}
-        </Typography>
+        <Stack>
+          <Typography variant='body2' fontWeight={600}>
+            {row.name}
+          </Typography>
+          <Typography variant='caption' color='text.secondary'>
+            {row.email}
+          </Typography>
+        </Stack>
       </Stack>
     )
   },

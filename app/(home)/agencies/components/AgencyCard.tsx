@@ -32,6 +32,9 @@ export default function AgencyCard({ agency, onClick, onSettingsClick }: Props) 
                 <Typography variant='body1' fontWeight={600} noWrap>
                   {agency.name}
                 </Typography>
+                <Typography variant='caption' color='text.secondary' noWrap>
+                  {agency.email}
+                </Typography>
               </Stack>
             </Stack>
             {onSettingsClick && (
