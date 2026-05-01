@@ -4,6 +4,8 @@ export interface Agency {
   id: number
   ownerId: number
   name: string
+  plan_id: number
+  email: string
   phone: string
   country: string
   city: string

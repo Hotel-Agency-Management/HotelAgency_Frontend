@@ -10,12 +10,11 @@ import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import { useAgencyTeamStore } from "@/app/(home)/agency/hooks/useAgencyTeamStore";
+import { useTeamMembers } from "@/app/(home)/users/hooks/useTeamMembers";
 import {
-  canAssignAsHotelManager,
   getAgencyTeamMemberName,
   getRoleLabel,
-} from "@/app/(home)/agency/types/teamMember";
+} from "@/app/(home)/users/config/teamMemberConfig";
 import type { HotelFormValues } from "../../types/hotel";
 import { StepLayout } from "../layout/StepLayout";
 
@@ -29,7 +28,7 @@ interface ManagerStepProps {
 }
 
 export function ManagerStep({ isFirst, isLast, isSubmitting, mode, onBack, onNext }: ManagerStepProps) {
-  const { members, getMemberById } = useAgencyTeamStore();
+  const { members, getMemberById } = useTeamMembers({ assigned: false, pageSize: 100 });
   const {
     control,
     watch,
@@ -38,7 +37,7 @@ export function ManagerStep({ isFirst, isLast, isSubmitting, mode, onBack, onNex
 
   const selectedManagerId = watch("managerId");
   const selectedManager = selectedManagerId ? getMemberById(selectedManagerId) : undefined;
-  const eligibleManagers = members.filter(member => canAssignAsHotelManager(member.role));
+  const eligibleManagers = members.filter(member => member.canBeHotelManager);
   const managerOptions =
     selectedManager && !eligibleManagers.some(member => member.id === selectedManager.id)
       ? [selectedManager, ...eligibleManagers]
@@ -68,7 +67,7 @@ export function ManagerStep({ isFirst, isLast, isSubmitting, mode, onBack, onNex
             action={
               <Button
                 component={Link}
-                href="/agency/users"
+                href="/users"
                 size="small"
                 color="inherit"
               >
@@ -97,7 +96,7 @@ export function ManagerStep({ isFirst, isLast, isSubmitting, mode, onBack, onNex
                   error={!!fieldState.error}
                   helperText={
                     fieldState.error?.message ??
-                    "Only team members with Admin or Manager roles can be assigned."
+                    "Only team members with property manager roles can be assigned."
                   }
                 >
                   <MenuItem value="" disabled>
@@ -117,8 +116,7 @@ export function ManagerStep({ isFirst, isLast, isSubmitting, mode, onBack, onNex
         {selectedManager && (
           <Paper
             elevation={0}
-            variant="outlined"
-            sx={{ borderRadius: 2.5, p: 2.5 }}
+            variant="card"
           >
             <Stack spacing={1}>
               <Stack direction="row" justifyContent="space-between" alignItems="center">
@@ -128,11 +126,11 @@ export function ManagerStep({ isFirst, isLast, isSubmitting, mode, onBack, onNex
                 <Chip size="small" label={getRoleLabel(selectedManager.role)} color="primary" variant="outlined" />
               </Stack>
               <Typography variant="body1">{getAgencyTeamMemberName(selectedManager)}</Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant="body2">
                 {selectedManager.email}
               </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {selectedManager.phone}
+              <Typography variant="body2">
+                {selectedManager.phoneNumber}
               </Typography>
             </Stack>
           </Paper>
