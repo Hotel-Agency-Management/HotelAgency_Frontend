@@ -1,4 +1,4 @@
-import { Paper } from "@mui/material";
+import { PhotoDropSurfaceRoot } from "../../../roomStyle";
 
 export function PhotoDropSurface({
   children,
@@ -8,7 +8,7 @@ export function PhotoDropSurface({
   onActivate: () => void;
 }) {
   return (
-    <Paper
+    <PhotoDropSurfaceRoot
       variant="outlined"
       onClick={onActivate}
       role="button"
@@ -19,15 +19,8 @@ export function PhotoDropSurface({
           onActivate();
         }
       }}
-      sx={{
-        borderStyle: "dashed",
-        p: 4,
-        textAlign: "center",
-        cursor: "pointer",
-        "&:hover": { borderColor: "primary.main" },
-      }}
     >
       {children}
-    </Paper>
+    </PhotoDropSurfaceRoot>
   );
 }

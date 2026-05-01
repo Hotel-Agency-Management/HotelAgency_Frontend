@@ -9,6 +9,7 @@ export function useAdminHotelsPage(agencyId: number) {
 
   const handleAdd = () => router.push(`/agencies/${agencyId}/hotels/addHotel`)
   const handleUpdate = (id: string) => router.push(`/agencies/${agencyId}/hotels/${id}/edit`)
+  const handleOpen = (id: string) => router.push(`/agencies/${agencyId}/hotels/${id}/rooms`)
 
-  return { hotels, handleAdd, handleUpdate }
+  return { hotels, handleAdd, handleUpdate, handleOpen }
 }

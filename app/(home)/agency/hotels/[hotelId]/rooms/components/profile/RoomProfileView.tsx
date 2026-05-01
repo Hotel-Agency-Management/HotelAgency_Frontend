@@ -1,14 +1,12 @@
 "use client";
 
-import { useMemo } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useMemo, useState } from "react";
 import Grid from "@mui/material/Grid";
-import Stack from "@mui/material/Stack";
 import { useTranslation } from "react-i18next";
-import { ROOM_TYPES } from "../../../../../../room-types/constants/roomTypes";
-import { useRoom, useDeleteRoom } from "../../hooks/useRoomStore";
-import { useRoomTypes } from "../../../../../../room-types/hooks/uesRoomType";
-import { mapRoomToProfile } from "../../util/mapRoomToProfile";
+import { useRoomProfileController } from "../../hooks/useRoomProfileController";
+import { ProfileShell } from "../../roomStyle";
+import type { RoomRouteScope } from "../../types/room";
+import { DeleteRoomDialog } from "../room/DeleteRoomDialog";
 import { RoomAmenitiesList } from "./RoomAmenitiesList";
 import { RoomGallery } from "./RoomGallery";
 import { RoomInfoCard } from "./RoomInfoCard";
@@ -17,72 +15,63 @@ import { RoomProfileHeader } from "./RoomProfileHeader";
 import { RoomProfileError } from "./RoomProfileError";
 import { RoomProfileSkeleton } from "./profileSkelton/RoomProfileSkeleton";
 
-export function RoomProfileView() {
+interface RoomProfileViewProps {
+  scope: RoomRouteScope;
+  roomId: number;
+}
+
+export function RoomProfileView({ scope, roomId }: RoomProfileViewProps) {
   const { t } = useTranslation();
-  const router = useRouter();
-  const params = useParams<{ hotelId: string; roomId: string }>();
-  const { hotelId, roomId } = params;
-
-  const roomsListPath = `/agency/hotels/${hotelId}/rooms`;
-
-  const { data: room, isLoading, isError, error } = useRoom(roomId);
-  const { data: roomTypes = [] } = useRoomTypes();
-  const { mutate: deleteRoom, isPending: isDeleting } = useDeleteRoom();
-
-  const handleBack = () => router.push(roomsListPath);
-  const handleEdit = () => router.push(roomsListPath);
-  const handleDelete = () => {
-    deleteRoom(roomId, { onSuccess: () => router.push(roomsListPath) });
-  };
-
-  const profile = useMemo(() => {
-    if (!room) return null;
-    const typeName = roomTypes.find((rt) => rt.id === room.roomTypeId)?.name ?? "";
-    return mapRoomToProfile(room, typeName);
-  }, [room, roomTypes]);
+  const controller = useRoomProfileController(scope, roomId);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const { room } = controller;
 
   const title = useMemo(() => {
-    if (!profile) return "";
+    if (!room) return "";
     return t("hotelRooms.profile.roomHeading", {
-      number: profile.roomNumber,
-      type: ROOM_TYPES[profile.type].label,
+      number: room.roomNumber,
+      type: room.roomTypeName,
     });
-  }, [profile, t]);
+  }, [room, t]);
 
-  if (isLoading && !room) {
-    return <RoomProfileSkeleton onBack={handleBack} onEdit={handleEdit} onDelete={handleDelete} />;
+  if (controller.isLoading && !room) {
+    return <RoomProfileSkeleton onBack={controller.handleBack} onEdit={controller.handleEdit} onDelete={() => setDeleteDialogOpen(true)} />;
   }
 
-  if (isError || !profile) {
-    return <RoomProfileError error={error} />;
+  if (controller.isError || !room) {
+    return <RoomProfileError error={controller.error} />;
   }
 
   return (
-    <Stack
+    <ProfileShell
       gap={2.5}
-      sx={{
-        width: 1,
-        maxWidth: 1120,
-        mx: "auto",
-        opacity: isDeleting ? 0.6 : 1,
-        pointerEvents: isDeleting ? "none" : "auto",
-      }}
+      disabledState={controller.isDeleting}
     >
-      <RoomProfileHeader title={title} status={profile.status} onBack={handleBack} loading={false} />
+      <RoomProfileHeader title={title} status={room.status} onBack={controller.handleBack} loading={false} />
       <Grid container spacing={2.5}>
         <Grid size={{ xs: 12, lg: 8 }}>
-          <RoomGallery photos={profile.photos} loading={false} />
+          <RoomGallery photos={controller.photos} loading={false} />
         </Grid>
         <Grid size={{ xs: 12, lg: 4 }}>
-          <RoomInfoCard room={profile} onEdit={handleEdit} onDelete={handleDelete} loading={false} />
+          <RoomInfoCard room={room} onEdit={controller.handleEdit} onDelete={() => setDeleteDialogOpen(true)} loading={false} />
         </Grid>
         <Grid size={12}>
-          <RoomAmenitiesList amenities={profile.amenities} loading={false} />
+          <RoomAmenitiesList amenities={room.amenities} loading={false} />
         </Grid>
         <Grid size={12}>
-          <RoomNotesSection description={profile.description} notes={profile.notes} loading={false} />
+          <RoomNotesSection description={room.description} notes={room.notes} loading={false} />
         </Grid>
       </Grid>
-    </Stack>
+
+      <DeleteRoomDialog
+        open={deleteDialogOpen}
+        roomNumber={room.roomNumber}
+        isDeleting={controller.isDeleting}
+        onClose={() => {
+          if (!controller.isDeleting) setDeleteDialogOpen(false);
+        }}
+        onConfirm={controller.handleDelete}
+      />
+    </ProfileShell>
   );
 }

@@ -1,70 +1,56 @@
 import { Dialog, DialogTitle } from "@mui/material";
 import { FormProvider } from "react-hook-form";
 import { useRoomFormDialog } from "../../../hooks/useRoomFormDialog";
-import { Room } from "../../../types/room";
+import type { RoomRouteScope } from "../../../types/room";
 import { RoomFormDialogCreateFlow } from "./RoomFormDialogCreateFlow";
-import { RoomFormDialogEditForm } from "./RoomFormDialogEditForm";
 import { RoomFormDialogTitleBar } from "./RoomFormDialogTitleBar";
 
 interface Props {
   open: boolean;
   onClose: () => void;
-  room?: Room | null;
-  hotelId: string;
+  roomId: number | null;
+  scope: RoomRouteScope;
 }
 
-export const RoomFormDialog = ({ open, onClose, room, hotelId }: Props) => {
-  const ctx = useRoomFormDialog({
+export const RoomFormDialog = ({ open, onClose, roomId, scope }: Props) => {
+  const dialog = useRoomFormDialog({
     open,
     onClose,
-    room: room ?? null,
-    hotelId,
+    roomId,
+    scope,
   });
 
-  const busy = ctx.isCreating || ctx.isUpdating || ctx.isSavingPhotos;
-
   return (
-    <Dialog open={open} onClose={ctx.handleClose} maxWidth="md" fullWidth>
+    <Dialog open={open} onClose={dialog.handleClose} maxWidth="md" fullWidth>
       <DialogTitle>
         <RoomFormDialogTitleBar
-          isEdit={ctx.isEdit}
-          room={ctx.room}
-          onClose={ctx.handleClose}
-          busy={busy}
-          t={ctx.t}
+          isEdit={dialog.isEdit}
+          room={dialog.room}
+          onClose={dialog.handleClose}
+          busy={dialog.isSaving}
+          t={dialog.t}
         />
       </DialogTitle>
-
-      <FormProvider {...ctx.methods}>
-        {ctx.isEdit && ctx.room ? (
-          <RoomFormDialogEditForm
-            methods={ctx.methods}
-            roomTypes={ctx.roomTypes}
-            room={ctx.room}
-            onClose={ctx.handleClose}
-            onSubmit={ctx.onEditSubmit}
-            isCreating={ctx.isCreating}
-            isUpdating={ctx.isUpdating}
-            t={ctx.t}
-          />
-        ) : (
-          <RoomFormDialogCreateFlow
-            activeStep={ctx.activeStep}
-            stepLabels={ctx.stepLabels}
-            roomTypes={ctx.roomTypes}
-            createdRoomId={ctx.createdRoomId}
-            createFlowPhotos={ctx.createFlowPhotos}
-            onPhotosChange={ctx.setCreateFlowPhotos}
-            onClose={ctx.handleClose}
-            onNext={ctx.handleCreateNext}
-            onBack={() => ctx.setActiveStep(0)}
-            onFinish={ctx.handleFinishCreate}
-            isCreating={ctx.isCreating}
-            isUpdating={ctx.isUpdating}
-            isSavingPhotos={ctx.isSavingPhotos}
-            t={ctx.t}
-          />
-        )}
+      <FormProvider {...dialog.methods}>
+        <RoomFormDialogCreateFlow
+          isEdit={dialog.isEdit}
+          activeStep={dialog.activeStep}
+          stepLabels={dialog.stepLabels}
+          roomTypes={dialog.roomTypes}
+          photos={dialog.createPhotos}
+          replacementCoverPhoto={dialog.replacementCoverPhoto}
+          existingPhotos={dialog.existingPhotos}
+          onDeleteExistingPhoto={dialog.handleDeleteExistingPhoto}
+          onPhotosChange={dialog.setCreatePhotos}
+          onReplaceCoverPhoto={dialog.setReplacementCoverPhoto}
+          onClose={dialog.handleClose}
+          onNext={dialog.handleCreateNext}
+          onBack={() => dialog.setActiveStep(0)}
+          onFinish={dialog.isEdit ? dialog.handleFinishEdit : dialog.handleFinishCreate}
+          isCreating={dialog.isSaving || dialog.isLoadingRoom}
+          isSavingPhotos={dialog.isSavingPhotos}
+          t={dialog.t}
+        />
       </FormProvider>
     </Dialog>
   );

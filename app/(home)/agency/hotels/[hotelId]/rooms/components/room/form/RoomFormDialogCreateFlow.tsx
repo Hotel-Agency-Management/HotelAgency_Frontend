@@ -1,65 +1,69 @@
 import {
   Button,
   CircularProgress,
-  DialogActions,
   DialogContent,
   Stack,
   Step,
   StepLabel,
-  Stepper,
 } from "@mui/material";
 import { TFunction } from "i18next";
-import { RoomPhoto } from "../../../types/room";
 import { RoomType } from "../../../../../../../room-types/types/roomType";
+import type { RoomPhoto } from "../../../types/room";
+import { DialogActionsRoot, DialogStepper } from "../../../roomStyle";
 import { RoomAmenitiesPicker } from "./RoomAmenitiesPicker";
+import { RoomCreatePhotosUpload } from "./RoomCreatePhotosUpload";
+import { RoomEditPhotosUpload } from "./RoomEditPhotosUpload";
 import { RoomFormFields } from "./RoomFormFields";
-import { RoomPhotosUpload } from "./RoomPhotosUpload";
 
 interface Props {
+  isEdit: boolean;
   activeStep: number;
   stepLabels: string[];
   roomTypes: RoomType[];
-  createdRoomId: string | null;
-  createFlowPhotos: RoomPhoto[];
-  onPhotosChange: (photos: RoomPhoto[]) => void;
+  photos: File[];
+  replacementCoverPhoto?: File | null;
+  existingPhotos?: RoomPhoto[];
+  onDeleteExistingPhoto?: (photo: RoomPhoto) => void;
+  onPhotosChange: (photos: File[]) => void;
+  onReplaceCoverPhoto?: (file: File | null) => void;
   onClose: () => void;
   onNext: () => void;
   onBack: () => void;
   onFinish: () => void;
   isCreating: boolean;
-  isUpdating: boolean;
   isSavingPhotos: boolean;
   t: TFunction;
 }
 
 export function RoomFormDialogCreateFlow({
+  isEdit,
   activeStep,
   stepLabels,
   roomTypes,
-  createdRoomId,
-  createFlowPhotos,
+  photos,
+  replacementCoverPhoto = null,
+  existingPhotos = [],
+  onDeleteExistingPhoto,
   onPhotosChange,
+  onReplaceCoverPhoto,
   onClose,
   onNext,
   onBack,
   onFinish,
   isCreating,
-  isUpdating,
   isSavingPhotos,
   t,
 }: Props) {
-  const stepBusy = isCreating || isUpdating;
-
   return (
     <>
-      <DialogContent dividers>
-        <Stepper activeStep={activeStep} sx={{ mb: 3 }}>
+      <DialogContent>
+        <DialogStepper activeStep={activeStep}>
           {stepLabels.map((label, index) => (
             <Step key={`${label}-${index}`}>
               <StepLabel>{label}</StepLabel>
             </Step>
           ))}
-        </Stepper>
+        </DialogStepper>
 
         {activeStep === 0 && (
           <Stack spacing={3}>
@@ -68,17 +72,24 @@ export function RoomFormDialogCreateFlow({
           </Stack>
         )}
 
-        {activeStep === 1 && createdRoomId ? (
-          <RoomPhotosUpload
-            roomId={createdRoomId}
-            existingPhotos={createFlowPhotos}
-            onPhotosChange={onPhotosChange}
-          />
+        {activeStep === 1 ? (
+          isEdit ? (
+            <RoomEditPhotosUpload
+              existingPhotos={existingPhotos}
+              newFiles={photos}
+              replacementCoverPhoto={replacementCoverPhoto}
+              onNewFilesChange={onPhotosChange}
+              onReplaceCoverPhoto={onReplaceCoverPhoto ?? (() => undefined)}
+              onDeleteExistingPhoto={onDeleteExistingPhoto ?? (() => undefined)}
+            />
+          ) : (
+            <RoomCreatePhotosUpload files={photos} onFilesChange={onPhotosChange} />
+          )
         ) : null}
       </DialogContent>
 
-      <DialogActions sx={{ px: 3, py: 2 }}>
-        <Button onClick={onClose} disabled={stepBusy || isSavingPhotos}>
+      <DialogActionsRoot>
+        <Button onClick={onClose} disabled={isCreating || isSavingPhotos}>
           {t("hotelRooms.dialog.cancel", { defaultValue: "Cancel" })}
         </Button>
 
@@ -87,28 +98,27 @@ export function RoomFormDialogCreateFlow({
             type="button"
             variant="contained"
             onClick={onNext}
-            disabled={stepBusy}
-            startIcon={stepBusy ? <CircularProgress size={16} /> : null}
+            disabled={isCreating}
           >
             {t("hotelRooms.dialog.next", { defaultValue: "Next" })}
           </Button>
         ) : (
           <>
-            <Button type="button" onClick={onBack} disabled={isSavingPhotos}>
+            <Button type="button" onClick={onBack} disabled={isCreating || isSavingPhotos}>
               {t("hotelRooms.dialog.back", { defaultValue: "Back" })}
             </Button>
             <Button
               type="button"
               variant="contained"
               onClick={onFinish}
-              disabled={isSavingPhotos}
-              startIcon={isSavingPhotos ? <CircularProgress size={16} /> : null}
+              disabled={isCreating || isSavingPhotos}
+              startIcon={isCreating || isSavingPhotos ? <CircularProgress size={16} /> : null}
             >
               {t("hotelRooms.dialog.finish", { defaultValue: "Finish" })}
             </Button>
           </>
         )}
-      </DialogActions>
+      </DialogActionsRoot>
     </>
   );
 }

@@ -3,13 +3,12 @@ import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { useTranslation } from "react-i18next";
-import { AMENITIES_LIST } from "../../constants/amenitiesList";
-import { AMENITY_ICON_BY_KEY } from "../../constants/amenityIcons";
+import type { RoomAmenityResponse } from "../../types/room";
 import { RoomAmenitiesSkeleton } from "./profileSkelton/RoomAmenitiesSkeleton";
 import { RoomAmenitiesGrid } from "./RoomAmenitiesGrid";
 
 export interface RoomAmenitiesListProps {
-  amenities: string[];
+  amenities: RoomAmenityResponse[] | string[];
   loading?: boolean;
 }
 
@@ -20,11 +19,10 @@ export const RoomAmenitiesList = memo(function RoomAmenitiesList({
   const { t } = useTranslation();
 
   const items = useMemo(() => {
-    const map = new Map(AMENITIES_LIST.map((a) => [a.key, a.label]));
-    return amenities.map((key) => ({
-      key,
-      label: map.get(key) ?? key,
-      icon: AMENITY_ICON_BY_KEY[key] ?? "tabler:check",
+    return amenities.map((amenity) => ({
+      key: typeof amenity === "string" ? amenity : String(amenity.id),
+      label: typeof amenity === "string" ? amenity : amenity.name,
+      icon: "tabler:check",
     }));
   }, [amenities]);
 

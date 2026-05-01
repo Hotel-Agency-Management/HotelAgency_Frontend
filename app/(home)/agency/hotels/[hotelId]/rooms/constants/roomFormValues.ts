@@ -1,18 +1,20 @@
 import { RoomFormValues } from "../schema/roomSchema";
-import { BED_TYPE, ROOM_STATUS } from "../types/room";
+import { RoomStatus } from "../types/room";
 
 export const defaultFormValues: RoomFormValues = {
   roomNumber: "",
   floorNumber: 1,
-  roomTypeId: "",
-  status: ROOM_STATUS.AVAILABLE,
+  roomTypeId: 0,
+  status: RoomStatus.Available,
   description: "",
   notes: "",
   capacity: 1,
-  bedType: BED_TYPE.SINGLE,
-  starRating: 3,
-  amenities: [],
-  pricePerNight: undefined,
+  amenityIds: [],
+  dailyPrice: 0,
+  weeklyPrice: 0,
+  monthlyPrice: 0,
+  extendPrice: 0,
+  coverPhoto: null,
 };
 
 export const ROOMS_KEY = ["rooms"] as const;

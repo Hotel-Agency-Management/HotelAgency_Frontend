@@ -1,12 +1,12 @@
-import { Stack, TextField, MenuItem, ToggleButtonGroup, ToggleButton, Tooltip } from "@mui/material";
+import { Stack, MenuItem, ToggleButtonGroup, ToggleButton, Tooltip } from "@mui/material";
+import type { ReactNode } from "react";
 import { ROOM_STATUSES } from "../../../constants/roomStatuses";
 import { RoomFilters, RoomStatus } from "../../../types/room";
-import { RoomType } from "../../../../../../../room-types/types/roomType";
 import { LayoutGrid, List } from "lucide-react";
+import { ToolbarPlaceholder, ToolbarSearchField, ToolbarStatusField } from "../../../roomStyle";
 
 interface Props {
   filters: RoomFilters;
-  roomTypes?: RoomType[];
   onFilterChange: (filters: RoomFilters) => void;
   onAddRoom: () => void;
   view: "list" | "cards";
@@ -15,7 +15,6 @@ interface Props {
 
 export const RoomsToolbar = ({
   filters,
-  roomTypes = [],
   onFilterChange,
   view,
   onViewChange,
@@ -23,7 +22,7 @@ export const RoomsToolbar = ({
   return (
     <Stack direction="row" spacing={2} alignItems="center" flexWrap="wrap" justifyContent="space-between">
       <Stack direction="row" spacing={2} alignItems="center" flexWrap="wrap">
-        <TextField
+        <ToolbarSearchField
           size="small"
           placeholder="Search room..."
           value={filters.search ?? ""}
@@ -33,10 +32,9 @@ export const RoomsToolbar = ({
               search: e.target.value,
             })
           }
-          sx={{ width: 400 }}
         />
 
-        <TextField
+        <ToolbarStatusField
           select
           size="small"
           value={filters.status ?? ""}
@@ -46,13 +44,12 @@ export const RoomsToolbar = ({
               status: (e.target.value as RoomStatus) || undefined,
             })
           }
-          sx={{ width: 150 }}
           SelectProps={{
             displayEmpty: true,
             renderValue: (selected) => {
               const value = selected as string;
               if (!value) {
-                return <span style={{ opacity: 0.7 }}>Status</span>;
+                return <TextFieldPlaceholder>Status</TextFieldPlaceholder>;
               }
               return ROOM_STATUSES[value as keyof typeof ROOM_STATUSES]?.label ?? value;
             },
@@ -64,37 +61,8 @@ export const RoomsToolbar = ({
               {label}
             </MenuItem>
           ))}
-        </TextField>
+        </ToolbarStatusField>
 
-        <TextField
-          select
-          size="small"
-          value={filters.roomTypeId ?? ""}
-          onChange={(e) =>
-            onFilterChange({
-              ...filters,
-              roomTypeId: e.target.value || undefined,
-            })
-          }
-          sx={{ width: 150 }}
-          SelectProps={{
-            displayEmpty: true,
-            renderValue: (selected) => {
-              const value = selected as string;
-              if (!value) {
-                return <span style={{ opacity: 0.7 }}>Type</span>;
-              }
-              return roomTypes.find((roomType) => roomType.id === value)?.name ?? value;
-            },
-          }}
-        >
-          <MenuItem value="">All</MenuItem>
-          {roomTypes.map((roomType) => (
-            <MenuItem key={roomType.id} value={roomType.id}>
-              {roomType.name}
-            </MenuItem>
-          ))}
-        </TextField>
       </Stack>
 
       <Stack direction="row" spacing={1} justifyContent="flex-end">
@@ -121,3 +89,11 @@ export const RoomsToolbar = ({
     </Stack>
   );
 };
+
+function TextFieldPlaceholder({ children }: { children: ReactNode }) {
+  return (
+    <ToolbarPlaceholder>
+      {children}
+    </ToolbarPlaceholder>
+  );
+}

@@ -2,9 +2,9 @@ import { IconButton, Stack } from "@mui/material";
 import { Pencil, Trash2 } from "lucide-react";
 
 interface Props {
-  id: string;
-  onEdit: (id: string) => void;
-  onDelete: (id: string) => void;
+  id: number;
+  onEdit: (id: number) => void;
+  onDelete: (id: number) => void;
 }
 
 export const RoomQuickActions = ({ id, onEdit, onDelete }: Props) => {

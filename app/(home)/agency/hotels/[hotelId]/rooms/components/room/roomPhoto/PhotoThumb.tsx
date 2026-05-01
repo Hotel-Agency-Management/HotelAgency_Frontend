@@ -1,99 +1,105 @@
-import { Paper, CardMedia, Stack, Tooltip, IconButton, Typography } from "@mui/material";
+import { Box, Tooltip, Typography } from "@mui/material";
 import { RoomPhoto } from "../../../types/room";
-import DeleteIcon from "@mui/icons-material/Delete";
-import StarIcon from "@mui/icons-material/Star";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
+import {
+  PhotoThumbActionButton,
+  PhotoThumbActions,
+  PhotoThumbDeleteButton,
+  PhotoThumbImage,
+  PhotoThumbReplaceButton,
+  PhotoThumbRoot,
+  PrimaryPhotoLabel,
+  TinyDeleteIcon,
+  TinyReplaceIcon,
+  TinyStarBorderIcon,
+  TinyStarIcon,
+} from "../../../roomStyle";
 export function PhotoThumb({
   photo,
   onSetPrimary,
   onDelete,
+  onReplace,
+  deleteDisabled = false,
 }: {
   photo: RoomPhoto;
   onSetPrimary: () => void;
-  onDelete: () => void;
+  onDelete?: () => void;
+  onReplace?: () => void;
+  deleteDisabled?: boolean;
 }) {
   return (
-    <Paper
+    <PhotoThumbRoot
       variant="outlined"
-      sx={{
-        position: "relative",
-        width: 120,
-        height: 90,
-        overflow: "hidden",
-        borderWidth: photo.isPrimary ? 2 : 1,
-        borderColor: photo.isPrimary ? "primary.main" : "divider",
-        borderStyle: "solid",
-      }}
+      primaryPhoto={photo.isPrimary}
     >
-      <CardMedia
-        component="img"
+      <PhotoThumbImage
         src={photo.url}
         alt=""
-        sx={{ width: "100%", height: "100%", objectFit: "cover" }}
       />
 
-      <Stack direction="row" position="absolute" top={2} right={2} gap={0.3}>
+      <PhotoThumbActions direction="row" gap={0.3}>
         <Tooltip title={photo.isPrimary ? "Primary photo" : "Set as primary"}>
-          <IconButton
+          <PhotoThumbActionButton
             size="small"
+            primaryPhoto={photo.isPrimary}
             onClick={(e) => {
               e.stopPropagation();
               onSetPrimary();
             }}
-            sx={{
-              bgcolor: "rgba(0,0,0,0.5)",
-              color: photo.isPrimary ? "warning.light" : "white",
-              p: 0.3,
-              "&:hover": { bgcolor: "rgba(0,0,0,0.7)" },
-            }}
           >
             {photo.isPrimary ? (
-              <StarIcon sx={{ fontSize: 14 }} />
+              <TinyStarIcon />
             ) : (
-              <StarBorderIcon sx={{ fontSize: 14 }} />
+              <TinyStarBorderIcon />
             )}
-          </IconButton>
+          </PhotoThumbActionButton>
         </Tooltip>
 
-        <Tooltip title="Delete photo">
-          <IconButton
-            size="small"
-            onClick={(e) => {
-              e.stopPropagation();
-              onDelete();
-            }}
-            sx={{
-              bgcolor: "rgba(0,0,0,0.5)",
-              color: "white",
-              p: 0.3,
-              "&:hover": { bgcolor: "error.main" },
-            }}
-          >
-            <DeleteIcon sx={{ fontSize: 14 }} />
-          </IconButton>
+        {onReplace ? (
+          <Tooltip title="Replace cover photo">
+            <PhotoThumbReplaceButton
+              size="small"
+              onClick={(e) => {
+                e.stopPropagation();
+                onReplace();
+              }}
+            >
+              <TinyReplaceIcon />
+            </PhotoThumbReplaceButton>
+          </Tooltip>
+        ) : null}
+
+        <Tooltip
+          title={
+            deleteDisabled
+              ? "Photo id is not available for deletion"
+              : "Delete photo"
+          }
+        >
+          <Box component='span'>
+            <PhotoThumbDeleteButton
+              size="small"
+              disabled={deleteDisabled}
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete?.();
+              }}
+            >
+              <TinyDeleteIcon />
+            </PhotoThumbDeleteButton>
+          </Box>
         </Tooltip>
-      </Stack>
+      </PhotoThumbActions>
 
       {photo.isPrimary ? (
-        <Paper
+        <PrimaryPhotoLabel
           elevation={0}
           square
-          sx={{
-            position: "absolute",
-            bottom: 0,
-            left: 0,
-            right: 0,
-            bgcolor: "primary.main",
-            py: 0.3,
-            textAlign: "center",
-            borderRadius: 0,
-          }}
         >
           <Typography variant="caption" color="common.white" fontWeight={600}>
             Primary
           </Typography>
-        </Paper>
+        </PrimaryPhotoLabel>
       ) : null}
-    </Paper>
+    </PhotoThumbRoot>
   );
 }

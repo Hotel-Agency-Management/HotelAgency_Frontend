@@ -1,23 +1,22 @@
-import { Box, Grid, Skeleton } from "@mui/material";
+import Grid from "@mui/material/Grid";
+import {
+  GallerySkeletonGrid,
+  GallerySkeletonMain,
+  GallerySkeletonRoot,
+  GallerySkeletonThumb,
+} from "../../../roomStyle";
 
 export function RoomGallerySkeleton() {
   return (
-    <Box sx={{ width: 1 }}>
-      <Skeleton
-        variant="rounded"
-        sx={(th) => ({
-          height: { xs: 240, md: 380 },
-          borderRadius: th.spacing(1.5),
-          boxShadow: th.shadows[4],
-        })}
-      />
-      <Grid container spacing={1.25} sx={{ mt: 1.5 }}>
+    <GallerySkeletonRoot>
+      <GallerySkeletonMain variant="rounded" />
+      <GallerySkeletonGrid container spacing={1.25}>
         {Array.from({ length: 3 }).map((_, i) => (
           <Grid key={i} size={{ xs: 4, sm: 3 }}>
-            <Skeleton variant="rounded" sx={{ height: { xs: 64, sm: 72 }, borderRadius: (th) => th.spacing(1) }} />
+            <GallerySkeletonThumb variant="rounded" />
           </Grid>
         ))}
-      </Grid>
-    </Box>
+      </GallerySkeletonGrid>
+    </GallerySkeletonRoot>
   );
 }

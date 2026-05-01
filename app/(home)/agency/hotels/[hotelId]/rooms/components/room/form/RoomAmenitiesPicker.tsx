@@ -15,8 +15,16 @@ export const RoomAmenitiesPicker = () => {
   const { data: activeAmenities = [] } = useRoomAmenities();
   const amenities =
     activeAmenities.length > 0
-      ? activeAmenities.map(({ id, title, icon }) => ({ key: id, label: title, icon }))
-      : AMENITIES_LIST.map((amenity) => ({ ...amenity, icon: amenity.key }));
+      ? activeAmenities.map(({ id, title, icon }, index) => {
+          const numericId = Number(id);
+
+          return {
+            key: Number.isFinite(numericId) ? numericId : index + 1,
+            label: title,
+            icon,
+          };
+        })
+      : AMENITIES_LIST.map((amenity, index) => ({ key: index + 1, label: amenity.label, icon: amenity.key }));
 
   return (
     <Box>
@@ -25,12 +33,12 @@ export const RoomAmenitiesPicker = () => {
       </Typography>
 
       <Controller
-        name="amenities"
+        name="amenityIds"
         control={control}
         render={({ field }) => {
-          const selected: string[] = field.value ?? [];
+          const selected: number[] = field.value ?? [];
 
-          const toggle = (key: string) => {
+          const toggle = (key: number) => {
             const updated = selected.includes(key)
               ? selected.filter((k) => k !== key)
               : [...selected, key];
@@ -61,14 +69,14 @@ export const RoomAmenitiesPicker = () => {
         }}
       />
 
-      {errors.amenities && (
+      {errors.amenityIds && (
         <Typography variant="caption" color="error" mt={0.5} display="block">
-          {errors.amenities.message}
+          {errors.amenityIds.message}
         </Typography>
       )}
 
       <Controller
-        name="amenities"
+        name="amenityIds"
         control={control}
         render={({ field }) => (
           <Typography variant="caption" color="text.secondary" mt={1} display="block">

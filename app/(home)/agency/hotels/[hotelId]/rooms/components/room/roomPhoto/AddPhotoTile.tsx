@@ -1,9 +1,8 @@
-import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
-import { Paper } from "@mui/material";
+import { AddPhotoTileIcon, AddPhotoTileRoot } from "../../../roomStyle";
 
 export function AddPhotoTile({ onActivate }: { onActivate: () => void }) {
   return (
-    <Paper
+    <AddPhotoTileRoot
       variant="outlined"
       onClick={onActivate}
       role="button"
@@ -14,18 +13,8 @@ export function AddPhotoTile({ onActivate }: { onActivate: () => void }) {
           onActivate();
         }
       }}
-      sx={{
-        width: 120,
-        height: 90,
-        borderStyle: "dashed",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        cursor: "pointer",
-        "&:hover": { borderColor: "primary.main" },
-      }}
     >
-      <AddPhotoAlternateIcon sx={{ color: "text.disabled" }} />
-    </Paper>
+      <AddPhotoTileIcon />
+    </AddPhotoTileRoot>
   );
 }
