@@ -1,3 +1,32 @@
+export {
+  RoomStatus,
+  type CreateRoomRequest,
+  type RoomAmenityResponse,
+  type RoomListItemResponse,
+  type RoomResponse,
+  type UpdateRoomRequest,
+} from "../configs/roomConfig";
+
+export type { RoomPhotoResponse } from "../configs/roomPhotoConfig";
+
+export type RoomRouteScope =
+  | { mode: "agency"; hotelId: number }
+  | { mode: "admin"; agencyId: number; hotelId: number };
+
+export interface RoomFilters {
+  status?: import("../configs/roomConfig").RoomStatus;
+  roomTypeId?: number;
+  floor?: number;
+  search?: string;
+}
+
+export interface RoomPhoto {
+  id: number | string;
+  url: string;
+  isPrimary?: boolean;
+  isCoverPhoto?: boolean;
+}
+
 export const ROOM_STATUS = {
   AVAILABLE: "available",
   OCCUPIED: "occupied",
@@ -6,15 +35,7 @@ export const ROOM_STATUS = {
   BLOCKED: "blocked",
 } as const;
 
-export const ROOM_STATUS_VALUES = [
-  ROOM_STATUS.AVAILABLE,
-  ROOM_STATUS.OCCUPIED,
-  ROOM_STATUS.MAINTENANCE,
-  ROOM_STATUS.RESERVED,
-  ROOM_STATUS.BLOCKED,
-] as const;
-
-export type RoomStatus = (typeof ROOM_STATUS_VALUES)[number];
+export type LegacyRoomStatus = (typeof ROOM_STATUS)[keyof typeof ROOM_STATUS];
 
 export const BED_TYPE = {
   SINGLE: "single",
@@ -23,28 +44,14 @@ export const BED_TYPE = {
   KING: "king",
 } as const;
 
-export const BED_TYPE_VALUES = [
-  BED_TYPE.SINGLE,
-  BED_TYPE.DOUBLE,
-  BED_TYPE.QUEEN,
-  BED_TYPE.KING,
-] as const;
-
-export type BedType = (typeof BED_TYPE_VALUES)[number]
-
-
-export interface RoomPhoto {
-  id: string;
-  url: string;
-  isPrimary?: boolean;
-}
+export type BedType = (typeof BED_TYPE)[keyof typeof BED_TYPE];
 
 export interface Room {
   id: string;
   roomNumber: string;
   floorNumber: number;
   roomTypeId: string;
-  status: RoomStatus;
+  status: LegacyRoomStatus;
   description?: string;
   notes?: string;
   capacity: number;
@@ -61,10 +68,3 @@ export interface CreateRoomDto
   extends Omit<Room, "id" | "photos" | "createdAt" | "updatedAt"> {}
 
 export interface UpdateRoomDto extends Partial<CreateRoomDto> {}
-
-export interface RoomFilters {
-  status?: RoomStatus;
-  roomTypeId?: string;
-  floor?: number;
-  search?: string;
-}

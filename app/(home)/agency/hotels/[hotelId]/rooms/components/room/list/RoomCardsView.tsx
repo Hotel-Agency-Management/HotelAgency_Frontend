@@ -1,78 +1,79 @@
-import { useState } from "react";
-import { useRouter, useParams } from "next/navigation";
-import { DataGrid } from "@mui/x-data-grid";
+import { useMemo, useState } from "react";
 import { Stack } from "@mui/material";
+import { DeleteRoomDialog } from "../DeleteRoomDialog";
+import { RoomRowsGrid } from "../../../roomStyle";
 import { RoomsToolbar } from "./RoomsToolbar";
 import { RoomGridView } from "./grid/RoomGridView";
-import { useRooms, useDeleteRoom } from "../../../hooks/useRoomStore";
-import { RoomFilters } from "../../../types/room";
+import type { RoomRouteScope } from "../../../types/room";
+import { useRoomsPageController } from "../../../hooks/useRoomsPageController";
 import { getRoomGridColumns } from "../../../util/roomGridColumns";
-import { useGetRoomTypes } from "../../../../../../../room-types/hooks/queries/roomTypeQueries";
-import { useHotelStore } from "../../../../../hooks/useHotelStore";
-import { useAuth } from "@/core/context/AuthContext";
 
 interface Props {
+  scope: RoomRouteScope;
   onAddRoom: () => void;
-  onEditRoom: (id: string) => void;
+  onEditRoom: (id: number) => void;
 }
 
-export const RoomCardsView = ({ onAddRoom, onEditRoom }: Props) => {
-  const router = useRouter();
-  const params = useParams();
-  const { user } = useAuth();
-  const hotelId = params.hotelId as string;
-  const numericHotelId = Number(hotelId);
+export const RoomCardsView = ({ scope, onAddRoom, onEditRoom }: Props) => {
+  const controller = useRoomsPageController(scope);
+  const [deleteRoomId, setDeleteRoomId] = useState<number | null>(null);
 
-  const [filters, setFilters] = useState<RoomFilters>({});
-  const [view, setView] = useState<"list" | "cards">("list");
-
-  const { data: rooms = [], isLoading } = useRooms(filters);
-  const { mutate: deleteRoom } = useDeleteRoom();
-  const { data: roomTypes = [] } = useGetRoomTypes();
-
-  const { hotel } = useHotelStore(
-    user?.agencyId,
-    Number.isFinite(numericHotelId) ? numericHotelId : undefined
+  const roomToDelete = useMemo(
+    () => controller.rooms.find((room) => room.id === deleteRoomId),
+    [controller.rooms, deleteRoomId],
   );
-  const currency = hotel?.basicInfo.currency ?? "USD";
 
-  const columns = getRoomGridColumns(onEditRoom, deleteRoom, roomTypes);
-
-  const goToRoomProfile = (roomId: string) => {
-    router.push(`/agency/hotels/${hotelId}/rooms/${roomId}`);
+  const openDeleteDialog = (roomId: number) => {
+    setDeleteRoomId(roomId);
   };
+
+  const closeDeleteDialog = () => {
+    if (!controller.isDeleting) setDeleteRoomId(null);
+  };
+
+  const confirmDelete = () => {
+    if (deleteRoomId == null) return;
+    controller.deleteRoom(deleteRoomId, { onSuccess: () => setDeleteRoomId(null) });
+  };
+
+  const columns = getRoomGridColumns(onEditRoom, openDeleteDialog);
 
   return (
     <Stack spacing={2}>
       <RoomsToolbar
-        filters={filters}
-        roomTypes={roomTypes}
-        onFilterChange={setFilters}
+        filters={controller.filters}
+        onFilterChange={controller.setFilters}
         onAddRoom={onAddRoom}
-        view={view}
-        onViewChange={setView}
+        view={controller.view}
+        onViewChange={controller.setView}
       />
-      {view === "cards" ? (
+      {controller.view === "cards" ? (
         <RoomGridView
-          rooms={rooms}
-          roomTypes={roomTypes}
-          isLoading={isLoading}
-          currency={currency}
+          rooms={controller.rooms}
+          scope={scope}
+          isLoading={controller.isLoading}
           onEditRoom={onEditRoom}
-          onDeleteRoom={deleteRoom}
-          onRoomClick={goToRoomProfile}
+          onDeleteRoom={openDeleteDialog}
+          onRoomClick={controller.goToRoomProfile}
         />
       ) : (
-        <DataGrid
-          rows={rooms}
+        <RoomRowsGrid
+          rows={controller.rooms}
           columns={columns}
-          loading={isLoading}
-          onRowClick={(p) => goToRoomProfile(String(p.id))}
+          loading={controller.isLoading}
+          onRowClick={(p) => controller.goToRoomProfile(Number(p.id))}
           pageSizeOptions={[10, 25, 50]}
           disableRowSelectionOnClick
-          sx={{ cursor: "pointer" }}
         />
       )}
+
+      <DeleteRoomDialog
+        open={deleteRoomId != null}
+        roomNumber={roomToDelete?.roomNumber}
+        isDeleting={controller.isDeleting}
+        onClose={closeDeleteDialog}
+        onConfirm={confirmDelete}
+      />
     </Stack>
   );
 };

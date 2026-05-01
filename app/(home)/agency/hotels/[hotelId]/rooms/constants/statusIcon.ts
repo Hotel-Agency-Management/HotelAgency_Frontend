@@ -1,9 +1,9 @@
-import { ROOM_STATUS, RoomStatus } from "../types/room";
+import { RoomStatus } from "../types/room";
 
 export const STATUS_ICONS: Record<RoomStatus, string> = {
-  [ROOM_STATUS.AVAILABLE]: "tabler:circle-check",
-  [ROOM_STATUS.OCCUPIED]: "tabler:user",
-  [ROOM_STATUS.MAINTENANCE]: "tabler:tool",
-  [ROOM_STATUS.RESERVED]: "tabler:calendar-event",
-  [ROOM_STATUS.BLOCKED]: "tabler:ban",
+  [RoomStatus.Available]: "tabler:circle-check",
+  [RoomStatus.Occupied]: "tabler:user",
+  [RoomStatus.Maintenance]: "tabler:tool",
+  [RoomStatus.Reserved]: "tabler:calendar-event",
+  [RoomStatus.OutOfService]: "tabler:ban",
 };

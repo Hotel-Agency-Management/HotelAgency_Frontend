@@ -1,26 +1,24 @@
 import { useState } from "react";
 import Stack from "@mui/material/Stack";
-import { useParams } from "next/navigation";
-import { useRoom } from "../../hooks/useRoomStore";
+import type { RoomRouteScope } from "../../types/room";
 import { RoomFormDialog } from "./form/RoomFormDialog";
 import { RoomsPageHeader } from "./RoomsPageHeader";
 import { RoomCardsView } from "./list/RoomCardsView";
 
-export default function RoomsPage() {
-  const params = useParams();
-  const hotelId = params.hotelId as string;
+interface RoomsPageProps {
+  scope: RoomRouteScope;
+}
 
+export default function RoomsPage({ scope }: RoomsPageProps) {
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [selectedRoomId, setSelectedRoomId] = useState<string | null>(null);
-
-  const { data: selectedRoom } = useRoom(selectedRoomId ?? "");
+  const [selectedRoomId, setSelectedRoomId] = useState<number | null>(null);
 
   const openAddDialog = () => {
     setSelectedRoomId(null);
     setDialogOpen(true);
   };
 
-  const handleEdit = (id: string) => {
+  const handleEdit = (id: number) => {
     setSelectedRoomId(id);
     setDialogOpen(true);
   };
@@ -34,13 +32,13 @@ export default function RoomsPage() {
     <Stack spacing={3}>
       <RoomsPageHeader onOpenAddDialog={openAddDialog} />
 
-      <RoomCardsView onAddRoom={openAddDialog} onEditRoom={handleEdit} />
+      <RoomCardsView scope={scope} onAddRoom={openAddDialog} onEditRoom={handleEdit} />
 
       <RoomFormDialog
         open={dialogOpen}
         onClose={handleCloseDialog}
-        room={selectedRoom ?? null}
-        hotelId={hotelId}
+        roomId={selectedRoomId}
+        scope={scope}
       />
     </Stack>
   );

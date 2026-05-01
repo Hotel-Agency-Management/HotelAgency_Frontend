@@ -3,17 +3,15 @@ import Card from "@/components/ui/Card";
 import { HotelCardBase } from "./HotelCardBase";
 import { HotelCardOverlay } from "./HotelCardOverlay";
 import type { HotelCardProps } from "./types";
-import { useRouter } from "next/navigation";
 
-export function HotelCard({ hotel, onEdit }: HotelCardProps) {
+export function HotelCard({ hotel, onEdit, onOpen }: HotelCardProps) {
   const { basicInfo, branding } = hotel;
-  const router = useRouter();
 
   return (
     <Card
       variant="hotel"
       elevation={0}
-      onClick={() => router.push(`/agency/hotels/${hotel.id}/rooms`)}
+      onClick={() => onOpen?.(hotel.id)}
     >
       <HotelCardBase
         name={basicInfo.name}

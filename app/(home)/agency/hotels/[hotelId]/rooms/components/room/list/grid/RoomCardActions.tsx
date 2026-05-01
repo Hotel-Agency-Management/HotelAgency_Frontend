@@ -3,9 +3,9 @@ import { Edit, Trash2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 export interface RoomCardActionsProps {
-  roomId: string;
-  onEdit: (id: string) => void;
-  onDelete: (id: string) => void;
+  roomId: number;
+  onEdit: (id: number) => void;
+  onDelete: (id: number) => void;
 }
 
 export function RoomCardActions({ roomId, onEdit, onDelete }: RoomCardActionsProps) {

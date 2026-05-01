@@ -1,6 +1,6 @@
 import Alert from "@mui/material/Alert";
-import Stack from "@mui/material/Stack";
 import { useTranslation } from "react-i18next";
+import { ProfileErrorShell } from "../../roomStyle";
 
 interface RoomProfileErrorProps {
   error: unknown;
@@ -9,10 +9,10 @@ interface RoomProfileErrorProps {
 export function RoomProfileError({ error }: RoomProfileErrorProps) {
   const { t } = useTranslation();
   return (
-    <Stack sx={{ maxWidth: 1120, mx: "auto", width: 1 }}>
+    <ProfileErrorShell>
       <Alert severity="error">
         {error instanceof Error ? error.message : t("hotelRooms.profile.loadError")}
       </Alert>
-    </Stack>
+    </ProfileErrorShell>
   );
 }

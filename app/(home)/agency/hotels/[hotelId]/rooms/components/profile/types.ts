@@ -1,13 +1,12 @@
-import type { BedType, RoomPhoto, RoomStatus } from "../../types/room";
+import type { BedType, LegacyRoomStatus, RoomPhoto } from "../../types/room";
 import type { RoomKind } from "../../../../../../room-types/constants/roomTypes";
 
-/** Room payload for profile UI (display-oriented `type` key vs API `roomTypeId`). */
 export interface RoomProfile {
   id: string;
   roomNumber: string;
   floorNumber: number;
   type: RoomKind;
-  status: RoomStatus;
+  status: LegacyRoomStatus;
   description?: string;
   notes?: string;
   capacity: number;

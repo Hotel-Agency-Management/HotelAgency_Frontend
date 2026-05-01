@@ -1,16 +1,19 @@
 import {
-  CardMedia,
-  IconButton,
-  Paper,
-  Stack,
   Tooltip,
   Typography,
 } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import StarIcon from "@mui/icons-material/Star";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
 import { RoomPhoto } from "../../../types/room";
-import { actionBtnSx } from "../../../constants/actionBtn";
+import {
+  PhotoThumbActionButton,
+  PhotoThumbActions,
+  PhotoThumbDeleteButton,
+  PhotoThumbImage,
+  PhotoThumbRoot,
+  PrimaryPhotoLabel,
+  TinyDeleteIcon,
+  TinyStarBorderIcon,
+  TinyStarIcon,
+} from "../../../roomStyle";
 
 interface PhotoThumbProps {
   photo: RoomPhoto;
@@ -24,77 +27,50 @@ export function PhotoThumb({
   onDelete,
 }: PhotoThumbProps) {
   return (
-    <Paper
+    <PhotoThumbRoot
       variant="photoThumb"
-      sx={{
-        borderWidth: photo.isPrimary ? 2 : 1,
-        borderColor: photo.isPrimary ? "primary.main" : "divider",
-      }}
+      primaryPhoto={photo.isPrimary}
     >
-      <CardMedia
-        component="img"
+      <PhotoThumbImage
         src={photo.url}
         alt=""
-        sx={{
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-        }}
       />
-      <Stack
-        direction="row"
-        position="absolute"
-        top={2}
-        right={2}
-        gap={0.3}
-      >
+      <PhotoThumbActions direction="row" gap={0.3}>
         <Tooltip title={photo.isPrimary ? "Primary photo" : "Set as primary"}>
-          <IconButton
+          <PhotoThumbActionButton
             size="small"
+            primaryPhoto={photo.isPrimary}
             onClick={(e) => {
               e.stopPropagation();
               onSetPrimary();
             }}
-            sx={{
-              ...actionBtnSx,
-              color: photo.isPrimary ? "warning.light" : "common.white",
-              "&:hover": {
-                bgcolor: "rgba(0,0,0,0.7)",
-              },
-            }}
           >
             {photo.isPrimary ? (
-              <StarIcon sx={{ fontSize: 14 }} />
+              <TinyStarIcon />
             ) : (
-              <StarBorderIcon sx={{ fontSize: 14 }} />
+              <TinyStarBorderIcon />
             )}
-          </IconButton>
+          </PhotoThumbActionButton>
         </Tooltip>
         <Tooltip title="Delete photo">
-          <IconButton
+          <PhotoThumbDeleteButton
             size="small"
             onClick={(e) => {
               e.stopPropagation();
               onDelete();
             }}
-            sx={{
-              ...actionBtnSx,
-              "&:hover": {
-                bgcolor: "error.main",
-              },
-            }}
           >
-            <DeleteIcon sx={{ fontSize: 14 }} />
-          </IconButton>
+            <TinyDeleteIcon />
+          </PhotoThumbDeleteButton>
         </Tooltip>
-      </Stack>
+      </PhotoThumbActions>
       {photo.isPrimary && (
-        <Paper variant="photoBadge" elevation={0} square>
+        <PrimaryPhotoLabel variant="photoBadge" elevation={0} square>
           <Typography variant="caption" color="common.white" fontWeight={600}>
             Primary
           </Typography>
-        </Paper>
+        </PrimaryPhotoLabel>
       )}
-    </Paper>
+    </PhotoThumbRoot>
   );
 }

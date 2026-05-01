@@ -8,6 +8,7 @@ import {
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 
 import { RoomPhoto } from "../../../types/room";
+import { EmptyPhotoIcon, UploadSummary } from "../../../roomStyle";
 import { PhotoDropSurface } from "../roomPhoto/PhotoDropSurface";
 import { PhotoThumb } from "../roomPhoto/PhotoThumb";
 import { AddPhotoTile } from "../roomPhoto/AddPhotoTile";
@@ -64,7 +65,7 @@ export const RoomPhotosUpload = ({
     e.target.value = "";
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = (id: RoomPhoto["id"]) => {
     setPhotos((prev) => {
       const filtered = prev.filter((p) => p.id !== id);
       const hasPrimary = filtered.some((p) => p.isPrimary);
@@ -75,7 +76,7 @@ export const RoomPhotosUpload = ({
     });
   };
 
-  const handleSetPrimary = (id: string) => {
+  const handleSetPrimary = (id: RoomPhoto["id"]) => {
     setPhotos((prev) => prev.map((p) => ({ ...p, isPrimary: p.id === id })));
   };
 
@@ -110,7 +111,7 @@ export const RoomPhotosUpload = ({
 
       {photos.length === 0 ? (
         <PhotoDropSurface onActivate={openFilePicker}>
-          <AddPhotoAlternateIcon sx={{ fontSize: 40, color: "text.disabled" }} />
+          <EmptyPhotoIcon />
           <Typography variant="body2" color="text.secondary" mt={1}>
             {emptyLabel}
           </Typography>
@@ -129,9 +130,9 @@ export const RoomPhotosUpload = ({
         </Stack>
       )}
 
-      <Typography variant="caption" color="text.secondary" component="p" sx={{ m: 0 }}>
+      <UploadSummary variant="caption" color="text.secondary">
         {photos.length} photo{photos.length !== 1 ? "s" : ""} — {summaryLabel}
-      </Typography>
+      </UploadSummary>
     </Stack>
   );
 };
