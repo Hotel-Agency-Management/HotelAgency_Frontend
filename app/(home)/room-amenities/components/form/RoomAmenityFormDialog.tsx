@@ -1,47 +1,29 @@
-import { useEffect } from "react";
-import Button from "@mui/material/Button";
-import CircularProgress from "@mui/material/CircularProgress";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import MenuItem from "@mui/material/MenuItem";
-import Stack from "@mui/material/Stack";
-import TextField from "@mui/material/TextField";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, useForm } from "react-hook-form";
-import { defaultRoomAmenityFormValues } from "../../constants/roomAmenityFormValues";
-import { ROOM_AMENITY_ICON_OPTIONS } from "../../constants/roomAmenityIcons";
+import { useEffect } from 'react'
+import Button from '@mui/material/Button'
+import CircularProgress from '@mui/material/CircularProgress'
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import DialogTitle from '@mui/material/DialogTitle'
+import Stack from '@mui/material/Stack'
+import TextField from '@mui/material/TextField'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { defaultRoomAmenityFormValues } from '../../constants/roomAmenityFormValues'
 import {
   roomAmenitySchema,
   type RoomAmenityFormValues,
-} from "../../schema/roomAmenitySchema";
-import type { RoomAmenity } from "../../types/roomAmenity";
+} from '../../schema/roomAmenitySchema'
 
 interface Props {
-  open: boolean;
-  amenity: RoomAmenity | null;
-  isSaving: boolean;
-  onClose: () => void;
-  onSaveDetails: (values: RoomAmenityFormValues, id?: string) => Promise<RoomAmenity>;
+  open: boolean
+  isSaving: boolean
+  onClose: () => void
+  onSaveDetails: (values: RoomAmenityFormValues) => Promise<void>
 }
 
-function toFormValues(amenity: RoomAmenity): RoomAmenityFormValues {
-  return {
-    title: amenity.title,
-    icon: amenity.icon,
-  };
-}
-
-export function RoomAmenityFormDialog({
-  open,
-  amenity,
-  isSaving,
-  onClose,
-  onSaveDetails,
-}: Props) {
+export function RoomAmenityFormDialog({ open, isSaving, onClose, onSaveDetails }: Props) {
   const {
-    control,
     register,
     reset,
     handleSubmit,
@@ -49,63 +31,37 @@ export function RoomAmenityFormDialog({
   } = useForm<RoomAmenityFormValues>({
     resolver: zodResolver(roomAmenitySchema),
     defaultValues: defaultRoomAmenityFormValues,
-  });
+  })
 
   useEffect(() => {
-    if (!open) return;
-
-    reset(amenity ? toFormValues(amenity) : defaultRoomAmenityFormValues);
-  }, [amenity, open, reset]);
+    if (!open) return
+    reset(defaultRoomAmenityFormValues)
+  }, [open, reset])
 
   const handleClose = () => {
-    if (isSaving) return;
-    onClose();
-  };
+    if (isSaving) return
+    onClose()
+  }
 
   const handleSave = handleSubmit(async (values) => {
-    await onSaveDetails(values, amenity?.id);
-    onClose();
-  });
+    await onSaveDetails(values)
+    onClose()
+  })
 
   return (
     <Dialog open={open} onClose={isSaving ? undefined : handleClose} maxWidth="sm" fullWidth>
-      <DialogTitle>{amenity ? "Edit room amenity" : "Create room amenity"}</DialogTitle>
+      <DialogTitle>Create room amenity</DialogTitle>
 
       <DialogContent>
         <Stack spacing={2}>
           <TextField
-            label="Amenity title"
-            placeholder="Enter amenity title"
+            label="Amenity name"
+            placeholder="Enter amenity name"
             fullWidth
             size="small"
-            {...register("title")}
-            error={!!errors.title}
-            helperText={errors.title?.message}
-          />
-
-          <Controller
-            name="icon"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                select
-                label="Icon"
-                fullWidth
-                size="small"
-                {...field}
-                error={!!errors.icon}
-                helperText={errors.icon?.message}
-              >
-                {ROOM_AMENITY_ICON_OPTIONS.map(({ value, label, Icon }) => (
-                  <MenuItem key={value} value={value}>
-                    <Stack direction="row" alignItems="center" spacing={1}>
-                      <Icon size={16} />
-                      <span>{label}</span>
-                    </Stack>
-                  </MenuItem>
-                ))}
-              </TextField>
-            )}
+            {...register('name')}
+            error={!!errors.name}
+            helperText={errors.name?.message}
           />
         </Stack>
       </DialogContent>
@@ -125,5 +81,5 @@ export function RoomAmenityFormDialog({
         </Button>
       </DialogActions>
     </Dialog>
-  );
+  )
 }

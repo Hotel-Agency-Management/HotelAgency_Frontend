@@ -1,57 +1,52 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { roomAmenityApi } from "../api/roomAmenityApi";
-import { ROOM_AMENITIES_KEY } from "../constants/roomAmenityFormValues";
-import type {
-  CreateRoomAmenityDto,
-  RoomAmenityFilters,
-  UpdateRoomAmenityDto,
-} from "../types/roomAmenity";
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import {
+  adminCreateRoomAmenity,
+  adminDeleteRoomAmenity,
+  adminGetAllRoomAmenities,
+} from '../clients/adminRoomAmenityClient'
+import { getAllRoomAmenities } from '../clients/roomAmenityClient'
+import { ROOM_AMENITIES_KEY } from '../constants/roomAmenityFormValues'
+import type { CreateRoomAmenityDto, RoomAmenityFilters } from '../types/roomAmenity'
 
-export const useRoomAmenities = (filters?: RoomAmenityFilters) => {
+export const useAdminRoomAmenities = (filters?: RoomAmenityFilters) => {
   return useQuery({
-    queryKey: [...ROOM_AMENITIES_KEY, filters],
-    queryFn: () => roomAmenityApi.getAll(filters),
-  });
-};
+    queryKey: [...ROOM_AMENITIES_KEY, 'admin', filters],
+    queryFn: async () => {
+      const amenities = await adminGetAllRoomAmenities()
+      if (filters?.search) {
+        const search = filters.search.toLowerCase()
+        return amenities.filter((a) => a.name.toLowerCase().includes(search))
+      }
+      return amenities
+    },
+  })
+}
 
-export const useRoomAmenity = (id: string) => {
+export const useRoomAmenities = () => {
   return useQuery({
-    queryKey: [...ROOM_AMENITIES_KEY, "detail", id],
-    queryFn: () => roomAmenityApi.getById(id),
-    enabled: !!id,
-  });
-};
+    queryKey: [...ROOM_AMENITIES_KEY, 'scoped'],
+    queryFn: () => getAllRoomAmenities(),
+  })
+}
 
 export const useCreateRoomAmenity = () => {
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (dto: CreateRoomAmenityDto) => roomAmenityApi.create(dto),
+    mutationFn: (dto: CreateRoomAmenityDto) => adminCreateRoomAmenity(dto),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ROOM_AMENITIES_KEY });
+      queryClient.invalidateQueries({ queryKey: ROOM_AMENITIES_KEY })
     },
-  });
-};
-
-export const useUpdateRoomAmenity = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: ({ id, dto }: { id: string; dto: UpdateRoomAmenityDto }) =>
-      roomAmenityApi.update(id, dto),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ROOM_AMENITIES_KEY });
-    },
-  });
-};
+  })
+}
 
 export const useDeleteRoomAmenity = () => {
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (id: string) => roomAmenityApi.delete(id),
+    mutationFn: (id: number) => adminDeleteRoomAmenity(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ROOM_AMENITIES_KEY });
+      queryClient.invalidateQueries({ queryKey: ROOM_AMENITIES_KEY })
     },
-  });
-};
+  })
+}
