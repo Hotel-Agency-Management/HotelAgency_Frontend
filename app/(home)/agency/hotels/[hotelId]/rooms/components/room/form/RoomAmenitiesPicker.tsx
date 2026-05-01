@@ -5,26 +5,12 @@ import {
   Typography,
 } from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
-import { AMENITIES_LIST } from "../../../constants/amenitiesList";
 import { RoomFormValues } from "../../../schema/roomSchema";
-import { getRoomAmenityIcon } from "@/app/(home)/room-amenities/constants/roomAmenityIcons";
 import { useRoomAmenities } from "@/app/(home)/room-amenities/hooks/useRoomAmenityStore";
 
 export const RoomAmenitiesPicker = () => {
   const { control, formState: { errors } } = useFormContext<RoomFormValues>();
-  const { data: activeAmenities = [] } = useRoomAmenities();
-  const amenities =
-    activeAmenities.length > 0
-      ? activeAmenities.map(({ id, title, icon }, index) => {
-          const numericId = Number(id);
-
-          return {
-            key: Number.isFinite(numericId) ? numericId : index + 1,
-            label: title,
-            icon,
-          };
-        })
-      : AMENITIES_LIST.map((amenity, index) => ({ key: index + 1, label: amenity.label, icon: amenity.key }));
+  const { data: amenities = [] } = useRoomAmenities();
 
   return (
     <Box>
@@ -38,26 +24,24 @@ export const RoomAmenitiesPicker = () => {
         render={({ field }) => {
           const selected: number[] = field.value ?? [];
 
-          const toggle = (key: number) => {
-            const updated = selected.includes(key)
-              ? selected.filter((k) => k !== key)
-              : [...selected, key];
+          const toggle = (id: number) => {
+            const updated = selected.includes(id)
+              ? selected.filter((k) => k !== id)
+              : [...selected, id];
             field.onChange(updated);
           };
 
           return (
             <Stack direction="row" flexWrap="wrap" gap={1}>
-              {amenities.map(({ key, label, icon }) => {
-                const isSelected = selected.includes(key);
-                const Icon = getRoomAmenityIcon(icon);
+              {amenities.map(({ id, name }) => {
+                const isSelected = selected.includes(id);
 
                 return (
                   <Chip
-                    key={key}
-                    label={label}
-                    icon={<Icon size={16} />}
+                    key={id}
+                    label={name}
                     clickable
-                    onClick={() => toggle(key)}
+                    onClick={() => toggle(id)}
                     color={isSelected ? "primary" : "default"}
                     variant={isSelected ? "filled" : "outlined"}
                     size="small"
