@@ -23,7 +23,7 @@ const navigation = (hotelId?: string): SidebarNavItems => {
         },
         {
           title: 'Users',
-          path: '/agency/users',
+          path: '/users',
           icon: 'lucide:user',
           subject: 'Users',
           action: 'manage'

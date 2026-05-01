@@ -21,6 +21,12 @@ export const routePermissions: RoutePermission[] = [
     description: 'Home page for authenticated users'
   },
   {
+    pattern: '/users',
+    action: 'manage',
+    subject: 'Users',
+    description: 'Agency team member management'
+  },
+  {
     pattern: '/room-types',
     action: 'manage',
     subject: 'RoomTypes',

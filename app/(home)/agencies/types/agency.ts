@@ -6,7 +6,7 @@ export interface Agency {
   id: number
   plan_id: number
   owner_id: number
-  agency_name: string
+  name: string
   email: string
   phone: string
   country: string
