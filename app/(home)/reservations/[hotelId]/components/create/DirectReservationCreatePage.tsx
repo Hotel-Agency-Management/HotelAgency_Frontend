@@ -1,5 +1,4 @@
 'use client'
-
 import { Chip, Grid, Stack, Typography } from '@mui/material'
 import { BedDouble, PhoneCall, ReceiptText } from 'lucide-react'
 import { DirectReservationForm } from './DirectReservationForm'
@@ -32,6 +31,7 @@ export default function DirectReservationCreatePage({
     totalAmount,
     onSubmit,
   })
+
   return (
     <Stack spacing={3.5}>
       <GradientCard variant='card'>
@@ -41,7 +41,6 @@ export default function DirectReservationCreatePage({
             <Chip icon={<BedDouble size={14} />} label='Hotel Reservation' variant='outlined' />
             <Chip icon={<ReceiptText size={14} />} label='Payment Tracking' variant='outlined' />
           </Stack>
-
           <Stack spacing={1}>
             <Typography variant='h4' fontWeight={800}>
               Create a hotel reservation
@@ -53,7 +52,7 @@ export default function DirectReservationCreatePage({
         </Stack>
       </GradientCard>
 
-      <Grid container spacing={3.5} >
+      <Grid container spacing={3.5}>
         <Grid size={{ xs: 12, lg: 8 }}>
           <DirectReservationForm
             control={control}
@@ -63,7 +62,6 @@ export default function DirectReservationCreatePage({
             trigger={trigger}
           />
         </Grid>
-
         <Grid size={{ xs: 12, lg: 4 }}>
           <ReservationSummaryCard totalAmount={totalAmount} snapshot={reservationSnapshot} />
         </Grid>

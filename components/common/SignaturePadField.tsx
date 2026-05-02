@@ -1,5 +1,4 @@
 'use client'
-
 import type { ReactNode } from 'react'
 import { alpha, styled, useTheme } from '@mui/material/styles'
 import { Button, FormHelperText, Paper, Stack, Typography } from '@mui/material'
@@ -64,7 +63,6 @@ export function SignaturePadField({
           </Typography>
           {description ? <Typography variant='body2'>{description}</Typography> : null}
         </Stack>
-
         <ClearSignatureButton variant='text' size='small' disabled={!value} onClick={handleClear}>
           {clearLabel}
         </ClearSignatureButton>
@@ -102,7 +100,6 @@ export function SignaturePadField({
           />
         ) : null}
       </Paper>
-
       {error ? <FormHelperText error>{error}</FormHelperText> : null}
     </Stack>
   )
