@@ -21,7 +21,7 @@ import { useCustomerReservationManager } from './useCustomerReservationManager'
 import { useReservationFeedback } from './useReservationFeedback'
 import { buildReservationContract } from '../utils/buildReservationContract'
 import { findAvailabilityConflict } from '../utils/customerReservationPolicy'
-import { getRoomDetails, getStayLength, getTotalReservationPrice } from '../utils/roomBooking'
+import { getStayLength, getTotalReservationPrice } from '../utils/roomBooking'
 
 interface ReservationCreatedDocuments {
   contract: ReservationContractData
@@ -46,7 +46,7 @@ export function useCustomerRoomBookingCard({
   room,
   reservation,
 }: UseCustomerRoomBookingCardOptions) {
-  const { t, i18n } = useTranslation()
+  const { i18n } = useTranslation()
   const { user } = useAuth()
   const { currentReservation, roomReservations, createReservation, isBusy } =
     useCustomerReservationManager(hotelId, roomId)
@@ -57,10 +57,6 @@ export function useCustomerRoomBookingCard({
   const [openingInvoice, setOpeningInvoice] = useState(false)
 
   const roomType = ROOM_TYPES[room.type]
-  const details = useMemo(
-    () => getRoomDetails(room, t, i18n.language, reservation.currency),
-    [i18n.language, reservation.currency, room, t]
-  )
   const stayLength = useMemo(
     () => getStayLength(reservation.checkIn, reservation.checkOut),
     [reservation.checkIn, reservation.checkOut]
@@ -211,7 +207,6 @@ export function useCustomerRoomBookingCard({
   return {
     language: i18n.language,
     roomType,
-    details,
     currentReservation,
     isBusy,
     isBookable,
@@ -226,6 +221,7 @@ export function useCustomerRoomBookingCard({
       checkIn: currentReservation?.checkIn ?? reservation.checkIn,
       checkOut: currentReservation?.checkOut ?? reservation.checkOut,
       guests: currentReservation?.guests ?? reservation.guests,
+      stayLength,
       estimatedTotal: currentReservation?.totalPrice ?? totalPrice,
     },
     checkInMinDate: dayjs().format('YYYY-MM-DD'),

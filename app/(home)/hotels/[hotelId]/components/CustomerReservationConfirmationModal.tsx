@@ -89,6 +89,7 @@ export function CustomerReservationConfirmationModal({
             </Stepper>
 
             {modalState.stepError &&
+            modalState.currentStepId !== BOOKING_CONFIRMATION_STEP_IDS.CONTRACT_PREVIEW &&
             modalState.currentStepId !== BOOKING_CONFIRMATION_STEP_IDS.SIGNATURE ? (
               <Alert severity="warning">{modalState.stepError}</Alert>
             ) : null}
