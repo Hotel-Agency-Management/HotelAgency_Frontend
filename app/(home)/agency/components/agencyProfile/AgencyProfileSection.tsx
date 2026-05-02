@@ -1,12 +1,12 @@
 'use client'
 import { useMemo } from 'react'
 import { useUpdateAgencyProfile } from '../../hooks/mutations/useAgencyProfileMutation'
-import { useUpdateAgencyDocument } from '../../hooks/mutations/useAgencyDocumentMutations'
 import { useGetAgencyProfile } from '../../hooks/queries/useAgencyProfile'
 import { useGetAgencyDocuments } from '../../hooks/queries/useAgencyDocuments'
 import { AgencyProfile } from '../../types/agencyProfile'
 import { mapAgencyProfile, mapDocumentToFileItem } from '../../util/agencyProfileUtils'
 import { AgencyProfileTab } from './AgencyProfileTab'
+import { useUpdateAgencyDocument } from '../../hooks/mutations/useAgencyDocumentMutations'
 
 export function AgencyProfileSection() {
   const { data: agencyProfile, isLoading } = useGetAgencyProfile()

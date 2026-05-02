@@ -34,6 +34,5 @@ export async function updateAgencyDocumentSelf(
 
 export async function getAgencyDocumentsSelf(): Promise<UploadAgencyDocumentResponse[]> {
   const response = await apiClient.get<UploadAgencyDocumentResponse[]>('/agencies/documents')
-  console.log(response.data)
   return response.data
 }
