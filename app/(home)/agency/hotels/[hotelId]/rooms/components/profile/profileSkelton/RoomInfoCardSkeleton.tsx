@@ -1,5 +1,5 @@
 import { Stack, Skeleton } from "@mui/material";
-import { CardFullWidth, FlexSkeleton, SkeletonActions } from "../../../roomStyle";
+import { CardFullWidth, FlexSkeleton, SkeletonActions } from "../../../StyledComponents";
 
 export function RoomInfoCardSkeleton() {
   return (

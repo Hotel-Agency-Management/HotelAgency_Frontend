@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import Grid from "@mui/material/Grid";
 import { useTranslation } from "react-i18next";
 import { useRoomProfileController } from "../../hooks/useRoomProfileController";
-import { ProfileShell } from "../../roomStyle";
+import { ProfileShell } from "../../StyledComponents";
 import type { RoomRouteScope } from "../../types/room";
 import { DeleteRoomDialog } from "../room/DeleteRoomDialog";
 import { RoomAmenitiesList } from "./RoomAmenitiesList";

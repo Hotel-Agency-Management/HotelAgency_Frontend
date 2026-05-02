@@ -9,7 +9,7 @@ import {
 import { TFunction } from "i18next";
 import { RoomType } from "../../../../../../../room-types/types/roomType";
 import type { RoomPhoto } from "../../../types/room";
-import { DialogActionsRoot, DialogStepper } from "../../../roomStyle";
+import { DialogActionsRoot, DialogStepper } from "../../../StyledComponents";
 import { RoomAmenitiesPicker } from "./RoomAmenitiesPicker";
 import { RoomCreatePhotosUpload } from "./RoomCreatePhotosUpload";
 import { RoomEditPhotosUpload } from "./RoomEditPhotosUpload";

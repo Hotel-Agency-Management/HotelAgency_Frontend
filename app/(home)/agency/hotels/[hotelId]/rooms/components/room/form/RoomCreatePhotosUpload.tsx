@@ -8,7 +8,7 @@ import {
   EmptyPhotoIcon,
   PreviewDeleteButton,
   PreviewImage,
-} from "../../../roomStyle";
+} from "../../../StyledComponents";
 import { PhotoDropSurface } from "../roomPhoto/PhotoDropSurface";
 
 interface RoomCreatePhotosUploadProps {
@@ -69,10 +69,12 @@ export function RoomCreatePhotosUpload({ files, onFilesChange }: RoomCreatePhoto
 
       {files.length === 0 ? (
         <PhotoDropSurface onActivate={openFilePicker}>
+          <Stack alignItems="center" spacing={1}>
           <EmptyPhotoIcon />
-          <Typography variant="body2" color="text.secondary" mt={1}>
+          <Typography variant="body2" color="text.secondary">
             Click to upload room photos
           </Typography>
+          </Stack>
         </PhotoDropSurface>
       ) : (
         <Stack direction="row" flexWrap="wrap" gap={1.5}>

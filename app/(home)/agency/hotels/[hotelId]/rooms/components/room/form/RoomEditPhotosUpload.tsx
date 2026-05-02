@@ -8,7 +8,7 @@ import {
   NewChip,
   PreviewDeleteButton,
   PreviewImage,
-} from "../../../roomStyle";
+} from "../../../StyledComponents";
 import type { RoomPhoto } from "../../../types/room";
 import { AddPhotoTile } from "../roomPhoto/AddPhotoTile";
 import { PhotoDropSurface } from "../roomPhoto/PhotoDropSurface";
@@ -107,10 +107,12 @@ export function RoomEditPhotosUpload({
 
       {!hasPhotos ? (
         <PhotoDropSurface onActivate={openFilePicker}>
+          <Stack alignItems="center" spacing={1}>
           <EmptyPhotoIcon />
-          <Typography variant="body2" color="text.secondary" mt={1}>
+          <Typography variant="body2" color="text.secondary">
             Click to upload room photos
           </Typography>
+          </Stack>
         </PhotoDropSurface>
       ) : (
         <Stack direction="row" flexWrap="wrap" gap={1.5}>

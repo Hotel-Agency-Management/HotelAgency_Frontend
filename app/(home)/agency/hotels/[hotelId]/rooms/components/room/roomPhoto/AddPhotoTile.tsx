@@ -1,10 +1,11 @@
-import { AddPhotoTileIcon, AddPhotoTileRoot } from "../../../roomStyle";
+import { AddPhotoTileIcon, AddPhotoTileRoot } from "../../../StyledComponents";
 
 export function AddPhotoTile({ onActivate }: { onActivate: () => void }) {
   return (
     <AddPhotoTileRoot
-      variant="outlined"
       onClick={onActivate}
+      alignItems="center"
+      justifyContent="center"
       role="button"
       tabIndex={0}
       onKeyDown={(e) => {

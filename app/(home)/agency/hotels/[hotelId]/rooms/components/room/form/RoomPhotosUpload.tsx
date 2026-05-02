@@ -8,7 +8,7 @@ import {
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 
 import { RoomPhoto } from "../../../types/room";
-import { EmptyPhotoIcon, UploadSummary } from "../../../roomStyle";
+import { EmptyPhotoIcon, UploadSummary } from "../../../StyledComponents";
 import { PhotoDropSurface } from "../roomPhoto/PhotoDropSurface";
 import { PhotoThumb } from "../roomPhoto/PhotoThumb";
 import { AddPhotoTile } from "../roomPhoto/AddPhotoTile";

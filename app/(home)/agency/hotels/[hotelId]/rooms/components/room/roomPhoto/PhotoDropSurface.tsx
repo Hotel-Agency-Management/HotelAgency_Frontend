@@ -1,4 +1,4 @@
-import { PhotoDropSurfaceRoot } from "../../../roomStyle";
+import { PhotoDropSurfaceRoot } from "../../../StyledComponents";
 
 export function PhotoDropSurface({
   children,

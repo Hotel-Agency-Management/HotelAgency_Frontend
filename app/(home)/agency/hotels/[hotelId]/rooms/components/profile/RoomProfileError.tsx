@@ -1,6 +1,6 @@
 import Alert from "@mui/material/Alert";
 import { useTranslation } from "react-i18next";
-import { ProfileErrorShell } from "../../roomStyle";
+import { ProfileErrorShell } from "../../StyledComponents";
 
 interface RoomProfileErrorProps {
   error: unknown;

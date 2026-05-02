@@ -1,14 +1,13 @@
 import { CircularProgress, Grid, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import type { RoomListItemResponse, RoomRouteScope } from "../../../../types/room";
+import type { RoomListItemResponse } from "../../../../types/room";
 import { RoomCard } from "./RoomCard";
 import { RoomGridLoading } from "./roomGridViewStyles";
 import { StaggerItem } from "@/components/animation/StaggerGroup";
-import { RoomGridStaggerGroup } from "../../../../roomStyle";
+import { RoomGridStaggerGroup } from "../../../../StyledComponents";
 
 export interface RoomGridViewProps {
   rooms: RoomListItemResponse[];
-  scope: RoomRouteScope;
   isLoading: boolean;
   onEditRoom: (id: number) => void;
   onDeleteRoom: (id: number) => void;
@@ -17,7 +16,6 @@ export interface RoomGridViewProps {
 
 export function RoomGridView({
   rooms,
-  scope,
   isLoading,
   onEditRoom,
   onDeleteRoom,
@@ -51,7 +49,6 @@ export function RoomGridView({
             <StaggerItem>
               <RoomCard
                 room={room}
-                scope={scope}
                 onEdit={onEditRoom}
                 onDelete={onDeleteRoom}
                 onRoomClick={onRoomClick}

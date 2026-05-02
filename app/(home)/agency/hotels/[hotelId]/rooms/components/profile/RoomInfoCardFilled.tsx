@@ -3,7 +3,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import type { TFunction } from "i18next";
 import Icon from "@/components/icon/Icon";
-import { InfoCardRoot } from "../../roomStyle";
+import { InfoCardRoot } from "../../StyledComponents";
 
 type InfoRow = [string, string];
 

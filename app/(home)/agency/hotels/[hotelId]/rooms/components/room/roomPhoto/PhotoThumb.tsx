@@ -12,7 +12,7 @@ import {
   TinyReplaceIcon,
   TinyStarBorderIcon,
   TinyStarIcon,
-} from "../../../roomStyle";
+} from "../../../StyledComponents";
 export function PhotoThumb({
   photo,
   onSetPrimary,

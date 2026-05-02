@@ -5,7 +5,7 @@ import { RoomInfoCard } from "../RoomInfoCard";
 import { RoomNotesSection } from "../RoomNotesSection";
 import { RoomProfileHeader } from "../RoomProfileHeader";
 import { RoomStatus } from "../../../types/room";
-import { ProfileShell } from "../../../roomStyle";
+import { ProfileShell } from "../../../StyledComponents";
 
 interface RoomProfileSkeletonProps {
   onBack: () => void;

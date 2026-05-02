@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { Stack } from "@mui/material";
 import { DeleteRoomDialog } from "../DeleteRoomDialog";
-import { RoomRowsGrid } from "../../../roomStyle";
+import { RoomRowsGrid } from "../../../StyledComponents";
 import { RoomsToolbar } from "./RoomsToolbar";
 import { RoomGridView } from "./grid/RoomGridView";
 import type { RoomRouteScope } from "../../../types/room";
@@ -50,7 +50,6 @@ export const RoomCardsView = ({ scope, onAddRoom, onEditRoom }: Props) => {
       {controller.view === "cards" ? (
         <RoomGridView
           rooms={controller.rooms}
-          scope={scope}
           isLoading={controller.isLoading}
           onEditRoom={onEditRoom}
           onDeleteRoom={openDeleteDialog}

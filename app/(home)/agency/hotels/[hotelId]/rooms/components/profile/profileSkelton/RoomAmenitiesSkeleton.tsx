@@ -1,5 +1,5 @@
 import { Grid, Paper, Skeleton } from "@mui/material";
-import { AmenitiesSkeletonTitle } from "../../../roomStyle";
+import { AmenitiesSkeletonTitle } from "../../../StyledComponents";
 
 export function RoomAmenitiesSkeleton() {
   return (

@@ -1,9 +1,8 @@
 import { Stack, MenuItem, ToggleButtonGroup, ToggleButton, Tooltip } from "@mui/material";
-import type { ReactNode } from "react";
 import { ROOM_STATUSES } from "../../../constants/roomStatuses";
 import { RoomFilters, RoomStatus } from "../../../types/room";
 import { LayoutGrid, List } from "lucide-react";
-import { ToolbarPlaceholder, ToolbarSearchField, ToolbarStatusField } from "../../../roomStyle";
+import { ToolbarPlaceholder, ToolbarSearchField, ToolbarStatusField } from "../../../StyledComponents";
 
 interface Props {
   filters: RoomFilters;
@@ -49,7 +48,7 @@ export const RoomsToolbar = ({
             renderValue: (selected) => {
               const value = selected as string;
               if (!value) {
-                return <TextFieldPlaceholder>Status</TextFieldPlaceholder>;
+                return <ToolbarPlaceholder>Status</ToolbarPlaceholder>;
               }
               return ROOM_STATUSES[value as keyof typeof ROOM_STATUSES]?.label ?? value;
             },
@@ -89,11 +88,3 @@ export const RoomsToolbar = ({
     </Stack>
   );
 };
-
-function TextFieldPlaceholder({ children }: { children: ReactNode }) {
-  return (
-    <ToolbarPlaceholder>
-      {children}
-    </ToolbarPlaceholder>
-  );
-}

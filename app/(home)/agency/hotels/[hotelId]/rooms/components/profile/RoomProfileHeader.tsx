@@ -7,7 +7,7 @@ import {
   ProfileHeaderRoot,
   ProfileHeaderTitleGroup,
   ProfileTitleSkeleton,
-} from "../../roomStyle";
+} from "../../StyledComponents";
 import { RoomStatusBadge } from "./RoomStatusBadge";
 import Skeleton from "@mui/material/Skeleton";
 import type { LegacyRoomStatus, RoomStatus } from "../../types/room";

@@ -39,6 +39,9 @@ export interface RoomListItemResponse {
   roomNumber: string
   floorNumber: number
   status: RoomStatus
+  dailyPrice: number
+  capacity: number
+  coverPhotoUrl: string | null
 }
 
 export interface CreateRoomRequest {

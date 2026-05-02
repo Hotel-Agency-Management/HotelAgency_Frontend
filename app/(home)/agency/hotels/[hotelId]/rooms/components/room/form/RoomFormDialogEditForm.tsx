@@ -6,7 +6,7 @@ import {
 } from "@mui/material";
 import { TFunction } from "i18next";
 import { RoomType } from "../../../../../../../room-types/types/roomType";
-import { DialogActionsRoot } from "../../../roomStyle";
+import { DialogActionsRoot } from "../../../StyledComponents";
 import { RoomAmenitiesPicker } from "./RoomAmenitiesPicker";
 import { RoomFormFields } from "./RoomFormFields";
 

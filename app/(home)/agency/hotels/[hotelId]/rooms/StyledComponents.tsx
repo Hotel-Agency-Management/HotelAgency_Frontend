@@ -19,13 +19,10 @@ import { DataGrid } from "@mui/x-data-grid";
 import { styled } from "@mui/material/styles";
 import { StaggerGroup } from "@/components/animation/StaggerGroup";
 
-export const AddPhotoTileRoot = styled(Paper)(({ theme }) => ({
+export const AddPhotoTileRoot = styled(Stack)(({ theme }) => ({
   width: 120,
   height: 90,
   borderStyle: "dashed",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
   cursor: "pointer",
   "&:hover": {
     borderColor: theme.palette.primary.main,
@@ -252,11 +249,8 @@ export const ProfileErrorShell = styled(Stack)({
   width: "100%",
 });
 
-export const GalleryEmpty = styled(Box)(({ theme }) => ({
+export const GalleryEmpty = styled(Stack)(({ theme }) => ({
   minHeight: 240,
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
   [theme.breakpoints.up("md")]: {
     minHeight: 320,
   },

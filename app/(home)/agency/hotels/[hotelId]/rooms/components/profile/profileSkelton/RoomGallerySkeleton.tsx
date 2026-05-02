@@ -4,7 +4,7 @@ import {
   GallerySkeletonMain,
   GallerySkeletonRoot,
   GallerySkeletonThumb,
-} from "../../../roomStyle";
+} from "../../../StyledComponents";
 
 export function RoomGallerySkeleton() {
   return (
