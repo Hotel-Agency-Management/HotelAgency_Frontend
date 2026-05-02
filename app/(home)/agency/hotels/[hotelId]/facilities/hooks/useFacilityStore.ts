@@ -72,7 +72,7 @@ export const useFacilities = (hotelId: string, agencyId?: string) => {
   };
 };
 
-export const useFacility = (id: string, hotelId?: string, agencyId?: string) => {
+export const useFacility = (id: string, hotelId: string, agencyId?: string) => {
   const scope = useFacilityScope(hotelId, agencyId);
   const facilityId = toNumericId(id);
   const regularFacilityQuery = useGetFacilityById(

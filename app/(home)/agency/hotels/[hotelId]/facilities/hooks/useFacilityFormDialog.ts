@@ -106,7 +106,6 @@ export function useFacilityFormDialog({
   };
 
   const handleDetailsNext = handleSubmit((values) => {
-    if (!scope.hotelId) return;
     const hotelIdNumber = scope.hotelId;
 
     if (facility || workingFacilityId) {

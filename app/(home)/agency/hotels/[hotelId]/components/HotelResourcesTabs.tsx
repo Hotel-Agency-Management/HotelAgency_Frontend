@@ -4,15 +4,12 @@ import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import Stack from "@mui/material/Stack";
 import Tab from "@mui/material/Tab";
-import Tabs from "@mui/material/Tabs";
 import { BedDouble, Sparkles } from "lucide-react";
+import { BorderedTabs } from "../../styles/StyledComponents";
+import { getRouteParam } from "../../utils/routeParams";
 
 interface HotelResourcesTabsProps {
   children: React.ReactNode;
-}
-
-function getRouteParam(value: string | string[] | undefined) {
-  return Array.isArray(value) ? value[0] : value;
 }
 
 export function HotelResourcesTabs({ children }: HotelResourcesTabsProps) {
@@ -24,10 +21,7 @@ export function HotelResourcesTabs({ children }: HotelResourcesTabsProps) {
 
   return (
     <Stack spacing={3}>
-      <Tabs
-        value={currentTab}
-        sx={{ borderBottom: 1, borderColor: "divider" }}
-      >
+      <BorderedTabs value={currentTab}>
         <Tab
           value="rooms"
           label="Rooms"
@@ -44,7 +38,7 @@ export function HotelResourcesTabs({ children }: HotelResourcesTabsProps) {
           component={Link}
           href={`${basePath}/facilities`}
         />
-      </Tabs>
+      </BorderedTabs>
 
       {children}
     </Stack>

@@ -23,12 +23,12 @@ export interface FacilityResponse {
 export type FacilityEndpointScope =
   | {
       type: "hotel"
-      hotelId?: number
+      hotelId: number
     }
   | {
       type: "admin"
       agencyId: number
-      hotelId?: number
+      hotelId: number
     }
 
 type FacilityVariables = {

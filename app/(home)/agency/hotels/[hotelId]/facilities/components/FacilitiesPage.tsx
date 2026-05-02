@@ -22,7 +22,7 @@ export function FacilitiesPage() {
 
   const { data: selectedFacility, isLoading: selectedFacilityLoading } = useFacility(
     selectedFacilityId ?? "",
-    hotelId,
+    hotelId ?? "",
     agencyId
   );
 

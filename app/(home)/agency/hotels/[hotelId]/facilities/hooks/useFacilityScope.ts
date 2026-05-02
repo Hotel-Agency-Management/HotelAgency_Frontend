@@ -5,14 +5,14 @@ import type { FacilityEndpointScope } from "../configs/facilityConfig";
 import { toNumericId } from "../utils/numericId";
 
 export function useFacilityScope(
-  hotelId?: string | number,
+  hotelId: string | number,
   agencyId?: string | number
 ) {
   const { user } = useAuth();
 
   return useMemo(
     (): FacilityEndpointScope => {
-      const numericHotelId = toNumericId(hotelId);
+      const numericHotelId = toNumericId(hotelId)!;
       const numericAgencyId = toNumericId(agencyId);
 
       if (user?.role === USER_ROLES.SUPER_ADMIN && numericAgencyId) {

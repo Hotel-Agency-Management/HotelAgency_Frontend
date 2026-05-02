@@ -49,7 +49,7 @@ export function useFacilitiesView({
   const confirmDeleteFacility = () => {
     if (!deleteTargetId) return;
     const facilityId = toNumericId(deleteTargetId);
-    if (!scope.hotelId || !facilityId) return;
+    if (!facilityId) return;
     const hotelIdNumber = scope.hotelId;
 
     const onSuccess = () => setDeleteTargetId(null);
