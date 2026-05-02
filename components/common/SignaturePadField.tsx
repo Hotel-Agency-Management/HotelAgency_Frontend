@@ -6,7 +6,7 @@ import type { SxProps, Theme } from '@mui/material/styles'
 import SignatureCanvas from 'react-signature-canvas'
 import { useSignaturePadField } from './useSignaturePadField'
 import { ClearSignatureButton } from './styles/StyledComponents'
-import { DEFAULT_SIGNATURE_HEIGHT } from './constants/signture'
+import { DEFAULT_SIGNATURE_HEIGHT } from './constants/signature'
 
 interface SignaturePadFieldProps {
   value: string
