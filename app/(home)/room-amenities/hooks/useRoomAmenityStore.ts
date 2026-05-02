@@ -1,8 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import {
-  adminCreateRoomAmenity,
-  adminDeleteRoomAmenity,
-  adminGetAllRoomAmenities,
+  createRoomAmenityByAdmin,
+  deleteRoomAmenityByAdmin,
+  fetchRoomAmenitiesByAdmin,
 } from '../clients/adminRoomAmenityClient'
 import { getAllRoomAmenities } from '../clients/roomAmenityClient'
 import { ROOM_AMENITIES_KEY } from '../constants/roomAmenityFormValues'
@@ -12,7 +12,7 @@ export const useAdminRoomAmenities = (filters?: RoomAmenityFilters) => {
   return useQuery({
     queryKey: [...ROOM_AMENITIES_KEY, 'admin', filters],
     queryFn: async () => {
-      const amenities = await adminGetAllRoomAmenities()
+      const amenities = await fetchRoomAmenitiesByAdmin()
       if (filters?.search) {
         const search = filters.search.toLowerCase()
         return amenities.filter((a) => a.name.toLowerCase().includes(search))
@@ -33,7 +33,7 @@ export const useCreateRoomAmenity = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (dto: CreateRoomAmenityDto) => adminCreateRoomAmenity(dto),
+    mutationFn: (dto: CreateRoomAmenityDto) => createRoomAmenityByAdmin(dto),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ROOM_AMENITIES_KEY })
     },
@@ -44,7 +44,7 @@ export const useDeleteRoomAmenity = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (id: number) => adminDeleteRoomAmenity(id),
+    mutationFn: (id: number) => deleteRoomAmenityByAdmin(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ROOM_AMENITIES_KEY })
     },
