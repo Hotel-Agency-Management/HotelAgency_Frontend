@@ -1,11 +1,11 @@
 'use client'
 
-import { alpha } from '@mui/material/styles'
-import { Chip, Grid, Paper, Stack, Typography } from '@mui/material'
+import { Chip, Grid, Stack, Typography } from '@mui/material'
 import { BedDouble, PhoneCall, ReceiptText } from 'lucide-react'
 import { DirectReservationForm } from './DirectReservationForm'
 import { ReservationSummaryCard } from './ReservationSummaryCard'
 import { useDirectReservationForm } from '../../hooks/useDirectReservationForm'
+import { GradientCard } from '../../../styles/StyledComponents'
 import type { DirectReservationFormValues } from '../../schema/directReservationSchema'
 
 interface DirectReservationCreatePageProps {
@@ -36,16 +36,7 @@ export default function DirectReservationCreatePage({
 
   return (
     <Stack spacing={3.5}>
-      <Paper
-        variant='card'
-        sx={{
-          background: theme =>
-            `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.12)} 0%, ${alpha(
-              theme.palette.background.paper,
-              0.98
-            )} 55%)`,
-        }}
-      >
+      <GradientCard variant='card'>
         <Stack spacing={2}>
           <Stack direction='row' spacing={1} flexWrap='wrap' useFlexGap>
             <Chip icon={<PhoneCall size={14} />} label='Phone & Walk-in' variant='outlined' />
@@ -54,15 +45,15 @@ export default function DirectReservationCreatePage({
           </Stack>
 
           <Stack spacing={1}>
-            <Typography variant='h4' sx={{ fontWeight: 800 }}>
+            <Typography variant='h4' fontWeight={800}>
               Create a hotel reservation
             </Typography>
-            <Typography variant='body1' color='text.secondary' sx={{ maxWidth: 760 }}>
+            <Typography variant='body1' color='text.secondary' maxWidth={760}>
               Capture walk-in and phone reservations with guest details, stay dates, room selection, and payment in a guided step-by-step flow.
             </Typography>
           </Stack>
         </Stack>
-      </Paper>
+      </GradientCard>
 
       <Grid container spacing={3.5} >
         <Grid size={{ xs: 12, lg: 8 }}>

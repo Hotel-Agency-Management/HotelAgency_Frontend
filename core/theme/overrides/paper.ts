@@ -255,38 +255,6 @@ export default {
           [theme.breakpoints.up("md")]: {
             width: 840,
           },
-
-          "& .customer-reservation-confirmation-header": {
-            padding: theme.spacing(2.5, 3),
-          },
-
-          "& .customer-reservation-confirmation-body": {
-            padding: theme.spacing(3),
-            overflow: "auto",
-          },
-
-          "& .customer-reservation-confirmation-actions": {
-            padding: theme.spacing(2, 3),
-          },
-
-          "& .customer-reservation-confirmation-spacer": {
-            flex: 1,
-          },
-
-          "& .customer-reservation-signature-pad > .MuiPaper-root": {
-            border: `1px solid ${theme.palette.divider}`,
-            borderRadius: 8,
-          },
-
-          "& .customer-reservation-signature-preview": {
-            width: "100%",
-            maxHeight: 110,
-            objectFit: "contain",
-            border: `1px solid ${theme.palette.divider}`,
-            borderRadius: 8,
-            backgroundColor: theme.palette.common.white,
-            padding: theme.spacing(1),
-          },
         }),
       },
       {

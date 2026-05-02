@@ -18,6 +18,7 @@ export interface CustomerReservationConfirmationPayload {
 }
 
 export interface ReservationSummaryItem {
+  id: string
   label: string
   value: ReactNode
 }

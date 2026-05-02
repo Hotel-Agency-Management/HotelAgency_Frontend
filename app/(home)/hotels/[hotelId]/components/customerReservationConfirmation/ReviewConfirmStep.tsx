@@ -1,10 +1,11 @@
-import { Box, Divider, Stack, Typography } from '@mui/material'
+import { Divider, Stack, Typography } from '@mui/material'
 import type {
   ReservationDetails,
   ReservationSummaryItem,
 } from '../../types/customerReservationConfirmation'
 import { SectionPanel } from './SectionPanel'
 import { SummaryRow } from './SummaryRow'
+import { SignaturePreview } from './StyledComponents'
 
 interface ReviewConfirmStepProps {
   bookingDetails: ReservationSummaryItem[]
@@ -23,6 +24,9 @@ export function ReviewConfirmStep({
   termsAccepted,
   totalPriceLabel,
 }: ReviewConfirmStepProps) {
+  const checkIn = bookingDetails.find(f => f.id === 'checkInLabel')
+  const checkOut = bookingDetails.find(f => f.id === 'checkOutLabel')
+
   return (
     <Stack spacing={2}>
       <Typography variant="body2">
@@ -34,7 +38,7 @@ export function ReviewConfirmStep({
         <SummaryRow label="Room" value={`${reservation.roomNumber} - ${roomTypeLabel}`} />
         <SummaryRow
           label="Dates"
-          value={`${bookingDetails[3].value} - ${bookingDetails[4].value}`}
+          value={`${checkIn?.value} - ${checkOut?.value}`}
         />
         <SummaryRow
           label="Occupancy"
@@ -49,12 +53,7 @@ export function ReviewConfirmStep({
         <SummaryRow label="Terms accepted" value={termsAccepted ? 'Yes' : 'No'} />
         <SummaryRow label="Signature" value={signatureDataUrl ? 'Captured' : 'Missing'} />
         {signatureDataUrl ? (
-          <Box
-            component="img"
-            className="customer-reservation-signature-preview"
-            src={signatureDataUrl}
-            alt="Customer signature"
-          />
+          <SignaturePreview src={signatureDataUrl} alt="Customer signature" />
         ) : null}
       </SectionPanel>
     </Stack>

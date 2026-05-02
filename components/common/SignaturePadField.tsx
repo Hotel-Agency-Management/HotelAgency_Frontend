@@ -1,13 +1,20 @@
 'use client'
 
 import type { ReactNode } from 'react'
-import { alpha, useTheme } from '@mui/material/styles'
-import { Box, Button, FormHelperText, Paper, Stack, Typography } from '@mui/material'
+import { alpha, styled, useTheme } from '@mui/material/styles'
+import { Button, FormHelperText, Paper, Stack, Typography } from '@mui/material'
 import type { SxProps, Theme } from '@mui/material/styles'
 import SignatureCanvas from 'react-signature-canvas'
 import { useSignaturePadField } from './useSignaturePadField'
 
 const DEFAULT_SIGNATURE_HEIGHT = 190
+
+const ClearSignatureButton = styled(Button)(({ theme }) => ({
+  alignSelf: 'flex-start',
+  [theme.breakpoints.up('sm')]: {
+    alignSelf: 'center',
+  },
+}))
 
 interface SignaturePadFieldProps {
   value: string
@@ -51,22 +58,16 @@ export function SignaturePadField({
         alignItems={{ sm: 'center' }}
         justifyContent='space-between'
       >
-        <Box>
-          <Typography variant='subtitle2' sx={{ fontWeight: 700 }}>
+        <Stack>
+          <Typography variant='subtitle2' fontWeight={700}>
             {title}
           </Typography>
           {description ? <Typography variant='body2'>{description}</Typography> : null}
-        </Box>
+        </Stack>
 
-        <Button
-          variant='text'
-          size='small'
-          disabled={!value}
-          onClick={handleClear}
-          sx={{ alignSelf: { xs: 'flex-start', sm: 'center' } }}
-        >
+        <ClearSignatureButton variant='text' size='small' disabled={!value} onClick={handleClear}>
           {clearLabel}
-        </Button>
+        </ClearSignatureButton>
       </Stack>
 
       <Paper

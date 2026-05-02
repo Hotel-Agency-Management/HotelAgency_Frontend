@@ -1,5 +1,6 @@
-import { Stack, Typography } from '@mui/material'
+import { Typography } from '@mui/material'
 import { SignaturePadField } from '@/components/common/SignaturePadField'
+import { SignaturePadContainer } from './StyledComponents'
 
 interface SignatureStepProps {
   signatureDataUrl: string
@@ -13,7 +14,7 @@ export function SignatureStep({
   onSignatureChange,
 }: SignatureStepProps) {
   return (
-    <Stack className="customer-reservation-signature-pad" spacing={2}>
+    <SignaturePadContainer spacing={2}>
       <Typography variant="body2">
         Add your signature in the box below to attach it to this reservation.
       </Typography>
@@ -26,6 +27,6 @@ export function SignatureStep({
         clearLabel="Clear signature"
         error={stepError}
       />
-    </Stack>
+    </SignaturePadContainer>
   )
 }

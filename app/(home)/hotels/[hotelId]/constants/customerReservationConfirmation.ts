@@ -38,6 +38,7 @@ export type BookingDetailValues = Record<BookingDetailFieldKey, ReactNode>
 
 export const buildBookingDetailItems = (values: BookingDetailValues) =>
   BOOKING_DETAIL_FIELDS.map(field => ({
+    id: field.key,
     label: field.label,
     value: values[field.key],
   }))

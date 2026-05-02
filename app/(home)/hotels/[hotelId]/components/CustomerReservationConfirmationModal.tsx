@@ -2,7 +2,6 @@
 
 import {
   Alert,
-  Box,
   Button,
   Divider,
   Modal,
@@ -22,6 +21,12 @@ import type {
   ReservationDetails,
 } from '../types/customerReservationConfirmation'
 import { ConfirmationStepContent } from './customerReservationConfirmation/ConfirmationStepContent'
+import {
+  ConfirmationActions,
+  ConfirmationBody,
+  ConfirmationHeader,
+  ConfirmationSpacer,
+} from './customerReservationConfirmation/StyledComponents'
 
 interface CustomerReservationConfirmationModalProps {
   open: boolean
@@ -58,7 +63,7 @@ export function CustomerReservationConfirmationModal({
       aria-describedby="customer-reservation-confirmation-step"
     >
       <Paper elevation={8} variant="customerReservationConfirmationModal">
-        <Box className="customer-reservation-confirmation-header">
+        <ConfirmationHeader>
           <Stack spacing={0.5}>
             <Typography id="customer-reservation-confirmation-title" variant="h6">
               Confirm your reservation
@@ -70,11 +75,11 @@ export function CustomerReservationConfirmationModal({
               {modalState.currentStepLabel}
             </Typography>
           </Stack>
-        </Box>
+        </ConfirmationHeader>
 
         <Divider />
 
-        <Box className="customer-reservation-confirmation-body">
+        <ConfirmationBody>
           <Stack spacing={3}>
             <Stepper activeStep={modalState.activeStep} alternativeLabel>
               {modalState.steps.map(step => (
@@ -95,20 +100,15 @@ export function CustomerReservationConfirmationModal({
               reservation={reservation}
             />
           </Stack>
-        </Box>
+        </ConfirmationBody>
 
         <Divider />
 
-        <Stack
-          className="customer-reservation-confirmation-actions"
-          direction="row"
-          spacing={1.25}
-          alignItems="center"
-        >
+        <ConfirmationActions direction="row" spacing={1.25} alignItems="center">
           <Button color="secondary" onClick={onClose} disabled={confirming}>
             Cancel
           </Button>
-          <Box className="customer-reservation-confirmation-spacer" />
+          <ConfirmationSpacer />
           <Button
             color="secondary"
             startIcon={<ArrowLeft size={16} />}
@@ -138,7 +138,7 @@ export function CustomerReservationConfirmationModal({
               Next
             </Button>
           )}
-        </Stack>
+        </ConfirmationActions>
       </Paper>
     </Modal>
   )
