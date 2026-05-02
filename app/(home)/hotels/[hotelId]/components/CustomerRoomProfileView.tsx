@@ -86,7 +86,8 @@ export function CustomerRoomProfileView() {
             <RoomGallery photos={profile.photos} loading={false} />
           </Grid>
 
-          <Grid size={{ xs: 12, lg: 4 }} sx={{ display: 'flex' }}>
+          <Grid size={{ xs: 12, lg: 4 }}>
+            <Stack height="100%">
             <CustomerRoomBookingCard
               hotelId={hotelId}
               roomId={roomId}
@@ -95,6 +96,7 @@ export function CustomerRoomProfileView() {
               reservation={reservation}
               onReservationDateChange={handleReservationDateChange}
             />
+            </Stack>
           </Grid>
 
           <Grid size={12}>

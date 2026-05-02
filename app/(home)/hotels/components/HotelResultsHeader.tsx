@@ -1,9 +1,9 @@
 'use client'
 
-import { FormControl, MenuItem, Select, Stack, Typography } from '@mui/material'
+import { MenuItem, Select, Stack, Typography } from '@mui/material'
 import { HOTEL_SORT_OPTIONS } from '../constants/hotelFilters'
 import type { CustomerHotelFilters } from '../types/customerHotel'
-import { HotelSortInputLabel } from './HotelResultsHeader.styles'
+import { HotelSortInputLabel, SortFormControl } from '../styles/StyleComponents'
 
 interface HotelResultsHeaderProps {
   count: number
@@ -28,7 +28,7 @@ export function HotelResultsHeader({ count, total, sort, onSortChange }: HotelRe
           Showing hotels from all agencies across the platform. Total system hotels: {total}.
         </Typography>
       </Stack>
-      <FormControl size="small" sx={{ minWidth: 180 }}>
+      <SortFormControl size="small">
         <HotelSortInputLabel id="hotel-sort-label">
           Sort by
         </HotelSortInputLabel>
@@ -44,7 +44,7 @@ export function HotelResultsHeader({ count, total, sort, onSortChange }: HotelRe
             </MenuItem>
           ))}
         </Select>
-      </FormControl>
+      </SortFormControl>
     </Stack>
   )
 }

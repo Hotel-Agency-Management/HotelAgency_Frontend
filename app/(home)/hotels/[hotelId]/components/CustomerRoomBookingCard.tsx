@@ -7,9 +7,9 @@ import { DatePickerField } from '@/components/common/DatePickerField'
 import type { ReservationDetails } from '../types/customerReservationConfirmation'
 import { useCustomerRoomBookingCard } from '../hooks/useCustomerRoomBookingCard'
 import { formatCardCurrency } from '../utils/roomBooking'
-import { CustomerRoomBookingCardPaper } from './CustomerRoomBookingCard.styles'
 import { CustomerReservationConfirmationModal } from './CustomerReservationConfirmationModal'
 import { ReservationCreatedDialog } from './ReservationCreatedDialog'
+import { CustomerRoomBookingCardPaper } from '../../styles/StyleComponents'
 
 interface CustomerRoomBookingCardProps {
   hotelId: string

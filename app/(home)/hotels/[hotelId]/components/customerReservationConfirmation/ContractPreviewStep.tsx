@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { pdf } from '@react-pdf/renderer'
 import {
   Alert,
-  Button,
   Checkbox,
   FormControlLabel,
   Paper,
@@ -14,6 +13,7 @@ import {
 import { ExternalLink, FileText } from 'lucide-react'
 import type { ReservationContractData } from '../../types/customerReservationContract'
 import { ReservationContractDocument } from '../customerReservationContract/ReservationContractDocument'
+import { ContractPanel, WideButton } from '../../../styles/StyleComponents'
 
 interface ContractPreviewStepProps {
   contract: ReservationContractData
@@ -74,20 +74,19 @@ export function ContractPreviewStep({
             </Typography>
           </Stack>
 
-          <Button
+          <WideButton
             variant="outlined"
             color="secondary"
             startIcon={<ExternalLink size={16} />}
             onClick={handleOpenPreview}
             disabled={isOpeningPreview}
-            sx={{ minWidth: 220 }}
           >
             {isOpeningPreview ? 'Opening...' : 'Preview contract'}
-          </Button>
+          </WideButton>
         </Stack>
       </Paper>
 
-      <Paper variant="customerReservationConfirmationPanel" sx={{ width: 1, maxWidth: 560 }}>
+      <ContractPanel variant="customerReservationConfirmationPanel">
         <FormControlLabel
           control={
             <Checkbox
@@ -97,7 +96,7 @@ export function ContractPreviewStep({
           }
           label="I reviewed the contract and want to continue to signature."
         />
-      </Paper>
+      </ContractPanel>
     </Stack>
   )
 }
