@@ -9,7 +9,7 @@ import {
   type CreateTeamMemberRequest,
   type UpdateTeamMemberRoleRequest,
 } from '../../config/teamMemberConfig'
-import { teamMemberQueryKeys } from '../../components/userManagement'
+import { teamMemberQueryKeys } from '../../constants/teamMember'
 
 interface UpdateTeamMemberRoleVariables {
   teamMemberId: number

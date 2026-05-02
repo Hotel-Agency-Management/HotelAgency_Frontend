@@ -5,7 +5,7 @@ import {
   mapTeamMemberResponse,
   type TeamMemberListParams,
 } from '../../config/teamMemberConfig'
-import { teamMemberQueryKeys } from '../../components/userManagement'
+import { teamMemberQueryKeys } from '../../constants/teamMember'
 
 export const useGetTeamMembers = (params?: TeamMemberListParams, enabled = true) =>
   useQuery({

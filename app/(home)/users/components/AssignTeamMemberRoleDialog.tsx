@@ -16,6 +16,7 @@ import {
   getAgencyTeamMemberName,
   type AgencyTeamMember,
 } from "../config/teamMemberConfig";
+import toast from "react-hot-toast";
 
 interface AssignTeamMemberRoleDialogProps {
   open: boolean;
@@ -39,10 +40,14 @@ export function AssignTeamMemberRoleDialog({
   }, [member]);
 
   const handleSave = async () => {
-    if (!member || !role) return;
+  if (!member || !role) return;
 
+    try {
     await onSave(member.id, role);
     onClose();
+    } catch (error) {
+    toast.error('Failed to update member role');
+    }
   };
 
   return (
