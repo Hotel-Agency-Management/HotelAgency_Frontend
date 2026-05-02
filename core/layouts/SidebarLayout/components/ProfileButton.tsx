@@ -8,10 +8,7 @@ import { useRouter } from 'next/navigation'
 import { useAuth } from '@/core/context/AuthContext'
 import { useSidebar } from '../SidebarContext'
 import { profileDummyData } from '@/lib/profileDummyData'
-import themeConfig from '@/core/configs/themeConfig'
-
-// Matches the sidebar's collapse animation
-const SIDEBAR_TRANSITION = '0.3s cubic-bezier(0.4,0,0.2,1)'
+import UserAvatarButton from './UserAvatarButton'
 
 interface ProfileButtonProps {
   variant?: 'sidebar' | 'navbar'
@@ -56,30 +53,10 @@ export default function ProfileButton({ variant = 'sidebar' }: ProfileButtonProp
            * We only animate gap/padding (CSS, same easing as sidebar) and
            * fade content in/out fast enough that nothing gets squashed.
            */}
-          <Box
+          <UserAvatarButton
+            isNavbar={isNavbar}
+            isCollapsed={isCollapsed}
             onClick={handleOpen}
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              overflow: 'hidden',
-              width: isNavbar ? 34 : 'auto',
-              height: isNavbar ? 34 : 'auto',
-              py: isNavbar ? 0 : 1,
-              px: isNavbar ? 0 : isCollapsed ? 0.75 : 1.25,
-              gap: isNavbar || isCollapsed ? 0 : 1.5,
-              cursor: 'pointer',
-              borderRadius: isNavbar ? '50%' : themeConfig.common.commonBorderRadius,
-              border: '1px solid',
-              borderColor: isNavbar ? 'transparent' : 'divider',
-              bgcolor: theme => (isNavbar ? 'transparent' : theme.palette.primary.main + '10'),
-              transition: `gap ${SIDEBAR_TRANSITION}, padding ${SIDEBAR_TRANSITION}, box-shadow 0.2s, border-color 0.2s`,
-              '&:hover': {
-                boxShadow: isNavbar ? 0 : 3,
-                borderColor: isNavbar ? 'transparent' : 'primary.main',
-                bgcolor: isNavbar ? 'action.hover' : undefined
-              }
-            }}
           >
             <Avatar
               sx={{
@@ -128,7 +105,7 @@ export default function ProfileButton({ variant = 'sidebar' }: ProfileButtonProp
                 </motion.div>
               )}
             </AnimatePresence>
-          </Box>
+          </UserAvatarButton>
         </Tooltip>
       </Box>
 
