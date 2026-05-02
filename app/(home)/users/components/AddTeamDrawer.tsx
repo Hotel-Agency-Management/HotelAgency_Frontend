@@ -2,11 +2,8 @@
 
 import { Controller, useForm } from "react-hook-form";
 import Alert from "@mui/material/Alert";
-import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
-import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
 import MenuItem from "@mui/material/MenuItem";
 import Stack from "@mui/material/Stack";
@@ -18,8 +15,15 @@ import {
   AGENCY_ROLE_OPTIONS,
   type AgencyTeamMemberInput,
 } from "../config/teamMemberConfig";
-import { addTeamDrawerStyles } from "./AddTeamDrawer.styles";
-import { defaultTeamMemberValues, EMAIL_PATTERN } from "./userManagement";
+import {
+  AddTeamDrawerRoot,
+  DrawerActions,
+  DrawerContent,
+  DrawerContentBody,
+  DrawerContentStack,
+  DrawerForm,
+} from "./AddTeamDrawer.styles";
+import { defaultTeamMemberValues, EMAIL_PATTERN } from "../constants/teamMember";
 
 interface AddTeamDrawerProps {
   open: boolean;
@@ -46,26 +50,18 @@ export function AddTeamDrawer({
   };
 
   const handleSubmit = form.handleSubmit(async (values) => {
-    await onAddMember(values);
-    handleClose();
+    try {
+      await onAddMember(values);
+      handleClose();
+    } catch (error) {
+      console.error(error);
+    }
   });
 
   return (
-    <Drawer
-      anchor="right"
-      open={open}
-      onClose={handleClose}
-      PaperProps={{
-        sx: addTeamDrawerStyles.paper,
-      }}
-    >
-      <Box
-        component="form"
-        onSubmit={event => void handleSubmit(event)}
-        noValidate
-        sx={addTeamDrawerStyles.form}
-      >
-        <Stack sx={addTeamDrawerStyles.contentStack}>
+    <AddTeamDrawerRoot anchor="right" open={open} onClose={handleClose}>
+      <DrawerForm onSubmit={event => void handleSubmit(event)} noValidate>
+        <DrawerContentStack>
           <CardHeader
             title={t("users.addTeamMember", "Add Team Member")}
             subheader={t(
@@ -79,8 +75,8 @@ export function AddTeamDrawer({
             }
           />
 
-          <CardContent sx={addTeamDrawerStyles.content}>
-            <Stack spacing={2.5} sx={addTeamDrawerStyles.contentBody}>
+          <DrawerContent>
+            <DrawerContentBody spacing={2.5}>
               <Stack spacing={2.5}>
                 <Alert severity="info" variant="outlined">
                   {t(
@@ -167,12 +163,7 @@ export function AddTeamDrawer({
                 </TextField>
               </Stack>
 
-              <Stack
-                direction="row"
-                spacing={2}
-                justifyContent="flex-end"
-                sx={addTeamDrawerStyles.actions}
-              >
+              <DrawerActions direction="row" spacing={2}>
                 <Button color="inherit" onClick={handleClose}>
                   {t("common.cancel", "Cancel")}
                 </Button>
@@ -184,11 +175,11 @@ export function AddTeamDrawer({
                 >
                   {t("users.addMember", "Add member")}
                 </Button>
-              </Stack>
-            </Stack>
-          </CardContent>
-        </Stack>
-      </Box>
-    </Drawer>
+              </DrawerActions>
+            </DrawerContentBody>
+          </DrawerContent>
+        </DrawerContentStack>
+      </DrawerForm>
+    </AddTeamDrawerRoot>
   );
 }

@@ -13,6 +13,7 @@ import {
   useGetTeamMembers,
 } from './queries/useTeamMemberQueries'
 import type { AgencyTeamMemberInput, TeamMemberListParams } from '../config/teamMemberConfig'
+import toast from 'react-hot-toast'
 
 export function useTeamMembers(params?: TeamMemberListParams, agencyIdOverride?: number) {
   const { user } = useAuth()
@@ -47,20 +48,28 @@ export function useTeamMembers(params?: TeamMemberListParams, agencyIdOverride?:
     totalPages: activeQuery.data?.totalPages ?? 1,
 
     addMember: async (input: AgencyTeamMemberInput) => {
-      await activeCreate.mutateAsync({
-        firstName: input.firstName,
-        lastName: input.lastName,
-        email: input.email,
-        phoneNumber: input.phoneNumber,
-        role: input.role,
-      })
+      try {
+        await activeCreate.mutateAsync({
+          firstName: input.firstName,
+          lastName: input.lastName,
+          email: input.email,
+          phoneNumber: input.phoneNumber,
+          role: input.role,
+        })
+      } catch {
+        toast.error('Failed to add member')
+      }
     },
 
     updateMemberRole: async (teamMemberId: string, role: UserRole) => {
-      await activeUpdateRole.mutateAsync({
-        teamMemberId: Number(teamMemberId),
-        data: { role },
-      })
+      try {
+        await activeUpdateRole.mutateAsync({
+          teamMemberId: Number(teamMemberId),
+          data: { role },
+        })
+      } catch {
+        toast.error('Failed to update member role')
+      }
     },
 
     getMemberById: (id: string) => members.find(m => m.id === id),

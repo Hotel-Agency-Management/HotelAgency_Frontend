@@ -51,7 +51,7 @@ export function UserManagementPage() {
                 {t("users.title", "User Management")}
               </Typography>
             </Stack>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2">
               {t(
                 "users.subtitle",
                 "Manage the agency team and choose which members can be assigned as hotel managers."

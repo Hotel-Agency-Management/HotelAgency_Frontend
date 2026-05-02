@@ -32,11 +32,19 @@ export function useUserManagementPage() {
   };
 
   const handleAddMember = async (values: AgencyTeamMemberInput) => {
-    await addMember(values);
+    try {
+      await addMember(values);
+    } catch (error) {
+      throw error;
+    }
   };
 
   const handleUpdateMemberRole = async (memberId: string, role: UserRole) => {
-    await updateMemberRole(memberId, role);
+    try {
+      await updateMemberRole(memberId, role);
+    } catch (error) {
+      throw error;
+    }
   };
 
   return {
