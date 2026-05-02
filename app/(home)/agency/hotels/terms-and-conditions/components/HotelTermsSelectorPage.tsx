@@ -20,7 +20,7 @@ import { getHotelTermsRoute } from "../utils/routes";
 export function HotelTermsSelectorPage() {
   const router = useRouter();
   const { user } = useAuth();
-  const { data: hotels = [], isLoading, error } = useGetHotels(user?.agencyId);
+  const { data: hotels = [], isLoading, error } = useGetHotels();
   const [selectedHotelId, setSelectedHotelId] = useState("");
   const assignedHotelId =
     typeof user?.hotelId === "string" && user.hotelId.length > 0

@@ -4,8 +4,8 @@ import { mapHotelFormValuesToHotelBase } from '../utils/hotelMapper'
 import type { HotelFormValues } from '../types/hotel'
 
 export const useHotelStore = (agencyId?: number, hotelId?: number) => {
-  const { data: hotels = [], isLoading: isLoadingList } = useGetHotels(agencyId)
-  const { data: hotel, isLoading: isLoadingDetail } = useGetHotelById(agencyId, hotelId)
+  const { data: hotels = [], isLoading: isLoadingList } = useGetHotels()
+  const { data: hotel, isLoading: isLoadingDetail } = useGetHotelById(hotelId)
 
   const { mutateAsync: createHotel, isPending: isAdding } = useCreateHotel()
   const { mutateAsync: updateHotel, isPending: isUpdating } = useUpdateHotel()

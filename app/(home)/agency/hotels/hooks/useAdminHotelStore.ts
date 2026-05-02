@@ -3,7 +3,7 @@ import { useAdminCreateHotel, useAdminUpdateHotel } from './mutations/useAdminHo
 import { mapHotelFormValuesToHotelBase } from '../utils/hotelMapper'
 import type { HotelFormValues } from '../types/hotel'
 
-export const useAdminHotelStore = (agencyId?: number, hotelId?: number) => {
+export const useAdminHotelStore = (agencyId: number, hotelId?: number) => {
   const { data: hotels = [], isLoading: isLoadingList } = useAdminGetHotels(agencyId)
   const { data: hotel, isLoading: isLoadingDetail } = useAdminGetHotelById(agencyId, hotelId)
 
@@ -17,7 +17,7 @@ export const useAdminHotelStore = (agencyId?: number, hotelId?: number) => {
 
     addHotel: (formValues: HotelFormValues) =>
       createHotel({
-        agencyId: agencyId!,
+        agencyId,
         data: {
           ...mapHotelFormValuesToHotelBase(formValues),
           logo: formValues.branding.logo as unknown as File | null,
@@ -27,7 +27,7 @@ export const useAdminHotelStore = (agencyId?: number, hotelId?: number) => {
 
     updateHotel: (hotelId: string, formValues: HotelFormValues) =>
       updateHotel({
-        agencyId: agencyId!,
+        agencyId,
         hotelId: Number(hotelId),
         data: {
           ...mapHotelFormValuesToHotelBase(formValues),
