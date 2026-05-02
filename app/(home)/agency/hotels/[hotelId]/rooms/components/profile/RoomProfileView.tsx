@@ -3,7 +3,6 @@
 import { useMemo } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Grid from "@mui/material/Grid";
-import Stack from "@mui/material/Stack";
 import { useTranslation } from "react-i18next";
 import { ROOM_TYPES } from "../../../../../../room-types/constants/roomTypes";
 import { useRoom, useDeleteRoom } from "../../hooks/useRoomStore";
@@ -16,7 +15,7 @@ import { RoomNotesSection } from "./RoomNotesSection";
 import { RoomProfileHeader } from "./RoomProfileHeader";
 import { RoomProfileError } from "./RoomProfileError";
 import { RoomProfileSkeleton } from "./profileSkelton/RoomProfileSkeleton";
-import { roomProfileStyles } from "../../styles/roomStyles";
+import { RoomProfileContainer } from "../../styles/StyledComponents";
 
 export function RoomProfileView() {
   const { t } = useTranslation();
@@ -59,7 +58,7 @@ export function RoomProfileView() {
   }
 
   return (
-    <Stack gap={2.5} sx={roomProfileStyles.container(isDeleting)}>
+    <RoomProfileContainer isDeleting={isDeleting}>
       <RoomProfileHeader title={title} status={profile.status} onBack={handleBack} loading={false} />
       <Grid container spacing={2.5}>
         <Grid size={{ xs: 12, lg: 8 }}>
@@ -75,6 +74,6 @@ export function RoomProfileView() {
           <RoomNotesSection description={profile.description} notes={profile.notes} loading={false} />
         </Grid>
       </Grid>
-    </Stack>
+    </RoomProfileContainer>
   );
 }

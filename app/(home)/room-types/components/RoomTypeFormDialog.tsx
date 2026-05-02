@@ -5,6 +5,7 @@ import {
   DialogActions,
   Button,
   IconButton,
+  Stack,
 } from '@mui/material'
 import LoadingButton from '@mui/lab/LoadingButton'
 import CloseIcon from '@mui/icons-material/Close'
@@ -34,12 +35,14 @@ export function RoomTypeFormDialog({
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth='sm' fullWidth>
-      <DialogTitle sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        {isEditing ? 'Edit room type' : 'Add room type'}
-        <IconButton onClick={onClose} size='small' disabled={isLoading}>
-          <CloseIcon fontSize='small' />
-        </IconButton>
-      </DialogTitle>
+      <DialogTitle>
+          <Stack direction='row' alignItems='center' justifyContent='space-between'>
+            {isEditing ? 'Edit room type' : 'Add room type'}
+            <IconButton onClick={onClose} size='small' disabled={isLoading}>
+              <CloseIcon fontSize='small' />
+            </IconButton>
+          </Stack>
+        </DialogTitle>
       <DialogContent>
         <RoomTypeForm
           formId={FORM_ID}

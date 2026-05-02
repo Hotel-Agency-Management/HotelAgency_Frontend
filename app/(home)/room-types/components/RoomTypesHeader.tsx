@@ -20,7 +20,7 @@ export function RoomTypesHeader({ count, isLoading, onAdd }: RoomTypesHeaderProp
           {isLoading ? '...' : `${count} type${count !== 1 ? 's' : ''} configured`}
         </Typography>
       </Stack>
-      <LoadingButton variant='contained' startIcon={<AddIcon />} onClick={onAdd} size='small'>
+      <LoadingButton variant='contained' startIcon={<AddIcon />} onClick={onAdd} size='small' loading={isLoading} >
         Add room type
       </LoadingButton>
     </Stack>

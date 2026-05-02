@@ -1,7 +1,5 @@
 import { useState, type MouseEvent } from 'react'
 import {
-  Card,
-  CardContent,
   IconButton,
   Menu,
   Stack,
@@ -10,7 +8,7 @@ import {
 import { RoomType } from '../types/roomType'
 import { BedDouble, MoreVertical, Pencil, Trash2 } from 'lucide-react'
 import MenuItem from '@/components/ui/Menu'
-import { MenuItemIcon } from '../styles/roomTypeStyles'
+import { RoomTypeCardContent, RoomTypeCardRoot } from '../styles/StyledComponents'
 
 interface RoomTypeCardProps {
   roomType: RoomType
@@ -41,8 +39,8 @@ export function RoomTypeCard({ roomType, onEdit, onDelete }: RoomTypeCardProps) 
   }
 
   return (
-    <Card sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-      <CardContent sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 2.5 }}>
+    <RoomTypeCardRoot>
+      <RoomTypeCardContent>
         <Stack direction='row' spacing={1.5} justifyContent='space-between' alignItems='center'>
           <Stack direction='row' spacing={0.75} alignItems='center'>
             <BedDouble size={16} />
@@ -75,7 +73,7 @@ export function RoomTypeCard({ roomType, onEdit, onDelete }: RoomTypeCardProps) 
         <Typography variant='body2'>
           {roomType.description || 'Comfortable accommodation prepared for a refined hotel stay.'}
         </Typography>
-      </CardContent>
+      </RoomTypeCardContent>
 
       <Menu
         id={`room-type-actions-${roomType.id}`}
@@ -86,14 +84,18 @@ export function RoomTypeCard({ roomType, onEdit, onDelete }: RoomTypeCardProps) 
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
         <MenuItem onClick={handleEdit} variant='default'>
-          <MenuItemIcon><Pencil size={16} /></MenuItemIcon>
-          Edit room type
+          <Stack direction='row' alignItems='center' gap={1}>
+            <Pencil size={16} />
+            Edit room type
+          </Stack>
         </MenuItem>
         <MenuItem onClick={handleDelete} variant='danger'>
-          <MenuItemIcon><Trash2 size={16} /></MenuItemIcon>
-          Delete
+          <Stack direction='row' alignItems='center' gap={1}>
+            <Trash2 size={16} />
+            Delete
+          </Stack>
         </MenuItem>
       </Menu>
-    </Card>
+    </RoomTypeCardRoot>
   )
 }
