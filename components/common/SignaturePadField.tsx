@@ -1,19 +1,12 @@
 'use client'
 import type { ReactNode } from 'react'
-import { alpha, styled, useTheme } from '@mui/material/styles'
-import { Button, FormHelperText, Paper, Stack, Typography } from '@mui/material'
+import { alpha, useTheme } from '@mui/material/styles'
+import { FormHelperText, Paper, Stack, Typography } from '@mui/material'
 import type { SxProps, Theme } from '@mui/material/styles'
 import SignatureCanvas from 'react-signature-canvas'
 import { useSignaturePadField } from './useSignaturePadField'
-
-const DEFAULT_SIGNATURE_HEIGHT = 190
-
-const ClearSignatureButton = styled(Button)(({ theme }) => ({
-  alignSelf: 'flex-start',
-  [theme.breakpoints.up('sm')]: {
-    alignSelf: 'center',
-  },
-}))
+import { ClearSignatureButton } from './styles/StyledComponents'
+import { DEFAULT_SIGNATURE_HEIGHT } from './constants/signture'
 
 interface SignaturePadFieldProps {
   value: string
