@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { useRoomTypes } from '@/app/(home)/room-types/hooks/uesRoomType'
+import { useGetRoomTypes } from '@/app/(home)/room-types/hooks/queries/roomTypeQueries'
 import { getCustomerHotelById } from '../data/customerHotelRooms'
 import { customerHotelRoomsQueryKeys, useCustomerHotelRooms } from './useCustomerHotelRooms'
 import {
@@ -29,7 +29,7 @@ export const useCustomerHotelDetails = (hotelId: string) => {
 
   const roomsQuery = useCustomerHotelRooms(hotelId)
 
-  const { data: roomTypes = [], isLoading: roomTypesLoading } = useRoomTypes()
+  const { data: roomTypes = [], isLoading: roomTypesLoading } = useGetRoomTypes()
 
   const filteredRooms = useMemo(
     () => filterCustomerRooms(roomsQuery.data ?? [], roomTypes, filters),

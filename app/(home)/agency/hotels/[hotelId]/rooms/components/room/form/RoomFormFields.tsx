@@ -6,7 +6,7 @@ import { BED_TYPES } from "../../../constants/bedTypes";
 
 
 interface RoomTypeOption {
-  id: string;
+  id: number | string;
   name: string;
 }
 
@@ -80,7 +80,7 @@ export const RoomFormFields = ({ roomTypes }: Props) => {
                 </MenuItem>
               ) : (
                 roomTypes.map((roomType) => (
-                  <MenuItem key={roomType.id} value={roomType.id}>
+                  <MenuItem key={roomType.id} value={String(roomType.id)}>
                     {roomType.name}
                   </MenuItem>
                 ))

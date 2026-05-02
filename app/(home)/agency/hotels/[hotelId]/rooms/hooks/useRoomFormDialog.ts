@@ -7,8 +7,7 @@ import { useCreateRoom, useUpdateRoom } from "./useRoomStore";
 import { RoomFormValues, roomSchema } from "../schema/roomSchema";
 import { Room, RoomPhoto } from "../types/room";
 import { roomsApi } from "../api/roomApi";
-import { RoomType } from "../../../../../room-types/types/roomType";
-import { roomTypesApi } from "../../../../../room-types/api/roomTypeApi";
+import { useGetRoomTypes } from "../../../../../room-types/hooks/queries/roomTypeQueries";
 import { defaultFormValues } from "../constants/roomFormValues";
 
 export interface UseRoomFormDialogArgs {
@@ -27,7 +26,7 @@ export function useRoomFormDialog({
   const queryClient = useQueryClient();
   const isEdit = !!room;
 
-  const [roomTypes, setRoomTypes] = useState<RoomType[]>([]);
+  const { data: roomTypes = [] } = useGetRoomTypes();
   const [activeStep, setActiveStep] = useState(0);
   const [createdRoomId, setCreatedRoomId] = useState<string | null>(null);
   const [createFlowPhotos, setCreateFlowPhotos] = useState<RoomPhoto[]>([]);
@@ -61,11 +60,6 @@ export function useRoomFormDialog({
     reset(defaultFormValues);
     resetWizardState();
   }, [reset, resetWizardState]);
-
-  useEffect(() => {
-    if (!open) return;
-    roomTypesApi.getAll().then(setRoomTypes);
-  }, [open]);
 
   useEffect(() => {
     if (open && !room) {

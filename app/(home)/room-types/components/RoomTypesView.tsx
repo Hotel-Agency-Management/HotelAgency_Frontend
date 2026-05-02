@@ -1,84 +1,31 @@
 'use client'
 
-import { useState } from 'react'
 import { Alert, Stack } from '@mui/material'
 import { RoomTypeFormDialog } from './RoomTypeFormDialog'
 import { DeleteRoomTypeDialog } from './DeleteRoomTypeDialog'
 import { RoomTypesEmptyState } from './RoomTypesEmptyState'
 import { RoomTypesHeader } from './RoomTypesHeader'
 import { RoomTypesLoadingGrid } from './RoomTypesLoadingGrid'
-import { RoomTypeFormValues } from '../schema/roomTypeSchema'
-import { RoomType } from '../types/roomType'
 import { RoomTypesGrid } from './RoomTypesGrid'
-import { useRoomTypes, useCreateRoomType, useUpdateRoomType, useDeleteRoomType } from '../hooks/uesRoomType'
+import { useGetRoomTypes } from '../hooks/queries/roomTypeQueries'
+import { useRoomTypeFormDialog } from '../hooks/useRoomTypeFormDialog'
+import { useRoomTypeDeleteDialog } from '../hooks/useRoomTypeDeleteDialog'
 
 export function RoomTypesView() {
-  const currency = 'USD'
-
-  const { data: roomTypes = [], isLoading, error } = useRoomTypes()
-  const { mutateAsync: createRoomType } = useCreateRoomType()
-  const { mutateAsync: updateRoomType } = useUpdateRoomType()
-  const { mutateAsync: deleteRoomType } = useDeleteRoomType()
-
-  const [formOpen, setFormOpen] = useState(false)
-  const [editingRoomType, setEditingRoomType] = useState<RoomType | null>(null)
-  const [deletingRoomType, setDeletingRoomType] = useState<RoomType | null>(null)
-
-  const handleOpenAdd = () => {
-    setEditingRoomType(null)
-    setFormOpen(true)
-  }
-
-  const handleOpenEdit = (roomType: RoomType) => {
-    setEditingRoomType(roomType)
-    setFormOpen(true)
-  }
-
-  const handleCloseForm = () => {
-    setFormOpen(false)
-    setEditingRoomType(null)
-  }
-
-  const handleSubmit = async (values: RoomTypeFormValues) => {
-    if (editingRoomType) {
-      await updateRoomType({
-        id: editingRoomType.id,
-        ...values,
-      })
-    } else {
-      await createRoomType({
-        ...values,
-      })
-    }
-    handleCloseForm()
-  }
-
-  const handleOpenDelete = (roomType: RoomType) => {
-    setDeletingRoomType(roomType)
-  }
-
-  const handleCloseDelete = () => {
-    setDeletingRoomType(null)
-  }
-
-  const handleConfirmDelete = async () => {
-    if (!deletingRoomType) return
-    await deleteRoomType(deletingRoomType.id)
-    handleCloseDelete()
-  }
+  const { data: roomTypes = [], isLoading, error } = useGetRoomTypes()
+  const form = useRoomTypeFormDialog()
+  const deletion = useRoomTypeDeleteDialog()
 
   return (
     <Stack gap={3}>
       <RoomTypesHeader
         count={roomTypes.length}
         isLoading={isLoading}
-        onAdd={handleOpenAdd}
+        onAdd={form.openAdd}
       />
 
       {error && (
-        <Alert severity='error'>
-          Failed to load room types
-        </Alert>
+        <Alert severity='error'>Failed to load room types</Alert>
       )}
 
       {isLoading && <RoomTypesLoadingGrid />}
@@ -88,25 +35,25 @@ export function RoomTypesView() {
       {!isLoading && roomTypes.length > 0 && (
         <RoomTypesGrid
           roomTypes={roomTypes}
-          currency={currency}
-          onEdit={handleOpenEdit}
-          onDelete={handleOpenDelete}
+          onEdit={form.openEdit}
+          onDelete={deletion.openDelete}
         />
       )}
 
       <RoomTypeFormDialog
-        currency={currency}
-        open={formOpen}
-        editingRoomType={editingRoomType}
-        onClose={handleCloseForm}
-        onSubmit={handleSubmit}
+        open={form.formOpen}
+        editingRoomType={form.editingRoomType}
+        isLoading={form.isSubmitting}
+        onClose={form.closeForm}
+        onSubmit={form.handleSubmit}
       />
 
       <DeleteRoomTypeDialog
-        open={!!deletingRoomType}
-        roomType={deletingRoomType}
-        onClose={handleCloseDelete}
-        onConfirm={handleConfirmDelete}
+        open={!!deletion.deletingRoomType}
+        roomType={deletion.deletingRoomType}
+        isLoading={deletion.isDeleting}
+        onClose={deletion.closeDelete}
+        onConfirm={deletion.confirmDelete}
       />
     </Stack>
   )

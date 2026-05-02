@@ -3,7 +3,7 @@
 import { Alert, Chip, Grid, Paper, Snackbar, Stack, Typography } from '@mui/material'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useTranslation } from 'react-i18next'
-import { useRoomTypes } from '@/app/(home)/room-types/hooks/uesRoomType'
+import { useGetRoomTypes } from '@/app/(home)/room-types/hooks/queries/roomTypeQueries'
 import { ROOM_STATUS } from '@/app/(home)/agency/hotels/[hotelId]/rooms/types/room'
 import type { RoomProfile } from '@/app/(home)/agency/hotels/[hotelId]/rooms/components/profile/types'
 import { buildReservationDetailsItems } from '../constants/reservationDetails'
@@ -54,7 +54,7 @@ export function CustomerReservationManagementSection({
   } = useCustomerReservationManager(hotelId, roomId)
   const { feedback, showFeedback, closeFeedback } = useReservationFeedback()
   const roomsQuery = useCustomerHotelRooms(hotelId)
-  const { data: roomTypes = [] } = useRoomTypes()
+  const { data: roomTypes = [] } = useGetRoomTypes()
   const currentReservationCanModify =
     currentReservation != null ? canModifyReservation(currentReservation) : false
   const currentReservationFreeCancellation =
@@ -135,7 +135,7 @@ export function CustomerReservationManagementSection({
     currentReservationCancellationFee,
     currentReservation.currency
   )
-  const roomTypeNameById = new Map(roomTypes.map(roomType => [roomType.id, roomType.name]))
+  const roomTypeNameById = new Map(roomTypes.map(roomType => [String(roomType.id), roomType.name]))
   const roomOptions: ReservationEditRoomOption[] = (roomsQuery.data ?? []).map(hotelRoom => ({
     id: hotelRoom.id,
     label: `${hotelRoom.roomNumber} • ${roomTypeNameById.get(hotelRoom.roomTypeId) ?? 'Room'}`,

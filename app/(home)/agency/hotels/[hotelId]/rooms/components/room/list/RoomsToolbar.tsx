@@ -84,13 +84,13 @@ export const RoomsToolbar = ({
               if (!value) {
                 return <span style={{ opacity: 0.7 }}>Type</span>;
               }
-              return roomTypes.find((roomType) => roomType.id === value)?.name ?? value;
+              return roomTypes.find((roomType) => String(roomType.id) === value)?.name ?? value;
             },
           }}
         >
           <MenuItem value="">All</MenuItem>
           {roomTypes.map((roomType) => (
-            <MenuItem key={roomType.id} value={roomType.id}>
+            <MenuItem key={roomType.id} value={String(roomType.id)}>
               {roomType.name}
             </MenuItem>
           ))}

@@ -32,7 +32,7 @@ export function HotelRoomsSection({
   const router = useRouter()
   const params = useParams<{ hotelId?: string }>()
   const hotelId = params.hotelId ? decodeURIComponent(params.hotelId) : ''
-  const roomTypeNameById = new Map(roomTypes.map(roomType => [roomType.id, roomType.name]))
+  const roomTypeNameById = new Map(roomTypes.map(roomType => [String(roomType.id), roomType.name]))
 
   const goToRoomProfile = (roomId: string) => {
     const query = new URLSearchParams({
