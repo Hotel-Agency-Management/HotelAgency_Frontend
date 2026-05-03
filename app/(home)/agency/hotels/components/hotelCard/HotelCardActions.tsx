@@ -3,15 +3,14 @@
 import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import Tooltip from "@mui/material/Tooltip";
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil } from "lucide-react";
 
 interface HotelCardActionsProps {
   hotelId: string;
   onEdit?: (id: string) => void;
-  onDelete?: (id: string) => void;
 }
 
-export function HotelCardActions({ hotelId, onEdit, onDelete }: HotelCardActionsProps) {
+export function HotelCardActions({ hotelId, onEdit }: HotelCardActionsProps) {
   return (
     <Stack direction="row" spacing={0.25}>
       <Tooltip title="Edit">
@@ -24,19 +23,6 @@ export function HotelCardActions({ hotelId, onEdit, onDelete }: HotelCardActions
           aria-label="Edit hotel"
         >
           <Pencil size={14} />
-        </IconButton>
-      </Tooltip>
-
-      <Tooltip title="Delete">
-        <IconButton
-          size="small"
-          onClick={(e) => {
-            e.stopPropagation();
-            onDelete?.(hotelId);
-          }}
-          aria-label="Delete hotel"
-        >
-          <Trash2 size={14} color="red"/>
         </IconButton>
       </Tooltip>
     </Stack>

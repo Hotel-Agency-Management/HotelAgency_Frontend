@@ -1,34 +1,18 @@
 'use client'
 import Container from '@mui/material/Container'
-import { DeleteHotelDialog } from './DeleteHotelDialog'
 import { HotelGrid } from './HotelGrid'
-import { useHotelsPage } from '../hooks/useHotelsPage'
+import type { Hotel } from '../types/hotel'
 
-export function HotelsPage() {
-  const {
-    hotels,
-    deletingHotel,
-    deleteLoading,
-    setDeletingHotelId,
-    closeDeleteDialog,
-    confirmDeleteHotel,
-    handleUpdate,
-  } = useHotelsPage()
+interface HotelsPageProps {
+  hotels: Hotel[]
+  onUpdate: (id: string) => void
+  onAdd?: () => void
+}
 
+export function HotelsPage({ hotels, onUpdate, onAdd }: HotelsPageProps) {
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
-      <HotelGrid
-        hotels={hotels}
-        onDelete={setDeletingHotelId}
-        onUpdate={handleUpdate}
-      />
-      <DeleteHotelDialog
-        hotel={deletingHotel}
-        loading={deleteLoading}
-        open={deletingHotel != null}
-        onClose={closeDeleteDialog}
-        onConfirm={confirmDeleteHotel}
-      />
+      <HotelGrid hotels={hotels} onUpdate={onUpdate} onAdd={onAdd} />
     </Container>
   )
 }

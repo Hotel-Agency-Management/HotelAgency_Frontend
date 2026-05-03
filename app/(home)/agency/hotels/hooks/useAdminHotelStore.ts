@@ -1,14 +1,14 @@
-import { useGetHotels, useGetHotelById } from './queries/useHotelQueries'
-import { useCreateHotel, useUpdateHotel } from './mutations/useHotelMutations'
+import { useAdminGetHotels, useAdminGetHotelById } from './queries/useAdminHotelQueries'
+import { useAdminCreateHotel, useAdminUpdateHotel } from './mutations/useAdminHotelMutations'
 import { mapHotelFormValuesToHotelBase } from '../utils/hotelMapper'
 import type { HotelFormValues } from '../types/hotel'
 
-export const useHotelStore = (agencyId?: number, hotelId?: number) => {
-  const { data: hotels = [], isLoading: isLoadingList } = useGetHotels()
-  const { data: hotel, isLoading: isLoadingDetail } = useGetHotelById(hotelId)
+export const useAdminHotelStore = (agencyId: number, hotelId?: number) => {
+  const { data: hotels = [], isLoading: isLoadingList } = useAdminGetHotels(agencyId)
+  const { data: hotel, isLoading: isLoadingDetail } = useAdminGetHotelById(agencyId, hotelId)
 
-  const { mutateAsync: createHotel, isPending: isAdding } = useCreateHotel()
-  const { mutateAsync: updateHotel, isPending: isUpdating } = useUpdateHotel()
+  const { mutateAsync: createHotel, isPending: isAdding } = useAdminCreateHotel()
+  const { mutateAsync: updateHotel, isPending: isUpdating } = useAdminUpdateHotel()
 
   return {
     hotels,
@@ -17,7 +17,7 @@ export const useHotelStore = (agencyId?: number, hotelId?: number) => {
 
     addHotel: (formValues: HotelFormValues) =>
       createHotel({
-        agencyId: agencyId!,
+        agencyId,
         data: {
           ...mapHotelFormValuesToHotelBase(formValues),
           logo: formValues.branding.logo as unknown as File | null,
@@ -27,7 +27,7 @@ export const useHotelStore = (agencyId?: number, hotelId?: number) => {
 
     updateHotel: (hotelId: string, formValues: HotelFormValues) =>
       updateHotel({
-        agencyId: agencyId!,
+        agencyId,
         hotelId: Number(hotelId),
         data: {
           ...mapHotelFormValuesToHotelBase(formValues),

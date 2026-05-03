@@ -11,26 +11,21 @@ import { BrandingStep } from "./steps/BrandingStep"
 import { ManagerStep } from "./steps/ManagerStep"
 import { useHotelForm } from "../hooks/useHotelForm"
 import { useHotelStepper } from "../hooks/useHotelStepper"
-import { useHotelStore } from "../hooks/useHotelStore"
-import { useAuth } from "@/core/context/AuthContext"
+import type { Hotel, HotelFormValues } from "../types/hotel"
 
 interface HotelFormPageProps {
   mode: 'add' | 'edit'
+  hotelsPath: string
+  addHotel: (values: HotelFormValues) => Promise<unknown>
+  updateHotel: (hotelId: string, values: HotelFormValues) => Promise<unknown>
+  hotel?: Hotel
+  isLoading: boolean
 }
 
-export function HotelFormPage({ mode }: HotelFormPageProps) {
+export function HotelFormPage({ mode, hotelsPath, addHotel, updateHotel, hotel, isLoading }: HotelFormPageProps) {
   const router = useRouter()
   const { hotelId } = useParams<{ hotelId?: string }>()
-  const { user } = useAuth()
-  const numericHotelId = hotelId ? Number(hotelId) : undefined
-  const agencyId = user?.agencyId
   const { settings } = useSettings()
-
-  const { addHotel, updateHotel, hotel, isLoading } = useHotelStore(
-    agencyId,
-    Number.isFinite(numericHotelId) ? numericHotelId : undefined
-  )
-  const hotelsPath = '/agency/hotels'
 
   const existingHotel = mode === 'edit' ? hotel : undefined
 
@@ -51,7 +46,6 @@ export function HotelFormPage({ mode }: HotelFormPageProps) {
 
   useEffect(() => {
     if (!shouldRedirectToHotels) return
-
     router.replace(hotelsPath)
   }, [hotelsPath, router, shouldRedirectToHotels])
 

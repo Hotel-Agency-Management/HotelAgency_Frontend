@@ -11,12 +11,13 @@ import type { HotelFormValues } from "../types/hotel";
 
 interface HotelGridProps {
   hotels: (HotelFormValues & { id: string })[];
-  onDelete: (id: string) => void;
   onUpdate: (id: string) => void;
+  onAdd?: () => void;
 }
 
-export function HotelGrid({ hotels, onDelete, onUpdate }: HotelGridProps) {
+export function HotelGrid({ hotels, onUpdate, onAdd }: HotelGridProps) {
   const router = useRouter()
+  const handleAdd = onAdd ?? (() => router.push('/agency/hotels/addHotel'))
 
   return (
     <Stack spacing={3}>
@@ -32,7 +33,7 @@ export function HotelGrid({ hotels, onDelete, onUpdate }: HotelGridProps) {
           variant="contained"
           disableElevation
           startIcon={<Plus size={15} />}
-          onClick={() => router.push('/agency/hotels/addHotel')}
+          onClick={handleAdd}
         >
           Add hotel
         </Button>
@@ -48,7 +49,7 @@ export function HotelGrid({ hotels, onDelete, onUpdate }: HotelGridProps) {
         <Grid container spacing={2.5}>
           {hotels.map((hotel) => (
             <Grid key={hotel.id} size={{ xs: 12, sm: 6, md: 4 }}>
-              <HotelCard hotel={hotel} onDelete={onDelete} onEdit={onUpdate} />
+              <HotelCard hotel={hotel} onEdit={onUpdate} />
             </Grid>
           ))}
         </Grid>
