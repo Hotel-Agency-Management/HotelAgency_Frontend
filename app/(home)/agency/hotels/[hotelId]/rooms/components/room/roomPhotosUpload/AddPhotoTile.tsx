@@ -1,5 +1,4 @@
-import { Paper } from "@mui/material";
-import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import { AddPhotoTileIcon, AddPhotoTileRoot } from "../../../roomStyle";
 
 interface AddPhotoTileProps {
   onActivate: () => void;
@@ -14,14 +13,13 @@ export function AddPhotoTile({ onActivate }: AddPhotoTileProps) {
   };
 
   return (
-    <Paper
+    <AddPhotoTileRoot
       variant="dashed"
       onClick={onActivate}
       tabIndex={0}
       onKeyDown={handleKeyDown}
-      sx={{ width: 120, height: 90 }}
     >
-      <AddPhotoAlternateIcon sx={{ color: "text.disabled" }} />
-    </Paper>
+      <AddPhotoTileIcon />
+    </AddPhotoTileRoot>
   );
 }

@@ -26,7 +26,7 @@ export function DeleteRoomAmenityDialog({
       <DialogTitle>Delete room amenity</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Are you sure you want to delete {amenity?.title ?? "this amenity"}? Rooms that
+          Are you sure you want to delete {amenity?.name ?? "this amenity"}? Rooms that
           already reference this amenity may need to be updated later.
         </DialogContentText>
       </DialogContent>

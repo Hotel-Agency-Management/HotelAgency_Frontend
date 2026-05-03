@@ -14,5 +14,9 @@ export function useHotelsPage() {
     router.push(`/agency/hotels/${id}/edit`)
   }
 
-  return { hotels, handleUpdate }
+  const handleOpen = (id: string) => {
+    router.push(`/agency/hotels/${id}/rooms`)
+  }
+
+  return { hotels, handleUpdate, handleOpen }
 }

@@ -1,14 +1,12 @@
 import { memo, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { BED_TYPES } from "../../constants/bedTypes";
-import { ROOM_TYPES } from "../../../../../../room-types/constants/roomTypes";
-import type { RoomProfile } from "./types";
+import type { RoomResponse } from "../../types/room";
 import { RoomInfoCardFilled } from "./RoomInfoCardFilled";
 import { buildRoomInfoRows } from "./roomInfoRows";
 import { RoomInfoCardSkeleton } from "./profileSkelton/RoomInfoCardSkeleton";
 
 export interface RoomInfoCardProps {
-  room: Pick<RoomProfile, "type" | "floorNumber" | "capacity" | "bedType" | "pricePerNight" | "starRating">;
+  room: Pick<RoomResponse, "roomTypeName" | "floorNumber" | "capacity" | "dailyPrice" | "weeklyPrice" | "monthlyPrice" | "extendPrice">;
   onEdit: () => void;
   onDelete: () => void;
   loading?: boolean;
@@ -21,17 +19,12 @@ export const RoomInfoCard = memo(function RoomInfoCard({
   loading,
 }: RoomInfoCardProps) {
   const { t, i18n } = useTranslation();
-  const bed = useMemo(
-    () => BED_TYPES.find((b) => b.value === room.bedType)?.label ?? room.bedType,
-    [room.bedType],
-  );
   const rows = useMemo(
-    () => buildRoomInfoRows(t, i18n.language, room, bed),
-    [t, i18n.language, room, bed],
+    () => buildRoomInfoRows(t, i18n.language, room),
+    [t, i18n.language, room],
   );
-  const tm = ROOM_TYPES[room.type];
   if (loading) return <RoomInfoCardSkeleton />;
   return (
-    <RoomInfoCardFilled t={t} room={room} rows={rows} tm={tm} onEdit={onEdit} onDelete={onDelete} />
+    <RoomInfoCardFilled t={t} roomTypeName={room.roomTypeName} rows={rows} onEdit={onEdit} onDelete={onDelete} />
   );
 });

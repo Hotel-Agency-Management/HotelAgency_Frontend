@@ -10,11 +10,11 @@ import { RoomAmenitiesToolbar } from "./RoomAmenitiesToolbar";
 
 export function RoomAmenitiesPage() {
   const {
-    filters, formOpen, editingAmenity,
+    filters, formOpen,
     deleteTargetId, deleteTarget, amenities,
-    isLoading, error, isCreating, isUpdating, isDeleting,
+    isLoading, error, isCreating, isDeleting,
     setFilters, setDeleteTargetId,
-    handleOpenCreate, handleOpenEdit, handleCloseForm,
+    handleOpenCreate, handleCloseForm,
     handleSaveDetails, handleConfirmDelete,
   } = useRoomAmenitiesPage();
 
@@ -33,13 +33,11 @@ export function RoomAmenitiesPage() {
       <RoomAmenitiesCards
         amenities={amenities}
         isLoading={isLoading}
-        onEdit={handleOpenEdit}
         onDelete={(amenity) => setDeleteTargetId(amenity.id)}
       />
       <RoomAmenityFormDialog
         open={formOpen}
-        amenity={editingAmenity}
-        isSaving={isCreating || isUpdating}
+        isSaving={isCreating}
         onClose={handleCloseForm}
         onSaveDetails={handleSaveDetails}
       />

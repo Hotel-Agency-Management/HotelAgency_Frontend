@@ -1,6 +1,6 @@
-import { Paper, Typography } from "@mui/material";
-import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import { Typography } from "@mui/material";
 import { ReactNode } from "react";
+import { EmptyPhotoIcon, PhotoDropSurfaceRoot } from "../../../roomStyle";
 
 interface PhotoDropSurfaceProps {
   children?: ReactNode;
@@ -19,25 +19,21 @@ export function PhotoDropSurface({
   };
 
   return (
-    <Paper
+    <PhotoDropSurfaceRoot
       variant="dashed"
       onClick={onActivate}
       role="button"
       tabIndex={0}
       onKeyDown={handleKeyDown}
-      sx={{
-        p: 4,
-        textAlign: "center",
-      }}
     >
       {children ?? (
         <>
-          <AddPhotoAlternateIcon sx={{ fontSize: 40, color: "text.disabled" }} />
+          <EmptyPhotoIcon />
           <Typography variant="body2" color="text.secondary" mt={1}>
             Click to upload room photos
           </Typography>
         </>
       )}
-    </Paper>
+    </PhotoDropSurfaceRoot>
   );
 }

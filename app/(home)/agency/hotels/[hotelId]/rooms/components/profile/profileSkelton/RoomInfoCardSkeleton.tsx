@@ -1,18 +1,19 @@
-import { Paper, Stack, Skeleton } from "@mui/material";
+import { Stack, Skeleton } from "@mui/material";
+import { CardFullWidth, FlexSkeleton, SkeletonActions } from "../../../roomStyle";
 
 export function RoomInfoCardSkeleton() {
   return (
-    <Paper variant="card" sx={{ width: 1 }}>
+    <CardFullWidth variant="card">
       <Stack spacing={1.25}>
         {Array.from({ length: 5 }, (_, k) => (
           <Skeleton key={k} height={22} />
         ))}
         <Skeleton height={28} width="55%" />
-        <Stack direction="row" spacing={1} sx={{ pt: 0.5 }}>
-          <Skeleton height={36} sx={{ flex: 1 }} />
-          <Skeleton height={36} sx={{ flex: 1 }} />
-        </Stack>
+        <SkeletonActions direction="row" spacing={1}>
+          <FlexSkeleton height={36} />
+          <FlexSkeleton height={36} />
+        </SkeletonActions>
       </Stack>
-    </Paper>
+    </CardFullWidth>
   );
 }

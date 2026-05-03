@@ -1,11 +1,11 @@
 import { IconButton, Stack, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { TFunction } from "i18next";
-import { Room } from "../../../types/room";
+import type { RoomResponse } from "../../../types/room";
 
 interface Props {
   isEdit: boolean;
-  room: Room | null | undefined;
+  room: RoomResponse | null | undefined;
   onClose: () => void;
   busy: boolean;
   t: TFunction;
