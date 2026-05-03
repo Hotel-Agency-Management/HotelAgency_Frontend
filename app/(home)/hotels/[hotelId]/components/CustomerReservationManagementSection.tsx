@@ -1,6 +1,7 @@
 'use client'
 
-import { Alert, Chip, Grid, Paper, Snackbar, Stack, Typography } from '@mui/material'
+import { Alert, Button, Chip, Grid, Paper, Snackbar, Stack, Typography } from '@mui/material'
+import { CheckCircle2, Clock3, Edit3, FileText, ReceiptText } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useTranslation } from 'react-i18next'
 import { useGetRoomTypes } from '@/app/(home)/room-types/hooks/queries/roomTypeQueries'
@@ -142,7 +143,7 @@ export function CustomerReservationManagementSection({
     getReservationEditDeadline(currentReservation.createdAt)
   )
   const freeCancellationDeadlineLabel = formatReservationTimestamp(
-    getFreeCancellationDeadline(currentReservation.createdAt)
+    getFreeCancellationDeadline(currentReservation.checkIn)
   )
   const cancellationFeeLabel = formatCurrencyValue(
     currentReservationCancellationFee,
@@ -237,11 +238,7 @@ export function CustomerReservationManagementSection({
             >
               <ReservationActionsMenu
                 canModify={currentReservationCanModify}
-                canViewContract={Boolean(currentReservation.customerSignatureDataUrl)}
-                canViewInvoice={Boolean(currentReservation.invoice)}
                 isBusy={isBusy}
-                onViewContract={openCurrentReservationContract}
-                onViewInvoice={openCurrentReservationInvoice}
                 onEdit={edit.openEdit}
                 onExtend={extend.openExtend}
                 onCancel={cancellation.openCancel}
@@ -254,17 +251,33 @@ export function CustomerReservationManagementSection({
                 useFlexGap
                 justifyContent={{ xs: 'flex-start', md: 'flex-end' }}
               >
-                <Chip size="small" variant="outlined" color="success" label="Status: confirmed" />
                 <Chip
                   size="small"
                   variant="outlined"
-                  color={currentReservationCanModify ? 'success' : 'warning'}
+                  color="success"
+                  icon={<CheckCircle2 size={14} />}
+                  label="Status: confirmed"
+                />
+                <Chip
+                  size="small"
+                  variant="outlined"
+                  color={currentReservationCanModify ? 'info' : 'warning'}
+                  icon={
+                    currentReservationCanModify ? <Edit3 size={14} /> : <Clock3 size={14} />
+                  }
                   label={currentReservationCanModify ? 'Editable now' : 'Edit window closed'}
                 />
                 <Chip
                   size="small"
                   variant="outlined"
-                  color={currentReservationFreeCancellation ? 'success' : 'warning'}
+                  color={currentReservationFreeCancellation ? 'warning' : 'error'}
+                  icon={
+                    currentReservationFreeCancellation ? (
+                      <Clock3 size={14} />
+                    ) : (
+                      <ReceiptText size={14} />
+                    )
+                  }
                   label={
                     currentReservationFreeCancellation
                       ? 'Free cancellation active'
@@ -281,13 +294,38 @@ export function CustomerReservationManagementSection({
             </Grid>
 
             <Grid size={{ xs: 12, lg: 5 }}>
-              <ReservationPoliciesSection
-                canModify={currentReservationCanModify}
-                freeCancellation={currentReservationFreeCancellation}
-                modificationDeadlineLabel={modificationDeadlineLabel}
-                freeCancellationDeadlineLabel={freeCancellationDeadlineLabel}
-                cancellationFeeLabel={cancellationFeeLabel}
-              />
+              <Stack gap={1.5}>
+                <ReservationPoliciesSection
+                  canModify={currentReservationCanModify}
+                  freeCancellation={currentReservationFreeCancellation}
+                  modificationDeadlineLabel={modificationDeadlineLabel}
+                  freeCancellationDeadlineLabel={freeCancellationDeadlineLabel}
+                  cancellationFeeLabel={cancellationFeeLabel}
+                />
+
+                <Stack direction={{ xs: 'column', sm: 'row' }} gap={1}>
+                  <Button
+                    fullWidth
+                    variant="outlined"
+                    color="secondary"
+                    startIcon={<FileText size={16} />}
+                    disabled={!currentReservation.customerSignatureDataUrl || isBusy}
+                    onClick={openCurrentReservationContract}
+                  >
+                    View contract
+                  </Button>
+                  <Button
+                    fullWidth
+                    variant="outlined"
+                    color="secondary"
+                    startIcon={<ReceiptText size={16} />}
+                    disabled={!currentReservation.invoice || isBusy}
+                    onClick={openCurrentReservationInvoice}
+                  >
+                    View invoice
+                  </Button>
+                </Stack>
+              </Stack>
             </Grid>
           </Grid>
         </Stack>
