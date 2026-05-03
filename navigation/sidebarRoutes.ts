@@ -258,6 +258,22 @@ const navigation = (hotelId?: string): SidebarNavItems => {
           action: 'create'
         }
       ]
+    },
+
+    {
+      sectionTitle: 'Damage Reports',
+      icon: 'lucide:alert-triangle',
+      subject: 'DamageReports',
+      action: 'read',
+      items: [
+        {
+          title: 'Damage Reports',
+          path: `/agency/hotels/${hotelId}/damage-reports`,
+          icon: 'lucide:alert-triangle',
+          subject: 'DamageReports',
+          action: 'read'
+        }
+      ]
     }
   ]
 }

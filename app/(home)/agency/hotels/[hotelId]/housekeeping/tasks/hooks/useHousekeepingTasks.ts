@@ -32,6 +32,8 @@ export function useHousekeepingTasksPage() {
   return {
     theme,
     hotelName,
+    hotelId: params.hotelId ?? '',
+    user,
     primaryColor,
     summary,
     ...taskManager
