@@ -113,6 +113,9 @@ export function RoomTypeCard({ roomType, currency, onEdit, onDelete }: RoomTypeC
             <Grid size={{ xs: 6 }} sx={{ textAlign: 'right' }}>
               <SecondaryRate label='Monthly' value={roomType.monthlyPrice} currency={currency} />
             </Grid>
+            <Grid size={{ xs: 6 }}>
+              <SecondaryRate label='Extension' value={roomType.extendPrice} currency={currency} />
+            </Grid>
           </Grid>
         </Box>
       </CardContent>

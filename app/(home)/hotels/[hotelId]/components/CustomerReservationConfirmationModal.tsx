@@ -28,7 +28,7 @@ interface CustomerReservationConfirmationModalProps {
   open: boolean
   hotelId: string
   hotel: CustomerHotel | null
-  room: Pick<RoomProfile, 'type' | 'capacity' | 'pricePerNight'>
+  room: Pick<RoomProfile, 'type' | 'capacity' | 'pricePerNight' | 'extendPrice'>
   reservation: ReservationDetails
   confirming?: boolean
   onClose: () => void
