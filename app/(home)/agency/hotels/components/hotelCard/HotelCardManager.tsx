@@ -6,8 +6,8 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { alpha } from "@mui/material/styles";
 import { Mail } from "lucide-react";
-import type { AgencyTeamMember } from "@/app/(home)/agency/types/teamMember";
-import { getAgencyTeamMemberName, getRoleLabel } from "@/app/(home)/agency/types/teamMember";
+import type { AgencyTeamMember } from "@/app/(home)/users/config/teamMemberConfig";
+import { getAgencyTeamMemberName, getRoleLabel } from "@/app/(home)/users/config/teamMemberConfig";
 
 interface HotelCardManagerProps {
   manager?: AgencyTeamMember;

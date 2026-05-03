@@ -15,6 +15,7 @@ export function useAgencies() {
       const matchesSearch =
         agency.name.toLowerCase().includes(search.toLowerCase()) ||
         agency.phone.toLowerCase().includes(search.toLowerCase()) ||
+        agency.email.toLowerCase().includes(search.toLowerCase()) ||
         agency.city.toLowerCase().includes(search.toLowerCase())
 
       const matchesCountry = !filters.country || agency.country === filters.country

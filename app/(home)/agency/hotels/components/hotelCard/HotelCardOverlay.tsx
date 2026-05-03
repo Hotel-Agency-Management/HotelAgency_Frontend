@@ -6,7 +6,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { alpha } from "@mui/material/styles";
 import { Building2, MapPin, Phone } from "lucide-react";
-import { useAgencyTeamStore } from "@/app/(home)/agency/hooks/useAgencyTeamStore";
+import { useTeamMembers } from "@/app/(home)/users/hooks/useTeamMembers";
 import { HotelCardActions } from "./HotelCardActions";
 import { HotelCardManager } from "./HotelCardManager";
 import type { HotelCardHotel } from "./types";
@@ -17,7 +17,7 @@ interface HotelCardOverlayProps {
 }
 
 export function HotelCardOverlay({ hotel, onEdit }: HotelCardOverlayProps) {
-  const { getMemberById } = useAgencyTeamStore();
+  const { getMemberById } = useTeamMembers();
   const { basicInfo, branding, managerId } = hotel;
   const manager = getMemberById(managerId);
 
