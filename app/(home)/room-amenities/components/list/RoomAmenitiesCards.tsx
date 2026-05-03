@@ -1,27 +1,25 @@
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Grid from "@mui/material/Grid";
-import IconButton from "@mui/material/IconButton";
-import Menu from "@mui/material/Menu";
-import Pagination from "@mui/material/Pagination";
-import Skeleton from "@mui/material/Skeleton";
-import Stack from "@mui/material/Stack";
-import Tooltip from "@mui/material/Tooltip";
-import Typography from "@mui/material/Typography";
-import { MoreVertical, Pencil, Trash2 } from "lucide-react";
-import { getRoomAmenityIcon } from "../../constants/roomAmenityIcons";
-import type { RoomAmenity } from "../../types/roomAmenity";
-import MenuItem from "@/components/ui/Menu";
-import { useRoomAmenitiesCards } from "../../hooks/useRoomAmenitiesCards";
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import Grid from '@mui/material/Grid'
+import IconButton from '@mui/material/IconButton'
+import Menu from '@mui/material/Menu'
+import Pagination from '@mui/material/Pagination'
+import Skeleton from '@mui/material/Skeleton'
+import Stack from '@mui/material/Stack'
+import Tooltip from '@mui/material/Tooltip'
+import Typography from '@mui/material/Typography'
+import { MoreVertical, Trash2 } from 'lucide-react'
+import type { RoomAmenity } from '../../types/roomAmenity'
+import MenuItem from '@/components/ui/Menu'
+import { useRoomAmenitiesCards } from '../../hooks/useRoomAmenitiesCards'
 
 interface Props {
-  amenities: RoomAmenity[];
-  isLoading: boolean;
-  onEdit: (amenity: RoomAmenity) => void;
-  onDelete: (amenity: RoomAmenity) => void;
+  amenities: RoomAmenity[]
+  isLoading: boolean
+  onDelete: (amenity: RoomAmenity) => void
 }
 
-export function RoomAmenitiesCards({ amenities, isLoading, onEdit, onDelete }: Props) {
+export function RoomAmenitiesCards({ amenities, isLoading, onDelete }: Props) {
   const {
     page,
     setPage,
@@ -31,11 +29,10 @@ export function RoomAmenitiesCards({ amenities, isLoading, onEdit, onDelete }: P
     isMenuOpen,
     handleOpenMenu,
     handleCloseMenu,
-    handleEditAmenity,
     handleDeleteAmenity,
     PAGE_SIZE,
-    TITLE_TOOLTIP_LIMIT,
-  } = useRoomAmenitiesCards({ amenities, onEdit, onDelete });
+    NAME_TOOLTIP_LIMIT,
+  } = useRoomAmenitiesCards({ amenities, onDelete })
 
   if (isLoading) {
     return (
@@ -46,19 +43,18 @@ export function RoomAmenitiesCards({ amenities, isLoading, onEdit, onDelete }: P
           </Grid>
         ))}
       </Grid>
-    );
+    )
   }
 
   if (amenities.length === 0) {
-    return <Typography color="text.secondary">No room amenities match your filters.</Typography>;
+    return <Typography color="text.secondary">No room amenities match your filters.</Typography>
   }
 
   return (
     <Stack spacing={3}>
       <Grid container spacing={2}>
         {paginatedAmenities.map((amenity) => {
-          const Icon = getRoomAmenityIcon(amenity.icon);
-          const hasLongTitle = amenity.title.length > TITLE_TOOLTIP_LIMIT;
+          const hasLongName = amenity.name.length > NAME_TOOLTIP_LIMIT
 
           return (
             <Grid key={amenity.id} size={{ xs: 12, sm: 6, md: 3 }}>
@@ -68,10 +64,10 @@ export function RoomAmenitiesCards({ amenities, isLoading, onEdit, onDelete }: P
                     <IconButton
                       className="room-amenity-action-trigger"
                       size="small"
-                      aria-label={`Actions for ${amenity.title}`}
-                      aria-controls={isMenuOpen(amenity.id) ? "room-amenity-actions-menu" : undefined}
+                      aria-label={`Actions for ${amenity.name}`}
+                      aria-controls={isMenuOpen(amenity.id) ? 'room-amenity-actions-menu' : undefined}
                       aria-haspopup="menu"
-                      aria-expanded={isMenuOpen(amenity.id) ? "true" : undefined}
+                      aria-expanded={isMenuOpen(amenity.id) ? 'true' : undefined}
                       onClick={(event) => handleOpenMenu(event, amenity)}
                       sx={{ width: 32, height: 32 }}
                     >
@@ -87,23 +83,21 @@ export function RoomAmenitiesCards({ amenities, isLoading, onEdit, onDelete }: P
                     width="100%"
                     sx={{ pr: 4 }}
                   >
-                    <Icon size={20} style={{ flexShrink: 0 }} />
-
-                    <Tooltip title={hasLongTitle ? amenity.title : ""} placement="top" arrow>
+                    <Tooltip title={hasLongName ? amenity.name : ''} placement="top" arrow>
                       <Typography
                         variant="body2"
                         fontWeight={700}
                         noWrap
                         sx={{ maxWidth: 180 }}
                       >
-                        {amenity.title}
+                        {amenity.name}
                       </Typography>
                     </Tooltip>
                   </Stack>
                 </CardContent>
               </Card>
             </Grid>
-          );
+          )
         })}
       </Grid>
 
@@ -113,10 +107,6 @@ export function RoomAmenitiesCards({ amenities, isLoading, onEdit, onDelete }: P
         open={Boolean(menuState.anchorEl)}
         onClose={handleCloseMenu}
       >
-        <MenuItem onClick={handleEditAmenity} variant="default">
-          <Pencil size={16} style={{ marginRight: 8 }} />
-          Edit
-        </MenuItem>
         <MenuItem onClick={handleDeleteAmenity} variant="danger">
           <Trash2 size={16} style={{ marginRight: 8 }} />
           Delete
@@ -134,5 +124,5 @@ export function RoomAmenitiesCards({ amenities, isLoading, onEdit, onDelete }: P
         </Stack>
       ) : null}
     </Stack>
-  );
+  )
 }

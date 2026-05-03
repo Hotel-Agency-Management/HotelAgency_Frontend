@@ -1,9 +1,7 @@
-import { z } from "zod";
-import { ROOM_AMENITY_ICON_VALUES } from "../constants/roomAmenityIcons";
+import { z } from 'zod'
 
 export const roomAmenitySchema = z.object({
-  title: z.string().trim().min(1, "Amenity title is required"),
-  icon: z.enum(ROOM_AMENITY_ICON_VALUES),
-});
+  name: z.string().trim().min(1, 'Amenity name is required'),
+})
 
-export type RoomAmenityFormValues = z.infer<typeof roomAmenitySchema>;
+export type RoomAmenityFormValues = z.infer<typeof roomAmenitySchema>
