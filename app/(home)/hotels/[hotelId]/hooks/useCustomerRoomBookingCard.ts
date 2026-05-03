@@ -138,6 +138,7 @@ export function useCustomerRoomBookingCard({
         guests: reservation.guests,
         rooms: reservation.rooms,
         currency: reservation.currency,
+        cancellationFeeRate: hotel?.cancellationFeeRate,
         nightlyRate: room.pricePerNight,
         extendPrice: room.extendPrice ?? room.pricePerNight,
         termsAccepted,

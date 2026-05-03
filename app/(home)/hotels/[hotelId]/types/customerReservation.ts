@@ -33,6 +33,7 @@ export interface CustomerReservation {
   guests: number
   rooms: number
   currency: string
+  cancellationFeeRate?: number
   nightlyRate: number
   extendPrice: number
   totalPrice: number
@@ -69,6 +70,7 @@ export interface CreateCustomerReservationInput {
   guests: number
   rooms: number
   currency: string
+  cancellationFeeRate?: number
   nightlyRate: number
   extendPrice: number
   termsAccepted: boolean
