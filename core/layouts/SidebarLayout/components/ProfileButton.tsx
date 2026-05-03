@@ -8,16 +8,18 @@ import { useRouter } from 'next/navigation'
 import { useAuth } from '@/core/context/AuthContext'
 import { useSidebar } from '../SidebarContext'
 import { profileDummyData } from '@/lib/profileDummyData'
-import themeConfig from '@/core/configs/themeConfig'
+import UserAvatarButton from './UserAvatarButton'
 
-// Matches the sidebar's collapse animation
-const SIDEBAR_TRANSITION = '0.3s cubic-bezier(0.4,0,0.2,1)'
+interface ProfileButtonProps {
+  variant?: 'sidebar' | 'navbar'
+}
 
-export default function ProfileButton() {
+export default function ProfileButton({ variant = 'sidebar' }: ProfileButtonProps) {
   const { logout, user } = useAuth()
   const { isCollapsed } = useSidebar()
   const router = useRouter()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const isNavbar = variant === 'navbar'
 
   const name = user?.name ?? profileDummyData.name
   const email = user?.email ?? profileDummyData.email
@@ -43,36 +45,23 @@ export default function ProfileButton() {
 
   return (
     <>
-      <Box sx={{ p: 1.5 }}>
-        <Tooltip title={isCollapsed ? `${name} — ${email}` : ''} placement='right'>
+      <Box sx={{ p: isNavbar ? 0 : 1.5 }}>
+        <Tooltip title={isNavbar || isCollapsed ? `${name} — ${email}` : ''} placement={isNavbar ? 'bottom' : 'right'}>
           {/*
            * No independent width animation — the sidebar's overflow:hidden and
            * its own Framer Motion width tween handle all spatial changes.
            * We only animate gap/padding (CSS, same easing as sidebar) and
            * fade content in/out fast enough that nothing gets squashed.
            */}
-          <Box
+          <UserAvatarButton
+            isNavbar={isNavbar}
+            isCollapsed={isCollapsed}
             onClick={handleOpen}
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              overflow: 'hidden',
-              py: 1,
-              px: isCollapsed ? 0.75 : 1.25,
-              gap: isCollapsed ? 0 : 1.5,
-              cursor: 'pointer',
-              borderRadius: themeConfig.common.commonBorderRadius,
-              border: '1px solid',
-              borderColor: 'divider',
-              bgcolor: theme => theme.palette.primary.main + '10',
-              transition: `gap ${SIDEBAR_TRANSITION}, padding ${SIDEBAR_TRANSITION}, box-shadow 0.2s, border-color 0.2s`,
-              '&:hover': { boxShadow: 3, borderColor: 'primary.main' }
-            }}
           >
             <Avatar
               sx={{
-                width: 34,
-                height: 34,
+                width: isNavbar ? 28 : 34,
+                height: isNavbar ? 28 : 34,
                 flexShrink: 0,
                 bgcolor: 'primary.main',
                 fontSize: '0.75rem',
@@ -83,8 +72,8 @@ export default function ProfileButton() {
             </Avatar>
 
             {/* Text — fades out fast so the sidebar wall never catches it */}
-            <AnimatePresence initial={false}>
-              {!isCollapsed && (
+          <AnimatePresence initial={false}>
+              {!isNavbar && !isCollapsed && (
                 <motion.div
                   key='profile-text'
                   initial={{ opacity: 0 }}
@@ -103,8 +92,8 @@ export default function ProfileButton() {
             </AnimatePresence>
 
             {/* Icon — same fast fade */}
-            <AnimatePresence initial={false}>
-              {!isCollapsed && (
+          <AnimatePresence initial={false}>
+              {!isNavbar && !isCollapsed && (
                 <motion.div
                   key='profile-icon'
                   initial={{ opacity: 0 }}
@@ -116,7 +105,7 @@ export default function ProfileButton() {
                 </motion.div>
               )}
             </AnimatePresence>
-          </Box>
+          </UserAvatarButton>
         </Tooltip>
       </Box>
 
@@ -124,8 +113,8 @@ export default function ProfileButton() {
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleClose}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        transformOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        anchorOrigin={{ vertical: isNavbar ? 'bottom' : 'top', horizontal: 'right' }}
+        transformOrigin={{ vertical: isNavbar ? 'top' : 'bottom', horizontal: 'right' }}
         slotProps={{
           paper: {
             elevation: 4,

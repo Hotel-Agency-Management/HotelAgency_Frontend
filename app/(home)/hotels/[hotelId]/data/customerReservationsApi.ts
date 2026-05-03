@@ -3,6 +3,7 @@
 
 import dayjs from 'dayjs'
 import { sleep } from '@/app/(home)/agency/hotels/[hotelId]/rooms/util/delay'
+import { customerInvoicesApi } from '../invoice/data/customerInvoicesApi'
 import {
   CUSTOMER_RESERVATION_STATUS,
   type CreateCustomerReservationInput,
@@ -139,12 +140,18 @@ export const customerReservationsApi = {
       throw new Error('You already have an active reservation for this room.')
     }
 
+    if (!input.termsAccepted || !input.customerSignatureDataUrl) {
+      throw new Error('Terms acceptance and customer signature are required.')
+    }
+
     assertAvailability(input.hotelId, input.roomId, input.checkIn, input.checkOut)
 
     const now = new Date().toISOString()
+    const { termsAccepted, customerSignatureDataUrl, ...reservationInput } = input
+    const reservationId = `reservation-${Date.now()}`
     const reservation: CustomerReservation = {
-      id: `reservation-${Date.now()}`,
-      ...input,
+      id: reservationId,
+      ...reservationInput,
       totalPrice: calculateReservationTotal(
         input.nightlyRate,
         input.checkIn,
@@ -153,9 +160,38 @@ export const customerReservationsApi = {
       ),
       status: CUSTOMER_RESERVATION_STATUS.CONFIRMED,
       source: 'customer',
+      termsAcceptedAt: termsAccepted ? now : undefined,
+      customerSignatureDataUrl,
       createdAt: now,
       updatedAt: now,
     }
+
+    const invoice = await customerInvoicesApi.createInvoice({
+      reservationId,
+      customerName: input.customerName ?? 'Guest customer',
+      customerEmail: input.customerEmail ?? 'guest@example.com',
+      hotelName: input.hotelName,
+      hotelLogo: input.hotelLogo,
+      hotelPrimaryColor: input.hotelPrimaryColor,
+      hotelSecondaryColor: input.hotelSecondaryColor,
+      hotelCountry: input.hotelCountry,
+      hotelCity: input.hotelCity,
+      hotelState: input.hotelState,
+      hotelAddress: input.hotelAddress,
+      hotelZip: input.hotelZip,
+      roomName: input.roomNumber,
+      roomType: input.roomType ?? input.roomNumber,
+      currency: input.currency,
+      checkInDate: input.checkIn,
+      checkOutDate: input.checkOut,
+      nights: dayjs(input.checkOut).diff(dayjs(input.checkIn), 'day'),
+      numberOfRooms: input.rooms,
+      pricePerNight: input.nightlyRate,
+      paymentMethod: input.paymentMethod ?? 'Online payment',
+      bookingSource: 'Customer portal',
+    })
+
+    reservation.invoice = invoice
 
     mockReservations = [...mockReservations, reservation]
     return reservation

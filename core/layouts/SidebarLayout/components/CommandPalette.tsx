@@ -8,6 +8,7 @@ import { Icon } from '@iconify/react'
 import { SidebarUtils } from '../utils/SidebarUtils'
 import type { SidebarNavItems } from '@/core/layouts/types'
 import themeConfig from '@/core/configs/themeConfig'
+import { useAbility } from '@/core/hooks/useAbility'
 
 interface CommandPaletteProps {
   open: boolean
@@ -17,10 +18,11 @@ interface CommandPaletteProps {
 
 export default function CommandPalette({ open, onClose, navItems }: CommandPaletteProps) {
   const router = useRouter()
+  const ability = useAbility()
   const [query, setQuery] = useState('')
   const [activeIndex, setActiveIndex] = useState(0)
 
-  const items = useMemo(() => SidebarUtils.flattenNavItems(navItems), [navItems])
+  const items = useMemo(() => SidebarUtils.flattenPermittedNavItems(navItems, ability), [ability, navItems])
 
   const filtered = useMemo(
     () => (query.trim() === '' ? items : items.filter(i => i.title.toLowerCase().includes(query.toLowerCase()))),

@@ -35,14 +35,20 @@ export const routePermissions: RoutePermission[] = [
   {
     pattern: '/hotels',
     action: 'read',
-    subject: 'Hotels',
+    subject: 'AllHotels',
     description: 'Global hotel booking catalog'
   },
   {
     pattern: '/hotels/[hotelId]',
     action: 'read',
-    subject: 'Hotels',
+    subject: 'AllHotels',
     description: 'Customer hotel details and rooms'
+  },
+  {
+    pattern: '/hotels/[hotelId]/rooms/[roomId]',
+    action: 'read',
+    subject: 'AllHotels',
+    description: 'Customer room details and booking view'
   },
   {
     pattern: '/reservations/[hotelId]/create',

@@ -4,18 +4,19 @@ import { Alert, Button, Paper, Rating, Snackbar, Stack, Typography } from '@mui/
 import { CalendarDays } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import type { RoomProfile } from '@/app/(home)/agency/hotels/[hotelId]/rooms/components/profile/types'
+import type { CustomerHotel } from '@/app/(home)/hotels/types/customerHotel'
 import { DatePickerField } from '@/components/common/DatePickerField'
 import Icon from '@/components/icon/Icon'
+import type { ReservationDetails } from '../types/customerReservationConfirmation'
 import { useCustomerRoomBookingCard } from '../hooks/useCustomerRoomBookingCard'
-import {
-  CustomerReservationConfirmationDialog,
-  type ReservationDetails,
-} from './CustomerReservationConfirmationDialog'
+import { CustomerReservationConfirmationModal } from './CustomerReservationConfirmationModal'
+import { ReservationCreatedDialog } from './ReservationCreatedDialog'
 import { formatBookingDate, formatCurrency } from '../utils/roomBooking'
 
 interface CustomerRoomBookingCardProps {
   hotelId: string
   roomId: string
+  hotel: CustomerHotel | null
   room: Pick<
     RoomProfile,
     'type' | 'status' | 'floorNumber' | 'capacity' | 'pricePerNight' | 'starRating'
@@ -27,6 +28,7 @@ interface CustomerRoomBookingCardProps {
 export function CustomerRoomBookingCard({
   hotelId,
   roomId,
+  hotel,
   room,
   reservation,
   onReservationDateChange,
@@ -37,22 +39,30 @@ export function CustomerRoomBookingCard({
     roomType,
     details,
     currentReservation,
+    isBusy,
     isBookable,
     draftAvailabilityConflict,
     feedback,
     confirmOpen,
+    createdDocuments,
+    openingContract,
+    openingInvoice,
     reservationSummary,
     checkInMinDate,
     checkOutMinDate,
-    canOpenConfirmationDialog,
+    canOpenConfirmationModal,
     isReserveDisabled,
     openConfirm,
     closeConfirm,
+    closeCreatedDocuments,
     closeFeedback,
     handleConfirmReservation,
+    handleOpenContract,
+    handleOpenInvoice,
   } = useCustomerRoomBookingCard({
     hotelId,
     roomId,
+    hotel,
     room,
     reservation,
   })
@@ -189,15 +199,27 @@ export function CustomerRoomBookingCard({
         </Stack>
       </Paper>
 
-      {canOpenConfirmationDialog ? (
-        <CustomerReservationConfirmationDialog
+      {canOpenConfirmationModal ? (
+        <CustomerReservationConfirmationModal
           open={confirmOpen}
+          hotelId={hotelId}
+          hotel={hotel}
           room={room}
           reservation={reservation}
+          confirming={isBusy}
           onClose={closeConfirm}
           onConfirm={handleConfirmReservation}
         />
       ) : null}
+
+      <ReservationCreatedDialog
+        open={createdDocuments != null}
+        openingContract={openingContract}
+        openingInvoice={openingInvoice}
+        onClose={closeCreatedDocuments}
+        onOpenContract={handleOpenContract}
+        onOpenInvoice={handleOpenInvoice}
+      />
 
       <Snackbar
         open={feedback.open}

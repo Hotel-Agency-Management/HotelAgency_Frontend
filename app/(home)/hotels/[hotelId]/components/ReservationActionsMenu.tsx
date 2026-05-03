@@ -8,11 +8,15 @@ import {
   Stack,
   Typography,
 } from '@mui/material'
-import { CalendarDays, MoreVertical, PencilLine, Trash2 } from 'lucide-react'
+import { CalendarDays, FileText, MoreVertical, PencilLine, ReceiptText, Trash2 } from 'lucide-react'
 
 interface ReservationActionsMenuProps {
   canModify: boolean
+  canViewContract: boolean
+  canViewInvoice: boolean
   isBusy: boolean
+  onViewContract: () => void
+  onViewInvoice: () => void
   onEdit: () => void
   onExtend: () => void
   onCancel: () => void
@@ -20,7 +24,11 @@ interface ReservationActionsMenuProps {
 
 export function ReservationActionsMenu({
   canModify,
+  canViewContract,
+  canViewInvoice,
   isBusy,
+  onViewContract,
+  onViewInvoice,
   onEdit,
   onExtend,
   onCancel,
@@ -63,6 +71,20 @@ export function ReservationActionsMenu({
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
+        <MenuItem disabled={!canViewContract || isBusy} onClick={() => runAction(onViewContract)}>
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <FileText size={15} />
+            <Typography variant="inherit">View contract</Typography>
+          </Stack>
+        </MenuItem>
+
+        <MenuItem disabled={!canViewInvoice || isBusy} onClick={() => runAction(onViewInvoice)}>
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <ReceiptText size={15} />
+            <Typography variant="inherit">View invoice</Typography>
+          </Stack>
+        </MenuItem>
+
         <MenuItem disabled={!canModify || isBusy} onClick={() => runAction(onEdit)}>
           <Stack direction="row" alignItems="center" spacing={1}>
             <PencilLine size={15} />
@@ -87,4 +109,3 @@ export function ReservationActionsMenu({
     </>
   )
 }
-

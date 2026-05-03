@@ -64,4 +64,27 @@ export class SidebarUtils {
     }
     return results
   }
+
+  static flattenPermittedNavItems(
+    items: SidebarNavItems,
+    ability: ReturnType<typeof useAbility>
+  ): Array<{ path: string; title: string; icon?: string }> {
+    const results: Array<{ path: string; title: string; icon?: string }> = []
+
+    for (const item of items) {
+      if (!this.itemIsPermitted(item, ability)) continue
+
+      if ('sectionTitle' in item) {
+        results.push(...this.flattenPermittedNavItems(item.items as SidebarNavItems, ability))
+      } else if ('isMore' in item) {
+        // skip
+      } else if ('children' in item) {
+        results.push(...this.flattenPermittedNavItems(item.children as SidebarNavItems, ability))
+      } else if ('path' in item && item.path && 'title' in item) {
+        results.push({ path: item.path, title: item.title, icon: (item as { icon?: string }).icon })
+      }
+    }
+
+    return results
+  }
 }
