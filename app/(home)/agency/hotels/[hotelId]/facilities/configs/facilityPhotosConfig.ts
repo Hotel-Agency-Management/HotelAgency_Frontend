@@ -11,7 +11,6 @@ export interface FacilityPhotoResponse {
 }
 
 type FacilityPhotoVariables = {
-  agencyId: number
   hotelId: number
   facilityId: number
 }
@@ -25,3 +24,17 @@ export type UploadFacilityPhotoVariables = FacilityPhotoVariables & {
 }
 
 export type DeleteFacilityPhotoVariables = WithPhotoId
+
+type AdminFacilityPhotoVariables = FacilityPhotoVariables & {
+  agencyId: number
+}
+
+export type AdminWithPhotoId = AdminFacilityPhotoVariables & {
+  photoId: number
+}
+
+export type UploadAdminFacilityPhotoVariables = AdminFacilityPhotoVariables & {
+  file: File
+}
+
+export type DeleteAdminFacilityPhotoVariables = AdminWithPhotoId

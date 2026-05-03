@@ -1,60 +1,31 @@
-import { useMemo, useState } from "react";
 import Stack from "@mui/material/Stack";
 import { DataGrid } from "@mui/x-data-grid";
-import { useDeleteFacility } from "../../hooks/mutations/facilityMutations";
-import { useFacilityScope } from "../../hooks/useFacilityScope";
-import { useFacilities } from "../../hooks/useFacilityStore";
-import type { FacilityFilters, HotelFacility } from "../../types/facility";
-import { getFacilityGridColumns } from "../../utils/facilityGridColumns";
+import { useFacilitiesView } from "../../hooks/useFacilitiesView";
 import { DeleteFacilityDialog } from "./DeleteFacilityDialog";
 import { FacilitiesToolbar } from "./FacilitiesToolbar";
 import { FacilityGridView } from "./grid/FacilityGridView";
-import { toNumericId } from "../../utils/numericId";
 
 interface Props {
   hotelId: string;
+  agencyId?: string;
   onEditFacility: (id: string) => void;
 }
 
-export function FacilitiesView({ hotelId, onEditFacility }: Props) {
-  const [filters, setFilters] = useState<FacilityFilters>({});
-  const [view, setView] = useState<"list" | "cards">("list");
-  const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
-
-  const { agencyId, hotelId: numericHotelId } = useFacilityScope(hotelId);
-  const { data: facilities = [], isLoading } = useFacilities(hotelId);
-  const { mutate: deleteFacility, isPending: isDeleting } = useDeleteFacility();
-
-  const deleteTarget = useMemo<HotelFacility | null>(
-    () => facilities.find((facility) => facility.id === deleteTargetId) ?? null,
-    [deleteTargetId, facilities]
-  );
-
-  const columns = useMemo(
-    () =>
-      getFacilityGridColumns({
-        onEdit: onEditFacility,
-        onDelete: setDeleteTargetId,
-      }),
-    [onEditFacility]
-  );
-
-  const handleConfirmDelete = () => {
-    if (!deleteTargetId) return;
-    const facilityId = toNumericId(deleteTargetId);
-    if (!agencyId || !numericHotelId || !facilityId) return;
-
-    deleteFacility(
-      {
-        agencyId,
-        hotelId: numericHotelId,
-        facilityId,
-      },
-      {
-        onSuccess: () => setDeleteTargetId(null),
-      }
-    );
-  };
+export function FacilitiesView({ hotelId, agencyId, onEditFacility }: Props) {
+  const {
+    filters,
+    setFilters,
+    view,
+    setView,
+    facilities,
+    isLoading,
+    columns,
+    deleteTarget,
+    isDeleting,
+    setDeleteTargetId,
+    closeDeleteDialog,
+    confirmDeleteFacility,
+  } = useFacilitiesView({ hotelId, agencyId, onEditFacility });
 
   return (
     <Stack spacing={2}>
@@ -83,10 +54,10 @@ export function FacilitiesView({ hotelId, onEditFacility }: Props) {
       )}
 
       <DeleteFacilityDialog
-        open={deleteTargetId != null}
+        open={deleteTarget != null}
         facility={deleteTarget}
-        onClose={() => setDeleteTargetId(null)}
-        onConfirm={handleConfirmDelete}
+        onClose={closeDeleteDialog}
+        onConfirm={confirmDeleteFacility}
         isDeleting={isDeleting}
       />
     </Stack>

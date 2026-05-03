@@ -3,7 +3,9 @@ import { useEffect, useRef, useState } from "react";
 import { FacilityPhoto } from "../types/facility";
 import {
   useDeleteFacilityPhoto,
+  useDeleteAdminFacilityPhoto,
   useUploadFacilityPhoto,
+  useUploadAdminFacilityPhoto,
 } from "./mutations/facilityPhotosMutations";
 import {
   mapFacilityPhoto,
@@ -15,17 +17,22 @@ import { toNumericId } from "../utils/numericId";
 export function useFacilityPhotos(
   facilityId: string,
   hotelId: string,
+  agencyId: string | undefined,
   existingPhotos: FacilityPhoto[],
   onPhotosChange: (photos: FacilityPhoto[]) => void
 ) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [photos, setPhotos] = useState<FacilityPhoto[]>(existingPhotos);
   const [uploading, setUploading] = useState(false);
-  const { agencyId, hotelId: numericHotelId } = useFacilityScope(hotelId);
+  const scope = useFacilityScope(hotelId, agencyId);
   const facilityIdNumber = toNumericId(facilityId);
   const { mutateAsync: uploadFacilityPhoto } = useUploadFacilityPhoto();
+  const { mutateAsync: uploadAdminFacilityPhoto } =
+    useUploadAdminFacilityPhoto();
   const { mutate: deleteFacilityPhoto, isPending: deleting } =
     useDeleteFacilityPhoto();
+  const { mutate: deleteAdminFacilityPhoto, isPending: deletingAdmin } =
+    useDeleteAdminFacilityPhoto();
 
   useEffect(() => {
     setPhotos(existingPhotos);
@@ -40,19 +47,26 @@ export function useFacilityPhotos(
   const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files ?? []);
     if (!files.length) return;
-    if (!agencyId || !numericHotelId || !facilityIdNumber) return;
+    if (!scope.hotelId || !facilityIdNumber) return;
+    const hotelIdNumber = scope.hotelId;
 
     setUploading(true);
 
     try {
       const uploadResults = await Promise.allSettled(
         files.map((file) =>
-          uploadFacilityPhoto({
-            agencyId,
-            hotelId: numericHotelId,
-            facilityId: facilityIdNumber,
-            file,
-          })
+          scope.type === "admin"
+            ? uploadAdminFacilityPhoto({
+                agencyId: scope.agencyId,
+                hotelId: hotelIdNumber,
+                facilityId: facilityIdNumber,
+                file,
+              })
+            : uploadFacilityPhoto({
+                hotelId: hotelIdNumber,
+                facilityId: facilityIdNumber,
+                file,
+              })
         )
       );
       const uploadedPhotos = uploadResults
@@ -77,12 +91,31 @@ export function useFacilityPhotos(
 
   const handleDelete = (id: string) => {
     const photoId = toNumericId(id);
-    if (!agencyId || !numericHotelId || !facilityIdNumber || !photoId) return;
+    if (!scope.hotelId || !facilityIdNumber || !photoId) return;
+    const hotelIdNumber = scope.hotelId;
+
+    if (scope.type === "admin") {
+      deleteAdminFacilityPhoto(
+        {
+          agencyId: scope.agencyId,
+          hotelId: hotelIdNumber,
+          facilityId: facilityIdNumber,
+          photoId,
+        },
+        {
+          onSuccess: () => {
+            setPhotos((prev) =>
+              normalizeFacilityPhotos(prev.filter((p) => p.id !== id))
+            );
+          },
+        }
+      );
+      return;
+    }
 
     deleteFacilityPhoto(
       {
-        agencyId,
-        hotelId: numericHotelId,
+        hotelId: hotelIdNumber,
         facilityId: facilityIdNumber,
         photoId,
       },
@@ -105,7 +138,7 @@ export function useFacilityPhotos(
   return {
     inputRef,
     photos,
-    uploading: uploading || deleting,
+    uploading: uploading || deleting || deletingAdmin,
     facilityId,
     openFilePicker,
     handleFileChange,

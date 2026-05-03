@@ -43,6 +43,12 @@ export const routePermissions: RoutePermission[] = [
     action: 'create',
     subject: 'Reservations',
     description: 'Hotel reservation creation page'
+  },
+  {
+    pattern: '/agencies/[agencyId]/hotels/[hotelId]/facilities',
+    action: 'manage',
+    subject: 'Agencies',
+    description: 'Super admin hotel facilities management'
   }
 ]
 

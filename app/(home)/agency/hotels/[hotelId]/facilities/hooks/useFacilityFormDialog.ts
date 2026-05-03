@@ -6,7 +6,9 @@ import { facilitySchema, type FacilityFormValues } from "../schema/facilitySchem
 import type { FacilityPhoto, HotelFacility } from "../types/facility";
 import {
   useCreateFacility,
+  useCreateAdminFacility,
   useUpdateFacility,
+  useUpdateAdminFacility,
 } from "./mutations/facilityMutations";
 import { useFacilityScope } from "./useFacilityScope";
 import { toNumericId } from "../utils/numericId";
@@ -17,6 +19,7 @@ interface Args {
   facility: HotelFacility | null;
   facilityId?: string | null;
   hotelId: string;
+  agencyId?: string;
 }
 
 function toFormValues(facility: HotelFacility): FacilityFormValues {
@@ -36,12 +39,13 @@ export function useFacilityFormDialog({
   facility,
   facilityId,
   hotelId,
+  agencyId,
 }: Args) {
   const isEdit = !!facility || !!facilityId;
   const [activeStep, setActiveStep] = useState(0);
   const [workingFacilityId, setWorkingFacilityId] = useState<string | null>(null);
   const [flowPhotos, setFlowPhotos] = useState<FacilityPhoto[]>([]);
-  const { agencyId, hotelId: numericHotelId } = useFacilityScope(hotelId);
+  const scope = useFacilityScope(hotelId, agencyId);
 
   const methods = useForm<FacilityFormValues>({
     resolver: zodResolver(facilitySchema),
@@ -52,10 +56,19 @@ export function useFacilityFormDialog({
 
   const { mutate: createFacility, isPending: isCreating } = useCreateFacility();
   const { mutate: updateFacility, isPending: isUpdating } = useUpdateFacility();
+  const { mutate: createAdminFacility, isPending: isCreatingAdmin } =
+    useCreateAdminFacility();
+  const { mutate: updateAdminFacility, isPending: isUpdatingAdmin } =
+    useUpdateAdminFacility();
 
   const stepLabels = useMemo(() => ["Main information", "Facility photos"], []);
   const isSavingPhotos = false;
-  const busy = isCreating || isUpdating || isSavingPhotos;
+  const busy =
+    isCreating ||
+    isUpdating ||
+    isCreatingAdmin ||
+    isUpdatingAdmin ||
+    isSavingPhotos;
 
   const resetWizardState = useCallback(() => {
     setActiveStep(0);
@@ -93,16 +106,33 @@ export function useFacilityFormDialog({
   };
 
   const handleDetailsNext = handleSubmit((values) => {
-    if (!agencyId || !numericHotelId) return;
+    const hotelIdNumber = scope.hotelId;
 
     if (facility || workingFacilityId) {
       const facilityIdNumber = toNumericId(facility?.id ?? workingFacilityId);
       if (!facilityIdNumber) return;
 
+      if (scope.type === "admin") {
+        updateAdminFacility(
+          {
+            agencyId: scope.agencyId,
+            hotelId: hotelIdNumber,
+            facilityId: facilityIdNumber,
+            data: values,
+          },
+          {
+            onSuccess: (updatedFacility) => {
+              setWorkingFacilityId(String(updatedFacility.id));
+              setActiveStep(1);
+            },
+          }
+        );
+        return;
+      }
+
       updateFacility(
         {
-          agencyId,
-          hotelId: numericHotelId,
+          hotelId: hotelIdNumber,
           facilityId: facilityIdNumber,
           data: values,
         },
@@ -116,8 +146,22 @@ export function useFacilityFormDialog({
       return;
     }
 
+    if (scope.type === "admin") {
+      createAdminFacility(
+        { agencyId: scope.agencyId, hotelId: hotelIdNumber, data: values },
+        {
+          onSuccess: (createdFacility) => {
+            setWorkingFacilityId(String(createdFacility.id));
+            setFlowPhotos([]);
+            setActiveStep(1);
+          },
+        }
+      );
+      return;
+    }
+
     createFacility(
-      { agencyId, hotelId: numericHotelId, data: values },
+      { hotelId: hotelIdNumber, data: values },
       {
         onSuccess: (createdFacility) => {
           setWorkingFacilityId(String(createdFacility.id));
@@ -146,8 +190,8 @@ export function useFacilityFormDialog({
     setFlowPhotos,
     setActiveStep,
     busy,
-    isCreating,
-    isUpdating,
+    isCreating: isCreating || isCreatingAdmin,
+    isUpdating: isUpdating || isUpdatingAdmin,
     isSavingPhotos,
     handleClose,
     handleDetailsNext,
