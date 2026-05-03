@@ -11,6 +11,7 @@ export interface ConfirmationStepStrategyContext {
 
 export interface ConfirmationStepValidationContext {
   signatureDataUrl: string
+  contractPreviewAccepted: boolean
   termsAccepted: boolean
 }
 

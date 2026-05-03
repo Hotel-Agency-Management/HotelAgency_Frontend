@@ -153,7 +153,13 @@ export function ReservationContractDocument({ contract }: ReservationContractDoc
 
           <View style={styles.signatures}>
             <View style={styles.signatureBlock} wrap={false}>
-              <Image src={contract.customerSignatureDataUrl} style={styles.signatureImage} />
+              {contract.customerSignatureDataUrl ? (
+                <Image src={contract.customerSignatureDataUrl} style={styles.signatureImage} />
+              ) : (
+                <View style={styles.signaturePlaceholder}>
+                  <Text>Signature will be added after approval</Text>
+                </View>
+              )}
               <View style={styles.signatureLine} />
               <Text style={styles.signatureName}>{contract.guest.name}</Text>
               <Text style={styles.signatureCaption}>Customer Signature</Text>
