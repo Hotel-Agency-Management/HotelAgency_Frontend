@@ -5,6 +5,7 @@ export interface HotelBasicInfo {
   city: string;
   address: string;
   currency: string;
+  cancellationFeePercentage: number;
   coverImage: string | null
 }
 
@@ -49,4 +50,5 @@ export interface HotelApiResponse {
   updatedAt: string;
   phone?: string | null;
   isActive?: boolean;
+  cancellationFeeRate?: number | null;
 }

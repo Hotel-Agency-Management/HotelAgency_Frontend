@@ -42,6 +42,7 @@ let mockReservations: CustomerReservation[] = [
     guests: 1,
     rooms: 1,
     currency: 'USD',
+    cancellationFeeRate: 0.35,
     nightlyRate: 110,
   }),
   buildSeedReservation({
@@ -55,6 +56,7 @@ let mockReservations: CustomerReservation[] = [
     guests: 2,
     rooms: 1,
     currency: 'GBP',
+    cancellationFeeRate: 0.25,
     nightlyRate: 95,
   }),
 ]

@@ -24,9 +24,11 @@ import { useReservationFeedback } from '../hooks/useReservationFeedback'
 import {
   calculateCancellationFee,
   canModifyReservation,
+  formatPolicyPercentage,
   getFreeCancellationDeadline,
   getReservationEditDeadline,
   isFreeCancellationEligible,
+  normalizeCancellationFeeRate,
 } from '../utils/customerReservationPolicy'
 import { buildReservationContract } from '../utils/buildReservationContract'
 import { formatBookingDate, formatCurrency, getStayLength } from '../utils/roomBooking'
@@ -74,7 +76,9 @@ export function CustomerReservationManagementSection({
   const currentReservationFreeCancellation =
     currentReservation != null ? isFreeCancellationEligible(currentReservation) : false
   const currentReservationCancellationFee =
-    currentReservation != null ? calculateCancellationFee(currentReservation) : 0
+    currentReservation != null
+      ? calculateCancellationFee(currentReservation, hotel?.cancellationFeeRate)
+      : 0
   const currentReservationStayLength =
     currentReservation != null
       ? getStayLength(currentReservation.checkIn, currentReservation.checkOut)
@@ -147,6 +151,18 @@ export function CustomerReservationManagementSection({
   )
   const cancellationFeeLabel = formatCurrencyValue(
     currentReservationCancellationFee,
+    currentReservation.currency
+  )
+  const cancellationFeeRate = normalizeCancellationFeeRate(
+    currentReservation.cancellationFeeRate ?? hotel?.cancellationFeeRate
+  )
+  const cancellationFeeRateLabel = formatPolicyPercentage(cancellationFeeRate)
+  const reservationTotalLabel = formatCurrencyValue(
+    currentReservation.totalPrice,
+    currentReservation.currency
+  )
+  const refundAmountLabel = formatCurrencyValue(
+    Math.max(currentReservation.totalPrice - currentReservationCancellationFee, 0),
     currentReservation.currency
   )
   const roomTypeNameById = new Map(roomTypes.map(roomType => [roomType.id, roomType.name]))
@@ -300,6 +316,7 @@ export function CustomerReservationManagementSection({
                   freeCancellation={currentReservationFreeCancellation}
                   modificationDeadlineLabel={modificationDeadlineLabel}
                   freeCancellationDeadlineLabel={freeCancellationDeadlineLabel}
+                  cancellationFeeRateLabel={cancellationFeeRateLabel}
                   cancellationFeeLabel={cancellationFeeLabel}
                 />
 
@@ -370,7 +387,10 @@ export function CustomerReservationManagementSection({
         open={cancellation.cancelOpen}
         freeCancellation={currentReservationFreeCancellation}
         freeCancellationDeadlineLabel={freeCancellationDeadlineLabel}
+        reservationTotalLabel={reservationTotalLabel}
+        cancellationFeeRateLabel={cancellationFeeRateLabel}
         cancellationFeeLabel={cancellationFeeLabel}
+        refundAmountLabel={refundAmountLabel}
         isBusy={isBusy}
         onClose={cancellation.closeCancel}
         onConfirm={cancellation.confirmCancel}

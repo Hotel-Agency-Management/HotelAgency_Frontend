@@ -6,6 +6,7 @@ export interface HotelBase {
   city: string
   currency: string
   phone: string
+  cancellationFeeRate: number
   primaryColor: string
   secondaryColor: string
   tertiaryColor: string
