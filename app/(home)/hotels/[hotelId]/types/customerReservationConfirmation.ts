@@ -16,6 +16,7 @@ export interface CustomerReservationConfirmationPayload {
   acceptedTermsTitle: string
   acceptedTermsContent: string
   taxPostalCode?: string
+  includeInsurance: boolean
 }
 
 export interface ReservationSummaryItem {

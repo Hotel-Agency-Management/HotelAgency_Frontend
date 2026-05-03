@@ -14,6 +14,7 @@ export const defaultFormValues: RoomFormValues = {
   weeklyPrice: 0,
   monthlyPrice: 0,
   extendPrice: 0,
+  insurance: 0,
   coverPhoto: null,
 };
 

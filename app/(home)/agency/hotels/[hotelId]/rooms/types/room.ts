@@ -61,6 +61,7 @@ export interface Room {
   photos: RoomPhoto[];
   pricePerNight?: number;
   extendPrice?: number;
+  insurance?: number;
   createdAt: string;
   updatedAt: string;
 }

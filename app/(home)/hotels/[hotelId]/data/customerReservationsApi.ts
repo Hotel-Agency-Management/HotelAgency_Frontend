@@ -46,6 +46,7 @@ let mockReservations: CustomerReservation[] = [
     cancellationFeeRate: 0.35,
     nightlyRate: 110,
     extendPrice: 200,
+    includeInsurance: false,
   }),
   buildSeedReservation({
     id: 'seed-2',
@@ -61,6 +62,7 @@ let mockReservations: CustomerReservation[] = [
     cancellationFeeRate: 0.25,
     nightlyRate: 95,
     extendPrice: 105,
+    includeInsurance: false,
   }),
 ]
 

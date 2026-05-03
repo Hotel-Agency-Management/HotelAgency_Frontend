@@ -6,7 +6,7 @@ import { buildRoomInfoRows } from "./roomInfoRows";
 import { RoomInfoCardSkeleton } from "./profileSkelton/RoomInfoCardSkeleton";
 
 export interface RoomInfoCardProps {
-  room: Pick<RoomResponse, "roomTypeName" | "floorNumber" | "capacity" | "dailyPrice" | "weeklyPrice" | "monthlyPrice" | "extendPrice">;
+  room: Pick<RoomResponse, "roomTypeName" | "floorNumber" | "capacity" | "dailyPrice" | "weeklyPrice" | "monthlyPrice" | "extendPrice" | "insurance">;
   onEdit: () => void;
   onDelete: () => void;
   loading?: boolean;
