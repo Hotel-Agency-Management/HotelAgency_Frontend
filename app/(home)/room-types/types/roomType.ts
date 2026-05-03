@@ -6,6 +6,7 @@ export interface RoomType {
   dailyPrice: number
   weeklyPrice: number
   monthlyPrice: number
+  extendPrice: number
   createdAt: string
   updatedAt: string
 }

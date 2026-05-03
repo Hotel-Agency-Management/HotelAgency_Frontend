@@ -88,6 +88,7 @@ export function useRoomFormDialog({
         starRating: room.starRating,
         amenities: room.amenities,
         pricePerNight: room.pricePerNight,
+        extendPrice: room.extendPrice,
       });
     } else {
       reset(defaultFormValues);

@@ -15,6 +15,9 @@ export const roomTypeSchema = z.object({
   monthlyPrice: z
     .number({ invalid_type_error: 'Monthly price is required' })
     .min(0, 'Price must be 0 or more'),
+  extendPrice: z
+    .number({ invalid_type_error: 'Extension price is required' })
+    .min(0, 'Price must be 0 or more'),
 })
 
 export type RoomTypeFormValues = z.infer<typeof roomTypeSchema>

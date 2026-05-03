@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { StepIndex } from "../constants/steps";
+import type { StepIndex } from "../constants/hotel";
 
 export function useHotelStepper() {
   const [activeStep, setActiveStep] = useState<StepIndex>(0);

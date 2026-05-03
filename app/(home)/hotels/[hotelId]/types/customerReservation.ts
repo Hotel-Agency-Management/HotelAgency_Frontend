@@ -1,3 +1,5 @@
+import type { CustomerInvoice } from '../invoice/types/customerInvoice'
+
 export const CUSTOMER_RESERVATION_STATUS = {
   CONFIRMED: 'confirmed',
   CANCELLED: 'cancelled',
@@ -13,33 +15,66 @@ export interface CustomerReservation {
   hotelId: string
   roomId: string
   hotelName: string
+  hotelLogo?: string | null
+  hotelPrimaryColor?: string
+  hotelSecondaryColor?: string
+  hotelCountry?: string
+  hotelCity?: string
+  hotelState?: string
+  hotelAddress?: string
+  hotelZip?: string
   roomNumber: string
+  roomType?: string
+  customerName?: string
+  customerEmail?: string
+  paymentMethod?: string
   checkIn: string
   checkOut: string
   guests: number
   rooms: number
   currency: string
+  cancellationFeeRate?: number
   nightlyRate: number
+  extendPrice: number
   totalPrice: number
   status: CustomerReservationStatus
   source: CustomerReservationSource
+  termsAcceptedAt?: string
+  customerSignatureDataUrl?: string
   createdAt: string
   updatedAt: string
   cancelledAt?: string
   cancellationFee?: number
+  invoice?: CustomerInvoice
 }
 
 export interface CreateCustomerReservationInput {
   hotelId: string
   roomId: string
   hotelName: string
+  hotelLogo?: string | null
+  hotelPrimaryColor?: string
+  hotelSecondaryColor?: string
+  hotelCountry?: string
+  hotelCity?: string
+  hotelState?: string
+  hotelAddress?: string
+  hotelZip?: string
   roomNumber: string
+  roomType?: string
+  customerName?: string
+  customerEmail?: string
+  paymentMethod?: string
   checkIn: string
   checkOut: string
   guests: number
   rooms: number
   currency: string
+  cancellationFeeRate?: number
   nightlyRate: number
+  extendPrice: number
+  termsAccepted: boolean
+  customerSignatureDataUrl: string
 }
 
 export interface UpdateCustomerReservationInput {
@@ -51,6 +86,7 @@ export interface UpdateCustomerReservationInput {
   guests: number
   rooms: number
   nightlyRate: number
+  extendPrice: number
 }
 
 export interface ExtendCustomerReservationInput {

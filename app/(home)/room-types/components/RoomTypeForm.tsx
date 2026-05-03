@@ -29,6 +29,7 @@ export function RoomTypeForm({ formId, currency, defaultValues, onSubmit }: Room
       dailyPrice: undefined,
       weeklyPrice: undefined,
       monthlyPrice: undefined,
+      extendPrice: undefined,
     },
   })
 
@@ -45,6 +46,7 @@ export function RoomTypeForm({ formId, currency, defaultValues, onSubmit }: Room
         dailyPrice: defaultValues.dailyPrice,
         weeklyPrice: defaultValues.weeklyPrice,
         monthlyPrice: defaultValues.monthlyPrice,
+        extendPrice: defaultValues.extendPrice,
       })
     }
   }, [defaultValues, reset])
@@ -105,7 +107,7 @@ export function RoomTypeForm({ formId, currency, defaultValues, onSubmit }: Room
           />
         </Grid>
 
-        <Grid size={{ xs: 4 }}>
+        <Grid size={{ xs: 12, sm: 6 }}>
           <Controller
             name='dailyPrice'
             control={control}
@@ -125,8 +127,7 @@ export function RoomTypeForm({ formId, currency, defaultValues, onSubmit }: Room
             )}
           />
         </Grid>
-
-        <Grid size={{ xs: 4 }}>
+        <Grid size={{ xs: 12, sm: 6 }}>
           <Controller
             name='weeklyPrice'
             control={control}
@@ -147,7 +148,7 @@ export function RoomTypeForm({ formId, currency, defaultValues, onSubmit }: Room
           />
         </Grid>
 
-        <Grid size={{ xs: 4 }}>
+        <Grid size={{ xs: 12, sm: 6 }}>
           <Controller
             name='monthlyPrice'
             control={control}
@@ -159,6 +160,27 @@ export function RoomTypeForm({ formId, currency, defaultValues, onSubmit }: Room
                 fullWidth
                 error={!!errors.monthlyPrice}
                 helperText={errors.monthlyPrice?.message}
+                onChange={e => field.onChange(e.target.value === '' ? undefined : Number(e.target.value))}
+                InputProps={{
+                  startAdornment: <InputAdornment position='start'>{currencySymbol}</InputAdornment>,
+                }}
+              />
+            )}
+          />
+        </Grid>
+
+        <Grid size={{ xs: 12, sm: 6 }}>
+          <Controller
+            name='extendPrice'
+            control={control}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label='Extension price'
+                type='number'
+                fullWidth
+                error={!!errors.extendPrice}
+                helperText={errors.extendPrice?.message}
                 onChange={e => field.onChange(e.target.value === '' ? undefined : Number(e.target.value))}
                 InputProps={{
                   startAdornment: <InputAdornment position='start'>{currencySymbol}</InputAdornment>,

@@ -23,6 +23,10 @@ export const roomSchema = z.object({
     .number({ invalid_type_error: "Price must be a number" })
     .min(0)
     .optional(),
+  extendPrice: z
+    .number({ invalid_type_error: "Extension price must be a number" })
+    .min(0)
+    .optional(),
 });
 
 export type RoomFormValues = z.infer<typeof roomSchema>;

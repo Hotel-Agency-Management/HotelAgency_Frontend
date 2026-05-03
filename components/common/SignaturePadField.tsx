@@ -1,13 +1,12 @@
 'use client'
-
 import type { ReactNode } from 'react'
 import { alpha, useTheme } from '@mui/material/styles'
-import { Box, Button, FormHelperText, Paper, Stack, Typography } from '@mui/material'
+import { FormHelperText, Paper, Stack, Typography } from '@mui/material'
 import type { SxProps, Theme } from '@mui/material/styles'
 import SignatureCanvas from 'react-signature-canvas'
 import { useSignaturePadField } from './useSignaturePadField'
-
-const DEFAULT_SIGNATURE_HEIGHT = 190
+import { ClearSignatureButton } from './styles/StyledComponents'
+import { DEFAULT_SIGNATURE_HEIGHT } from './constants/signature'
 
 interface SignaturePadFieldProps {
   value: string
@@ -51,22 +50,15 @@ export function SignaturePadField({
         alignItems={{ sm: 'center' }}
         justifyContent='space-between'
       >
-        <Box>
-          <Typography variant='subtitle2' sx={{ fontWeight: 700 }}>
+        <Stack>
+          <Typography variant='subtitle2' fontWeight={700}>
             {title}
           </Typography>
           {description ? <Typography variant='body2'>{description}</Typography> : null}
-        </Box>
-
-        <Button
-          variant='text'
-          size='small'
-          disabled={!value}
-          onClick={handleClear}
-          sx={{ alignSelf: { xs: 'flex-start', sm: 'center' } }}
-        >
+        </Stack>
+        <ClearSignatureButton variant='text' size='small' disabled={!value} onClick={handleClear}>
           {clearLabel}
-        </Button>
+        </ClearSignatureButton>
       </Stack>
 
       <Paper
@@ -101,7 +93,6 @@ export function SignaturePadField({
           />
         ) : null}
       </Paper>
-
       {error ? <FormHelperText error>{error}</FormHelperText> : null}
     </Stack>
   )

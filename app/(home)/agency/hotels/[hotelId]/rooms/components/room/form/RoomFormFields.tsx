@@ -140,6 +140,28 @@ export const RoomFormFields = ({ roomTypes }: Props) => {
         />
       </Grid>
 
+      <Grid size={{ xs: 12, sm: 6, md: 4 }}>
+        <Controller
+          name="extendPrice"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              value={field.value ?? ""}
+              label="Extension Price"
+              type="number"
+              fullWidth
+              size="small"
+              error={!!errors.extendPrice}
+              helperText={errors.extendPrice?.message}
+              onChange={event =>
+                field.onChange(event.target.value === "" ? undefined : Number(event.target.value))
+              }
+            />
+          )}
+        />
+      </Grid>
+
       <Grid size={{ xs: 12 }}>
         <TextField
           label="Description"

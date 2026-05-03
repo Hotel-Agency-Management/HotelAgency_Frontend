@@ -9,8 +9,10 @@ export const CUSTOMER_HOTELS_MOCK: CustomerHotel[] = [
     phone: '+1 212 555 0101',
     country: 'United States',
     city: 'New York',
+    hotelZip: '10011',
     address: '123 Fifth Avenue, Manhattan',
     currency: 'USD',
+    cancellationFeeRate: 0.35,
     coverImage: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&q=80',
     logo: 'https://cdn-icons-png.flaticon.com/512/235/235889.png',
     branding: {
@@ -34,6 +36,7 @@ export const CUSTOMER_HOTELS_MOCK: CustomerHotel[] = [
     city: 'London',
     address: '45 Harbour Road, Chelsea',
     currency: 'GBP',
+    cancellationFeeRate: 0.25,
     coverImage: 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1200&q=80',
     logo: null,
     branding: {
@@ -57,6 +60,7 @@ export const CUSTOMER_HOTELS_MOCK: CustomerHotel[] = [
     city: 'Dubai',
     address: 'Sheikh Zayed Road, Downtown',
     currency: 'AED',
+    cancellationFeeRate: 0.5,
     coverImage: 'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1200&q=80',
     logo: null,
     branding: {
@@ -80,6 +84,7 @@ export const CUSTOMER_HOTELS_MOCK: CustomerHotel[] = [
     city: 'Bergen',
     address: '18 Fjord Lane',
     currency: 'USD',
+    cancellationFeeRate: 0.3,
     coverImage: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1200&q=80',
     logo: null,
     branding: {
@@ -102,6 +107,7 @@ export const CUSTOMER_HOTELS_MOCK: CustomerHotel[] = [
     city: 'Tokyo',
     address: '2-8 Ginza, Chuo City',
     currency: 'USD',
+    cancellationFeeRate: 0.45,
     coverImage: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1200&q=80',
     logo: null,
     branding: {
@@ -124,6 +130,7 @@ export const CUSTOMER_HOTELS_MOCK: CustomerHotel[] = [
     city: 'Barcelona',
     address: '77 Passeig Maritim',
     currency: 'EUR',
+    cancellationFeeRate: 0.2,
     coverImage: 'https://images.unsplash.com/photo-1445019980597-93fa8acb246c?w=1200&q=80',
     logo: null,
     branding: {

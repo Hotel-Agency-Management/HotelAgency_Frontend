@@ -53,6 +53,7 @@ export interface Room {
   amenities: string[];
   photos: RoomPhoto[];
   pricePerNight?: number;
+  extendPrice?: number;
   createdAt: string;
   updatedAt: string;
 }

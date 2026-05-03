@@ -232,7 +232,61 @@ export default {
           textAlign: "center",
           backgroundColor: alpha(theme.palette.primary.main, theme.palette.mode === "dark" ? 0.08 : 0.04),
         }),
-      }
+      },
+      {
+        props: { variant: "customerReservationConfirmationModal" },
+        style: ({ theme }: OwnerStateThemeType) => ({
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: "calc(100% - 32px)",
+          maxHeight: "calc(100vh - 48px)",
+          display: "flex",
+          flexDirection: "column",
+          overflow: "hidden",
+          borderRadius: 8,
+          outline: "none",
+
+          [theme.breakpoints.up("sm")]: {
+            width: 720,
+          },
+
+          [theme.breakpoints.up("md")]: {
+            width: 840,
+          },
+        }),
+      },
+      {
+        props: { variant: "customerReservationConfirmationPanel" },
+        style: ({ theme }: OwnerStateThemeType) => ({
+          padding: theme.spacing(2),
+          border: `1px solid ${theme.palette.divider}`,
+          borderRadius: 8,
+        }),
+      },
+      {
+        props: { variant: "customerReservationTermsContent" },
+        style: ({ theme }: OwnerStateThemeType) => ({
+          maxHeight: 240,
+          overflow: "auto",
+          padding: theme.spacing(2),
+          border: `1px solid ${theme.palette.divider}`,
+          borderRadius: 8,
+          backgroundColor: theme.palette.background.default,
+        }),
+      },
+      {
+        props: { variant: "customerReservationContractPreview" },
+        style: ({ theme }: OwnerStateThemeType) => ({
+          width: "100%",
+          maxWidth: 560,
+          padding: theme.spacing(3),
+          border: `1px solid ${theme.palette.divider}`,
+          borderRadius: 8,
+          backgroundColor: theme.palette.background.default,
+        }),
+      },
     ],
   },
 };
