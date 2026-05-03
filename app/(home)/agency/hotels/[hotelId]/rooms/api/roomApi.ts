@@ -49,6 +49,7 @@ let mockRooms: Room[] = [
       },
     ],
     pricePerNight: 80,
+    extendPrice: 90,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
@@ -80,6 +81,7 @@ let mockRooms: Room[] = [
       },
     ],
     pricePerNight: 150,
+    extendPrice: 165,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
@@ -116,6 +118,7 @@ let mockRooms: Room[] = [
       },
     ],
     pricePerNight: 350,
+    extendPrice: 380,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
@@ -186,7 +189,7 @@ export const roomsApi = {
     mockRooms = mockRooms.filter((r) => r.id !== id);
   },
 
-  importExcel: async (_file: File): Promise<{ imported: number; failed: number }> => {
+  importExcel: async (): Promise<{ imported: number; failed: number }> => {
     await sleep(1000); // TODO: Remove when integrating backend
     return { imported: 5, failed: 0 };
   },

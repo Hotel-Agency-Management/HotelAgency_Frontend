@@ -8,6 +8,7 @@ interface ReservationPoliciesSectionProps {
   freeCancellation: boolean
   modificationDeadlineLabel: string
   freeCancellationDeadlineLabel: string
+  cancellationFeeRateLabel: string
   cancellationFeeLabel: string
 }
 
@@ -16,6 +17,7 @@ export function ReservationPoliciesSection({
   freeCancellation,
   modificationDeadlineLabel,
   freeCancellationDeadlineLabel,
+  cancellationFeeRateLabel,
   cancellationFeeLabel,
 }: ReservationPoliciesSectionProps) {
   return (
@@ -41,8 +43,8 @@ export function ReservationPoliciesSection({
         </Typography>
         <Typography variant="body2">
           {freeCancellation
-            ? `Cancellation is free until ${freeCancellationDeadlineLabel}.`
-            : `Free cancellation window ended. Current fee: ${cancellationFeeLabel}.`}
+            ? `Cancellation is free until ${freeCancellationDeadlineLabel}, then a ${cancellationFeeRateLabel} fee applies.`
+            : `Cancellation is within the last 3 days before check-in. Current fee: ${cancellationFeeLabel}.`}
         </Typography>
       </Alert>
     </Stack>

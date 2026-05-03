@@ -16,6 +16,7 @@ const buildFallbackValues = (brandingColors?: Partial<BrandingColors>): HotelFor
     city: "",
     address: "",
     currency: "USD",
+    cancellationFeePercentage: 40,
     coverImage: null,
   },
   branding: {

@@ -24,6 +24,14 @@ const stableNumber = (seed: string, min: number, max: number) => {
   return min + (hash % (max - min + 1))
 }
 
+const normalizeRate = (rate?: number | null) => {
+  if (rate == null || !Number.isFinite(rate)) {
+    return 0.4
+  }
+
+  return Math.min(Math.max(rate > 1 ? rate / 100 : rate, 0), 1)
+}
+
 export const extractCustomerHotelsPayload = (
   payload: CustomerHotelsApiPayload
 ): CustomerHotelApiResponse[] => {
@@ -50,8 +58,10 @@ export const mapCustomerHotelApiResponse = (hotel: CustomerHotelApiResponse): Cu
     phone: hotel.phone ?? undefined,
     country: hotel.country,
     city: hotel.city,
+    hotelZip: hotel.hotelZip ?? hotel.postalCode ?? hotel.zip ?? undefined,
     address: hotel.address,
     currency: hotel.currency,
+    cancellationFeeRate: normalizeRate(hotel.cancellationFeeRate),
     coverImage: buildAssetUrl(hotel.coverImage ?? hotel.coverPath),
     logo: branding.logo,
     branding,

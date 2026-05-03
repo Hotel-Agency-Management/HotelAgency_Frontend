@@ -276,6 +276,17 @@ export default {
           backgroundColor: theme.palette.background.default,
         }),
       },
+      {
+        props: { variant: "customerReservationContractPreview" },
+        style: ({ theme }: OwnerStateThemeType) => ({
+          width: "100%",
+          maxWidth: 560,
+          padding: theme.spacing(3),
+          border: `1px solid ${theme.palette.divider}`,
+          borderRadius: 8,
+          backgroundColor: theme.palette.background.default,
+        }),
+      },
     ],
   },
 };

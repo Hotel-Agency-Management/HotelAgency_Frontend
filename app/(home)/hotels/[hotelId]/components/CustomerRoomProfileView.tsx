@@ -81,12 +81,13 @@ export function CustomerRoomProfileView() {
 
         <RoomProfileHeader title={title} status={profile.status} onBack={handleBack} loading={false} />
 
-        <Grid container spacing={2.5}>
+        <Grid container spacing={2.5} alignItems="stretch">
           <Grid size={{ xs: 12, lg: 8 }}>
             <RoomGallery photos={profile.photos} loading={false} />
           </Grid>
 
           <Grid size={{ xs: 12, lg: 4 }}>
+            <Stack height="100%">
             <CustomerRoomBookingCard
               hotelId={hotelId}
               roomId={roomId}
@@ -95,6 +96,7 @@ export function CustomerRoomProfileView() {
               reservation={reservation}
               onReservationDateChange={handleReservationDateChange}
             />
+            </Stack>
           </Grid>
 
           <Grid size={12}>

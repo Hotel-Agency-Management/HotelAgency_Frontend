@@ -8,8 +8,10 @@ export interface CustomerHotel {
   phone?: string
   country: string
   city: string
+  hotelZip?: string
   address: string
   currency: string
+  cancellationFeeRate: number
   coverImage: string | null
   logo: string | null
   branding: BrandingSettings
@@ -28,8 +30,12 @@ export interface CustomerHotelApiResponse {
   name: string
   country: string
   city: string
+  hotelZip?: string | null
+  postalCode?: string | null
+  zip?: string | null
   address: string
   currency: string
+  cancellationFeeRate?: number | null
   logo?: string | null
   logoUrl?: string | null
   coverPath?: string | null

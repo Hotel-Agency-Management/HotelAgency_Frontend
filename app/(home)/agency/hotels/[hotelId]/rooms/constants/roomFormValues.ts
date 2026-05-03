@@ -13,6 +13,7 @@ export const defaultFormValues: RoomFormValues = {
   starRating: 3,
   amenities: [],
   pricePerNight: undefined,
+  extendPrice: undefined,
 };
 
 export const ROOMS_KEY = ["rooms"] as const;

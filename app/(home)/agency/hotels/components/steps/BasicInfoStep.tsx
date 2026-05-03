@@ -114,6 +114,24 @@ export function BasicInfoStep({ isFirst, isLast, onBack, onNext }: BasicInfoStep
           />
         </Grid>
 
+        <Grid size={{ xs: 12, sm: 6 }}>
+          <TextField
+            {...register("basicInfo.cancellationFeePercentage", {
+              required: "Cancellation fee percentage is required",
+              valueAsNumber: true,
+              min: { value: 0, message: "Percentage cannot be less than 0" },
+              max: { value: 100, message: "Percentage cannot exceed 100" },
+            })}
+            fullWidth
+            size="small"
+            type="number"
+            label="Cancellation fee (%)"
+            inputProps={{ min: 0, max: 100, step: 1 }}
+            error={!!errors.basicInfo?.cancellationFeePercentage}
+            helperText={errors.basicInfo?.cancellationFeePercentage?.message}
+          />
+        </Grid>
+
         <Grid size={{ xs: 12 }}>
           <TextField
             {...register("basicInfo.address", { required: "Address is required" })}

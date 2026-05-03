@@ -8,9 +8,7 @@ import { getStayLength, formatCurrency } from '../utils/roomBooking'
 interface ExtendReservationDialogProps {
   open: boolean
   currentCheckOut: string
-  currentCheckIn: string
-  currentRooms: number
-  nightlyRate: number
+  extendPrice: number
   language: string
   currency: string
   extendCheckOut: string
@@ -28,9 +26,7 @@ interface ExtendReservationDialogProps {
 export function ExtendReservationDialog({
   open,
   currentCheckOut,
-  currentCheckIn,
-  currentRooms,
-  nightlyRate,
+  extendPrice,
   language,
   currency,
   extendCheckOut,
@@ -41,6 +37,9 @@ export function ExtendReservationDialog({
   onConfirm,
   onCheckOutChange,
 }: ExtendReservationDialogProps) {
+  const extraNights = getStayLength(currentCheckOut, extendCheckOut)
+  const extensionTotal = extraNights * extendPrice
+
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
       <DialogTitle>Extend reservation</DialogTitle>
@@ -70,14 +69,25 @@ export function ExtendReservationDialog({
             </Alert>
           ) : null}
 
-          <Typography variant="body2" color="text.secondary">
-            New total:{' '}
+          <Stack spacing={0.75}>
+            <Typography variant="body2" color="text.secondary">
+              Extra nights:{' '}
+              <Typography component="span" variant="body2" fontWeight={700} color="text.primary">
+                {extraNights}
+              </Typography>
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Extension price:{' '}
+              <Typography component="span" variant="body2" fontWeight={700} color="text.primary">
+                {formatCurrency(extendPrice, language, currency)}
+              </Typography>
+            </Typography>
+          </Stack>
+
+          <Typography variant="body2">
+            Extension total:{' '}
             <Typography component="span" variant="body2" fontWeight={700} color="text.primary">
-              {formatCurrency(
-                nightlyRate * getStayLength(currentCheckIn, extendCheckOut) * currentRooms,
-                language,
-                currency
-              )}
+              {formatCurrency(extensionTotal, language, currency)}
             </Typography>
           </Typography>
         </Stack>

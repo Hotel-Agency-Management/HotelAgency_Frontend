@@ -62,7 +62,7 @@ export const useImportRooms = () => {
     Error,
     File
   >({
-    mutationFn: (file: File) => roomsApi.importExcel(file),
+    mutationFn: () => roomsApi.importExcel(),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ROOMS_KEY });
     },

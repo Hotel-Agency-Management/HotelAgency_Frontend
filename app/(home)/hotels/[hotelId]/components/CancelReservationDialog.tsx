@@ -6,7 +6,10 @@ interface CancelReservationDialogProps {
   open: boolean
   freeCancellation: boolean
   freeCancellationDeadlineLabel: string
+  reservationTotalLabel: string
+  cancellationFeeRateLabel: string
   cancellationFeeLabel: string
+  refundAmountLabel: string
   isBusy: boolean
   onClose: () => void
   onConfirm: () => void
@@ -16,7 +19,10 @@ export function CancelReservationDialog({
   open,
   freeCancellation,
   freeCancellationDeadlineLabel,
+  reservationTotalLabel,
+  cancellationFeeRateLabel,
   cancellationFeeLabel,
+  refundAmountLabel,
   isBusy,
   onClose,
   onConfirm,
@@ -28,13 +34,13 @@ export function CancelReservationDialog({
         <Stack spacing={2} >
           <Alert severity={freeCancellation ? 'success' : 'warning'}>
             {freeCancellation
-              ? 'Cancellation is still free during the first 6 hours.'
-              : `Cancelling now applies a fee of ${cancellationFeeLabel}.`}
+              ? 'Cancellation is free until the last 3 days before check-in.'
+              : `Cancelling within the last 3 days before check-in applies a ${cancellationFeeRateLabel} fee of ${cancellationFeeLabel}.`}
           </Alert>
 
           <Stack direction="row" justifyContent="space-between" gap={1}>
             <Typography variant="body2" color="text.secondary">
-              Free cancellation until
+              Fee starts on
             </Typography>
             <Typography variant="body2" fontWeight={600}>
               {freeCancellationDeadlineLabel}
@@ -43,10 +49,28 @@ export function CancelReservationDialog({
 
           <Stack direction="row" justifyContent="space-between" gap={1}>
             <Typography variant="body2" color="text.secondary">
-              Cancellation fee
+              Reservation total
+            </Typography>
+            <Typography variant="body2" fontWeight={700}>
+              {reservationTotalLabel}
+            </Typography>
+          </Stack>
+
+          <Stack direction="row" justifyContent="space-between" gap={1}>
+            <Typography variant="body2" color="text.secondary">
+              Cancellation fee ({cancellationFeeRateLabel})
             </Typography>
             <Typography variant="body2" fontWeight={700}>
               {cancellationFeeLabel}
+            </Typography>
+          </Stack>
+
+          <Stack direction="row" justifyContent="space-between" gap={1}>
+            <Typography variant="body2">
+              Refund amount
+            </Typography>
+            <Typography variant="body2" fontWeight={700}>
+              {refundAmountLabel}
             </Typography>
           </Stack>
         </Stack>

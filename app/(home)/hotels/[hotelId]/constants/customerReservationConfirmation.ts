@@ -3,6 +3,7 @@ import type { ReactNode } from 'react'
 export const BOOKING_CONFIRMATION_STEP_IDS = {
   BOOKING_DETAILS: 'bookingDetails',
   TERMS: 'terms',
+  CONTRACT_PREVIEW: 'contractPreview',
   SIGNATURE: 'signature',
   REVIEW_CONFIRM: 'reviewConfirm',
 } as const
@@ -10,6 +11,7 @@ export const BOOKING_CONFIRMATION_STEP_IDS = {
 export const BOOKING_CONFIRMATION_STEPS = [
   { id: BOOKING_CONFIRMATION_STEP_IDS.BOOKING_DETAILS, label: 'Booking Details' },
   { id: BOOKING_CONFIRMATION_STEP_IDS.TERMS, label: 'Terms & Conditions' },
+  { id: BOOKING_CONFIRMATION_STEP_IDS.CONTRACT_PREVIEW, label: 'Contract Preview' },
   { id: BOOKING_CONFIRMATION_STEP_IDS.SIGNATURE, label: 'Signature' },
   { id: BOOKING_CONFIRMATION_STEP_IDS.REVIEW_CONFIRM, label: 'Review & Confirm' },
 ] as const

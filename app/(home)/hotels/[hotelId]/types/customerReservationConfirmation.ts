@@ -15,6 +15,7 @@ export interface CustomerReservationConfirmationPayload {
   customerSignatureDataUrl: string
   acceptedTermsTitle: string
   acceptedTermsContent: string
+  taxPostalCode?: string
 }
 
 export interface ReservationSummaryItem {

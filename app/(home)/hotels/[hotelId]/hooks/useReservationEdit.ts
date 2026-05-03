@@ -23,6 +23,7 @@ export interface ReservationEditRoomOption {
   label: string
   capacity: number
   nightlyRate: number
+  extendPrice: number
   disabled?: boolean
 }
 
@@ -62,6 +63,8 @@ export function useReservationEdit({
   )
   const selectedRoomCapacity = selectedRoom?.capacity ?? fallbackRoomCapacity
   const selectedNightlyRate = selectedRoom?.pricePerNight ?? currentReservation?.nightlyRate ?? 0
+  const selectedExtendPrice =
+    selectedRoom?.extendPrice ?? currentReservation?.extendPrice ?? selectedNightlyRate
   const editFormHasValidRange = isValidReservationRange(editForm.checkIn, editForm.checkOut)
   const editStayLength = getStayLength(editForm.checkIn, editForm.checkOut)
 
@@ -137,6 +140,7 @@ export function useReservationEdit({
         guests: editForm.guests,
         rooms: editForm.rooms,
         nightlyRate: selectedNightlyRate,
+        extendPrice: selectedExtendPrice,
       })
 
       closeEdit()
