@@ -34,7 +34,7 @@ interface UseCustomerRoomBookingCardOptions {
   hotel: CustomerHotel | null
   room: Pick<
     RoomProfile,
-    'type' | 'status' | 'floorNumber' | 'capacity' | 'pricePerNight' | 'starRating'
+    'type' | 'status' | 'floorNumber' | 'capacity' | 'pricePerNight' | 'extendPrice' | 'starRating'
   >
   reservation: ReservationDetails
 }
@@ -139,6 +139,7 @@ export function useCustomerRoomBookingCard({
         rooms: reservation.rooms,
         currency: reservation.currency,
         nightlyRate: room.pricePerNight,
+        extendPrice: room.extendPrice ?? room.pricePerNight,
         termsAccepted,
         customerSignatureDataUrl,
       })

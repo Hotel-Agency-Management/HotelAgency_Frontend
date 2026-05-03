@@ -27,6 +27,7 @@ let mockRooms: Room[] = [
     amenities: ["wifi", "ac", "tv"],
     photos: [{ id: "1a", url: US("photo-1631049307264-da0ec9d70304"), isPrimary: true }],
     pricePerNight: 80,
+    extendPrice: 90,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
@@ -44,6 +45,7 @@ let mockRooms: Room[] = [
     amenities: ["wifi", "minibar", "ac", "tv", "balcony"],
     photos: [{ id: "2a", url: US("photo-1566073771259-6a8506099945"), isPrimary: true }],
     pricePerNight: 150,
+    extendPrice: 165,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
@@ -61,6 +63,7 @@ let mockRooms: Room[] = [
     amenities: ["wifi", "minibar", "jacuzzi", "ac", "tv", "balcony", "spa"],
     photos: [{ id: "3a", url: US("photo-1578683010236-d716f9a3f461"), isPrimary: true }],
     pricePerNight: 350,
+    extendPrice: 380,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
@@ -123,5 +126,10 @@ export const roomsApi = {
   delete: async (id: string): Promise<void> => {
     await sleep(300);
     mockRooms = mockRooms.filter((room) => room.id !== id);
+  },
+
+  importExcel: async (): Promise<{ imported: number; failed: number }> => {
+    await sleep(1000);
+    return { imported: 5, failed: 0 };
   },
 };

@@ -15,4 +15,5 @@ export interface RoomProfile {
   amenities: string[];
   photos: RoomPhoto[];
   pricePerNight?: number;
+  extendPrice?: number;
 }

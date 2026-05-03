@@ -28,5 +28,6 @@ export function mapRoomToProfile(room: Room, roomTypeName: string): RoomProfile 
     amenities:     room.amenities,
     photos:        room.photos,
     pricePerNight: room.pricePerNight,
+    extendPrice: room.extendPrice,
   };
 }
