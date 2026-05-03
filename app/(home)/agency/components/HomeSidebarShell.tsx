@@ -11,6 +11,7 @@ import themeConfig from '@/core/configs/themeConfig'
 import { useHotelStore } from '@/app/(home)/agency/hotels/hooks/useHotelStore'
 import { CUSTOMER_HOTELS_MOCK } from '@/app/(home)/hotels/data/customerHotelsMock'
 import { getCustomerHotels } from '@/app/(home)/hotels/data/customerHotelsClient'
+import { USER_ROLES } from '@/lib/abilities'
 
 interface HomeSidebarShellProps {
   children: ReactNode
@@ -51,6 +52,7 @@ export default function HomeSidebarShell({
 
   const agencyName = user?.agencyName ?? 'my-agency'
   const hotelId = params.hotelId ?? user?.hotelId
+  const layoutVariant = user?.role === USER_ROLES.CUSTOMER ? 'top-nav' : 'sidebar'
   const appName = useMemo(() => {
     const agencyDisplayName = formatDisplayName(user?.agency?.name ?? user?.agencyName ?? agencyName)
     const customerHotelName = customerHotelId
@@ -61,7 +63,11 @@ export default function HomeSidebarShell({
       return customerHotelName
     }
 
-    if (user?.role === 'AGENCY_OWNER' && agencyDisplayName) {
+    if (user?.role === USER_ROLES.CUSTOMER) {
+      return themeConfig.templateName
+    }
+
+    if (user?.role === USER_ROLES.AGENCY_OWNER && agencyDisplayName) {
       return agencyDisplayName
     }
 
@@ -85,6 +91,7 @@ export default function HomeSidebarShell({
       navItems={navigation(hotelId)}
       dynamicNavItems={dynamicNavItems}
       appName={appName}
+      variant={layoutVariant}
     >
       {children}
     </SidebarLayout>

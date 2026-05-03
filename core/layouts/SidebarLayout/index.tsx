@@ -20,6 +20,7 @@ interface SidebarLayoutProps {
   appName?: string
   footer?: ReactNode
   appBarRight?: ReactNode
+  variant?: 'sidebar' | 'top-nav'
 }
 
 function SidebarLayoutInner({
@@ -29,7 +30,8 @@ function SidebarLayoutInner({
   logo,
   appName,
   footer,
-  appBarRight
+  appBarRight,
+  variant = 'sidebar'
 }: SidebarLayoutProps) {
   const { isCollapsed, setIsCollapsed, setIsMobileOpen } = useSidebar()
   const theme = useTheme()
@@ -37,6 +39,7 @@ function SidebarLayoutInner({
   const { language } = useLanguage()
   const isRtl = language === 'ar'
   const mergedNavItems = [...navItems, ...(dynamicNavItems ?? [])]
+  const isTopNav = variant === 'top-nav'
 
   const [paletteOpen, setPaletteOpen] = useState(false)
 
@@ -71,19 +74,27 @@ function SidebarLayoutInner({
           bgcolor: 'background.default'
         }}
       >
-        <FavoritesProvider>
-          <Sidebar navItems={mergedNavItems} logo={logo} appName={appName} footer={footer} />
-        </FavoritesProvider>
+        {!isTopNav && (
+          <FavoritesProvider>
+            <Sidebar navItems={mergedNavItems} logo={logo} appName={appName} footer={footer} />
+          </FavoritesProvider>
+        )}
 
-        <Navbar appBarRight={appBarRight} />
+        <Navbar
+          appBarRight={appBarRight}
+          appName={appName}
+          logo={logo}
+          navItems={mergedNavItems}
+          variant={variant}
+        />
 
         <Box
           component='main'
           // Margins use style (not sx) to bypass MUI's RTL auto-swap,
           // same reason as Navbar's left/right.
           style={{
-            marginLeft: isMobile || isRtl ? 0 : sidebarWidth,
-            marginRight: isMobile || !isRtl ? 0 : sidebarWidth,
+            marginLeft: isTopNav || isMobile || isRtl ? 0 : sidebarWidth,
+            marginRight: isTopNav || isMobile || !isRtl ? 0 : sidebarWidth,
             transition: `${isRtl ? 'margin-right' : 'margin-left'} 300ms cubic-bezier(0.4, 0, 0.2, 1)`
           }}
           sx={{
