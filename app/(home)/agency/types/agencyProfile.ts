@@ -15,6 +15,7 @@ export interface AgencyProfile {
   country: string;
   city: string;
   files: FileItem[];
+  planId?: number;
 }
 
 export interface AgencyInfoFieldsProps {

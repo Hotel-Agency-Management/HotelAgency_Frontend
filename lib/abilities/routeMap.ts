@@ -49,6 +49,12 @@ export const routePermissions: RoutePermission[] = [
     action: 'manage',
     subject: 'Agencies',
     description: 'Super admin hotel facilities management'
+  },
+  {
+    pattern: '/agencies/[agencyId]',
+    action: 'manage',
+    subject: 'Agencies',
+    description: 'Admin agency detail page — view and edit any agency profile and documents'
   }
 ]
 

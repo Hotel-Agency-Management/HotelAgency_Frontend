@@ -6,5 +6,6 @@ export interface UploadAgencyDocumentPayload {
 export interface UploadAgencyDocumentResponse {
   id: number
   documentType: string
-  url: string
+  url?: string | null
+  filePath?: string | null
 }

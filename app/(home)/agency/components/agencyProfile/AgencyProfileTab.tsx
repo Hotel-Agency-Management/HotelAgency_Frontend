@@ -12,9 +12,10 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import { useAgencyProfile } from "../../hooks/useAgencyProfile";
-import { AgencyProfile } from "../../types/agencyProfile";
+import { AgencyProfile, FileItem } from "../../types/agencyProfile";
 import { AgencyFileCards } from "./AgencyFileCards";
 import { AgencyInfoFields } from "./AgencyInfoFields";
+import { Box } from "@mui/material";
 
 
 
@@ -22,12 +23,18 @@ interface AgencyProfileTabProps {
   defaultValues: AgencyProfile;
   onSave: (data: AgencyProfile) => Promise<void> | void;
   isLoading?: boolean;
+  documents?: FileItem[];
+  isDocumentsLoading?: boolean;
+  onFileReplace?: (fileId: string, newFile: File) => void;
 }
 
 export function AgencyProfileTab({
   defaultValues,
   onSave,
   isLoading = false,
+  documents = [],
+  isDocumentsLoading = false,
+  onFileReplace,
 }: AgencyProfileTabProps) {
   const { isEditing, isLoading: isSaving, form, handleEdit, handleSave, handleCancel } =
     useAgencyProfile({ defaultValues, onSave });
@@ -35,19 +42,19 @@ export function AgencyProfileTab({
   const currentValues = form.watch();
 
   return (
-    <Stack spacing={3}>
+    <Stack gap={3}>
       <Paper
         elevation={0}
-        variant="outlined"
+        variant="card"
       >
-        <Stack spacing={3} sx={{ p: 3 }}>
+        <Stack gap={3} >
           <Stack direction="row" alignItems="center" justifyContent="space-between">
             <Typography variant="h5">Agency Information</Typography>
-            <Stack direction="row" spacing={1}>
+            <Stack direction="row" gap={1}>
               {isEditing && (
                 <Fade in={isEditing}>
                   <Tooltip title="Cancel">
-                    <span>
+                    <Box component='span'>
                       <IconButton
                         size="small"
                         onClick={handleCancel}
@@ -56,12 +63,12 @@ export function AgencyProfileTab({
                       >
                         <CloseOutlinedIcon fontSize="small" />
                       </IconButton>
-                    </span>
+                    </Box>
                   </Tooltip>
                 </Fade>
               )}
               <Tooltip title={isEditing ? "Save changes" : "Edit profile"}>
-                <span>
+                <Box component='span'>
                   <IconButton
                     size="small"
                     onClick={isEditing ? handleSave : handleEdit}
@@ -80,7 +87,7 @@ export function AgencyProfileTab({
                       <EditOutlinedIcon fontSize="small" />
                     )}
                   </IconButton>
-                </span>
+                </Box>
               </Tooltip>
             </Stack>
           </Stack>
@@ -101,10 +108,14 @@ export function AgencyProfileTab({
         elevation={0}
         variant="card"
       >
-        <Stack spacing={3} sx={{ p: 3 }}>
+        <Stack gap={3}>
           <Typography variant="h5">Uploaded Files</Typography>
           <Divider />
-          <AgencyFileCards files={currentValues.files} isLoading={isLoading} />
+          <AgencyFileCards
+            files={documents}
+            isLoading={isDocumentsLoading}
+            onFileReplace={onFileReplace}
+          />
         </Stack>
       </Paper>
     </Stack>

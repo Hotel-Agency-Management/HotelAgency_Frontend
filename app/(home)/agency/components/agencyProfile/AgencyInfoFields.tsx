@@ -3,13 +3,17 @@ import { Controller } from "react-hook-form";
 import Grid from "@mui/material/Grid";
 import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 import { MuiTelInput } from "mui-tel-input";
-import { Building2, MapPin, Phone } from "lucide-react";
+import { Building2, MapPin, Phone, Tag } from "lucide-react";
 import { AgencyInfoFieldsProps } from "../../types/agencyProfile";
 import TextField from "@mui/material/TextField";
 import { FieldLabel } from "./FieldLabel";
 import { getCountryName } from "../../util/phoneUtils";
 import { InfoCard } from "./InfoCard";
+import { useGetSubscriptionPlans } from "@/app/(home)/subscription-plans/hooks/queries/usePlanQueries";
 
 export function AgencyInfoFields({
   isEditing,
@@ -18,9 +22,12 @@ export function AgencyInfoFields({
   setValue,
   currentValues,
 }: AgencyInfoFieldsProps) {
+  const { data: plans = [], isLoading: isPlansLoading } = useGetSubscriptionPlans()
+  const currentPlanName = plans.find(p => p.id === currentValues.planId)?.name
+
   return (
     <Grid container spacing={2}>
-      <Grid size={{ xs: 12, md: 4 }}>
+      <Grid size={{ xs: 12, md: 3 }}>
         <InfoCard>
           <FieldLabel icon={<Building2 size={15} />} text="Agency Name" />
           {isLoading ? (
@@ -50,7 +57,7 @@ export function AgencyInfoFields({
         </InfoCard>
       </Grid>
 
-      <Grid size={{ xs: 12, md: 4 }}>
+      <Grid size={{ xs: 12, md: 3 }}>
         <InfoCard>
           <FieldLabel icon={<Phone size={15} />} text="Phone" />
           {isLoading ? (
@@ -90,7 +97,7 @@ export function AgencyInfoFields({
         </InfoCard>
       </Grid>
 
-      <Grid size={{ xs: 12, md: 4 }}>
+      <Grid size={{ xs: 12, md: 3 }}>
         <InfoCard>
           <FieldLabel icon={<MapPin size={15} />} text="City" />
           {isLoading ? (
@@ -115,6 +122,34 @@ export function AgencyInfoFields({
           ) : (
             <Typography variant="h6" fontWeight={600} sx={{ lineHeight: 1.35 }}>
               {currentValues.city || "—"}
+            </Typography>
+          )}
+        </InfoCard>
+      </Grid>
+
+      <Grid size={{ xs: 12, md: 3 }}>
+        <InfoCard>
+          <FieldLabel icon={<Tag size={15} />} text="Subscription Plan" />
+          {isLoading || isPlansLoading ? (
+            <Skeleton variant="text" width="60%" height={38} />
+          ) : isEditing ? (
+            <Controller
+              name="planId"
+              control={control}
+              render={({ field }) => (
+                <FormControl fullWidth size="small">
+                  <Select {...field} value={field.value ?? ''} displayEmpty>
+                    <MenuItem value="" disabled>Select a plan</MenuItem>
+                    {plans.map(plan => (
+                      <MenuItem key={plan.id} value={plan.id}>{plan.name}</MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              )}
+            />
+          ) : (
+            <Typography variant="h6" fontWeight={600} sx={{ lineHeight: 1.35 }}>
+              {currentPlanName || "—"}
             </Typography>
           )}
         </InfoCard>

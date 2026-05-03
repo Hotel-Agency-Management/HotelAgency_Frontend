@@ -11,3 +11,4 @@ export const EMPTY_PROFILE: AgencyProfile = {
 }
 
 export const AGENCY_PROFILE_KEY = ['agencyProfile']
+export const AGENCY_DOCUMENTS_KEY = ['agencyDocuments']

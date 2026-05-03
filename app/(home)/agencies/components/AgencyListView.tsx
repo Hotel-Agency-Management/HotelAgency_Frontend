@@ -6,15 +6,16 @@ import { columns } from '../constants/agencyColumns'
 
 interface Props {
   agencies: Agency[]
-  onAgencyClick: (id: number) => void
+  onAgencyClick: (agencyId: number) => void
+  onSettingsClick: (agencyId: number) => void
 }
 
-export default function AgencyListView({ agencies, onAgencyClick }: Props) {
+export default function AgencyListView({ agencies, onAgencyClick, onSettingsClick }: Props) {
   return (
     <FadeIn direction='up' distance={16}>
       <DataGrid
         rows={agencies}
-        columns={columns()}
+        columns={columns(onSettingsClick)}
         onRowClick={({ row }: GridRowParams<Agency>) => onAgencyClick(row.id)}
         pageSizeOptions={[10, 25, 50]}
         initialState={{

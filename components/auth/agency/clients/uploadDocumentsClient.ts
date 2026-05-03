@@ -2,7 +2,6 @@ import apiClient from "@/core/clients/apiClient"
 import { UploadAgencyDocumentPayload, UploadAgencyDocumentResponse } from "../configs/agencyDocumentsConfig"
 
 export const uploadAgencyDocument = async (
-  agencyId: number,
   payload: UploadAgencyDocumentPayload,
   accessToken?: string
 ): Promise<UploadAgencyDocumentResponse> => {
@@ -16,7 +15,7 @@ export const uploadAgencyDocument = async (
   }
 
   const response = await apiClient.post<UploadAgencyDocumentResponse>(
-    `/agencies/${agencyId}/documents`,
+    '/agencies/documents',
     formData,
     { headers }
   )
@@ -24,18 +23,12 @@ export const uploadAgencyDocument = async (
   return response.data
 }
 
-export const getAgencyDocuments = async (
-  agencyId: number,
-): Promise<UploadAgencyDocumentResponse> => {
-  const response = await apiClient.get<UploadAgencyDocumentResponse>(
-    `/agencies/${agencyId}/documents`
-  )
-
+export const getAgencyDocuments = async (): Promise<UploadAgencyDocumentResponse[]> => {
+  const response = await apiClient.get<UploadAgencyDocumentResponse[]>('/agencies/documents')
   return response.data
 }
 
 export const updateAgencyDocument = async (
-  agencyId: number,
   documentId: number,
   payload: UploadAgencyDocumentPayload
 ): Promise<UploadAgencyDocumentResponse> => {
@@ -44,7 +37,7 @@ export const updateAgencyDocument = async (
   formData.append('documentType', payload.documentType)
 
   const response = await apiClient.put<UploadAgencyDocumentResponse>(
-    `/agencies/${agencyId}/documents/${documentId}`,
+    `/agencies/documents/${documentId}`,
     formData,
     { headers: { 'Content-Type': 'multipart/form-data' } }
   )

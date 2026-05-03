@@ -14,6 +14,8 @@ import { USER_ROLES } from '@/lib/abilities'
 import { useHotelStore } from '@/app/(home)/agency/hotels/hooks/useHotelStore'
 import { CUSTOMER_HOTELS_MOCK } from '@/app/(home)/hotels/data/customerHotelsMock'
 import { getCustomerHotels } from '@/app/(home)/hotels/data/customerHotelsClient'
+import { useGetAgencyProfile } from '@/app/(home)/agency/hooks/queries/useAgencyProfile'
+import { mapBrandingSettings } from '@/app/(home)/agency/util/agencyProfileUtils'
 
 const CUSTOMER_HOTEL_DETAIL_PATTERN = /^\/hotels\/([^/?#]+)/
 
@@ -22,6 +24,7 @@ export function useActiveBranding(): BrandingSettings {
   const { settings } = useSettings()
   const { hotels } = useHotelStore(user?.agencyId)
   const pathname = usePathname()
+  const { data: agencyProfile } = useGetAgencyProfile({ enabled: user?.role === USER_ROLES.AGENCY_OWNER })
   const customerHotelId = useMemo(() => {
     const match = pathname.match(CUSTOMER_HOTEL_DETAIL_PATTERN)
     return match?.[1] ? decodeURIComponent(match[1]) : null
@@ -52,9 +55,9 @@ export function useActiveBranding(): BrandingSettings {
     }
 
     if (user?.role === USER_ROLES.AGENCY_OWNER) {
-      return settings.branding
+      return mapBrandingSettings(agencyProfile, settings.branding)
     }
 
     return DEFAULT_BRANDING_SETTINGS
-  }, [customerHotelId, customerHotels, hotels, settings.branding, user?.hotelId, user?.role])
+  }, [agencyProfile, customerHotelId, customerHotels, hotels, settings.branding, user?.hotelId, user?.role])
 }

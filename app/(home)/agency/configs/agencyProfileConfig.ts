@@ -11,6 +11,7 @@ export interface AgencyProfileResponse {
   tertiaryColor: string | null;
   createdAt: string;
   updatedAt: string;
+  planId?: number;
 }
 
 export interface UpdateAgencyInfoRequest {
@@ -21,4 +22,5 @@ export interface UpdateAgencyInfoRequest {
   primaryColor?: string;
   secondaryColor?: string;
   tertiaryColor?: string;
+  planId?: number;
 }
