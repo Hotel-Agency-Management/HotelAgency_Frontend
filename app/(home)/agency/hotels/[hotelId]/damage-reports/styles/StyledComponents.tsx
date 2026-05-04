@@ -31,7 +31,9 @@ export const DamageCardActions = styled(Box)({
   justifyContent: 'flex-end',
 })
 
-export const StyledChip = styled(Chip)<ChipStyleProps>(({ chipColor }) => ({
+export const StyledChip = styled(Chip, {
+  shouldForwardProp: prop => prop !== 'chipColor',
+})<ChipStyleProps>(({ chipColor }) => ({
   backgroundColor: alpha(chipColor, 0.14),
   color: chipColor,
   fontWeight: 600,

@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import {
   Dialog,
@@ -54,9 +55,19 @@ export default function GenerateDamageInvoiceDialog({
     defaultValues: {
       customerName: '',
       customerEmail: '',
-      damageAmount: report?.estimatedCost ?? 0,
+      damageAmount: 0,
     },
   })
+
+  useEffect(() => {
+    if (open && report) {
+      reset({
+        customerName: report.reportedBy,
+        customerEmail: '',
+        damageAmount: report.estimatedCost,
+      })
+    }
+  }, [open, report, reset])
 
   function handleClose() {
     reset()
