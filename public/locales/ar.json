@@ -301,5 +301,37 @@
       "cancel": "إلغاء",
       "saveChanges": "حفظ التغييرات"
     }
+  },
+  "myBookings": {
+    "title": "حجوزاتي",
+    "empty": "لا توجد حجوزات لهذا الفندق حتى الآن.",
+    "loadError": "فشل تحميل الحجوزات. يرجى المحاولة مرة أخرى.",
+    "viewDetails": "عرض التفاصيل",
+    "backToList": "العودة إلى حجوزاتي",
+    "stayDetails": "تفاصيل الإقامة",
+    "guestDetails": "بيانات النزيل",
+    "bookingInfo": "معلومات الحجز",
+    "documents": "المستندات",
+    "financial": "المالية",
+    "reservationNumber": "رقم الحجز",
+    "hotel": "الفندق",
+    "rooms": "الغرف",
+    "checkIn": "تاريخ الوصول",
+    "checkOut": "تاريخ المغادرة",
+    "guests": "عدد النزلاء",
+    "numberOfRooms": "عدد الغرف",
+    "totalAmount": "المبلغ الإجمالي",
+    "source": "المصدر",
+    "specialRequests": "طلبات خاصة",
+    "notes": "ملاحظات",
+    "downloadContract": "تحميل العقد",
+    "downloadInvoice": "تحميل الفاتورة",
+    "status": "الحالة",
+    "guestName": "اسم النزيل",
+    "guestEmail": "البريد الإلكتروني",
+    "guestPhone": "رقم الهاتف",
+    "guestId": "رقم الهوية / جواز السفر",
+    "cardView": "عرض البطاقات",
+    "listView": "عرض القائمة"
   }
 }
