@@ -1,27 +1,24 @@
 import type { UserRole } from '@/lib/abilities'
-import { HotelFormValues } from "@/app/(home)/agency/hotels/types/hotel"
-import { ProfileAgencyData } from "@/app/(home)/profile/types/profile"
+import { HotelTheme } from "@/app/(home)/agency/hotels/types/hotel"
 import { AgencyStatus } from '@/components/auth/types/authType'
+import { AgencyTheme } from '@/app/(home)/agencies/types/agency'
 
 // ** Auth Types - Simple and modifiable
 export interface User {
   id: string
   email: string
   name?: string
-  role?: UserRole
-  agencyName?: string
+  role: UserRole
   agencyId?: number
   hotelId?: string
   agencyStatus?: AgencyStatus
-  firstName?: string
-  lastName?: string
+  firstName: string
+  lastName: string
   phoneNumber?: string
   dateOfBirth?: string
   gender?: string
   updatedAt?: string
   createdAt?: string
-  agency?: ProfileAgencyData
-  hotel?: HotelFormValues
   [key: string]: unknown
 }
 
@@ -44,14 +41,8 @@ export interface AuthResponse {
   user?: User
   token: string
   refreshToken?: string
-  id?: string | number
-  email?: string
-  name?: string
-  firstName?: string
-  lastName?: string
-  role?: UserRole
-  agencyStatus?: AgencyStatus
-  agencyId?: number
+  hotelTheme?: HotelTheme
+  agencyTheme?: AgencyTheme
   [key: string]: unknown // Allow additional response fields
 }
 

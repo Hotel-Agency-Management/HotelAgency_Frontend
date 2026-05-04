@@ -1,49 +1,50 @@
 import type { AuthResponse, User } from '@/core/configs/authConfig'
-import type { AgencyStatus } from '../types/authType'
-
-type AuthResponseLike = AuthResponse & {
-  id?: string | number
-  email?: string
-  name?: string
-  firstName?: string
-  lastName?: string
-  role?: string
-  agencyStatus?: AgencyStatus
-  agencyId?: number
-}
 
 const isUserRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null
 
-export const getAuthResponseUser = (response: AuthResponseLike): User | null => {
+export const getAuthResponseUser = (response: AuthResponse): User | null => {
   if (isUserRecord(response.user)) {
     const user = response.user as User
-    const agencyId = user.agencyId ?? response.agencyId
+    const agencyId = user.agencyId ?? (response.agencyId as number | undefined)
+    const hotelId = user.hotelId ?? (response.hotelId as string | undefined)
 
-    return agencyId === undefined ? user : { ...user, agencyId }
+    return {
+      ...user,
+      ...(agencyId !== undefined ? { agencyId } : {}),
+      ...(hotelId != null ? { hotelId: String(hotelId) } : {}),
+      ...(response.hotelTheme ? { hotelTheme: response.hotelTheme } : {}),
+      ...(response.agencyTheme ? { agencyTheme: response.agencyTheme } : {}),
+    }
   }
 
-  if (response.email) {
-    const fullName = [response.firstName, response.lastName]
+  const email = response.email as string | undefined
+  if (email) {
+    const firstName = response.firstName as string | undefined
+    const lastName = response.lastName as string | undefined
+    const fullName = [firstName, lastName]
       .filter((part): part is string => typeof part === 'string' && part.trim().length > 0)
       .join(' ')
 
     return {
-      id: String(response.id ?? response.email),
-      email: response.email,
-      name: response.name ?? (fullName || undefined),
-      firstName: response.firstName,
-      lastName: response.lastName,
-      role: response.role,
-      agencyStatus: response.agencyStatus,
-      agencyId: response.agencyId
-    } as User
+      id: String((response.id as string | number | undefined) ?? email),
+      email,
+      name: (response.name as string | undefined) ?? (fullName || undefined),
+      firstName: firstName ?? '',
+      lastName: lastName ?? '',
+      role: response.role as User['role'],
+      agencyStatus: response.agencyStatus as User['agencyStatus'],
+      agencyId: response.agencyId as number | undefined,
+      hotelId: response.hotelId as string | undefined,
+      hotelTheme: response.hotelTheme,
+      agencyTheme: response.agencyTheme,
+    }
   }
 
   return null
 }
 
-export const getAuthDisplayName = (response: AuthResponseLike): string => {
+export const getAuthDisplayName = (response: AuthResponse): string => {
   const user = getAuthResponseUser(response)
 
   if (user?.name) {
