@@ -22,9 +22,14 @@ export function getChartColor(index: number, customColors?: string[]): string {
 }
 
 /**
- * Hook that returns a theme-aware chart palette.
- * Values are read directly from the MUI theme so they respond to
- * theme mode changes (dark / light) at runtime.
+ * Hook that returns a branding-derived chart palette.
+ * All 8 slots come from the active user theme (primary, secondary, tertiary)
+ * so the palette automatically updates when the agency owner changes their brand colors.
+ *
+ * Slot mapping:
+ *   0 primary.main   1 secondary.main   2 tertiary (planAvatar)
+ *   3 primary.light  4 secondary.light
+ *   5 primary.dark   6 secondary.dark   7 lightAqua (secondary tint)
  */
 export function useChartColors(customColors?: string[]): string[] {
   const theme = useTheme()
@@ -32,13 +37,13 @@ export function useChartColors(customColors?: string[]): string[] {
   if (customColors) return customColors
 
   return [
-    theme.palette.primary.main,             // #f97316
-    theme.palette.secondary.main,           // #00D0FF
-    theme.palette.success.main,             // #11C28B
-    theme.palette.info.main,               // #55ADFF
-    theme.palette.warning.main,            // #FFB703
-    theme.palette.customColors.planAvatar, // #8B5CF6
-    theme.palette.error.main,             // #FF4D4F
-    theme.palette.customColors.lightAqua, // #27AAE1
+    theme.palette.primary.main,
+    theme.palette.secondary.main,
+    theme.palette.customColors.planAvatar,
+    theme.palette.primary.light,
+    theme.palette.secondary.light,
+    theme.palette.primary.dark,
+    theme.palette.secondary.dark,
+    theme.palette.customColors.lightAqua,
   ]
 }
