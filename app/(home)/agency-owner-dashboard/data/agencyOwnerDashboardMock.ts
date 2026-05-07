@@ -44,12 +44,3 @@ export const BOOKING_TYPE_DISTRIBUTION: PieDataPoint[] = [
   { label: 'Phone',  value: 312 },
   { label: 'Walk-in', value: 256 },
 ]
-
-// Occupancy share per hotel — raw occupancy % used; chart calculates distribution automatically
-export const OCCUPANCY_DISTRIBUTION: PieDataPoint[] = [
-  { label: 'Grand Palais Hotel',   value: 81 },
-  { label: 'Seabreeze Resort',     value: 74 },
-  { label: 'Urban Luxe Suites',    value: 69 },
-  { label: 'The Mountainview Inn', value: 58 },
-  { label: 'Harborlight Boutique', value: 72 },
-]
