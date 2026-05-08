@@ -4,24 +4,23 @@ import { Card, CardContent, Typography, Stack } from '@mui/material'
 import DoughnutChart from '@/components/charts/DoughnutChart'
 import { ROOM_READINESS_STATS } from '../data/frontDeskMock'
 import { ROOM_STATUS_LABELS } from '../constants/frontDeskConstants'
+import { readyRoomsCount, roomReadinessTotal } from '../data/frontDeskDerivedData'
 
 export function RoomReadinessDonut() {
   const data = ROOM_READINESS_STATS.map((s) => ({
     label: ROOM_STATUS_LABELS[s.status],
     value: s.count,
   }))
-  const total = ROOM_READINESS_STATS.reduce((sum, s) => sum + s.count, 0)
-  const ready = ROOM_READINESS_STATS.find((s) => s.status === 'ready')?.count ?? 0
 
   return (
-    <Card variant="outlined" sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+    <Card variant="outlined" sx={{ height: '100%' }}>
       <CardContent>
         <Stack direction="row" justifyContent="space-between" alignItems="center" mb={2}>
           <Typography variant="h6" fontWeight={600}>
             Room Readiness Status
           </Typography>
-          <Typography variant="caption" color="text.disabled">
-            {ready}/{total} ready
+          <Typography variant="caption">
+            {readyRoomsCount}/{roomReadinessTotal} ready
           </Typography>
         </Stack>
 

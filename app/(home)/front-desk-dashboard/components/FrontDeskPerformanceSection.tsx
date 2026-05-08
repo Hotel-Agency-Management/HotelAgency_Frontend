@@ -9,13 +9,13 @@ import type { PaletteColorKey } from '../types/frontDeskTypes'
 
 export function AlertsWidget() {
   return (
-    <Card variant="outlined" sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+    <Card variant="outlined" sx={{ height: '100%' }}>
       <CardContent>
         <Stack direction="row" justifyContent="space-between" alignItems="center">
           <Typography variant="h6" fontWeight={600}>
             Operational Alerts
           </Typography>
-          <Typography variant="caption" color="text.disabled">
+          <Typography variant="caption">
             {ALERT_ITEMS.length} active
           </Typography>
         </Stack>
@@ -48,7 +48,7 @@ export function AlertsWidget() {
                     variant="outlined"
                   />
                 </Stack>
-                <Typography variant="caption" color="text.secondary">
+                <Typography variant="caption" >
                   {alert.description}
                 </Typography>
               </Stack>

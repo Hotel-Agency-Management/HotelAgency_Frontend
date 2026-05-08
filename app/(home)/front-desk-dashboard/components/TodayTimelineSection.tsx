@@ -7,14 +7,14 @@ import { TODAY_ARRIVALS } from '../data/frontDeskMock'
 
 export function TodayArrivalsWidget() {
   return (
-    <Card variant="outlined" sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+    <Card variant="outlined" sx={{ height: '100%' }}>
       <CardContent>
-        <Stack direction="row" justifyContent="space-between" alignItems="center" mb={2}>
+        <Stack direction="row" justifyContent="space-between" alignItems="center">
           <Typography variant="h6" fontWeight={600}>
             Today&apos;s Arrivals
           </Typography>
 
-          <Typography variant="caption" color="text.disabled">
+          <Typography variant="caption">
             {TODAY_ARRIVALS.length} arrivals
           </Typography>
         </Stack>
@@ -50,12 +50,12 @@ export function TodayArrivalsWidget() {
                   )}
                 </Stack>
 
-                <Typography variant="caption" color="text.disabled">
+                <Typography variant="caption">
                   Room {guest.roomNumber}
                 </Typography>
 
                 {guest.note && (
-                  <Typography variant="caption" color="text.secondary" fontStyle="italic">
+                  <Typography variant="caption" fontStyle="italic">
                     {guest.note}
                   </Typography>
                 )}
