@@ -33,7 +33,7 @@ interface UseCustomerReservationConfirmationModalOptions {
   open: boolean
   hotelId: string
   hotel: CustomerHotel | null
-  room: Pick<RoomProfile, 'type' | 'capacity' | 'pricePerNight' | 'extendPrice'>
+  room: Pick<RoomProfile, 'type' | 'capacity' | 'pricePerNight' | 'extendPrice' | 'insurance'>
   reservation: ReservationDetails
   onConfirm: (payload: CustomerReservationConfirmationPayload) => void
 }
@@ -60,6 +60,7 @@ export function useCustomerReservationConfirmationModal({
   const [contractPreviewAccepted, setContractPreviewAccepted] = useState(false)
   const [signatureDataUrl, setSignatureDataUrl] = useState('')
   const [stepError, setStepError] = useState('')
+  const [includeInsurance, setIncludeInsurance] = useState(false)
 
   const roomType = ROOM_TYPES[room.type]
   const currentStep = BOOKING_CONFIRMATION_STEPS[activeStep] ?? BOOKING_CONFIRMATION_STEPS[0]
@@ -188,6 +189,7 @@ export function useCustomerReservationConfirmationModal({
       setContractPreviewAccepted(false)
       setSignatureDataUrl('')
       setStepError('')
+      setIncludeInsurance(false)
     }
   }, [open])
 
@@ -242,8 +244,14 @@ export function useCustomerReservationConfirmationModal({
       acceptedTermsTitle: termsTitle,
       acceptedTermsContent: termsContent,
       taxPostalCode: resolvedTaxPostalCode,
+      includeInsurance,
     })
   }
+
+  const hasInsurance = (room.insurance ?? 0) > 0
+  const insuranceFeeLabel = hasInsurance
+    ? formatCurrency(room.insurance!, i18n.language, reservation.currency)
+    : null
 
   return {
     activeStep,
@@ -286,5 +294,9 @@ export function useCustomerReservationConfirmationModal({
     setTaxPostalCode,
     estimatedTotalLabel,
     totalPriceLabel,
+    hasInsurance,
+    insuranceFeeLabel,
+    includeInsurance,
+    setIncludeInsurance,
   }
 }

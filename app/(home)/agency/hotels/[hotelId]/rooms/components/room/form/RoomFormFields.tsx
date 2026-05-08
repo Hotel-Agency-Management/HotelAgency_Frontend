@@ -161,6 +161,18 @@ export const RoomFormFields = ({ roomTypes }: Props) => {
         />
       </Grid>
 
+      <Grid size={{ xs: 12, sm: 6, md: 4 }}>
+        <TextField
+          label="Monthly Insurance"
+          type="number"
+          fullWidth
+          size="small"
+          {...register("insurance", { valueAsNumber: true })}
+          error={!!errors.insurance}
+          helperText={errors.insurance?.message}
+        />
+      </Grid>
+
       <Grid size={{ xs: 12 }}>
         <TextField
           label="Description"

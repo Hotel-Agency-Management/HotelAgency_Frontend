@@ -23,7 +23,7 @@ export function RoomProfileSkeleton({ onBack, onEdit, onDelete }: RoomProfileSke
         </Grid>
         <Grid size={{ xs: 12, lg: 4 }}>
           <RoomInfoCard
-            room={{ roomTypeName: "", floorNumber: 0, capacity: 0, dailyPrice: 0, weeklyPrice: 0, monthlyPrice: 0, extendPrice: 0 }}
+            room={{ roomTypeName: "", floorNumber: 0, capacity: 0, dailyPrice: 0, weeklyPrice: 0, monthlyPrice: 0, extendPrice: 0, insurance: 0 }}
             onEdit={onEdit}
             onDelete={onDelete}
             loading

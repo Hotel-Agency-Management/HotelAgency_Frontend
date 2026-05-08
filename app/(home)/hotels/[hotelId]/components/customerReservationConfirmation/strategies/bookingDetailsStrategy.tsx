@@ -12,6 +12,10 @@ export const createBookingDetailsStepStrategy = (): ConfirmationStepStrategy => 
       taxPostalCode={modalState.taxPostalCode}
       taxRequiresPostalCode={modalState.taxRequiresPostalCode}
       onTaxPostalCodeChange={modalState.setTaxPostalCode}
+      hasInsurance={modalState.hasInsurance}
+      insuranceFeeLabel={modalState.insuranceFeeLabel}
+      includeInsurance={modalState.includeInsurance}
+      onIncludeInsuranceChange={modalState.setIncludeInsurance}
     />
   ),
 })

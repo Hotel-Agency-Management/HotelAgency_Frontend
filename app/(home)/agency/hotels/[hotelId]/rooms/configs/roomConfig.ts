@@ -25,6 +25,7 @@ export interface RoomResponse {
   weeklyPrice: number
   monthlyPrice: number
   extendPrice: number
+  insurance: number
   capacity: number
   createdAt: string
   updatedAt: string
@@ -54,6 +55,7 @@ export interface CreateRoomRequest {
   weeklyPrice: number
   monthlyPrice: number
   extendPrice: number
+  insurance: number
   capacity: number
 }
 export interface UpdateRoomRequest extends CreateRoomRequest {}
