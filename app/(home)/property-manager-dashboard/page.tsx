@@ -21,10 +21,10 @@ export default function PropertyManagerDashboardPage() {
     <Container maxWidth="xl">
       <Stack spacing={3}>
         <Stack spacing={1}>
-          <Typography variant="h5" fontWeight={700} color="text.primary">
+          <Typography variant="h5" fontWeight={700}>
             Hotel Operations
           </Typography>
-          <Typography variant="body2" color="text.disabled">
+          <Typography variant="body2">
             {today}
           </Typography>
         </Stack>
@@ -34,21 +34,21 @@ export default function PropertyManagerDashboardPage() {
         <PropertyManagerStatsSection />
 
         <Stack spacing={2}>
-          <Typography variant="h6" fontWeight={600} color="text.primary">
+          <Typography variant="h6" fontWeight={600}>
             Revenue & Finance
           </Typography>
           <RevenueFinanceSection />
         </Stack>
 
         <Stack spacing={2}>
-          <Typography variant="h6" fontWeight={600} color="text.primary">
+          <Typography variant="h6" fontWeight={600}>
             Rooms & Housekeeping
           </Typography>
           <RoomsHousekeepingSection />
         </Stack>
 
         <Stack spacing={2}>
-          <Typography variant="h6" fontWeight={600} color="text.primary">
+          <Typography variant="h6" fontWeight={600}>
             Operations
           </Typography>
           <OperationsSection />

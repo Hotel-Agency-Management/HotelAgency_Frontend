@@ -16,8 +16,8 @@ import {
 export default function RoomsHousekeepingSection() {
   return (
     <Grid container spacing={3} alignItems="stretch">
-      <Grid size={{ xs: 12, md: 6 }} display="flex">
-        <Card variant="outlined" sx={{ width: '100%' }}>
+      <Grid size={{ xs: 12, md: 6 }} >
+        <Card variant="outlined" sx={{ width: '100%', height: '100%' }}>
           <CardContent>
             <Stack spacing={2}>
               <Typography variant="h6">Room Status Distribution</Typography>
@@ -36,8 +36,8 @@ export default function RoomsHousekeepingSection() {
         </Card>
       </Grid>
 
-      <Grid size={{ xs: 12, md: 6 }} display="flex">
-        <Card variant="outlined" sx={{ width: '100%' }}>
+      <Grid size={{ xs: 12, md: 6 }} >
+        <Card variant="outlined" sx={{ width: '100%', height: '100%' }}>
           <CardContent>
             <Stack spacing={2}>
               <Typography variant="h6">Housekeeping Tasks by Status</Typography>
