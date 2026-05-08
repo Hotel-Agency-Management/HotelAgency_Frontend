@@ -57,7 +57,7 @@ export default function BarChart({
             valueFormatter
           }
         ]}
-        xAxis={[{ data: labels, scaleType: 'band' }]}
+        xAxis={[{ data: labels, scaleType: 'band', categoryGapRatio: 0.4 }]}
         height={height}
         borderRadius={borderRadius}
         hideLegend={!showLegend}
