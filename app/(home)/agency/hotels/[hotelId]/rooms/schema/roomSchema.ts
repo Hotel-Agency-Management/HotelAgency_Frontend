@@ -34,6 +34,9 @@ export const roomSchema = z.object({
     .number({ invalid_type_error: "Extend price must be a number" })
     .min(0)
     .default(0),
+  insurance: z
+    .number({ invalid_type_error: "Insurance fee must be a number" })
+    .positive("Insurance fee must be a positive number"),
   coverPhoto: z.custom<File | null>().optional().nullable(),
 });
 

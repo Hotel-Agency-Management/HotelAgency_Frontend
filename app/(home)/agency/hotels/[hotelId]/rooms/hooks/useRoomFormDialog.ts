@@ -36,6 +36,7 @@ function getRoomValues(room: RoomResponse): RoomFormValues {
     weeklyPrice: room.weeklyPrice,
     monthlyPrice: room.monthlyPrice,
     extendPrice: room.extendPrice,
+    insurance: room.insurance,
     capacity: room.capacity,
     coverPhoto: null,
   };

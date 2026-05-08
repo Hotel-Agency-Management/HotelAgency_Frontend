@@ -17,7 +17,7 @@ interface CustomerRoomBookingCardProps {
   hotel: CustomerHotel | null
   room: Pick<
     RoomProfile,
-    'type' | 'status' | 'floorNumber' | 'capacity' | 'pricePerNight' | 'extendPrice' | 'starRating'
+    'type' | 'status' | 'floorNumber' | 'capacity' | 'pricePerNight' | 'extendPrice' | 'starRating' | 'insurance'
   >
   reservation: ReservationDetails
   onReservationDateChange: (key: 'checkIn' | 'checkOut', value: string) => void

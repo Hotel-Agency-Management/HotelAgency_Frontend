@@ -1,4 +1,4 @@
-import { Divider, Stack, TextField, Typography } from '@mui/material'
+import { Checkbox, Divider, FormControlLabel, Stack, TextField, Typography } from '@mui/material'
 import type { ReservationSummaryItem } from '../../types/customerReservationConfirmation'
 import { SectionPanel } from './SectionPanel'
 import { SummaryRow } from './SummaryRow'
@@ -12,6 +12,10 @@ interface BookingDetailsStepProps {
   taxPostalCode: string
   taxRequiresPostalCode: boolean
   onTaxPostalCodeChange: (value: string) => void
+  hasInsurance: boolean
+  insuranceFeeLabel: string | null
+  includeInsurance: boolean
+  onIncludeInsuranceChange: (value: boolean) => void
 }
 
 export function BookingDetailsStep({
@@ -23,6 +27,10 @@ export function BookingDetailsStep({
   taxPostalCode,
   taxRequiresPostalCode,
   onTaxPostalCodeChange,
+  hasInsurance,
+  insuranceFeeLabel,
+  includeInsurance,
+  onIncludeInsuranceChange,
 }: BookingDetailsStepProps) {
   return (
     <Stack spacing={2}>
@@ -53,6 +61,30 @@ export function BookingDetailsStep({
         <Divider />
         <SummaryRow label="Estimated total" value={estimatedTotalLabel} emphasis />
       </SectionPanel>
+
+      {hasInsurance ? (
+        <SectionPanel title="Insurance">
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={includeInsurance}
+                onChange={event => onIncludeInsuranceChange(event.target.checked)}
+                size="small"
+              />
+            }
+            label={
+              <Stack>
+                <Typography variant="body2">Add monthly insurance</Typography>
+                {insuranceFeeLabel ? (
+                  <Typography variant="caption" color="text.secondary">
+                    {insuranceFeeLabel} / month
+                  </Typography>
+                ) : null}
+              </Stack>
+            }
+          />
+        </SectionPanel>
+      ) : null}
     </Stack>
   )
 }

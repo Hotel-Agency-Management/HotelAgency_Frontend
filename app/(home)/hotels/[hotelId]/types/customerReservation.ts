@@ -36,6 +36,7 @@ export interface CustomerReservation {
   cancellationFeeRate?: number
   nightlyRate: number
   extendPrice: number
+  includeInsurance: boolean
   totalPrice: number
   status: CustomerReservationStatus
   source: CustomerReservationSource
@@ -73,6 +74,7 @@ export interface CreateCustomerReservationInput {
   cancellationFeeRate?: number
   nightlyRate: number
   extendPrice: number
+  includeInsurance: boolean
   termsAccepted: boolean
   customerSignatureDataUrl: string
 }

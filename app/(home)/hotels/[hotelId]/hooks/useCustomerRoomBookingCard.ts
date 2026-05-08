@@ -34,7 +34,7 @@ interface UseCustomerRoomBookingCardOptions {
   hotel: CustomerHotel | null
   room: Pick<
     RoomProfile,
-    'type' | 'status' | 'floorNumber' | 'capacity' | 'pricePerNight' | 'extendPrice' | 'starRating'
+    'type' | 'status' | 'floorNumber' | 'capacity' | 'pricePerNight' | 'extendPrice' | 'starRating' | 'insurance'
   >
   reservation: ReservationDetails
 }
@@ -98,6 +98,7 @@ export function useCustomerRoomBookingCard({
     acceptedTermsTitle,
     acceptedTermsContent,
     taxPostalCode,
+    includeInsurance,
   }: CustomerReservationConfirmationPayload) => {
     if (
       !isBookable ||
@@ -141,6 +142,7 @@ export function useCustomerRoomBookingCard({
         cancellationFeeRate: hotel?.cancellationFeeRate,
         nightlyRate: room.pricePerNight,
         extendPrice: room.extendPrice ?? room.pricePerNight,
+        includeInsurance,
         termsAccepted,
         customerSignatureDataUrl,
       })
