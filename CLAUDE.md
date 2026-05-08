@@ -314,6 +314,134 @@ Then register it in `lib/mocks/browser.ts`.
 
 ---
 
+## 12. Styling Rules
+
+### Inline Styles & `sx` Prop
+
+- **Never** write more than 2–3 properties in a single `sx` prop — if it grows beyond that, move it to a `styled()` component.
+- The `sx` prop is allowed **only** for one-off, non-reusable overrides. If the same `sx` block appears in more than one place, it must be extracted.
+- **Global** style overrides → `core/theme/overrides/` (edit the relevant MUI component override file).
+- **Component-scoped** reusable styles → create a `styles/StyledComponents.tsx` file next to the component folder and use MUI's `styled()` function.
+
+```tsx
+// ✓ correct — styled() with theme tokens
+const StyledCard = styled(Card)(({ theme }) => ({
+  borderRadius: theme.shape.borderRadius * 2,
+  padding: theme.spacing(2),
+  backgroundColor: theme.palette.background.paper,
+}))
+
+// ✗ wrong — too much inline sx
+<Card sx={{ borderRadius: '16px', padding: '16px', mt: 2, mb: 3, boxShadow: 3, bgcolor: '#fff' }} />
+```
+
+### Layout & Alignment
+
+- **Never** use `margin` or `padding` to align siblings against each other — use `<Stack spacing={n}>` or `<Stack gap={n}>` instead.
+- **Never** use `marginLeft: 'auto'` tricks for pushing elements — use `<Box flex={1} />` or `justifyContent` on the parent Stack/Box.
+- For grid layouts use `<Grid>`, for flex layouts use `<Stack>` — avoid adding `display: 'flex'` manually on `<Box>` unless you need something neither Stack nor Grid supports.
+
+```tsx
+// ✓ correct
+<Stack direction="row" gap={2} alignItems="center">
+  <Button variant="outlined">Cancel</Button>
+  <Button variant="contained">Save</Button>
+</Stack>
+
+// ✗ wrong
+<div>
+  <Button style={{ marginRight: 16 }}>Cancel</Button>
+  <Button>Save</Button>
+</div>
+```
+
+### Colors
+
+- **Never** hardcode color hex values in component files — always reference `theme.palette.*`.
+- If you need a theme color with transparency, use `hexToRGBA` from `@/core/utils/hex-to-rgba`.
+- Semantic colors (`error`, `warning`, `success`, `info`) must always come from `theme.palette.<semantic>.*` — never approximate them with a raw hex.
+
+```tsx
+// ✓ correct
+color: theme.palette.primary.main
+backgroundColor: hexToRGBA(theme.palette.error.main, 0.12)
+
+// ✗ wrong
+color: '#5B74FF'
+backgroundColor: 'rgba(255, 0, 0, 0.12)'
+```
+
+### Typography
+
+- **Never** hardcode `fontSize`, `fontWeight`, or `lineHeight` in component styles — use `<Typography variant="...">` or reference `theme.typography.*` inside `styled()`.
+- Do not use bare `<h1>`–`<h6>` or `<p>` tags — always use `<Typography>` with the correct variant.
+
+```tsx
+// ✓ correct
+<Typography variant="h6">Room Details</Typography>
+<Typography variant="body2" color="text.secondary">Last updated today</Typography>
+
+// ✗ wrong
+<p style={{ fontSize: 20, fontWeight: 700 }}>Room Details</p>
+```
+
+### Spacing
+
+- All spacing values must come from `theme.spacing()` inside `styled()` — never write raw `px` numbers for padding or margin in component styles.
+- Inside `sx`, use MUI's shorthand numeric system (`p={2}`, `mt={1}`) which maps to `theme.spacing()` automatically.
+
+```tsx
+// ✓ correct (styled)
+padding: theme.spacing(2, 3)
+
+// ✓ correct (sx shorthand)
+<Box p={2} mt={1}>
+
+// ✗ wrong
+padding: '16px 24px'
+```
+
+### Responsive Design
+
+- **Never** write raw CSS `@media` queries inside component files — use MUI breakpoints only.
+- In `sx`: `sx={{ display: { xs: 'none', md: 'flex' } }}`
+- In `styled()`: `[theme.breakpoints.up('md')]: { ... }`
+
+```tsx
+// ✓ correct
+const StyledWrapper = styled(Box)(({ theme }) => ({
+  padding: theme.spacing(2),
+  [theme.breakpoints.up('md')]: {
+    padding: theme.spacing(4),
+  },
+}))
+
+// ✗ wrong
+'@media (min-width: 900px)': { padding: 32 }
+```
+
+### z-index
+
+- **Never** hardcode z-index numbers — use `theme.zIndex.*` values (`modal`, `drawer`, `appBar`, `tooltip`, `snackbar`, `fab`).
+
+```tsx
+// ✓ correct
+zIndex: theme.zIndex.modal + 1
+
+// ✗ wrong
+zIndex: 9999
+```
+
+### Layout Primitives
+
+- Prefer `<Box>` over bare `<div>` for any element that receives layout styling.
+- Prefer `<Stack>` over `<Box display="flex">` for one-dimensional layouts.
+- Prefer `<Grid>` over `<Box display="grid">` for two-dimensional layouts.
+
+> **Never** use `margin`/`padding` for alignment, hardcode colors or font sizes, write raw `@media` queries, or hardcode z-index values.
+
+---
+
 ## File Structure Reference
 
 ```
