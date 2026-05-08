@@ -1,8 +1,8 @@
 'use client'
 
+import { useQuery } from '@tanstack/react-query'
 import { useAuth } from '@/core/context/AuthContext'
-import { useGetHotelById } from '@/app/(home)/agency/hotels/hooks/queries/useHotelQueries'
-import { useGetAgencyProfile } from '@/app/(home)/agency/hooks/queries/useAgencyProfile'
+import { getUserProfile } from '@/app/(home)/profile/clients/userProfileClient'
 import themeConfig from '@/core/configs/themeConfig'
 
 export interface BrandNameState {
@@ -11,27 +11,24 @@ export interface BrandNameState {
 }
 
 export function useBrandName(): BrandNameState {
-  const { user } = useAuth()
+  const { user, isLoading: isAuthLoading } = useAuth()
 
-  const numericHotelId = user?.hotelId ? Number(user.hotelId) : undefined
-  const hasHotelId = Number.isFinite(numericHotelId)
-  const hasAgencyId = Boolean(user?.agencyId)
+  const { data, isLoading: isProfileLoading } = useQuery({
+    queryKey: ['user-profile'],
+    queryFn: getUserProfile,
+    enabled: !!user,
+  })
 
-  const hotelQuery = useGetHotelById(hasHotelId ? numericHotelId : undefined)
-  const agencyQuery = useGetAgencyProfile({ enabled: !hasHotelId && hasAgencyId })
-
-  if (hasHotelId) {
-    return {
-      brandName: hotelQuery.data?.basicInfo.name ?? themeConfig.templateName,
-      isLoading: hotelQuery.isLoading,
-    }
+  if (isAuthLoading || isProfileLoading) {
+    return { brandName: themeConfig.templateName, isLoading: true }
   }
 
-  if (hasAgencyId) {
-    return {
-      brandName: agencyQuery.data?.name ?? themeConfig.templateName,
-      isLoading: agencyQuery.isLoading,
-    }
+  if (data?.hotel?.hotelName) {
+    return { brandName: data.hotel.hotelName, isLoading: false }
+  }
+
+  if (data?.agency?.name) {
+    return { brandName: data.agency.name, isLoading: false }
   }
 
   return { brandName: themeConfig.templateName, isLoading: false }
