@@ -15,6 +15,8 @@ export interface ClusteredBarChartProps extends BaseChartProps {
   labels: string[]
   /** Corner radius for bars in px (default: 6) */
   borderRadius?: number
+  legendPosition?: 'top' | 'bottom'
+  legendAlign?: 'start' | 'center'
 }
 
 /**
@@ -34,6 +36,8 @@ export default function ClusteredBarChart({
   showLegend = true,
   percentage = false,
   percentageData,
+  legendPosition = 'top',
+  legendAlign = 'start',
 }: ClusteredBarChartProps) {
   const chartColors = useChartColors(colors)
   const { hiddenLabels, toggle } = useSeriesToggle()
@@ -77,8 +81,8 @@ export default function ClusteredBarChart({
 
   return (
     <Box sx={{ width: '100%' }}>
-      {showLegend && (
-        <ChartLegend items={legendItems} hiddenLabels={hiddenLabels} onToggle={toggle} />
+      {showLegend && legendPosition === 'top' && (
+        <ChartLegend items={legendItems} hiddenLabels={hiddenLabels} onToggle={toggle} align={legendAlign} />
       )}
       <MuiBarChart
         series={visibleSeries}
@@ -88,6 +92,9 @@ export default function ClusteredBarChart({
         hideLegend
         margin={{ top: 16, right: 16, bottom: 40, left: 52 }}
       />
+      {showLegend && legendPosition === 'bottom' && (
+        <ChartLegend items={legendItems} hiddenLabels={hiddenLabels} onToggle={toggle} align={legendAlign} />
+      )}
     </Box>
   )
 }

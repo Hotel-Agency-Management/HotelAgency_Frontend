@@ -13,6 +13,8 @@ export interface LineChartProps extends BaseChartProps {
   series: MultiSeriesItem[]
   /** Labels for the x-axis (one per data point) */
   labels: string[]
+  legendPosition?: 'top' | 'bottom'
+  legendAlign?: 'start' | 'center'
 }
 
 /**
@@ -31,6 +33,8 @@ export default function LineChart({
   showLegend = true,
   percentage = false,
   percentageData,
+  legendPosition = 'top',
+  legendAlign = 'start',
 }: LineChartProps) {
   const chartColors = useChartColors(colors)
   const { hiddenLabels, toggle } = useSeriesToggle()
@@ -74,8 +78,8 @@ export default function LineChart({
 
   return (
     <Box sx={{ width: '100%' }}>
-      {showLegend && (
-        <ChartLegend items={legendItems} hiddenLabels={hiddenLabels} onToggle={toggle} />
+      {showLegend && legendPosition === 'top' && (
+        <ChartLegend items={legendItems} hiddenLabels={hiddenLabels} onToggle={toggle} align={legendAlign} />
       )}
       <MuiLineChart
         series={visibleSeries}
@@ -84,6 +88,9 @@ export default function LineChart({
         hideLegend
         margin={{ top: 16, right: 16, bottom: 40, left: 52 }}
       />
+      {showLegend && legendPosition === 'bottom' && (
+        <ChartLegend items={legendItems} hiddenLabels={hiddenLabels} onToggle={toggle} align={legendAlign} />
+      )}
     </Box>
   )
 }

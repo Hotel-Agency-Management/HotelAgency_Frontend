@@ -33,18 +33,23 @@ export interface HorizontalBarChartProps extends BaseChartProps {
  * Pass `percentage` to show auto-calculated percentages in the tooltip.
  * Pass `percentageData` to supply your own percentage values instead.
  */
+// 52px per bar gives comfortable spacing; 56px covers top + bottom margins
+const BAR_HEIGHT = 52
+const CHART_MARGINS = 56
+
 export default function HorizontalBarChart({
   data,
   labels,
   color,
   borderRadius = 8,
-  height = 300,
+  height,
   colors,
   showLegend = false,
   percentage = false,
   percentageData,
   labelWidth = 120
 }: HorizontalBarChartProps) {
+  const resolvedHeight = height ?? Math.max(200, labels.length * BAR_HEIGHT + CHART_MARGINS)
   const theme = useTheme()
   const chartColors = useChartColors(colors)
   const resolvedColor = color ?? chartColors[0]
@@ -104,7 +109,7 @@ export default function HorizontalBarChart({
         ]}
         yAxis={[{ id: 'y', data: labels, scaleType: 'band', width: labelWidth }]}
         xAxis={[{ id: 'x', scaleType: 'linear' }]}
-        height={height}
+        height={resolvedHeight}
         margin={{ top: 16, right: 52, bottom: 40 }}
       >
         <BarPlot borderRadius={borderRadius} />
