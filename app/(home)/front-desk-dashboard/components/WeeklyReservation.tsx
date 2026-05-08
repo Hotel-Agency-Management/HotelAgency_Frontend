@@ -7,9 +7,9 @@ import { WEEKLY_RESERVATIONS } from '../data/frontDeskMock'
 export function WeeklyReservationChart() {
 
   return (
-    <Card variant="outlined" sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+    <Card variant="outlined" sx={{ height: '100%' }}>
       <CardContent>
-        <Stack direction="row" justifyContent="space-between" alignItems="center" mb={2}>
+        <Stack direction="row" justifyContent="space-between" alignItems="center" >
           <Typography variant="h6" fontWeight={600}>
             Weekly Reservation Volume
           </Typography>
