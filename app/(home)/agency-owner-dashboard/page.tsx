@@ -21,7 +21,7 @@ export default function AgencyOwnerDashboardPage() {
     <Container maxWidth="xl" >
       <Stack spacing={3}>
         <Stack spacing={1}>
-          <Typography variant="h5" fontWeight={700} color="text.primary">
+          <Typography variant="h5" fontWeight={700}>
             Agency Overview
           </Typography>
           <Typography variant="body2" color="text.disabled">
@@ -34,21 +34,21 @@ export default function AgencyOwnerDashboardPage() {
         <AgencyOwnerStatsSection />
 
         <Stack spacing={2}>
-          <Typography variant="h6" fontWeight={600} color="text.primary">
+          <Typography variant="h6" fontWeight={600}>
             Revenue & Financial Overview
           </Typography>
           <RevenueFinanceSection />
         </Stack>
 
         <Stack spacing={2}>
-          <Typography variant="h6" fontWeight={600} color="text.primary">
+          <Typography variant="h6" fontWeight={600}>
             Occupancy & Booking Analytics
           </Typography>
           <OccupancyBookingSection />
         </Stack>
 
         <Stack spacing={2}>
-          <Typography variant="h6" fontWeight={600} color="text.primary">
+          <Typography variant="h6" fontWeight={600}>
             Hotels Performance
           </Typography>
           <HotelPerformanceSection />

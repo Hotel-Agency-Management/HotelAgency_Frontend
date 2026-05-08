@@ -19,8 +19,8 @@ import {
 export default function OccupancyBookingSection() {
   return (
     <Grid container spacing={3} alignItems="stretch">
-      <Grid size={{ xs: 12 }} display="flex">
-        <Card variant="outlined" sx={{ width: '100%' }}>
+      <Grid size={{ xs: 12 }}>
+        <Card variant="outlined" sx={{ width: '100%', height: '100%' }}>
           <CardContent>
             <Stack spacing={2}>
               <Typography variant="h6">Occupancy Rate per Hotel</Typography>
@@ -30,7 +30,7 @@ export default function OccupancyBookingSection() {
         </Card>
       </Grid>
 
-      <Grid size={{ xs: 12, md: 8 }} display="flex">
+      <Grid size={{ xs: 12, md: 8 }} >
         <Card variant="outlined" sx={{ width: '100%' }}>
           <CardContent>
             <Stack spacing={2}>
