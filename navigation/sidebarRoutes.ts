@@ -240,6 +240,20 @@ const navigation = (hotelId?: string): SidebarNavItems => {
     },
 
     {
+      sectionTitle: 'My Reservations',
+      icon: 'lucide:book-open',
+      items: [
+        {
+          title: 'My Bookings',
+          path: `/hotels/${hotelId}/my-bookings`,
+          icon: 'lucide:calendar-check',
+          subject: 'AllHotels',
+          action: 'read',
+        },
+      ],
+    },
+
+    {
       sectionTitle: 'Bookings',
       icon: 'lucide:book-open-check',
       items: [

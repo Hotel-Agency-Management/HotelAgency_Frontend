@@ -301,5 +301,37 @@
       "cancel": "Cancel",
       "saveChanges": "Save Changes"
     }
+  },
+  "myBookings": {
+    "title": "My Bookings",
+    "empty": "You have no bookings for this hotel yet.",
+    "loadError": "Failed to load bookings. Please try again.",
+    "viewDetails": "View Details",
+    "backToList": "Back to My Bookings",
+    "stayDetails": "Stay Details",
+    "guestDetails": "Guest Details",
+    "bookingInfo": "Booking Info",
+    "documents": "Documents",
+    "financial": "Financial",
+    "reservationNumber": "Reservation #",
+    "hotel": "Hotel",
+    "rooms": "Rooms",
+    "checkIn": "Check-in",
+    "checkOut": "Check-out",
+    "guests": "Guests",
+    "numberOfRooms": "Number of Rooms",
+    "totalAmount": "Total Amount",
+    "source": "Source",
+    "specialRequests": "Special Requests",
+    "notes": "Notes",
+    "downloadContract": "Download Contract",
+    "downloadInvoice": "Download Invoice",
+    "status": "Status",
+    "guestName": "Guest Name",
+    "guestEmail": "Guest Email",
+    "guestPhone": "Guest Phone",
+    "guestId": "Guest ID / Passport",
+    "cardView": "Card view",
+    "listView": "List view"
   }
 }
