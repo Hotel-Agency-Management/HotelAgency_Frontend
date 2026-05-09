@@ -7,17 +7,15 @@ import SidebarLayout from '@/core/layouts/SidebarLayout'
 import type { SidebarNavItems } from '@/core/layouts/types'
 import { useAuth } from '@/core/context/AuthContext'
 import navigation from '@/navigation/sidebarRoutes'
-import { CUSTOMER_HOTELS_MOCK } from '@/app/(home)/hotels/data/customerHotelsMock'
-import { getCustomerHotels } from '@/app/(home)/hotels/data/customerHotelsClient'
 import { USER_ROLES } from '@/lib/abilities'
 import { useBrandNameContext } from '@/core/context/BrandNameContext'
+import { getCustomerHotels } from '../../hotels/client/hotelClient'
+import { CUSTOMER_HOTEL_DETAIL_PATTERN } from '../constants/routePatterns'
 
 interface HomeSidebarShellProps {
   children: ReactNode
   dynamicNavItems?: SidebarNavItems
 }
-
-const CUSTOMER_HOTEL_DETAIL_PATTERN = /^\/hotels\/([^/?#]+)/
 
 export default function HomeSidebarShell({
   children,
@@ -33,15 +31,16 @@ export default function HomeSidebarShell({
     return match?.[1] ? decodeURIComponent(match[1]) : null
   }, [pathname])
 
-  const { data: customerHotels = CUSTOMER_HOTELS_MOCK } = useQuery({
+  const { data: customerHotels = [] } = useQuery({
     queryKey: ['customer-hotels'],
-    queryFn: getCustomerHotels,
-    placeholderData: CUSTOMER_HOTELS_MOCK,
+    queryFn: () => getCustomerHotels(),
     enabled: customerHotelId != null,
   })
 
   const hotelId = params.hotelId ?? user?.hotelId
-  const layoutVariant = user?.role === USER_ROLES.CUSTOMER ? 'top-nav' : 'sidebar'
+  const layoutVariant = (!user || user.role === USER_ROLES.CUSTOMER)
+    ? 'top-nav'
+    : 'sidebar'
 
   const appName = useMemo(() => {
     const customerHotelName = customerHotelId

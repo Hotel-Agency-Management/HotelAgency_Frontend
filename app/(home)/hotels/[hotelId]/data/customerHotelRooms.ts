@@ -1,9 +1,9 @@
 import { CUSTOMER_HOTELS_MOCK } from '../../data/customerHotelsMock'
-import { getCustomerHotels } from '../../data/customerHotelsClient'
 import { roomsApi } from '@/app/(home)/agency/hotels/[hotelId]/rooms/api/roomApi'
 import type { Room } from '@/app/(home)/agency/hotels/[hotelId]/rooms/types/room'
 import type { CustomerHotel } from '../../types/customerHotel'
 import { HOTEL_ROOM_PROFILES, DEFAULT_ROOM_PROFILE } from '../constants/hotelRoomProfilesMock'
+import { getCustomerHotels } from '../../client/hotelClient'
 
 const getRoomProfile = (hotelId: string) => HOTEL_ROOM_PROFILES[hotelId] ?? DEFAULT_ROOM_PROFILE
 

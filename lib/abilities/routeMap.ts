@@ -33,24 +33,6 @@ export const routePermissions: RoutePermission[] = [
     description: 'Global room type catalog'
   },
   {
-    pattern: '/hotels',
-    action: 'read',
-    subject: 'AllHotels',
-    description: 'Global hotel booking catalog'
-  },
-  {
-    pattern: '/hotels/[hotelId]',
-    action: 'read',
-    subject: 'AllHotels',
-    description: 'Customer hotel details and rooms'
-  },
-  {
-    pattern: '/hotels/[hotelId]/rooms/[roomId]',
-    action: 'read',
-    subject: 'AllHotels',
-    description: 'Customer room details and booking view'
-  },
-  {
     pattern: '/hotels/[hotelId]/my-bookings',
     action: 'read',
     subject: 'AllHotels',
@@ -106,7 +88,10 @@ export const publicRoutes: string[] = [
   '/reset-password',
   '/verify-email',
   '/unauthorized',
-  '/animations/showcase'
+  '/animations/showcase',
+  '/hotels',
+  '/hotels/[hotelId]',
+  '/hotels/[hotelId]/rooms/[roomId]',
 ]
 
 /**

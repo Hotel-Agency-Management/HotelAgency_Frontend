@@ -32,7 +32,6 @@ export type LandingContent = {
     title: string
     subtitle: string
     primaryCta: { label: string; href: string }
-    secondaryCta: { label: string; href: string; target: string }
     bookingCta: string
     command: string
     scrollLabel: string
@@ -175,12 +174,7 @@ export const landingContent: LandingContent = {
     title: 'Run Your Agency & Hotels, or Book Your Dream Trip All in One Place',
     subtitle:
       'Operate multiple agencies, control hotel inventory, and enable seamless booking workflows from a single dashboard.',
-    primaryCta: { label: 'Discover More', href: '#features' },
-    secondaryCta: {
-      label: 'Explore Hotels',
-      href: 'https://shortcut-documentation.vercel.app/docs',
-      target: '_blank'
-    },
+    primaryCta: { label: 'Browse Hotels', href: '/hotels' },
     bookingCta: 'Check Now',
     command: 'npx create-shortcut-next',
     scrollLabel: 'SCROLL'

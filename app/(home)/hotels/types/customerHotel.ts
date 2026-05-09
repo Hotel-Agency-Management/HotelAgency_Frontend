@@ -56,6 +56,7 @@ export interface CustomerHotelApiResponse {
 export type CustomerHotelsApiPayload =
   | CustomerHotelApiResponse[]
   | {
+      items?: CustomerHotelApiResponse[]
       hotels?: CustomerHotelApiResponse[]
       data?: CustomerHotelApiResponse[]
     }
@@ -66,4 +67,11 @@ export interface CustomerHotelFilters {
   destination: string
   query: string
   sort: HotelSortOption
+}
+
+export interface PublicHotelsQueryParams {
+  search?: string
+  location?: string
+  pageNumber?: number
+  pageSize?: number
 }

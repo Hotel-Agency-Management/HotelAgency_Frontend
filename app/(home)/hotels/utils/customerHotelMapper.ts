@@ -36,7 +36,7 @@ export const extractCustomerHotelsPayload = (
   payload: CustomerHotelsApiPayload
 ): CustomerHotelApiResponse[] => {
   if (Array.isArray(payload)) return payload
-  return payload.hotels ?? payload.data ?? []
+  return payload.items ?? payload.hotels ?? payload.data ?? []
 }
 
 export const mapCustomerHotelApiResponse = (hotel: CustomerHotelApiResponse): CustomerHotel => {
