@@ -1,14 +1,18 @@
 import type { GridColDef } from "@mui/x-data-grid";
 import { Stack, Tooltip, IconButton } from "@mui/material";
 import { alpha, type Theme } from "@mui/material/styles";
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil, Trash2, AlertTriangle } from "lucide-react";
 import type { HousekeepingTask } from "../../../types/task";
+import { HOUSEKEEPING_TASK_TYPE } from "../../../types/task";
+import Can from "@/components/ability/Can";
+import { StyledWarningIconButton } from "../../../styles/StyledComponents";
 
 type ActionParams = {
   primaryColor: string;
   theme: Theme;
   onEdit: (task: HousekeepingTask) => void;
   onDelete: (task: HousekeepingTask) => void;
+  onReportDamage?: (task: HousekeepingTask) => void;
 };
 
 export function createActionsColumn({
@@ -16,6 +20,7 @@ export function createActionsColumn({
   theme,
   onEdit,
   onDelete,
+  onReportDamage,
 }: ActionParams): GridColDef<HousekeepingTask> {
   return {
     field: "actions",
@@ -23,7 +28,7 @@ export function createActionsColumn({
     sortable: false,
     filterable: false,
     disableColumnMenu: true,
-    minWidth: 120,
+    minWidth: 140,
     flex: 0.45,
     align: "center",
     headerAlign: "center",
@@ -47,6 +52,15 @@ export function createActionsColumn({
             <Trash2 size={16} />
           </IconButton>
         </Tooltip>
+        {row.type === HOUSEKEEPING_TASK_TYPE.CHECKOUT && onReportDamage && (
+          <Can do="create" this="DamageReports">
+            <Tooltip title="Report Damage">
+              <StyledWarningIconButton size="small" onClick={() => onReportDamage(row)}>
+                <AlertTriangle size={16} />
+              </StyledWarningIconButton>
+            </Tooltip>
+          </Can>
+        )}
       </Stack>
     )
   };

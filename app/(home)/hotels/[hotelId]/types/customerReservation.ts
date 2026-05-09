@@ -47,6 +47,7 @@ export interface CustomerReservation {
   cancelledAt?: string
   cancellationFee?: number
   invoice?: CustomerInvoice
+  hasInsurance?: boolean
 }
 
 export interface CreateCustomerReservationInput {
@@ -77,6 +78,7 @@ export interface CreateCustomerReservationInput {
   includeInsurance: boolean
   termsAccepted: boolean
   customerSignatureDataUrl: string
+  hasInsurance?: boolean
 }
 
 export interface UpdateCustomerReservationInput {

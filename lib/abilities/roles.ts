@@ -48,10 +48,14 @@ export function defineAbilitiesFor(role: UserRole): AppAbility {
       can('manage', 'Bookings')
       can('create', 'Reservations')
       can('manage' , 'HotelTerms')
+      can('read', 'DamageReports')
+      can('manage', 'DamageInvoices')
       break
 
     case USER_ROLES.FRONT_DESK_STAFF:
       can('create', 'Reservations')
+      can('read', 'DamageReports')
+      can('manage', 'DamageInvoices')
       break
 
     case USER_ROLES.CUSTOMER:
@@ -59,7 +63,18 @@ export function defineAbilitiesFor(role: UserRole): AppAbility {
       break
 
     case USER_ROLES.HOUSEKEEPING_MANAGER:
+      can('read', 'Housekeeping')
+      can('manage', 'HousekeepingTasks')
+      can('manage', 'DamageReports')
+      break
+
     case USER_ROLES.HOUSEKEEPING_EMPLOYEE:
+      can('read', 'Housekeeping')
+      can('manage', 'HousekeepingTasks')
+      can('create', 'DamageReports')
+      can('read', 'DamageReports')
+      break
+
     case USER_ROLES.ACCOUNTANT:
       can('read', 'Agency')
       can('read', 'Hotels')

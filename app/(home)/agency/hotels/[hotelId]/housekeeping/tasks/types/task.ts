@@ -34,6 +34,7 @@ export interface HousekeepingTask {
   assignedTo: string;
   priority: HousekeepingTaskPriority;
   floor: number;
+  reservationId?: string;
 }
 
 export interface HousekeepingTaskFilters {

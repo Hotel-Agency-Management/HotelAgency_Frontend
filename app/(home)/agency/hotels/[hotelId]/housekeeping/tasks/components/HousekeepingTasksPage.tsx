@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState, useCallback } from "react";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
@@ -16,11 +16,16 @@ import { DeleteTaskDialog } from "./DeleteTaskDialog";
 import { TaskSummaryCard } from "./TaskSummaryCard";
 import { useHousekeepingTasksPage } from "../hooks/useHousekeepingTasks";
 import { getHousekeepingTaskColumns } from "./taskColumns";
+import type { HousekeepingTask } from "../types/task";
+import ReportDamageDialog from "../../../damage-reports/components/ReportDamageDialog";
+import { useDamageReports } from "../../../damage-reports/hooks/useDamageReports";
 
 export function HousekeepingTasksPage() {
   const {
     theme,
     hotelName,
+    hotelId,
+    user,
     primaryColor,
     summary,
     tasks,
@@ -36,15 +41,23 @@ export function HousekeepingTasksPage() {
     deleteTask
   } = useHousekeepingTasksPage();
 
+  const { reportDamage } = useDamageReports(hotelId);
+  const [reportingTask, setReportingTask] = useState<HousekeepingTask | null>(null);
+
+  const handleOpenReportDamage = useCallback((task: HousekeepingTask) => {
+    setReportingTask(task);
+  }, []);
+
   const columns = useMemo(
     () =>
       getHousekeepingTaskColumns({
         primaryColor,
         theme,
         onEdit: handleOpenEdit,
-        onDelete: handleOpenDelete
+        onDelete: handleOpenDelete,
+        onReportDamage: handleOpenReportDamage,
       }),
-    [primaryColor, theme, handleOpenEdit, handleOpenDelete]
+    [primaryColor, theme, handleOpenEdit, handleOpenDelete, handleOpenReportDamage]
   );
 
   return (
@@ -61,7 +74,7 @@ export function HousekeepingTasksPage() {
               <Typography variant="h5" fontWeight={700}>
                 Housekeeping Task Management
               </Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant="body2">
                 {hotelName}
               </Typography>
             </Stack>
@@ -147,6 +160,20 @@ export function HousekeepingTasksPage() {
           task={deletingTask}
           onClose={handleCloseDelete}
           onConfirm={deleteTask}
+        />
+
+        <ReportDamageDialog
+          open={!!reportingTask}
+          onClose={() => setReportingTask(null)}
+          onSubmit={reportDamage}
+          prefill={{
+            hotelId,
+            roomNumber: reportingTask?.roomNumber ?? '',
+            taskId: reportingTask?.id ?? '',
+            reservationId: reportingTask?.reservationId,
+            reportedBy: user?.name ?? user?.email ?? 'Staff',
+            currency: 'USD',
+          }}
         />
       </Stack>
     </Container>

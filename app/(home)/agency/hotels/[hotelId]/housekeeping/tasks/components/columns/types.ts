@@ -15,4 +15,5 @@ export interface ColumnStrategyContext {
   theme: Theme;
   onEdit: (task: HousekeepingTask) => void;
   onDelete: (task: HousekeepingTask) => void;
+  onReportDamage?: (task: HousekeepingTask) => void;
 }
