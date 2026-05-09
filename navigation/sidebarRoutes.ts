@@ -1,7 +1,7 @@
 import type { SidebarNavItems } from '@/core/layouts/types'
 import { AGENCY_TERMS_ROUTE } from '@/app/(home)/agency/hotels/terms-and-conditions/utils/routes'
 
-const navigation = (hotelId?: string): SidebarNavItems => {
+const navigation = (hotelId?: string, agencyId?: string): SidebarNavItems => {
   const items: SidebarNavItems = [
     {
       sectionTitle: 'General',
@@ -131,37 +131,50 @@ const navigation = (hotelId?: string): SidebarNavItems => {
     return items
   }
 
+  const hotelBasePath = agencyId
+    ? `/agencies/${agencyId}/hotels/${hotelId}`
+    : `/agency/hotels/${hotelId}`
+
+  const hotelManagementSection: SidebarNavItems[number] = {
+    sectionTitle: 'Hotel Management',
+    icon: 'lucide:building',
+    subject: 'HotelManagement',
+    action: 'manage',
+    items: [
+      {
+        title: 'Hotel Settings',
+        path: `${hotelBasePath}/settings`,
+        icon: 'lucide:settings-2',
+        subject: 'HotelSettings',
+        action: 'manage'
+      },
+      {
+        title: 'Rooms',
+        path: `${hotelBasePath}/rooms`,
+        icon: 'lucide:bed-double',
+        subject: 'Rooms',
+        action: 'manage'
+      },
+      {
+        title: 'Facilities',
+        path: `${hotelBasePath}/facilities`,
+        icon: 'lucide:badge-check',
+        subject: 'Agencies',
+        action: 'manage'
+      },
+    ]
+  }
+
+  if (agencyId) {
+    return [
+      ...items,
+      hotelManagementSection,
+    ]
+  }
+
   return [
     ...items,
-    {
-      sectionTitle: 'Hotel Management',
-      icon: 'lucide:building',
-      subject: 'HotelManagement',
-      action: 'manage',
-      items: [
-        {
-          title: 'Hotel Settings',
-          path: `/agency/hotels/${hotelId}/settings`,
-          icon: 'lucide:settings-2',
-          subject: 'HotelSettings',
-          action: 'manage'
-        },
-        {
-          title: 'Terms & Conditions',
-          path: `/agency/hotels/${hotelId}/settings/terms-and-conditions`,
-          icon: 'lucide:file-text',
-          subject: 'HotelSettings',
-          action: 'manage'
-        },
-        {
-          title: 'Rooms',
-          path: `/agency/hotels/${hotelId}/rooms`,
-          icon: 'lucide:bed-double',
-          subject: 'Rooms',
-          action: 'manage'
-        },
-      ]
-    },
+    hotelManagementSection,
 
     {
       sectionTitle: 'Housekeeping',

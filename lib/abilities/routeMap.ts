@@ -75,6 +75,18 @@ export const routePermissions: RoutePermission[] = [
     description: 'Super admin hotel facilities management'
   },
   {
+    pattern: '/agencies/[agencyId]/hotels/[hotelId]/settings',
+    action: 'manage',
+    subject: 'Agencies',
+    description: 'Super admin hotel profile and theme settings management'
+  },
+  {
+    pattern: '/agencies/[agencyId]/hotels/[hotelId]/settings/terms-and-conditions',
+    action: 'manage',
+    subject: 'Agencies',
+    description: 'Super admin hotel terms & conditions management'
+  },
+  {
     pattern: '/agencies/[agencyId]',
     action: 'manage',
     subject: 'Agencies',

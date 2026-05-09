@@ -23,7 +23,7 @@ export default function HomeSidebarShell({
   children,
   dynamicNavItems
 }: HomeSidebarShellProps) {
-  const params = useParams<{ hotelId?: string }>()
+  const params = useParams<{ agencyId?: string; hotelId?: string }>()
   const pathname = usePathname()
   const { user } = useAuth()
   const { brandName } = useBrandNameContext()
@@ -52,7 +52,7 @@ export default function HomeSidebarShell({
 
   return (
     <SidebarLayout
-      navItems={navigation(hotelId)}
+      navItems={navigation(hotelId, params.agencyId)}
       dynamicNavItems={dynamicNavItems}
       appName={appName}
       variant={layoutVariant}
