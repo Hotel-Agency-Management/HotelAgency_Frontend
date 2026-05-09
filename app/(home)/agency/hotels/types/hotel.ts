@@ -52,3 +52,10 @@ export interface HotelApiResponse {
   isActive?: boolean;
   cancellationFeeRate?: number | null;
 }
+
+export interface HotelTheme {
+  primaryColor: string
+  secondaryColor: string
+  tertiaryColor: string
+  logoUrl: string | null
+}

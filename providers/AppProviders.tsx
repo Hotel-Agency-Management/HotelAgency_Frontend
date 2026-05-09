@@ -11,6 +11,7 @@ import Spinner from '@/components/loaders/Spinner'
 import { AuthProvider } from '@/core/context/AuthContext'
 import MSWProvider from '@/providers/MSWProvider'
 import AppToaster from '@/providers/AppToaster'
+import { BrandNameProvider } from '@/core/context/BrandNameContext'
 import '@/core/icons/customIcons'
 
 function InnerProviders({ children, client }: { children: React.ReactNode; client: QueryClient }) {
@@ -20,7 +21,9 @@ function InnerProviders({ children, client }: { children: React.ReactNode; clien
     <QueryClientProvider client={client}>
       <ThemeComponent settings={settings}>
         <I18nProvider>
-          <HydrationGate fallback={<Spinner />}>{children}</HydrationGate>
+          <BrandNameProvider>
+            <HydrationGate fallback={<Spinner />}>{children}</HydrationGate>
+          </BrandNameProvider>
           <AppToaster />
         </I18nProvider>
       </ThemeComponent>

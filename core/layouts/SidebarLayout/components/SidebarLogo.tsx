@@ -2,7 +2,7 @@
 
 import type { ReactNode } from 'react'
 import { useEffect, useState } from 'react'
-import { Box, IconButton, Stack, Tooltip, Typography, useMediaQuery, useTheme } from '@mui/material'
+import { Box, IconButton, Skeleton, Stack, Tooltip, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { AnimatePresence, motion } from 'framer-motion'
 import { X } from 'lucide-react'
 import { useSidebar } from '../SidebarContext'
@@ -10,6 +10,7 @@ import { Icon } from '@iconify/react'
 import { useRouter } from 'next/navigation'
 import useLanguage from '@/core/hooks/useLanguage'
 import { useActiveBranding } from '@/core/hooks/useActiveBranding'
+import { useBrandNameContext } from '@/core/context/BrandNameContext'
 
 interface SidebarLogoProps {
   logo?: ReactNode
@@ -26,6 +27,7 @@ export default function SidebarLogo({ logo, appName = 'Shortcut Next' }: Sidebar
   const activeBranding = useActiveBranding()
   const customLogo = activeBranding.logo
   const showUploadedLogo = !logo && Boolean(customLogo)
+  const { isLoading: isBrandLoading } = useBrandNameContext()
 
   const [cmdKey, setCmdKey] = useState<string | null>(null)
   useEffect(() => {
@@ -77,9 +79,13 @@ export default function SidebarLogo({ logo, appName = 'Shortcut Next' }: Sidebar
             transition={{ duration: 0.18, ease: 'easeInOut' }}
             style={{ flex: 1, minWidth: 0, overflow: 'hidden' }}
           >
-            <Typography variant='subtitle1' fontWeight={700} noWrap>
-              {appName}
-            </Typography>
+            {isBrandLoading ? (
+              <Skeleton variant='text' width={100} height={24} />
+            ) : (
+              <Typography variant='subtitle1' fontWeight={700} noWrap>
+                {appName}
+              </Typography>
+            )}
             {cmdKey && (
               <Typography variant='caption' color='text.disabled' noWrap sx={{ display: 'block' }}>
                 {cmdKey} to search

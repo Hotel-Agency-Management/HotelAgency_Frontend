@@ -62,4 +62,28 @@ export type ProfileUser = User & {
   social?: Partial<ProfileSocialLinks>
   location?: string
   bio?: string
+  agency?: {
+    name?: string
+    logo?: string | null
+    phone?: string
+    country?: string
+    city?: string
+  }
+  hotel?: {
+    basicInfo?: {
+      name?: string
+      phone?: string
+      city?: string
+      address?: string
+      currency?: string
+    }
+    branding?: {
+      colors?: {
+        primary?: string
+        secondary?: string
+        tertiary?: string
+      }
+    }
+    managerId?: string
+  }
 }
