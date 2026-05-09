@@ -7,10 +7,11 @@ export const formatCurrency = (
     return '—'
   }
 
-  return new Intl.NumberFormat(language, {
-    style: 'currency',
-    currency,
+  const formattedValue = new Intl.NumberFormat(language, {
+    maximumFractionDigits: Number.isInteger(value) ? 0 : 2,
   }).format(value)
+
+  return `${formattedValue} ${currency}`
 }
 
 export const formatCardCurrency = (
@@ -22,11 +23,11 @@ export const formatCardCurrency = (
     return '—'
   }
 
-  return new Intl.NumberFormat(language, {
-    style: 'currency',
-    currency,
+  const formattedValue = new Intl.NumberFormat(language, {
     maximumFractionDigits: Number.isInteger(value) ? 0 : 2,
   }).format(value)
+
+  return `${formattedValue} ${currency}`
 }
 
 export const formatBookingDate = (value: string, language: string) => {

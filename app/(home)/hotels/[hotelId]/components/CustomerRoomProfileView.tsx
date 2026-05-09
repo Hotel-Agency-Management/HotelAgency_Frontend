@@ -30,7 +30,7 @@ export function CustomerRoomProfileView() {
       profile
         ? t('hotelRooms.profile.roomHeading', {
             number: profile.roomNumber,
-            type: ROOM_TYPES[profile.type].label,
+            type: profile.roomTypeName ?? ROOM_TYPES[profile.type].label,
           })
         : '',
     [profile, t]

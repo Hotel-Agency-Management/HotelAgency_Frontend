@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { useGetRoomTypes } from '@/app/(home)/room-types/hooks/queries/roomTypeQueries'
 import { getCustomerHotelById } from '../data/customerHotelRooms'
 import { customerHotelRoomsQueryKeys, useCustomerHotelRooms } from './useCustomerHotelRooms'
 import {
@@ -29,11 +28,20 @@ export const useCustomerHotelDetails = (hotelId: string) => {
 
   const roomsQuery = useCustomerHotelRooms(hotelId)
 
-  const { data: roomTypes = [], isLoading: roomTypesLoading } = useGetRoomTypes()
+  const roomTypes = useMemo(
+    () =>
+      Array.from(
+        new Set((roomsQuery.data ?? []).map(room => room.roomType).filter((roomType): roomType is string => Boolean(roomType)))
+      ).map(roomType => ({
+        id: roomType,
+        name: roomType,
+      })),
+    [roomsQuery.data]
+  )
 
   const filteredRooms = useMemo(
-    () => filterCustomerRooms(roomsQuery.data ?? [], roomTypes, filters),
-    [filters, roomTypes, roomsQuery.data]
+    () => filterCustomerRooms(roomsQuery.data ?? [], filters),
+    [filters, roomsQuery.data]
   )
 
   const updateFilters = <TKey extends keyof CustomerRoomSearchFilters>(
@@ -55,8 +63,8 @@ export const useCustomerHotelDetails = (hotelId: string) => {
     filters,
     updateFilters,
     resetFilters,
-    isLoading: hotelQuery.isLoading || roomsQuery.isLoading || roomTypesLoading,
-    isRoomsLoading: roomsQuery.isLoading || roomTypesLoading,
+    isLoading: hotelQuery.isLoading || roomsQuery.isLoading,
+    isRoomsLoading: roomsQuery.isLoading,
     isHotelLoading: hotelQuery.isLoading,
     isError: hotelQuery.isError || roomsQuery.isError,
   }
