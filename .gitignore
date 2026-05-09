@@ -62,3 +62,5 @@ Thumbs.db
 .eslintcache
 .stylelintcache
 
+.claude/
+skills-lock.json
