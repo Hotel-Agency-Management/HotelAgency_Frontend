@@ -1,6 +1,6 @@
 export const HOTEL_TERMS_STATUSES = {
-  ACTIVE: "ACTIVE",
-  DRAFT: "DRAFT",
+  ACTIVE: "Active",
+  DRAFT: "Draft",
 } as const;
 
 export const HOTEL_TERMS_STATUS_VALUES = [

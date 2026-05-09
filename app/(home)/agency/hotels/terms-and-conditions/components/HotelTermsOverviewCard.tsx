@@ -4,6 +4,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { format } from "date-fns";
 import { HOTEL_TERMS_PREVIEW_MAX_LENGTH } from "../constants/form";
+import { HOTEL_TERMS_STATUSES } from "../constants/status";
 import type { HotelTermsAndConditions } from "../types/terms";
 import { InfoCard } from "../../components/hotelProfile/InfoCard";
 import { Box } from "@mui/material";
@@ -38,8 +39,8 @@ export function HotelTermsOverviewCard({
           <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap" useFlexGap>
             <Chip
               size="small"
-              color={terms.status === "ACTIVE" ? "success" : "default"}
-              label={terms.status === "ACTIVE" ? "Active" : "Draft"}
+              color={terms.status === HOTEL_TERMS_STATUSES.ACTIVE ? "success" : "default"}
+              label={terms.status === HOTEL_TERMS_STATUSES.ACTIVE ? "Active" : "Draft"}
             />
             <Typography variant="caption" color="text.secondary">
               Updated {format(new Date(terms.updatedAt), "MMM d, yyyy 'at' h:mm a")}
