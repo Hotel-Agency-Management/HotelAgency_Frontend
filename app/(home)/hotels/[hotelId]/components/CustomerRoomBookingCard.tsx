@@ -18,7 +18,7 @@ interface CustomerRoomBookingCardProps {
   hotel: CustomerHotel | null
   room: Pick<
     RoomProfile,
-    'type' | 'status' | 'floorNumber' | 'capacity' | 'pricePerNight' | 'extendPrice' | 'starRating' | 'insurance'
+    'type' | 'roomTypeName' | 'status' | 'floorNumber' | 'capacity' | 'pricePerNight' | 'extendPrice' | 'starRating' | 'insurance'
   >
   reservation: ReservationDetails
   onReservationDateChange: (key: 'checkIn' | 'checkOut', value: string) => void
@@ -85,7 +85,7 @@ export function CustomerRoomBookingCard({
           <Stack gap={1.5}>
             <Stack direction="row" justifyContent="space-between" alignItems="flex-start" gap={2}>
               <Typography variant="h5" fontWeight={800}>
-                {roomType.label}
+                {room.roomTypeName ?? roomType.label}
               </Typography>
 
               <Stack alignItems="flex-end" gap={0.25} flexShrink={0}>

@@ -50,7 +50,6 @@ export function CustomerHotelDetailsPage() {
         <HotelRoomsSection
           rooms={filteredRooms}
           totalRooms={rooms.length}
-          roomTypes={roomTypes}
           currency={hotel?.currency ?? 'USD'}
           filters={filters}
           isLoading={isRoomsLoading}

@@ -13,13 +13,17 @@ import {
 import { DatePickerField } from '@/components/common/DatePickerField'
 import dayjs from 'dayjs'
 import { Search, Users } from 'lucide-react'
-import type { RoomType } from '@/app/(home)/room-types/types/roomType'
 import type { CustomerRoomSearchFilters } from '../types/customerHotelDetails'
 import { parsePositiveNumber } from '../utils/number'
 
+interface RoomTypeOption {
+  id: string
+  name: string
+}
+
 interface HotelRoomSearchPanelProps {
   filters: CustomerRoomSearchFilters
-  roomTypes: RoomType[]
+  roomTypes: RoomTypeOption[]
   onChange: <TKey extends keyof CustomerRoomSearchFilters>(
     key: TKey,
     value: CustomerRoomSearchFilters[TKey]
@@ -127,7 +131,7 @@ export function HotelRoomSearchPanel({ filters, roomTypes, onChange }: HotelRoom
             >
               <MenuItem value="all">All room types</MenuItem>
               {roomTypes.map(roomType => (
-                <MenuItem key={roomType.id} value={roomType.id}>
+                <MenuItem key={roomType.id} value={roomType.name}>
                   {roomType.name}
                 </MenuItem>
               ))}
