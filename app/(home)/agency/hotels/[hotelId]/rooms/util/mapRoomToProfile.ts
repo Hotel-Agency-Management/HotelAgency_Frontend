@@ -17,6 +17,7 @@ export function mapRoomToProfile(room: Room, roomTypeName: string): RoomProfile 
   return {
     id:            room.id,
     roomNumber:    room.roomNumber,
+    roomTypeName,
     floorNumber:   room.floorNumber,
     type:          inferRoomKindFromTypeName(roomTypeName),
     status:        room.status,

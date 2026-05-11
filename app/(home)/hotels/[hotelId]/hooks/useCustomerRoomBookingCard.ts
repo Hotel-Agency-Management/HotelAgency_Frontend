@@ -52,6 +52,7 @@ export function useCustomerRoomBookingCard({
     useCustomerReservationManager(hotelId, roomId)
   const { feedback, showFeedback, closeFeedback } = useReservationFeedback()
   const [confirmOpen, setConfirmOpen] = useState(false)
+  const [guestPromptOpen, setGuestPromptOpen] = useState(false)
   const [createdDocuments, setCreatedDocuments] = useState<ReservationCreatedDocuments | null>(null)
   const [openingContract, setOpeningContract] = useState(false)
   const [openingInvoice, setOpeningInvoice] = useState(false)
@@ -241,7 +242,15 @@ export function useCustomerRoomBookingCard({
     canOpenConfirmationModal: currentReservation == null && isBookable && isReservationReady,
     isReserveDisabled:
       !isBookable || !isReservationReady || draftAvailabilityConflict != null || isBusy,
-    openConfirm: () => setConfirmOpen(true),
+    guestPromptOpen,
+    closeGuestPrompt: () => setGuestPromptOpen(false),
+    openConfirm: () => {
+      if (!user) {
+        setGuestPromptOpen(true)
+        return
+      }
+      setConfirmOpen(true)
+    },
     closeConfirm: () => setConfirmOpen(false),
     closeCreatedDocuments: () => setCreatedDocuments(null),
     closeFeedback,

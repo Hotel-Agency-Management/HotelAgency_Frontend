@@ -1,9 +1,10 @@
-import type { BedType, LegacyRoomStatus, RoomPhoto } from "../../types/room";
+import type { BedType, LegacyRoomStatus, RoomAmenityResponse, RoomPhoto } from "../../types/room";
 import type { RoomKind } from "../../../../../../room-types/constants/roomTypes";
 
 export interface RoomProfile {
   id: string;
   roomNumber: string;
+  roomTypeName?: string;
   floorNumber: number;
   type: RoomKind;
   status: LegacyRoomStatus;
@@ -12,7 +13,7 @@ export interface RoomProfile {
   capacity: number;
   bedType: BedType;
   starRating: number;
-  amenities: string[];
+  amenities: Array<string | RoomAmenityResponse>;
   photos: RoomPhoto[];
   pricePerNight?: number;
   extendPrice?: number;

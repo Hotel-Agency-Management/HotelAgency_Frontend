@@ -4,7 +4,6 @@ import { Alert, Button, Chip, Grid, Paper, Snackbar, Stack, Typography } from '@
 import { CheckCircle2, Clock3, Edit3, FileText, ReceiptText } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useTranslation } from 'react-i18next'
-import { useGetRoomTypes } from '@/app/(home)/room-types/hooks/queries/roomTypeQueries'
 import { ROOM_TYPES } from '@/app/(home)/room-types/constants/roomTypes'
 import { ROOM_STATUS } from '@/app/(home)/agency/hotels/[hotelId]/rooms/types/room'
 import type { RoomProfile } from '@/app/(home)/agency/hotels/[hotelId]/rooms/components/profile/types'
@@ -32,6 +31,12 @@ import {
 } from '../utils/customerReservationPolicy'
 import { buildReservationContract } from '../utils/buildReservationContract'
 import { formatBookingDate, formatCurrency, getStayLength } from '../utils/roomBooking'
+import {
+  getPublicRoomExtendPrice,
+  getPublicRoomId,
+  getPublicRoomNightlyRate,
+  getPublicRoomTypeName,
+} from '../utils/publicRoomFields'
 import { CancelReservationDialog } from './CancelReservationDialog'
 import { EditReservationDialog } from './EditReservationDialog'
 import { ExtendReservationDialog } from './ExtendReservationDialog'
@@ -45,7 +50,7 @@ interface CustomerReservationManagementSectionProps {
   hotelId: string
   roomId: string
   hotel: CustomerHotel | null
-  room: Pick<RoomProfile, 'type' | 'capacity' | 'pricePerNight' | 'extendPrice'>
+  room: Pick<RoomProfile, 'type' | 'roomTypeName' | 'capacity' | 'pricePerNight' | 'extendPrice'>
 }
 
 export function CustomerReservationManagementSection({
@@ -69,7 +74,6 @@ export function CustomerReservationManagementSection({
   } = useCustomerReservationManager(hotelId, roomId)
   const { feedback, showFeedback, closeFeedback } = useReservationFeedback()
   const roomsQuery = useCustomerHotelRooms(hotelId)
-  const { data: roomTypes = [] } = useGetRoomTypes()
   const { data: hotelTerms } = useHotelTerms(hotelId)
   const currentReservationCanModify =
     currentReservation != null ? canModifyReservation(currentReservation) : false
@@ -166,18 +170,19 @@ export function CustomerReservationManagementSection({
     Math.max(currentReservation.totalPrice - currentReservationCancellationFee, 0),
     currentReservation.currency
   )
-  const roomTypeNameById = new Map(roomTypes.map(roomType => [String(roomType.id), roomType.name]))
   const activeTerms = hotelTerms?.status === HOTEL_TERMS_STATUSES.ACTIVE ? hotelTerms : null
-  const currentRoomTypeLabel = ROOM_TYPES[room.type].label
+  const currentRoomTypeLabel = room.roomTypeName ?? ROOM_TYPES[room.type].label
   const roomOptions: ReservationEditRoomOption[] = (roomsQuery.data ?? []).map(hotelRoom => ({
-    id: hotelRoom.id,
-    label: `${hotelRoom.roomNumber} • ${roomTypeNameById.get(hotelRoom.roomTypeId) ?? 'Room'}`,
+    id: getPublicRoomId(hotelRoom),
+    label: `${hotelRoom.roomNumber} • ${getPublicRoomTypeName(hotelRoom)}`,
     capacity: hotelRoom.capacity,
-    nightlyRate: hotelRoom.pricePerNight ?? 0,
-    extendPrice: hotelRoom.extendPrice ?? hotelRoom.pricePerNight ?? 0,
+    nightlyRate: getPublicRoomNightlyRate(hotelRoom) ?? 0,
+    extendPrice: getPublicRoomExtendPrice(hotelRoom) ?? 0,
     disabled:
-      hotelRoom.id !== currentReservation.roomId &&
-      (hotelRoom.status === ROOM_STATUS.MAINTENANCE || hotelRoom.status === ROOM_STATUS.BLOCKED),
+      getPublicRoomId(hotelRoom) !== currentReservation.roomId &&
+      [ROOM_STATUS.MAINTENANCE, ROOM_STATUS.BLOCKED].includes(
+        hotelRoom.status.toLowerCase() as typeof ROOM_STATUS.MAINTENANCE | typeof ROOM_STATUS.BLOCKED
+      ),
   }))
 
   const openCurrentReservationContract = async () => {

@@ -2,12 +2,17 @@
 
 import { useMemo, useState } from 'react'
 import { getErrorMessage } from '@/core/utils/apiError'
-import type { Room } from '@/app/(home)/agency/hotels/[hotelId]/rooms/types/room'
+import type { PublicRoom } from '@/app/(home)/hotels/types/customerRoom'
 import type {
   CustomerReservation,
   UpdateCustomerReservationInput,
 } from '../types/customerReservation'
 import { findAvailabilityConflict, isValidReservationRange } from '../utils/customerReservationPolicy'
+import {
+  getPublicRoomExtendPrice,
+  getPublicRoomId,
+  getPublicRoomNightlyRate,
+} from '../utils/publicRoomFields'
 import { getStayLength } from '../utils/roomBooking'
 
 interface ReservationEditFormState {
@@ -30,7 +35,7 @@ export interface ReservationEditRoomOption {
 interface UseReservationEditOptions {
   currentReservation: CustomerReservation | null
   fallbackRoomCapacity: number
-  availableRooms: Room[]
+  availableRooms: PublicRoom[]
   hotelReservations: CustomerReservation[]
   updateReservation: (input: UpdateCustomerReservationInput) => Promise<CustomerReservation>
   canModify: boolean
@@ -58,13 +63,18 @@ export function useReservationEdit({
   })
 
   const selectedRoom = useMemo(
-    () => availableRooms.find(room => room.id === editForm.roomId) ?? null,
+    () => availableRooms.find(room => getPublicRoomId(room) === editForm.roomId) ?? null,
     [availableRooms, editForm.roomId]
   )
   const selectedRoomCapacity = selectedRoom?.capacity ?? fallbackRoomCapacity
-  const selectedNightlyRate = selectedRoom?.pricePerNight ?? currentReservation?.nightlyRate ?? 0
+  const selectedNightlyRate =
+    (selectedRoom ? getPublicRoomNightlyRate(selectedRoom) : undefined) ??
+    currentReservation?.nightlyRate ??
+    0
   const selectedExtendPrice =
-    selectedRoom?.extendPrice ?? currentReservation?.extendPrice ?? selectedNightlyRate
+    (selectedRoom ? getPublicRoomExtendPrice(selectedRoom) : undefined) ??
+    currentReservation?.extendPrice ??
+    selectedNightlyRate
   const editFormHasValidRange = isValidReservationRange(editForm.checkIn, editForm.checkOut)
   const editStayLength = getStayLength(editForm.checkIn, editForm.checkOut)
 
@@ -74,7 +84,7 @@ export function useReservationEdit({
     }
 
     return findAvailabilityConflict(
-      hotelReservations.filter(reservation => reservation.roomId === selectedRoom.id),
+      hotelReservations.filter(reservation => reservation.roomId === getPublicRoomId(selectedRoom)),
       {
         checkIn: editForm.checkIn,
         checkOut: editForm.checkOut,
@@ -133,7 +143,7 @@ export function useReservationEdit({
     try {
       const updatedReservation = await updateReservation({
         reservationId: currentReservation.id,
-        roomId: selectedRoom.id,
+        roomId: getPublicRoomId(selectedRoom),
         roomNumber: selectedRoom.roomNumber,
         checkIn: editForm.checkIn,
         checkOut: editForm.checkOut,

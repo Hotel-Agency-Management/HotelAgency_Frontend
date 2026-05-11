@@ -85,11 +85,15 @@ export function matchRoute(pathname: string): MatchedRoute | null {
  */
 export function isPublicRoute(pathname: string): boolean {
   return publicRoutes.some((route) => {
+    // Dynamic pattern (e.g. /hotels/[hotelId]) — use regex for exact segment matching
+    if (route.includes('[') || route.includes('*')) {
+      return patternToRegex(route).test(pathname)
+    }
+
     // Exact match
     if (pathname === route) return true
 
-    // Check if pathname starts with public route (for sub-paths)
-    // e.g., /about matches /about/team
+    // Sub-path match for plain prefix routes (e.g. /about matches /about/team)
     if (pathname.startsWith(route + '/')) return true
 
     return false

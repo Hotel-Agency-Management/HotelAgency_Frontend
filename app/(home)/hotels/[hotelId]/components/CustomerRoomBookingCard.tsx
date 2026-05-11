@@ -9,6 +9,7 @@ import { useCustomerRoomBookingCard } from '../hooks/useCustomerRoomBookingCard'
 import { formatCardCurrency } from '../utils/roomBooking'
 import { CustomerRoomBookingCardPaper } from './CustomerRoomBookingCard.styles'
 import { CustomerReservationConfirmationModal } from './CustomerReservationConfirmationModal'
+import { GuestLoginPromptDialog } from './GuestLoginPromptDialog'
 import { ReservationCreatedDialog } from './ReservationCreatedDialog'
 
 interface CustomerRoomBookingCardProps {
@@ -17,7 +18,7 @@ interface CustomerRoomBookingCardProps {
   hotel: CustomerHotel | null
   room: Pick<
     RoomProfile,
-    'type' | 'status' | 'floorNumber' | 'capacity' | 'pricePerNight' | 'extendPrice' | 'starRating' | 'insurance'
+    'type' | 'roomTypeName' | 'status' | 'floorNumber' | 'capacity' | 'pricePerNight' | 'extendPrice' | 'starRating' | 'insurance'
   >
   reservation: ReservationDetails
   onReservationDateChange: (key: 'checkIn' | 'checkOut', value: string) => void
@@ -39,6 +40,8 @@ export function CustomerRoomBookingCard({
     isBookable,
     draftAvailabilityConflict,
     feedback,
+    guestPromptOpen,
+    closeGuestPrompt,
     confirmOpen,
     createdDocuments,
     openingContract,
@@ -82,14 +85,14 @@ export function CustomerRoomBookingCard({
           <Stack gap={1.5}>
             <Stack direction="row" justifyContent="space-between" alignItems="flex-start" gap={2}>
               <Typography variant="h5" fontWeight={800}>
-                {roomType.label}
+                {room.roomTypeName ?? roomType.label}
               </Typography>
 
               <Stack alignItems="flex-end" gap={0.25} flexShrink={0}>
                 <Typography variant="h6" fontWeight={800}>
                   {nightlyRateLabel}
                 </Typography>
-                <Typography variant="caption" color="text.secondary" fontWeight={700}>
+                <Typography variant="caption" fontWeight={700}>
                   per night
                 </Typography>
               </Stack>
@@ -127,7 +130,7 @@ export function CustomerRoomBookingCard({
           <Stack gap={1.5}>
             <Stack direction="row" justifyContent="space-between" alignItems="flex-end" gap={2}>
               <Stack gap={0.25}>
-                <Typography variant="body2" color="text.secondary" fontWeight={700}>
+                <Typography variant="body2" fontWeight={700}>
                   {nightsLabel} · {guestsLabel}
                 </Typography>
                 <Typography variant="h5" fontWeight={800}>
@@ -135,7 +138,7 @@ export function CustomerRoomBookingCard({
                 </Typography>
               </Stack>
 
-              <Typography variant="body2" color="text.secondary" fontWeight={700}>
+              <Typography variant="body2" fontWeight={700}>
                 estimated total
               </Typography>
             </Stack>
@@ -175,6 +178,8 @@ export function CustomerRoomBookingCard({
           </Stack>
         </Stack>
       </CustomerRoomBookingCardPaper>
+
+      <GuestLoginPromptDialog open={guestPromptOpen} onClose={closeGuestPrompt} />
 
       {canOpenConfirmationModal ? (
         <CustomerReservationConfirmationModal

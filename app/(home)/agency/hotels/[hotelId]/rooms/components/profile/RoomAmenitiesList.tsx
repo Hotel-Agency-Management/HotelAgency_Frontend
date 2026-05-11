@@ -8,7 +8,7 @@ import { RoomAmenitiesSkeleton } from "./profileSkelton/RoomAmenitiesSkeleton";
 import { RoomAmenitiesGrid } from "./RoomAmenitiesGrid";
 
 export interface RoomAmenitiesListProps {
-  amenities: RoomAmenityResponse[] | string[];
+  amenities: Array<RoomAmenityResponse | string>;
   loading?: boolean;
 }
 
@@ -31,11 +31,11 @@ export const RoomAmenitiesList = memo(function RoomAmenitiesList({
   return (
     <Paper variant="card">
       <Stack gap={2.5}>
-        <Typography variant="subtitle1" fontWeight={700} color="text.primary">
+        <Typography variant="subtitle1" fontWeight={700}>
           {t("hotelRooms.profile.amenities")}
         </Typography>
         {items.length === 0 ? (
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2">
             {t("hotelRooms.profile.noAmenities")}
           </Typography>
         ) : (

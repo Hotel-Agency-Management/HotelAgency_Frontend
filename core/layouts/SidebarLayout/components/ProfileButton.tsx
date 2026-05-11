@@ -1,13 +1,12 @@
 'use client'
 
 import { useState } from 'react'
-import { Avatar, Box, Divider, ListItemIcon, Menu, MenuItem, Tooltip, Typography } from '@mui/material'
-import { LogOut, MoreVertical, User } from 'lucide-react'
+import { Avatar, Box, Button, Divider, ListItemIcon, Menu, MenuItem, Tooltip, Typography } from '@mui/material'
+import { LogIn, LogOut, MoreVertical, User } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/core/context/AuthContext'
 import { useSidebar } from '../SidebarContext'
-import { profileDummyData } from '@/lib/profileDummyData'
 import UserAvatarButton from './UserAvatarButton'
 
 interface ProfileButtonProps {
@@ -15,14 +14,33 @@ interface ProfileButtonProps {
 }
 
 export default function ProfileButton({ variant = 'sidebar' }: ProfileButtonProps) {
-  const { logout, user } = useAuth()
+  const { isLoading, logout, user } = useAuth()
   const { isCollapsed } = useSidebar()
   const router = useRouter()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const isNavbar = variant === 'navbar'
 
-  const name = user?.name ?? profileDummyData.name
-  const email = user?.email ?? profileDummyData.email
+  if (isLoading) {
+    return null
+  }
+
+  if (!user && isNavbar) {
+    return  (
+      <Button
+        size='small'
+        variant='contained'
+        startIcon={<LogIn size={16} />}
+        onClick={() => router.push('/login')}
+      >
+        Login
+      </Button>
+    )
+  }
+
+  if (!user) return null
+
+  const email = user.email ?? ''
+  const name = user.name ?? email.split('@')[0] ?? 'User'
   const initials = name
     .split(' ')
     .map(n => n[0])

@@ -1,6 +1,10 @@
-import type { Room } from '@/app/(home)/agency/hotels/[hotelId]/rooms/types/room'
-import type { RoomType } from '@/app/(home)/room-types/types/roomType'
+import type { PublicRoom } from '../../types/customerRoom'
 import type { CustomerRoomSearchFilters } from '../types/customerHotelDetails'
+import {
+  getPublicRoomAmenityName,
+  getPublicRoomNightlyRate,
+  getPublicRoomTypeName,
+} from './publicRoomFields'
 
 export const DEFAULT_CUSTOMER_ROOM_SEARCH_FILTERS: CustomerRoomSearchFilters = {
   checkIn: '',
@@ -13,27 +17,29 @@ export const DEFAULT_CUSTOMER_ROOM_SEARCH_FILTERS: CustomerRoomSearchFilters = {
 }
 
 export const filterCustomerRooms = (
-  rooms: Room[],
-  roomTypes: RoomType[],
+  rooms: PublicRoom[],
   filters: CustomerRoomSearchFilters
 ) => {
   const query = filters.query.trim().toLowerCase()
   const maxPrice = Number(filters.maxPrice)
   const hasMaxPrice = filters.maxPrice.trim().length > 0 && Number.isFinite(maxPrice)
-  const roomTypeNameById = new Map(roomTypes.map(roomType => [String(roomType.id), roomType.name.toLowerCase()]))
-
   return rooms.filter(room => {
-    const roomTypeName = roomTypeNameById.get(room.roomTypeId) ?? ''
+    const roomTypeName = getPublicRoomTypeName(room).toLowerCase()
+    const nightlyRate = getPublicRoomNightlyRate(room)
     const matchesQuery =
       query.length === 0 ||
       room.roomNumber.toLowerCase().includes(query) ||
       room.description?.toLowerCase().includes(query) ||
-      room.amenities.some(amenity => amenity.toLowerCase().includes(query)) ||
+      room.amenities.some(amenity =>
+        getPublicRoomAmenityName(amenity).toLowerCase().includes(query)
+      ) ||
       roomTypeName.includes(query)
 
-    const matchesRoomType = filters.roomTypeId === 'all' || room.roomTypeId === filters.roomTypeId
+    const matchesRoomType =
+      filters.roomTypeId === 'all' ||
+      roomTypeName === filters.roomTypeId.toLowerCase()
     const matchesGuests = room.capacity >= filters.guests
-    const matchesPrice = !hasMaxPrice || (room.pricePerNight != null && room.pricePerNight <= maxPrice)
+    const matchesPrice = !hasMaxPrice || (nightlyRate != null && nightlyRate <= maxPrice)
 
     return matchesQuery && matchesRoomType && matchesGuests && matchesPrice
   })
