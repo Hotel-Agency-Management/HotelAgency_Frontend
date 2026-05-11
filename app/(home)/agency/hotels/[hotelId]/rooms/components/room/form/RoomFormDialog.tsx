@@ -45,7 +45,7 @@ export const RoomFormDialog = ({ open, onClose, roomId, scope }: Props) => {
           onReplaceCoverPhoto={dialog.setReplacementCoverPhoto}
           onClose={dialog.handleClose}
           onNext={dialog.handleCreateNext}
-          onBack={() => dialog.setActiveStep(0)}
+          onBack={() => dialog.setActiveStep((current) => Math.max(current - 1, 0))}
           onFinish={dialog.isEdit ? dialog.handleFinishEdit : dialog.handleFinishCreate}
           isCreating={dialog.isSaving || dialog.isLoadingRoom}
           isSavingPhotos={dialog.isSavingPhotos}

@@ -1,3 +1,4 @@
+import { useAuth } from '@/core/context/AuthContext'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import {
   createRoomAmenityByAdmin,
@@ -7,8 +8,9 @@ import {
 import { getAllRoomAmenities } from '../clients/roomAmenityClient'
 import { ROOM_AMENITIES_KEY } from '../constants/roomAmenityFormValues'
 import type { CreateRoomAmenityDto, RoomAmenityFilters } from '../types/roomAmenity'
+import { USER_ROLES } from '@/lib/abilities'
 
-export const useAdminRoomAmenities = (filters?: RoomAmenityFilters) => {
+export const useAdminRoomAmenities = (filters?: RoomAmenityFilters, enabled = true) => {
   return useQuery({
     queryKey: [...ROOM_AMENITIES_KEY, 'admin', filters],
     queryFn: async () => {
@@ -19,14 +21,26 @@ export const useAdminRoomAmenities = (filters?: RoomAmenityFilters) => {
       }
       return amenities
     },
+    enabled,
   })
 }
 
-export const useRoomAmenities = () => {
+export const useRoomAmenities = (enabled = true) => {
   return useQuery({
     queryKey: [...ROOM_AMENITIES_KEY, 'scoped'],
     queryFn: () => getAllRoomAmenities(),
+    enabled,
   })
+}
+
+export const useRoomAmenitiesForPicker = () => {
+  const { user } = useAuth()
+  const isSuperAdmin = user?.role === USER_ROLES.SUPER_ADMIN
+
+  const adminResult = useAdminRoomAmenities(undefined, isSuperAdmin)
+  const scopedResult = useRoomAmenities(!isSuperAdmin)
+
+  return isSuperAdmin ? adminResult : scopedResult
 }
 
 export const useCreateRoomAmenity = () => {

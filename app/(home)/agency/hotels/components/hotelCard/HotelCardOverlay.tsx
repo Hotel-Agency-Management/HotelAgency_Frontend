@@ -17,7 +17,7 @@ interface HotelCardOverlayProps {
 }
 
 export function HotelCardOverlay({ hotel, onEdit }: HotelCardOverlayProps) {
-  const { getMemberById } = useTeamMembers();
+  const { getMemberById } = useTeamMembers({ pageSize: 100 }, hotel.agencyId);
   const { basicInfo, branding, managerId } = hotel;
   const manager = getMemberById(managerId);
 

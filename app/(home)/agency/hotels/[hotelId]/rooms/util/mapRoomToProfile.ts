@@ -30,6 +30,7 @@ export function mapRoomToProfile(room: Room, roomTypeName: string): RoomProfile 
     photos:        room.photos,
     pricePerNight: room.pricePerNight,
     extendPrice: room.extendPrice,
-    insurance: room.insurance,
+    yearlyInsurance: room.yearlyInsurance,
+    insurancePerReservation: room.insurancePerReservation,
   };
 }

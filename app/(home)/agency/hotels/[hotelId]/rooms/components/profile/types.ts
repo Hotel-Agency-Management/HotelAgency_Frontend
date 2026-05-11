@@ -17,5 +17,6 @@ export interface RoomProfile {
   photos: RoomPhoto[];
   pricePerNight?: number;
   extendPrice?: number;
-  insurance?: number;
+  yearlyInsurance?: number;
+  insurancePerReservation?: number;
 }
