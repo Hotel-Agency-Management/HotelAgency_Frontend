@@ -24,8 +24,8 @@ export default function ProfileButton({ variant = 'sidebar' }: ProfileButtonProp
     return null
   }
 
-  if (!user) {
-    return isNavbar ? (
+  if (!user && isNavbar) {
+    return  (
       <Button
         size='small'
         variant='contained'
@@ -34,8 +34,10 @@ export default function ProfileButton({ variant = 'sidebar' }: ProfileButtonProp
       >
         Login
       </Button>
-    ) : null
+    )
   }
+
+  if (!user) return null
 
   const email = user.email ?? ''
   const name = user.name ?? email.split('@')[0] ?? 'User'
