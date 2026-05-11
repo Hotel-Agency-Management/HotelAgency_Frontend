@@ -13,17 +13,19 @@ import {
 
 interface HotelSettingsShellProps {
   hotelId: string;
+  agencyId?: string;
   children: React.ReactNode;
 }
 
 export function HotelSettingsShell({
   hotelId,
+  agencyId,
   children,
 }: HotelSettingsShellProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const generalPath = getHotelSettingsRoute(hotelId);
-  const termsPath = getHotelTermsRoute(hotelId);
+  const generalPath = getHotelSettingsRoute(hotelId, agencyId);
+  const termsPath = getHotelTermsRoute(hotelId, agencyId);
   const activeGeneralTab =
     searchParams.get("tab") === "theme" ? "theme" : "profile";
 

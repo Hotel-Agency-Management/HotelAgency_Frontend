@@ -26,7 +26,7 @@ export default function AgenciesPage() {
   } = useAgencies()
 
   const handleAgencyClick = (agencyId: number) => {
-    router.push(`/agencies/${agencyId}`)
+    router.push(`/agencies/${agencyId}/hotels`)
   }
 
   const handleSettingsClick = (agencyId: number) => {
