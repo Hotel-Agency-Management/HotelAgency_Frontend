@@ -12,8 +12,7 @@ export const getHotelTermsDefaultValues = (
 ): HotelTermsFormValues => ({
   title: terms?.title ?? "",
   content: terms?.content ?? "",
-  status: terms?.status ?? HOTEL_TERMS_STATUSES.DRAFT,
-});
+  status: terms?.status ?? HOTEL_TERMS_STATUSES.DRAFT,});
 
 export function useHotelTermsForm(terms?: HotelTermsAndConditions | null) {
   const form = useForm<HotelTermsFormValues>({

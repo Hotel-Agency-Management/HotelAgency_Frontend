@@ -1,18 +1,11 @@
 "use client";
 
-import { useState } from "react";
 import Alert from "@mui/material/Alert";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Can from "@/components/ability/Can";
-import { useHotelTermsEditor } from "../hooks/useHotelTermsEditor";
-import { useHotelTermsForm } from "../hooks/useHotelTermsForm";
-import {
-  useDeleteHotelTerms,
-  useUpsertHotelTerms,
-} from "../hooks/useHotelTermsMutations";
-import { useHotelTerms } from "../hooks/useHotelTermsQueries";
+import { useHotelTermsSettingsView } from "../hooks/useHotelTermsSettingsView";
 import { DeleteHotelTermsDialog } from "./DeleteHotelTermsDialog";
 import { HotelTermsEmptyState } from "./HotelTermsEmptyState";
 import { HotelTermsFormCard } from "./HotelTermsFormCard";
@@ -28,50 +21,21 @@ export function HotelTermsSettingsView({
   hotelId,
   hotelName,
 }: HotelTermsSettingsViewProps) {
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const {
-    data: terms,
+    resolvedTerms,
     isLoading,
     error,
-  } = useHotelTerms(hotelId);
-  const resolvedTerms = terms ?? null;
-  const { mutateAsync: upsertTerms } = useUpsertHotelTerms();
-  const { mutateAsync: deleteTerms, isPending: isDeleting } = useDeleteHotelTerms();
-  const form = useHotelTermsForm(resolvedTerms);
-  const {
+    form,
     isEditing,
     isSaving,
+    isDeleteDialogOpen,
     handleEdit,
     handleCancel,
     handleSave,
-  } = useHotelTermsEditor({
-    form,
-    terms: resolvedTerms,
-    onSave: values =>
-      upsertTerms({
-        hotelId,
-        ...values,
-      }).then(() => undefined),
-  });
-  const handleOpenDeleteDialog = () => {
-    if (!resolvedTerms) {
-      return;
-    }
-
-    setIsDeleteDialogOpen(true);
-  };
-
-  const handleCloseDeleteDialog = () => {
-    if (isDeleting) {
-      return;
-    }
-    setIsDeleteDialogOpen(false);
-  };
-
-  const handleDelete = async () => {
-    await deleteTerms(hotelId);
-    setIsDeleteDialogOpen(false);
-  };
+    handleOpenDeleteDialog,
+    handleCloseDeleteDialog,
+    handleDelete,
+  } = useHotelTermsSettingsView(hotelId);
 
   if (isLoading) {
     return <HotelTermsLoadingState />;
@@ -98,7 +62,7 @@ export function HotelTermsSettingsView({
                 terms={resolvedTerms}
                 isEditing={isEditing}
                 isSaving={isSaving}
-                isDeleting={isDeleting}
+                isDeleting={false}
                 onEdit={handleEdit}
                 onCancel={handleCancel}
                 onSave={handleSave}
@@ -113,7 +77,7 @@ export function HotelTermsSettingsView({
           <DeleteHotelTermsDialog
             open={isDeleteDialogOpen}
             hotelName={hotelName}
-            isDeleting={isDeleting}
+            isDeleting={false}
             onClose={handleCloseDeleteDialog}
             onConfirm={handleDelete}
           />

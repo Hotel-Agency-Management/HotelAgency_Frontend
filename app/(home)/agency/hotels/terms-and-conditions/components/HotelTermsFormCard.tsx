@@ -16,6 +16,7 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import { FileText } from "lucide-react";
 import type { UseFormReturn } from "react-hook-form";
+import { HOTEL_TERMS_STATUSES } from "../constants/status";
 import type { HotelTermsAndConditions } from "../types/terms";
 import type { HotelTermsFormValues } from "../schema/hotelTermsSchema";
 import { HotelTermsForm } from "./HotelTermsForm";
@@ -33,7 +34,7 @@ interface HotelTermsFormCardProps {
 }
 
 const getStatusLabel = (status: HotelTermsFormValues["status"]) =>
-  status === "ACTIVE" ? "Active" : "Draft";
+  status === HOTEL_TERMS_STATUSES.ACTIVE ? "Active" : "Draft";
 
 export function HotelTermsFormCard({
   form,
@@ -70,7 +71,7 @@ export function HotelTermsFormCard({
               </Typography>
               <Chip
                 size="small"
-                color={currentValues.status === "ACTIVE" ? "success" : "default"}
+                color={currentValues.status === HOTEL_TERMS_STATUSES.ACTIVE ? "success" : "default"}
                 label={getStatusLabel(currentValues.status)}
               />
             </Stack>

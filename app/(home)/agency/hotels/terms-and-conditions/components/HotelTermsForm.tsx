@@ -5,9 +5,9 @@ import CircularProgress from "@mui/material/CircularProgress";
 import MenuItem from "@mui/material/MenuItem";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
-import { Controller, type UseFormReturn } from "react-hook-form";
+import { Controller, useWatch, type UseFormReturn } from "react-hook-form";
 import { HOTEL_TERMS_FORM_ID } from "../constants/form";
-import { HOTEL_TERMS_STATUS_OPTIONS } from "../constants/status";
+import { HOTEL_TERMS_STATUS_OPTIONS, HOTEL_TERMS_STATUSES } from "../constants/status";
 import type { HotelTermsFormValues } from "../schema/hotelTermsSchema";
 
 interface HotelTermsFormProps {
@@ -31,6 +31,7 @@ export function HotelTermsForm({
     control,
     formState: { errors, isValid },
   } = form;
+  const currentStatus = useWatch({ control, name: "status" });
 
   return (
     <form
@@ -69,7 +70,10 @@ export function HotelTermsForm({
               disabled={isReadOnly}
               error={Boolean(errors.status)}
               helperText={
-                errors.status?.message ?? "Draft can be reviewed before activation."
+                errors.status?.message ??
+                (currentStatus === HOTEL_TERMS_STATUSES.ACTIVE
+                  ? "Terms are active and visible to guests."
+                  : "Draft can be reviewed before activation.")
               }
             >
               {HOTEL_TERMS_STATUS_OPTIONS.map(option => (
