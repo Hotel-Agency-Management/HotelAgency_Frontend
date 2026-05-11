@@ -7,12 +7,14 @@ import {
   getPublicRoomPhotos,
 } from '../../client/roomClient'
 import { publicRoomsQueryKeys } from '../../constants/roomKey'
+import type { PublicRoomsQueryParams } from '../../types/customerRoom'
 
-export const usePublicRooms = (hotelId: string) =>
+export const usePublicRooms = (hotelId: string, params?: PublicRoomsQueryParams) =>
   useQuery({
-    queryKey: publicRoomsQueryKeys.all(hotelId),
-    queryFn: () => getPublicRooms(hotelId),
+    queryKey: [...publicRoomsQueryKeys.all(hotelId), params],
+    queryFn: ({ signal }) => getPublicRooms(hotelId, params, signal),
     enabled: hotelId.length > 0,
+    placeholderData: prev => prev,
   })
 
 export const usePublicRoomById = (hotelId: string, roomId: string) =>
