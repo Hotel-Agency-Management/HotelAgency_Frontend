@@ -6,13 +6,28 @@ import { useAdminHotelsPage } from '@/app/(home)/agency/hotels/hooks/useAdminHot
 export default function Page() {
   const params = useParams()
   const agencyId = Number(params.agencyId)
-  const { hotels, handleAdd, handleUpdate, handleOpen } = useAdminHotelsPage(agencyId)
+  const {
+    hotels,
+    handleAdd,
+    handleUpdate,
+    handleOpen,
+    search,
+    page,
+    totalPages,
+    handleSearch,
+    handlePageChange,
+  } = useAdminHotelsPage(agencyId)
   return (
     <HotelsPage
       hotels={hotels}
       onUpdate={handleUpdate}
       onOpen={handleOpen}
       onAdd={handleAdd}
+      search={search}
+      onSearchChange={handleSearch}
+      page={page}
+      totalPages={totalPages}
+      onPageChange={handlePageChange}
     />
   )
 }

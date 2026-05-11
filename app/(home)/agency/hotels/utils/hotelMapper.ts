@@ -13,9 +13,6 @@ const rateToPercentage = (rate?: number | null) => {
   return clampPercentage(Math.round(rate > 1 ? rate : rate * 100))
 }
 
-const percentageToRate = (percentage: number) =>
-  clampPercentage(Number.isFinite(percentage) ? percentage : 40) / 100
-
 const buildAssetUrl = (path?: string | null): string | null => {
   if (!path) return null
 
@@ -71,7 +68,11 @@ export const mapHotelFormValuesToHotelBase = (
   city: values.basicInfo.city,
   currency: values.basicInfo.currency,
   phone: values.basicInfo.phone,
-  cancellationFeeRate: percentageToRate(values.basicInfo.cancellationFeePercentage),
+  cancellationFeePercentage: clampPercentage(
+    Number.isFinite(values.basicInfo.cancellationFeePercentage)
+      ? values.basicInfo.cancellationFeePercentage
+      : DEFAULT_CANCELLATION_FEE_RATE * 100
+  ),
   primaryColor: values.branding.colors.primary,
   secondaryColor: values.branding.colors.secondary,
   tertiaryColor: values.branding.colors.tertiary,

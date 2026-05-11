@@ -1,33 +1,37 @@
 import { useQuery } from '@tanstack/react-query'
 import { getHotels, getHotelById } from '../../clients/hotelClient'
-import { HotelResponse } from '../../configs/hotelConfig'
+import { HotelListParams } from '../../configs/hotelConfig'
 import type { Hotel } from '../../types/hotel'
 import { mapHotelResponseToHotel } from '../../utils/hotelMapper'
 import { useAuth } from '@/core/context/AuthContext'
 
 export const hotelQueryKeys = {
-  list: (agencyId?: number) => ['hotels', agencyId] as const,
+  lists: (agencyId?: number) => ['hotels', agencyId] as const,
+  list: (agencyId?: number, params?: HotelListParams) => ['hotels', agencyId, params] as const,
   detail: (agencyId?: number, hotelId?: number) => ['hotel', agencyId, hotelId] as const,
 }
 
-export const useGetHotels = () => {
+export const useGetHotels = (params?: HotelListParams) => {
   const { user } = useAuth()
 
-  return useQuery<HotelResponse[], unknown, Hotel[]>({
-    queryKey: hotelQueryKeys.list(),
-    queryFn: () => getHotels(),
+  return useQuery({
+    queryKey: hotelQueryKeys.list(user?.agencyId, params),
+    queryFn: ({ signal }) => getHotels(params, signal),
     enabled: !!user,
-    select: hotels => hotels.map(mapHotelResponseToHotel)
+    select: (data): { items: Hotel[]; pageNumber: number; pageSize: number; totalCount: number; totalPages: number } => ({
+      ...data,
+      items: data.items.map(mapHotelResponseToHotel),
+    }),
   })
 }
 
 export const useGetHotelById = (hotelId?: number) => {
   const { user } = useAuth()
 
-  return useQuery<HotelResponse, unknown, Hotel>({
-    queryKey: hotelQueryKeys.detail(hotelId),
+  return useQuery({
+    queryKey: hotelQueryKeys.detail(user?.agencyId, hotelId),
     queryFn: () => getHotelById(hotelId as number),
     enabled: !!user && Number.isFinite(hotelId),
-    select: mapHotelResponseToHotel
+    select: mapHotelResponseToHotel,
   })
 }

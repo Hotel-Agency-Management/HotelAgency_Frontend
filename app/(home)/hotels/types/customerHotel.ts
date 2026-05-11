@@ -59,7 +59,19 @@ export type CustomerHotelsApiPayload =
       items?: CustomerHotelApiResponse[]
       hotels?: CustomerHotelApiResponse[]
       data?: CustomerHotelApiResponse[]
+      pageNumber?: number
+      pageSize?: number
+      totalCount?: number
+      totalPages?: number
     }
+
+export interface CustomerHotelsResult {
+  items: CustomerHotel[]
+  pageNumber: number
+  pageSize: number
+  totalCount: number
+  totalPages: number
+}
 
 export type HotelSortOption = 'recommended' | 'rating-desc'
 
