@@ -1,3 +1,5 @@
+'use client'
+
 import { Chip, Grid, Stack, Typography } from '@mui/material'
 import { BedDouble, PhoneCall, ReceiptText } from 'lucide-react'
 import { DirectReservationForm } from './DirectReservationForm'
