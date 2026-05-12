@@ -1,10 +1,9 @@
 import { Controller, type Control } from 'react-hook-form'
-import { alpha, useTheme } from '@mui/material/styles'
 import { Box, Grid, TextField, FormControl, FormHelperText, InputLabel, MenuItem, Select } from '@mui/material'
-import { SignaturePadField } from '@/components/common/SignaturePadField'
 import { FormSection } from './FormSection'
+import { SignaturePadField } from '@/components/common/SignaturePadField'
 import {
-  RESERVATION_SOURCES,
+  RESERVATION_SOURCE_OPTIONS,
   type DirectReservationFormInput,
 } from '../../schema/directReservationSchema'
 
@@ -13,12 +12,10 @@ interface AdditionalSectionProps {
 }
 
 export function AdditionalSection({ control }: AdditionalSectionProps) {
-  const theme = useTheme()
-
   return (
     <FormSection
       title='Additional'
-      description='Keep reservation context, guest requests, employee signature, and internal notes in one place.'
+      description='Keep reservation context, guest requests, and internal notes in one place.'
     >
       <Grid container spacing={2}>
         <Grid size={{ xs: 12 }}>
@@ -40,7 +37,7 @@ export function AdditionalSection({ control }: AdditionalSectionProps) {
 
         <Grid size={{ xs: 12 }}>
           <Controller
-            name='reservationSource'
+            name='source'
             control={control}
             render={({ field, fieldState, formState }) => {
               const showError =
@@ -70,9 +67,9 @@ export function AdditionalSection({ control }: AdditionalSectionProps) {
                     <MenuItem disabled value=''>
                       Select reservation source
                     </MenuItem>
-                    {RESERVATION_SOURCES.map(source => (
-                      <MenuItem key={source} value={source}>
-                        {source}
+                    {RESERVATION_SOURCE_OPTIONS.map(option => (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.label}
                       </MenuItem>
                     ))}
                   </Select>
@@ -80,28 +77,6 @@ export function AdditionalSection({ control }: AdditionalSectionProps) {
                 </FormControl>
               )
             }}
-          />
-        </Grid>
-
-        <Grid size={{ xs: 12 }}>
-          <Controller
-            name='signatureDataUrl'
-            control={control}
-            render={({ field, fieldState, formState }) => (
-              <SignaturePadField
-                value={field.value}
-                onChange={field.onChange}
-                title='Employee Signature'
-                description='Sign once to confirm the reservation before final submission.'
-                penColor={theme.palette.common.black}
-                backgroundColor={alpha(theme.palette.common.white, 0.96)}
-                error={
-                  fieldState.error && (fieldState.isTouched || fieldState.isDirty || formState.isSubmitted)
-                    ? fieldState.error.message
-                    : undefined
-                }
-              />
-            )}
           />
         </Grid>
 
@@ -117,6 +92,21 @@ export function AdditionalSection({ control }: AdditionalSectionProps) {
                 size='small'
                 multiline
                 rows={4}
+              />
+            )}
+          />
+        </Grid>
+
+        <Grid size={{ xs: 12 }}>
+          <Controller
+            name='employeeSignatureDataUrl'
+            control={control}
+            render={({ field }) => (
+              <SignaturePadField
+                value={field.value}
+                onChange={field.onChange}
+                title='Employee Signature'
+                description='Sign to confirm this reservation on behalf of the hotel.'
               />
             )}
           />

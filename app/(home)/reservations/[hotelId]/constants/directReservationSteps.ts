@@ -11,21 +11,41 @@ export const DIRECT_RESERVATION_STEPS: DirectReservationStep[] = [
   {
     label: 'Guest',
     description: 'Guest identity and contact details',
-    fields: ['fullName', 'phoneNumber', 'email', 'idOrPassportNumber'],
+    fields: [
+      'guestFullName',
+      'guestPhone',
+      'guestEmail',
+      'guestIdNumber',
+    ],
   },
   {
     label: 'Stay',
-    description: 'Dates, occupancy, and room type',
-    fields: ['checkInDate', 'checkOutDate', 'numberOfGuests', 'numberOfRooms', 'roomType'],
+    description: 'Dates, occupancy, and assigned rooms',
+    fields: [
+      'checkInDate',
+      'checkOutDate',
+      'numberOfGuests',
+      'roomNumbers',
+    ],
   },
   {
     label: 'Payment',
-    description: 'Payment method and collected amount',
-    fields: ['paymentMethod', 'paidAmount'],
+    description: 'Review the calculated reservation total.',
+    fields: ['totalAmount'],
   },
   {
-    label: 'Additional',
-    description: 'Source, requests, employee signature, and final confirmation',
-    fields: ['reservationSource', 'signatureDataUrl'],
+    label: 'Reservation',
+    description: 'Reservation source, additional notes, and employee signature',
+    fields: [
+      'source',
+      'specialRequests',
+      'notes',
+      'employeeSignatureDataUrl',
+    ],
+  },
+  {
+    label: 'Confirm',
+    description: 'Review and finalize the reservation',
+    fields: [],
   },
 ]

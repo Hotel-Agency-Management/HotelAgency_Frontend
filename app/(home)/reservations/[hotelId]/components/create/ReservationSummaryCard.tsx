@@ -1,5 +1,5 @@
 import { Box, Divider, Paper, Stack, Typography } from '@mui/material'
-import { BedDouble, CalendarDays, CreditCard, Users } from 'lucide-react'
+import { BedDouble, CalendarDays, ClipboardList, Users } from 'lucide-react'
 import { ReservationSummaryRow } from './ReservationSummaryRow'
 import {
   buildReservationSummaryCardData,
@@ -7,12 +7,11 @@ import {
 } from '../../utils/buildReservationSummaryCardData'
 
 interface ReservationSummaryCardProps {
-  totalAmount: number
   snapshot: ReservationSummarySnapshot
 }
 
-export function ReservationSummaryCard({ totalAmount, snapshot }: ReservationSummaryCardProps) {
-  const summary = buildReservationSummaryCardData({ totalAmount, snapshot })
+export function ReservationSummaryCard({ snapshot }: ReservationSummaryCardProps) {
+  const summary = buildReservationSummaryCardData({ snapshot })
 
   return (
     <Paper variant='card'>
@@ -25,7 +24,7 @@ export function ReservationSummaryCard({ totalAmount, snapshot }: ReservationSum
             Direct Hotel Reservation
           </Typography>
           <Typography variant='body2'>
-            A cleaner handoff for guest details, stay dates, and payment status.
+            A cleaner handoff for guest details, stay dates, and reservation source.
           </Typography>
         </Box>
 
@@ -33,33 +32,15 @@ export function ReservationSummaryCard({ totalAmount, snapshot }: ReservationSum
 
         <Stack sx={{ flex: 1, justifyContent: 'space-between' }}>
           <Stack spacing={2.5}>
-            <ReservationSummaryRow icon={BedDouble} label='Room Type' value={summary.roomTypeLabel} />
+            <ReservationSummaryRow icon={BedDouble} label='Rooms' value={summary.roomsValue} />
             <ReservationSummaryRow icon={CalendarDays} label='Stay' value={summary.stayValue} />
             <ReservationSummaryRow icon={Users} label='Occupancy' value={summary.occupancyValue} />
-            <ReservationSummaryRow icon={CreditCard} label='Payment' value={summary.paymentValue} />
+            <ReservationSummaryRow icon={ClipboardList} label='Source' value={summary.sourceValue} />
           </Stack>
 
           <Divider />
 
           <Stack spacing={2}>
-            <Stack direction='row' justifyContent='space-between'>
-              <Typography variant='body2' color='text.secondary'>
-                Paid Amount
-              </Typography>
-              <Typography variant='body2' sx={{ fontWeight: 700 }}>
-                {summary.paidAmount}
-              </Typography>
-            </Stack>
-
-            <Stack direction='row' justifyContent='space-between'>
-              <Typography variant='body2' color='text.secondary'>
-                Remaining
-              </Typography>
-              <Typography variant='body2' sx={{ fontWeight: 700 }}>
-                {summary.remainingAmount}
-              </Typography>
-            </Stack>
-
             <Stack direction='row' justifyContent='space-between'>
               <Typography variant='subtitle2' color='text.secondary'>
                 Total Reservation
