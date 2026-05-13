@@ -21,6 +21,7 @@ import { ExtendReservationDialog } from '@/app/(home)/hotels/[hotelId]/component
 import { getReservationListColumns } from '../columns/columnRegistry'
 import { useReservationListPage } from '../../hooks/useReservationListPage'
 import { RESERVATION_STATUSES } from '../../constants/status'
+import { RESERVATION_LIST_PAGE_SIZE_OPTIONS } from '../../constants/pagination'
 
 export function ReservationListPage() {
   const router = useRouter()
@@ -167,7 +168,7 @@ export function ReservationListPage() {
               paginationModel={paginationModel}
               onPaginationModelChange={setPaginationModel}
               onRowClick={({ row }) => router.push(`/reservations/${hotelId}/${row.id}`)}
-              pageSizeOptions={[10, 25, 50]}
+              pageSizeOptions={RESERVATION_LIST_PAGE_SIZE_OPTIONS}
               disableRowSelectionOnClick
               rowHeight={64}
             />

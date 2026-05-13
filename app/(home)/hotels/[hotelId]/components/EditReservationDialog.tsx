@@ -19,12 +19,12 @@ import {
 } from '@mui/material'
 import { DatePickerField } from '@/components/common/DatePickerField'
 import { ReservationSource } from '@/app/(home)/reservations/[hotelId]/config/reservationConfig'
-import {
-  type EditReservationFieldKey,
-  type EditReservationFormState,
-  useEditReservationDialog,
-} from '../hooks/useEditReservationDialog'
+import { useEditReservationDialog } from '../hooks/useEditReservationDialog'
 import type { ReservationEditRoomOption } from '../hooks/useReservationEdit'
+import type {
+  EditReservationFieldKey,
+  EditReservationFormState,
+} from '../types/editReservationForm'
 import { formatCurrency } from '../utils/roomBooking'
 
 interface EditReservationDialogProps {

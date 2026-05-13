@@ -16,6 +16,7 @@ import {
   generateContractFile,
   generateInvoiceFile,
 } from '../utils/generateReservationPdfs'
+import { RESERVATION_ROOM_LOOKUP_PAGE_SIZE } from '../constants/pagination'
 import { useCreateReservation } from './mutation/useReservation'
 import { useDirectReservationForm } from './useDirectReservationForm'
 import type { DirectReservationFormValues } from '../schema/directReservationSchema'
@@ -27,7 +28,9 @@ interface ReservationPdfFiles {
 
 export function useDirectReservationCreatePage(hotelId: number) {
   const { mutateAsync } = useCreateReservation(hotelId)
-  const { data: roomsResponse, isLoading: roomsLoading } = useRoomsByHotel(hotelId, { pageSize: 100 })
+  const { data: roomsResponse, isLoading: roomsLoading } = useRoomsByHotel(hotelId, {
+    pageSize: RESERVATION_ROOM_LOOKUP_PAGE_SIZE,
+  })
   const rooms = roomsResponse?.items ?? []
   const { data: profile } = useUserProfile()
   const { data: termsList } = useHotelTermsList(hotelId)
