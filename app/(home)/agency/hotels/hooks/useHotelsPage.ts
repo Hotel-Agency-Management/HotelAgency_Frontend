@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/core/context/AuthContext'
 import { usePaginatedSearch } from '@/core/hooks/usePaginatedSearch'
+import { DEFAULT_HOTELS_PAGE_SIZE } from '../constants/hotel'
 import { useHotelStore } from '../hooks/useHotelStore'
 
 export function useHotelsPage() {
@@ -10,7 +11,9 @@ export function useHotelsPage() {
   const { user } = useAuth()
   const agencyId = user?.agencyId
 
-  const { search, page, params, handleSearch, handlePageChange } = usePaginatedSearch({ pageSize: 9 })
+  const { search, page, params, handleSearch, handlePageChange } = usePaginatedSearch({
+    pageSize: DEFAULT_HOTELS_PAGE_SIZE,
+  })
   const { hotels, totalPages } = useHotelStore(agencyId, undefined, params)
 
   return {

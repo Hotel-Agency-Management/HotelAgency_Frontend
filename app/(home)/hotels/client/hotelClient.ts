@@ -8,6 +8,7 @@ import {
   extractCustomerHotelsPayload,
   mapCustomerHotelApiResponse,
 } from '../utils/customerHotelMapper'
+import { DEFAULT_CUSTOMER_HOTELS_PAGE_SIZE } from '../constants/hotelFilters'
 
 export const getCustomerHotels = async (
   params?: PublicHotelsQueryParams,
@@ -19,7 +20,7 @@ export const getCustomerHotels = async (
   return {
     items: extractCustomerHotelsPayload(payload).map(mapCustomerHotelApiResponse),
     pageNumber: meta.pageNumber ?? 1,
-    pageSize: meta.pageSize ?? 10,
+    pageSize: meta.pageSize ?? DEFAULT_CUSTOMER_HOTELS_PAGE_SIZE,
     totalCount: meta.totalCount ?? 0,
     totalPages: meta.totalPages ?? 1,
   }

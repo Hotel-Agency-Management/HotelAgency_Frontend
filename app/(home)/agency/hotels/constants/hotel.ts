@@ -7,3 +7,5 @@ export const HOTEL_STEPS = [
 export type StepIndex = 0 | 1 | 2;
 
 export const DEFAULT_CANCELLATION_FEE_RATE = 0.4
+
+export const DEFAULT_HOTELS_PAGE_SIZE = 9
