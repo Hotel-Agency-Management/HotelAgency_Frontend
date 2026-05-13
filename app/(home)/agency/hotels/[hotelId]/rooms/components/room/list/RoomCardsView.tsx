@@ -5,6 +5,7 @@ import { RoomRowsGrid } from "../../../roomStyle";
 import { RoomsToolbar } from "./RoomsToolbar";
 import { RoomGridView } from "./grid/RoomGridView";
 import type { RoomRouteScope } from "../../../types/room";
+import { ROOM_PAGE_SIZE_OPTIONS } from "../../../constants/pagination";
 import { useRoomsPageController } from "../../../hooks/useRoomsPageController";
 import { getRoomGridColumns } from "../../../util/roomGridColumns";
 
@@ -87,7 +88,7 @@ export const RoomCardsView = ({ scope, onAddRoom, onEditRoom }: Props) => {
           columns={columns}
           loading={controller.isLoading}
           onRowClick={(p) => controller.goToRoomProfile(Number(p.id))}
-          pageSizeOptions={[10, 25, 50]}
+          pageSizeOptions={ROOM_PAGE_SIZE_OPTIONS}
           disableRowSelectionOnClick
         />
       )}
