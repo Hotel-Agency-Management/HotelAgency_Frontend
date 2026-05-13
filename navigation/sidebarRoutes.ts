@@ -278,6 +278,13 @@ const navigation = (hotelId?: string, agencyId?: string): SidebarNavItems => {
           action: 'manage'
         },
         {
+          title: 'Reservations',
+          path: `/reservations/${hotelId}/list`,
+          icon: 'lucide:calendar-range',
+          subject: 'Reservations',
+          action: 'read'
+        },
+        {
           title: 'Create Reservation',
           path: `/reservations/${hotelId}/create`,
           icon: 'lucide:clipboard-plus',

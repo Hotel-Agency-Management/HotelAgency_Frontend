@@ -47,7 +47,13 @@ export interface ReservationListItem {
   id: number
   reservationNumber: string
   roomNumbers: string[]
+  source?: ReservationSource
   guestFullName: string
+  guestPhone?: string
+  guestIdNumber?: string
+  numberOfGuests?: number
+  specialRequests?: string | null
+  notes?: string | null
   status: string
   checkInDate: string
   checkOutDate: string
@@ -63,4 +69,33 @@ export interface PaginatedReservationsResponse {
   pageSize: number
   totalCount: number
   totalPages: number
+}
+
+export interface ReservationListParams {
+  pageNumber?: number
+  pageSize?: number
+  search?: string
+  status?: string
+  checkInFrom?: string
+  checkInTo?: string
+}
+
+export interface UpdateReservationRequest {
+  roomNumbers?: string[]
+  source?: ReservationSource
+  guestFullName?: string
+  guestEmail?: string
+  guestPhone?: string
+  guestIdNumber?: string
+  checkInDate?: string
+  checkOutDate?: string
+  numberOfGuests?: number
+  totalAmount?: number
+  hasInsurance?: boolean
+  specialRequests?: string | null
+  notes?: string | null
+}
+
+export interface CancelReservationRequest {
+  cancellationReason: string
 }

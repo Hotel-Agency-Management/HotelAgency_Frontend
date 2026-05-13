@@ -3,12 +3,16 @@ export const BLOB_PROFILES_CONTAINER = process.env.NEXT_PUBLIC_BLOB_CONTAINER_PR
 
 const ABSOLUTE_URL_PATTERN = /^(?:https?:|data:|blob:)/i
 
-export function resolveProfileBlobUrl(path?: string | null): string | null {
+export function resolveBlobUrl(path?: string | null, container = BLOB_PROFILES_CONTAINER): string | null {
   const value = path?.trim()
 
   if (!value) return null
   if (ABSOLUTE_URL_PATTERN.test(value)) return value
-  if (!BLOB_URL || !BLOB_PROFILES_CONTAINER) return value
+  if (!BLOB_URL || !container) return value
 
-  return `${BLOB_URL}/${BLOB_PROFILES_CONTAINER}/${value.replace(/^\/+/, '')}`
+  return `${BLOB_URL}/${container}/${value.replace(/^\/+/, '')}`
+}
+
+export function resolveProfileBlobUrl(path?: string | null): string | null {
+  return resolveBlobUrl(path)
 }

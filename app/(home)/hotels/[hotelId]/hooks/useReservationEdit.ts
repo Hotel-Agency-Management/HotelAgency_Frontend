@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react'
 import { getErrorMessage } from '@/core/utils/apiError'
+import type { ReservationSource } from '@/app/(home)/reservations/[hotelId]/config/reservationConfig'
 import type { PublicRoom } from '@/app/(home)/hotels/types/customerRoom'
 import type {
   CustomerReservation,
@@ -21,6 +22,13 @@ interface ReservationEditFormState {
   checkOut: string
   guests: number
   rooms: number
+  source?: ReservationSource | ''
+  guestFullName?: string
+  guestPhone?: string
+  guestIdNumber?: string
+  hasInsurance?: boolean
+  specialRequests?: string
+  notes?: string
 }
 
 export interface ReservationEditRoomOption {
