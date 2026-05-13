@@ -2,10 +2,14 @@
 
 import { useCallback, useState } from 'react'
 import type { UseMutationResult } from '@tanstack/react-query'
-import type { CancelReservationRequest, ReservationListItem } from '../config/reservationConfig'
+import type {
+  CancellationResponse,
+  CancelReservationRequest,
+  ReservationListItem,
+} from '../config/reservationConfig'
 
 type CancelReservationMutation = UseMutationResult<
-  void,
+  CancellationResponse,
   unknown,
   { reservationId: number; data: CancelReservationRequest }
 >

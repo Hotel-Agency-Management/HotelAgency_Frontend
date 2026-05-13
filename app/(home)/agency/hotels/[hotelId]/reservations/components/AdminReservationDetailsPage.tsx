@@ -10,16 +10,14 @@ import { BookingStatusChip } from '@/app/(home)/hotels/[hotelId]/my-bookings/com
 import { InfoRow } from '@/app/(home)/hotels/[hotelId]/my-bookings/components/InfoRow'
 import { SectionPaper } from '@/app/(home)/hotels/[hotelId]/my-bookings/components/SectionPaper'
 import { resolveBlobUrl } from '@/core/constant/blobStorage'
-import { useAuth } from '@/core/context/AuthContext'
 import { useAdminReservationById } from '@/app/(home)/reservations/[hotelId]/hooks/queries/adminReservationQueries'
 
 export function AdminReservationDetailsPage() {
   const params = useParams<{ agencyId?: string; hotelId?: string; reservationId?: string }>()
   const router = useRouter()
-  const { user } = useAuth()
-  const agencyId = params.agencyId ? Number(params.agencyId) : user?.agencyId
-  const hotelId = params.hotelId ? Number(params.hotelId) : Number.NaN
-  const reservationId = params.reservationId ? Number(params.reservationId) : Number.NaN
+  const agencyId = Number(params.agencyId)
+  const hotelId =  Number(params.hotelId) 
+  const reservationId = Number(params.reservationId)
   const { data: reservation, isLoading, isError } = useAdminReservationById(
     agencyId as number,
     hotelId,

@@ -1,6 +1,6 @@
-import type { EditReservationFormState } from '@/app/(home)/hotels/[hotelId]/types/editReservationForm'
+import { ReservationEditForm } from "../types/reservationEditForm";
 
-export const DEFAULT_VALUE_OF_RESERVATION_EDIT_FORM: EditReservationFormState = {
+export const DEFAULT_VALUE_OF_RESERVATION_EDIT_FORM: ReservationEditForm = {
   roomId: '',
   checkIn: '',
   checkOut: '',

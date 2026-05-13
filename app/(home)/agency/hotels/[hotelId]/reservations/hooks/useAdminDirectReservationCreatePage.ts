@@ -19,6 +19,7 @@ import {
 } from '@/app/(home)/reservations/[hotelId]/utils/generateReservationPdfs'
 import { useAdminCreateReservation } from '@/app/(home)/reservations/[hotelId]/hooks/mutations/adminReservationMutations'
 import { useDirectReservationForm } from '@/app/(home)/reservations/[hotelId]/hooks/useDirectReservationForm'
+import { RESERVATION_ROOM_LOOKUP_PAGE_SIZE } from '@/app/(home)/reservations/[hotelId]/constants/pagination'
 import type { DirectReservationFormValues } from '@/app/(home)/reservations/[hotelId]/schema/directReservationSchema'
 
 interface ReservationPdfFiles {
@@ -34,7 +35,7 @@ export function useAdminDirectReservationCreatePage(hotelId: number) {
   const { data: roomsResponse, isLoading: roomsLoading } = useAdminRoomsByHotel(
     agencyId,
     hotelId,
-    { pageSize: 100 }
+    { pageSize: RESERVATION_ROOM_LOOKUP_PAGE_SIZE }
   )
   const rooms = roomsResponse?.items ?? []
   const { data: profile } = useUserProfile()

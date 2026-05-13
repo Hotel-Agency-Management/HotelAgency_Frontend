@@ -2,9 +2,9 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'react-hot-toast'
 import { getErrorMessage } from '@/core/utils/apiError'
 import {
-  adminCreateReservation,
+  createAdminReservation,
   adminUpdateReservation,
-  adminCancelReservation,
+  cancelAdminReservation,
 } from '../../client/adminReservationClient'
 import { ADMIN_RESERVATION_QUERY_KEYS } from '../../constants/reservationKey'
 import type {
@@ -19,7 +19,7 @@ export function useAdminCreateReservation(agencyId: number, hotelId: number) {
   const queryClient = useQueryClient()
 
   return useMutation<ReservationResponse, unknown, CreateReservationRequest>({
-    mutationFn: (data) => adminCreateReservation(agencyId, hotelId, data),
+    mutationFn: (data) => createAdminReservation(agencyId, hotelId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ADMIN_RESERVATION_QUERY_KEYS.byHotelList(agencyId, hotelId),
@@ -57,7 +57,7 @@ export function useAdminCancelReservation(agencyId: number, hotelId: number) {
   const queryClient = useQueryClient()
 
   return useMutation<CancellationResponse, unknown, { reservationId: number; data: CancelReservationRequest }>({
-    mutationFn: ({ reservationId, data }) => adminCancelReservation(hotelId, reservationId, data),
+    mutationFn: ({ reservationId, data }) => cancelAdminReservation(hotelId, reservationId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ADMIN_RESERVATION_QUERY_KEYS.byHotelList(agencyId, hotelId),

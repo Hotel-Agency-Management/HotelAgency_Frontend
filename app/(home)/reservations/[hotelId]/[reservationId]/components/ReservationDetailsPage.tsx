@@ -16,7 +16,7 @@ export function ReservationDetailsPage() {
   const params = useParams<{ hotelId?: string; reservationId?: string }>()
   const router = useRouter()
   const hotelId =  Number(params.hotelId)
-  const reservationId = Number(params.reservationId) 
+  const reservationId = Number(params.reservationId)
   const { data: reservation, isLoading, isError } = useReservationById(hotelId, reservationId)
   const backHref = `/reservations/${params.hotelId ?? ''}/list`
   const contractHref = resolveBlobUrl(reservation?.contractUrl)

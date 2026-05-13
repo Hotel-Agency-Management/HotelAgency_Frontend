@@ -18,7 +18,7 @@ const getReservationsPath = (agencyId: number, hotelId: number) =>
 const getReservationPath = (agencyId: number, hotelId: number, reservationId: number) =>
   `${getReservationsPath(agencyId, hotelId)}/${reservationId}`
 
-export async function adminCreateReservation(
+export async function createAdminReservation(
   agencyId: number,
   hotelId: number,
   data: CreateReservationRequest
@@ -31,7 +31,7 @@ export async function adminCreateReservation(
   return response.data
 }
 
-export async function adminGetReservations(
+export async function getAdminReservations(
   agencyId: number,
   hotelId: number,
   params?: ReservationListParams,
@@ -44,7 +44,7 @@ export async function adminGetReservations(
   return response.data
 }
 
-export async function adminGetReservationById(
+export async function getAdminReservationById(
   agencyId: number,
   hotelId: number,
   reservationId: number
@@ -73,7 +73,7 @@ export async function adminUpdateReservation(
   return response.data
 }
 
-export async function adminCancelReservation(
+export async function cancelAdminReservation(
   hotelId: number,
   reservationId: number,
   data: CancelReservationRequest
