@@ -1,6 +1,6 @@
 import { Stack } from "@mui/material";
 import type { RoomType } from "../../../../../../../room-types/types/roomType";
-import type { RoomPhoto } from "../../../types/room";
+import type { RoomPhoto, StepContentRenderer } from "../../../types/room";
 import { RoomAmenitiesPicker } from "./RoomAmenitiesPicker";
 import { RoomCreatePhotosUpload } from "./RoomCreatePhotosUpload";
 import { RoomEditPhotosUpload } from "./RoomEditPhotosUpload";
@@ -16,8 +16,6 @@ export interface StepContentProps {
   onPhotosChange: (photos: File[]) => void;
   onReplaceCoverPhoto?: (file: File | null) => void;
 }
-
-type StepContentRenderer = (props: StepContentProps) => React.ReactNode;
 
 const photoUploadFactory = ({
   isEdit,
