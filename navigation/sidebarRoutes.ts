@@ -134,6 +134,9 @@ const navigation = (hotelId?: string, agencyId?: string): SidebarNavItems => {
   const hotelBasePath = agencyId
     ? `/agencies/${agencyId}/hotels/${hotelId}`
     : `/agency/hotels/${hotelId}`
+  const adminReservationsBasePath = agencyId
+    ? `/agencies/${agencyId}/hotels/${hotelId}/reservations`
+    : `/agency/hotels/${hotelId}/reservations`
 
   const hotelManagementSection: SidebarNavItems[number] = {
     sectionTitle: 'Hotel Management',
@@ -169,6 +172,28 @@ const navigation = (hotelId?: string, agencyId?: string): SidebarNavItems => {
     return [
       ...items,
       hotelManagementSection,
+      {
+        sectionTitle: 'Bookings',
+        icon: 'lucide:book-open-check',
+        subject: 'AdminReservations',
+        action: 'manage',
+        items: [
+          {
+            title: 'All Reservations',
+            path: `${adminReservationsBasePath}/list`,
+            icon: 'lucide:calendar-range',
+            subject: 'AdminReservations',
+            action: 'manage'
+          },
+          {
+            title: 'Create Reservation',
+            path: `${adminReservationsBasePath}/create`,
+            icon: 'lucide:clipboard-plus',
+            subject: 'AdminReservations',
+            action: 'manage'
+          }
+        ]
+      },
     ]
   }
 
@@ -290,6 +315,20 @@ const navigation = (hotelId?: string, agencyId?: string): SidebarNavItems => {
           icon: 'lucide:clipboard-plus',
           subject: 'Reservations',
           action: 'create'
+        },
+        {
+          title: 'Admin Reservations',
+          path: `${adminReservationsBasePath}/list`,
+          icon: 'lucide:calendar-range',
+          subject: 'AdminReservations',
+          action: 'manage'
+        },
+        {
+          title: 'Create Admin Reservation',
+          path: `${adminReservationsBasePath}/create`,
+          icon: 'lucide:clipboard-plus',
+          subject: 'AdminReservations',
+          action: 'manage'
         }
       ]
     },

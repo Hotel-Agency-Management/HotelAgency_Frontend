@@ -18,15 +18,14 @@ import SearchInput from '@/components/common/SearchInput'
 import { CancelReservationDialog } from '@/app/(home)/hotels/[hotelId]/components/CancelReservationDialog'
 import { EditReservationDialog } from '@/app/(home)/hotels/[hotelId]/components/EditReservationDialog'
 import { ExtendReservationDialog } from '@/app/(home)/hotels/[hotelId]/components/ExtendReservationDialog'
-import { getReservationListColumns } from '../columns/columnRegistry'
-import { useReservationListPage } from '../../hooks/useReservationListPage'
-import { RESERVATION_STATUSES } from '../../constants/status'
-import { RESERVATION_LIST_PAGE_SIZE_OPTIONS } from '../../constants/pagination'
+import { getReservationListColumns } from '@/app/(home)/reservations/[hotelId]/components/columns/columnRegistry'
+import { useAdminReservationListPage } from '@/app/(home)/reservations/[hotelId]/hooks/useAdminReservationListPage'
+import { RESERVATION_STATUSES } from '@/app/(home)/reservations/[hotelId]/constants/status'
 
-export function ReservationListPage() {
+export function AdminReservationListPage() {
   const router = useRouter()
   const {
-    hotelId,
+    reservationsBasePath,
     reservations,
     isLoading,
     totalCount,
@@ -59,7 +58,7 @@ export function ReservationListPage() {
     handleConfirmCancel,
     isUpdating,
     isCancelling,
-  } = useReservationListPage()
+  } = useAdminReservationListPage()
 
   const columns = useMemo(
     () =>
@@ -110,7 +109,7 @@ export function ReservationListPage() {
             variant="contained"
             disableElevation
             startIcon={<Plus size={16} />}
-            onClick={() => router.push(`/reservations/${hotelId}/create`)}
+            onClick={() => router.push(`${reservationsBasePath}/create`)}
           >
             Create Reservation
           </Button>
@@ -165,8 +164,10 @@ export function ReservationListPage() {
               rowCount={totalCount}
               paginationModel={paginationModel}
               onPaginationModelChange={setPaginationModel}
-              onRowClick={({ row }) => router.push(`/reservations/${hotelId}/${row.id}`)}
-              pageSizeOptions={RESERVATION_LIST_PAGE_SIZE_OPTIONS}
+              onRowClick={({ row }) =>
+                router.push(`${reservationsBasePath}/${row.id}`)
+              }
+              pageSizeOptions={[10, 25, 50]}
               disableRowSelectionOnClick
               rowHeight={64}
             />

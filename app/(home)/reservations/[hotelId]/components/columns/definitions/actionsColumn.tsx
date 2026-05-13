@@ -42,7 +42,7 @@ export function createActionsColumn({
         <Tooltip title="Update Reservation">
           <ActionIconButton
             size="small"
-            actionColor="secondary"
+            actionColor="tertiary"
             onClick={event => {
               event.stopPropagation()
               onUpdate(row)
