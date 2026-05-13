@@ -10,7 +10,7 @@ export interface UserProfileAgency {
   name: string
   logo: string | null
   phone: string
-  email: string
+  country?: string
   city: string
 }
 

@@ -1,4 +1,5 @@
 import { User } from "@/core/configs/authConfig"
+import type { HotelTheme } from "@/app/(home)/agency/hotels/types/hotel"
 
 export type ActivityType = 'task' | 'review' | 'comment' | 'commit'
 
@@ -43,12 +44,11 @@ export interface ProfileAgencyData {
 
 export interface ProfileHotelData {
   name: string
+  logo?: string | null
   phone: string
+  country?: string
   city: string
-  address: string
-  currency: string
-  managerId: string
-  brandColors: string[]
+  brandColors?: string[]
 }
 
 export interface ProfilePageData {
@@ -59,6 +59,7 @@ export interface ProfilePageData {
 }
 
 export type ProfileUser = User & {
+  hotelTheme?: HotelTheme
   social?: Partial<ProfileSocialLinks>
   location?: string
   bio?: string

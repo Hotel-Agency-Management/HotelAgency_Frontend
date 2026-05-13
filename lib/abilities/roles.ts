@@ -33,6 +33,7 @@ export function defineAbilitiesFor(role: UserRole): AppAbility {
 
     case USER_ROLES.PROPERTY_MANAGER:
       can('read', 'Agency')
+      can('read', 'Hotels')
       can('manage', 'Dashboard')
       can('manage', 'Users')
       can('manage', 'HotelManagement')
