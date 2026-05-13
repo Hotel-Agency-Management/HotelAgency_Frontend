@@ -1,4 +1,4 @@
-import { Grid, Stack, Typography } from '@mui/material'
+import { Grid } from '@mui/material'
 import { Building2, Phone, MapPin } from 'lucide-react'
 import type { ProfileAgencyData } from '../types/profile'
 import { ProfileDetailsCard } from './ProfileDetailsCard'
@@ -31,11 +31,6 @@ export function AgencyTab({ data }: AgencyTabProps) {
             },
           ]}
         >
-          <Stack spacing={1.5}>
-            <Typography variant='subtitle2' fontWeight={600}>
-              Uploaded Files
-            </Typography>
-          </Stack>
         </ProfileDetailsCard>
       </Grid>
     </Grid>

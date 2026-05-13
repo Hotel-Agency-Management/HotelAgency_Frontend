@@ -1,4 +1,4 @@
-import { Building2, CircleDollarSign, Hotel, MapPin, Phone } from 'lucide-react'
+import { Building2, Globe, Hotel, Phone } from 'lucide-react'
 import type { ProfileHotelData } from '../types/profile'
 import { ProfileDetailsCard } from './ProfileDetailsCard'
 import Grid from '@mui/material/Grid'
@@ -30,14 +30,9 @@ export function HotelTab({ data }: HotelTabProps) {
               icon: <Building2 size={16} />,
             },
             {
-              label: 'Address',
-              value: data.address,
-              icon: <MapPin size={16} />,
-            },
-            {
-              label: 'Currency',
-              value: data.currency,
-              icon: <CircleDollarSign size={16} />,
+              label: 'Country',
+              value: data.country ?? '—',
+              icon: <Globe size={16} />,
             },
           ]}
         >
