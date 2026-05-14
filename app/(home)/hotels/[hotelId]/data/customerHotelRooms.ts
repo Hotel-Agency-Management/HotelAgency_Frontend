@@ -14,7 +14,8 @@ export const getCustomerHotelById = async (hotelId: string): Promise<CustomerHot
 }
 
 export const getCustomerHotelRooms = async (hotelId: string): Promise<PublicRoom[]> => {
-  return getPublicRooms(hotelId)
+  const result = await getPublicRooms(hotelId)
+  return result.items
 }
 
 export const getCustomerHotelRoomById = async (

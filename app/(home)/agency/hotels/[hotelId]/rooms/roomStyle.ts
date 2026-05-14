@@ -17,7 +17,6 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { DataGrid } from "@mui/x-data-grid";
 import { styled } from "@mui/material/styles";
-import { StaggerGroup } from "@/components/animation/StaggerGroup";
 
 export const AddPhotoTileRoot = styled(Paper)(({ theme }) => ({
   width: 120,
@@ -325,8 +324,4 @@ export const GallerySkeletonThumb = styled(Skeleton)(({ theme }) => ({
 
 export const UploadSummary = styled(Typography)({
   margin: 0,
-});
-
-export const RoomGridStaggerGroup = styled(StaggerGroup)({
-  width: "100%",
 });

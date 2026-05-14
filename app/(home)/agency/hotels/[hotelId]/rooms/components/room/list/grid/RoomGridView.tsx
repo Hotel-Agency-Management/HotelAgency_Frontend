@@ -3,8 +3,7 @@ import { useTranslation } from "react-i18next";
 import type { RoomListItemResponse, RoomRouteScope } from "../../../../types/room";
 import { RoomCard } from "./RoomCard";
 import { RoomGridLoading } from "./roomGridViewStyles";
-import { StaggerItem } from "@/components/animation/StaggerGroup";
-import { RoomGridStaggerGroup } from "../../../../roomStyle";
+import { StaggerGroup, StaggerItem } from "@/components/animation/StaggerGroup";
 
 export interface RoomGridViewProps {
   rooms: RoomListItemResponse[];
@@ -44,10 +43,10 @@ export function RoomGridView({
   }
 
   return (
-    <RoomGridStaggerGroup staggerDelay={0.06} direction="up" distance={20}>
-      <Grid container spacing={2}>
-        {rooms.map((room) => (
-          <Grid size={{ xs: 12, sm: 6, md: 4 }} key={room.id}>
+    <Grid container spacing={2} key={rooms.map((room) => room.roomId).join("-")}>
+      {rooms.map((room) => (
+        <Grid key={room.roomId} size={{ xs: 12, sm: 6, md: 4 }}>
+          <StaggerGroup staggerDelay={0.06} distance={20}>
             <StaggerItem>
               <RoomCard
                 room={room}
@@ -57,9 +56,9 @@ export function RoomGridView({
                 onRoomClick={onRoomClick}
               />
             </StaggerItem>
-          </Grid>
-        ))}
-      </Grid>
-    </RoomGridStaggerGroup>
+          </StaggerGroup>
+        </Grid>
+      ))}
+    </Grid>
   );
 }

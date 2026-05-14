@@ -23,35 +23,36 @@ export function RoomCard({
   onDelete,
   onRoomClick,
 }: RoomCardProps) {
-  const agencyRoom = useRoomById(scope.mode === "agency" ? scope.hotelId : undefined, room.id);
+  const agencyRoom = useRoomById(scope.mode === "agency" ? scope.hotelId : undefined, room.roomId);
   const adminRoom = useAdminRoomById(
     scope.mode === "admin" ? scope.agencyId : undefined,
     scope.mode === "admin" ? scope.hotelId : undefined,
-    room.id,
+    room.roomId,
   );
   const details = scope.mode === "admin" ? adminRoom.data : agencyRoom.data;
-  const photos: RoomPhoto[] = details?.coverPhotoUrl
-    ? [{ id: `cover-${details.id}`, url: resolveRoomImage(details.coverPhotoUrl), isPrimary: true }]
+  const coverPhotoUrl = details?.coverPhotoUrl ?? room.mainPhotoUrl;
+  const photos: RoomPhoto[] = coverPhotoUrl
+    ? [{ id: `cover-${room.roomId}`, url: resolveRoomImage(coverPhotoUrl), isPrimary: true }]
     : [];
 
   return (
     <RoomCardRoot
       variant="outlined"
       clickable={onRoomClick != null}
-      onClick={onRoomClick != null ? () => onRoomClick(room.id) : undefined}
+      onClick={onRoomClick != null ? () => onRoomClick(room.roomId) : undefined}
     >
       <Stack spacing={2}>
         <RoomCardImage photos={photos} title={room.roomNumber} />
         <RoomCardContent spacing={2}>
           <RoomCardInfo
             roomNumber={room.roomNumber}
-            roomTypeName={room.roomTypeName}
+            roomTypeName={room.roomType}
             floorNumber={room.floorNumber}
             status={room.status}
-            pricePerNight={details?.dailyPrice}
-            capacity={details?.capacity}
+            pricePerNight={details?.dailyPrice ?? room.pricePerNight}
+            capacity={details?.capacity ?? room.capacity}
           />
-          <RoomCardActions roomId={room.id} onEdit={onEdit} onDelete={onDelete} />
+          <RoomCardActions roomId={room.roomId} onEdit={onEdit} onDelete={onDelete} />
         </RoomCardContent>
       </Stack>
     </RoomCardRoot>

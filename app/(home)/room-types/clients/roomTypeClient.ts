@@ -2,9 +2,15 @@ import apiClient from '@/core/clients/apiClient'
 import type { RoomType, CreateRoomTypePayload, UpdateRoomTypePayload } from '../types/roomType'
 
 const BASE = '/admin/room-types'
+const OWNER_BASE = '/room-types'
 
 export const getRoomTypes = async (): Promise<RoomType[]> => {
   const response = await apiClient.get<RoomType[]>(BASE)
+  return response.data
+}
+
+export const getOwnerRoomTypes = async (): Promise<RoomType[]> => {
+  const response = await apiClient.get<RoomType[]>(OWNER_BASE)
   return response.data
 }
 

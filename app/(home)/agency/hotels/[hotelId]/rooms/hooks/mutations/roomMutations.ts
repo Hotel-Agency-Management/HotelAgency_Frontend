@@ -14,7 +14,7 @@ export function useCreateRoom(hotelId?: number) {
 
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ROOM_QUERY_KEYS.roomsByHotel(hotelId as number),
+        queryKey: ROOM_QUERY_KEYS.roomsByHotelList(hotelId as number),
       })
       toast.success('Room created successfully')
     },
@@ -37,7 +37,7 @@ export function useUpdateRoom(hotelId?: number, roomId?: number) {
         queryKey: ROOM_QUERY_KEYS.room(hotelId as number, roomId as number),
       })
       queryClient.invalidateQueries({
-        queryKey: ROOM_QUERY_KEYS.roomsByHotel(hotelId as number),
+        queryKey: ROOM_QUERY_KEYS.roomsByHotelList(hotelId as number),
       })
       toast.success('Room updated successfully')
     },
@@ -56,7 +56,7 @@ export function useDeleteRoom(hotelId?: number) {
 
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ROOM_QUERY_KEYS.roomsByHotel(hotelId as number),
+        queryKey: ROOM_QUERY_KEYS.roomsByHotelList(hotelId as number),
       })
       toast.success('Room deleted successfully')
     },

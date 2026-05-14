@@ -11,7 +11,7 @@ import { adminDeleteRoomPhoto, adminUploadRoomPhoto } from "../clients/adminRoom
 import { deleteRoomPhoto, uploadRoomPhoto } from "../clients/roomPhotoClient";
 import { resolveRoomImage } from "@/lib/image-url";
 import { RoomFormValues, roomSchema } from "../schema/roomSchema";
-import { useGetRoomTypes } from "../../../../../room-types/hooks/queries/roomTypeQueries";
+import { useGetRoomTypes, useGetOwnerRoomTypes } from "../../../../../room-types/hooks/queries/roomTypeQueries";
 import type { RoomPhoto, RoomResponse, RoomRouteScope } from "../types/room";
 import { defaultFormValues } from "../constants/roomFormValues";
 import { ADMIN_ROOM_QUERY_KEYS, ROOM_QUERY_KEYS } from "../constants/roomKey";
@@ -51,7 +51,9 @@ export function useRoomFormDialog({
   const { t } = useTranslation();
   const queryClient = useQueryClient();
   const isEdit = roomId != null;
-  const { data: roomTypes = [] } = useGetRoomTypes();
+  const adminRoomTypes = useGetRoomTypes(scope.mode === "admin");
+  const ownerRoomTypes = useGetOwnerRoomTypes(scope.mode === "agency");
+  const { data: roomTypes = [] } = scope.mode === 'admin' ? adminRoomTypes : ownerRoomTypes;
   const [activeStep, setActiveStep] = useState(0);
   const [createPhotos, setCreatePhotos] = useState<File[]>([]);
   const [replacementCoverPhoto, setReplacementCoverPhoto] = useState<File | null>(null);

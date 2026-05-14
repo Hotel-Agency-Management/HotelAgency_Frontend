@@ -15,7 +15,7 @@ export function useAdminCreateRoom(agencyId?: number, hotelId?: number) {
 
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ADMIN_ROOM_QUERY_KEYS.roomsByHotel(agencyId as number, hotelId as number),
+        queryKey: ADMIN_ROOM_QUERY_KEYS.roomsByHotelList(agencyId as number, hotelId as number),
       })
       toast.success('Room created successfully')
     },
@@ -42,7 +42,7 @@ export function useAdminUpdateRoom(
         queryKey: ADMIN_ROOM_QUERY_KEYS.room(agencyId as number, hotelId as number, roomId as number),
       })
       queryClient.invalidateQueries({
-        queryKey: ADMIN_ROOM_QUERY_KEYS.roomsByHotel(agencyId as number, hotelId as number),
+        queryKey: ADMIN_ROOM_QUERY_KEYS.roomsByHotelList(agencyId as number, hotelId as number),
       })
       toast.success('Room updated successfully')
     },
@@ -61,7 +61,7 @@ export function useAdminDeleteRoom(agencyId?: number, hotelId?: number) {
 
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ADMIN_ROOM_QUERY_KEYS.roomsByHotel(agencyId as number, hotelId as number),
+        queryKey: ADMIN_ROOM_QUERY_KEYS.roomsByHotelList(agencyId as number, hotelId as number),
       })
       toast.success('Room deleted successfully')
     },
