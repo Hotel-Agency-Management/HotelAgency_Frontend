@@ -28,7 +28,7 @@ export type Subjects =
   | 'RoomTypes'
   | 'Operations'
   | 'Housekeeping'
-  | 'HousekeepingTasks'
+  | 'HousekeepingTickets'
   | 'HousekeepingStaff'
   | 'Maintenance'
   | 'Insurance'
