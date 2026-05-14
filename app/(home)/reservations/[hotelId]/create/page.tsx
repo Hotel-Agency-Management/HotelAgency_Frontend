@@ -1,20 +1,13 @@
 import DirectReservationCreatePage from '../components/create/DirectReservationCreatePage'
 
 interface HotelDirectReservationCreateRouteProps {
-  searchParams: Promise<{
-    totalAmount?: string
-  }>
+  params: Promise<{ hotelId: string }>
 }
 
 export default async function HotelDirectReservationCreateRoute({
-  searchParams,
+  params,
 }: HotelDirectReservationCreateRouteProps) {
-  const params = await searchParams
-  const parsedTotalAmount = Number(params.totalAmount ?? 0)
+  const { hotelId } = await params
 
-  return (
-    <DirectReservationCreatePage
-      totalAmount={Number.isFinite(parsedTotalAmount) ? parsedTotalAmount : 0}
-    />
-  )
+  return <DirectReservationCreatePage hotelId={Number(hotelId)} />
 }

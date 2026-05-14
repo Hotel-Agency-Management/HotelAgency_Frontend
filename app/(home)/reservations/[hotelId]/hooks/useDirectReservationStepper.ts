@@ -8,13 +8,16 @@ import type { DirectReservationFormInput } from '../schema/directReservationSche
 interface UseDirectReservationStepperOptions {
   onSubmit: FormEventHandler<HTMLFormElement>
   trigger: UseFormTrigger<DirectReservationFormInput>
+  onBeforeNextStep?: (fromStep: number) => Promise<void>
 }
 
 export function useDirectReservationStepper({
   onSubmit,
   trigger,
+  onBeforeNextStep,
 }: UseDirectReservationStepperOptions) {
   const [activeStep, setActiveStep] = useState(0)
+  const [isTransitioning, setIsTransitioning] = useState(false)
 
   const currentStep = DIRECT_RESERVATION_STEPS[activeStep]
   const isFirstStep = activeStep === 0
@@ -25,6 +28,15 @@ export function useDirectReservationStepper({
 
     if (!isStepValid) {
       return
+    }
+
+    if (onBeforeNextStep) {
+      setIsTransitioning(true)
+      try {
+        await onBeforeNextStep(activeStep)
+      } finally {
+        setIsTransitioning(false)
+      }
     }
 
     setActiveStep(previousStep => Math.min(previousStep + 1, DIRECT_RESERVATION_STEPS.length - 1))
@@ -52,6 +64,7 @@ export function useDirectReservationStepper({
     handleNextStep,
     isFirstStep,
     isLastStep,
+    isTransitioning,
     steps: DIRECT_RESERVATION_STEPS,
   }
 }

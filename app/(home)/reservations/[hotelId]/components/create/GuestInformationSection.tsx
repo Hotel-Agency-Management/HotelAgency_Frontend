@@ -21,7 +21,7 @@ export function GuestInformationSection({
       <Grid container spacing={2}>
         <Grid size={{ xs: 12, md: 6 }}>
           <Controller
-            name='fullName'
+            name='guestFullName'
             control={control}
             render={({ field }) => (
               <TextField
@@ -29,8 +29,8 @@ export function GuestInformationSection({
                 label='Full Name'
                 fullWidth
                 size='small'
-                error={!!errors.fullName}
-                helperText={errors.fullName?.message}
+                error={!!errors.guestFullName}
+                helperText={errors.guestFullName?.message}
               />
             )}
           />
@@ -38,7 +38,7 @@ export function GuestInformationSection({
 
         <Grid size={{ xs: 12, md: 6 }}>
           <Controller
-            name='phoneNumber'
+            name='guestPhone'
             control={control}
             render={({ field }) => (
               <MuiTelInput
@@ -47,8 +47,8 @@ export function GuestInformationSection({
                 size='small'
                 label='Phone Number'
                 defaultCountry='PS'
-                error={!!errors.phoneNumber}
-                helperText={errors.phoneNumber?.message}
+                error={!!errors.guestPhone}
+                helperText={errors.guestPhone?.message}
               />
             )}
           />
@@ -56,7 +56,7 @@ export function GuestInformationSection({
 
         <Grid size={{ xs: 12, md: 6 }}>
           <Controller
-            name='email'
+            name='guestEmail'
             control={control}
             render={({ field }) => (
               <TextField
@@ -65,8 +65,8 @@ export function GuestInformationSection({
                 type='email'
                 fullWidth
                 size='small'
-                error={!!errors.email}
-                helperText={errors.email?.message}
+                error={!!errors.guestEmail}
+                helperText={errors.guestEmail?.message}
               />
             )}
           />
@@ -74,7 +74,7 @@ export function GuestInformationSection({
 
         <Grid size={{ xs: 12, md: 6 }}>
           <Controller
-            name='idOrPassportNumber'
+            name='guestIdNumber'
             control={control}
             render={({ field }) => (
               <TextField
@@ -82,8 +82,8 @@ export function GuestInformationSection({
                 label='ID / Passport Number'
                 fullWidth
                 size='small'
-                error={!!errors.idOrPassportNumber}
-                helperText={errors.idOrPassportNumber?.message}
+                error={!!errors.guestIdNumber}
+                helperText={errors.guestIdNumber?.message}
               />
             )}
           />
