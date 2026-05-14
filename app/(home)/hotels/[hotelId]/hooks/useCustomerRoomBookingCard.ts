@@ -34,7 +34,7 @@ interface UseCustomerRoomBookingCardOptions {
   hotel: CustomerHotel | null
   room: Pick<
     RoomProfile,
-    'type' | 'status' | 'floorNumber' | 'capacity' | 'pricePerNight' | 'extendPrice' | 'starRating' | 'insurance'
+    'type' | 'status' | 'floorNumber' | 'capacity' | 'pricePerNight' | 'extendPrice' | 'starRating' | 'yearlyInsurance' | 'insurancePerReservation'
   >
   reservation: ReservationDetails
 }

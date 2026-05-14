@@ -13,7 +13,7 @@ import { resolveRoomImage } from "@/lib/image-url";
 import { RoomFormValues, roomSchema } from "../schema/roomSchema";
 import { useGetRoomTypes, useGetOwnerRoomTypes } from "../../../../../room-types/hooks/queries/roomTypeQueries";
 import type { RoomPhoto, RoomResponse, RoomRouteScope } from "../types/room";
-import { defaultFormValues } from "../constants/roomFormValues";
+import { defaultFormValues, STEP_FIELDS } from "../constants/roomFormValues";
 import { ADMIN_ROOM_QUERY_KEYS, ROOM_QUERY_KEYS } from "../constants/roomKey";
 
 export interface UseRoomFormDialogArgs {
@@ -36,7 +36,8 @@ function getRoomValues(room: RoomResponse): RoomFormValues {
     weeklyPrice: room.weeklyPrice,
     monthlyPrice: room.monthlyPrice,
     extendPrice: room.extendPrice,
-    insurance: room.insurance,
+    yearlyInsurance: room.yearlyInsurance,
+    insurancePerReservation: room.insurancePerReservation,
     capacity: room.capacity,
     coverPhoto: null,
   };
@@ -95,7 +96,7 @@ export function useRoomFormDialog({
     defaultValues: defaultFormValues,
   });
 
-  const { reset, handleSubmit } = methods;
+  const { reset, handleSubmit, trigger } = methods;
 
   const isSaving = createMutation.isPending || updateMutation.isPending || isSavingPhotos;
   const room = roomQuery.data ?? null;
@@ -126,17 +127,16 @@ export function useRoomFormDialog({
   };
 
   const onSubmit = handleSubmit(() => {
-    if (isEdit) {
-      setActiveStep(1);
-      return;
-    }
-
     setActiveStep(1);
   });
 
-  const handleCreateNext = handleSubmit(() => {
-    setActiveStep(1);
-  });
+  const handleCreateNext = async () => {
+    const stepFields = STEP_FIELDS[activeStep];
+    const isStepValid = stepFields ? await trigger(stepFields) : true;
+    if (!isStepValid) return;
+
+    setActiveStep((current) => Math.min(current + 1, 3));
+  };
 
   const uploadAdditionalPhotos = async (createdRoomId: number, photos: File[]) => {
     const additionalPhotos = photos.slice(1);
@@ -297,6 +297,8 @@ export function useRoomFormDialog({
     handleFinishEdit,
     stepLabels: [
       t("hotelRooms.dialog.stepDetails", { defaultValue: "Room details" }),
+      t("hotelRooms.dialog.stepPricing", { defaultValue: "Pricing" }),
+      t("hotelRooms.dialog.stepNotes", { defaultValue: "Notes & amenities" }),
       t("hotelRooms.dialog.stepPhotos", { defaultValue: "Photos" }),
     ],
     t,

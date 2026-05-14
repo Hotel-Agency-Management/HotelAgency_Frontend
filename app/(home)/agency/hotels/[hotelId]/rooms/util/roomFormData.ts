@@ -13,7 +13,8 @@ export function buildRoomFormData(
   formData.append('weeklyPrice', String(data.weeklyPrice))
   formData.append('monthlyPrice', String(data.monthlyPrice))
   formData.append('extendPrice', String(data.extendPrice))
-  formData.append('insurance', String(data.insurance))
+  formData.append('yearlyInsurance', String(data.yearlyInsurance))
+  formData.append('insurancePerReservation', String(data.insurancePerReservation))
   formData.append('capacity', String(data.capacity))
 
   if (data.description) formData.append('description', data.description)

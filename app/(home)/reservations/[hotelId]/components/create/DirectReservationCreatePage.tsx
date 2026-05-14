@@ -1,50 +1,36 @@
 'use client'
 
-import { alpha } from '@mui/material/styles'
-import { Chip, Grid, Paper, Stack, Typography } from '@mui/material'
+import { Chip, Grid, Stack, Typography } from '@mui/material'
 import { BedDouble, PhoneCall, ReceiptText } from 'lucide-react'
 import { DirectReservationForm } from './DirectReservationForm'
 import { ReservationSummaryCard } from './ReservationSummaryCard'
-import { useDirectReservationForm } from '../../hooks/useDirectReservationForm'
-import type { DirectReservationFormValues } from '../../schema/directReservationSchema'
+import { GradientCard } from '../../styles/StyledComponents'
+import { useDirectReservationCreatePage } from '../../hooks/useDirectReservationCreatePage'
 
 interface DirectReservationCreatePageProps {
-  totalAmount?: number
-  onSubmit?: (values: DirectReservationFormValues) => void
-}
-
-function defaultSubmit(_values: DirectReservationFormValues) {
-  // TODO : add implementation when api ready
+  hotelId: number
 }
 
 export default function DirectReservationCreatePage({
-  totalAmount = 0,
-  onSubmit = defaultSubmit,
+  hotelId,
 }: DirectReservationCreatePageProps) {
   const {
     control,
     errors,
+    hasContract,
+    hasInvoice,
     isSubmitting,
+    rooms,
+    roomsLoading,
     reservationSnapshot,
     handleFormSubmit,
+    handleBeforeNextStep,
     trigger,
-  } =
-    useDirectReservationForm({
-      totalAmount,
-      onSubmit,
-    })
+  } = useDirectReservationCreatePage(hotelId)
+
   return (
     <Stack spacing={3.5}>
-      <Paper
-        variant='card'
-        sx={{
-          background: theme =>
-            `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.12)} 0%, ${alpha(
-              theme.palette.background.paper,
-              0.98
-            )} 55%)`,
-        }}
-      >
+      <GradientCard variant='card'>
         <Stack spacing={2}>
           <Stack direction='row' spacing={1} flexWrap='wrap' useFlexGap>
             <Chip icon={<PhoneCall size={14} />} label='Phone & Walk-in' variant='outlined' />
@@ -53,15 +39,15 @@ export default function DirectReservationCreatePage({
           </Stack>
 
           <Stack spacing={1}>
-            <Typography variant='h4' sx={{ fontWeight: 800 }}>
+            <Typography variant='h4' fontWeight={800}>
               Create a hotel reservation
             </Typography>
-            <Typography variant='body1' color='text.secondary' sx={{ maxWidth: 760 }}>
+            <Typography variant='body1' maxWidth={760}>
               Capture walk-in and phone reservations with guest details, stay dates, room selection, and payment in a guided step-by-step flow.
             </Typography>
           </Stack>
         </Stack>
-      </Paper>
+      </GradientCard>
 
       <Grid container spacing={3.5} >
         <Grid size={{ xs: 12, lg: 8 }}>
@@ -71,11 +57,21 @@ export default function DirectReservationCreatePage({
             isSubmitting={isSubmitting}
             onSubmit={handleFormSubmit}
             trigger={trigger}
+            rooms={rooms}
+            roomsLoading={roomsLoading}
+            hasContract={hasContract}
+            hasInvoice={hasInvoice}
+            guestFullName={reservationSnapshot.guestFullName}
+            checkInDate={reservationSnapshot.checkInDate}
+            checkOutDate={reservationSnapshot.checkOutDate}
+            roomNumbers={reservationSnapshot.roomNumbers}
+            totalAmount={reservationSnapshot.totalAmount}
+            onBeforeNextStep={handleBeforeNextStep}
           />
         </Grid>
 
         <Grid size={{ xs: 12, lg: 4 }}>
-          <ReservationSummaryCard totalAmount={totalAmount} snapshot={reservationSnapshot} />
+          <ReservationSummaryCard snapshot={reservationSnapshot} />
         </Grid>
       </Grid>
     </Stack>

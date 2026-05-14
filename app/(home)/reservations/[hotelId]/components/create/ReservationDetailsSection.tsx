@@ -1,29 +1,30 @@
 import dayjs from 'dayjs'
 import { Controller, type Control, type FieldErrors } from 'react-hook-form'
-import { Box, Grid, TextField, FormControl, FormHelperText, InputLabel, MenuItem, Select } from '@mui/material'
+import { Autocomplete, Grid, ListItem, ListItemText, TextField } from '@mui/material'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
-import { ROOM_TYPES } from '@/app/(home)/room-types/constants/roomTypes'
 import { FormSection } from './FormSection'
-import {
-  ROOM_TYPE_OPTIONS,
-  type DirectReservationFormInput,
-} from '../../schema/directReservationSchema'
+import type { DirectReservationFormInput } from '../../schema/directReservationSchema'
+import type { RoomListItemResponse } from '@/app/(home)/agency/hotels/[hotelId]/rooms/configs/roomConfig'
 
 interface ReservationDetailsSectionProps {
   control: Control<DirectReservationFormInput>
   errors: FieldErrors<DirectReservationFormInput>
+  rooms: RoomListItemResponse[]
+  roomsLoading: boolean
 }
 
 export function ReservationDetailsSection({
   control,
   errors,
+  rooms,
+  roomsLoading,
 }: ReservationDetailsSectionProps) {
   return (
     <FormSection
       title='Reservation Details'
-      description='Confirm the stay window, occupancy, and room category for this reservation.'
+      description='Confirm the stay window, occupancy, and assigned room numbers for this reservation.'
     >
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Grid container spacing={2}>
@@ -95,62 +96,38 @@ export function ReservationDetailsSection({
 
           <Grid size={{ xs: 12, md: 6 }}>
             <Controller
-              name='numberOfRooms'
+              name='roomNumbers'
               control={control}
               render={({ field }) => (
-                <TextField
-                  label='Number of Rooms'
-                  type='number'
-                  fullWidth
+                <Autocomplete
+                  multiple
+                  disableCloseOnSelect
                   size='small'
-                  value={field.value}
-                  error={!!errors.numberOfRooms}
-                  helperText={errors.numberOfRooms?.message}
-                  onChange={event =>
-                    field.onChange(event.target.value === '' ? '' : Number(event.target.value))
+                  loading={roomsLoading}
+                  options={rooms}
+                  getOptionLabel={option => option.roomNumber}
+                  isOptionEqualToValue={(option, value) => option.roomNumber === value.roomNumber}
+                  value={rooms.filter(r => field.value.includes(r.roomNumber))}
+                  onChange={(_event, selected) =>
+                    field.onChange(selected.map(r => r.roomNumber))
                   }
-                  inputProps={{ min: 1 }}
+                  renderOption={(props, option) => (
+                    <ListItem {...props} key={option.roomId} component='li'>
+                      <ListItemText
+                        primary={`Room ${option.roomNumber}`}
+                        secondary={`${option.roomType} · $${option.pricePerNight}/night`}
+                      />
+                    </ListItem>
+                  )}
+                  renderInput={params => (
+                    <TextField
+                      {...params}
+                      label='Rooms'
+                      error={!!errors.roomNumbers}
+                      helperText={errors.roomNumbers?.message}
+                    />
+                  )}
                 />
-              )}
-            />
-          </Grid>
-
-          <Grid size={{ xs: 12 }}>
-            <Controller
-              name='roomType'
-              control={control}
-              render={({ field }) => (
-                <FormControl fullWidth error={!!errors.roomType} size='small'>
-                  <InputLabel shrink id='front-desk-room-type-label'>
-                    Room Type
-                  </InputLabel>
-                  <Select
-                    {...field}
-                    displayEmpty
-                    labelId='front-desk-room-type-label'
-                    label='Room Type'
-                    value={field.value}
-                    renderValue={selected =>
-                      selected ? (
-                        ROOM_TYPES[selected as keyof typeof ROOM_TYPES].label
-                      ) : (
-                        <Box component='span'>
-                          Select room type
-                        </Box>
-                      )
-                    }
-                  >
-                    <MenuItem disabled value=''>
-                      Select room type
-                    </MenuItem>
-                    {ROOM_TYPE_OPTIONS.map(option => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {ROOM_TYPES[option.value].label}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                  <FormHelperText>{errors.roomType?.message}</FormHelperText>
-                </FormControl>
               )}
             />
           </Grid>

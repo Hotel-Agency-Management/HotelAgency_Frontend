@@ -1,22 +1,26 @@
 import {
   Box,
   Chip,
+  Divider,
   Stack,
   Typography,
 } from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
 import { RoomFormValues } from "../../../schema/roomSchema";
-import { useRoomAmenities } from "@/app/(home)/room-amenities/hooks/useRoomAmenityStore";
+import { useRoomAmenitiesForPicker } from "@/app/(home)/room-amenities/hooks/useRoomAmenityStore";
 
 export const RoomAmenitiesPicker = () => {
   const { control, formState: { errors } } = useFormContext<RoomFormValues>();
-  const { data: amenities = [] } = useRoomAmenities();
+  const { data: amenities = [] } = useRoomAmenitiesForPicker();
 
   return (
     <Box>
-      <Typography variant="subtitle2" fontWeight={600} mb={1}>
-        Amenities
-      </Typography>
+      <Stack spacing={0.5}>
+        <Typography variant="subtitle2" fontWeight={700}>
+          Amenities
+        </Typography>
+        <Divider />
+      </Stack>
 
       <Controller
         name="amenityIds"
@@ -54,7 +58,7 @@ export const RoomAmenitiesPicker = () => {
       />
 
       {errors.amenityIds && (
-        <Typography variant="caption" color="error" mt={0.5} display="block">
+        <Typography variant="caption" color="error" display="block">
           {errors.amenityIds.message}
         </Typography>
       )}
@@ -63,7 +67,7 @@ export const RoomAmenitiesPicker = () => {
         name="amenityIds"
         control={control}
         render={({ field }) => (
-          <Typography variant="caption" color="text.secondary" mt={1} display="block">
+          <Typography variant="caption" display="block">
             {(field.value ?? []).length} amenit{(field.value ?? []).length !== 1 ? "ies" : "y"} selected
           </Typography>
         )}

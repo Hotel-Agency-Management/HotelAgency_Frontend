@@ -1,11 +1,13 @@
 'use client'
 
+import { LoadingButton } from '@mui/lab'
 import { Button, Paper, Stack, Typography } from '@mui/material'
 
 interface DirectReservationFormActionsProps {
   isFirstStep: boolean
   isLastStep: boolean
   isSubmitting: boolean
+  isLoading?: boolean
   onBack: () => void
   onNext: () => void
 }
@@ -14,6 +16,7 @@ export function DirectReservationFormActions({
   isFirstStep,
   isLastStep,
   isSubmitting,
+  isLoading = false,
   onBack,
   onNext,
 }: DirectReservationFormActionsProps) {
@@ -47,24 +50,28 @@ export function DirectReservationFormActions({
             Back
           </Button>
           {isLastStep ? (
-            <Button
+            <LoadingButton
               type='submit'
               variant='contained'
+              loadingPosition='start'
+              loading={isLoading}
               disabled={isSubmitting}
               size='small'
             >
               Create Reservation
-            </Button>
+            </LoadingButton>
           ) : (
-            <Button
+            <LoadingButton
               type='button'
               variant='contained'
+              loadingPosition='start'
+              loading={isLoading}
               disabled={isSubmitting}
               size='small'
               onClick={() => void onNext()}
             >
               Next
-            </Button>
+            </LoadingButton>
           )}
         </Stack>
       </Stack>

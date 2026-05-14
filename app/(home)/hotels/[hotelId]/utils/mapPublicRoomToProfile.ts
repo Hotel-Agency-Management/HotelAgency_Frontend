@@ -31,6 +31,7 @@ export function mapPublicRoomToProfile(room: PublicRoom, roomTypeName: string): 
     photos,
     pricePerNight: getPublicRoomNightlyRate(room),
     extendPrice: getPublicRoomExtendPrice(room),
-    insurance: undefined,
+    yearlyInsurance: room.yearlyInsurance,
+    insurancePerReservation: room.insurancePerReservation,
   }
 }

@@ -51,6 +51,8 @@ export interface PublicRoom {
   weeklyPrice?: number
   monthlyPrice?: number
   extendPrice?: number
+  yearlyInsurance?: number
+  insurancePerReservation?: number
   createdAt?: string
   updatedAt?: string
 }

@@ -74,10 +74,10 @@ export function BookingDetailsStep({
             }
             label={
               <Stack>
-                <Typography variant="body2">Add monthly insurance</Typography>
+                <Typography variant="body2">Include yearly insurance</Typography>
                 {insuranceFeeLabel ? (
-                  <Typography variant="caption" color="text.secondary">
-                    {insuranceFeeLabel} / month
+                  <Typography variant="caption">
+                    {insuranceFeeLabel} / reservation
                   </Typography>
                 ) : null}
               </Stack>

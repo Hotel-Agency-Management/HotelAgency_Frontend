@@ -1,3 +1,5 @@
+import { StepContentProps } from "../components/room/form/roomFormStepFactory";
+
 export {
   RoomStatus,
   type CreateRoomRequest,
@@ -61,7 +63,8 @@ export interface Room {
   photos: RoomPhoto[];
   pricePerNight?: number;
   extendPrice?: number;
-  insurance?: number;
+  yearlyInsurance?: number;
+  insurancePerReservation?: number;
   createdAt: string;
   updatedAt: string;
 }
@@ -70,3 +73,5 @@ export interface CreateRoomDto
   extends Omit<Room, "id" | "photos" | "createdAt" | "updatedAt"> {}
 
 export interface UpdateRoomDto extends Partial<CreateRoomDto> {}
+
+export type StepContentRenderer = (props: StepContentProps) => React.ReactNode;

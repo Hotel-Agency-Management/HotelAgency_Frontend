@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import { alpha } from "@mui/material/styles";
 import { Building2, MapPin, Phone } from "lucide-react";
 import { useTeamMembers } from "@/app/(home)/users/hooks/useTeamMembers";
+import { DEFAULT_HOTEL_CARD_TEAM_MEMBERS_PAGE_SIZE } from "../../constants/hotel";
 import { HotelCardActions } from "./HotelCardActions";
 import { HotelCardManager } from "./HotelCardManager";
 import type { HotelCardHotel } from "./types";
@@ -17,7 +18,10 @@ interface HotelCardOverlayProps {
 }
 
 export function HotelCardOverlay({ hotel, onEdit }: HotelCardOverlayProps) {
-  const { getMemberById } = useTeamMembers();
+  const { getMemberById } = useTeamMembers(
+    { pageSize: DEFAULT_HOTEL_CARD_TEAM_MEMBERS_PAGE_SIZE },
+    hotel.agencyId
+  );
   const { basicInfo, branding, managerId } = hotel;
   const manager = getMemberById(managerId);
 
