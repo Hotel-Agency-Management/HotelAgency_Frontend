@@ -10,7 +10,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import FadeIn from "@/components/animation/FadeIn";
 import themeConfig from "@/core/configs/themeConfig";
-import { TaskSummaryCard } from "../../tasks/components/TaskSummaryCard";
+import { TicketSummaryCard } from "../../tickets/components/TicketSummaryCard";
 import { getIssueAlertSummaryCards } from "../constants/issueAlerts";
 import { useIssueAlertActions } from "../hooks/useIssueAlertActions";
 import { useIssuesAlertsPage } from "../hooks/useIssuesAlerts";
@@ -70,7 +70,7 @@ export function IssuesAlertsPage() {
                 transition={{ delay: 0.06 * index, duration: 0.35 }}
                 sx={{ height: "100%" }}
               >
-                <TaskSummaryCard title={card.title} value={card.value} subtitle={card.subtitle} />
+                <TicketSummaryCard title={card.title} value={card.value} subtitle={card.subtitle} />
               </FadeIn>
             </Grid>
           ))}

@@ -40,7 +40,7 @@ export function defineAbilitiesFor(role: UserRole): AppAbility {
       can('manage', 'Rooms')
       can('manage', 'Operations')
       can('manage', 'Housekeeping')
-      can('manage', 'HousekeepingTasks')
+      can('manage', 'HousekeepingTickets')
       can('manage', 'HousekeepingStaff')
       can('manage', 'Maintenance')
       can('manage', 'Insurance')
@@ -64,13 +64,13 @@ export function defineAbilitiesFor(role: UserRole): AppAbility {
 
     case USER_ROLES.HOUSEKEEPING_MANAGER:
       can('read', 'Housekeeping')
-      can('manage', 'HousekeepingTasks')
+      can('manage', 'HousekeepingTickets')
       can('manage', 'DamageReports')
       break
 
     case USER_ROLES.HOUSEKEEPING_EMPLOYEE:
       can('read', 'Housekeeping')
-      can('manage', 'HousekeepingTasks')
+      can('manage', 'HousekeepingTickets')
       can('create', 'DamageReports')
       can('read', 'DamageReports')
       break
