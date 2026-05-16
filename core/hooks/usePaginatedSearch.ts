@@ -2,11 +2,16 @@
 
 import { useState } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
-import { UsePaginatedSearchOptions, UsePaginatedSearchResult } from '../configs/searchPaginationConfig'
+import {
+
+  UsePaginatedSearchOptions,
+  UsePaginatedSearchResult,
+} from '../configs/searchPaginationConfig'
+import { DEFAULT_PAGINATED_SEARCH_PAGE_SIZE, DEFAULT_PAGINATED_SEARCH_DEBOUNCE_MS } from '../constant/pagination'
 
 export function usePaginatedSearch({
-  pageSize = 10,
-  debounceMs = 300,
+  pageSize = DEFAULT_PAGINATED_SEARCH_PAGE_SIZE,
+  debounceMs = DEFAULT_PAGINATED_SEARCH_DEBOUNCE_MS,
 }: UsePaginatedSearchOptions = {}): UsePaginatedSearchResult {
   const [searchInput, setSearchInput] = useState('')
   const [debouncedSearch, setDebouncedSearch] = useState<string | undefined>(undefined)

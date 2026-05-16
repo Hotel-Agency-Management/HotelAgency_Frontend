@@ -9,6 +9,7 @@ import { useAdminRoomsByHotel } from "./queries/adminRoomQueries";
 import { useRoomsByHotel } from "./queries/roomQueries";
 import type { RoomFilters, RoomListItemResponse, RoomRouteScope } from "../types/room";
 import type { RoomListParams } from "../configs/roomConfig";
+import { DEFAULT_ROOMS_PAGE_SIZE } from "../constants/pagination";
 import { getRoomProfilePath } from "../util/roomRoutes";
 
 function matchesFilters(room: RoomListItemResponse, filters: RoomFilters) {
@@ -21,7 +22,10 @@ export function useRoomsPageController(scope: RoomRouteScope) {
   const router = useRouter();
   const [filters, setFilters] = useState<RoomFilters>({});
   const [view, setView] = useState<"list" | "cards">("list");
-  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 });
+  const [paginationModel, setPaginationModel] = useState({
+    page: 0,
+    pageSize: DEFAULT_ROOMS_PAGE_SIZE,
+  });
 
   const [debouncedSearch] = useDebounce(filters.search, 300);
 

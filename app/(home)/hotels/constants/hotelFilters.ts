@@ -12,5 +12,9 @@ export const DEFAULT_HOTEL_FILTERS = {
   sort: 'recommended',
 } as const
 
+export const DEFAULT_CUSTOMER_HOTELS_PAGE_SIZE = 9
+
+export const DEFAULT_CUSTOMER_HOTELS_SEARCH_DEBOUNCE_MS = 300
+
 const heroImage = 'url(https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1800&q=80)'
 export const heroStyle = { '--customer-hotel-hero-image': heroImage } as CSSProperties
