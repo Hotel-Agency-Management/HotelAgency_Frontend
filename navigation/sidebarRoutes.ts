@@ -215,10 +215,10 @@ const navigation = (hotelId?: string, agencyId?: string): SidebarNavItems => {
           action: 'manage'
         },
         {
-          title: 'Task Management',
-          path: `/agency/hotels/${hotelId}/housekeeping/tasks`,
+          title: 'Ticket Management',
+          path: `/agency/hotels/${hotelId}/housekeeping/tickets`,
           icon: 'lucide:clipboard-check',
-          subject: 'HousekeepingTasks',
+          subject: 'HousekeepingTickets',
           action: 'manage'
         },
         {
