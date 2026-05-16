@@ -24,6 +24,7 @@ type PaginatedResponse<T> = {
 };
 
 type RoomLocationResponse = Partial<RoomListItemResponse> & {
+  id?: number | string;
   roomId?: number | string;
   roomType?: string;
 };
