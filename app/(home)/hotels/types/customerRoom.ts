@@ -1,6 +1,20 @@
 export interface PublicRoomsQueryParams {
   pageNumber?: number
   pageSize?: number
+  searchText?: string
+  roomTypeId?: number
+  guests?: number
+  maxPrice?: number
+  checkIn?: string
+  checkOut?: string
+}
+
+export interface PublicRoomsResult {
+  items: PublicRoom[]
+  pageNumber: number
+  pageSize: number
+  totalCount: number
+  totalPages: number
 }
 
 export interface PublicRoomPhoto {
@@ -37,6 +51,8 @@ export interface PublicRoom {
   weeklyPrice?: number
   monthlyPrice?: number
   extendPrice?: number
+  yearlyInsurance?: number
+  insurancePerReservation?: number
   createdAt?: string
   updatedAt?: string
 }

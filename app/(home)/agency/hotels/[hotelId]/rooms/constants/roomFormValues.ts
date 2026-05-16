@@ -14,8 +14,22 @@ export const defaultFormValues: RoomFormValues = {
   weeklyPrice: 0,
   monthlyPrice: 0,
   extendPrice: 0,
-  insurance: 0,
+  yearlyInsurance: 0,
+  insurancePerReservation: 0,
   coverPhoto: null,
 };
 
 export const ROOMS_KEY = ["rooms"] as const;
+
+export const STEP_FIELDS: Array<Array<keyof RoomFormValues>> = [
+  ["roomNumber", "roomTypeId", "floorNumber", "capacity", "status"],
+  [
+    "dailyPrice",
+    "weeklyPrice",
+    "monthlyPrice",
+    "extendPrice",
+    "yearlyInsurance",
+    "insurancePerReservation",
+  ],
+  ["description", "notes", "amenityIds"],
+];

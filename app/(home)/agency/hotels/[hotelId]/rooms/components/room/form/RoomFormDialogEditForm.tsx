@@ -29,7 +29,9 @@ export function RoomFormDialogEditForm({
     <form onSubmit={onSubmit}>
       <DialogContent dividers>
         <Stack spacing={3}>
-          <RoomFormFields roomTypes={roomTypes} />
+          <RoomFormFields roomTypes={roomTypes} section="details" />
+          <RoomFormFields roomTypes={roomTypes} section="pricing" />
+          <RoomFormFields roomTypes={roomTypes} section="notes" />
           <RoomAmenitiesPicker />
         </Stack>
       </DialogContent>

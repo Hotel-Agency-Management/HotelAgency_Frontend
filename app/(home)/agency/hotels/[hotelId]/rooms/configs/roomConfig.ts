@@ -25,7 +25,8 @@ export interface RoomResponse {
   weeklyPrice: number
   monthlyPrice: number
   extendPrice: number
-  insurance: number
+  yearlyInsurance: number
+  insurancePerReservation: number
   capacity: number
   createdAt: string
   updatedAt: string
@@ -34,12 +35,17 @@ export interface RoomResponse {
 }
 
 export interface RoomListItemResponse {
-  id: number
+  roomId: number
   hotelId: number
-  roomTypeName: string
+  roomType: string
   roomNumber: string
   floorNumber: number
   status: RoomStatus
+  pricePerNight: number
+  capacity: number
+  description: string | null
+  amenities: string[]
+  mainPhotoUrl: string | null
 }
 
 export interface CreateRoomRequest {
@@ -55,10 +61,30 @@ export interface CreateRoomRequest {
   weeklyPrice: number
   monthlyPrice: number
   extendPrice: number
-  insurance: number
+  yearlyInsurance: number
+  insurancePerReservation: number
   capacity: number
 }
 export interface UpdateRoomRequest extends CreateRoomRequest {}
+
+export interface RoomListParams {
+  pageNumber?: number
+  pageSize?: number
+  searchText?: string
+  roomTypeId?: number
+  guests?: number
+  maxPrice?: number
+  checkIn?: string
+  checkOut?: string
+}
+
+export interface RoomListResponse {
+  items: RoomListItemResponse[]
+  pageNumber: number
+  pageSize: number
+  totalCount: number
+  totalPages: number
+}
 
 export const BASE_ADMIN = '/admin/agencies'
 

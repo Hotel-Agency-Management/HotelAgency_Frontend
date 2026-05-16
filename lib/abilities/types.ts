@@ -35,6 +35,7 @@ export type Subjects =
   | 'Finance'
   | 'Bookings'
   | 'Reservations'
+  | 'AdminReservations'
   | 'DamageReports'
   | 'DamageInvoices'
   | 'all'

@@ -4,17 +4,19 @@ import type {
   PublicRoomPhoto,
   PublicRoomsApiPayload,
   PublicRoomsQueryParams,
+  PublicRoomsResult,
 } from '../types/customerRoom'
 
 export const getPublicRooms = async (
   hotelId: string,
-  params?: PublicRoomsQueryParams
-): Promise<PublicRoom[]> => {
+  params?: PublicRoomsQueryParams,
+  signal?: AbortSignal
+): Promise<PublicRoomsResult> => {
   const response = await apiClient.get<PublicRoomsApiPayload>(
     `/public/hotels/${hotelId}/rooms`,
-    { params }
+    { params, signal }
   )
-  return response.data.items
+  return response.data
 }
 
 export const getPublicRoomById = async (

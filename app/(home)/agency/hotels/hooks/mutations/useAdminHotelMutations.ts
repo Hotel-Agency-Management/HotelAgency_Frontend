@@ -17,7 +17,7 @@ export const useAdminCreateHotel = () => {
     },
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({
-        queryKey: adminHotelQueryKeys.list(variables.agencyId),
+        queryKey: adminHotelQueryKeys.lists(variables.agencyId),
       })
       toast.success('Hotel created successfully')
     },
@@ -37,7 +37,7 @@ export const useAdminUpdateHotel = () => {
     },
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({
-        queryKey: adminHotelQueryKeys.list(variables.agencyId),
+        queryKey: adminHotelQueryKeys.lists(variables.agencyId),
       })
       queryClient.invalidateQueries({
         queryKey: adminHotelQueryKeys.detail(variables.agencyId, variables.hotelId),

@@ -33,7 +33,7 @@ interface UseCustomerReservationConfirmationModalOptions {
   open: boolean
   hotelId: string
   hotel: CustomerHotel | null
-  room: Pick<RoomProfile, 'type' | 'capacity' | 'pricePerNight' | 'extendPrice' | 'insurance'>
+  room: Pick<RoomProfile, 'type' | 'capacity' | 'pricePerNight' | 'extendPrice' | 'yearlyInsurance' | 'insurancePerReservation'>
   reservation: ReservationDetails
   onConfirm: (payload: CustomerReservationConfirmationPayload) => void
 }
@@ -248,9 +248,9 @@ export function useCustomerReservationConfirmationModal({
     })
   }
 
-  const hasInsurance = (room.insurance ?? 0) > 0
+  const hasInsurance = (room.yearlyInsurance ?? 0) > 0
   const insuranceFeeLabel = hasInsurance
-    ? formatCurrency(room.insurance!, i18n.language, reservation.currency)
+    ? formatCurrency(room.insurancePerReservation!, i18n.language, reservation.currency)
     : null
 
   return {

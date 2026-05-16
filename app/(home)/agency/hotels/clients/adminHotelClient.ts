@@ -1,5 +1,5 @@
 import apiClient from '@/core/clients/apiClient'
-import { CreateHotelRequest, UpdateHotelRequest, HotelResponse } from '../configs/hotelConfig'
+import { CreateHotelRequest, UpdateHotelRequest, HotelResponse, HotelListParams, HotelListResponse } from '../configs/hotelConfig'
 import { buildFormData } from '../utils/formData'
 
 export const adminCreateHotel = async (
@@ -14,8 +14,8 @@ export const adminCreateHotel = async (
   return response.data
 }
 
-export const adminGetHotels = async (agencyId: number): Promise<HotelResponse[]> => {
-  const response = await apiClient.get<HotelResponse[]>(`/admin/agencies/${agencyId}/hotels`)
+export const adminGetHotels = async (agencyId: number, params?: HotelListParams, signal?: AbortSignal): Promise<HotelListResponse> => {
+  const response = await apiClient.get<HotelListResponse>(`/admin/agencies/${agencyId}/hotels`, { params, signal })
   return response.data
 }
 

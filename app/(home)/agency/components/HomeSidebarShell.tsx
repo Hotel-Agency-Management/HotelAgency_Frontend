@@ -31,7 +31,7 @@ export default function HomeSidebarShell({
     return match?.[1] ? decodeURIComponent(match[1]) : null
   }, [pathname])
 
-  const { data: customerHotels = [] } = useQuery({
+  const { data: customerHotelsResult } = useQuery({
     queryKey: ['customer-hotels'],
     queryFn: () => getCustomerHotels(),
     enabled: customerHotelId != null,
@@ -44,10 +44,10 @@ export default function HomeSidebarShell({
 
   const appName = useMemo(() => {
     const customerHotelName = customerHotelId
-      ? customerHotels.find(h => h.id === customerHotelId)?.name
+      ? customerHotelsResult?.items.find(h => h.id === customerHotelId)?.name
       : null
     return customerHotelName ?? brandName
-  }, [customerHotelId, customerHotels, brandName])
+  }, [customerHotelId, customerHotelsResult, brandName])
 
   return (
     <SidebarLayout

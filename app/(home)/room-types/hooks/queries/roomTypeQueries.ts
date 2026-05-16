@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { getRoomTypes, getRoomTypeById } from '../../clients/roomTypeClient'
+import { getRoomTypes, getRoomTypeById, getOwnerRoomTypes } from '../../clients/roomTypeClient'
 import type { RoomType } from '../../types/roomType'
 
 export const roomTypeQueryKeys = {
@@ -8,10 +8,19 @@ export const roomTypeQueryKeys = {
   detail: (id?: number) => ['roomTypes', 'detail', id] as const,
 }
 
-export const useGetRoomTypes = () => {
+export const useGetRoomTypes = (enabled = true) => {
   return useQuery<RoomType[]>({
     queryKey: roomTypeQueryKeys.list(),
     queryFn: getRoomTypes,
+    enabled,
+  })
+}
+
+export const useGetOwnerRoomTypes = (enabled = true) => {
+  return useQuery<RoomType[]>({
+    queryKey: ['ownerRoomTypes', 'list'],
+    queryFn: getOwnerRoomTypes,
+    enabled,
   })
 }
 

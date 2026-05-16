@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useDebounce } from 'use-debounce'
 import { useQuery } from '@tanstack/react-query'
 import { DEFAULT_HOTEL_FILTERS } from '../constants/hotelFilters'
 import type { CustomerHotelFilters } from '../types/customerHotel'
@@ -12,20 +13,34 @@ export const customerHotelQueryKeys = {
 
 export const useCustomerHotels = () => {
   const [filters, setFilters] = useState<CustomerHotelFilters>(DEFAULT_HOTEL_FILTERS)
+  const [page, setPage] = useState(1)
+
+  const [debouncedQuery] = useDebounce(filters.query, 300)
+
+  const params = {
+    search: debouncedQuery || undefined,
+    location: filters.destination !== 'all' ? filters.destination : undefined,
+    pageNumber: page,
+    pageSize: 9,
+  }
 
   const query = useQuery({
-    queryKey: customerHotelQueryKeys.all,
-    queryFn: () => getCustomerHotels(),
+    queryKey: [...customerHotelQueryKeys.all, params],
+    queryFn: ({ signal }) => getCustomerHotels(params, signal),
+    placeholderData: prev => prev,
   })
 
-  const hotels = query.data ?? []
+  const hotels = query.data?.items ?? []
 
   const updateFilters = <TKey extends keyof CustomerHotelFilters>(
     key: TKey,
     value: CustomerHotelFilters[TKey]
   ) => {
     setFilters(current => ({ ...current, [key]: value }))
+    setPage(1)
   }
+
+  const handlePageChange = (_: unknown, newPage: number) => setPage(newPage)
 
   return {
     hotels,
@@ -36,5 +51,8 @@ export const useCustomerHotels = () => {
     isLoading: query.isLoading,
     isFetching: query.isFetching,
     isError: query.isError,
+    page,
+    totalPages: query.data?.totalPages ?? 1,
+    handlePageChange,
   }
 }

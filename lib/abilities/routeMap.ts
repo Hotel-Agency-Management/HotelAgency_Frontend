@@ -51,6 +51,12 @@ export const routePermissions: RoutePermission[] = [
     description: 'Hotel reservation creation page'
   },
   {
+    pattern: '/reservations/[hotelId]/list',
+    action: 'read',
+    subject: 'Reservations',
+    description: 'Hotel reservation list page'
+  },
+  {
     pattern: '/agencies/[agencyId]/hotels/[hotelId]/facilities',
     action: 'manage',
     subject: 'Agencies',
@@ -73,6 +79,42 @@ export const routePermissions: RoutePermission[] = [
     action: 'manage',
     subject: 'Agencies',
     description: 'Admin agency detail page — view and edit any agency profile and documents'
+  },
+  {
+    pattern: '/agency/hotels/[hotelId]/reservations/list',
+    action: 'manage',
+    subject: 'AdminReservations',
+    description: 'Admin hotel reservation list page'
+  },
+  {
+    pattern: '/agency/hotels/[hotelId]/reservations/create',
+    action: 'manage',
+    subject: 'AdminReservations',
+    description: 'Admin hotel reservation creation page'
+  },
+  {
+    pattern: '/agency/hotels/[hotelId]/reservations/[reservationId]',
+    action: 'manage',
+    subject: 'AdminReservations',
+    description: 'Admin hotel reservation detail page'
+  },
+  {
+    pattern: '/agencies/[agencyId]/hotels/[hotelId]/reservations/list',
+    action: 'manage',
+    subject: 'AdminReservations',
+    description: 'Super admin hotel reservation list page'
+  },
+  {
+    pattern: '/agencies/[agencyId]/hotels/[hotelId]/reservations/create',
+    action: 'manage',
+    subject: 'AdminReservations',
+    description: 'Super admin hotel reservation creation page'
+  },
+  {
+    pattern: '/agencies/[agencyId]/hotels/[hotelId]/reservations/[reservationId]',
+    action: 'manage',
+    subject: 'AdminReservations',
+    description: 'Super admin hotel reservation detail page'
   },
   {
     pattern: '/agency/hotels/[hotelId]/damage-reports',

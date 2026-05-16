@@ -6,15 +6,16 @@ import { getPublicRooms, getPublicRoomById } from '../../client/roomClient'
 
 export const getCustomerHotelById = async (hotelId: string): Promise<CustomerHotel | null> => {
   try {
-    const hotels = await getCustomerHotels()
-    return hotels.find(hotel => hotel.id === hotelId) ?? null
+    const result = await getCustomerHotels()
+    return result.items.find(hotel => hotel.id === hotelId) ?? null
   } catch {
     return CUSTOMER_HOTELS_MOCK.find(hotel => hotel.id === hotelId) ?? null
   }
 }
 
 export const getCustomerHotelRooms = async (hotelId: string): Promise<PublicRoom[]> => {
-  return getPublicRooms(hotelId)
+  const result = await getPublicRooms(hotelId)
+  return result.items
 }
 
 export const getCustomerHotelRoomById = async (

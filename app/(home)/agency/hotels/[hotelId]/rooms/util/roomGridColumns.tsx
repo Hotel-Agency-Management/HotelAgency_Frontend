@@ -8,9 +8,9 @@ export const getRoomGridColumns = (
 ): GridColDef[] => {
   return [
   { field: "roomNumber", headerName: "Room #", flex: 0.8, minWidth: 80 },
-  { field: "floorNumber", headerName: "Floor", flex: 0.6, minWidth: 70 },
+  { field: "capacity", headerName: "Capacity", flex: 0.6, minWidth: 70 },
   {
-    field: "roomTypeName",
+    field: "roomType",
     headerName: "Type",
     flex: 1,
     minWidth: 120,
@@ -30,7 +30,7 @@ export const getRoomGridColumns = (
     sortable: false,
     renderCell: (params) => (
       <RoomQuickActions
-        id={Number(params.row.id)}
+        id={Number(params.row.roomId)}
         onEdit={onEdit}
         onDelete={onDelete}
       />

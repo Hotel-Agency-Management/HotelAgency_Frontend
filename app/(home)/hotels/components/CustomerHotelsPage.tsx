@@ -1,6 +1,6 @@
 'use client'
 
-import { Container, Stack } from '@mui/material'
+import { Box, Container, Pagination, Stack } from '@mui/material'
 import { DEFAULT_HOTEL_FILTERS } from '../constants/hotelFilters'
 import { useCustomerHotels } from '../hooks/useCustomerHotels'
 import { HotelEmptyState } from './HotelEmptyState'
@@ -18,6 +18,10 @@ export function CustomerHotelsPage() {
     filters,
     updateFilters,
     isLoading,
+    isFetching,
+    page,
+    totalPages,
+    handlePageChange,
   } = useCustomerHotels()
 
   const resetFilters = () => {
@@ -48,9 +52,23 @@ export function CustomerHotelsPage() {
         {isLoading ? (
           <HotelLoadingGrid />
         ) : filteredHotels.length > 0 ? (
-          <HotelGrid hotels={filteredHotels} />
+          <Box sx={{ opacity: isFetching ? 0.5 : 1, transition: 'opacity 0.2s' }}>
+            <HotelGrid hotels={filteredHotels} />
+          </Box>
         ) : (
           <HotelEmptyState onReset={resetFilters} />
+        )}
+
+        {totalPages > 1 && (
+          <Stack alignItems="center">
+            <Pagination
+              count={totalPages}
+              page={page}
+              onChange={handlePageChange}
+              color="primary"
+              shape="rounded"
+            />
+          </Stack>
         )}
       </Stack>
     </Container>

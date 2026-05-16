@@ -4,7 +4,7 @@ import type { RoomResponse } from "../../types/room";
 export function buildRoomInfoRows(
   t: TFunction,
   locale: string,
-  room: Pick<RoomResponse, "floorNumber" | "capacity" | "dailyPrice" | "weeklyPrice" | "monthlyPrice" | "extendPrice" | "insurance">,
+  room: Pick<RoomResponse, "floorNumber" | "capacity" | "dailyPrice" | "weeklyPrice" | "monthlyPrice" | "extendPrice" | "yearlyInsurance" | "insurancePerReservation">,
 ): [string, string][] {
   const formatPrice = (value: number) =>
     new Intl.NumberFormat(locale, { style: "currency", currency: "USD" }).format(value);
@@ -16,6 +16,7 @@ export function buildRoomInfoRows(
     [t("hotelRooms.profile.weeklyPrice", "Weekly price"), formatPrice(room.weeklyPrice)],
     [t("hotelRooms.profile.monthlyPrice", "Monthly price"), formatPrice(room.monthlyPrice)],
     [t("hotelRooms.profile.extendPrice", "Extend price"), formatPrice(room.extendPrice)],
-    [t("hotelRooms.profile.insurance", "Monthly insurance"), formatPrice(room.insurance)],
+    [t("hotelRooms.profile.yearlyInsurance", "Yearly insurance"), formatPrice(room.yearlyInsurance)],
+    [t("hotelRooms.profile.insurancePerReservation", "Insurance per reservation"), formatPrice(room.insurancePerReservation)],
   ];
 }

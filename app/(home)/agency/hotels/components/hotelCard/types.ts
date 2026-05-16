@@ -2,6 +2,7 @@ import { HotelFormValues } from "../../types/hotel";
 
 export interface HotelCardHotel extends HotelFormValues {
   id: string;
+  agencyId?: number;
   isActive?: boolean;
 }
 

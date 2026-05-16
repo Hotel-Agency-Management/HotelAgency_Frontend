@@ -3,7 +3,8 @@ import {
   CreateRoomRequest,
   UpdateRoomRequest,
   RoomResponse,
-  RoomListItemResponse,
+  RoomListParams,
+  RoomListResponse,
   BASE,
 } from '../configs/roomConfig'
 import { buildRoomFormData } from '../util/roomFormData'
@@ -30,12 +31,11 @@ export async function createRoom(
 }
 
 export async function getRoomsByHotel(
-  hotelId: number
-): Promise<RoomListItemResponse[]> {
-  const response = await apiClient.get<RoomListItemResponse[]>(
-    getRoomsPath(hotelId)
-  )
-
+  hotelId: number,
+  params?: RoomListParams,
+  signal?: AbortSignal
+): Promise<RoomListResponse> {
+  const response = await apiClient.get<RoomListResponse>(getRoomsPath(hotelId), { params, signal })
   return response.data
 }
 

@@ -2,7 +2,8 @@ import apiClient from '@/core/clients/apiClient'
 import {
   BASE_ADMIN,
   CreateRoomRequest,
-  RoomListItemResponse,
+  RoomListParams,
+  RoomListResponse,
   RoomResponse,
   UpdateRoomRequest,
 } from '../configs/roomConfig'
@@ -27,10 +28,13 @@ export async function adminCreateRoom(
 
 export async function adminGetRoomsByHotel(
   agencyId: number,
-  hotelId: number
-): Promise<RoomListItemResponse[]> {
-  const response = await apiClient.get<RoomListItemResponse[]>(
-    `${BASE_ADMIN}/${agencyId}/hotels/${hotelId}/rooms`
+  hotelId: number,
+  params?: RoomListParams,
+  signal?: AbortSignal
+): Promise<RoomListResponse> {
+  const response = await apiClient.get<RoomListResponse>(
+    `${BASE_ADMIN}/${agencyId}/hotels/${hotelId}/rooms`,
+    { params, signal }
   )
   return response.data
 }

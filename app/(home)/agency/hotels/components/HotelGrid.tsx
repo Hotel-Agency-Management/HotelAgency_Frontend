@@ -2,9 +2,12 @@
 
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
+import InputAdornment from "@mui/material/InputAdornment";
+import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
+import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import { Plus } from "lucide-react";
+import { Plus, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { HotelCard } from "./hotelCard/HotelCard";
 import type { HotelFormValues } from "../types/hotel";
@@ -14,30 +17,61 @@ interface HotelGridProps {
   onUpdate: (id: string) => void;
   onOpen: (id: string) => void;
   onAdd?: () => void;
+  search?: string;
+  onSearchChange?: (value: string) => void;
+  page?: number;
+  totalPages?: number;
+  onPageChange?: (event: unknown, page: number) => void;
 }
 
-export function HotelGrid({ hotels, onUpdate, onOpen, onAdd }: HotelGridProps) {
+export function HotelGrid({
+  hotels,
+  onUpdate,
+  onOpen,
+  onAdd,
+  search = '',
+  onSearchChange,
+  page = 1,
+  totalPages = 1,
+  onPageChange,
+}: HotelGridProps) {
   const router = useRouter()
   const handleAdd = onAdd ?? (() => router.push('/agency/hotels/addHotel'))
 
   return (
     <Stack spacing={3}>
-      <Stack direction="row" justifyContent="space-between" alignItems="center">
-        <Stack spacing={0.25}>
+      <Stack direction="row" justifyContent="space-between" alignItems="center" gap={2}>
+        <Stack spacing={0.25} flexShrink={0}>
           <Typography variant="h6" fontWeight={500}>Hotels</Typography>
           <Typography variant="body2">
             {hotels.length} {hotels.length === 1 ? "hotel" : "hotels"}
           </Typography>
         </Stack>
-        <Button
-          size="small"
-          variant="contained"
-          disableElevation
-          startIcon={<Plus size={15} />}
-          onClick={handleAdd}
-        >
-          Add hotel
-        </Button>
+        <Stack direction="row" gap={1.5} alignItems="center">
+          <TextField
+            size="small"
+            placeholder="Search hotels…"
+            value={search}
+            onChange={e => onSearchChange?.(e.target.value)}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Search size={16} />
+                </InputAdornment>
+              ),
+            }}
+            sx={{ width: 220 }}
+          />
+          <Button
+            size="small"
+            variant="contained"
+            disableElevation
+            startIcon={<Plus size={15} />}
+            onClick={handleAdd}
+          >
+            Add hotel
+          </Button>
+        </Stack>
       </Stack>
 
       {hotels.length === 0 ? (
@@ -54,6 +88,18 @@ export function HotelGrid({ hotels, onUpdate, onOpen, onAdd }: HotelGridProps) {
             </Grid>
           ))}
         </Grid>
+      )}
+
+      {totalPages > 1 && (
+        <Stack alignItems="center">
+          <Pagination
+            count={totalPages}
+            page={page}
+            onChange={onPageChange}
+            color="primary"
+            shape="rounded"
+          />
+        </Stack>
       )}
     </Stack>
   );
