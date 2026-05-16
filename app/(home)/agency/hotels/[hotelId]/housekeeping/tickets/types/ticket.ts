@@ -23,6 +23,7 @@ export interface HousekeepingTicket {
   assignedTo: string;
   priority: HousekeepingTicketPriority;
   reservationId?: string;
+  deadline?: string;
 }
 
 export interface HousekeepingTicketValues {
@@ -34,6 +35,7 @@ export interface HousekeepingTicketValues {
   facilityId?: string;
   assignedTo: string;
   priority: HousekeepingTicketPriority;
+  deadline: string;
 }
 
 export interface HousekeepingTicketFilters {

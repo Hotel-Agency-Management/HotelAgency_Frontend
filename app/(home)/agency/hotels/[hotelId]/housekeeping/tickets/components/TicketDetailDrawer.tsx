@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback } from "react";
+import dayjs from "dayjs";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
@@ -130,6 +131,13 @@ export function TicketDetailDrawer({
                   <DetailItem label="Priority" inline>
                     <ColoredChip size="small" label={priorityLabel} chipColor={priorityColor} />
                   </DetailItem>
+                  {ticket.deadline && (
+                    <DetailItem label="Deadline" inline>
+                      <Typography variant="body2" fontWeight={600}>
+                        {dayjs(ticket.deadline).format("MMM D, YYYY · h:mm A")}
+                      </Typography>
+                    </DetailItem>
+                  )}
                   <DetailItem label="Assigned to" inline>
                     <Stack direction="row" alignItems="center" gap={1}>
                       <TicketCardAssigneeAvatar>{initials}</TicketCardAssigneeAvatar>

@@ -34,6 +34,7 @@ function createNormalizedTicketValues(
     description: values.description,
     assignedTo: values.assignedTo,
     priority: values.priority,
+    deadline: values.deadline,
     ...createTicketLocationFields(values),
   };
 }

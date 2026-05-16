@@ -15,6 +15,10 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
 import { PRIORITY_LABELS } from "../constants/ticketChip";
 import type {
   HousekeepingFacilityOption,
@@ -67,6 +71,7 @@ export function CreateTicketDialog({
     updateAssignedTo,
     updateTitle,
     updateDescription,
+    updateDeadline,
     handleSubmit,
   } = useCreateTicketDialogForm({
     open,
@@ -223,6 +228,25 @@ export function CreateTicketDialog({
                   ))}
                 </Select>
               </FormControl>
+            </Grid>
+
+            <Grid size={{ xs: 12 }}>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DateTimePicker
+                  label="Deadline"
+                  value={form.deadline ? dayjs(form.deadline) : null}
+                  onChange={(value) =>
+                    updateDeadline(
+                      value && value.isValid()
+                        ? value.format("YYYY-MM-DDTHH:mm")
+                        : ""
+                    )
+                  }
+                  slotProps={{
+                    textField: { fullWidth: true, size: "small" },
+                  }}
+                />
+              </LocalizationProvider>
             </Grid>
 
             <Grid size={{ xs: 12 }}>
