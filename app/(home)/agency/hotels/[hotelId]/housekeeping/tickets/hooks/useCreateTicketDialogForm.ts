@@ -50,6 +50,7 @@ export function useCreateTicketDialogForm({
         roomId: initialValues.roomId ?? "",
         facilityId: initialValues.facilityId ?? "",
         assignedTo: initialValues.assignedTo,
+        deadline: initialValues.deadline ?? "",
       });
       return;
     }
@@ -62,7 +63,7 @@ export function useCreateTicketDialogForm({
 
   const isRoomLocation = form.locationType === HOUSEKEEPING_LOCATION_TYPE.ROOM;
   const hasLocation = isRoomLocation ? Boolean(form.roomId) : Boolean(form.facilityId);
-  const isSubmitDisabled = !form.title.trim() || !form.assignedTo || !hasLocation;
+  const isSubmitDisabled = !form.title.trim() || !form.assignedTo || !hasLocation || !form.deadline;
 
   const displayedRoomOptions = useMemo(() => {
     if (!form.roomId || roomOptions.some((room) => room.id === form.roomId)) {
@@ -130,6 +131,10 @@ export function useCreateTicketDialogForm({
     setForm((current) => ({ ...current, description }));
   };
 
+  const updateDeadline = (deadline: string) => {
+    setForm((current) => ({ ...current, deadline }));
+  };
+
   const handleSubmit = () => {
     onCreate({
       ticketType: form.ticketType,
@@ -141,6 +146,7 @@ export function useCreateTicketDialogForm({
       title: form.title.trim(),
       description: form.description.trim(),
       assignedTo: form.assignedTo,
+      deadline: form.deadline,
     });
 
     onClose();
@@ -161,6 +167,7 @@ export function useCreateTicketDialogForm({
     updateAssignedTo,
     updateTitle,
     updateDescription,
+    updateDeadline,
     handleSubmit,
   };
 }
