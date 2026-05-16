@@ -10,15 +10,23 @@ import { BookingStatusChip } from '@/app/(home)/hotels/[hotelId]/my-bookings/com
 import { InfoRow } from '@/app/(home)/hotels/[hotelId]/my-bookings/components/InfoRow'
 import { SectionPaper } from '@/app/(home)/hotels/[hotelId]/my-bookings/components/SectionPaper'
 import { resolveBlobUrl } from '@/core/constant/blobStorage'
-import { useReservationById } from '../../hooks/queries/reservationQueries'
+import { useAdminReservationById } from '@/app/(home)/reservations/[hotelId]/hooks/queries/adminReservationQueries'
 
-export function ReservationDetailsPage() {
-  const params = useParams<{ hotelId?: string; reservationId?: string }>()
+export function AdminReservationDetailsPage() {
+  const params = useParams<{ agencyId?: string; hotelId?: string; reservationId?: string }>()
   const router = useRouter()
-  const hotelId =  Number(params.hotelId)
+  const agencyId = Number(params.agencyId)
+  const hotelId =  Number(params.hotelId) 
   const reservationId = Number(params.reservationId)
-  const { data: reservation, isLoading, isError } = useReservationById(hotelId, reservationId)
-  const backHref = `/reservations/${params.hotelId ?? ''}/list`
+  const { data: reservation, isLoading, isError } = useAdminReservationById(
+    agencyId as number,
+    hotelId,
+    reservationId
+  )
+  const reservationsBasePath = params.agencyId
+    ? `/agencies/${params.agencyId}/hotels/${params.hotelId ?? ''}/reservations`
+    : `/agency/hotels/${params.hotelId ?? ''}/reservations`
+  const backHref = `${reservationsBasePath}/list`
   const contractHref = resolveBlobUrl(reservation?.contractUrl)
   const invoiceHref = resolveBlobUrl(reservation?.invoiceUrl)
 
@@ -147,5 +155,5 @@ export function ReservationDetailsPage() {
         </Grid>
       </Stack>
     </Container>
-)
+  )
 }

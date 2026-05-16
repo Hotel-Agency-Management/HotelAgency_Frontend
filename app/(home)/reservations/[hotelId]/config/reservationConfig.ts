@@ -99,3 +99,10 @@ export interface UpdateReservationRequest {
 export interface CancelReservationRequest {
   cancellationReason: string
 }
+
+export interface CancellationResponse {
+  cancellationStatus: string
+  cancellationFee: number
+  isFree: boolean
+  cancellationMessage: string
+}

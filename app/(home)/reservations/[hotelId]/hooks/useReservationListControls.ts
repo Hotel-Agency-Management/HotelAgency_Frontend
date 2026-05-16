@@ -3,8 +3,7 @@
 import { useCallback, useMemo, useState } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 import { DEFAULT_RESERVATION_PAGE_SIZE } from '../constants/pagination'
-
-type PaginationModel = { page: number; pageSize: number }
+import { PaginationModel } from '../types/reservationEditForm'
 
 export function useReservationListControls() {
   const [paginationModel, setPaginationModel] = useState<PaginationModel>({

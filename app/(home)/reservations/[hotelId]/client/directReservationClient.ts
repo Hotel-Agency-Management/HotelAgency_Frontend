@@ -1,6 +1,7 @@
 import { buildFormData } from "@/app/(home)/agency/hotels/utils/formData"
 import apiClient from "@/core/clients/apiClient"
 import {
+  CancellationResponse,
   CancelReservationRequest,
   CreateReservationRequest,
   PaginatedReservationsResponse,
@@ -65,9 +66,10 @@ export async function cancelReservation(
   hotelId: number,
   reservationId: number,
   data: CancelReservationRequest
-): Promise<void> {
-  await apiClient.patch(
+): Promise<CancellationResponse> {
+  const response = await apiClient.patch<CancellationResponse>(
     `${BASE_RESERVATIONS}/${hotelId}/reservations/${reservationId}/cancel`,
     data
   )
+  return response.data
 }
