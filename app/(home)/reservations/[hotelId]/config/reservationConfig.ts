@@ -106,3 +106,7 @@ export interface CancellationResponse {
   isFree: boolean
   cancellationMessage: string
 }
+
+export interface UpdateReservationStatusRequest {
+  status: number
+}

@@ -1,7 +1,7 @@
 import { IconButton, Stack } from '@mui/material'
 import { alpha, styled } from '@mui/material/styles'
 
-type ActionButtonColor = 'primary' | 'tertiary' | 'error'
+type ActionButtonColor = 'primary' | 'tertiary' | 'error' | 'success' | 'warning'
 
 interface ActionIconButtonProps {
   actionColor: ActionButtonColor

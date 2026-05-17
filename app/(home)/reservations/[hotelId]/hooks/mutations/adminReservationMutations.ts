@@ -5,6 +5,7 @@ import {
   createAdminReservation,
   adminUpdateReservation,
   cancelAdminReservation,
+  adminUpdateReservationStatus,
 } from '../../client/adminReservationClient'
 import { ADMIN_RESERVATION_QUERY_KEYS } from '../../constants/reservationKey'
 import type {
@@ -13,6 +14,7 @@ import type {
   CreateReservationRequest,
   ReservationResponse,
   UpdateReservationRequest,
+  UpdateReservationStatusRequest,
 } from '../../config/reservationConfig'
 
 export function useAdminCreateReservation(agencyId: number, hotelId: number) {
@@ -63,6 +65,23 @@ export function useAdminCancelReservation(agencyId: number, hotelId: number) {
         queryKey: ADMIN_RESERVATION_QUERY_KEYS.byHotelList(agencyId, hotelId),
       })
       toast.success('Reservation cancelled successfully')
+    },
+    onError: (error) => {
+      toast.error(getErrorMessage(error))
+    },
+  })
+}
+
+export function useAdminUpdateReservationStatus(agencyId: number, hotelId: number) {
+  const queryClient = useQueryClient()
+
+  return useMutation<void, unknown, { reservationId: number; data: UpdateReservationStatusRequest }>({
+    mutationFn: ({ reservationId, data }) => adminUpdateReservationStatus(agencyId, hotelId, reservationId, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ADMIN_RESERVATION_QUERY_KEYS.byHotelList(agencyId, hotelId),
+      })
+      toast.success('Reservation status updated successfully')
     },
     onError: (error) => {
       toast.error(getErrorMessage(error))

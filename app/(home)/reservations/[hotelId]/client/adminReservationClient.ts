@@ -8,6 +8,7 @@ import type {
   ReservationListParams,
   ReservationResponse,
   UpdateReservationRequest,
+  UpdateReservationStatusRequest,
 } from '../config/reservationConfig'
 
 const BASE = '/admin/agencies'
@@ -83,4 +84,16 @@ export async function cancelAdminReservation(
     data
   )
   return response.data
+}
+
+export async function adminUpdateReservationStatus(
+  agencyId: number,
+  hotelId: number,
+  reservationId: number,
+  data: UpdateReservationStatusRequest
+): Promise<void> {
+  await apiClient.patch(
+    `${BASE}/${agencyId}/hotels/${hotelId}/reservations/${reservationId}/status`,
+    data
+  )
 }

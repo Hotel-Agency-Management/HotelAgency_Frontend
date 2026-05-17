@@ -4,11 +4,13 @@ import { useParams } from 'next/navigation'
 import { useTheme } from '@mui/material/styles'
 import { useAuth } from '@/core/context/AuthContext'
 import { useAdminReservations } from './queries/adminReservationQueries'
-import { useAdminUpdateReservation, useAdminCancelReservation } from './mutations/adminReservationMutations'
+import { useAdminUpdateReservation, useAdminCancelReservation, useAdminUpdateReservationStatus } from './mutations/adminReservationMutations'
 import { useAdminReservationExtendDialog } from './useAdminReservationExtendDialog'
 import { useAdminReservationUpdateDialog } from './useAdminReservationUpdateDialog'
 import { useReservationCancelDialog } from './useReservationCancelDialog'
 import { useReservationListControls } from './useReservationListControls'
+import { NEXT_STATUS_VALUE } from '../constants/status'
+import type { ReservationListItem } from '../config/reservationConfig'
 
 export function useAdminReservationListPage() {
   const params = useParams<{ agencyId?: string; hotelId?: string }>()
@@ -34,6 +36,8 @@ export function useAdminReservationListPage() {
 
   const updateMutation = useAdminUpdateReservation(agencyId as number, numericHotelId as number)
   const cancelMutation = useAdminCancelReservation(agencyId as number, numericHotelId as number)
+  const statusMutation = useAdminUpdateReservationStatus(agencyId as number, numericHotelId as number)
+
   const extendDialog = useAdminReservationExtendDialog({
     agencyId,
     hotelId: numericHotelId,
@@ -45,6 +49,12 @@ export function useAdminReservationListPage() {
     updateMutation,
   })
   const cancelDialog = useReservationCancelDialog(cancelMutation)
+
+  const handleUpdateStatus = (row: ReservationListItem) => {
+    const nextValue = NEXT_STATUS_VALUE[row.status]
+    if (nextValue === undefined) return
+    statusMutation.mutate({ reservationId: row.id, data: { status: nextValue } })
+  }
 
   return {
     theme,
@@ -59,5 +69,7 @@ export function useAdminReservationListPage() {
     ...cancelDialog,
     isUpdating: updateMutation.isPending,
     isCancelling: cancelMutation.isPending,
+    handleUpdateStatus,
+    statusUpdatingId: statusMutation.isPending ? (statusMutation.variables?.reservationId ?? null) : null,
   }
 }
