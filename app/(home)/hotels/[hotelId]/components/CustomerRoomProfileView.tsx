@@ -1,7 +1,7 @@
 'use client'
 
 import { Container, Grid, Paper, Stack, Typography } from '@mui/material'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { useParams } from 'next/navigation'
 import { useTranslation } from 'react-i18next'
 import { DynamicBreadcrumbs } from '@/components/common/breadcrumbs/DynamicBreadcrumbs'
@@ -16,10 +16,18 @@ import { useCustomerRoomReservation } from '../hooks/useCustomerRoomReservation'
 import { useCustomerRoomProfile } from '../hooks/useCustomerRoomProfile'
 import { CustomerRoomBookingCard } from './CustomerRoomBookingCard'
 import { CustomerReservationManagementSection } from './CustomerReservationManagementSection'
+import { ReservationCreatedDialog } from './ReservationCreatedDialog'
+
+interface ReservationCreatedDocuments {
+  contractUrl: string | null
+  invoiceUrl: string | null
+}
 
 export function CustomerRoomProfileView() {
   const { t } = useTranslation()
   const params = useParams<{ hotelId: string; roomId: string }>()
+  const [createdDocuments, setCreatedDocuments] =
+    useState<ReservationCreatedDocuments | null>(null)
 
   const hotelId = decodeURIComponent(params.hotelId ?? '')
   const roomId = decodeURIComponent(params.roomId ?? '')
@@ -35,14 +43,20 @@ export function CustomerRoomProfileView() {
         : '',
     [profile, t]
   )
-  const { reservation, handleBack, handleReservationDateChange } = useCustomerRoomReservation({
-    hotelId,
-    roomId,
-    hotelName: hotel?.name,
-    roomNumber: profile?.roomNumber ?? '',
-    currency: hotel?.currency,
-  })
+  const { reservation, handleBack, handleReservationDateChange, clearReservationDates } =
+    useCustomerRoomReservation({
+      hotelId,
+      roomId,
+      hotelName: hotel?.name,
+      roomNumber: profile?.roomNumber ?? '',
+      currency: hotel?.currency,
+    })
 
+  const handleReservationCreated = (documents: ReservationCreatedDocuments) => {
+    setCreatedDocuments(documents)
+    clearReservationDates()
+  }
+  
   if (isLoading && !profile) {
     return (
       <Container maxWidth="lg">
@@ -94,6 +108,7 @@ export function CustomerRoomProfileView() {
               room={profile}
               reservation={reservation}
               onReservationDateChange={handleReservationDateChange}
+              onReservationCreated={handleReservationCreated}
             />
           </Grid>
 
@@ -114,6 +129,13 @@ export function CustomerRoomProfileView() {
             />
           </Grid>
         </Grid>
+
+        <ReservationCreatedDialog
+          open={createdDocuments != null}
+          contractUrl={createdDocuments?.contractUrl}
+          invoiceUrl={createdDocuments?.invoiceUrl}
+          onClose={() => setCreatedDocuments(null)}
+        />
       </Stack>
     </Container>
   )

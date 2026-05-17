@@ -1,47 +1,23 @@
 'use client'
 
-import { Alert, Button, Chip, Grid, Paper, Snackbar, Stack, Typography } from '@mui/material'
+import { Alert, Button, Chip, Grid, Paper, Skeleton, Snackbar, Stack, Typography } from '@mui/material'
 import { CheckCircle2, Clock3, Edit3, FileText, ReceiptText } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useTranslation } from 'react-i18next'
-import { ROOM_TYPES } from '@/app/(home)/room-types/constants/roomTypes'
-import { ROOM_STATUS } from '@/app/(home)/agency/hotels/[hotelId]/rooms/types/room'
 import type { RoomProfile } from '@/app/(home)/agency/hotels/[hotelId]/rooms/components/profile/types'
 import type { CustomerHotel } from '@/app/(home)/hotels/types/customerHotel'
-import { HOTEL_TERMS_STATUSES } from '@/app/(home)/agency/hotels/terms-and-conditions/constants/status'
-import { useHotelTerms } from '@/app/(home)/agency/hotels/terms-and-conditions/hooks/useHotelTermsQueries'
-import { useAuth } from '@/core/context/AuthContext'
-import { buildReservationDetailsItems } from '../constants/reservationDetails'
-import { FALLBACK_TERMS_CONTENT } from '../constants/customerReservationConfirmation'
 import { useCustomerReservationManager } from '../hooks/useCustomerReservationManager'
-import { useCustomerHotelRooms } from '../hooks/useCustomerHotelRooms'
-import type { ReservationEditRoomOption } from '../hooks/useReservationEdit'
 import { useReservationCancel } from '../hooks/useReservationCancel'
+import { useReservationDocuments } from '../hooks/useReservationDocuments'
 import { useReservationEdit } from '../hooks/useReservationEdit'
 import { useReservationExtend } from '../hooks/useReservationExtend'
 import { useReservationFeedback } from '../hooks/useReservationFeedback'
-import {
-  calculateCancellationFee,
-  canModifyReservation,
-  formatPolicyPercentage,
-  getFreeCancellationDeadline,
-  getReservationEditDeadline,
-  isFreeCancellationEligible,
-  normalizeCancellationFeeRate,
-} from '../utils/customerReservationPolicy'
-import { buildReservationContract } from '../utils/buildReservationContract'
-import { formatBookingDate, formatCurrency, getStayLength } from '../utils/roomBooking'
-import {
-  getPublicRoomExtendPrice,
-  getPublicRoomId,
-  getPublicRoomNightlyRate,
-  getPublicRoomTypeName,
-} from '../utils/publicRoomFields'
+import { useReservationManagementLabels } from '../hooks/useReservationManagementLabels'
+import { useReservationManagementSummary } from '../hooks/useReservationManagementSummary'
+import { useReservationRoomOptions } from '../hooks/useReservationRoomOptions'
 import { CancelReservationDialog } from './CancelReservationDialog'
 import { EditReservationDialog } from './EditReservationDialog'
 import { ExtendReservationDialog } from './ExtendReservationDialog'
-import { openReservationContractPdf } from './customerReservationContract/openReservationContractPdf'
-import { openCustomerInvoicePdf } from '../invoice/components/openCustomerInvoicePdf'
 import { ReservationActionsMenu } from './ReservationActionsMenu'
 import { ReservationDetailsGrid } from './ReservationDetailsGrid'
 import { ReservationPoliciesSection } from './ReservationPoliciesSection'
@@ -50,7 +26,7 @@ interface CustomerReservationManagementSectionProps {
   hotelId: string
   roomId: string
   hotel: CustomerHotel | null
-  room: Pick<RoomProfile, 'type' | 'roomTypeName' | 'capacity' | 'pricePerNight' | 'extendPrice'>
+  room: Pick<RoomProfile, 'type' | 'roomTypeName' | 'capacity' | 'pricePerNight' | 'extendPrice' | 'roomNumber'>
 }
 
 export function CustomerReservationManagementSection({
@@ -60,9 +36,9 @@ export function CustomerReservationManagementSection({
   room,
 }: CustomerReservationManagementSectionProps) {
   const { i18n } = useTranslation()
-  const { user } = useAuth()
   const router = useRouter()
   const searchParams = useSearchParams()
+
   const {
     currentReservation,
     roomReservations,
@@ -71,41 +47,32 @@ export function CustomerReservationManagementSection({
     extendReservation,
     cancelReservation,
     isBusy,
-  } = useCustomerReservationManager(hotelId, roomId)
+    isLoading,
+  } = useCustomerReservationManager(hotelId, roomId, room.roomNumber, hotel?.agencyId ?? undefined)
+
   const { feedback, showFeedback, closeFeedback } = useReservationFeedback()
-  const roomsQuery = useCustomerHotelRooms(hotelId)
-  const { data: hotelTerms } = useHotelTerms(hotelId)
-  const currentReservationCanModify =
-    currentReservation != null ? canModifyReservation(currentReservation) : false
-  const currentReservationFreeCancellation =
-    currentReservation != null ? isFreeCancellationEligible(currentReservation) : false
-  const currentReservationCancellationFee =
-    currentReservation != null
-      ? calculateCancellationFee(currentReservation, hotel?.cancellationFeeRate)
-      : 0
-  const currentReservationStayLength =
-    currentReservation != null
-      ? getStayLength(currentReservation.checkIn, currentReservation.checkOut)
-      : 0
-  const nightlyRate = currentReservation?.nightlyRate ?? room.pricePerNight ?? 0
-  const extendPrice = currentReservation?.extendPrice ?? room.extendPrice ?? nightlyRate
 
-  const formatReservationTimestamp = (value: string) =>
-    new Intl.DateTimeFormat(i18n.language, {
-      dateStyle: 'medium',
-      timeStyle: 'short',
-    }).format(new Date(value))
+  const summary = useReservationManagementSummary(currentReservation, room, hotel)
 
-  const formatCurrencyValue = (value: number, currency: string) =>
-    formatCurrency(value, i18n.language, currency)
+  const labels = useReservationManagementLabels({
+    currentReservation,
+    hotel,
+    stayLength: summary.stayLength,
+    cancellationFee: summary.cancellationFee,
+    language: i18n.language,
+  })
+
+  const { roomOptions, availableRooms } = useReservationRoomOptions(hotelId, currentReservation?.roomId)
+
+  const documents = useReservationDocuments(currentReservation, showFeedback)
 
   const edit = useReservationEdit({
     currentReservation,
     fallbackRoomCapacity: room.capacity,
-    availableRooms: roomsQuery.data ?? [],
+    availableRooms,
     hotelReservations,
     updateReservation,
-    canModify: currentReservationCanModify,
+    canModify: summary.canModify,
     showFeedback,
     onSaved: updatedReservation => {
       if (updatedReservation.roomId === roomId) {
@@ -133,106 +100,22 @@ export function CustomerReservationManagementSection({
     currentReservation,
     cancelReservation,
     showFeedback,
-    formatCurrencyValue,
+    formatCurrencyValue: labels.formatCurrencyValue,
   })
+
+  if (isLoading && currentReservation == null) {
+    return (
+      <Paper variant="card">
+        <Stack gap={2}>
+          <Skeleton variant="text" width={240} height={32} />
+          <Skeleton variant="rounded" height={120} />
+        </Stack>
+      </Paper>
+    )
+  }
 
   if (currentReservation == null) {
     return null
-  }
-
-  const detailsItems = buildReservationDetailsItems({
-    reservation: currentReservation,
-    stayLength: currentReservationStayLength,
-    formatReservationTimestamp,
-    formatBookingDate: value => formatBookingDate(value, i18n.language),
-    formatCurrencyValue,
-  })
-
-  const modificationDeadlineLabel = formatReservationTimestamp(
-    getReservationEditDeadline(currentReservation.createdAt)
-  )
-  const freeCancellationDeadlineLabel = formatReservationTimestamp(
-    getFreeCancellationDeadline(currentReservation.checkIn)
-  )
-  const cancellationFeeLabel = formatCurrencyValue(
-    currentReservationCancellationFee,
-    currentReservation.currency
-  )
-  const cancellationFeeRate = normalizeCancellationFeeRate(
-    currentReservation.cancellationFeeRate ?? hotel?.cancellationFeeRate
-  )
-  const cancellationFeeRateLabel = formatPolicyPercentage(cancellationFeeRate)
-  const reservationTotalLabel = formatCurrencyValue(
-    currentReservation.totalPrice,
-    currentReservation.currency
-  )
-  const refundAmountLabel = formatCurrencyValue(
-    Math.max(currentReservation.totalPrice - currentReservationCancellationFee, 0),
-    currentReservation.currency
-  )
-  const activeTerms = hotelTerms?.status === HOTEL_TERMS_STATUSES.ACTIVE ? hotelTerms : null
-  const currentRoomTypeLabel = room.roomTypeName ?? ROOM_TYPES[room.type].label
-  const roomOptions: ReservationEditRoomOption[] = (roomsQuery.data ?? []).map(hotelRoom => ({
-    id: getPublicRoomId(hotelRoom),
-    label: `${hotelRoom.roomNumber} • ${getPublicRoomTypeName(hotelRoom)}`,
-    capacity: hotelRoom.capacity,
-    nightlyRate: getPublicRoomNightlyRate(hotelRoom) ?? 0,
-    extendPrice: getPublicRoomExtendPrice(hotelRoom) ?? 0,
-    disabled:
-      getPublicRoomId(hotelRoom) !== currentReservation.roomId &&
-      [ROOM_STATUS.MAINTENANCE, ROOM_STATUS.BLOCKED].includes(
-        hotelRoom.status.toLowerCase() as typeof ROOM_STATUS.MAINTENANCE | typeof ROOM_STATUS.BLOCKED
-      ),
-  }))
-
-  const openCurrentReservationContract = async () => {
-    if (!currentReservation.customerSignatureDataUrl) {
-      showFeedback('error', 'No signed contract is available for this reservation.')
-      return
-    }
-
-    const contractWindow = window.open('about:blank', '_blank')
-    if (contractWindow) {
-      contractWindow.opener = null
-    }
-
-    try {
-      await openReservationContractPdf(
-        buildReservationContract({
-          reservation: currentReservation,
-          hotel,
-          user,
-          roomCapacity: room.capacity,
-          roomTypeLabel: currentRoomTypeLabel,
-          language: i18n.language,
-          termsTitle: activeTerms?.title ?? 'Hotel Reservation Terms',
-          termsContent: activeTerms?.content ?? FALLBACK_TERMS_CONTENT,
-        }),
-        contractWindow
-      )
-    } catch (error) {
-      contractWindow?.close()
-      showFeedback('error', 'Failed to open the reservation contract.')
-    }
-  }
-
-  const openCurrentReservationInvoice = async () => {
-    if (!currentReservation.invoice) {
-      showFeedback('error', 'No invoice is available for this reservation.')
-      return
-    }
-
-    const invoiceWindow = window.open('about:blank', '_blank')
-    if (invoiceWindow) {
-      invoiceWindow.opener = null
-    }
-
-    try {
-      await openCustomerInvoicePdf(currentReservation.invoice, invoiceWindow)
-    } catch (error) {
-      invoiceWindow?.close()
-      showFeedback('error', 'Failed to open the reservation invoice.')
-    }
   }
 
   return (
@@ -260,10 +143,8 @@ export function CustomerReservationManagementSection({
               sx={{ width: { xs: 1, md: 'auto' } }}
             >
               <ReservationActionsMenu
-                canModify={currentReservationCanModify}
-                canViewContract={Boolean(currentReservation.customerSignatureDataUrl)}
+                canModify={summary.canModify}
                 isBusy={isBusy}
-                onViewContract={openCurrentReservationContract}
                 onEdit={edit.openEdit}
                 onExtend={extend.openExtend}
                 onCancel={cancellation.openCancel}
@@ -286,25 +167,23 @@ export function CustomerReservationManagementSection({
                 <Chip
                   size="small"
                   variant="outlined"
-                  color={currentReservationCanModify ? 'info' : 'warning'}
-                  icon={
-                    currentReservationCanModify ? <Edit3 size={14} /> : <Clock3 size={14} />
-                  }
-                  label={currentReservationCanModify ? 'Editable now' : 'Edit window closed'}
+                  color={summary.canModify ? 'info' : 'warning'}
+                  icon={summary.canModify ? <Edit3 size={14} /> : <Clock3 size={14} />}
+                  label={summary.canModify ? 'Editable now' : 'Edit window closed'}
                 />
                 <Chip
                   size="small"
                   variant="outlined"
-                  color={currentReservationFreeCancellation ? 'warning' : 'error'}
+                  color={summary.freeCancellation ? 'warning' : 'error'}
                   icon={
-                    currentReservationFreeCancellation ? (
+                    summary.freeCancellation ? (
                       <Clock3 size={14} />
                     ) : (
                       <ReceiptText size={14} />
                     )
                   }
                   label={
-                    currentReservationFreeCancellation
+                    summary.freeCancellation
                       ? 'Free cancellation active'
                       : 'Cancellation fee applies'
                   }
@@ -315,38 +194,38 @@ export function CustomerReservationManagementSection({
 
           <Grid container spacing={2.5}>
             <Grid size={{ xs: 12, lg: 7 }}>
-              <ReservationDetailsGrid items={detailsItems} />
+              <ReservationDetailsGrid items={labels.detailsItems} />
             </Grid>
 
             <Grid size={{ xs: 12, lg: 5 }}>
               <Stack gap={1.5}>
                 <ReservationPoliciesSection
-                  canModify={currentReservationCanModify}
-                  freeCancellation={currentReservationFreeCancellation}
-                  modificationDeadlineLabel={modificationDeadlineLabel}
-                  freeCancellationDeadlineLabel={freeCancellationDeadlineLabel}
-                  cancellationFeeRateLabel={cancellationFeeRateLabel}
-                  cancellationFeeLabel={cancellationFeeLabel}
+                  canModify={summary.canModify}
+                  freeCancellation={summary.freeCancellation}
+                  modificationDeadlineLabel={labels.modificationDeadlineLabel}
+                  freeCancellationDeadlineLabel={labels.freeCancellationDeadlineLabel}
+                  cancellationFeeRateLabel={labels.cancellationFeeRateLabel}
+                  cancellationFeeLabel={labels.cancellationFeeLabel}
                 />
 
                 <Stack direction={{ xs: 'column', sm: 'row' }} gap={1}>
                   <Button
                     fullWidth
                     variant="outlined"
-                    color="secondary"
+                    color="primary"
                     startIcon={<FileText size={16} />}
-                    disabled={!currentReservation.customerSignatureDataUrl || isBusy}
-                    onClick={openCurrentReservationContract}
+                    disabled={!documents.contractDocumentUrl || isBusy}
+                    onClick={documents.openContract}
                   >
                     View contract
                   </Button>
                   <Button
                     fullWidth
                     variant="outlined"
-                    color="secondary"
+                    color="primary"
                     startIcon={<ReceiptText size={16} />}
-                    disabled={!currentReservation.invoice || isBusy}
-                    onClick={openCurrentReservationInvoice}
+                    disabled={!documents.invoiceDocumentUrl || isBusy}
+                    onClick={documents.openInvoice}
                   >
                     View invoice
                   </Button>
@@ -359,7 +238,7 @@ export function CustomerReservationManagementSection({
 
       <EditReservationDialog
         open={edit.editOpen}
-        canModify={currentReservationCanModify}
+        canModify={summary.canModify}
         roomCapacity={edit.selectedRoomCapacity}
         isBusy={isBusy}
         currency={currentReservation.currency}
@@ -370,6 +249,9 @@ export function CustomerReservationManagementSection({
         editFormHasValidRange={edit.editFormHasValidRange}
         editStayLength={edit.editStayLength}
         editConflict={edit.editConflict}
+        showDirectReservationFields
+        showReservationSourceField={false}
+        canEditGuestFullName={false}
         onClose={edit.closeEdit}
         onSave={edit.saveEdit}
         onFieldChange={edit.updateEditField}
@@ -378,7 +260,7 @@ export function CustomerReservationManagementSection({
       <ExtendReservationDialog
         open={extend.extendOpen}
         currentCheckOut={currentReservation.checkOut}
-        extendPrice={extendPrice}
+        extendPrice={summary.extendPrice}
         language={i18n.language}
         currency={currentReservation.currency}
         extendCheckOut={extend.extendCheckOut}
@@ -392,12 +274,12 @@ export function CustomerReservationManagementSection({
 
       <CancelReservationDialog
         open={cancellation.cancelOpen}
-        freeCancellation={currentReservationFreeCancellation}
-        freeCancellationDeadlineLabel={freeCancellationDeadlineLabel}
-        reservationTotalLabel={reservationTotalLabel}
-        cancellationFeeRateLabel={cancellationFeeRateLabel}
-        cancellationFeeLabel={cancellationFeeLabel}
-        refundAmountLabel={refundAmountLabel}
+        freeCancellation={summary.freeCancellation}
+        freeCancellationDeadlineLabel={labels.freeCancellationDeadlineLabel}
+        reservationTotalLabel={labels.reservationTotalLabel}
+        cancellationFeeRateLabel={labels.cancellationFeeRateLabel}
+        cancellationFeeLabel={labels.cancellationFeeLabel}
+        refundAmountLabel={labels.refundAmountLabel}
         isBusy={isBusy}
         onClose={cancellation.closeCancel}
         onConfirm={cancellation.confirmCancel}

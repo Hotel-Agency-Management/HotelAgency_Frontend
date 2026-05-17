@@ -8,6 +8,8 @@ import type { CustomerHotel } from '@/app/(home)/hotels/types/customerHotel'
 import { HOTEL_TERMS_STATUSES } from '@/app/(home)/agency/hotels/terms-and-conditions/constants/status'
 import { useHotelTerms } from '@/app/(home)/agency/hotels/terms-and-conditions/hooks/useHotelTermsQueries'
 import { useAuth } from '@/core/context/AuthContext'
+import { CUSTOMER_INVOICE_STATUS, type CustomerInvoice } from '../invoice/types/customerInvoice'
+import { generateInvoiceNumber } from '../invoice/utils/customerInvoice'
 import { useReservationTaxEstimate } from '../invoice/hooks/useReservationTaxEstimate'
 import { createConfirmationStepStrategy } from '../components/customerReservationConfirmation/factory'
 import {
@@ -22,6 +24,10 @@ import type {
   ReservationDetails,
 } from '../types/customerReservationConfirmation'
 import type { ReservationContractData } from '../types/customerReservationContract'
+import {
+  generateCustomerReservationContractFile,
+  generateCustomerReservationInvoiceFile,
+} from '../utils/generateCustomerReservationPdfs'
 import {
   formatBookingDate,
   formatCurrency,
@@ -44,6 +50,11 @@ const getStepIndexById = (stepId: BookingConfirmationStepId) =>
     0
   )
 
+interface GeneratedReservationFiles {
+  contract: File
+  invoice: File
+}
+
 export function useCustomerReservationConfirmationModal({
   open,
   hotelId,
@@ -61,6 +72,8 @@ export function useCustomerReservationConfirmationModal({
   const [signatureDataUrl, setSignatureDataUrl] = useState('')
   const [stepError, setStepError] = useState('')
   const [includeInsurance, setIncludeInsurance] = useState(false)
+  const [generatedFiles, setGeneratedFiles] = useState<GeneratedReservationFiles | null>(null)
+  const [documentsGenerating, setDocumentsGenerating] = useState(false)
 
   const roomType = ROOM_TYPES[room.type]
   const currentStep = BOOKING_CONFIRMATION_STEPS[activeStep] ?? BOOKING_CONFIRMATION_STEPS[0]
@@ -78,7 +91,10 @@ export function useCustomerReservationConfirmationModal({
     hotel,
     subtotal: totalPrice ?? 0,
   })
-  const estimatedTotal = (totalPrice ?? 0) + (taxAmount ?? 0)
+  const insuranceFee = room.insurancePerReservation ?? room.yearlyInsurance ?? 0
+  const hasInsurance = insuranceFee > 0
+  const selectedInsuranceFee = includeInsurance ? insuranceFee : 0
+  const estimatedTotal = (totalPrice ?? 0) + (taxAmount ?? 0) + selectedInsuranceFee
   const activeTerms = hotelTerms?.status === HOTEL_TERMS_STATUSES.ACTIVE ? hotelTerms : null
 
   const termsContent = activeTerms?.content ?? FALLBACK_TERMS_CONTENT
@@ -182,6 +198,57 @@ export function useCustomerReservationConfirmationModal({
     ]
   )
 
+  const invoicePreview = useMemo<CustomerInvoice>(
+    () => ({
+      invoiceNumber: generateInvoiceNumber(Date.now() % 10000),
+      reservationId: 'PENDING',
+      customerName: guestName,
+      customerEmail: user?.email ?? 'guest@example.com',
+      hotelName: hotel?.name ?? reservation.hotelName,
+      hotelLogo: hotel?.logo ?? hotel?.branding.logo,
+      hotelPrimaryColor: hotel?.branding.colors.primary,
+      hotelSecondaryColor: hotel?.branding.colors.secondary,
+      hotelCountry: hotel?.country,
+      hotelCity: hotel?.city,
+      hotelAddress: hotel?.address,
+      hotelZip: hotel?.hotelZip,
+      roomName: reservation.roomNumber,
+      roomType: roomType.label,
+      currency: reservation.currency,
+      checkInDate: reservation.checkIn,
+      checkOutDate: reservation.checkOut,
+      nights: stayLength,
+      numberOfRooms: reservation.rooms,
+      pricePerNight: room.pricePerNight ?? 0,
+      subtotal: totalPrice ?? 0,
+      taxes: taxAmount ?? 0,
+      discount: 0,
+      totalAmount: estimatedTotal,
+      paymentMethod: 'Online payment',
+      bookingSource: 'Website',
+      invoiceDate: new Date().toISOString(),
+      invoiceStatus: CUSTOMER_INVOICE_STATUS.UNPAID,
+    }),
+    [
+      estimatedTotal,
+      guestName,
+      hotel,
+      reservation.checkIn,
+      reservation.checkOut,
+      reservation.currency,
+      reservation.hotelName,
+      reservation.roomNumber,
+      reservation.rooms,
+      room.pricePerNight,
+      roomType.label,
+      selectedInsuranceFee,
+      stayLength,
+      taxAmount,
+      totalPrice,
+      user?.email,
+    ]
+  )
+
   useEffect(() => {
     if (!open) {
       setActiveStep(0)
@@ -190,8 +257,63 @@ export function useCustomerReservationConfirmationModal({
       setSignatureDataUrl('')
       setStepError('')
       setIncludeInsurance(false)
+      setGeneratedFiles(null)
+      setDocumentsGenerating(false)
     }
   }, [open])
+
+  useEffect(() => {
+    setGeneratedFiles(null)
+  }, [
+    reservation.checkIn,
+    reservation.checkOut,
+    reservation.rooms,
+    signatureDataUrl,
+    includeInsurance,
+    taxAmount,
+    termsContent,
+    termsTitle,
+  ])
+
+  const generateDocuments = async () => {
+    if (!termsAccepted || !signatureDataUrl || documentsGenerating) {
+      return null
+    }
+
+    setDocumentsGenerating(true)
+    setStepError('')
+
+    try {
+      const contractWithSignature: ReservationContractData = {
+        ...contractPreview,
+        stay: {
+          ...contractPreview.stay,
+          reservationId: 'PENDING',
+        },
+        terms: {
+          ...contractPreview.terms,
+          acceptedAt: new Date().toISOString(),
+        },
+        customerSignatureDataUrl: signatureDataUrl,
+      }
+
+      const [contract, invoice] = await Promise.all([
+        generateCustomerReservationContractFile(contractWithSignature),
+        generateCustomerReservationInvoiceFile(invoicePreview),
+      ])
+      const files = { contract, invoice }
+
+      setGeneratedFiles(files)
+      return files
+    } catch (error) {
+      console.error('Customer reservation document generation failed:', error)
+      setGeneratedFiles(null)
+      setStepError('Could not prepare the contract and invoice. Please try again.')
+      return null
+    } finally {
+      setDocumentsGenerating(false)
+    }
+  }
 
   const validateCurrentStep = () => {
     const validationError = createConfirmationStepStrategy(currentStep.id).validate?.({
@@ -224,7 +346,7 @@ export function useCustomerReservationConfirmationModal({
     setActiveStep(currentStep => Math.max(currentStep - 1, 0))
   }
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     if (!termsAccepted) {
       setActiveStep(getStepIndexById(BOOKING_CONFIRMATION_STEP_IDS.TERMS))
       setStepError('Please accept the terms and conditions before confirming.')
@@ -237,6 +359,13 @@ export function useCustomerReservationConfirmationModal({
       return
     }
 
+    const files = generatedFiles ?? await generateDocuments()
+
+    if (!files) {
+      setActiveStep(getStepIndexById(BOOKING_CONFIRMATION_STEP_IDS.REVIEW_CONFIRM))
+      return
+    }
+
     setStepError('')
     onConfirm({
       termsAccepted,
@@ -245,12 +374,13 @@ export function useCustomerReservationConfirmationModal({
       acceptedTermsContent: termsContent,
       taxPostalCode: resolvedTaxPostalCode,
       includeInsurance,
+      contractFile: files.contract,
+      invoiceFile: files.invoice,
     })
   }
 
-  const hasInsurance = (room.yearlyInsurance ?? 0) > 0
   const insuranceFeeLabel = hasInsurance
-    ? formatCurrency(room.insurancePerReservation!, i18n.language, reservation.currency)
+    ? formatCurrency(insuranceFee, i18n.language, reservation.currency)
     : null
 
   return {
@@ -298,5 +428,7 @@ export function useCustomerReservationConfirmationModal({
     insuranceFeeLabel,
     includeInsurance,
     setIncludeInsurance,
+    documentsGenerating,
+    hasGeneratedDocuments: generatedFiles != null,
   }
 }

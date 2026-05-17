@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { pdf } from '@react-pdf/renderer'
 import {
   Alert,
@@ -11,7 +11,8 @@ import {
   Stack,
   Typography,
 } from '@mui/material'
-import { ExternalLink, FileText } from 'lucide-react'
+import { FileText } from 'lucide-react'
+import Spinner from '@/components/loaders/Spinner'
 import type { ReservationContractData } from '../../types/customerReservationContract'
 import { ReservationContractDocument } from '../customerReservationContract/ReservationContractDocument'
 
@@ -28,71 +29,87 @@ export function ContractPreviewStep({
   stepError,
   onPreviewAcceptedChange,
 }: ContractPreviewStepProps) {
-  const [isOpeningPreview, setIsOpeningPreview] = useState(false)
-  const [previewError, setPreviewError] = useState('')
+  const [pdfBlobUrl, setPdfBlobUrl] = useState<string | null>(null)
+  const [pdfError, setPdfError] = useState(false)
 
-  const handleOpenPreview = async () => {
-    const targetWindow = window.open('about:blank', '_blank')
+  useEffect(() => {
+    let objectUrl: string | null = null
 
-    if (targetWindow) {
-      targetWindow.opener = null
-    }
+    pdf(<ReservationContractDocument contract={contract} />)
+      .toBlob()
+      .then((blob) => {
+        objectUrl = URL.createObjectURL(blob)
 
-    try {
-      setIsOpeningPreview(true)
-      setPreviewError('')
+        setPdfBlobUrl(objectUrl)
+        setPdfError(false)
+      })
+      .catch((error) => {
+        console.error('Failed to generate reservation contract PDF', error)
 
-      const blob = await pdf(<ReservationContractDocument contract={contract} />).toBlob()
-      const blobUrl = URL.createObjectURL(blob)
+        setPdfBlobUrl(null)
+        setPdfError(true)
+      })
 
-      if (targetWindow) {
-        targetWindow.location.href = blobUrl
-        targetWindow.focus()
-        return
+    return () => {
+      if (objectUrl) {
+        URL.revokeObjectURL(objectUrl)
       }
-
-      window.open(blobUrl, '_blank', 'noopener,noreferrer')
-    } catch {
-      targetWindow?.close()
-      setPreviewError('Unable to open the contract preview. Please try again.')
-    } finally {
-      setIsOpeningPreview(false)
     }
-  }
+  }, [contract])
 
   return (
     <Stack spacing={2.5} alignItems="center">
-      {previewError ? <Alert severity="error">{previewError}</Alert> : null}
-      {stepError ? <Alert severity="warning">{stepError}</Alert> : null}
+      {stepError ? (
+        <Alert severity="warning">
+          {stepError}
+        </Alert>
+      ) : null}
 
       <Paper variant="customerReservationContractPreview">
         <Stack spacing={1.75} alignItems="center" textAlign="center">
           <FileText size={36} />
+
           <Stack spacing={0.75} alignItems="center">
             <Typography variant="h6" fontWeight={800}>
               Reservation contract
             </Typography>
+
+            <Typography variant="body2">
+              Open the contract in a new tab to review it before continuing.
+            </Typography>
           </Stack>
 
-          <Button
-            variant="outlined"
-            color="secondary"
-            startIcon={<ExternalLink size={16} />}
-            onClick={handleOpenPreview}
-            disabled={isOpeningPreview}
-            sx={{ minWidth: 220 }}
-          >
-            {isOpeningPreview ? 'Opening...' : 'Preview contract'}
-          </Button>
+          {pdfError ? (
+            <Alert severity="error" sx={{ width: '100%' }}>
+              Failed to generate contract preview. Please try again.
+            </Alert>
+          ) : pdfBlobUrl ? (
+            <Button
+              component="a"
+              href={pdfBlobUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="outlined"
+              startIcon={<FileText size={16} />}
+            >
+              Open contract preview
+            </Button>
+          ) : (
+            <Spinner />
+          )}
         </Stack>
       </Paper>
 
-      <Paper variant="customerReservationConfirmationPanel" sx={{ width: 1, maxWidth: 560 }}>
+      <Paper
+        variant="customerReservationConfirmationPanel"
+      >
         <FormControlLabel
           control={
             <Checkbox
               checked={previewAccepted}
-              onChange={event => onPreviewAcceptedChange(event.target.checked)}
+              onChange={(event) =>
+                onPreviewAcceptedChange(event.target.checked)
+              }
             />
           }
           label="I reviewed the contract and want to continue to signature."

@@ -66,9 +66,21 @@ export function useCustomerRoomReservation({
     [hotelId, roomId, router, searchParams]
   )
 
+  const clearReservationDates = useCallback(() => {
+    const nextSearchParams = new URLSearchParams(searchParams.toString())
+    nextSearchParams.delete('checkIn')
+    nextSearchParams.delete('checkOut')
+
+    const nextQuery = nextSearchParams.toString()
+    const nextHref = `/hotels/${hotelId}/rooms/${roomId}${nextQuery ? `?${nextQuery}` : ''}`
+
+    router.replace(nextHref, { scroll: false })
+  }, [hotelId, roomId, router, searchParams])
+
   return {
     reservation,
     handleBack,
     handleReservationDateChange,
+    clearReservationDates,
   }
 }

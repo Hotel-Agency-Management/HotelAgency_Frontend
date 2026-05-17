@@ -128,9 +128,14 @@ export function CustomerReservationConfirmationModal({
               color="secondary"
               startIcon={<CheckCircle2 size={16} />}
               onClick={modalState.handleConfirm}
-              disabled={!modalState.termsAccepted || !modalState.signatureDataUrl || confirming}
+              disabled={
+                !modalState.termsAccepted ||
+                !modalState.signatureDataUrl ||
+                modalState.documentsGenerating ||
+                confirming
+              }
             >
-              Confirm reservation
+              {modalState.documentsGenerating ? 'Preparing documents...' : 'Confirm reservation'}
             </Button>
           ) : (
             <Button

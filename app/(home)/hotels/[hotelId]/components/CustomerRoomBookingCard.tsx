@@ -10,7 +10,11 @@ import { formatCardCurrency } from '../utils/roomBooking'
 import { CustomerRoomBookingCardPaper } from './CustomerRoomBookingCard.styles'
 import { CustomerReservationConfirmationModal } from './CustomerReservationConfirmationModal'
 import { GuestLoginPromptDialog } from './GuestLoginPromptDialog'
-import { ReservationCreatedDialog } from './ReservationCreatedDialog'
+
+interface ReservationCreatedDocuments {
+  contractUrl: string | null
+  invoiceUrl: string | null
+}
 
 interface CustomerRoomBookingCardProps {
   hotelId: string
@@ -22,6 +26,7 @@ interface CustomerRoomBookingCardProps {
   >
   reservation: ReservationDetails
   onReservationDateChange: (key: 'checkIn' | 'checkOut', value: string) => void
+  onReservationCreated?: (documents: ReservationCreatedDocuments) => void
 }
 
 export function CustomerRoomBookingCard({
@@ -31,6 +36,7 @@ export function CustomerRoomBookingCard({
   room,
   reservation,
   onReservationDateChange,
+  onReservationCreated,
 }: CustomerRoomBookingCardProps) {
   const {
     language,
@@ -43,9 +49,6 @@ export function CustomerRoomBookingCard({
     guestPromptOpen,
     closeGuestPrompt,
     confirmOpen,
-    createdDocuments,
-    openingContract,
-    openingInvoice,
     reservationSummary,
     checkInMinDate,
     checkOutMinDate,
@@ -53,17 +56,15 @@ export function CustomerRoomBookingCard({
     isReserveDisabled,
     openConfirm,
     closeConfirm,
-    closeCreatedDocuments,
     closeFeedback,
     handleConfirmReservation,
-    handleOpenContract,
-    handleOpenInvoice,
   } = useCustomerRoomBookingCard({
     hotelId,
     roomId,
     hotel,
     room,
     reservation,
+    onReservationCreated,
   })
   const nightlyRateLabel = formatCardCurrency(room.pricePerNight, language, reservation.currency)
   const estimatedTotalLabel = formatCardCurrency(
@@ -109,14 +110,12 @@ export function CustomerRoomBookingCard({
                   value={reservation.checkIn}
                   minDate={checkInMinDate}
                   format="DD MMM"
-                  disabled={currentReservation != null}
                   onChange={value => onReservationDateChange('checkIn', value)}
                 />
 
                 <DatePickerField
                   label="Check-out"
                   value={reservation.checkOut}
-                  disabled={currentReservation != null}
                   minDate={checkOutMinDate}
                   format="DD MMM"
                   onChange={value => onReservationDateChange('checkOut', value)}
@@ -162,19 +161,19 @@ export function CustomerRoomBookingCard({
 
             {currentReservation ? (
               <Alert severity="success">
-                You already have an active reservation for this room. Use the reservation section below
-                to edit, extend, or cancel it.
+                You already have an active reservation for this room. Choose different dates to book
+                another stay, or use the reservation section below to manage the existing booking.
               </Alert>
-            ) : (
-              <Button
-                fullWidth
-                variant="contained"
-                disabled={isReserveDisabled}
-                onClick={openConfirm}
-              >
-                Reserve this room
-              </Button>
-            )}
+            ) : null}
+
+            <Button
+              fullWidth
+              variant="contained"
+              disabled={isReserveDisabled}
+              onClick={openConfirm}
+            >
+              Reserve this room
+            </Button>
           </Stack>
         </Stack>
       </CustomerRoomBookingCardPaper>
@@ -193,15 +192,6 @@ export function CustomerRoomBookingCard({
           onConfirm={handleConfirmReservation}
         />
       ) : null}
-
-      <ReservationCreatedDialog
-        open={createdDocuments != null}
-        openingContract={openingContract}
-        openingInvoice={openingInvoice}
-        onClose={closeCreatedDocuments}
-        onOpenContract={handleOpenContract}
-        onOpenInvoice={handleOpenInvoice}
-      />
 
       <Snackbar
         open={feedback.open}

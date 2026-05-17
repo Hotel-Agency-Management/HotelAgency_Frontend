@@ -1,17 +1,13 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { myBookingsApi } from '../data/myBookingsMock'
-
-export const myBookingDetailQueryKeys = {
-  detail: (hotelId: string, reservationId: string) =>
-    ['customer-my-booking-detail', hotelId, reservationId] as const,
-}
+import { getMyReservationById } from '../client/customerReservationClient'
+import { CUSTOMER_RESERVATION_QUERY_KEYS } from '../constants/queryKeys'
 
 export const useMyBookingDetail = (hotelId: string, reservationId: string) => {
   const query = useQuery({
-    queryKey: myBookingDetailQueryKeys.detail(hotelId, reservationId),
-    queryFn: () => myBookingsApi.getMyBookingDetail(hotelId, reservationId),
+    queryKey: CUSTOMER_RESERVATION_QUERY_KEYS.detail(Number(reservationId)),
+    queryFn: () => getMyReservationById(Number(reservationId)),
     enabled: hotelId.length > 0 && reservationId.length > 0,
   })
 

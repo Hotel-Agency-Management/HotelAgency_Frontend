@@ -3,7 +3,7 @@
 import { Chip, Stack, ToggleButton, ToggleButtonGroup, Tooltip, Typography } from '@mui/material'
 import { LayoutGrid, List } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import type { BookingsView } from '../types'
+import type { BookingsView } from '../config'
 
 interface MyBookingsToolbarProps {
   count: number

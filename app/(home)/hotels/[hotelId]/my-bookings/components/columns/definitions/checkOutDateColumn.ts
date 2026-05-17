@@ -1,5 +1,5 @@
 import type { GridColDef } from '@mui/x-data-grid'
-import type { ReservationListItem } from '../../../types'
+import type { ReservationListItem } from '../../../config'
 
 export const checkOutDateColumn: GridColDef<ReservationListItem> = {
   field: 'checkOutDate',

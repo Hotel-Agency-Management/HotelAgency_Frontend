@@ -39,7 +39,7 @@ export function useEditReservationDialog({
     () =>
       showDirectReservationFields
         ? ['Guest', 'Stay', 'Reservation']
-        : ['Stay'],
+        : ['Stay', 'Review'],
     [showDirectReservationFields]
   )
   const [activeStep, setActiveStep] = useState(0)

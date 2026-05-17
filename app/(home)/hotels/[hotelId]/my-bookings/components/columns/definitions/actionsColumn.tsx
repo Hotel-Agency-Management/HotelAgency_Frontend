@@ -1,6 +1,6 @@
 import { Button } from '@mui/material'
 import type { GridColDef } from '@mui/x-data-grid'
-import type { ReservationListItem } from '../../../types'
+import type { ReservationListItem } from '../../../config'
 import type { BookingColumnContext } from '../types'
 
 export function createActionsColumn({

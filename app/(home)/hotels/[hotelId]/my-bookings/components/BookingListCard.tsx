@@ -4,7 +4,7 @@ import { Button, Divider, Stack, Typography } from '@mui/material'
 import { useRouter } from 'next/navigation'
 import { useTranslation } from 'react-i18next'
 import Icon from '@/components/icon/Icon'
-import type { ReservationListItem } from '../types'
+import type { ReservationListItem } from '../config'
 import {
   BookingCardBody,
   BookingCardFooter,

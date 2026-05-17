@@ -1,4 +1,5 @@
-import { Box, Divider, Stack, Typography } from '@mui/material'
+import { Alert, Box, CircularProgress, Divider, Stack, Typography } from '@mui/material'
+import { CheckCircle2 } from 'lucide-react'
 import type {
   ReservationDetails,
   ReservationSummaryItem,
@@ -13,6 +14,8 @@ interface ReviewConfirmStepProps {
   signatureDataUrl: string
   termsAccepted: boolean
   totalPriceLabel: string
+  documentsGenerating: boolean
+  hasGeneratedDocuments: boolean
 }
 
 export function ReviewConfirmStep({
@@ -22,6 +25,8 @@ export function ReviewConfirmStep({
   signatureDataUrl,
   termsAccepted,
   totalPriceLabel,
+  documentsGenerating,
+  hasGeneratedDocuments,
 }: ReviewConfirmStepProps) {
   return (
     <Stack spacing={2}>
@@ -56,6 +61,31 @@ export function ReviewConfirmStep({
             alt="Customer signature"
           />
         ) : null}
+      </SectionPanel>
+
+      <SectionPanel title="Documents">
+        <Stack spacing={1.5}>
+          <SummaryRow
+            label="Contract and invoice"
+            value={
+              hasGeneratedDocuments
+                ? 'Ready'
+                : documentsGenerating
+                  ? 'Preparing...'
+                  : 'Prepared when you confirm'
+            }
+          />
+          {documentsGenerating ? (
+            <Alert icon={<CircularProgress size={18} color="inherit" />} severity="info">
+              Preparing your contract and invoice for this reservation.
+            </Alert>
+          ) : null}
+          {hasGeneratedDocuments ? (
+            <Alert icon={<CheckCircle2 size={18} />} severity="success">
+              Contract and invoice files are ready to attach to this reservation.
+            </Alert>
+          ) : null}
+        </Stack>
       </SectionPanel>
     </Stack>
   )
