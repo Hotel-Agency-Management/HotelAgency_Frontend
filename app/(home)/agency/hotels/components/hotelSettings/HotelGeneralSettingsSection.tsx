@@ -1,11 +1,11 @@
 "use client";
 
 import Alert from "@mui/material/Alert";
-import { useAuth } from "@/core/context/AuthContext";
 import { CustomThemeTab } from "@/app/(home)/agency/components/theme/CustomThemeTab";
 import type { BrandingSettings } from "@/core/theme/palette/branding";
 import type { HotelFormValues } from "../../types/hotel";
-import { useHotelStore } from "../../hooks/useHotelStore";
+import { useGetHotelById } from "../../hooks/queries/useHotelQueries";
+import { useHotelFormActions } from "../../hooks/useHotelFormActions";
 import { HotelProfileTab } from "../hotelProfile/HotelProfileTab";
 
 interface HotelGeneralSettingsSectionProps {
@@ -17,14 +17,12 @@ export function HotelGeneralSettingsSection({
   hotelId,
   activeTab,
 }: HotelGeneralSettingsSectionProps) {
-  const { user } = useAuth();
-  const numericHotelId = Number(hotelId);
-  const { hotel, updateHotel, isLoading } = useHotelStore(
-    user?.agencyId,
-    Number.isFinite(numericHotelId) ? numericHotelId : undefined
-  );
+  const numericHotelId = Number.isFinite(Number(hotelId)) ? Number(hotelId) : undefined;
+  const { data: hotel, isLoading: isLoadingDetail } = useGetHotelById(numericHotelId);
+  const { updateHotel, isLoading: isUpdating } = useHotelFormActions();
+  const isLoading = isLoadingDetail || isUpdating;
 
-  if (isLoading && !hotel) {
+  if (isLoadingDetail && !hotel) {
     return <Alert severity="info">Loading hotel settings...</Alert>;
   }
 

@@ -3,9 +3,8 @@
 import { useState } from 'react'
 import { useParams } from 'next/navigation'
 import { useTheme } from '@mui/material/styles'
-import { useAuth } from '@/core/context/AuthContext'
 import { useAbility } from '@/core/hooks/useAbility'
-import { useHotelStore } from '../../../hooks/useHotelStore'
+import { useGetHotelById } from '../../../hooks/queries/useHotelQueries'
 import { useDamageReports } from './useDamageReports'
 import { DAMAGE_REPORT_STATUS } from '../types/damageReport'
 import type { DamageReport } from '../types/damageReport'
@@ -13,12 +12,10 @@ import type { DamageReport } from '../types/damageReport'
 export function useDamageReportsPage() {
   const params = useParams<{ hotelId?: string }>()
   const theme = useTheme()
-  const { user } = useAuth()
   const ability = useAbility()
 
   const numericHotelId = params.hotelId ? Number(params.hotelId) : undefined
-  const { hotel } = useHotelStore(
-    user?.agencyId,
+  const { data: hotel } = useGetHotelById(
     Number.isFinite(numericHotelId) ? numericHotelId : undefined
   )
 

@@ -2,19 +2,16 @@
 
 import { useParams } from "next/navigation";
 import { useTheme } from "@mui/material/styles";
-import { useAuth } from "@/core/context/AuthContext";
-import { useHotelStore } from "../../../hooks/useHotelStore";
+import { useGetHotelById } from "../../../hooks/queries/useHotelQueries";
 import { getHousekeepingDashboardSeed } from "../data/housekeepingDashboard";
 import { buildHousekeepingPalette } from "../utils/housekeepingPalette";
 
 export function useHousekeepingDashboard() {
   const params = useParams<{ hotelId?: string }>();
   const theme = useTheme();
-  const { user } = useAuth();
   const hotelId = params.hotelId;
   const numericHotelId = hotelId ? Number(hotelId) : undefined;
-  const { hotel } = useHotelStore(
-    user?.agencyId,
+  const { data: hotel } = useGetHotelById(
     Number.isFinite(numericHotelId) ? numericHotelId : undefined
   );
   const dashboardSeed = getHousekeepingDashboardSeed(hotelId);

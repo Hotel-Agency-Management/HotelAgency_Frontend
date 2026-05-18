@@ -10,6 +10,7 @@ import Typography from "@mui/material/Typography";
 import { DataGrid } from "@mui/x-data-grid";
 import { Plus } from "lucide-react";
 import themeConfig from "@/core/configs/themeConfig";
+import { useAuth } from "@/core/context/AuthContext";
 import { TaskFilters } from "./TaskFilters";
 import { CreateTaskDialog } from "./CreateTaskDialog";
 import { DeleteTaskDialog } from "./DeleteTaskDialog";
@@ -21,11 +22,11 @@ import ReportDamageDialog from "../../../damage-reports/components/ReportDamageD
 import { useDamageReports } from "../../../damage-reports/hooks/useDamageReports";
 
 export function HousekeepingTasksPage() {
+  const { user } = useAuth();
   const {
     theme,
     hotelName,
     hotelId,
-    user,
     primaryColor,
     summary,
     tasks,

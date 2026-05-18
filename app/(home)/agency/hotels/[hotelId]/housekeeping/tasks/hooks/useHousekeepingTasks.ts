@@ -3,19 +3,16 @@
 import { useMemo } from "react";
 import { useParams } from "next/navigation";
 import { useTheme } from "@mui/material/styles";
-import { useAuth } from "@/core/context/AuthContext";
-import { useHotelStore } from "../../../../hooks/useHotelStore";
+import { useGetHotelById } from "../../../../hooks/queries/useHotelQueries";
 import { useTaskManager } from "./useTaskManager";
 import { getTaskSummary } from "../../utils/task";
 
 export function useHousekeepingTasksPage() {
   const params = useParams<{ hotelId?: string }>();
   const theme = useTheme();
-  const { user } = useAuth();
   const numericHotelId = params.hotelId ? Number(params.hotelId) : undefined;
 
-  const { hotel } = useHotelStore(
-    user?.agencyId,
+  const { data: hotel } = useGetHotelById(
     Number.isFinite(numericHotelId) ? numericHotelId : undefined
   );
 
@@ -33,7 +30,6 @@ export function useHousekeepingTasksPage() {
     theme,
     hotelName,
     hotelId: params.hotelId ?? '',
-    user,
     primaryColor,
     summary,
     ...taskManager
