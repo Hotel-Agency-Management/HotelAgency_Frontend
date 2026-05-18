@@ -1,4 +1,5 @@
 import { HOUSEKEEPING_TICKET_TYPE, HOUSEKEEPING_LOCATION_TYPE, HOUSEKEEPING_TICKET_STATUS, HOUSEKEEPING_TICKET_PRIORITY, HOUSEKEEPING_FILTER_ALL } from "../constants/ticket";
+import type { TicketComment, AddCommentValues } from "./comment";
 
 export type HousekeepingTicketType =
   (typeof HOUSEKEEPING_TICKET_TYPE)[keyof typeof HOUSEKEEPING_TICKET_TYPE];
@@ -53,4 +54,10 @@ export interface HousekeepingTicketStore {
   ) => void;
   updateTicket: (ticketId: string, values: HousekeepingTicketValues) => void;
   deleteTicket: (ticketId: string) => void;
+  ticketComments: Record<string, TicketComment[]>;
+  addComment: (ticketId: string, values: AddCommentValues, author: string) => void;
+  editComment: (ticketId: string, commentId: string, newBody: string) => void;
+  deleteComment: (ticketId: string, commentId: string) => void;
 }
+
+export type { TicketComment, AddCommentValues };

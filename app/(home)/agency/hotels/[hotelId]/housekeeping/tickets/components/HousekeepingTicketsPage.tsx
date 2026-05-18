@@ -1,11 +1,12 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useParams } from "next/navigation";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import { useTheme } from "@mui/material/styles";
 import { Plus } from "lucide-react";
 import { useAuth } from "@/core/context/AuthContext";
 import SearchInput from "@/components/common/SearchInput";
@@ -19,12 +20,13 @@ import {
 } from "../styles/StyledComponents";
 import { useAssignableEmployees } from "../hooks/useAssignableEmployees";
 import { useHousekeepingLocations } from "../hooks/useHousekeepingLocations";
+import { useHousekeepingTicketStore } from "../hooks/useHousekeepingTicketStore";
+import { useTicketComments } from "../hooks/useTicketComments";
 import { useTicketManager } from "../hooks/useTicketManager";
 import { useVisibleTickets } from "../hooks/useVisibleTickets";
 import type { HousekeepingTicket } from "../types/ticket";
 import ReportDamageDialog from "../../../damage-reports/components/ReportDamageDialog";
 import { useDamageReports } from "../../../damage-reports/hooks/useDamageReports";
-import { useTheme } from "@mui/material/styles";
 
 export function HousekeepingTicketsPage() {
   const params = useParams<{ hotelId?: string }>();
@@ -83,6 +85,19 @@ export function HousekeepingTicketsPage() {
   const [detailTicket, setDetailTicket] = useState<HousekeepingTicket | null>(null);
   const reportingRoom = reportingTicket ? getTicketRoom(reportingTicket) : undefined;
   const theme = useTheme();
+
+  const { getComments, addComment, addDamageReportedComment, editComment, deleteComment } =
+    useTicketComments();
+  const ticketComments = useHousekeepingTicketStore((s) => s.ticketComments);
+
+  const commentCounts = useMemo(
+    () =>
+      Object.fromEntries(
+        ticketManager.tickets.map((t) => [t.id, (ticketComments[t.id] ?? []).length])
+      ),
+    [ticketManager.tickets, ticketComments]
+  );
+
   const handleOpenReportDamage = useCallback((ticket: HousekeepingTicket) => {
     setReportingTicket(ticket);
   }, []);
@@ -93,7 +108,7 @@ export function HousekeepingTicketsPage() {
 
   return (
     <>
-      <Container maxWidth="xl" >
+      <Container maxWidth="xl">
         <TicketsPageHeader
           direction={{ xs: "column", sm: "row" }}
           alignItems={{ xs: "flex-start", sm: "center" }}
@@ -131,6 +146,7 @@ export function HousekeepingTicketsPage() {
         </Stack>
         <TicketBoard
           tickets={visibleTickets}
+          commentCounts={commentCounts}
           onMoveTicket={moveTicket}
           onEdit={handleOpenEdit}
           onDelete={handleOpenDelete}
@@ -160,7 +176,10 @@ export function HousekeepingTicketsPage() {
       <ReportDamageDialog
         open={!!reportingTicket}
         onClose={() => setReportingTicket(null)}
-        onSubmit={reportDamage}
+        onSubmit={(input) => {
+          reportDamage(input);
+          if (reportingTicket) addDamageReportedComment(reportingTicket.id);
+        }}
         prefill={{
           hotelId,
           roomNumber: reportingRoom?.roomNumber ?? "",
@@ -174,11 +193,21 @@ export function HousekeepingTicketsPage() {
       <TicketDetailDrawer
         ticket={detailTicket}
         getTicketLocationLabel={getTicketLocationLabel}
+        comments={detailTicket ? getComments(detailTicket.id) : []}
         onClose={() => setDetailTicket(null)}
         onEdit={handleOpenEdit}
         onDelete={handleOpenDelete}
         onReportDamage={handleOpenReportDamage}
+        onAddComment={(values) => {
+          if (detailTicket) addComment(detailTicket.id, values);
+        }}
+        onEditComment={(commentId, newBody) => {
+          if (detailTicket) editComment(detailTicket.id, commentId, newBody);
+        }}
+        onDeleteComment={(commentId) => {
+          if (detailTicket) deleteComment(detailTicket.id, commentId);
+        }}
       />
-      </>
+    </>
   );
 }

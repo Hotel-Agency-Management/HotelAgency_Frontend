@@ -14,6 +14,7 @@ import { TicketColumn } from "./TicketColumn";
 
 interface TicketBoardProps {
   tickets: HousekeepingTicket[];
+  commentCounts: Record<string, number>;
   onMoveTicket: (
     ticketId: string,
     newStatus: HousekeepingTicketStatus,
@@ -27,6 +28,7 @@ interface TicketBoardProps {
 
 export function TicketBoard({
   tickets,
+  commentCounts,
   onMoveTicket,
   onEdit,
   onDelete,
@@ -58,6 +60,7 @@ export function TicketBoard({
             key={column.id}
             column={column}
             tickets={tickets.filter((t) => t.status === column.id)}
+            commentCounts={commentCounts}
             activeTicketId={activeTicket?.id ?? null}
             overId={overId}
             onEdit={onEdit}
@@ -72,6 +75,7 @@ export function TicketBoard({
         {activeTicket ? (
           <TicketCard
             ticket={activeTicket}
+            commentCount={commentCounts[activeTicket.id] ?? 0}
             isOverlay
             onEdit={onEdit}
             onDelete={onDelete}

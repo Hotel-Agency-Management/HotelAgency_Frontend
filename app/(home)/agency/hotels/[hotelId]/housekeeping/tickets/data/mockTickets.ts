@@ -10,7 +10,7 @@ export const HOUSEKEEPING_TICKETS: HousekeepingTicket[] = [
     title: "Prepare checkout room",
     description: "Clean and reset the room after guest checkout.",
     roomId: "room-101",    status: HOUSEKEEPING_TICKET_STATUS.TO_DO,
-    assignedTo: "samia asmar",
+    assignedTo: "Samia Asmar",
     priority: HOUSEKEEPING_TICKET_PRIORITY.HIGH,
   },
   {
@@ -20,7 +20,7 @@ export const HOUSEKEEPING_TICKETS: HousekeepingTicket[] = [
     title: "Refresh stayover room",
     description: "Complete stayover service and replenish amenities.",
     roomId: "room-104",    status: HOUSEKEEPING_TICKET_STATUS.IN_PROGRESS,
-    assignedTo: "Omar Khaled",
+    assignedTo: "Samia Asmar",
     priority: HOUSEKEEPING_TICKET_PRIORITY.MEDIUM,
   },
   {
@@ -72,7 +72,7 @@ export const HOUSEKEEPING_TICKETS: HousekeepingTicket[] = [
     title: "Final room inspection",
     description: "Check linens, bathroom, and minibar before closing.",
     roomId: "room-402",    status: HOUSEKEEPING_TICKET_STATUS.DONE,
-    assignedTo: "Omar Khaled",
+    assignedTo: "Samia Asmar",
     priority: HOUSEKEEPING_TICKET_PRIORITY.LOW,
   },
   {
@@ -125,7 +125,7 @@ export const HOUSEKEEPING_TICKETS: HousekeepingTicket[] = [
     description: "Review and route the maintenance request to the right team.",
     facilityId: "facility-elevator-bank",
     status: HOUSEKEEPING_TICKET_STATUS.REVIEW,
-    assignedTo: "Omar Khaled",
+    assignedTo: "Samia Asmar",
     priority: HOUSEKEEPING_TICKET_PRIORITY.HIGH
   }
 ];

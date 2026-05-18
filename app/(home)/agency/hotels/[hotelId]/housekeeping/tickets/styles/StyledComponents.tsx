@@ -156,11 +156,15 @@ export const EmptyColumnState = styled(Stack, {
 }));
 
 export const TicketCardRoot = styled(Card, {
-  shouldForwardProp: (prop) => prop !== "isDragging" && prop !== "isOverlay",
-})<{ isDragging?: boolean; isOverlay?: boolean }>(
-  ({ theme, isDragging, isOverlay }) => ({
+  shouldForwardProp: (prop) =>
+    prop !== "isDragging" && prop !== "isOverlay" && prop !== "hasComments",
+})<{ isDragging?: boolean; isOverlay?: boolean; hasComments?: boolean }>(
+  ({ theme, isDragging, isOverlay, hasComments }) => ({
     borderRadius: theme.shape.borderRadius,
     border: `1px solid ${theme.palette.divider}`,
+    borderLeft: hasComments
+      ? `3px solid ${theme.palette.info.main}`
+      : `1px solid ${theme.palette.divider}`,
     backgroundColor: theme.palette.background.paper,
     boxShadow: isOverlay ? theme.shadows[8] : theme.shadows[1],
     opacity: isDragging ? 0.35 : 1,
@@ -173,7 +177,9 @@ export const TicketCardRoot = styled(Card, {
     willChange: "transform",
     "&:hover": {
       boxShadow: theme.shadows[3],
-      borderColor: alpha(theme.palette.primary.main, 0.35),
+      borderColor: hasComments
+        ? theme.palette.info.main
+        : alpha(theme.palette.primary.main, 0.35),
     },
   })
 );
@@ -237,4 +243,29 @@ export const ColoredChip = styled(Chip, {
   color: chipColor,
   fontWeight: 600,
   alignSelf,
+}));
+
+export const CommentItemRoot = styled(Stack)(({ theme }) => ({
+  paddingBlock: theme.spacing(1.25),
+  borderBottom: `1px solid ${theme.palette.divider}`,
+  "&:last-child": {
+    borderBottom: "none",
+  },
+}));
+
+export const CommentActionBadge = styled(Chip, {
+  shouldForwardProp: (prop) => prop !== "badgeColor",
+})<{ badgeColor: string }>(({ theme, badgeColor }) => ({
+  ...chipBase(theme),
+  backgroundColor: alpha(badgeColor, 0.12),
+  color: badgeColor,
+  fontWeight: theme.typography.fontWeightBold,
+}));
+
+export const CommentCountIndicator = styled(Stack)(({ theme }) => ({
+  paddingInline: theme.spacing(0.75),
+  height: theme.spacing(2.5),
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.info.main, 0.12),
+  color: theme.palette.info.main,
 }));

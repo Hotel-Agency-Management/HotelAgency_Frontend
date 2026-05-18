@@ -11,6 +11,7 @@ import { CSS } from "@dnd-kit/utilities";
 import {
   AlertTriangle,
   GripVertical,
+  MessageSquare,
   MoreHorizontal,
   Pencil,
   Ticket,
@@ -19,6 +20,7 @@ import {
 import Can from "@/components/ability/Can";
 import { HOUSEKEEPING_LOCATION_TYPE } from "../../constants/ticket";
 import {
+  CommentCountIndicator,
   DragHandle,
   PriorityChip,
   StyledCardContent,
@@ -33,6 +35,7 @@ import { useTicketDisplay } from "../../hooks/useTicketDisplay";
 
 interface TicketCardProps {
   ticket: HousekeepingTicket;
+  commentCount?: number;
   isOverlay?: boolean;
   onEdit: (ticket: HousekeepingTicket) => void;
   onDelete: (ticket: HousekeepingTicket) => void;
@@ -42,6 +45,7 @@ interface TicketCardProps {
 
 export function TicketCard({
   ticket,
+  commentCount = 0,
   isOverlay,
   onEdit,
   onDelete,
@@ -78,6 +82,7 @@ export function TicketCard({
         style={style}
         isDragging={isDragging}
         isOverlay={isOverlay}
+        hasComments={commentCount > 0}
         elevation={0}
         {...attributes}
         {...listeners}
@@ -133,9 +138,17 @@ export function TicketCard({
                 label={priorityLabel}
                 priorityColor={priorityColor}
               />
-              <TicketCardAssigneeAvatar>
-                {initials}
-              </TicketCardAssigneeAvatar>
+              <Stack direction="row" alignItems="center" gap={0.75}>
+                {commentCount > 0 && (
+                  <CommentCountIndicator direction='row' alignItems='center' gap={0.375}>
+                    <MessageSquare size={11} />
+                    <Typography variant="caption" fontWeight={600}>{commentCount}</Typography>
+                  </CommentCountIndicator>
+                )}
+                <TicketCardAssigneeAvatar>
+                  {initials}
+                </TicketCardAssigneeAvatar>
+              </Stack>
             </Stack>
           </Stack>
         </StyledCardContent>

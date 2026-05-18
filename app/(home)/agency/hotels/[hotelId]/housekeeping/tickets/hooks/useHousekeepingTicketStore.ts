@@ -5,6 +5,8 @@ import {
   type HousekeepingTicket,
   type HousekeepingTicketValues,
   type HousekeepingTicketStore,
+  type TicketComment,
+  type AddCommentValues,
 } from "../types/ticket";
 
 type NormalizedTicketValues = Omit<HousekeepingTicket, "id" | "ticketKey" | "status">;
@@ -39,8 +41,77 @@ function createNormalizedTicketValues(
   };
 }
 
+const INITIAL_TICKET_COMMENTS: Record<string, TicketComment[]> = {
+  "hk-ticket-001": [
+    {
+      id: "comment-seed-001",
+      ticketId: "hk-ticket-001",
+      actionType: "FEEDBACK",
+      author: "Samia Asmar",
+      body: "Room needs extra towels before checkout.",
+      createdAt: new Date(Date.now() - 1000 * 60 * 30).toISOString(),
+    },
+    {
+      id: "comment-seed-002",
+      ticketId: "hk-ticket-001",
+      actionType: "FEEDBACK",
+      author: "Samia Asmar",
+      body: "Minibar restock confirmed.",
+      createdAt: new Date(Date.now() - 1000 * 60 * 10).toISOString(),
+    },
+  ],
+  "hk-ticket-003": [
+    {
+      id: "comment-seed-003",
+      ticketId: "hk-ticket-003",
+      actionType: "FEEDBACK",
+      author: "Samia Asmar",
+      body: "Bathroom tiles need attention.",
+      createdAt: new Date(Date.now() - 1000 * 60 * 60).toISOString(),
+    },
+  ],
+};
+
 export const useHousekeepingTicketStore = create<HousekeepingTicketStore>((set) => ({
   tickets: HOUSEKEEPING_TICKETS,
+  ticketComments: INITIAL_TICKET_COMMENTS,
+
+  addComment: (ticketId, values: AddCommentValues, author) =>
+    set((state) => {
+      const existing = state.ticketComments[ticketId] ?? [];
+      const newComment: TicketComment = {
+        id: `comment-${crypto.randomUUID()}`,
+        ticketId,
+        actionType: values.actionType,
+        author,
+        body: values.body,
+        createdAt: new Date().toISOString(),
+      };
+      return {
+        ticketComments: {
+          ...state.ticketComments,
+          [ticketId]: [newComment, ...existing],
+        },
+      };
+    }),
+
+  editComment: (ticketId, commentId, newBody) =>
+    set((state) => ({
+      ticketComments: {
+        ...state.ticketComments,
+        [ticketId]: (state.ticketComments[ticketId] ?? []).map((c) =>
+          c.id === commentId ? { ...c, body: newBody } : c
+        ),
+      },
+    })),
+
+  deleteComment: (ticketId, commentId) =>
+    set((state) => ({
+      ticketComments: {
+        ...state.ticketComments,
+        [ticketId]: (state.ticketComments[ticketId] ?? []).filter((c) => c.id !== commentId),
+      },
+    })),
 
   createTicket: (values) =>
     set((state) => ({

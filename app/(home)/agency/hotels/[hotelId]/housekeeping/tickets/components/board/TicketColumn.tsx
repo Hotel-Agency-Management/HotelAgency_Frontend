@@ -21,6 +21,7 @@ import { TicketCard } from "./TicketCard";
 interface TicketColumnProps {
   column: BoardColumn;
   tickets: HousekeepingTicket[];
+  commentCounts: Record<string, number>;
   activeTicketId: string | null;
   overId: string | null;
   onEdit: (ticket: HousekeepingTicket) => void;
@@ -32,6 +33,7 @@ interface TicketColumnProps {
 export function TicketColumn({
   column,
   tickets,
+  commentCounts,
   activeTicketId,
   overId,
   onEdit,
@@ -80,6 +82,7 @@ export function TicketColumn({
                   )}
                   <TicketCard
                     ticket={ticket}
+                    commentCount={commentCounts[ticket.id] ?? 0}
                     onEdit={onEdit}
                     onDelete={onDelete}
                     onReportDamage={onReportDamage}
