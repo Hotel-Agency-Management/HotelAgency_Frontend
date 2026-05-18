@@ -5,7 +5,7 @@ import { CustomThemeTab } from "@/app/(home)/agency/components/theme/CustomTheme
 import type { BrandingSettings } from "@/core/theme/palette/branding";
 import type { HotelFormValues } from "../../types/hotel";
 import { useGetHotelById } from "../../hooks/queries/useHotelQueries";
-import { useHotelUpdate } from "../../hooks/useHotelUpdate";
+import { useHotelFormActions } from "../../hooks/useHotelFormActions";
 import { HotelProfileTab } from "../hotelProfile/HotelProfileTab";
 
 interface HotelGeneralSettingsSectionProps {
@@ -19,7 +19,7 @@ export function HotelGeneralSettingsSection({
 }: HotelGeneralSettingsSectionProps) {
   const numericHotelId = Number.isFinite(Number(hotelId)) ? Number(hotelId) : undefined;
   const { data: hotel, isLoading: isLoadingDetail } = useGetHotelById(numericHotelId);
-  const { updateHotel, isLoading: isUpdating } = useHotelUpdate(numericHotelId);
+  const { updateHotel, isLoading: isUpdating } = useHotelFormActions();
   const isLoading = isLoadingDetail || isUpdating;
 
   if (isLoadingDetail && !hotel) {
@@ -31,11 +31,11 @@ export function HotelGeneralSettingsSection({
   }
 
   const handleSave = async (data: HotelFormValues) => {
-    await updateHotel(data);
+    await updateHotel(hotelId, data);
   };
 
   const handleThemeSave = async (branding: BrandingSettings) => {
-    await updateHotel({
+    await updateHotel(hotelId, {
       ...hotel,
       branding,
     });
