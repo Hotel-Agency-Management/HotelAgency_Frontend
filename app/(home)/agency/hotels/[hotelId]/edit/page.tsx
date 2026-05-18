@@ -1,13 +1,13 @@
 'use client'
 import { useParams } from 'next/navigation'
-import { useAuth } from '@/core/context/AuthContext'
-import { useHotelStore } from '../../hooks/useHotelStore'
+import { useGetHotelById } from '../../hooks/queries/useHotelQueries'
+import { useHotelFormActions } from '../../hooks/useHotelFormActions'
 import { HotelFormPage } from '../../components/HotelFormPage'
 
 export default function Page() {
-  const { user } = useAuth()
   const { hotelId } = useParams<{ hotelId: string }>()
-  const { addHotel, updateHotel, hotel, isLoading } = useHotelStore(user?.agencyId, Number(hotelId))
+  const { data: hotel, isLoading: isLoadingDetail } = useGetHotelById(Number(hotelId))
+  const { isLoading: isSubmitting, addHotel, updateHotel } = useHotelFormActions()
   return (
     <HotelFormPage
       mode="edit"
@@ -15,7 +15,7 @@ export default function Page() {
       addHotel={addHotel}
       updateHotel={updateHotel}
       hotel={hotel}
-      isLoading={isLoading}
+      isLoading={isLoadingDetail || isSubmitting}
     />
   )
 }
