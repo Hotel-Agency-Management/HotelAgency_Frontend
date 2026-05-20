@@ -62,7 +62,7 @@ const getAdminHotelReservationsPath = (hotelId: number) =>
 const getAdminHotelReservationPath = (hotelId: number, reservationId: number) =>
   `${getAdminHotelReservationsPath(hotelId)}/${reservationId}`
 
-export async function adminUpdateReservation(
+export async function updateAdminReservation(
   hotelId: number,
   reservationId: number,
   data: UpdateReservationRequest
@@ -86,7 +86,7 @@ export async function cancelAdminReservation(
   return response.data
 }
 
-export async function adminUpdateReservationStatus(
+export async function updateAdminReservationStatus(
   agencyId: number,
   hotelId: number,
   reservationId: number,

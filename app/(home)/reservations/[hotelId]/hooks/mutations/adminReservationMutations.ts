@@ -3,9 +3,9 @@ import { toast } from 'react-hot-toast'
 import { getErrorMessage } from '@/core/utils/apiError'
 import {
   createAdminReservation,
-  adminUpdateReservation,
   cancelAdminReservation,
-  adminUpdateReservationStatus,
+  updateAdminReservation,
+  updateAdminReservationStatus,
 } from '../../client/adminReservationClient'
 import { ADMIN_RESERVATION_QUERY_KEYS } from '../../constants/reservationKey'
 import type {
@@ -42,7 +42,7 @@ export function useAdminUpdateReservation(agencyId: number, hotelId: number) {
     unknown,
     { reservationId: number; data: UpdateReservationRequest }
   >({
-    mutationFn: ({ reservationId, data }) => adminUpdateReservation(hotelId, reservationId, data),
+    mutationFn: ({ reservationId, data }) => updateAdminReservation(hotelId, reservationId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ADMIN_RESERVATION_QUERY_KEYS.byHotelList(agencyId, hotelId),
@@ -76,7 +76,7 @@ export function useAdminUpdateReservationStatus(agencyId: number, hotelId: numbe
   const queryClient = useQueryClient()
 
   return useMutation<void, unknown, { reservationId: number; data: UpdateReservationStatusRequest }>({
-    mutationFn: ({ reservationId, data }) => adminUpdateReservationStatus(agencyId, hotelId, reservationId, data),
+    mutationFn: ({ reservationId, data }) => updateAdminReservationStatus(agencyId, hotelId, reservationId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ADMIN_RESERVATION_QUERY_KEYS.byHotelList(agencyId, hotelId),
