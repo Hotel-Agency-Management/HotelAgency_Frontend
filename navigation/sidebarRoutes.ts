@@ -60,6 +60,21 @@ const navigation = (hotelId?: string, agencyId?: string): SidebarNavItems => {
       ]
     },
     {
+      sectionTitle: 'Finance',
+      icon: 'lucide:wallet',
+      subject: 'PaymentLogs',
+      action: 'manage',
+      items: [
+        {
+          title: 'Payment Logs',
+          path: '/payment-logs',
+          icon: 'lucide:receipt-text',
+          subject: 'PaymentLogs',
+          action: 'manage'
+        }
+      ]
+    },
+    {
       sectionTitle: 'Agency',
       icon: 'lucide:building-2',
       subject: 'Agency',
