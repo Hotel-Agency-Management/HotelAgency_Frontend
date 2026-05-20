@@ -31,6 +31,7 @@ export function defineAbilitiesFor(role: UserRole): AppAbility {
       can('read', 'Reservations')
       can('manage', 'AdminReservations')
       can('manage' , 'HotelTerms')
+      can('manage', 'PaymentLogs')
       break
 
     case USER_ROLES.PROPERTY_MANAGER:
@@ -54,6 +55,7 @@ export function defineAbilitiesFor(role: UserRole): AppAbility {
       can('manage' , 'HotelTerms')
       can('read', 'DamageReports')
       can('manage', 'DamageInvoices')
+      can('manage', 'PaymentLogs')
       break
 
     case USER_ROLES.FRONT_DESK_STAFF:
@@ -83,6 +85,7 @@ export function defineAbilitiesFor(role: UserRole): AppAbility {
     case USER_ROLES.ACCOUNTANT:
       can('read', 'Agency')
       can('read', 'Hotels')
+      can('read', 'PaymentLogs')
       break
 
     default:

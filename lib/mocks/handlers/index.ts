@@ -7,12 +7,10 @@
 
 import { authHandlers } from './auth'
 import { hotelHandlers } from './hotels'
+import { paymentLogHandlers } from './paymentLogs'
 
 export const handlers = [
   ...authHandlers,
-  ...hotelHandlers
-  // Add more handlers here as needed:
-  // ...userHandlers,
-  // ...ticketHandlers,
-  // etc.
+  ...hotelHandlers,
+  ...paymentLogHandlers,
 ]

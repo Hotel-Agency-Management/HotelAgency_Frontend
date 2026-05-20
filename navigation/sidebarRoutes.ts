@@ -264,15 +264,15 @@ const navigation = (hotelId?: string, agencyId?: string): SidebarNavItems => {
     {
       sectionTitle: 'Finance',
       icon: 'lucide:wallet',
-      subject: 'Finance',
-      action: 'manage',
+      subject: 'PaymentLogs',
+      action: 'read',
       items: [
         {
-          title: 'Financial Management',
-          path: `/agency/hotels/${hotelId}/finance`,
-          icon: 'lucide:badge-dollar-sign',
-          subject: 'Finance',
-          action: 'manage'
+          title: 'Payment Logs',
+          path: `/agency/hotels/${hotelId}/payment-logs`,
+          icon: 'lucide:receipt-text',
+          subject: 'PaymentLogs',
+          action: 'read'
         }
       ]
     },

@@ -127,6 +127,12 @@ export const routePermissions: RoutePermission[] = [
     action: 'read',
     subject: 'DamageReports',
     description: 'Damage report detail pages'
+  },
+  {
+    pattern: '/agency/hotels/[hotelId]/payment-logs',
+    action: 'read',
+    subject: 'PaymentLogs',
+    description: 'Payment logs for a hotel — incoming and outgoing'
   }
 ]
 
