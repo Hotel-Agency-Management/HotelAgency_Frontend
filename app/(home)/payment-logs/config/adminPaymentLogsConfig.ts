@@ -1,5 +1,5 @@
-import type { PaymentType } from '@/app/(home)/agency/hotels/[hotelId]/payment-logs/config/paymentLogsConfig'
 import type { PaymentLogItem } from '@/app/(home)/agency/hotels/[hotelId]/payment-logs/config/paymentLogsConfig'
+import { PaymentType } from '../../agency/hotels/[hotelId]/payment-logs/types/payment'
 
 export interface AdminAllPaymentLogsParams {
   pageNumber?: number

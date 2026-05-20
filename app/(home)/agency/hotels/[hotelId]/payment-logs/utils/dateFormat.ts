@@ -1,6 +1,4 @@
-const DAY_MS = 86400000
-const ISO_DATE_ONLY_PATTERN = /^\d{4}-\d{2}-\d{2}$/
-const TIMEZONE_PATTERN = /(Z|[+-]\d{2}:?\d{2})$/
+import { ISO_DATE_ONLY_PATTERN, TIMEZONE_PATTERN, DAY_MS } from "../constants/date"
 
 function startOfDay(date: Date) {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate())

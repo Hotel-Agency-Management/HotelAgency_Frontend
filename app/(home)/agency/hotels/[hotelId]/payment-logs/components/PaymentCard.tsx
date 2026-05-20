@@ -1,14 +1,13 @@
 'use client'
 
-import { Avatar, Box, Stack, Typography } from '@mui/material'
+import { Box, Stack, Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
-import { hexToRGBA } from '@/core/utils/hex-to-rgba'
 import Icon from '@/components/icon/Icon'
 import { PAYMENT_TYPE_CONFIG } from '../constants/paymentTypeConfig'
 import { formatAmount, formatPaymentDateTime } from '../utils/dateFormat'
 import type { PaymentLogItem } from '../config/paymentLogsConfig'
 import { DataColumn } from './DataColumn'
-import { PaymentLogCard } from '../styles/StyledComponents'
+import { PaymentLogCard, PaymentTypeAvatar } from '../styles/StyledComponents'
 
 interface PaymentCardProps {
   payment: PaymentLogItem
@@ -23,10 +22,7 @@ export function PaymentCard({ payment, selected, isIncoming, onClick }: PaymentC
   const typeConfig = PAYMENT_TYPE_CONFIG[payment.paymentType]
   const typePalette = theme.palette[typeConfig.color]
 
-  const avatarSx = {
-    backgroundColor: hexToRGBA(typePalette.main, 0.1),
-    flexShrink: 0,
-  }
+
 
   return (
     <PaymentLogCard variant="outlined" selected={selected} onClick={() => onClick(payment)}>
@@ -34,9 +30,9 @@ export function PaymentCard({ payment, selected, isIncoming, onClick }: PaymentC
       {/* Mobile layout (xs → sm) */}
       <Stack display={{ xs: 'flex', md: 'none' }} gap={1.5}>
         <Stack direction="row" alignItems="center" gap={1.5}>
-          <Avatar sx={{ ...avatarSx, width: 40, height: 40 }}>
+          <PaymentTypeAvatar $color={typePalette.main}>
             <Icon icon={typeConfig.icon} fontSize={18} color={typePalette.main} />
-          </Avatar>
+          </PaymentTypeAvatar>
           <Stack flex={1} gap={0.25}>
             <Typography variant="caption" color="text.disabled" fontWeight={500}>
               Payment Type
@@ -70,9 +66,9 @@ export function PaymentCard({ payment, selected, isIncoming, onClick }: PaymentC
 
       {/* Desktop layout (md+) */}
       <Stack display={{ xs: 'none', md: 'flex' }} direction="row" alignItems="center" gap={2.5}>
-        <Avatar sx={{ ...avatarSx, width: 44, height: 44 }}>
+        <PaymentTypeAvatar $color={typePalette.main}>
           <Icon icon={typeConfig.icon} fontSize={20} color={typePalette.main} />
-        </Avatar>
+        </PaymentTypeAvatar>
 
         <DataColumn label="Payment Type" value={typeConfig.label} valueWeight={600} width={140} />
 

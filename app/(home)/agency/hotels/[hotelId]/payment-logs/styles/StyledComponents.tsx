@@ -1,4 +1,5 @@
-import { Badge, Box, Card, Drawer } from '@mui/material'
+import { hexToRGBA } from '@/core/utils/hex-to-rgba'
+import { Avatar, Badge, Box, Card, Drawer } from '@mui/material'
 import { PaletteColor, styled } from '@mui/material/styles'
 
 export const PaymentLogCard = styled(Card, {
@@ -79,4 +80,13 @@ export const StatusDotBadge = styled(Badge, {
   '& .MuiBadge-badge': {
     backgroundColor: $color,
   },
+}))
+
+export const PaymentTypeAvatar = styled(Avatar, {
+  shouldForwardProp: (prop) => prop !== '$color',
+})<{ $color: string }>(({ theme, $color }) => ({
+  backgroundColor: hexToRGBA($color, 0.1),
+  flexShrink: 0,
+  width: theme.spacing(5),
+  height: theme.spacing(5),
 }))

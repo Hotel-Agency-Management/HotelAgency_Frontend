@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import {
-  fetchAdminAllPayments,
+  getAdminAllPayments,
   type AdminAllPaymentLogsParams,
   type AdminAllPaymentLogsResponse,
 } from '../../client/adminPaymentLogsClient'
@@ -19,7 +19,7 @@ export function useAdminAllPaymentsQuery(params?: AdminAllPaymentLogsParams) {
         search: params?.search,
       },
     ],
-    queryFn: () => fetchAdminAllPayments(params),
+    queryFn: () => getAdminAllPayments(params),
     placeholderData: (prev) => prev,
   })
 }

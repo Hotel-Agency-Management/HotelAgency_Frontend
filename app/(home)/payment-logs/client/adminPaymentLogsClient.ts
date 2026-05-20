@@ -25,14 +25,14 @@ const getAdminHotelOutgoingPath = (agencyId: string, hotelId: string) =>
 const getAdminHotelDetailsPath = (agencyId: string, hotelId: string, paymentLogId: number) =>
   `/admin/agencies/${agencyId}/hotels/${hotelId}/payment-logs/${paymentLogId}`
 
-export async function fetchAdminAllPayments(
+export async function getAdminAllPayments(
   params?: AdminAllPaymentLogsParams
 ): Promise<AdminAllPaymentLogsResponse> {
   const response = await apiClient.get<AdminAllPaymentLogsResponse>(getAdminAllPath(), { params })
   return response.data
 }
 
-export async function fetchAdminHotelPayments(
+export async function getAdminHotelPayments(
   agencyId: string,
   hotelId: string,
   params?: PaymentLogsParams
@@ -44,7 +44,7 @@ export async function fetchAdminHotelPayments(
   return response.data
 }
 
-export async function fetchAdminHotelIncomingPayments(
+export async function getAdminHotelIncomingPayments(
   agencyId: string,
   hotelId: string,
   params?: PaymentLogsParams
@@ -56,7 +56,7 @@ export async function fetchAdminHotelIncomingPayments(
   return response.data
 }
 
-export async function fetchAdminHotelOutgoingPayments(
+export async function getAdminHotelOutgoingPayments(
   agencyId: string,
   hotelId: string,
   params?: PaymentLogsParams
@@ -68,7 +68,7 @@ export async function fetchAdminHotelOutgoingPayments(
   return response.data
 }
 
-export async function fetchAdminPaymentLogDetails(
+export async function getAdminPaymentLogDetails(
   agencyId: string,
   hotelId: string,
   paymentLogId: number

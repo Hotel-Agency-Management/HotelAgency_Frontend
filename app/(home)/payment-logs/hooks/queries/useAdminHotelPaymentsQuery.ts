@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { fetchAdminHotelPayments } from '../../client/adminPaymentLogsClient'
+import { getAdminHotelPayments } from '../../client/adminPaymentLogsClient'
 import type { HotelPaymentLogsResponse, PaymentLogsParams } from '@/app/(home)/agency/hotels/[hotelId]/payment-logs/config/paymentLogsConfig'
 
 export function useAdminHotelPaymentsQuery(
@@ -15,7 +15,7 @@ export function useAdminHotelPaymentsQuery(
       'all',
       { pageNumber: params?.pageNumber, pageSize: params?.pageSize, type: params?.type },
     ],
-    queryFn: () => fetchAdminHotelPayments(agencyId as string, hotelId as string, params),
+    queryFn: () => getAdminHotelPayments(agencyId as string, hotelId as string, params),
     enabled: !!agencyId && !!hotelId,
     placeholderData: (prev) => prev,
   })

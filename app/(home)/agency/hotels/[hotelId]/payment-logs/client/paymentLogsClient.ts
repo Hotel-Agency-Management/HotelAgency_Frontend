@@ -14,7 +14,7 @@ const getOutgoingPath = (hotelId: string) =>
 const getDetailsPath = (hotelId: string, paymentLogId: number) =>
   `/hotels/${hotelId}/payment-logs/${paymentLogId}`
 
-export async function fetchIncomingPayments(
+export async function getIncomingPayments(
   hotelId: string,
   params?: PaymentLogsParams
 ): Promise<HotelPaymentLogsResponse> {
@@ -25,7 +25,7 @@ export async function fetchIncomingPayments(
   return response.data
 }
 
-export async function fetchOutgoingPayments(
+export async function getOutgoingPayments(
   hotelId: string,
   params?: PaymentLogsParams
 ): Promise<HotelPaymentLogsResponse> {
@@ -36,7 +36,7 @@ export async function fetchOutgoingPayments(
   return response.data
 }
 
-export async function fetchPaymentLogDetails(
+export async function getPaymentLogDetails(
   hotelId: string,
   paymentLogId: number
 ): Promise<PaymentLogDetails> {
