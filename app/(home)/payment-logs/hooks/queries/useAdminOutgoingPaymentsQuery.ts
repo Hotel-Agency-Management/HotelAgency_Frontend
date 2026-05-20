@@ -1,18 +1,17 @@
-'use client'
-
 import { useQuery } from '@tanstack/react-query'
 import {
-  fetchAdminOutgoingPayments,
-  type AdminPaymentLogsParams,
-} from '../../api/adminPaymentLogsApi'
+  fetchAdminHotelOutgoingPayments,
+} from '../../client/adminPaymentLogsClient'
+import type { HotelPaymentLogsResponse, PaymentLogsParams } from '@/app/(home)/agency/hotels/[hotelId]/payment-logs/config/paymentLogsConfig'
 
-export function useAdminOutgoingPaymentsQuery(params?: AdminPaymentLogsParams) {
-  return useQuery({
-    queryKey: [
-      'admin-payment-logs',
-      'outgoing',
-      { hotelId: params?.hotelId ?? null, page: params?.page, pageSize: params?.pageSize },
-    ],
-    queryFn: () => fetchAdminOutgoingPayments(params),
+export function useAdminOutgoingPaymentsQuery(
+  agencyId: string,
+  hotelId: string,
+  params?: PaymentLogsParams
+) {
+  return useQuery<HotelPaymentLogsResponse>({
+    queryKey: ['admin-payment-logs', agencyId, hotelId, 'outgoing', { pageNumber: params?.pageNumber, pageSize: params?.pageSize, type: params?.type }],
+    queryFn: () => fetchAdminHotelOutgoingPayments(agencyId, hotelId, params),
+    placeholderData: (prev) => prev,
   })
 }

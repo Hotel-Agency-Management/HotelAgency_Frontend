@@ -1,11 +1,12 @@
 import { useQuery } from '@tanstack/react-query'
-import { fetchOutgoingPayments } from '../../api/paymentLogsApi'
-import type { PaymentLogsParams } from '../../types'
+import { fetchOutgoingPayments } from '../../client/paymentLogsClient'
+import type { HotelPaymentLogsResponse, PaymentLogsParams } from '../../config/paymentLogsConfig'
 
 export function useOutgoingPaymentsQuery(hotelId: string, params?: PaymentLogsParams) {
-  return useQuery({
-    queryKey: ['payment-logs', hotelId, 'outgoing', params],
+  return useQuery<HotelPaymentLogsResponse>({
+    queryKey: ['payment-logs', hotelId, 'outgoing', { pageNumber: params?.pageNumber, pageSize: params?.pageSize, type: params?.type }],
     queryFn: () => fetchOutgoingPayments(hotelId, params),
     enabled: !!hotelId,
+    placeholderData: (prev) => prev,
   })
 }

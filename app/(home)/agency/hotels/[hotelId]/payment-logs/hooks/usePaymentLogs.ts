@@ -3,40 +3,42 @@
 import { useState } from 'react'
 import { useIncomingPaymentsQuery } from './queries/useIncomingPaymentsQuery'
 import { useOutgoingPaymentsQuery } from './queries/useOutgoingPaymentsQuery'
-import type { PaymentLog } from '../types'
+import { usePaymentLogDetailsQuery } from './queries/usePaymentLogDetailsQuery'
+import type { PaymentLogItem } from '../config/paymentLogsConfig'
 
 export function usePaymentLogs(hotelId: string) {
   const [activeTab, setActiveTab] = useState(0)
-  const [selectedPayment, setSelectedPayment] = useState<PaymentLog | null>(null)
-  const [incomingPage, setIncomingPage] = useState(1)
-  const [outgoingPage, setOutgoingPage] = useState(1)
+  const [selectedPaymentId, setSelectedPaymentId] = useState<number | null>(null)
+  const [incomingPageNumber, setIncomingPageNumber] = useState(1)
+  const [outgoingPageNumber, setOutgoingPageNumber] = useState(1)
   const [pageSize, setPageSize] = useState(10)
 
-  const incomingQuery = useIncomingPaymentsQuery(hotelId, { page: incomingPage, pageSize })
-  const outgoingQuery = useOutgoingPaymentsQuery(hotelId, { page: outgoingPage, pageSize })
+  const incomingQuery = useIncomingPaymentsQuery(hotelId, { pageNumber: incomingPageNumber, pageSize })
+  const outgoingQuery = useOutgoingPaymentsQuery(hotelId, { pageNumber: outgoingPageNumber, pageSize })
+  const detailsQuery = usePaymentLogDetailsQuery(hotelId, selectedPaymentId ?? undefined)
 
   const isIncoming = activeTab === 0
   const activeQuery = isIncoming ? incomingQuery : outgoingQuery
-  const activePage = isIncoming ? incomingPage : outgoingPage
-  const setActivePage = isIncoming ? setIncomingPage : setOutgoingPage
+  const activePage = isIncoming ? incomingPageNumber : outgoingPageNumber
+  const setActivePage = isIncoming ? setIncomingPageNumber : setOutgoingPageNumber
 
   function handleTabChange(_: React.SyntheticEvent, value: number) {
     setActiveTab(value)
-    setSelectedPayment(null)
+    setSelectedPaymentId(null)
   }
 
-  function handleSelectPayment(payment: PaymentLog) {
-    setSelectedPayment(payment)
+  function handleSelectPayment(payment: PaymentLogItem) {
+    setSelectedPaymentId(payment.paymentId)
   }
 
   function handleCloseDrawer() {
-    setSelectedPayment(null)
+    setSelectedPaymentId(null)
   }
 
   return {
     activeTab,
     handleTabChange,
-    selectedPayment,
+    selectedPaymentId,
     handleSelectPayment,
     handleCloseDrawer,
     activePage,
@@ -46,5 +48,6 @@ export function usePaymentLogs(hotelId: string) {
     incomingQuery,
     outgoingQuery,
     activeQuery,
+    detailsQuery,
   }
 }

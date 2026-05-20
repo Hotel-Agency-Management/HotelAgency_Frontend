@@ -7,10 +7,8 @@
 
 import { authHandlers } from './auth'
 import { hotelHandlers } from './hotels'
-import { paymentLogHandlers } from './paymentLogs'
 
 export const handlers = [
   ...authHandlers,
   ...hotelHandlers,
-  ...paymentLogHandlers,
 ]

@@ -3,7 +3,7 @@
 import { Chip, useTheme } from '@mui/material'
 import Icon from '@/components/icon/Icon'
 import { PAYMENT_TYPE_CONFIG } from '../constants/paymentTypeConfig'
-import type { PaymentType } from '../types'
+import type { PaymentType } from '../config/paymentLogsConfig'
 
 interface PaymentTypeChipProps {
   type: PaymentType

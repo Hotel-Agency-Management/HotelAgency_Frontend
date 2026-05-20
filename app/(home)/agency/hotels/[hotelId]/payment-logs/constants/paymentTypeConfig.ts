@@ -1,4 +1,4 @@
-import type { PaymentType } from '../types'
+import type { PaymentType } from '../config/paymentLogsConfig'
 
 type PaletteColor = 'success' | 'error' | 'info' | 'primary' | 'warning' | 'secondary'
 

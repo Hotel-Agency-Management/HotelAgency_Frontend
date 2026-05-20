@@ -1,6 +1,6 @@
 'use client'
 
-import { Avatar, Box, Divider, IconButton, Stack, Typography } from '@mui/material'
+import { Avatar, Box, CircularProgress, Divider, IconButton, Stack, Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import Icon from '@/components/icon/Icon'
 import { PaymentTypeChip } from './PaymentTypeChip'
@@ -12,20 +12,22 @@ import {
 } from '../styles/StyledComponents'
 import { formatAmount, formatPaymentDateTime } from '../utils/dateFormat'
 import { getInitials } from '../utils/getInitials'
-import type { PaymentLog } from '../types'
+import type { PaymentLogDetails } from '../config/paymentLogsConfig'
 
 interface PaymentDetailsDrawerProps {
-  payment: PaymentLog | null
+  payment: PaymentLogDetails | null
+  isLoading?: boolean
   isIncoming: boolean
+  open: boolean
   onClose: () => void
 }
 
-export function PaymentDetailsDrawer({ payment, isIncoming, onClose }: PaymentDetailsDrawerProps) {
+export function PaymentDetailsDrawer({ payment, isLoading, isIncoming, open, onClose }: PaymentDetailsDrawerProps) {
   const theme = useTheme()
   const amountColor = isIncoming ? theme.palette.success.main : theme.palette.error.main
 
   return (
-    <PaymentDrawerPaper anchor="right" open={!!payment} onClose={onClose}>
+    <PaymentDrawerPaper anchor="right" open={open} onClose={onClose}>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         <Typography variant="h6" fontWeight={700}>
           Payment Details
@@ -37,11 +39,17 @@ export function PaymentDetailsDrawer({ payment, isIncoming, onClose }: PaymentDe
 
       <Divider />
 
+      {isLoading && !payment && (
+        <Stack flex={1} alignItems="center" justifyContent="center">
+          <CircularProgress size={32} />
+        </Stack>
+      )}
+
       {payment && (
         <Box flex={1} overflow="auto">
           <Stack gap={3}>
             <Stack gap={1.5}>
-              <PaymentTypeChip type={payment.type} size="medium" />
+              <PaymentTypeChip type={payment.paymentType} size="medium" />
               <Typography variant="h5" fontWeight={800} sx={{ color: amountColor }}>
                 {formatAmount(payment.amount, isIncoming)}
               </Typography>
@@ -66,20 +74,20 @@ export function PaymentDetailsDrawer({ payment, isIncoming, onClose }: PaymentDe
             </Stack>
 
             <Stack>
-              {payment.reservationId && (
+              {payment.reservationReference && (
                 <DetailRow
                   icon="lucide:link"
                   label="Reservation"
-                  value={`#RES-${payment.reservationId}`}
+                  value={payment.reservationReference}
                 />
               )}
-              <DetailRow icon="lucide:tag" label="Payment Type" value={payment.type} />
+              <DetailRow icon="lucide:tag" label="Payment Type" value={payment.paymentType} />
               <DetailRow
                 icon="lucide:calendar"
                 label="Date & Time"
                 value={formatPaymentDateTime(payment.createdAt)}
               />
-              <DetailRow icon="lucide:hash" label="Payment ID" value={`#${payment.id}`} />
+              <DetailRow icon="lucide:hash" label="Payment ID" value={`#${payment.paymentId}`} />
             </Stack>
 
             <Stack gap={1}>
@@ -88,27 +96,24 @@ export function PaymentDetailsDrawer({ payment, isIncoming, onClose }: PaymentDe
               </Typography>
               <Stack direction="row" gap={1.5}>
                 <Stack alignItems="center">
-                  <TimelineDot active />
-                  <TimelineConnector />
-                  <TimelineDot active />
+                  {payment.timeline.map((_, index) => (
+                    <Stack key={index} alignItems="center">
+                      <TimelineDot active />
+                      {index < payment.timeline.length - 1 && <TimelineConnector />}
+                    </Stack>
+                  ))}
                 </Stack>
                 <Stack gap={2} flex={1}>
-                  <Stack gap={0.25}>
-                    <Typography variant="body2" fontWeight={500}>
-                      Payment Created
-                    </Typography>
-                    <Typography variant="caption">
-                      {formatPaymentDateTime(payment.createdAt)}
-                    </Typography>
-                  </Stack>
-                  <Stack gap={0.25}>
-                    <Typography variant="body2" fontWeight={500}>
-                      Payment Completed
-                    </Typography>
-                    <Typography variant="caption">
-                      {formatPaymentDateTime(payment.createdAt)}
-                    </Typography>
-                  </Stack>
+                  {payment.timeline.map((event, index) => (
+                    <Stack key={index} gap={0.25}>
+                      <Typography variant="body2" fontWeight={500}>
+                        {event.event}
+                      </Typography>
+                      <Typography variant="caption">
+                        {formatPaymentDateTime(event.occurredAt)}
+                      </Typography>
+                    </Stack>
+                  ))}
                 </Stack>
               </Stack>
             </Stack>

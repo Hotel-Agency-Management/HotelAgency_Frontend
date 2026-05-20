@@ -6,21 +6,21 @@ import { hexToRGBA } from '@/core/utils/hex-to-rgba'
 import Icon from '@/components/icon/Icon'
 import { PAYMENT_TYPE_CONFIG } from '../constants/paymentTypeConfig'
 import { formatAmount, formatPaymentDateTime } from '../utils/dateFormat'
-import type { PaymentLog } from '../types'
+import type { PaymentLogItem } from '../config/paymentLogsConfig'
 import { DataColumn } from './DataColumn'
 import { PaymentLogCard } from '../styles/StyledComponents'
 
 interface PaymentCardProps {
-  payment: PaymentLog
+  payment: PaymentLogItem
   selected: boolean
   isIncoming: boolean
-  onClick: (payment: PaymentLog) => void
+  onClick: (payment: PaymentLogItem) => void
 }
 
 export function PaymentCard({ payment, selected, isIncoming, onClick }: PaymentCardProps) {
   const theme = useTheme()
   const amountColor = isIncoming ? theme.palette.success.main : theme.palette.error.main
-  const typeConfig = PAYMENT_TYPE_CONFIG[payment.type]
+  const typeConfig = PAYMENT_TYPE_CONFIG[payment.paymentType]
   const typePalette = theme.palette[typeConfig.color]
 
   const avatarSx = {
@@ -100,8 +100,8 @@ export function PaymentCard({ payment, selected, isIncoming, onClick }: PaymentC
         <Box display={{ md: 'none', lg: 'block' }}>
           <DataColumn
             label="Reference"
-            value={payment.reservationId ? `#${payment.reservationId}` : '—'}
-            muted={!payment.reservationId}
+            value={payment.reservationReference || '—'}
+            muted={!payment.reservationReference}
             width={96}
           />
         </Box>

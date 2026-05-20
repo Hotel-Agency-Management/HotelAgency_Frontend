@@ -2,6 +2,7 @@
 
 import {
   Box,
+  Button,
   MenuItem,
   Pagination,
   Select,
@@ -11,16 +12,25 @@ import {
   Typography,
 } from '@mui/material'
 import Icon from '@/components/icon/Icon'
-import { PaymentFeed } from './PaymentFeed'
-import { PaymentDetailsDrawer } from './PaymentDetailsDrawer'
-import { PaymentSummaryHeader } from './PaymentSummaryHeader'
-import { usePaymentLogs } from '../hooks/usePaymentLogs'
+import { PaymentFeed } from '@/app/(home)/agency/hotels/[hotelId]/payment-logs/components/PaymentFeed'
+import { PaymentDetailsDrawer } from '@/app/(home)/agency/hotels/[hotelId]/payment-logs/components/PaymentDetailsDrawer'
+import { PaymentSummaryHeader } from '@/app/(home)/agency/hotels/[hotelId]/payment-logs/components/PaymentSummaryHeader'
+import { useAdminPaymentLogs } from '../hooks/useAdminPaymentLogs'
+import type { HotelPaymentLogsResponse, PaymentLogsGroup } from '@/app/(home)/agency/hotels/[hotelId]/payment-logs/config/paymentLogsConfig'
+import type { CustomerHotel } from '@/app/(home)/hotels/types/customerHotel'
 
-interface PaymentLogsPageProps {
-  hotelId: string
+function resolveGroups(data: HotelPaymentLogsResponse | undefined): PaymentLogsGroup[] {
+  if (!data) return []
+  return data.groups
 }
 
-export function PaymentLogsPage({ hotelId }: PaymentLogsPageProps) {
+interface AdminHotelPaymentLogsProps {
+  hotel: CustomerHotel
+  onBack: () => void
+}
+
+export function AdminHotelPaymentLogs({ hotel, onBack }: AdminHotelPaymentLogsProps) {
+  const agencyId = String(hotel.agencyId!)
   const {
     activeTab,
     handleTabChange,
@@ -35,27 +45,40 @@ export function PaymentLogsPage({ hotelId }: PaymentLogsPageProps) {
     outgoingQuery,
     activeQuery,
     detailsQuery,
-  } = usePaymentLogs(hotelId)
+  } = useAdminPaymentLogs(agencyId, hotel.id)
 
   const isIncoming = activeTab === 0
   const activeData = activeQuery.data
   const totalPages = activeData?.totalPages ?? 0
+  const totalCount = activeData?.totalCount ?? 0
+
+  const incomingData = incomingQuery.data
+  const outgoingData = outgoingQuery.data
 
   return (
     <Stack gap={3}>
-      <Stack gap={0.5}>
-        <Typography variant="h5" fontWeight={700}>
-          Payment Logs
+      <Stack direction="row" alignItems="center" gap={1}>
+        <Button
+          startIcon={<Icon icon="lucide:arrow-left" fontSize={16} />}
+          onClick={onBack}
+          variant="text"
+          size="small"
+        >
+          All Hotels
+        </Button>
+        <Typography variant="body2" color="text.secondary">
+          /
         </Typography>
-        <Typography variant="body2">
-          Track all incoming and outgoing transactions for this hotel.
+        <Typography variant="body2" fontWeight={600}>
+          {hotel.name}
         </Typography>
       </Stack>
+
       <PaymentSummaryHeader
-        incomingAmount={incomingQuery.data?.totalIncoming ?? 0}
-        incomingCount={incomingQuery.data?.incomingCount ?? 0}
-        outgoingAmount={outgoingQuery.data?.totalOutgoing ?? 0}
-        outgoingCount={outgoingQuery.data?.outgoingCount ?? 0}
+        incomingAmount={incomingData?.totalIncoming ?? 0}
+        incomingCount={incomingData?.incomingCount ?? 0}
+        outgoingAmount={outgoingData?.totalOutgoing ?? 0}
+        outgoingCount={outgoingData?.outgoingCount ?? 0}
         isLoading={incomingQuery.isLoading || outgoingQuery.isLoading}
         activeTab={activeTab}
       />
@@ -78,7 +101,7 @@ export function PaymentLogsPage({ hotelId }: PaymentLogsPageProps) {
                 <Icon icon="lucide:arrow-down-circle" fontSize={16} />
                 <Box component="span">
                   Incoming Payments
-                  {incomingQuery.data ? ` (${incomingQuery.data.totalCount})` : ''}
+                  {incomingData ? ` (${incomingData.totalCount})` : ''}
                 </Box>
               </Stack>
             }
@@ -89,41 +112,23 @@ export function PaymentLogsPage({ hotelId }: PaymentLogsPageProps) {
                 <Icon icon="lucide:arrow-up-circle" fontSize={16} />
                 <Box component="span">
                   Outgoing Expenses
-                  {outgoingQuery.data ? ` (${outgoingQuery.data.totalCount})` : ''}
+                  {outgoingData ? ` (${outgoingData.totalCount})` : ''}
                 </Box>
               </Stack>
             }
           />
         </Tabs>
-
-        <Stack direction="row" alignItems="center" gap={1} flexShrink={0}>
-          <Typography variant="caption">
-            Sort by:
-          </Typography>
-          <Select
-            size="small"
-            value="newest"
-            variant="standard"
-            disableUnderline
-            sx={{ fontSize: 13, fontWeight: 600 }}
-          >
-            <MenuItem value="newest">Newest</MenuItem>
-            <MenuItem value="oldest">Oldest</MenuItem>
-            <MenuItem value="amount_desc">Highest Amount</MenuItem>
-            <MenuItem value="amount_asc">Lowest Amount</MenuItem>
-          </Select>
-        </Stack>
       </Stack>
 
       <PaymentFeed
-        groups={activeData?.groups ?? []}
+        groups={resolveGroups(activeData)}
         selectedId={selectedPaymentId}
         isIncoming={isIncoming}
         isLoading={activeQuery.isLoading}
         onSelect={handleSelectPayment}
       />
 
-      {activeData && activeData.totalCount > 0 && (
+      {activeData && totalCount > 0 && (
         <Stack
           direction={{ xs: 'column', sm: 'row' }}
           justifyContent="space-between"
@@ -147,7 +152,7 @@ export function PaymentLogsPage({ hotelId }: PaymentLogsPageProps) {
             }}
             sx={{ fontSize: 13 }}
           >
-            {Array.from([7, 10, 20, 50]).map((n) => (
+            {[7, 10, 20, 50].map((n) => (
               <MenuItem key={n} value={n}>
                 {n} per page
               </MenuItem>

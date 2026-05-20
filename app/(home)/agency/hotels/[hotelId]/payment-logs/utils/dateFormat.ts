@@ -1,7 +1,25 @@
 const DAY_MS = 86400000
+const ISO_DATE_ONLY_PATTERN = /^\d{4}-\d{2}-\d{2}$/
+const TIMEZONE_PATTERN = /(Z|[+-]\d{2}:?\d{2})$/
 
 function startOfDay(date: Date) {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate())
+}
+
+export function parseApiDate(value: string): Date {
+  if (ISO_DATE_ONLY_PATTERN.test(value)) {
+    return new Date(`${value}T00:00:00Z`)
+  }
+
+  if (TIMEZONE_PATTERN.test(value)) {
+    return new Date(value)
+  }
+
+  return new Date(`${value}Z`)
+}
+
+export function getUserTimeZone() {
+  return Intl.DateTimeFormat().resolvedOptions().timeZone
 }
 
 export function getPaymentWeekStart(date: Date): Date {
@@ -13,8 +31,13 @@ export function getPaymentWeekStart(date: Date): Date {
 }
 
 export function formatPaymentDateTime(iso: string) {
-  const date = new Date(iso)
-  const time = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })
+  const date = parseApiDate(iso)
+  const timeZone = getUserTimeZone()
+  const time = date.toLocaleTimeString('en-US', {
+    hour: '2-digit',
+    minute: '2-digit',
+    timeZone,
+  })
   const today = startOfDay(new Date())
   const paymentDay = startOfDay(date)
   const dayDiff = Math.round((paymentDay.getTime() - today.getTime()) / DAY_MS)
@@ -25,8 +48,13 @@ export function formatPaymentDateTime(iso: string) {
 
   const label =
     Math.abs(dayDiff) < 7
-      ? date.toLocaleDateString('en-US', { weekday: 'short' })
-      : date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+      ? date.toLocaleDateString('en-US', { weekday: 'short', timeZone })
+      : date.toLocaleDateString('en-US', {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric',
+          timeZone,
+        })
 
   return `${label}, ${time}`
 }
