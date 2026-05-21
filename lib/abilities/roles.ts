@@ -83,6 +83,7 @@ export function defineAbilitiesFor(role: UserRole): AppAbility {
     case USER_ROLES.ACCOUNTANT:
       can('read', 'Agency')
       can('read', 'Hotels')
+      can('read', 'Finance')
       break
 
     default:

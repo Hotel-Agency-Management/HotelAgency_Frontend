@@ -35,6 +35,8 @@ export default function LineChart({
   percentageData,
   legendPosition = 'top',
   legendAlign = 'start',
+  formatValue,
+  curved = false,
 }: LineChartProps) {
   const chartColors = useChartColors(colors)
   const { hiddenLabels, toggle } = useSeriesToggle()
@@ -51,13 +53,15 @@ export default function LineChart({
       if (value === null) return ''
       if (percentageData) {
         const pct = percentageData[flatOffset + context.dataIndex] ?? 0
-        return `${value} (${pct}%)`
+        const formatted = formatValue ? formatValue(value) : String(value)
+        return `${formatted} (${pct}%)`
       }
       if (seriesPercentages) {
         const pct = seriesPercentages[context.dataIndex] ?? 0
-        return `${value} (${pct}%)`
+        const formatted = formatValue ? formatValue(value) : String(value)
+        return `${formatted} (${pct}%)`
       }
-      return String(value)
+      return formatValue ? formatValue(value) : String(value)
     }
 
     return {
@@ -65,6 +69,7 @@ export default function LineChart({
       label: s.label,
       color: chartColors[si % chartColors.length],
       highlightScope: { highlight: 'item', fade: 'global' } as const,
+      ...(curved ? { curve: 'catmullRom' as const } : {}),
       valueFormatter,
     }
   })
@@ -84,9 +89,10 @@ export default function LineChart({
       <MuiLineChart
         series={visibleSeries}
         xAxis={[{ data: labels, scaleType: 'point' }]}
+        yAxis={formatValue ? [{ valueFormatter: formatValue }] : undefined}
         height={height}
         hideLegend
-        margin={{ top: 16, right: 16, bottom: 40, left: 52 }}
+        margin={{ top: 16, right: 16, bottom: 40, left: formatValue ? 72 : 52 }}
       />
       {showLegend && legendPosition === 'bottom' && (
         <ChartLegend items={legendItems} hiddenLabels={hiddenLabels} onToggle={toggle} align={legendAlign} />

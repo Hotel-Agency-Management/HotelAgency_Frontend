@@ -14,6 +14,10 @@ export interface BaseChartProps {
    * For multi-series: flattened array in series order.
    */
   percentageData?: number[]
+  /** Format tooltip values and y-axis tick labels (e.g. currency, units). */
+  formatValue?: (value: number) => string
+  /** Render lines with a smooth catmullRom curve instead of straight segments. */
+  curved?: boolean
 }
 
 /** Single data point for Pie / Doughnut charts */
