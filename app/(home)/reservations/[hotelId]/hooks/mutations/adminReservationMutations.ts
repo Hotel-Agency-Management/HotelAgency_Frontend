@@ -3,8 +3,9 @@ import { toast } from 'react-hot-toast'
 import { getErrorMessage } from '@/core/utils/apiError'
 import {
   createAdminReservation,
-  adminUpdateReservation,
   cancelAdminReservation,
+  updateAdminReservation,
+  updateAdminReservationStatus,
 } from '../../client/adminReservationClient'
 import { ADMIN_RESERVATION_QUERY_KEYS } from '../../constants/reservationKey'
 import type {
@@ -13,6 +14,7 @@ import type {
   CreateReservationRequest,
   ReservationResponse,
   UpdateReservationRequest,
+  UpdateReservationStatusRequest,
 } from '../../config/reservationConfig'
 
 export function useAdminCreateReservation(agencyId: number, hotelId: number) {
@@ -40,7 +42,7 @@ export function useAdminUpdateReservation(agencyId: number, hotelId: number) {
     unknown,
     { reservationId: number; data: UpdateReservationRequest }
   >({
-    mutationFn: ({ reservationId, data }) => adminUpdateReservation(hotelId, reservationId, data),
+    mutationFn: ({ reservationId, data }) => updateAdminReservation(hotelId, reservationId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ADMIN_RESERVATION_QUERY_KEYS.byHotelList(agencyId, hotelId),
@@ -63,6 +65,23 @@ export function useAdminCancelReservation(agencyId: number, hotelId: number) {
         queryKey: ADMIN_RESERVATION_QUERY_KEYS.byHotelList(agencyId, hotelId),
       })
       toast.success('Reservation cancelled successfully')
+    },
+    onError: (error) => {
+      toast.error(getErrorMessage(error))
+    },
+  })
+}
+
+export function useAdminUpdateReservationStatus(agencyId: number, hotelId: number) {
+  const queryClient = useQueryClient()
+
+  return useMutation<void, unknown, { reservationId: number; data: UpdateReservationStatusRequest }>({
+    mutationFn: ({ reservationId, data }) => updateAdminReservationStatus(agencyId, hotelId, reservationId, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ADMIN_RESERVATION_QUERY_KEYS.byHotelList(agencyId, hotelId),
+      })
+      toast.success('Reservation status updated successfully')
     },
     onError: (error) => {
       toast.error(getErrorMessage(error))

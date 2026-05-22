@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'react-hot-toast'
 import { getErrorMessage } from '@/core/utils/apiError'
-import { updateReservation, cancelReservation } from '../../client/directReservationClient'
+import { updateReservation, cancelReservation, updateReservationStatus } from '../../client/directReservationClient'
 import { RESERVATION_QUERY_KEYS } from '../../constants/reservationKey'
-import type { UpdateReservationRequest, CancelReservationRequest } from '../../config/reservationConfig'
+import type { UpdateReservationRequest, CancelReservationRequest, UpdateReservationStatusRequest } from '../../config/reservationConfig'
 
 export function useUpdateReservation(hotelId: number) {
   const queryClient = useQueryClient()
@@ -33,6 +33,24 @@ export function useCancelReservation(hotelId: number) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: RESERVATION_QUERY_KEYS.byHotelList(hotelId) })
       toast.success('Reservation cancelled successfully')
+    },
+
+    onError: (error) => {
+      toast.error(getErrorMessage(error))
+    },
+  })
+}
+
+export function useUpdateReservationStatus(hotelId: number) {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: ({ reservationId, data }: { reservationId: number; data: UpdateReservationStatusRequest }) =>
+      updateReservationStatus(hotelId, reservationId, data),
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: RESERVATION_QUERY_KEYS.byHotelList(hotelId) })
+      toast.success('Reservation status updated successfully')
     },
 
     onError: (error) => {
