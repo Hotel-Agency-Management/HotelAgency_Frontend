@@ -9,23 +9,25 @@ import { ROOM_TYPES } from '@/app/(home)/room-types/constants/roomTypes'
 import type { CustomerHotel } from '@/app/(home)/hotels/types/customerHotel'
 import { useAuth } from '@/core/context/AuthContext'
 import { getErrorMessage } from '@/core/utils/apiError'
-import { openCustomerInvoicePdf } from '../invoice/components/openCustomerInvoicePdf'
-import { openReservationContractPdf } from '../components/customerReservationContract/openReservationContractPdf'
-import type { CustomerInvoice } from '../invoice/types/customerInvoice'
 import type {
   CustomerReservationConfirmationPayload,
   ReservationDetails,
 } from '../types/customerReservationConfirmation'
-import type { ReservationContractData } from '../types/customerReservationContract'
 import { useCustomerReservationManager } from './useCustomerReservationManager'
 import { useReservationFeedback } from './useReservationFeedback'
-import { buildReservationContract } from '../utils/buildReservationContract'
 import { findAvailabilityConflict } from '../utils/customerReservationPolicy'
+import { saveCustomerReservationDocumentUrls } from '../utils/customerReservationDocumentUrls'
 import { getStayLength, getTotalReservationPrice } from '../utils/roomBooking'
 
 interface ReservationCreatedDocuments {
-  contract: ReservationContractData
-  invoice: CustomerInvoice | null
+  contractUrl: string | null
+  invoiceUrl: string | null
+}
+
+const createPdfFileUrl = (file: File | undefined) => {
+  if (!file) return null
+
+  return URL.createObjectURL(file)
 }
 
 interface UseCustomerRoomBookingCardOptions {
@@ -37,6 +39,7 @@ interface UseCustomerRoomBookingCardOptions {
     'type' | 'status' | 'floorNumber' | 'capacity' | 'pricePerNight' | 'extendPrice' | 'starRating' | 'yearlyInsurance' | 'insurancePerReservation'
   >
   reservation: ReservationDetails
+  onReservationCreated?: (documents: ReservationCreatedDocuments) => void
 }
 
 export function useCustomerRoomBookingCard({
@@ -45,17 +48,16 @@ export function useCustomerRoomBookingCard({
   hotel,
   room,
   reservation,
+  onReservationCreated,
 }: UseCustomerRoomBookingCardOptions) {
   const { i18n } = useTranslation()
   const { user } = useAuth()
   const { currentReservation, roomReservations, createReservation, isBusy } =
-    useCustomerReservationManager(hotelId, roomId)
+    useCustomerReservationManager(hotelId, roomId, reservation.roomNumber, hotel?.agencyId)
   const { feedback, showFeedback, closeFeedback } = useReservationFeedback()
   const [confirmOpen, setConfirmOpen] = useState(false)
   const [guestPromptOpen, setGuestPromptOpen] = useState(false)
   const [createdDocuments, setCreatedDocuments] = useState<ReservationCreatedDocuments | null>(null)
-  const [openingContract, setOpeningContract] = useState(false)
-  const [openingInvoice, setOpeningInvoice] = useState(false)
 
   const roomType = ROOM_TYPES[room.type]
   const stayLength = useMemo(
@@ -77,14 +79,19 @@ export function useCustomerRoomBookingCard({
     room.pricePerNight != null
 
   const draftAvailabilityConflict = useMemo(() => {
-    if (!isReservationReady || currentReservation != null) {
+    if (!isReservationReady) {
       return null
     }
 
-    return findAvailabilityConflict(roomReservations, {
+    return findAvailabilityConflict(
+      currentReservation != null
+        ? [currentReservation, ...roomReservations]
+        : roomReservations,
+      {
       checkIn: reservation.checkIn,
       checkOut: reservation.checkOut,
-    })
+      }
+    )
   }, [
     currentReservation,
     isReservationReady,
@@ -94,12 +101,9 @@ export function useCustomerRoomBookingCard({
   ])
 
   const handleConfirmReservation = async ({
-    termsAccepted,
-    customerSignatureDataUrl,
-    acceptedTermsTitle,
-    acceptedTermsContent,
-    taxPostalCode,
+    contractFile,
     includeInsurance,
+    invoiceFile,
   }: CustomerReservationConfirmationPayload) => {
     if (
       !isBookable ||
@@ -108,11 +112,6 @@ export function useCustomerRoomBookingCard({
       room.pricePerNight == null
     ) {
       return
-    }
-
-    const contractWindow = window.open('about:blank', '_blank')
-    if (contractWindow) {
-      contractWindow.opener = null
     }
 
     try {
@@ -126,9 +125,9 @@ export function useCustomerRoomBookingCard({
         hotelCountry: hotel?.country,
         hotelCity: hotel?.city,
         hotelAddress: hotel?.address,
-        hotelZip: hotel?.hotelZip ?? taxPostalCode,
+        hotelZip: hotel?.hotelZip,
         roomNumber: reservation.roomNumber,
-        roomType: roomType.label,
+        roomType: ROOM_TYPES[room.type].label,
         customerName:
           user?.name ??
           [user?.firstName, user?.lastName].filter(Boolean).join(' ') ??
@@ -144,75 +143,36 @@ export function useCustomerRoomBookingCard({
         nightlyRate: room.pricePerNight,
         extendPrice: room.extendPrice ?? room.pricePerNight,
         includeInsurance,
-        termsAccepted,
-        customerSignatureDataUrl,
+        termsAccepted: true,
+        customerSignatureDataUrl: '',
+        contractFile,
+        invoiceFile,
       })
 
-      const contract = buildReservationContract({
-        reservation: confirmedReservation,
-        hotel,
-        user,
-        roomCapacity: room.capacity,
-        roomTypeLabel: roomType.label,
-        language: i18n.language,
-        termsTitle: acceptedTermsTitle,
-        termsContent: acceptedTermsContent,
-      })
+      const documentUrls = {
+        contractUrl: createPdfFileUrl(contractFile),
+        invoiceUrl: createPdfFileUrl(invoiceFile),
+      }
 
-      setCreatedDocuments({
-        contract,
-        invoice: confirmedReservation.invoice ?? null,
-      })
-      await openReservationContractPdf(contract, contractWindow)
+      saveCustomerReservationDocumentUrls(confirmedReservation.id, documentUrls)
+      setCreatedDocuments(documentUrls)
+      onReservationCreated?.(documentUrls)
+
       setConfirmOpen(false)
       showFeedback('success', 'Reservation created successfully.')
     } catch (error) {
-      contractWindow?.close()
       showFeedback('error', getErrorMessage(error, 'Failed to create reservation.'))
     }
   }
 
-  const handleOpenContract = async () => {
-    if (!createdDocuments) {
-      return
-    }
-
-    const targetWindow = window.open('about:blank', '_blank')
-    if (targetWindow) {
-      targetWindow.opener = null
-    }
-
-    try {
-      setOpeningContract(true)
-      await openReservationContractPdf(createdDocuments.contract, targetWindow)
-    } catch (error) {
-      targetWindow?.close()
-      showFeedback('error', getErrorMessage(error, 'Failed to open reservation contract.'))
-    } finally {
-      setOpeningContract(false)
-    }
+  const handleOpenContract = () => {
+    if (!createdDocuments?.contractUrl) return
+    window.open(createdDocuments.contractUrl, '_blank', 'noopener,noreferrer')
   }
 
-  const handleOpenInvoice = async () => {
-    if (!createdDocuments?.invoice) {
-      showFeedback('error', 'No invoice is available for this reservation.')
-      return
-    }
-
-    const targetWindow = window.open('about:blank', '_blank')
-    if (targetWindow) {
-      targetWindow.opener = null
-    }
-
-    try {
-      setOpeningInvoice(true)
-      await openCustomerInvoicePdf(createdDocuments.invoice, targetWindow)
-    } catch (error) {
-      targetWindow?.close()
-      showFeedback('error', getErrorMessage(error, 'Failed to open invoice.'))
-    } finally {
-      setOpeningInvoice(false)
-    }
+  const handleOpenInvoice = () => {
+    if (!createdDocuments?.invoiceUrl) return
+    window.open(createdDocuments.invoiceUrl, '_blank', 'noopener,noreferrer')
   }
 
   return {
@@ -226,20 +186,18 @@ export function useCustomerRoomBookingCard({
     feedback,
     confirmOpen,
     createdDocuments,
-    openingContract,
-    openingInvoice,
     reservationSummary: {
-      checkIn: currentReservation?.checkIn ?? reservation.checkIn,
-      checkOut: currentReservation?.checkOut ?? reservation.checkOut,
-      guests: currentReservation?.guests ?? reservation.guests,
+      checkIn: reservation.checkIn,
+      checkOut: reservation.checkOut,
+      guests: reservation.guests,
       stayLength,
-      estimatedTotal: currentReservation?.totalPrice ?? totalPrice,
+      estimatedTotal: totalPrice,
     },
     checkInMinDate: dayjs().format('YYYY-MM-DD'),
     checkOutMinDate: reservation.checkIn
       ? dayjs(reservation.checkIn).add(1, 'day').format('YYYY-MM-DD')
       : undefined,
-    canOpenConfirmationModal: currentReservation == null && isBookable && isReservationReady,
+    canOpenConfirmationModal: isBookable && isReservationReady && draftAvailabilityConflict == null,
     isReserveDisabled:
       !isBookable || !isReservationReady || draftAvailabilityConflict != null || isBusy,
     guestPromptOpen,

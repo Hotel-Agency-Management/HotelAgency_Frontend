@@ -10,6 +10,8 @@ export const createReviewConfirmStepStrategy = (): ConfirmationStepStrategy => (
       signatureDataUrl={modalState.signatureDataUrl}
       termsAccepted={modalState.termsAccepted}
       totalPriceLabel={modalState.totalPriceLabel}
+      documentsGenerating={modalState.documentsGenerating}
+      hasGeneratedDocuments={modalState.hasGeneratedDocuments}
     />
   ),
 })

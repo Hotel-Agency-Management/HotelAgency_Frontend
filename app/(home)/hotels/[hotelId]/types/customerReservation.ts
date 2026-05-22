@@ -27,6 +27,10 @@ export interface CustomerReservation {
   roomType?: string
   customerName?: string
   customerEmail?: string
+  guestPhone?: string
+  guestIdNumber?: string
+  specialRequests?: string | null
+  notes?: string | null
   paymentMethod?: string
   checkIn: string
   checkOut: string
@@ -40,6 +44,8 @@ export interface CustomerReservation {
   totalPrice: number
   status: CustomerReservationStatus
   source: CustomerReservationSource
+  contractUrl?: string | null
+  invoiceUrl?: string | null
   termsAcceptedAt?: string
   customerSignatureDataUrl?: string
   createdAt: string
@@ -78,6 +84,8 @@ export interface CreateCustomerReservationInput {
   includeInsurance: boolean
   termsAccepted: boolean
   customerSignatureDataUrl: string
+  contractFile?: File
+  invoiceFile?: File
   hasInsurance?: boolean
 }
 
@@ -91,6 +99,11 @@ export interface UpdateCustomerReservationInput {
   rooms: number
   nightlyRate: number
   extendPrice: number
+  guestPhone?: string
+  guestIdNumber?: string
+  hasInsurance?: boolean
+  specialRequests?: string | null
+  notes?: string | null
 }
 
 export interface ExtendCustomerReservationInput {

@@ -45,6 +45,8 @@ interface EditReservationDialogProps {
   } | null
   isLoadingDetails?: boolean
   showDirectReservationFields?: boolean
+  showReservationSourceField?: boolean
+  canEditGuestFullName?: boolean
   onClose: () => void
   onSave: () => void
   onFieldChange: (key: EditReservationFieldKey, value: string | number | boolean) => void
@@ -65,10 +67,14 @@ export function EditReservationDialog({
   editConflict,
   isLoadingDetails = false,
   showDirectReservationFields = false,
+  showReservationSourceField = true,
+  canEditGuestFullName = true,
   onClose,
   onSave,
   onFieldChange,
 }: EditReservationDialogProps) {
+  const selectedRoomLabel =
+    roomOptions.find(option => option.id === editForm.roomId)?.label ?? editForm.roomId
   const {
     steps,
     activeStep,
@@ -136,6 +142,7 @@ export function EditReservationDialog({
                 size="small"
                 label="Guest Full Name"
                 value={editForm.guestFullName ?? ''}
+                disabled={!canEditGuestFullName}
                 onChange={event => onFieldChange('guestFullName', event.target.value)}
               />
 
@@ -243,22 +250,24 @@ export function EditReservationDialog({
                 Reservation details
               </Typography>
 
-              <TextField
-                select
-                fullWidth
-                size="small"
-                label="Reservation Source"
-                value={editForm.source ?? ''}
-                onChange={event =>
-                  onFieldChange('source', event.target.value as ReservationSource)
-                }
-              >
-                {Object.values(ReservationSource).map(source => (
-                  <MenuItem key={source} value={source}>
-                    {source}
-                  </MenuItem>
-                ))}
-              </TextField>
+              {showReservationSourceField ? (
+                <TextField
+                  select
+                  fullWidth
+                  size="small"
+                  label="Reservation Source"
+                  value={editForm.source ?? ''}
+                  onChange={event =>
+                    onFieldChange('source', event.target.value as ReservationSource)
+                  }
+                >
+                  {Object.values(ReservationSource).map(source => (
+                    <MenuItem key={source} value={source}>
+                      {source}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              ) : null}
 
               <FormControlLabel
                 control={
@@ -289,6 +298,47 @@ export function EditReservationDialog({
                 minRows={3}
                 onChange={event => onFieldChange('notes', event.target.value)}
               />
+            </Stack>
+          ) : null}
+
+          {!showDirectReservationFields && activeStep === 1 ? (
+            <Stack spacing={2}>
+              <Typography variant="subtitle2" fontWeight={700}>
+                Review changes
+              </Typography>
+
+              <Stack spacing={1}>
+                <Typography variant="body2">
+                  Room:{' '}
+                  <Typography component="span" variant="body2" fontWeight={700}>
+                    {selectedRoomLabel}
+                  </Typography>
+                </Typography>
+                <Typography variant="body2">
+                  Check-in:{' '}
+                  <Typography component="span" variant="body2" fontWeight={700}>
+                    {editForm.checkIn}
+                  </Typography>
+                </Typography>
+                <Typography variant="body2">
+                  Check-out:{' '}
+                  <Typography component="span" variant="body2" fontWeight={700}>
+                    {editForm.checkOut}
+                  </Typography>
+                </Typography>
+                <Typography variant="body2">
+                  Guests:{' '}
+                  <Typography component="span" variant="body2" fontWeight={700}>
+                    {editForm.guests}
+                  </Typography>
+                </Typography>
+                <Typography variant="body2">
+                  Rooms:{' '}
+                  <Typography component="span" variant="body2" fontWeight={700}>
+                    {editForm.rooms}
+                  </Typography>
+                </Typography>
+              </Stack>
             </Stack>
           ) : null}
 

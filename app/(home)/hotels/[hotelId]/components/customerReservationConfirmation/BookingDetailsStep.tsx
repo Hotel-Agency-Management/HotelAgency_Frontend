@@ -62,29 +62,27 @@ export function BookingDetailsStep({
         <SummaryRow label="Estimated total" value={estimatedTotalLabel} emphasis />
       </SectionPanel>
 
-      {hasInsurance ? (
-        <SectionPanel title="Insurance">
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={includeInsurance}
-                onChange={event => onIncludeInsuranceChange(event.target.checked)}
-                size="small"
-              />
-            }
-            label={
-              <Stack>
-                <Typography variant="body2">Include yearly insurance</Typography>
-                {insuranceFeeLabel ? (
-                  <Typography variant="caption">
-                    {insuranceFeeLabel} / reservation
-                  </Typography>
-                ) : null}
-              </Stack>
-            }
-          />
-        </SectionPanel>
-      ) : null}
+      <SectionPanel title="Insurance">
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={includeInsurance}
+              onChange={event => onIncludeInsuranceChange(event.target.checked)}
+              size="small"
+            />
+          }
+          label={
+            <Stack>
+              <Typography variant="body2">Include insurance</Typography>
+              <Typography variant="caption">
+                {hasInsurance && insuranceFeeLabel
+                  ? `${insuranceFeeLabel} / reservation`
+                  : 'No additional insurance fee configured for this room.'}
+              </Typography>
+            </Stack>
+          }
+        />
+      </SectionPanel>
     </Stack>
   )
 }

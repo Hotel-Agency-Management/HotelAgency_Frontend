@@ -7,7 +7,7 @@ import { roomsColumn } from '../components/columns/definitions/roomsColumn'
 import { statusColumn } from '../components/columns/definitions/statusColumn'
 import { totalAmountColumn } from '../components/columns/definitions/totalAmountColumn'
 import type { BookingColumnContext, BookingColumnKey } from '../components/columns/types'
-import type { ReservationListItem } from '../types'
+import type { ReservationListItem } from '../config'
 
 export const DEFAULT_COLUMN_ORDER: BookingColumnKey[] = [
   'reservationNumber',

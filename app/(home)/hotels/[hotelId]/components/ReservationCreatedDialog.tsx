@@ -13,28 +13,19 @@ import { FileText, ReceiptText, X } from 'lucide-react'
 
 interface ReservationCreatedDialogProps {
   open: boolean
-  openingContract?: boolean
-  openingInvoice?: boolean
+  contractUrl?: string | null
+  invoiceUrl?: string | null
   onClose: () => void
-  onOpenContract: () => void
-  onOpenInvoice: () => void
 }
 
 export function ReservationCreatedDialog({
   open,
-  openingContract = false,
-  openingInvoice = false,
+  contractUrl,
+  invoiceUrl,
   onClose,
-  onOpenContract,
-  onOpenInvoice,
 }: ReservationCreatedDialogProps) {
   return (
-    <Dialog
-      open={open}
-      onClose={onClose}
-      fullWidth
-      maxWidth="xs"
-    >
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth="xs">
       <DialogTitle>
         <Stack direction="row" alignItems="center" justifyContent="space-between">
           <Typography variant="h6">Reservation created</Typography>
@@ -46,30 +37,35 @@ export function ReservationCreatedDialog({
       <DialogContent>
         <Stack spacing={2}>
           <Typography variant="body2" color="text.secondary">
-            Your reservation is confirmed. Open the contract and invoice from the actions below.
+            Your reservation is confirmed. You can reopen the contract and invoice from here.
           </Typography>
 
           <Stack spacing={1.25}>
             <Button
               fullWidth
               variant="outlined"
-              size='small'
+              size="small"
+              component="a"
+              href={contractUrl ?? '#'}
+              target="_blank"
+              rel="noopener noreferrer"
               startIcon={<FileText size={16} />}
-              disabled={openingContract}
-              onClick={onOpenContract}
-
+              disabled={!contractUrl}
             >
-              Open contract
+              View contract
             </Button>
             <Button
               fullWidth
-              size='small'
               variant="contained"
+              size="small"
+              component="a"
+              href={invoiceUrl ?? '#'}
+              target="_blank"
+              rel="noopener noreferrer"
               startIcon={<ReceiptText size={16} />}
-              disabled={openingInvoice}
-              onClick={onOpenInvoice}
+              disabled={!invoiceUrl}
             >
-              Open invoice
+              View invoice
             </Button>
           </Stack>
         </Stack>

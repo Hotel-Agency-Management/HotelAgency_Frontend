@@ -119,6 +119,12 @@ export function useReservationEdit({
       checkOut: currentReservation.checkOut,
       guests: currentReservation.guests,
       rooms: currentReservation.rooms,
+      guestFullName: currentReservation.customerName ?? '',
+      guestPhone: currentReservation.guestPhone ?? '',
+      guestIdNumber: currentReservation.guestIdNumber ?? '',
+      hasInsurance: currentReservation.hasInsurance ?? currentReservation.includeInsurance,
+      specialRequests: currentReservation.specialRequests ?? '',
+      notes: currentReservation.notes ?? '',
     })
     setEditOpen(true)
   }
@@ -159,6 +165,11 @@ export function useReservationEdit({
         rooms: editForm.rooms,
         nightlyRate: selectedNightlyRate,
         extendPrice: selectedExtendPrice,
+        guestPhone: editForm.guestPhone,
+        guestIdNumber: editForm.guestIdNumber,
+        hasInsurance: editForm.hasInsurance,
+        specialRequests: editForm.specialRequests || null,
+        notes: editForm.notes || null,
       })
 
       closeEdit()
