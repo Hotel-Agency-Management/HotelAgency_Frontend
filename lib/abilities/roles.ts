@@ -86,6 +86,7 @@ export function defineAbilitiesFor(role: UserRole): AppAbility {
       can('read', 'Agency')
       can('read', 'Hotels')
       can('read', 'PaymentLogs')
+      can('read', 'Finance')
       break
 
     default:

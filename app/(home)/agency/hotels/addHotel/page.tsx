@@ -1,11 +1,9 @@
 'use client'
-import { useAuth } from '@/core/context/AuthContext'
-import { useHotelStore } from '../hooks/useHotelStore'
+import { useHotelFormActions } from '../hooks/useHotelFormActions'
 import { HotelFormPage } from '../components/HotelFormPage'
 
 export default function Page() {
-  const { user } = useAuth()
-  const { addHotel, updateHotel, isLoading } = useHotelStore(user?.agencyId)
+  const { isLoading, addHotel, updateHotel } = useHotelFormActions()
   return (
     <HotelFormPage
       mode="add"

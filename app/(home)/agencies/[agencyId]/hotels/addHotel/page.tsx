@@ -1,12 +1,11 @@
 'use client'
 import { useParams } from 'next/navigation'
-import { useAdminHotelStore } from '@/app/(home)/agency/hotels/hooks/useAdminHotelStore'
+import { useAdminHotelFormActions } from '@/app/(home)/agency/hotels/hooks/useAdminHotelFormActions'
 import { HotelFormPage } from '@/app/(home)/agency/hotels/components/HotelFormPage'
 
 export default function Page() {
   const { agencyId } = useParams<{ agencyId: string }>()
-  const numericAgencyId = Number(agencyId)
-  const { addHotel, updateHotel, isLoading } = useAdminHotelStore(numericAgencyId)
+  const { isLoading, addHotel, updateHotel } = useAdminHotelFormActions(Number(agencyId))
   return (
     <HotelFormPage
       mode="add"

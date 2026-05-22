@@ -2,6 +2,7 @@
 
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
+import { useTheme } from '@mui/material/styles'
 import { Gauge, gaugeClasses } from '@mui/x-charts/Gauge'
 import { useChartColors } from './utils/chartColors'
 import type { BaseChartProps } from './types'
@@ -13,6 +14,10 @@ export interface GaugeChartProps extends BaseChartProps {
   startAngle?: number
   endAngle?: number
   unit?: string
+  thresholds?: {
+    low: number
+    high: number
+  }
 }
 
 /**
@@ -30,10 +35,18 @@ export default function GaugeChart({
   endAngle = 110,
   unit,
   height = 240,
-  colors
+  colors,
+  thresholds
 }: GaugeChartProps) {
+  const theme = useTheme()
   const chartColors = useChartColors(colors)
-  const primaryColor = chartColors[0]
+  const primaryColor = thresholds
+    ? value < thresholds.low
+      ? theme.palette.error.main
+      : value < thresholds.high
+        ? theme.palette.warning.main
+        : theme.palette.success.main
+    : chartColors[0]
 
   return (
     <Box sx={{ width: '100%', position: 'relative' }}>

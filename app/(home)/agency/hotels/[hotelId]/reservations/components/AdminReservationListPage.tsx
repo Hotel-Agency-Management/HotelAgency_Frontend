@@ -59,6 +59,8 @@ export function AdminReservationListPage() {
     handleConfirmCancel,
     isUpdating,
     isCancelling,
+    handleUpdateStatus,
+    statusUpdatingId,
   } = useAdminReservationListPage()
 
   const columns = useMemo(
@@ -67,8 +69,10 @@ export function AdminReservationListPage() {
         onExtend: handleOpenExtend,
         onUpdate: handleOpenUpdate,
         onCancel: handleOpenCancel,
+        onUpdateStatus: handleUpdateStatus,
+        statusUpdatingId,
       }),
-    [handleOpenExtend, handleOpenUpdate, handleOpenCancel]
+    [handleOpenExtend, handleOpenUpdate, handleOpenCancel, handleUpdateStatus, statusUpdatingId]
   )
 
   const editStayLength = useMemo(() => {

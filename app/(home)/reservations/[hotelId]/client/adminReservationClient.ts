@@ -8,6 +8,7 @@ import type {
   ReservationListParams,
   ReservationResponse,
   UpdateReservationRequest,
+  UpdateReservationStatusRequest,
 } from '../config/reservationConfig'
 
 const BASE = '/admin/agencies'
@@ -61,7 +62,7 @@ const getAdminHotelReservationsPath = (hotelId: number) =>
 const getAdminHotelReservationPath = (hotelId: number, reservationId: number) =>
   `${getAdminHotelReservationsPath(hotelId)}/${reservationId}`
 
-export async function adminUpdateReservation(
+export async function updateAdminReservation(
   hotelId: number,
   reservationId: number,
   data: UpdateReservationRequest
@@ -83,4 +84,16 @@ export async function cancelAdminReservation(
     data
   )
   return response.data
+}
+
+export async function updateAdminReservationStatus(
+  agencyId: number,
+  hotelId: number,
+  reservationId: number,
+  data: UpdateReservationStatusRequest
+): Promise<void> {
+  await apiClient.patch(
+    `${BASE}/${agencyId}/hotels/${hotelId}/reservations/${reservationId}/status`,
+    data
+  )
 }

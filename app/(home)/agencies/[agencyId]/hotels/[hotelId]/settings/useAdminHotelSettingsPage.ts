@@ -1,7 +1,8 @@
 "use client";
 
 import { useParams, useSearchParams } from "next/navigation";
-import { useAdminHotelStore } from "@/app/(home)/agency/hotels/hooks/useAdminHotelStore";
+import { useAdminGetHotelById } from "@/app/(home)/agency/hotels/hooks/queries/useAdminHotelQueries";
+import { useAdminHotelFormActions } from "@/app/(home)/agency/hotels/hooks/useAdminHotelFormActions";
 import type { HotelFormValues } from "@/app/(home)/agency/hotels/types/hotel";
 import type { BrandingSettings } from "@/core/theme/palette/branding";
 
@@ -10,11 +11,10 @@ export function useAdminHotelSettingsPage() {
   const searchParams = useSearchParams();
   const activeTab = searchParams.get("tab") === "theme" ? "theme" : "profile";
 
-  const numericHotelId = Number(hotelId);
-  const { hotel, updateHotel, isLoading } = useAdminHotelStore(
-    Number(agencyId),
-    Number.isFinite(numericHotelId) ? numericHotelId : undefined
-  );
+  const numericAgencyId = Number(agencyId);
+  const numericHotelId = Number.isFinite(Number(hotelId)) ? Number(hotelId) : undefined;
+  const { data: hotel, isLoading: isLoadingDetail } = useAdminGetHotelById(numericAgencyId, numericHotelId);
+  const { updateHotel, isLoading: isUpdating } = useAdminHotelFormActions(numericAgencyId);
 
   const handleSave = async (data: HotelFormValues) => {
     await updateHotel(hotelId, data);
@@ -30,7 +30,7 @@ export function useAdminHotelSettingsPage() {
     hotelId,
     activeTab,
     hotel,
-    isLoading,
+    isLoading: isLoadingDetail || isUpdating,
     handleSave,
     handleThemeSave,
   };

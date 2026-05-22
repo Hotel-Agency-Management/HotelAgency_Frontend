@@ -32,7 +32,7 @@ export default function BarChart({
   percentageData
 }: BarChartProps) {
   const chartColors = useChartColors(colors)
-  const resolvedColor = color ?? chartColors[0]
+  const resolvedColor = color ?? chartColors[1]
 
   const calculatedPercentages = percentage && !percentageData ? calculatePercentages(data) : undefined
 

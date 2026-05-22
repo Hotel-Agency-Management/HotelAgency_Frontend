@@ -64,11 +64,10 @@ export default function DoughnutChart({
 
   const pieData = visibleData.map(d => {
     const originalIndex = data.indexOf(d)
-    const pct = activePercentages?.[originalIndex]
     return {
       id: originalIndex,
       value: d.value,
-      label: pct !== undefined ? `${d.label} (${pct}%)` : d.label,
+      label: d.label,
       color: chartColors[originalIndex % chartColors.length]
     }
   })
