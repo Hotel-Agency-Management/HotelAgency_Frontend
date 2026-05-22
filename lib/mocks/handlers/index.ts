@@ -10,9 +10,5 @@ import { hotelHandlers } from './hotels'
 
 export const handlers = [
   ...authHandlers,
-  ...hotelHandlers
-  // Add more handlers here as needed:
-  // ...userHandlers,
-  // ...ticketHandlers,
-  // etc.
+  ...hotelHandlers,
 ]
