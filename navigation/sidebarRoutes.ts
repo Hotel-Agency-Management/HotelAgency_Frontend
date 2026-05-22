@@ -8,13 +8,6 @@ const navigation = (hotelId?: string, agencyId?: string): SidebarNavItems => {
       icon: 'lucide:home',
       items: [
         {
-          title: 'Explore Hotels',
-          path: '/hotels',
-          icon: 'lucide:map',
-          subject: 'AllHotels',
-          action: 'read'
-        },
-        {
           title: 'Dashboard',
           path: '/dashboard',
           icon: 'lucide:layout-dashboard',
@@ -27,7 +20,14 @@ const navigation = (hotelId?: string, agencyId?: string): SidebarNavItems => {
           icon: 'lucide:user',
           subject: 'Users',
           action: 'manage'
-        }
+        },
+        {
+          title: 'Explore Hotels',
+          path: '/hotels',
+          icon: 'lucide:map',
+          subject: 'AllHotels',
+          action: 'read'
+        },
       ]
     },
     {
@@ -252,30 +252,6 @@ const navigation = (hotelId?: string, agencyId?: string): SidebarNavItems => {
         }
       ]
     },
-
-    {
-      sectionTitle: 'Operations',
-      icon: 'lucide:briefcase',
-      subject: 'Operations',
-      action: 'manage',
-      items: [
-        {
-          title: 'Maintenance',
-          path: `/agency/hotels/${hotelId}/maintenance`,
-          icon: 'lucide:wrench',
-          subject: 'Maintenance',
-          action: 'manage'
-        },
-        {
-          title: 'Insurance',
-          path: `/agency/hotels/${hotelId}/insurance`,
-          icon: 'lucide:shield',
-          subject: 'Insurance',
-          action: 'manage'
-        }
-      ]
-    },
-
     {
       sectionTitle: 'Finance',
       icon: 'lucide:wallet',
@@ -293,30 +269,11 @@ const navigation = (hotelId?: string, agencyId?: string): SidebarNavItems => {
     },
 
     {
-      sectionTitle: 'My Reservations',
-      icon: 'lucide:book-open',
-      items: [
-        {
-          title: 'My Bookings',
-          path: `/hotels/${hotelId}/my-bookings`,
-          icon: 'lucide:calendar-check',
-          subject: 'AllHotels',
-          action: 'read',
-        },
-      ],
-    },
-
-    {
-      sectionTitle: 'Bookings',
+      sectionTitle: 'Reservations',
       icon: 'lucide:book-open-check',
+      subject: 'Reservations',
+      action: 'manage',
       items: [
-        {
-          title: 'Booking Overview',
-          path: `/agency/hotels/${hotelId}/bookings`,
-          icon: 'lucide:clipboard-list',
-          subject: 'Bookings',
-          action: 'manage'
-        },
         {
           title: 'Reservations',
           path: `/reservations/${hotelId}/list`,

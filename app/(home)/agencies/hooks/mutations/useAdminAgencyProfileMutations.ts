@@ -10,7 +10,8 @@ export function useAdminUpdateAgencyProfile(agencyId: number) {
 
   return useMutation({
     mutationFn: (data: UpdateAgencyInfoRequest) => adminUpdateAgencyProfile(agencyId, data),
-    onSuccess: () => {
+    onSuccess: (data) => {
+      queryClient.setQueryData(adminAgencyProfileKey(agencyId), data)
       queryClient.invalidateQueries({ queryKey: adminAgencyProfileKey(agencyId) })
       toast.success('Agency profile updated successfully')
     },

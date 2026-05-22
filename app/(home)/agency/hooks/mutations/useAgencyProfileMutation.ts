@@ -10,7 +10,8 @@ export function useUpdateAgencyProfile() {
 
   return useMutation({
     mutationFn: (data: UpdateAgencyInfoRequest) => updateAgencyProfile(data),
-    onSuccess: () => {
+    onSuccess: (data) => {
+      queryClient.setQueryData(AGENCY_PROFILE_KEY, data)
       queryClient.invalidateQueries({ queryKey: AGENCY_PROFILE_KEY })
       toast.success('Agency profile updated successfully')
     },

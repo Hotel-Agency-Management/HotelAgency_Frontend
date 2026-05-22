@@ -2,6 +2,8 @@
 
 import Alert from "@mui/material/Alert";
 import { CustomThemeTab } from "@/app/(home)/agency/components/theme/CustomThemeTab";
+import { authConfig } from "@/core/configs/clientConfig";
+import { useAuth } from "@/core/context/AuthContext";
 import type { BrandingSettings } from "@/core/theme/palette/branding";
 import type { HotelFormValues } from "../../types/hotel";
 import { useGetHotelById } from "../../hooks/queries/useHotelQueries";
@@ -20,6 +22,7 @@ export function HotelGeneralSettingsSection({
   const numericHotelId = Number.isFinite(Number(hotelId)) ? Number(hotelId) : undefined;
   const { data: hotel, isLoading: isLoadingDetail } = useGetHotelById(numericHotelId);
   const { updateHotel, isLoading: isUpdating } = useHotelFormActions();
+  const { user, setUser } = useAuth();
   const isLoading = isLoadingDetail || isUpdating;
 
   if (isLoadingDetail && !hotel) {
@@ -39,6 +42,24 @@ export function HotelGeneralSettingsSection({
       ...hotel,
       branding,
     });
+
+    if (user?.hotelId === hotelId) {
+      const hotelTheme =
+        typeof user.hotelTheme === "object" && user.hotelTheme !== null ? user.hotelTheme : {};
+      const nextUser = {
+        ...user,
+        hotelTheme: {
+          ...hotelTheme,
+          primaryColor: branding.colors.primary,
+          secondaryColor: branding.colors.secondary,
+          tertiaryColor: branding.colors.tertiary,
+          logoUrl: branding.logo,
+        },
+      };
+
+      setUser(nextUser);
+      localStorage.setItem(authConfig.storageUserDataKeyName, JSON.stringify(nextUser));
+    }
   };
 
   return activeTab === "profile" ? (

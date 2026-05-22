@@ -38,7 +38,8 @@ export const useUpdateHotel = () => {
 
       return mapHotelResponseToHotel(hotel)
     },
-    onSuccess: (_, variables) => {
+    onSuccess: (hotel, variables) => {
+      queryClient.setQueryData(hotelQueryKeys.detail(variables.agencyId, variables.hotelId), hotel)
       queryClient.invalidateQueries({
         queryKey: hotelQueryKeys.lists(variables.agencyId)
       })
