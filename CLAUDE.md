@@ -64,17 +64,86 @@ Roles are defined in `lib/abilities/types.ts` and permissions in `lib/abilities/
 
 Every domain feature follows this structure (example: `app/(home)/agency/hotels/`):
 ```
-types/          # TypeScript interfaces
+types/          # TypeScript interfaces and type aliases only — no logic, no constants
+constants/      # Static data, column configs, default values, enums
 api/ or data/   # apiClient calls
 hooks/
   queries/      # useQuery wrappers
   mutations/    # useMutation wrappers
-  use*.ts       # Composite hooks that combine queries + mutations
-components/     # UI components
-constants/      # Static data, column configs, default values
+  use*.ts       # Composite hooks that combine queries + mutations + all business logic
+components/     # Pure UI components — no business logic, no direct API calls
+styles/
+  StyledComponents.tsx   # All MUI styled() components scoped to this feature
 schema/         # Yup validation schemas
 utils/          # Pure transformation/formatting functions
 ```
+
+### Separation of Concerns — Non-Negotiable
+
+These rules apply to **every** feature module, page, and component in the codebase:
+
+#### Types → `types/` only
+- All TypeScript interfaces, type aliases, and enums live in the feature's `types/` folder.
+- **Never** define a type or interface inline inside a component file or hook file.
+- If a type is shared across multiple features, it goes in `lib/types/` or the nearest common ancestor folder.
+
+```ts
+// ✓ correct — types/index.ts
+export interface Hotel {
+  id: string
+  name: string
+  starRating: number
+}
+
+// ✗ wrong — defined inside a component or hook
+const MyComponent = () => {
+  interface Hotel { id: string; name: string }  // ← never do this
+}
+```
+
+#### Constants → `constants/` only
+- All static values (default objects, column configs, option arrays, magic numbers, route strings) live in the feature's `constants/` folder.
+- **Never** hardcode a constant inline inside a component or hook.
+
+```ts
+// ✓ correct — constants/index.ts
+export const DEFAULT_PAGE_SIZE = 10
+export const ROOM_STATUS_OPTIONS = ['available', 'occupied', 'maintenance'] as const
+
+// ✗ wrong — inline inside a component
+<DataGrid pageSize={10} />          // ← extract to constants
+const statuses = ['available', ...]  // ← extract to constants
+```
+
+#### Logic → hooks only
+- All business logic (data fetching, state management, event handlers, derived values, side effects) lives in custom hooks inside the feature's `hooks/` folder.
+- Page and component files must contain **only** JSX rendering and direct hook calls — no `useState`/`useEffect`/`useMemo` blocks that encode business logic.
+- A component that needs data calls a hook; it does **not** call `apiClient` directly or manage query state itself.
+
+```tsx
+// ✓ correct — hooks/useHotelList.ts
+export const useHotelList = () => {
+  const { data, isLoading } = useQuery({ ... })
+  const { mutate: deleteHotel } = useMutation({ ... })
+  return { hotels: data ?? [], isLoading, deleteHotel }
+}
+
+// ✓ correct — page file
+const HotelsPage = () => {
+  const { hotels, isLoading, deleteHotel } = useHotelList()
+  return <HotelTable rows={hotels} onDelete={deleteHotel} loading={isLoading} />
+}
+
+// ✗ wrong — logic inside the page
+const HotelsPage = () => {
+  const [hotels, setHotels] = useState([])   // ← move to hook
+  useEffect(() => { apiClient.get(...) }, []) // ← move to hook
+}
+```
+
+#### UI → page / component files only
+- Page and component files render JSX. They receive data and callbacks as props or from hooks — they do not own logic.
+- Keep page files thin: one hook call per concern, then pass everything down to components.
 
 ### Dynamic Sidebar Branding
 
@@ -95,6 +164,27 @@ PDF documents use strategy patterns for step rendering; see `customerReservation
 ### Global State (Zustand)
 
 Used for cross-component state that doesn't belong in URL or server state. See `useHotelStore` in `app/(home)/agency/hotels/hooks/` as the reference pattern — it wraps TanStack Query hooks into a single store-like interface.
+
+### SPA-Compatible Components
+
+All components must support Single Page Application navigation — they must never trigger a full page reload:
+
+- **Always** use Next.js `<Link>` from `next/link` for internal navigation — never `<a href>` or `window.location`.
+- **Always** use `useRouter` from `next/navigation` for programmatic navigation — never `window.location.href` or `window.location.replace`.
+- **Always** use `useSearchParams` / `usePathname` from `next/navigation` for reading the URL — never `window.location.search`.
+
+```tsx
+// ✓ correct
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+
+<Link href="/agency/hotels">Hotels</Link>
+router.push('/agency/hotels')
+
+// ✗ wrong — causes full page reload, breaks SPA
+<a href="/agency/hotels">Hotels</a>
+window.location.href = '/agency/hotels'
+```
 
 ---
 
@@ -320,16 +410,31 @@ Then register it in `lib/mocks/browser.ts`.
 
 - **Never** write more than 2–3 properties in a single `sx` prop — if it grows beyond that, move it to a `styled()` component.
 - The `sx` prop is allowed **only** for one-off, non-reusable overrides. If the same `sx` block appears in more than one place, it must be extracted.
+- **Never** use the `style` prop for anything other than truly dynamic values that cannot be expressed with `sx` or `styled()` — and even then it must be a single property.
 - **Global** style overrides → `core/theme/overrides/` (edit the relevant MUI component override file).
-- **Component-scoped** reusable styles → create a `styles/StyledComponents.tsx` file next to the component folder and use MUI's `styled()` function.
+- **Feature-scoped** reusable styles → create a `styles/StyledComponents.tsx` file inside the feature folder and use MUI's `styled()` function. **Never** name it anything else or place it anywhere else.
 
 ```tsx
-// ✓ correct — styled() with theme tokens
-const StyledCard = styled(Card)(({ theme }) => ({
+// ✓ correct — styles/StyledComponents.tsx
+import { styled } from '@mui/material/styles'
+import { Card, Box } from '@mui/material'
+
+export const RoomCard = styled(Card)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius * 2,
   padding: theme.spacing(2),
   backgroundColor: theme.palette.background.paper,
 }))
+
+export const StatusBadge = styled(Box)<{ active: boolean }>(({ theme, active }) => ({
+  backgroundColor: active
+    ? hexToRGBA(theme.palette.success.main, 0.12)
+    : hexToRGBA(theme.palette.error.main, 0.12),
+  borderRadius: theme.shape.borderRadius,
+  padding: theme.spacing(0.5, 1.5),
+}))
+
+// ✗ wrong — styled component defined inside the component file
+const StyledCard = styled(Card)(...) // ← move to styles/StyledComponents.tsx
 
 // ✗ wrong — too much inline sx
 <Card sx={{ borderRadius: '16px', padding: '16px', mt: 2, mb: 3, boxShadow: 3, bgcolor: '#fff' }} />
@@ -337,7 +442,7 @@ const StyledCard = styled(Card)(({ theme }) => ({
 
 ### Layout & Alignment
 
-- **Never** use `margin` or `padding` to align siblings against each other — use `<Stack spacing={n}>` or `<Stack gap={n}>` instead.
+- **Never** use `margin` or `padding` to push or align sibling elements relative to each other — use `<Stack spacing={n}>` or `<Stack gap={n}>` instead.
 - **Never** use `marginLeft: 'auto'` tricks for pushing elements — use `<Box flex={1} />` or `justifyContent` on the parent Stack/Box.
 - For grid layouts use `<Grid>`, for flex layouts use `<Stack>` — avoid adding `display: 'flex'` manually on `<Box>` unless you need something neither Stack nor Grid supports.
 
@@ -348,7 +453,7 @@ const StyledCard = styled(Card)(({ theme }) => ({
   <Button variant="contained">Save</Button>
 </Stack>
 
-// ✗ wrong
+// ✗ wrong — using margin for alignment
 <div>
   <Button style={{ marginRight: 16 }}>Cancel</Button>
   <Button>Save</Button>
@@ -438,7 +543,7 @@ zIndex: 9999
 - Prefer `<Stack>` over `<Box display="flex">` for one-dimensional layouts.
 - Prefer `<Grid>` over `<Box display="grid">` for two-dimensional layouts.
 
-> **Never** use `margin`/`padding` for alignment, hardcode colors or font sizes, write raw `@media` queries, or hardcode z-index values.
+> **Summary of absolute nevers:** margin/padding for alignment · inline style prop · hardcoded colors or font sizes · raw `@media` queries · hardcoded z-index values · styled components defined outside `styles/StyledComponents.tsx` · types or interfaces defined outside `types/` · constants defined outside `constants/` · business logic inside page or component files.
 
 ---
 
@@ -449,6 +554,15 @@ app/
   (home)/
     agency/         # Agency owner + staff management routes
       hotels/       # Hotel CRUD, rooms, housekeeping, settings
+        types/                   # Interfaces & type aliases
+        constants/               # Static values, column configs, defaults
+        api/                     # apiClient calls
+        hooks/                   # All business logic (queries, mutations, composite hooks)
+        components/              # Pure UI components
+        styles/
+          StyledComponents.tsx   # All MUI styled() components for this feature
+        schema/                  # Yup validation schemas
+        utils/                   # Pure transformation/formatting helpers
       settings/     # Agency profile & custom theme
       users/        # User management
     hotels/         # Customer hotel browsing + booking portal
@@ -473,7 +587,7 @@ core/
   context/            # AuthContext, SettingsContext
   hooks/              # useAbility, useLanguage, useToggleMode, useActiveBranding
   layouts/SidebarLayout/
-  theme/overrides/    # 30+ MUI component overrides
+  theme/overrides/    # 30+ MUI component overrides (global style overrides go here)
 lib/
   abilities/
     roles.ts          # Role → CASL abilities mapping
