@@ -28,6 +28,7 @@ export function CustomThemeTab({
   const {
     form,
     isDefault,
+    hasChanges,
     isSaving,
     handleApply,
     handleDiscard,
@@ -46,7 +47,7 @@ export function CustomThemeTab({
         <ColorsCard />
         <ThemeFooter
           isSaving={isApplying}
-          isDirty={form.formState.isDirty}
+          isDirty={hasChanges}
           isDefault={isDefault}
           onDiscard={handleDiscard}
           onRestoreDefaults={handleRestoreDefaults}

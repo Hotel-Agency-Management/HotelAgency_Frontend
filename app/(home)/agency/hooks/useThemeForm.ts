@@ -32,6 +32,9 @@ export function useThemeForm(options?: UseThemeFormOptions) {
 
   const currentValues = form.watch();
   const previewColors = resolveBrandingColors(currentValues.colors);
+  const hasChanges =
+    JSON.stringify(sanitizeBrandingSettings(currentValues)) !==
+    JSON.stringify(sanitizeBrandingSettings(initialValues));
 
   const isDefault =
     previewColors.primary === DEFAULT_BRANDING_COLORS.primary &&
@@ -73,6 +76,7 @@ export function useThemeForm(options?: UseThemeFormOptions) {
     currentValues,
     previewColors,
     isDefault,
+    hasChanges,
     isSaving,
     handleApply,
     handleDiscard,

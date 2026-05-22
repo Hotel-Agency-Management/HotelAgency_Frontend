@@ -1,6 +1,8 @@
 'use client'
 
 import { useMemo } from 'react'
+import { authConfig } from '@/core/configs/clientConfig'
+import { useAuth } from '@/core/context/AuthContext'
 import { useSettings } from '@/core/hooks/useSettings'
 import {
   sanitizeBrandingSettings,
@@ -15,6 +17,7 @@ export function useCustomThemeSection() {
   const updateAgencyProfile = useUpdateAgencyProfile()
   const updateAgencyLogo = useUpdateAgencyLogo()
   const { settings, saveSettings } = useSettings()
+  const { user, setUser } = useAuth()
 
   const brandingValues = useMemo(
     () => mapBrandingSettings(agencyProfile, settings.branding),
@@ -31,6 +34,23 @@ export function useCustomThemeSection() {
     })
 
     saveSettings({ ...settings, branding: clean })
+
+    if (user?.agencyId) {
+      const agencyTheme =
+        typeof user.agencyTheme === 'object' && user.agencyTheme !== null ? user.agencyTheme : {}
+      const nextUser = {
+        ...user,
+        agencyTheme: {
+          ...agencyTheme,
+          primaryColor: clean.colors.primary,
+          secondaryColor: clean.colors.secondary,
+          tertiaryColor: clean.colors.tertiary,
+        },
+      }
+
+      setUser(nextUser)
+      localStorage.setItem(authConfig.storageUserDataKeyName, JSON.stringify(nextUser))
+    }
   }
 
   const handleLogoUpload = async (file: File, previewUrl: string) => {
@@ -40,6 +60,21 @@ export function useCustomThemeSection() {
       ...settings,
       branding: { ...settings.branding, logo: previewUrl },
     })
+
+    if (user?.agencyId) {
+      const agencyTheme =
+        typeof user.agencyTheme === 'object' && user.agencyTheme !== null ? user.agencyTheme : {}
+      const nextUser = {
+        ...user,
+        agencyTheme: {
+          ...agencyTheme,
+          logoUrl: previewUrl,
+        },
+      }
+
+      setUser(nextUser)
+      localStorage.setItem(authConfig.storageUserDataKeyName, JSON.stringify(nextUser))
+    }
   }
 
   return {
