@@ -81,7 +81,7 @@ export function UserManagementPage() {
               renderValue={value =>
                 value
                   ? agencies.find(a => String(a.id) === value)?.name
-                  : "Select an agency"
+                  : t('users.selectAgency', 'Select an agency')
               }
             >
               {agencies.map(agency => (
@@ -92,8 +92,8 @@ export function UserManagementPage() {
             </Select>
             <FormHelperText>
               {isLoadingAgencies
-                ? "Loading agencies..."
-                : "Choose the agency before loading or adding team members."}
+                ? t('users.loadingAgencies', 'Loading agencies...')
+                : t('users.selectAgencyHint', 'Choose the agency before loading or adding team members.')}
             </FormHelperText>
           </Stack>
         ) : null}

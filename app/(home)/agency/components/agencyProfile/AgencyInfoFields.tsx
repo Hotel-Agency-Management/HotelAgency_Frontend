@@ -8,12 +8,14 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { MuiTelInput } from "mui-tel-input";
 import { Building2, MapPin, Phone, Tag } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { AgencyInfoFieldsProps } from "../../types/agencyProfile";
 import TextField from "@mui/material/TextField";
 import { FieldLabel } from "./FieldLabel";
 import { getCountryName } from "../../util/phoneUtils";
 import { InfoCard } from "./InfoCard";
 import { useGetSubscriptionPlans } from "@/app/(home)/subscription-plans/hooks/queries/usePlanQueries";
+import LtrText from "@/components/ui/LtrText";
 
 export function AgencyInfoFields({
   isEditing,
@@ -23,20 +25,21 @@ export function AgencyInfoFields({
   currentValues,
 }: AgencyInfoFieldsProps) {
   const { data: plans = [], isLoading: isPlansLoading } = useGetSubscriptionPlans()
+  const { t } = useTranslation()
   const currentPlanName = plans.find(p => p.id === currentValues.planId)?.name
 
   return (
     <Grid container spacing={2}>
       <Grid size={{ xs: 12, md: 3 }}>
         <InfoCard>
-          <FieldLabel icon={<Building2 size={15} />} text="Agency Name" />
+          <FieldLabel icon={<Building2 size={15} />} text={t('agencySettings.profile.agencyName', 'Agency Name')} />
           {isLoading ? (
             <Skeleton variant="text" width="72%" height={38} />
           ) : isEditing ? (
             <Controller
               name="name"
               control={control}
-              rules={{ required: "Agency name is required" }}
+              rules={{ required: t('agencySettings.profile.agencyNameRequired', 'Agency name is required') }}
               render={({ field, fieldState }) => (
                 <TextField
                   {...field}
@@ -45,7 +48,7 @@ export function AgencyInfoFields({
                   size="small"
                   error={!!fieldState.error}
                   helperText={fieldState.error?.message}
-                  placeholder="Enter agency name"
+                  placeholder={t('agencySettings.profile.agencyNamePlaceholder', 'Enter agency name')}
                 />
               )}
             />
@@ -59,14 +62,14 @@ export function AgencyInfoFields({
 
       <Grid size={{ xs: 12, md: 3 }}>
         <InfoCard>
-          <FieldLabel icon={<Phone size={15} />} text="Phone" />
+          <FieldLabel icon={<Phone size={15} />} text={t('agencySettings.profile.phone', 'Phone')} />
           {isLoading ? (
             <Skeleton variant="text" width="68%" height={38} />
           ) : isEditing ? (
             <Controller
               name="phone"
               control={control}
-              rules={{ required: "Phone number is required" }}
+              rules={{ required: t('agencySettings.profile.phoneRequired', 'Phone number is required') }}
               render={({ field, fieldState }) => (
                 <MuiTelInput
                   {...field}
@@ -86,12 +89,13 @@ export function AgencyInfoFields({
                       });
                     }
                   }}
+                  slotProps={{ htmlInput: { dir: 'ltr', style: { direction: 'ltr', textAlign: 'left' } } }}
                 />
               )}
             />
           ) : (
             <Typography variant="h6" fontWeight={600} sx={{ lineHeight: 1.35 }}>
-              {currentValues.phone || "—"}
+              <LtrText>{currentValues.phone || "—"}</LtrText>
             </Typography>
           )}
         </InfoCard>
@@ -99,14 +103,14 @@ export function AgencyInfoFields({
 
       <Grid size={{ xs: 12, md: 3 }}>
         <InfoCard>
-          <FieldLabel icon={<MapPin size={15} />} text="City" />
+          <FieldLabel icon={<MapPin size={15} />} text={t('agencySettings.profile.city', 'City')} />
           {isLoading ? (
             <Skeleton variant="text" width="55%" height={38} />
           ) : isEditing ? (
             <Controller
               name="city"
               control={control}
-              rules={{ required: "City is required" }}
+              rules={{ required: t('agencySettings.profile.cityRequired', 'City is required') }}
               render={({ field, fieldState }) => (
                 <TextField
                   {...field}
@@ -115,7 +119,7 @@ export function AgencyInfoFields({
                   size="small"
                   error={!!fieldState.error}
                   helperText={fieldState.error?.message}
-                  placeholder="Enter city"
+                  placeholder={t('agencySettings.profile.cityPlaceholder', 'Enter city')}
                 />
               )}
             />
@@ -129,7 +133,7 @@ export function AgencyInfoFields({
 
       <Grid size={{ xs: 12, md: 3 }}>
         <InfoCard>
-          <FieldLabel icon={<Tag size={15} />} text="Subscription Plan" />
+          <FieldLabel icon={<Tag size={15} />} text={t('agencySettings.profile.subscriptionPlan', 'Subscription Plan')} />
           {isLoading || isPlansLoading ? (
             <Skeleton variant="text" width="60%" height={38} />
           ) : isEditing ? (
@@ -139,7 +143,7 @@ export function AgencyInfoFields({
               render={({ field }) => (
                 <FormControl fullWidth size="small">
                   <Select {...field} value={field.value ?? ''} displayEmpty>
-                    <MenuItem value="" disabled>Select a plan</MenuItem>
+                    <MenuItem value="" disabled>{t('agencySettings.profile.selectPlan', 'Select a plan')}</MenuItem>
                     {plans.map(plan => (
                       <MenuItem key={plan.id} value={plan.id}>{plan.name}</MenuItem>
                     ))}

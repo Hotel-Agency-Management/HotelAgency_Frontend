@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation'
 import { Card, CardActionArea, CardActions, CardContent, CardMedia, Chip, Stack, Typography } from '@mui/material'
 import { MapPin, Star } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import FadeIn from '@/components/animation/FadeIn'
 import type { CustomerHotel } from '../types/customerHotel'
 import { formatReviewCount } from '../utils/formatters'
@@ -12,6 +13,7 @@ interface HotelCardProps {
 }
 
 export function HotelCard({ hotel }: HotelCardProps) {
+  const { t } = useTranslation()
   const router = useRouter()
   const reviews = formatReviewCount(hotel.reviews)
   const hotelPath = `/hotels/${hotel.id}`
@@ -36,7 +38,7 @@ export function HotelCard({ hotel }: HotelCardProps) {
               />
               <Chip
                 size="small"
-                label={hotel.isActive ? 'Available' : 'Opening soon'}
+                label={hotel.isActive ? t('hotelPortal.card.available', 'Available') : t('hotelPortal.card.openingSoon', 'Opening soon')}
                 color={hotel.isActive ? 'success' : 'warning'}
               />
             </Stack>
@@ -81,10 +83,10 @@ export function HotelCard({ hotel }: HotelCardProps) {
         <CardActions>
           <Stack spacing={0.5}>
             <Typography variant="caption">
-              {reviews} reviews
+              {`${reviews} ${t('hotelPortal.card.reviewsSuffix', 'reviews')}`}
             </Typography>
             <Typography variant="caption">
-              Open hotel to view available rooms
+              {t('hotelPortal.card.openToView', 'Open hotel to view available rooms')}
             </Typography>
           </Stack>
         </CardActions>

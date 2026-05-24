@@ -1,4 +1,5 @@
 import { Alert, Checkbox, FormControlLabel, Paper, Stack, Typography } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 
 interface TermsStepProps {
   hasActiveTerms: boolean
@@ -17,20 +18,22 @@ export function TermsStep({
   termsTitle,
   onTermsAcceptedChange,
 }: TermsStepProps) {
+  const { t } = useTranslation()
+
   return (
     <Stack spacing={2}>
       <Typography variant="body2">
-        Read the terms and conditions, then accept them to continue.
+        {t('hotelPortal.booking.readTerms', 'Read the terms and conditions, then accept them to continue.')}
       </Typography>
 
       {!hasActiveTerms && !termsLoading ? (
         <Alert severity="info">
-          No active hotel terms were found. The standard reservation terms are shown instead.
+          {t('hotelPortal.booking.noActiveTerms', 'No active hotel terms were found. The standard reservation terms are shown instead.')}
         </Alert>
       ) : null}
 
       {termsLoading ? (
-        <Alert severity="info">Loading hotel terms and conditions...</Alert>
+        <Alert severity="info">{t('hotelPortal.booking.loadingTerms', 'Loading hotel terms and conditions...')}</Alert>
       ) : null}
 
       <Paper variant="customerReservationTermsContent">
@@ -51,7 +54,7 @@ export function TermsStep({
             onChange={event => onTermsAcceptedChange(event.target.checked)}
           />
         }
-        label="I agree to the terms and conditions."
+        label={t('hotelPortal.booking.agreeToTerms', 'I agree to the terms and conditions.')}
       />
     </Stack>
   )

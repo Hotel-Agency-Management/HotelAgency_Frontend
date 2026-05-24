@@ -17,16 +17,20 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Icon from "@/components/icon/Icon";
+import DirectionalIcon from "@/components/common/DirectionalIcon";
 import Can from "@/components/ability/Can";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "@/core/context/AuthContext";
 import { USER_ROLES } from "@/lib/abilities";
 import { useGetHotels } from "../../hooks/queries/useHotelQueries";
 import { getHotelTermsRoute } from "../utils/routes";
-import { FEATURE_CARDS } from "../constants/selectorPage";
+import { getFeatureCards } from "../constants/selectorPage";
 
 export function HotelTermsSelectorPage() {
   const router = useRouter();
   const { user } = useAuth();
+  const { t } = useTranslation();
+  const featureCards = getFeatureCards(t);
   const { data: hotelData, isLoading, error } = useGetHotels();
   const hotels = hotelData?.items ?? [];
   const [selectedHotelId, setSelectedHotelId] = useState("");
@@ -59,14 +63,14 @@ export function HotelTermsSelectorPage() {
                 <Icon icon="tabler:license" fontSize={24} />
               </Avatar>
               <Stack spacing={0.5}>
-                <Typography variant="h6" fontWeight={700}>Terms & Conditions</Typography>
+                <Typography variant="h6" fontWeight={700}>{t('terms.title', 'Terms & Conditions')}</Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Redirecting to your assigned hotel.
+                  {t('terms.redirecting', 'Redirecting to your assigned hotel.')}
                 </Typography>
               </Stack>
             </Stack>
             <Divider />
-            <Alert severity="info">Redirecting to your assigned hotel.</Alert>
+            <Alert severity="info">{t('terms.redirecting', 'Redirecting to your assigned hotel.')}</Alert>
           </Stack>
         </Paper>
       </Container>
@@ -79,7 +83,7 @@ export function HotelTermsSelectorPage() {
         <Container maxWidth="lg">
           <Stack spacing={3}>
             <Typography variant="h5" fontWeight={700}>
-              Hotel Policies &amp; Agreements
+              {t('terms.policiesTitle', 'Hotel Policies & Agreements')}
             </Typography>
           <Paper variant="card">
             <Stack spacing={3}>
@@ -89,10 +93,10 @@ export function HotelTermsSelectorPage() {
                 </Avatar>
                 <Stack spacing={0.5}>
                   <Typography variant="h6" fontWeight={700}>
-                    Terms & Conditions
+                    {t('terms.title', 'Terms & Conditions')}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    Select a hotel to manage its Terms & Conditions settings.
+                    {t('terms.selectHotelHint', 'Select a hotel to manage its Terms & Conditions settings.')}
                   </Typography>
                 </Stack>
               </Stack>
@@ -100,13 +104,12 @@ export function HotelTermsSelectorPage() {
               <Divider />
 
               {error ? (
-                <Alert severity="error">Failed to load hotels for this agency.</Alert>
+                <Alert severity="error">{t('terms.loadError', 'Failed to load hotels for this agency.')}</Alert>
               ) : null}
 
               {!error && !isLoading && hotels.length === 0 ? (
                 <Alert severity="info">
-                  No hotels are available yet. Add a hotel first to manage its Terms
-                  & Conditions.
+                  {t('terms.noHotels', 'No hotels are available yet. Add a hotel first to manage its Terms & Conditions.')}
                 </Alert>
               ) : null}
 
@@ -118,7 +121,7 @@ export function HotelTermsSelectorPage() {
                   renderValue={selected =>
                     selected
                       ? (hotels.find(h => h.id === selected)?.basicInfo.name ?? "")
-                      : "Select a hotel"
+                      : t('terms.selectHotel', 'Select a hotel')
                   }
                 >
                   {hotels.map(hotel => (
@@ -128,7 +131,7 @@ export function HotelTermsSelectorPage() {
                   ))}
                 </Select>
                 <FormHelperText>
-                  Agency owners can manage Terms &amp; Conditions for any hotel under the agency.
+                  {t('terms.agencyOwnerHint', 'Agency owners can manage Terms & Conditions for any hotel under the agency.')}
                 </FormHelperText>
               </FormControl>
 
@@ -139,23 +142,23 @@ export function HotelTermsSelectorPage() {
                   disabled={!selectedHotelId || selectionDisabled}
                   onClick={() => router.push(getHotelTermsRoute(selectedHotelId))}
                   startIcon={isLoading ? <CircularProgress size={16} color="inherit" /> : null}
-                  endIcon={!isLoading ? <Icon icon="tabler:arrow-right" fontSize={16} /> : null}
+                  endIcon={!isLoading ? <DirectionalIcon icon="tabler:arrow-right" fontSize={16} /> : null}
                 >
-                  Open settings
+                  {t('terms.openSettings', 'Open settings')}
                 </Button>
               </Stack>
             </Stack>
           </Paper>
 
             <Stack spacing={0.5}>
-              <Typography variant="subtitle1" fontWeight={700}>Why it matters</Typography>
+              <Typography variant="subtitle1" fontWeight={700}>{t('terms.whyItMatters', 'Why it matters')}</Typography>
               <Typography variant="body2" color="text.secondary">
-                Clear terms and policies help protect your hotels and set guest expectations.
+                {t('terms.whyItMattersDesc', 'Clear terms and policies help protect your hotels and set guest expectations.')}
               </Typography>
             </Stack>
 
             <Grid container spacing={3}>
-              {FEATURE_CARDS.map(card => (
+              {featureCards.map(card => (
                 <Grid key={card.title} size={{ xs: 12, sm: 6, md: 3 }}>
                   <Paper variant="card">
                     <Stack spacing={2}>
@@ -184,9 +187,9 @@ export function HotelTermsSelectorPage() {
                   <Icon icon="tabler:lock" fontSize={24} />
                 </Avatar>
                 <Stack spacing={0.5}>
-                  <Typography variant="h6" fontWeight={700}>Access Restricted</Typography>
+                  <Typography variant="h6" fontWeight={700}>{t('terms.accessRestricted', 'Access Restricted')}</Typography>
                   <Typography variant="body2">
-                    You do not have permission to manage hotel Terms & Conditions.
+                    {t('terms.noPermission', 'You do not have permission to manage hotel Terms & Conditions.')}
                   </Typography>
                 </Stack>
               </Stack>

@@ -3,12 +3,14 @@
 import { Icon } from "@iconify/react";
 import Chip from "@mui/material/Chip";
 import { alpha, useTheme } from "@mui/material/styles";
-import { SEVERITY_META } from "../constants/issueAlerts";
+import { useTranslation } from "react-i18next";
+import { getSeverityMeta } from "../constants/issueAlerts";
 import type { HousekeepingIssueSeverity } from "../types/issue";
 
 export function SeverityChip({ severity }: { severity: HousekeepingIssueSeverity }) {
   const theme = useTheme();
-  const meta = SEVERITY_META[severity];
+  const { t } = useTranslation();
+  const meta = getSeverityMeta(t)[severity];
   const color = theme.palette[meta.palette].main;
 
   return (

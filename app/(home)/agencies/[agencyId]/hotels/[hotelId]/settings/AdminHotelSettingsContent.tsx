@@ -1,4 +1,5 @@
 import Alert from "@mui/material/Alert";
+import { useTranslation } from "react-i18next";
 import { CustomThemeTab } from "@/app/(home)/agency/components/theme/CustomThemeTab";
 import { HotelProfileTab } from "@/app/(home)/agency/hotels/components/hotelProfile/HotelProfileTab";
 import type { Hotel, HotelFormValues } from "@/app/(home)/agency/hotels/types/hotel";
@@ -19,8 +20,10 @@ export function AdminHotelSettingsContent({
   onSave,
   onThemeSave,
 }: AdminHotelSettingsContentProps) {
-  if (isLoading && !hotel) return <Alert severity="info">Loading hotel settings...</Alert>;
-  if (!hotel) return <Alert severity="error">Hotel not found.</Alert>;
+  const { t } = useTranslation();
+
+  if (isLoading && !hotel) return <Alert severity="info">{t('hotelSettings.profile.loadingSettings', 'Loading hotel settings...')}</Alert>;
+  if (!hotel) return <Alert severity="error">{t('hotelSettings.profile.notFound', 'Hotel not found.')}</Alert>;
 
   return activeTab === "profile" ? (
     <HotelProfileTab

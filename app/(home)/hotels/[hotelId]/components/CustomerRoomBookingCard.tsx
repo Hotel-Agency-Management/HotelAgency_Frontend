@@ -1,6 +1,7 @@
 'use client'
 
 import { Alert, Button, Divider, Rating, Snackbar, Stack, Typography } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 import type { RoomProfile } from '@/app/(home)/agency/hotels/[hotelId]/rooms/components/profile/types'
 import type { CustomerHotel } from '@/app/(home)/hotels/types/customerHotel'
 import { DatePickerField } from '@/components/common/DatePickerField'
@@ -38,6 +39,7 @@ export function CustomerRoomBookingCard({
   onReservationDateChange,
   onReservationCreated,
 }: CustomerRoomBookingCardProps) {
+  const { t } = useTranslation()
   const {
     language,
     roomType,
@@ -72,12 +74,8 @@ export function CustomerRoomBookingCard({
     language,
     reservation.currency
   )
-  const nightsLabel = `${reservationSummary.stayLength} night${
-    reservationSummary.stayLength === 1 ? '' : 's'
-  }`
-  const guestsLabel = `${reservationSummary.guests} guest${
-    reservationSummary.guests === 1 ? '' : 's'
-  }`
+  const nightsLabel = t('hotelPortal.booking.nightCount', { count: reservationSummary.stayLength })
+  const guestsLabel = t('hotelPortal.booking.guestCount', { count: reservationSummary.guests })
 
   return (
     <>
@@ -94,7 +92,7 @@ export function CustomerRoomBookingCard({
                   {nightlyRateLabel}
                 </Typography>
                 <Typography variant="caption" fontWeight={700}>
-                  per night
+                  {t('hotelPortal.card.perNight', 'per night')}
                 </Typography>
               </Stack>
             </Stack>
@@ -106,7 +104,7 @@ export function CustomerRoomBookingCard({
             <Stack gap={1}>
               <Stack direction={{ xs: 'column', sm: 'row' }} gap={1.25}>
                 <DatePickerField
-                  label="Check-in"
+                  label={t('hotelPortal.booking.checkIn', 'Check-in')}
                   value={reservation.checkIn}
                   minDate={checkInMinDate}
                   format="DD MMM"
@@ -114,7 +112,7 @@ export function CustomerRoomBookingCard({
                 />
 
                 <DatePickerField
-                  label="Check-out"
+                  label={t('hotelPortal.booking.checkOut', 'Check-out')}
                   value={reservation.checkOut}
                   minDate={checkOutMinDate}
                   format="DD MMM"
@@ -138,31 +136,29 @@ export function CustomerRoomBookingCard({
               </Stack>
 
               <Typography variant="body2" fontWeight={700}>
-                estimated total
+                {t('hotelPortal.booking.estimatedTotal', 'estimated total')}
               </Typography>
             </Stack>
 
             {!isBookable ? (
               <Alert severity="warning">
-                This room cannot be booked right now because it is under maintenance or blocked.
+                {t('hotelPortal.booking.cannotBookMaintenance', 'This room cannot be booked right now because it is under maintenance or blocked.')}
               </Alert>
             ) : null}
 
             {room.pricePerNight == null ? (
-              <Alert severity="info">This room needs a nightly rate before it can be reserved.</Alert>
+              <Alert severity="info">{t('hotelPortal.booking.noNightlyRate', 'This room needs a nightly rate before it can be reserved.')}</Alert>
             ) : null}
 
             {draftAvailabilityConflict != null ? (
               <Alert severity="error">
-                This room is already booked between {draftAvailabilityConflict.checkIn} and{' '}
-                {draftAvailabilityConflict.checkOut}.
+                {t('hotelPortal.booking.alreadyBooked', { checkIn: draftAvailabilityConflict.checkIn, checkOut: draftAvailabilityConflict.checkOut, defaultValue: 'This room is already booked between {{checkIn}} and {{checkOut}}.' })}
               </Alert>
             ) : null}
 
             {currentReservation ? (
               <Alert severity="success">
-                You already have an active reservation for this room. Choose different dates to book
-                another stay, or use the reservation section below to manage the existing booking.
+                {t('hotelPortal.booking.existingReservation', 'You already have an active reservation for this room. Choose different dates to book another stay, or use the reservation section below to manage the existing booking.')}
               </Alert>
             ) : null}
 
@@ -172,7 +168,7 @@ export function CustomerRoomBookingCard({
               disabled={isReserveDisabled}
               onClick={openConfirm}
             >
-              Reserve this room
+              {t('hotelPortal.booking.reserveRoom', 'Reserve this room')}
             </Button>
           </Stack>
         </Stack>

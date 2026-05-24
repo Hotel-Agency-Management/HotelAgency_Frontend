@@ -4,6 +4,7 @@ import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import { type GridColDef } from "@mui/x-data-grid";
 import { Pencil } from "lucide-react";
+import { TFunction } from "i18next";
 import {
   getAgencyTeamMemberInitials,
   getAgencyTeamMemberName,
@@ -14,14 +15,16 @@ import { MemberAvatar, RoleChip, HotelManagerChip } from "./teamMemberGridColumn
 
 interface TeamMemberGridColumnsOptions {
   onEditRole: (member: AgencyTeamMember) => void;
+  t: TFunction;
 }
 
 export const getTeamMemberGridColumns = ({
   onEditRole,
+  t,
 }: TeamMemberGridColumnsOptions): GridColDef<AgencyTeamMember>[] => [
   {
     field: "name",
-    headerName: "Team member",
+    headerName: t('users.table.member', 'Team member'),
     flex: 1.2,
     minWidth: 240,
     sortable: false,
@@ -46,13 +49,22 @@ export const getTeamMemberGridColumns = ({
   },
   {
     field: "phoneNumber",
-    headerName: "Phone",
+    headerName: t('users.table.phone', 'Phone'),
     flex: 0.9,
     minWidth: 160,
+    renderCell: ({ value }) => (
+      <Typography
+        variant="body2"
+        dir="ltr"
+        sx={{ unicodeBidi: "isolate", width: "100%" }}
+      >
+        {value}
+      </Typography>
+    ),
   },
   {
     field: "role",
-    headerName: "Role",
+    headerName: t('users.table.role', 'Role'),
     flex: 0.7,
     minWidth: 140,
     renderCell: ({ row }) => (
@@ -61,32 +73,32 @@ export const getTeamMemberGridColumns = ({
   },
   {
     field: "hotelManager",
-    headerName: "Hotel manager",
+    headerName: t('users.table.hotelManager', 'Hotel manager'),
     flex: 0.8,
     minWidth: 150,
     sortable: false,
     renderCell: ({ row }) =>
       row.canBeHotelManager ? (
-        <HotelManagerChip size="small" label="Available" variant="outlined" />
+        <HotelManagerChip size="small" label={t('users.table.available', 'Available')} variant="outlined" />
       ) : (
         <Typography variant="caption" color="text.secondary">
-          Not eligible
+          {t('users.table.notEligible', 'Not eligible')}
         </Typography>
       ),
   },
   {
     field: "actions",
-    headerName: "Actions",
+    headerName: t('users.table.actions', 'Actions'),
     width: 96,
     sortable: false,
     filterable: false,
     align: "center",
     headerAlign: "center",
     renderCell: ({ row }) => (
-      <Tooltip title="Assign role">
+      <Tooltip title={t('users.table.assignRole', 'Assign role')}>
         <IconButton
           size="small"
-          aria-label={`Assign role for ${getAgencyTeamMemberName(row)}`}
+          aria-label={t('users.table.assignRoleFor', 'Assign role for {{name}}', { name: getAgencyTeamMemberName(row) })}
           onClick={() => onEditRole(row)}
         >
           <Pencil size={16} />

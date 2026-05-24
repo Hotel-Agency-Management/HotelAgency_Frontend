@@ -5,8 +5,10 @@ import { adminCreateRoom, adminUpdateRoom, adminDeleteRoom } from '../../clients
 import { adminUploadRoomPhoto, adminDeleteRoomPhoto } from '../../clients/adminRoomPhotoClient'
 import { CreateRoomRequest, UpdateRoomRequest } from '../../configs/roomConfig'
 import { ADMIN_ROOM_QUERY_KEYS } from '../../constants/roomKey'
+import { useTranslation } from 'react-i18next'
 
 export function useAdminCreateRoom(agencyId?: number, hotelId?: number) {
+  const { t } = useTranslation()
   const queryClient = useQueryClient()
 
   return useMutation({
@@ -17,7 +19,7 @@ export function useAdminCreateRoom(agencyId?: number, hotelId?: number) {
       queryClient.invalidateQueries({
         queryKey: ADMIN_ROOM_QUERY_KEYS.roomsByHotelList(agencyId as number, hotelId as number),
       })
-      toast.success('Room created successfully')
+      toast.success(t('hotelRooms.toast.roomCreated', 'Room created successfully'))
     },
 
     onError: (error) => {
@@ -31,6 +33,7 @@ export function useAdminUpdateRoom(
   hotelId?: number,
   roomId?: number
 ) {
+  const { t } = useTranslation()
   const queryClient = useQueryClient()
 
   return useMutation({
@@ -44,7 +47,7 @@ export function useAdminUpdateRoom(
       queryClient.invalidateQueries({
         queryKey: ADMIN_ROOM_QUERY_KEYS.roomsByHotelList(agencyId as number, hotelId as number),
       })
-      toast.success('Room updated successfully')
+      toast.success(t('hotelRooms.toast.roomUpdated', 'Room updated successfully'))
     },
 
     onError: (error) => {
@@ -54,6 +57,7 @@ export function useAdminUpdateRoom(
 }
 
 export function useAdminDeleteRoom(agencyId?: number, hotelId?: number) {
+  const { t } = useTranslation()
   const queryClient = useQueryClient()
 
   return useMutation({
@@ -63,7 +67,7 @@ export function useAdminDeleteRoom(agencyId?: number, hotelId?: number) {
       queryClient.invalidateQueries({
         queryKey: ADMIN_ROOM_QUERY_KEYS.roomsByHotelList(agencyId as number, hotelId as number),
       })
-      toast.success('Room deleted successfully')
+      toast.success(t('hotelRooms.toast.roomDeleted', 'Room deleted successfully'))
     },
 
     onError: (error) => {
@@ -77,6 +81,7 @@ export function useAdminUploadRoomPhoto(
   hotelId?: number,
   roomId?: number
 ) {
+  const { t } = useTranslation()
   const queryClient = useQueryClient()
 
   return useMutation({
@@ -90,7 +95,7 @@ export function useAdminUploadRoomPhoto(
       queryClient.invalidateQueries({
         queryKey: ADMIN_ROOM_QUERY_KEYS.room(agencyId as number, hotelId as number, roomId as number),
       })
-      toast.success('Photo uploaded successfully')
+      toast.success(t('hotelRooms.toast.photoUploaded', 'Photo uploaded successfully'))
     },
 
     onError: (error) => {
@@ -104,6 +109,7 @@ export function useAdminDeleteRoomPhoto(
   hotelId?: number,
   roomId?: number
 ) {
+  const { t } = useTranslation()
   const queryClient = useQueryClient()
 
   return useMutation({
@@ -114,7 +120,7 @@ export function useAdminDeleteRoomPhoto(
       queryClient.invalidateQueries({
         queryKey: ADMIN_ROOM_QUERY_KEYS.roomPhotos(agencyId as number, hotelId as number, roomId as number),
       })
-      toast.success('Photo deleted successfully')
+      toast.success(t('hotelRooms.toast.photoDeleted', 'Photo deleted successfully'))
     },
 
     onError: (error) => {

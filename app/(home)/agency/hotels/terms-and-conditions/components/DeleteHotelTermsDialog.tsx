@@ -5,6 +5,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import { useTranslation } from "react-i18next";
 
 interface DeleteHotelTermsDialogProps {
   open: boolean;
@@ -21,18 +22,19 @@ export function DeleteHotelTermsDialog({
   onClose,
   onConfirm,
 }: DeleteHotelTermsDialogProps) {
+  const { t } = useTranslation();
+
   return (
     <Dialog open={open} onClose={isDeleting ? undefined : onClose} maxWidth="xs" fullWidth>
-      <DialogTitle>Delete Terms & Conditions</DialogTitle>
+      <DialogTitle>{t('terms.deleteDialog.title', 'Delete Terms & Conditions')}</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Are you sure you want to delete the Terms & Conditions for {hotelName}? This action
-          cannot be undone.
+          {t('terms.deleteDialog.confirmation', 'Are you sure you want to delete the Terms & Conditions for {{hotelName}}? This action cannot be undone.', { hotelName })}
         </DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="inherit" disabled={isDeleting}>
-          Cancel
+          {t('common.cancel', 'Cancel')}
         </Button>
         <Button
           onClick={onConfirm}
@@ -41,7 +43,7 @@ export function DeleteHotelTermsDialog({
           disabled={isDeleting}
           startIcon={isDeleting ? <CircularProgress size={14} color="inherit" /> : undefined}
         >
-          {isDeleting ? "Deleting..." : "Delete"}
+          {isDeleting ? t('terms.deleteDialog.deleting', 'Deleting...') : t('terms.deleteDialog.delete', 'Delete')}
         </Button>
       </DialogActions>
     </Dialog>

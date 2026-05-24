@@ -28,7 +28,7 @@ export function RoomFormDialogTitleBar({
   return (
     <Stack direction="row" alignItems="center" justifyContent="space-between">
       <Typography variant="h6">{title}</Typography>
-      <IconButton onClick={onClose} disabled={busy} size="small" aria-label="close">
+      <IconButton onClick={onClose} disabled={busy} size="small" aria-label={t("hotelRooms.dialog.close", "Close")}>
         <CloseIcon />
       </IconButton>
     </Stack>

@@ -8,6 +8,7 @@ import Grid from "@mui/material/Grid";
 import Snackbar from "@mui/material/Snackbar";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import { useTranslation } from "react-i18next";
 import FadeIn from "@/components/animation/FadeIn";
 import themeConfig from "@/core/configs/themeConfig";
 import { TicketSummaryCard } from "../../tickets/components/TicketSummaryCard";
@@ -20,6 +21,7 @@ import { ReassignDialog } from "./ReassignDialog";
 import { RecentIssuesList } from "./RecentIssuesList";
 
 export function IssuesAlertsPage() {
+  const { t } = useTranslation();
   const {
     hotelName,
     primaryColor,
@@ -53,7 +55,7 @@ export function IssuesAlertsPage() {
         <FadeIn direction="down" distance={12}>
           <Stack gap={0.75}>
             <Typography variant="h5" fontWeight={700}>
-              Issues & Alerts
+              {t("housekeeping.issues.title", "Issues & Alerts")}
             </Typography>
             <Typography variant="body2" color="text.secondary">
               {hotelName}
@@ -62,7 +64,7 @@ export function IssuesAlertsPage() {
         </FadeIn>
 
         <Grid container spacing={themeConfig.common.commonSpacing}>
-          {getIssueAlertSummaryCards(summary).map((card, index) => (
+          {getIssueAlertSummaryCards(summary, t).map((card, index) => (
             <Grid key={card.title} size={{ xs: 12, sm: 6, xl: 3 }}>
               <FadeIn
                 direction="up"
@@ -86,10 +88,10 @@ export function IssuesAlertsPage() {
             >
               <Stack gap={0.5}>
                 <Typography variant="subtitle1" fontWeight={700}>
-                  Critical Issues
+                  {t("housekeeping.issues.criticalIssues.sectionTitle", "Critical Issues")}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Rooms that need immediate action before guest handoff.
+                  {t("housekeeping.issues.criticalIssues.sectionSubtitle", "Rooms that need immediate action before guest handoff.")}
                 </Typography>
               </Stack>
 
@@ -97,7 +99,7 @@ export function IssuesAlertsPage() {
                 size="small"
                 variant="live-alert"
                 icon={<Icon icon="lucide:activity" width={14} height={14} />}
-                label="Live alerts"
+                label={t("housekeeping.issues.criticalIssues.liveAlerts", "Live alerts")}
               />
             </Stack>
           </FadeIn>
@@ -127,10 +129,10 @@ export function IssuesAlertsPage() {
           <FadeIn direction="up" distance={12} transition={{ delay: 0.12, duration: 0.35 }}>
             <Stack gap={0.5}>
               <Typography variant="subtitle1" fontWeight={700}>
-                Activity Overview
+                {t("housekeeping.issues.activityOverview.sectionTitle", "Activity Overview")}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Recent room issues and the live alert timeline.
+                {t("housekeeping.issues.activityOverview.sectionSubtitle", "Recent room issues and the live alert timeline.")}
               </Typography>
             </Stack>
           </FadeIn>

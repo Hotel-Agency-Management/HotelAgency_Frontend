@@ -5,10 +5,13 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
+import { useTranslation } from 'react-i18next'
 import ChartFactory from '@/components/charts/ChartFactory'
 import { MONTHS, CASH_FLOW_SERIES, BALANCE_TREND_SERIES } from '../data/accountantDashboardMock'
 
 export default function CashFlowSection() {
+  const { t } = useTranslation()
+
   return (
     <Grid container spacing={2.5}>
       <Grid size={{ xs: 12 }}>
@@ -16,7 +19,7 @@ export default function CashFlowSection() {
           <CardContent>
             <Stack spacing={2}>
               <Typography variant="subtitle1" fontWeight={600}>
-                Incoming vs Outgoing Cash Flow
+                {t('dashboard.accountant.charts.incomingVsOutgoingCashFlow', { defaultValue: 'Incoming vs Outgoing Cash Flow' })}
               </Typography>
               <ChartFactory
                 type="Area"
@@ -36,7 +39,7 @@ export default function CashFlowSection() {
           <CardContent>
             <Stack spacing={2}>
               <Typography variant="subtitle1" fontWeight={600}>
-                Current Balance Trend
+                {t('dashboard.accountant.charts.currentBalanceTrend', { defaultValue: 'Current Balance Trend' })}
               </Typography>
               <ChartFactory
                 type="Line"

@@ -10,6 +10,7 @@ import {
   Tabs,
   Typography,
 } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 import Icon from '@/components/icon/Icon'
 import { PaymentFeed } from './PaymentFeed'
 import { PaymentDetailsDrawer } from './PaymentDetailsDrawer'
@@ -37,6 +38,7 @@ export function PaymentLogsPage({ hotelId }: PaymentLogsPageProps) {
     detailsQuery,
   } = usePaymentLogs(hotelId)
 
+  const { t } = useTranslation()
   const isIncoming = activeTab === 0
   const activeData = activeQuery.data
   const totalPages = activeData?.totalPages ?? 0
@@ -45,10 +47,10 @@ export function PaymentLogsPage({ hotelId }: PaymentLogsPageProps) {
     <Stack gap={3}>
       <Stack gap={0.5}>
         <Typography variant="h5" fontWeight={700}>
-          Payment Logs
+          {t("hotelPaymentLogs.title", "Payment Logs")}
         </Typography>
         <Typography variant="body2">
-          Track all incoming and outgoing transactions for this hotel.
+          {t("hotelPaymentLogs.subtitle", "Track all incoming and outgoing transactions for this hotel.")}
         </Typography>
       </Stack>
       <PaymentSummaryHeader
@@ -77,7 +79,7 @@ export function PaymentLogsPage({ hotelId }: PaymentLogsPageProps) {
               <Stack direction="row" alignItems="center" gap={1}>
                 <Icon icon="lucide:arrow-down-circle" fontSize={16} />
                 <Box component="span">
-                  Incoming Payments
+                  {t("hotelPaymentLogs.tabs.incoming", "Incoming Payments")}
                   {incomingQuery.data ? ` (${incomingQuery.data.totalCount})` : ''}
                 </Box>
               </Stack>
@@ -88,7 +90,7 @@ export function PaymentLogsPage({ hotelId }: PaymentLogsPageProps) {
               <Stack direction="row" alignItems="center" gap={1}>
                 <Icon icon="lucide:arrow-up-circle" fontSize={16} />
                 <Box component="span">
-                  Outgoing Expenses
+                  {t("hotelPaymentLogs.tabs.outgoing", "Outgoing Expenses")}
                   {outgoingQuery.data ? ` (${outgoingQuery.data.totalCount})` : ''}
                 </Box>
               </Stack>
@@ -98,7 +100,7 @@ export function PaymentLogsPage({ hotelId }: PaymentLogsPageProps) {
 
         <Stack direction="row" alignItems="center" gap={1} flexShrink={0}>
           <Typography variant="caption">
-            Sort by:
+            {t("hotelPaymentLogs.sortBy", "Sort by:")}
           </Typography>
           <Select
             size="small"
@@ -107,10 +109,10 @@ export function PaymentLogsPage({ hotelId }: PaymentLogsPageProps) {
             disableUnderline
             sx={{ fontSize: 13, fontWeight: 600 }}
           >
-            <MenuItem value="newest">Newest</MenuItem>
-            <MenuItem value="oldest">Oldest</MenuItem>
-            <MenuItem value="amount_desc">Highest Amount</MenuItem>
-            <MenuItem value="amount_asc">Lowest Amount</MenuItem>
+            <MenuItem value="newest">{t("hotelPaymentLogs.sortOptions.newest", "Newest")}</MenuItem>
+            <MenuItem value="oldest">{t("hotelPaymentLogs.sortOptions.oldest", "Oldest")}</MenuItem>
+            <MenuItem value="amount_desc">{t("hotelPaymentLogs.sortOptions.amountDesc", "Highest Amount")}</MenuItem>
+            <MenuItem value="amount_asc">{t("hotelPaymentLogs.sortOptions.amountAsc", "Lowest Amount")}</MenuItem>
           </Select>
         </Stack>
       </Stack>
@@ -149,7 +151,7 @@ export function PaymentLogsPage({ hotelId }: PaymentLogsPageProps) {
           >
             {Array.from([7, 10, 20, 50]).map((n) => (
               <MenuItem key={n} value={n}>
-                {n} per page
+                {t("hotelPaymentLogs.perPage", "{{count}} per page", { count: n })}
               </MenuItem>
             ))}
           </Select>

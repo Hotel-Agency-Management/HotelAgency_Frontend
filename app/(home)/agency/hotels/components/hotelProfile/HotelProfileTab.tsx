@@ -13,6 +13,7 @@ import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import { Building2, CircleDollarSign, MapPin } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { useHotelProfile } from "../../hooks/useHotelProfile";
 import type { HotelFormValues } from "../../types/hotel";
 import { HotelInfoFields } from "./HotelInfoFields";
@@ -32,6 +33,7 @@ export function HotelProfileTab({
   isLoading = false,
   isActive = true,
 }: HotelProfileTabProps) {
+  const { t } = useTranslation();
   const {
     isEditing,
     isSaving,
@@ -69,15 +71,15 @@ export function HotelProfileTab({
           >
             <Stack spacing={1.25}>
               <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap">
-                <Typography variant="h5">Hotel Information</Typography>
+                <Typography variant="h5">{t("hotelSettings.profile.title", "Hotel Information")}</Typography>
                 <Chip
                   size="small"
                   color={isActive ? "success" : "default"}
-                  label={isActive ? "Active" : "Inactive"}
+                  label={isActive ? t("hotelSettings.profile.active", "Active") : t("hotelSettings.profile.inactive", "Inactive")}
                 />
               </Stack>
               <Typography variant="body2" color="text.secondary">
-                Review and update the main details returned for this hotel.
+                {t("hotelSettings.profile.subtitle", "Review and update the main details returned for this hotel.")}
               </Typography>
               <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
                 <Chip
@@ -90,13 +92,13 @@ export function HotelProfileTab({
                   size="small"
                   variant="outlined"
                   icon={<MapPin size={14} />}
-                  label={currentValues.basicInfo.city || "City not set"}
+                  label={currentValues.basicInfo.city || t("hotelSettings.chips.cityNotSet", "City not set")}
                 />
                 <Chip
                   size="small"
                   variant="outlined"
                   icon={<CircleDollarSign size={14} />}
-                  label={currentValues.basicInfo.currency || "Currency not set"}
+                  label={currentValues.basicInfo.currency || t("hotelSettings.chips.currencyNotSet", "Currency not set")}
                 />
               </Stack>
             </Stack>
@@ -104,7 +106,7 @@ export function HotelProfileTab({
             <Stack direction="row" spacing={1}>
               {isEditing && (
                 <Fade in={isEditing}>
-                  <Tooltip title="Cancel">
+                  <Tooltip title={t("hotelSettings.profile.cancel", "Cancel")}>
                     <Box component='span'>
                       <IconButton
                         size="small"
@@ -119,7 +121,7 @@ export function HotelProfileTab({
                 </Fade>
               )}
               <Can do="update" this="HotelInformation">
-              <Tooltip title={isEditing ? "Save changes" : "Edit hotel"}>
+              <Tooltip title={isEditing ? t("hotelSettings.profile.saveChanges", "Save changes") : t("hotelSettings.profile.editHotel", "Edit hotel")}>
                 <Box component='span'>
                   <IconButton
                     size="small"

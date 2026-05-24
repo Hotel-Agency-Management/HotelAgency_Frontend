@@ -10,9 +10,10 @@ import TextField from "@mui/material/TextField";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import { alpha, useTheme } from "@mui/material/styles";
+import { useTranslation } from "react-i18next";
 import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import { fromNow } from "@/core/utils/Dateutils";
-import { COMMENT_ACTION_TYPE_CONFIG } from "../constants/comments";
+import { getCommentActionTypeConfig } from "../constants/comments";
 import { CommentActionBadge, CommentItemRoot, TicketCardAssigneeAvatar } from "../styles/StyledComponents";
 import type { TicketComment } from "../types/comment";
 
@@ -24,7 +25,8 @@ interface TicketCommentItemProps {
 
 export function TicketCommentItem({ comment, onEdit, onDelete }: TicketCommentItemProps) {
   const theme = useTheme();
-  const config = COMMENT_ACTION_TYPE_CONFIG[comment.actionType];
+  const { t } = useTranslation();
+  const config = getCommentActionTypeConfig(t)[comment.actionType];
   const badgeColor = theme.palette[config.paletteKey].main;
 
   const [isEditing, setIsEditing] = useState(false);
@@ -84,7 +86,7 @@ export function TicketCommentItem({ comment, onEdit, onDelete }: TicketCommentIt
             />
             <Stack direction="row" justifyContent="flex-end" gap={1}>
               <Button size="small" color="inherit" onClick={handleCancelEdit}>
-                Cancel
+                {t("common.cancel", "Cancel")}
               </Button>
               <Button
                 size="small"
@@ -93,7 +95,7 @@ export function TicketCommentItem({ comment, onEdit, onDelete }: TicketCommentIt
                 disabled={!editBody.trim()}
                 onClick={handleSaveEdit}
               >
-                Save
+                {t("housekeeping.tickets.comments.save", "Save")}
               </Button>
             </Stack>
           </Stack>
@@ -105,7 +107,7 @@ export function TicketCommentItem({ comment, onEdit, onDelete }: TicketCommentIt
 
         {!isEditing && (
           <Stack direction="row" alignItems="center" gap={0.25} mt={0.25}>
-            <Tooltip title="Edit">
+            <Tooltip title={t("housekeeping.tickets.comments.edit", "Edit")}>
               <IconButton
                 size="small"
                 onClick={() => setIsEditing(true)}
@@ -114,7 +116,7 @@ export function TicketCommentItem({ comment, onEdit, onDelete }: TicketCommentIt
                 <Pencil size={13} />
               </IconButton>
             </Tooltip>
-            <Tooltip title="More">
+            <Tooltip title={t("housekeeping.tickets.comments.more", "More")}>
               <IconButton
                 size="small"
                 onClick={(e) => setMenuAnchor(e.currentTarget)}
@@ -134,7 +136,7 @@ export function TicketCommentItem({ comment, onEdit, onDelete }: TicketCommentIt
               <MenuItem dense onClick={handleDelete} sx={{ color: theme.palette.error.main }}>
                 <Stack direction="row" gap={1.5} alignItems="center">
                   <Trash2 size={14} />
-                  <Typography variant="body2" color="inherit">Delete</Typography>
+                  <Typography variant="body2" color="inherit">{t("housekeeping.tickets.comments.delete", "Delete")}</Typography>
                 </Stack>
               </MenuItem>
             </Menu>

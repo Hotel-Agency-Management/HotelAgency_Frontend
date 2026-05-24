@@ -1,4 +1,5 @@
 import { Stack, Typography } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 
 interface ProfileFieldDisplayProps {
   label: string
@@ -15,6 +16,8 @@ export function ProfileFieldDisplay({
   editable,
   iconColor,
 }: ProfileFieldDisplayProps) {
+  const { t } = useTranslation()
+
   return (
     <Stack direction='row' spacing={1.25} alignItems='flex-start'>
       <Stack
@@ -39,7 +42,7 @@ export function ProfileFieldDisplay({
               color='text.disabled'
               sx={{ opacity: 0.65 }}
             >
-              (read-only)
+              {t('profile.readOnly', '(read-only)')}
             </Typography>
           )}
         </Stack>

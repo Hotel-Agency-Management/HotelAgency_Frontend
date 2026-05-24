@@ -1,5 +1,6 @@
 import { Stack, Typography } from '@mui/material'
 import { alpha, useTheme } from '@mui/material/styles'
+import { useTranslation } from 'react-i18next'
 import { br } from '@/core/utils/themeUtils'
 
 interface PendingRequestsBadgeProps {
@@ -7,6 +8,7 @@ interface PendingRequestsBadgeProps {
 }
 
 export default function PendingRequestsBadge({ count }: PendingRequestsBadgeProps) {
+  const { t } = useTranslation()
   const theme = useTheme()
 
   if (!count) return null
@@ -30,7 +32,7 @@ export default function PendingRequestsBadge({ count }: PendingRequestsBadgeProp
           color: theme.palette.warning.dark,
         }}
       >
-        {count} pending {count === 1 ? 'request' : 'requests'}
+        {t('agencyApproval.pendingBadge', { count })}
       </Typography>
     </Stack>
   )

@@ -4,12 +4,13 @@ import { useEffect, useRef, useCallback, useState } from 'react'
 import { gsap } from '@/lib/gsap'
 import SectionLabel from '@/components/landing/SectionLabel'
 import MagneticButton from '@/components/animation/MagneticButton'
-import { landingContent as lc } from '@/components/landing/landingContent'
+import { useLandingContent } from '@/components/landing/landingContent'
 import { useTheme } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 import themeConfig from '@/core/configs/themeConfig'
 
 export default function CTA() {
+  const lc = useLandingContent()
   const sectionRef = useRef<HTMLDivElement>(null)
   const glowRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
@@ -33,7 +34,7 @@ export default function CTA() {
     } catch {
       // clipboard not available
     }
-  }, [])
+  }, [lc.cta.primaryBtn.command])
 
   useEffect(() => {
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches

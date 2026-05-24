@@ -5,6 +5,7 @@ import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import { alpha } from "@mui/material/styles";
 import { ImagePlus, Trash2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 interface CoverImagePreviewProps {
   src: string;
@@ -13,12 +14,13 @@ interface CoverImagePreviewProps {
 }
 
 export function CoverImagePreview({ src, onChange, onRemove }: CoverImagePreviewProps) {
+  const { t } = useTranslation();
   return (
     <>
       <Box
         component="img"
         src={src}
-        alt="Cover preview"
+        alt={t('agencyHotels.coverImage.previewAlt', 'Cover preview')}
         sx={{ width: "100%", height: "100%", objectFit: "cover" }}
       />
       <Stack direction="row" spacing={1} sx={{ position: "absolute", bottom: 8, right: 8 }}>
@@ -33,7 +35,7 @@ export function CoverImagePreview({ src, onChange, onRemove }: CoverImagePreview
             "&:hover": { bgcolor: alpha(theme.palette.common.black, 0.75) },
           })}
         >
-          Change
+          {t('agencyHotels.coverImage.change', 'Change')}
         </Button>
         <Button
           size="small"
@@ -46,7 +48,7 @@ export function CoverImagePreview({ src, onChange, onRemove }: CoverImagePreview
             "&:hover": { bgcolor: theme.palette.error.main },
           })}
         >
-          Remove
+          {t('agencyHotels.coverImage.remove', 'Remove')}
         </Button>
       </Stack>
     </>

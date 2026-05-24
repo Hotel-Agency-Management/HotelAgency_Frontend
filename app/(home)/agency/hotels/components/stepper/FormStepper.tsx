@@ -4,16 +4,20 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Stepper from "@mui/material/Stepper";
 import Typography from "@mui/material/Typography";
-import { HOTEL_STEPS } from "../../constants/hotel";
+import { useTranslation } from "react-i18next";
+import { getHotelSteps } from "../../constants/hotel";
 
 interface FormStepperProps {
   activeStep: number;
 }
 
 export function FormStepper({ activeStep }: FormStepperProps) {
+  const { t } = useTranslation();
+  const steps = getHotelSteps(t);
+
   return (
     <Stepper activeStep={activeStep} alternativeLabel>
-      {HOTEL_STEPS.map(({ label, description }) => (
+      {steps.map(({ label, description }) => (
         <Step key={label}>
           <StepLabel
             optional={

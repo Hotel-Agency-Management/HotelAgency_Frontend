@@ -6,6 +6,7 @@ import Stack from "@mui/material/Stack";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
+import { useTranslation } from "react-i18next";
 import { ArrowDownUp } from "lucide-react";
 import { EmptyColumnState } from "../styles/StyledComponents";
 import type { AddCommentValues, TicketComment } from "../types/comment";
@@ -22,6 +23,7 @@ interface TicketCommentSectionProps {
 
 export function TicketCommentSection({ ticketId: _ticketId, comments, onAddComment, onEditComment, onDeleteComment }: TicketCommentSectionProps) {
   const theme = useTheme();
+  const { t } = useTranslation();
   const [newestFirst, setNewestFirst] = useState(true);
 
   const sorted = newestFirst ? comments : [...comments].reverse();
@@ -30,9 +32,9 @@ export function TicketCommentSection({ ticketId: _ticketId, comments, onAddComme
     <Stack gap={1.5} pt={2}>
       <Stack direction="row" alignItems="center" justifyContent="space-between">
         <Typography variant="caption" fontWeight={700} textTransform="uppercase">
-          Activity
+          {t("housekeeping.tickets.comments.activity", "Activity")}
         </Typography>
-        <Tooltip title={newestFirst ? "Oldest first" : "Newest first"}>
+        <Tooltip title={newestFirst ? t("housekeeping.tickets.comments.oldestFirst", "Oldest first") : t("housekeeping.tickets.comments.newestFirst", "Newest first")}>
           <IconButton size="small" onClick={() => setNewestFirst((p) => !p)}>
             <ArrowDownUp size={14} color={theme.palette.text.secondary} />
           </IconButton>
@@ -44,7 +46,7 @@ export function TicketCommentSection({ ticketId: _ticketId, comments, onAddComme
       {sorted.length === 0 ? (
         <EmptyColumnState>
           <Typography variant="caption" color="text.disabled">
-            No activity yet
+            {t("housekeeping.tickets.comments.noActivity", "No activity yet")}
           </Typography>
         </EmptyColumnState>
       ) : (

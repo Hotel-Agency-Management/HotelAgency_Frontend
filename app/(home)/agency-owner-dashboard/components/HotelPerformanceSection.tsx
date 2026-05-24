@@ -5,6 +5,7 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import Stack from '@mui/material/Stack'
+import { useTranslation } from 'react-i18next'
 import HorizontalBarChart from '@/components/charts/HorizontalBarChart'
 import {
   REVENUE_BY_HOTEL,
@@ -12,13 +13,15 @@ import {
 } from '../data/agencyOwnerDashboardMock'
 
 export default function HotelPerformanceSection() {
+  const { t } = useTranslation()
+
   return (
     <Grid container spacing={3} alignItems="stretch">
       <Grid size={{ xs: 12 }}>
         <Card variant="outlined" sx={{ width: '100%', height: '100%' }}>
           <CardContent>
             <Stack spacing={2}>
-              <Typography variant="h6">Revenue per Hotel</Typography>
+              <Typography variant="h6">{t('dashboard.agencyOwner.charts.revenuePerHotel', { defaultValue: 'Revenue per Hotel' })}</Typography>
               <HorizontalBarChart
                 percentage
                 data={REVENUE_BY_HOTEL}

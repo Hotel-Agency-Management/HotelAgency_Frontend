@@ -6,6 +6,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { alpha } from "@mui/material/styles";
 import { Mail } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import type { AgencyTeamMember } from "@/app/(home)/users/config/teamMemberConfig";
 import { getAgencyTeamMemberName, getRoleLabel } from "@/app/(home)/users/config/teamMemberConfig";
 
@@ -15,6 +16,7 @@ interface HotelCardManagerProps {
 }
 
 export function HotelCardManager({ manager, accentColor }: HotelCardManagerProps) {
+  const { t } = useTranslation();
   const initials = manager
     ? `${manager.firstName[0] ?? ""}${manager.lastName[0] ?? ""}`.toUpperCase()
     : "?";
@@ -35,21 +37,21 @@ export function HotelCardManager({ manager, accentColor }: HotelCardManagerProps
 
         <Stack spacing={0} minWidth={0} flex={1}>
           <Typography variant="caption" fontWeight={500} color="common.white" noWrap>
-            {manager ? getAgencyTeamMemberName(manager) : "Manager unavailable"}
+            {manager ? getAgencyTeamMemberName(manager) : t('agencyHotels.card.managerUnavailable', 'Manager unavailable')}
           </Typography>
           <Stack direction="row" spacing={0.5} alignItems="center">
             <Mail size={9} />
             <Typography
               variant="caption"
               noWrap >
-              {manager?.email ?? "This manager is no longer in the team list"}
+              {manager?.email ?? t('agencyHotels.card.managerNoLongerInTeam', 'This manager is no longer in the team list')}
             </Typography>
           </Stack>
         </Stack>
         <Typography
           variant="caption"
         >
-          {manager ? getRoleLabel(manager.role) : "Missing"}
+          {manager ? getRoleLabel(manager.role) : t('agencyHotels.card.managerMissing', 'Missing')}
         </Typography>
       </Stack>
     </>

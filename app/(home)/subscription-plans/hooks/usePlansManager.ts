@@ -1,6 +1,7 @@
 import { getErrorMessage } from '@/core/utils/apiError'
 import { PAGE_STATUS } from '@/core/types/pageStatus'
 import { useMemo, useState, useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   useCreateSubscriptionPlan,
   useDeleteSubscriptionPlan,
@@ -10,6 +11,7 @@ import { useGetSubscriptionPlans } from './queries/usePlanQueries'
 import type { PageStatus, SubscriptionPlan, SnackbarState, PlanFormValues } from '../types/plans'
 
 export function usePlansManager() {
+  const { t } = useTranslation()
   const plansQuery = useGetSubscriptionPlans({ includeInactive: true })
   const createPlanMutation = useCreateSubscriptionPlan()
   const updatePlanMutation = useUpdateSubscriptionPlan()
@@ -48,12 +50,12 @@ export function usePlansManager() {
   const handleCreate = useCallback(async (values: PlanFormValues) => {
     try {
       const newPlan = await createPlanMutation.mutateAsync(values)
-      showSnackbar(`Plan "${newPlan.name}" created successfully.`, 'success')
+      showSnackbar(t('subscriptionPlans.toast.created', { name: newPlan.name, defaultValue: 'Plan "{{name}}" created successfully.' }), 'success')
     } catch (error) {
       showSnackbar(getErrorMessage(error), 'error')
       throw error
     }
-  }, [createPlanMutation, showSnackbar])
+  }, [createPlanMutation, showSnackbar, t])
 
   const openEdit = useCallback((plan: SubscriptionPlan) => {
     setEditPlan(plan)
@@ -74,12 +76,12 @@ export function usePlansManager() {
         data: values,
       })
 
-      showSnackbar(`Plan "${updatedPlan.name}" updated successfully.`, 'success')
+      showSnackbar(t('subscriptionPlans.toast.updated', { name: updatedPlan.name, defaultValue: 'Plan "{{name}}" updated successfully.' }), 'success')
       closeEdit()
     } catch (error) {
       showSnackbar(getErrorMessage(error), 'error')
     }
-  }, [editPlan, updatePlanMutation, showSnackbar, closeEdit])
+  }, [editPlan, updatePlanMutation, showSnackbar, closeEdit, t])
 
   const openDelete = useCallback((plan: SubscriptionPlan) => {
     setDeletePlan(plan)
@@ -96,12 +98,12 @@ export function usePlansManager() {
 
     try {
       await deletePlanMutation.mutateAsync(deletePlan.id)
-      showSnackbar(`Plan "${deletePlan.name}" deleted.`, 'info')
+      showSnackbar(t('subscriptionPlans.toast.deleted', { name: deletePlan.name, defaultValue: 'Plan "{{name}}" deleted.' }), 'info')
       closeDelete()
     } catch (error) {
       showSnackbar(getErrorMessage(error), 'error')
     }
-  }, [deletePlan, deletePlanMutation, showSnackbar, closeDelete])
+  }, [deletePlan, deletePlanMutation, showSnackbar, closeDelete, t])
 
   const handleRetry = useCallback(() => {
     void plansQuery.refetch()

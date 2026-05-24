@@ -16,6 +16,7 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import { FileText } from "lucide-react";
 import type { UseFormReturn } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { HOTEL_TERMS_STATUSES } from "../constants/status";
 import type { HotelTermsAndConditions } from "../types/terms";
 import type { HotelTermsFormValues } from "../schema/hotelTermsSchema";
@@ -33,8 +34,8 @@ interface HotelTermsFormCardProps {
   onDelete: () => void;
 }
 
-const getStatusLabel = (status: HotelTermsFormValues["status"]) =>
-  status === HOTEL_TERMS_STATUSES.ACTIVE ? "Active" : "Draft";
+const getStatusLabel = (status: HotelTermsFormValues["status"], t: ReturnType<typeof useTranslation>['t']) =>
+  status === HOTEL_TERMS_STATUSES.ACTIVE ? t('terms.statusActive', 'Active') : t('terms.statusDraft', 'Draft');
 
 export function HotelTermsFormCard({
   form,
@@ -50,6 +51,7 @@ export function HotelTermsFormCard({
   const {
     formState: { isDirty, isValid },
   } = form;
+  const { t } = useTranslation();
   const currentValues = form.watch();
   const isExistingTerms = Boolean(terms);
   const isReadOnly = isExistingTerms && !isEditing;
@@ -67,24 +69,23 @@ export function HotelTermsFormCard({
           <Stack spacing={1.25}>
             <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap">
               <Typography variant="h5">
-                {isExistingTerms ? "Terms & Conditions" : "Create Terms & Conditions"}
+                {isExistingTerms ? t('terms.title', 'Terms & Conditions') : t('terms.createTitle', 'Create Terms & Conditions')}
               </Typography>
               <Chip
                 size="small"
                 color={currentValues.status === HOTEL_TERMS_STATUSES.ACTIVE ? "success" : "default"}
-                label={getStatusLabel(currentValues.status)}
+                label={getStatusLabel(currentValues.status, t)}
               />
             </Stack>
             <Typography variant="body2" color="text.secondary">
-              Keep the hotel’s booking terms scoped to this property and ready for
-              future contract flows.
+              {t('terms.formCardSubtitle', "Keep the hotel's booking terms scoped to this property and ready for future contract flows.")}
             </Typography>
             <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
               <Chip
                 size="small"
                 variant="outlined"
                 icon={<FileText size={14} />}
-                label={currentValues.title || "Untitled terms"}
+                label={currentValues.title || t('terms.untitledTerms', 'Untitled terms')}
               />
             </Stack>
           </Stack>
@@ -93,7 +94,7 @@ export function HotelTermsFormCard({
             <Stack direction="row" spacing={1}>
               {isEditing ? (
                 <Fade in={isEditing}>
-                  <Tooltip title="Cancel">
+                  <Tooltip title={t('common.cancel', 'Cancel')}>
                     <Box component="span">
                       <IconButton
                         size="small"
@@ -108,7 +109,7 @@ export function HotelTermsFormCard({
                 </Fade>
               ) : null}
 
-              <Tooltip title="Delete terms">
+              <Tooltip title={t('terms.deleteTerms', 'Delete terms')}>
                 <Box component="span">
                   <IconButton
                     size="small"
@@ -125,7 +126,7 @@ export function HotelTermsFormCard({
                 </Box>
               </Tooltip>
 
-              <Tooltip title={isEditing ? "Save changes" : "Edit terms"}>
+              <Tooltip title={isEditing ? t('terms.saveChanges', 'Save changes') : t('terms.editTerms', 'Edit terms')}>
                 <Box component="span">
                   <IconButton
                     size="small"

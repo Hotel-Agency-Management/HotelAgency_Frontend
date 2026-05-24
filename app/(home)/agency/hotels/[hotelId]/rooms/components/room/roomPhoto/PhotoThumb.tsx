@@ -13,6 +13,8 @@ import {
   TinyStarBorderIcon,
   TinyStarIcon,
 } from "../../../roomStyle";
+import { useTranslation } from "react-i18next";
+
 export function PhotoThumb({
   photo,
   onSetPrimary,
@@ -26,18 +28,20 @@ export function PhotoThumb({
   onReplace?: () => void;
   deleteDisabled?: boolean;
 }) {
+  const { t } = useTranslation();
+
   return (
-    <PhotoThumbRoot
-      variant="outlined"
-      primaryPhoto={photo.isPrimary}
-    >
-      <PhotoThumbImage
-        src={photo.url}
-        alt=""
-      />
+    <PhotoThumbRoot variant="outlined" primaryPhoto={photo.isPrimary}>
+      <PhotoThumbImage src={photo.url} alt="" />
 
       <PhotoThumbActions direction="row" gap={0.3}>
-        <Tooltip title={photo.isPrimary ? "Primary photo" : "Set as primary"}>
+        <Tooltip
+          title={
+            photo.isPrimary
+              ? t("hotelRooms.photos.primaryPhoto", "Primary photo")
+              : t("hotelRooms.photos.setAsPrimary", "Set as primary")
+          }
+        >
           <PhotoThumbActionButton
             size="small"
             primaryPhoto={photo.isPrimary}
@@ -55,7 +59,9 @@ export function PhotoThumb({
         </Tooltip>
 
         {onReplace ? (
-          <Tooltip title="Replace cover photo">
+          <Tooltip
+            title={t("hotelRooms.photos.replaceCover", "Replace cover photo")}
+          >
             <PhotoThumbReplaceButton
               size="small"
               onClick={(e) => {
@@ -71,11 +77,14 @@ export function PhotoThumb({
         <Tooltip
           title={
             deleteDisabled
-              ? "Photo id is not available for deletion"
-              : "Delete photo"
+              ? t(
+                  "hotelRooms.photos.deleteUnavailable",
+                  "Photo id is not available for deletion",
+                )
+              : t("hotelRooms.photos.deletePhoto", "Delete photo")
           }
         >
-          <Box component='span'>
+          <Box component="span">
             <PhotoThumbDeleteButton
               size="small"
               disabled={deleteDisabled}
@@ -91,12 +100,9 @@ export function PhotoThumb({
       </PhotoThumbActions>
 
       {photo.isPrimary ? (
-        <PrimaryPhotoLabel
-          elevation={0}
-          square
-        >
+        <PrimaryPhotoLabel elevation={0} square>
           <Typography variant="caption" color="common.white" fontWeight={600}>
-            Primary
+            {t("hotelRooms.photos.primary", "Primary")}
           </Typography>
         </PrimaryPhotoLabel>
       ) : null}

@@ -5,6 +5,7 @@ import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { alpha, useTheme } from "@mui/material/styles";
+import { useTranslation } from "react-i18next";
 import { ChartCard, DoughnutChart, GaugeChart, HorizontalBarChart, LineChart } from "@/components/charts";
 import themeConfig from "@/core/configs/themeConfig";
 import { useHousekeepingDashboard } from "../hooks/useHousekeepingDashboard";
@@ -13,13 +14,14 @@ import { HousekeepingSummaryCard } from "./HousekeepingSummaryCard";
 export function HousekeepingDashboard() {
   const dashboard = useHousekeepingDashboard();
   const theme = useTheme();
+  const { t } = useTranslation();
 
   return (
     <Container maxWidth="xl">
       <Stack gap={themeConfig.common.commonSpacing}>
         <Stack gap={0.75}>
           <Typography variant="h5" fontWeight={700}>
-            Housekeeping Dashboard
+            {t("housekeeping.dashboard.title", "Housekeeping Dashboard")}
           </Typography>
           <Typography variant="body2" color="text.secondary">
             {dashboard.hotelName} • {dashboard.dateLabel}
@@ -42,7 +44,7 @@ export function HousekeepingDashboard() {
 
         <Grid container spacing={themeConfig.common.commonSpacing} columns={{ xs: 12, lg: 12 }}>
           <Grid size={{ xs: 12, lg: 7 }}>
-            <ChartCard title="Housekeeping Status Overview">
+            <ChartCard title={t("housekeeping.dashboard.charts.statusOverview", "Housekeeping Status Overview")}>
               <DoughnutChart
                 data={dashboard.statusOverview}
                 colors={dashboard.statusOverviewColors}
@@ -55,7 +57,7 @@ export function HousekeepingDashboard() {
           </Grid>
 
           <Grid size={{ xs: 12, lg: 5 }}>
-            <ChartCard title="Completion Rate">
+            <ChartCard title={t("housekeeping.dashboard.charts.completionRate", "Completion Rate")}>
               <Stack
                 gap={1.5}
                 alignItems="center"
@@ -70,7 +72,7 @@ export function HousekeepingDashboard() {
                   height={210}
                 />
                 <Typography variant="body2" color="text.secondary">
-                  {dashboard.completedRooms} of {dashboard.totalRooms} rooms completed today
+                  {t("housekeeping.dashboard.completionSubtitle", "{{completed}} of {{total}} rooms completed today", { completed: dashboard.completedRooms, total: dashboard.totalRooms })}
                 </Typography>
               </Stack>
             </ChartCard>
@@ -79,12 +81,12 @@ export function HousekeepingDashboard() {
 
         <Grid container spacing={themeConfig.common.commonSpacing}>
           <Grid size={{ xs: 12 }}>
-            <ChartCard title="Rooms Cleaned Over Time">
+            <ChartCard title={t("housekeeping.dashboard.charts.roomsCleanedOverTime", "Rooms Cleaned Over Time")}>
               <LineChart
                 labels={dashboard.cleanedOverTime.labels}
                 series={[
                   {
-                    label: "Rooms Cleaned",
+                    label: t("housekeeping.dashboard.charts.roomsCleanedOverTime", "Rooms Cleaned Over Time"),
                     data: dashboard.cleanedOverTime.values
                   }
                 ]}
@@ -98,12 +100,12 @@ export function HousekeepingDashboard() {
 
         <Grid container spacing={themeConfig.common.commonSpacing}>
           <Grid size={{ xs: 12 }}>
-            <ChartCard title="Average Cleaning Time by Room Type">
+            <ChartCard title={t("housekeeping.dashboard.charts.avgCleaningTime", "Average Cleaning Time by Room Type")}>
               <Grid container spacing={themeConfig.common.commonSpacing} alignItems="stretch">
                 <Grid size={{ xs: 12, lg: 8 }}>
                   <Stack gap={2}>
                     <Typography variant="body2" color="text.secondary">
-                      Track which room types take longer so delays are easier to spot.
+                      {t("housekeeping.dashboard.charts.trackDelays", "Track which room types take longer so delays are easier to spot.")}
                     </Typography>
                     <HorizontalBarChart
                       data={dashboard.cleaningTimeByRoomType.values}

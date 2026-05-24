@@ -11,7 +11,9 @@ import {
   Tabs,
   Typography,
 } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 import Icon from '@/components/icon/Icon'
+import DirectionalIcon from '@/components/common/DirectionalIcon'
 import { PaymentFeed } from '@/app/(home)/agency/hotels/[hotelId]/payment-logs/components/PaymentFeed'
 import { PaymentDetailsDrawer } from '@/app/(home)/agency/hotels/[hotelId]/payment-logs/components/PaymentDetailsDrawer'
 import { PaymentSummaryHeader } from '@/app/(home)/agency/hotels/[hotelId]/payment-logs/components/PaymentSummaryHeader'
@@ -30,6 +32,7 @@ interface AdminHotelPaymentLogsProps {
 }
 
 export function AdminHotelPaymentLogs({ hotel, onBack }: AdminHotelPaymentLogsProps) {
+  const { t } = useTranslation()
   const agencyId = String(hotel.agencyId!)
   const {
     activeTab,
@@ -59,12 +62,12 @@ export function AdminHotelPaymentLogs({ hotel, onBack }: AdminHotelPaymentLogsPr
     <Stack gap={3}>
       <Stack direction="row" alignItems="center" gap={1}>
         <Button
-          startIcon={<Icon icon="lucide:arrow-left" fontSize={16} />}
+          startIcon={<DirectionalIcon icon="lucide:arrow-left" fontSize={16} />}
           onClick={onBack}
           variant="text"
           size="small"
         >
-          All Hotels
+          {t('paymentLogs.allHotels', { defaultValue: 'All Hotels' })}
         </Button>
         <Typography variant="body2" color="text.secondary">
           /
@@ -100,7 +103,7 @@ export function AdminHotelPaymentLogs({ hotel, onBack }: AdminHotelPaymentLogsPr
               <Stack direction="row" alignItems="center" gap={1}>
                 <Icon icon="lucide:arrow-down-circle" fontSize={16} />
                 <Box component="span">
-                  Incoming Payments
+                  {t('paymentLogs.tabs.incomingPayments', { defaultValue: 'Incoming Payments' })}
                   {incomingData ? ` (${incomingData.totalCount})` : ''}
                 </Box>
               </Stack>
@@ -111,7 +114,7 @@ export function AdminHotelPaymentLogs({ hotel, onBack }: AdminHotelPaymentLogsPr
               <Stack direction="row" alignItems="center" gap={1}>
                 <Icon icon="lucide:arrow-up-circle" fontSize={16} />
                 <Box component="span">
-                  Outgoing Expenses
+                  {t('paymentLogs.tabs.outgoingExpenses', { defaultValue: 'Outgoing Expenses' })}
                   {outgoingData ? ` (${outgoingData.totalCount})` : ''}
                 </Box>
               </Stack>
@@ -154,7 +157,7 @@ export function AdminHotelPaymentLogs({ hotel, onBack }: AdminHotelPaymentLogsPr
           >
             {[7, 10, 20, 50].map((n) => (
               <MenuItem key={n} value={n}>
-                {n} per page
+                {t('paymentLogs.perPage', { count: n, defaultValue: '{{count}} per page' })}
               </MenuItem>
             ))}
           </Select>

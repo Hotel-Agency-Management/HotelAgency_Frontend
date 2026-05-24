@@ -1,6 +1,7 @@
 "use client";
 
 import { DataGrid } from "@mui/x-data-grid";
+import { useTranslation } from "react-i18next";
 import { getTeamMemberGridColumns } from "../constants/teamMemberGridColumns";
 import type { AgencyTeamMember } from "../config/teamMemberConfig";
 
@@ -10,7 +11,8 @@ interface TeamMembersGridProps {
 }
 
 export function TeamMembersGrid({ members, onEditRole }: TeamMembersGridProps) {
-  const columns = getTeamMemberGridColumns({ onEditRole });
+  const { t } = useTranslation();
+  const columns = getTeamMemberGridColumns({ onEditRole, t });
 
   return (
     <DataGrid
@@ -24,7 +26,22 @@ export function TeamMembersGrid({ members, onEditRole }: TeamMembersGridProps) {
           paginationModel: { pageSize: 10, page: 0 },
         },
       }}
+      localeText={{
+        paginationRowsPerPage: t('users.table.rowsPerPage', 'Rows per page'),
+        paginationDisplayedRows: ({ from, to, count }) =>
+          t('users.table.displayedRows', '{{from}}-{{to}} of {{count}}', {
+            from,
+            to,
+            count,
+          }),
+      }}
       rowHeight={74}
+      sx={{
+        '& .MuiTablePagination-displayedRows, & .MuiTablePagination-selectLabel': {
+          direction: 'ltr',
+          unicodeBidi: 'isolate',
+        },
+      }}
     />
   );
 }

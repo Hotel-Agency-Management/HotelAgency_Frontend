@@ -5,6 +5,7 @@ import { Avatar, Box, Button, Divider, ListItemIcon, Menu, MenuItem, Tooltip, Ty
 import { LogIn, LogOut, MoreVertical, User } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/navigation'
+import { useTranslation } from 'react-i18next'
 import { useAuth } from '@/core/context/AuthContext'
 import { useSidebar } from '../SidebarContext'
 import UserAvatarButton from './UserAvatarButton'
@@ -16,6 +17,7 @@ interface ProfileButtonProps {
 export default function ProfileButton({ variant = 'sidebar' }: ProfileButtonProps) {
   const { isLoading, logout, user } = useAuth()
   const { isCollapsed } = useSidebar()
+  const { t } = useTranslation()
   const router = useRouter()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const isNavbar = variant === 'navbar'
@@ -32,7 +34,7 @@ export default function ProfileButton({ variant = 'sidebar' }: ProfileButtonProp
         startIcon={<LogIn size={16} />}
         onClick={() => router.push('/login')}
       >
-        Login
+        {t('profileButton.login', 'Login')}
       </Button>
     )
   }
@@ -40,7 +42,7 @@ export default function ProfileButton({ variant = 'sidebar' }: ProfileButtonProp
   if (!user) return null
 
   const email = user.email ?? ''
-  const name = user.name ?? email.split('@')[0] ?? 'User'
+  const name = user.name ?? email.split('@')[0] ?? t('profileButton.userFallback', 'User')
   const initials = name
     .split(' ')
     .map(n => n[0])
@@ -160,14 +162,14 @@ export default function ProfileButton({ variant = 'sidebar' }: ProfileButtonProp
           <ListItemIcon>
             <User size={16} />
           </ListItemIcon>
-          <Typography variant='body2'>View Profile</Typography>
+          <Typography variant='body2'>{t('profileButton.viewProfile', 'View Profile')}</Typography>
         </MenuItem>
 
         <MenuItem onClick={handleLogout} sx={{ borderRadius: 1.5, py: 1, color: 'error.main' }}>
           <ListItemIcon sx={{ color: 'error.main' }}>
             <LogOut size={16} />
           </ListItemIcon>
-          <Typography variant='body2'>Logout</Typography>
+          <Typography variant='body2'>{t('profileButton.logout', 'Logout')}</Typography>
         </MenuItem>
       </Menu>
     </>

@@ -1,5 +1,6 @@
 import { Stack, Typography, Button, CircularProgress, useTheme, alpha } from '@mui/material'
 import { InboxOutlined, ErrorOutline, Refresh } from '@mui/icons-material'
+import { useTranslation } from 'react-i18next'
 import { br } from '@/core/utils/themeUtils'
 
 
@@ -58,12 +59,13 @@ function StateLabel({ title, description }: StateLabelProps) {
 
 
 export function LoadingState() {
+  const { t } = useTranslation()
   const theme = useTheme()
   return (
     <CenteredPageState>
       <CircularProgress size={36} thickness={3} sx={{ color: theme.palette.primary.main }} />
       <Typography variant="body2">
-        Loading agency requests…
+        {t('agencyApproval.state.loading', 'Loading agency requests…')}
       </Typography>
     </CenteredPageState>
   )
@@ -75,12 +77,15 @@ interface EmptyStateProps {
 }
 
 export function EmptyState({ hasFilters, onClearFilters }: EmptyStateProps) {
+  const { t } = useTranslation()
   const theme = useTheme()
 
-  const title = hasFilters ? 'No matching requests' : 'No requests yet'
+  const title = hasFilters
+    ? t('agencyApproval.state.emptyFiltered.title', 'No matching requests')
+    : t('agencyApproval.state.empty.title', 'No requests yet')
   const description = hasFilters
-    ? "Try adjusting your search or filter to find what you're looking for."
-    : 'When agencies submit registration requests, they will appear here for your review.'
+    ? t('agencyApproval.state.emptyFiltered.description', "Try adjusting your search or filter to find what you're looking for.")
+    : t('agencyApproval.state.empty.description', 'When agencies submit registration requests, they will appear here for your review.')
 
   return (
     <CenteredPageState>
@@ -96,7 +101,7 @@ export function EmptyState({ hasFilters, onClearFilters }: EmptyStateProps) {
           onClick={onClearFilters}
           sx={{ borderRadius: br(theme, 1.5), fontWeight: 600, fontSize: '0.8rem' }}
         >
-          Clear Filters
+          {t('agencyApproval.state.clearFilters', 'Clear Filters')}
         </Button>
       )}
     </CenteredPageState>
@@ -108,6 +113,7 @@ interface ErrorStateProps {
 }
 
 export function ErrorState({ onRetry }: ErrorStateProps) {
+  const { t } = useTranslation()
   const theme = useTheme()
   return (
     <CenteredPageState>
@@ -116,8 +122,8 @@ export function ErrorState({ onRetry }: ErrorStateProps) {
         color={theme.palette.error.main}
       />
       <StateLabel
-        title="Failed to load requests"
-        description="Something went wrong while fetching agency requests. Please try again."
+        title={t('agencyApproval.state.error.title', 'Failed to load requests')}
+        description={t('agencyApproval.state.error.description', 'Something went wrong while fetching agency requests. Please try again.')}
       />
       <Button
         variant="outlined"
@@ -126,7 +132,7 @@ export function ErrorState({ onRetry }: ErrorStateProps) {
         onClick={onRetry}
         sx={{ borderRadius: br(theme, 1.5), fontWeight: 600, fontSize: '0.8rem' }}
       >
-        Retry
+        {t('agencyApproval.state.retry', 'Retry')}
       </Button>
     </CenteredPageState>
   )

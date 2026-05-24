@@ -4,6 +4,7 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 import type { FilterState } from '../types/agency'
 import { br } from '@/core/utils/themeUtils'
 import SearchInput from '@/components/common/SearchInput'
@@ -22,8 +23,19 @@ export default function FilterBar({
   pendingCount,
   onFilterChange,
 }: FilterBarProps) {
+  const { t } = useTranslation()
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
+
+  const translatedTabs = STATUS_TABS.map(tab => ({
+    ...tab,
+    label: t(`agencyApproval.filter.status.${String(tab.value).toLowerCase()}`, tab.label),
+  }))
+
+  const translatedSortOptions = SORT_OPTIONS.map(opt => ({
+    ...opt,
+    label: t(`agencyApproval.filter.sort.${opt.value}`, opt.label),
+  }))
 
   return (
     <Box
@@ -42,7 +54,7 @@ export default function FilterBar({
         <SearchInput
           value={filters.search}
           onChange={value => onFilterChange({ search: value })}
-          placeholder='Search by agency name, owner, or email…'
+          placeholder={t('agencyApproval.searchPlaceholder', 'Search by agency name, owner, or email…')}
         />
 
         <Stack
@@ -51,7 +63,7 @@ export default function FilterBar({
           alignItems={{ xs: 'stretch', md: 'center' }}
         >
           <StatusFilterTabs
-            tabs={STATUS_TABS}
+            tabs={translatedTabs}
             value={filters.status}
             pendingCount={pendingCount}
             onChange={(status) => onFilterChange({ status })}
@@ -60,7 +72,7 @@ export default function FilterBar({
           {!isMobile && (
             <SortSelect
               value={filters.sortBy}
-              options={SORT_OPTIONS}
+              options={translatedSortOptions}
               onChange={(sortBy) => onFilterChange({ sortBy })}
             />
           )}

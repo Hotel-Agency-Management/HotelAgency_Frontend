@@ -9,6 +9,7 @@ import Paper from '@mui/material/Paper'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import { ImageIcon, Trash2, Upload } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { useLogoCard } from '../../hooks/useLogoCard'
 
 interface LogoCardProps {
@@ -30,15 +31,16 @@ export function LogoCard({
       displayLogo,
       onLogoUpload,
     })
+  const { t } = useTranslation()
 
   return (
     <Paper elevation={0} variant="card">
       <Stack spacing={0.5}>
         <Typography variant="subtitle1" fontWeight={500}>
-          Brand identity
+          {t('agencySettings.theme.brandIdentityTitle', 'Brand identity')}
         </Typography>
         <Typography variant="body2">
-          Upload a custom logo for your agency.
+          {t('agencySettings.theme.uploadLogoHint', 'Upload a custom logo for your agency.')}
         </Typography>
       </Stack>
 
@@ -61,7 +63,7 @@ export function LogoCard({
           <Stack spacing={0.75} alignItems="center">
             <ImageIcon size={20} />
             <Typography variant="caption" color="text.disabled">
-              No logo
+              {t('agencySettings.theme.noLogo', 'No logo')}
             </Typography>
           </Stack>
         </Avatar>
@@ -82,7 +84,7 @@ export function LogoCard({
               }
               onClick={openFilePicker}
             >
-              Upload
+              {t('agencySettings.theme.upload', 'Upload')}
             </Button>
 
             <Button
@@ -94,12 +96,12 @@ export function LogoCard({
               onClick={handleRemove}
               sx={{ borderColor: 'divider' }}
             >
-              Remove
+              {t('agencySettings.theme.remove', 'Remove')}
             </Button>
           </Stack>
 
           <Typography variant="caption" color="text.secondary">
-            PNG, JPG, SVG or WEBP · max 2 MB
+            {t('agencySettings.theme.logoFileTypes', 'PNG, JPG, SVG or WEBP · max 2 MB')}
           </Typography>
 
           <input

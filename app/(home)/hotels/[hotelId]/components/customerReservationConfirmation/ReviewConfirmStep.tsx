@@ -1,5 +1,6 @@
 import { Alert, Box, CircularProgress, Divider, Stack, Typography } from '@mui/material'
 import { CheckCircle2 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import type {
   ReservationDetails,
   ReservationSummaryItem,
@@ -28,61 +29,67 @@ export function ReviewConfirmStep({
   documentsGenerating,
   hasGeneratedDocuments,
 }: ReviewConfirmStepProps) {
+  const { t } = useTranslation()
+
   return (
     <Stack spacing={2}>
       <Typography variant="body2">
-        Review the final reservation summary before confirming.
+        {t('hotelPortal.booking.reviewFinalSummary', 'Review the final reservation summary before confirming.')}
       </Typography>
 
-      <SectionPanel title="Final summary">
-        <SummaryRow label="Hotel" value={reservation.hotelName} />
-        <SummaryRow label="Room" value={`${reservation.roomNumber} - ${roomTypeLabel}`} />
+      <SectionPanel title={t('hotelPortal.booking.finalSummary', 'Final summary')}>
+        <SummaryRow label={t('hotelPortal.booking.hotel', 'Hotel')} value={reservation.hotelName} />
+        <SummaryRow label={t('hotelPortal.booking.room', 'Room')} value={`${reservation.roomNumber} - ${roomTypeLabel}`} />
         <SummaryRow
-          label="Dates"
+          label={t('hotelPortal.booking.dates', 'Dates')}
           value={`${bookingDetails[3].value} - ${bookingDetails[4].value}`}
         />
         <SummaryRow
-          label="Occupancy"
-          value={`${reservation.guests} guests, ${reservation.rooms} rooms`}
+          label={t('hotelPortal.booking.occupancy', 'Occupancy')}
+          value={t('hotelPortal.booking.occupancySummary', {
+            guests: t('hotelPortal.booking.guestCount', { count: reservation.guests }),
+            rooms: t('hotelPortal.booking.roomCount', { count: reservation.rooms }),
+            defaultValue: '{{guests}}, {{rooms}}',
+          })}
         />
-        <SummaryRow label="Taxes and fees" value="Included where applicable" />
+        <SummaryRow label={t('hotelPortal.booking.taxesAndFees', 'Taxes and fees')} value={t('hotelPortal.booking.includedWhereApplicable', 'Included where applicable')} />
         <Divider />
-        <SummaryRow label="Estimated total" value={totalPriceLabel} emphasis />
+        <SummaryRow label={t('hotelPortal.booking.estimatedTotalFull', 'Estimated total')} value={totalPriceLabel} emphasis />
       </SectionPanel>
 
-      <SectionPanel title="Approvals">
-        <SummaryRow label="Terms accepted" value={termsAccepted ? 'Yes' : 'No'} />
-        <SummaryRow label="Signature" value={signatureDataUrl ? 'Captured' : 'Missing'} />
+      <SectionPanel title={t('hotelPortal.booking.approvals', 'Approvals')}>
+        <SummaryRow label={t('hotelPortal.booking.termsAccepted', 'Terms accepted')} value={termsAccepted ? t('common.yes', 'Yes') : t('common.no', 'No')} />
+        <SummaryRow label={t('hotelPortal.booking.signature', 'Signature')} value={signatureDataUrl ? t('hotelPortal.booking.signatureCaptured', 'Captured') : t('hotelPortal.booking.signatureMissing', 'Missing')} />
         {signatureDataUrl ? (
           <Box
             component="img"
             className="customer-reservation-signature-preview"
             src={signatureDataUrl}
-            alt="Customer signature"
+            alt={t('hotelPortal.booking.customerSignature', 'Customer signature')}
           />
         ) : null}
       </SectionPanel>
 
-      <SectionPanel title="Documents">
+      <SectionPanel title={t('hotelPortal.booking.documents', 'Documents')}>
         <Stack spacing={1.5}>
           <SummaryRow
-            label="Contract and invoice"
+            label={t('hotelPortal.booking.contractAndInvoice', 'Contract and invoice')}
             value={
               hasGeneratedDocuments
-                ? 'Ready'
+                ? t('hotelPortal.booking.documentsReady', 'Ready')
                 : documentsGenerating
-                  ? 'Preparing...'
-                  : 'Prepared when you confirm'
+                  ? t('hotelPortal.booking.documentsPreparing', 'Preparing...')
+                  : t('hotelPortal.booking.documentsPreparedOnConfirm', 'Prepared when you confirm')
             }
           />
           {documentsGenerating ? (
             <Alert icon={<CircularProgress size={18} color="inherit" />} severity="info">
-              Preparing your contract and invoice for this reservation.
+              {t('hotelPortal.booking.preparingContractInvoice', 'Preparing your contract and invoice for this reservation.')}
             </Alert>
           ) : null}
           {hasGeneratedDocuments ? (
             <Alert icon={<CheckCircle2 size={18} />} severity="success">
-              Contract and invoice files are ready to attach to this reservation.
+              {t('hotelPortal.booking.documentsReadyToAttach', 'Contract and invoice files are ready to attach to this reservation.')}
             </Alert>
           ) : null}
         </Stack>

@@ -1,23 +1,22 @@
-import {
-  Box,
-  Chip,
-  Divider,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Box, Chip, Divider, Stack, Typography } from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
 import { RoomFormValues } from "../../../schema/roomSchema";
 import { useRoomAmenitiesForPicker } from "@/app/(home)/room-amenities/hooks/useRoomAmenityStore";
+import { useTranslation } from "react-i18next";
 
 export const RoomAmenitiesPicker = () => {
-  const { control, formState: { errors } } = useFormContext<RoomFormValues>();
+  const { t } = useTranslation();
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext<RoomFormValues>();
   const { data: amenities = [] } = useRoomAmenitiesForPicker();
 
   return (
     <Box>
       <Stack spacing={0.5}>
         <Typography variant="subtitle2" fontWeight={700}>
-          Amenities
+          {t("hotelRooms.profile.amenities", "Amenities")}
         </Typography>
         <Divider />
       </Stack>
@@ -68,7 +67,10 @@ export const RoomAmenitiesPicker = () => {
         control={control}
         render={({ field }) => (
           <Typography variant="caption" display="block">
-            {(field.value ?? []).length} amenit{(field.value ?? []).length !== 1 ? "ies" : "y"} selected
+            {t("hotelRooms.form.amenitiesSelected", {
+              defaultValue: "{{count}} amenities selected",
+              count: (field.value ?? []).length,
+            })}
           </Typography>
         )}
       />

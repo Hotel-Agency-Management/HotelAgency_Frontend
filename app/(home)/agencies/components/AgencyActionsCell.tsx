@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { IconButton, Menu, MenuItem } from '@mui/material'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
+import { useTranslation } from 'react-i18next'
 
 interface Props {
   agencyId: number
@@ -9,6 +10,7 @@ interface Props {
 
 export default function AgencyActionsCell({ agencyId, onSettingsClick }: Props) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const { t } = useTranslation()
 
   return (
     <>
@@ -24,7 +26,7 @@ export default function AgencyActionsCell({ agencyId, onSettingsClick }: Props) 
         onClose={() => setAnchorEl(null)}
       >
         <MenuItem onClick={() => { onSettingsClick(agencyId); setAnchorEl(null) }}>
-          Agency Settings
+          {t('agencies.actions.settings', 'Agency Settings')}
         </MenuItem>
       </Menu>
     </>

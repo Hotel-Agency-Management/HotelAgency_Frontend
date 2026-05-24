@@ -11,6 +11,7 @@ import {
   Tooltip,
 } from '@mui/material'
 import { Add, DeleteOutline } from '@mui/icons-material'
+import { useTranslation } from 'react-i18next'
 import { FeatureLimit, PlanFeature } from '../types/plans'
 import { generateId, makeEmptyFeature } from '../util/plans'
 import { updateFeature } from '../util/updateFeature'
@@ -23,6 +24,7 @@ interface FeatureEditorProps {
 }
 
 export default function FeatureEditor({ features, errors = {}, onChange }: FeatureEditorProps) {
+  const { t } = useTranslation()
   const handleAdd = () => onChange([...features, makeEmptyFeature()])
 
   const handleRemove = (id: number) => onChange(features.filter(f => f.id !== id))
@@ -49,7 +51,7 @@ export default function FeatureEditor({ features, errors = {}, onChange }: Featu
     <Box>
       <Stack direction='row' alignItems='center' justifyContent='space-between'>
         <Typography variant='subtitle2' color='text.secondary'>
-          Features
+          {t('subscriptionPlans.features.title', { defaultValue: 'Features' })}
         </Typography>
         <Button
           size='small'
@@ -57,13 +59,13 @@ export default function FeatureEditor({ features, errors = {}, onChange }: Featu
           onClick={handleAdd}
           sx={{ textTransform: 'none' }}
         >
-          Add Feature
+          {t('subscriptionPlans.features.add', { defaultValue: 'Add Feature' })}
         </Button>
       </Stack>
 
       {features.length === 0 && (
         <Typography variant='body2' color='text.disabled' sx={{ py: 2, textAlign: 'center' }}>
-          No features yet. Click "Add Feature" to begin.
+          {t('subscriptionPlans.features.empty', { defaultValue: 'No features yet. Click "Add Feature" to begin.' })}
         </Typography>
       )}
 
@@ -88,14 +90,14 @@ export default function FeatureEditor({ features, errors = {}, onChange }: Featu
                 <TextField
                   size='small'
                   fullWidth
-                  placeholder='Feature name *'
+                  placeholder={t('subscriptionPlans.features.namePlaceholder', { defaultValue: 'Feature name *' })}
                   value={feature.featureName}
                   onChange={e => handleChange(feature.id, { featureName: e.target.value })}
                   error={!!errors[feature.id]}
                   helperText={errors[feature.id]}
                 />
 
-                <Tooltip title='Remove feature'>
+                <Tooltip title={t('subscriptionPlans.features.remove', { defaultValue: 'Remove feature' })}>
                   <span>
                     <IconButton
                       size='small'
@@ -114,7 +116,7 @@ export default function FeatureEditor({ features, errors = {}, onChange }: Featu
                   size='small'
                   fullWidth
                   type='number'
-                  placeholder='Limit value (optional)'
+                  placeholder={t('subscriptionPlans.features.limitPlaceholder', { defaultValue: 'Limit value (optional)' })}
                   value={feature.featureLimits[0]?.limitValue ?? ''}
                   onChange={e => handleLimitChange(feature, e.target.value)}
                   inputProps={{ min: 0 }}

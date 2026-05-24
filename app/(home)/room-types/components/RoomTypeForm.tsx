@@ -1,10 +1,11 @@
 'use client'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Grid, TextField } from '@mui/material'
-import { RoomTypeFormValues, roomTypeSchema } from '../schema/roomTypeSchema'
+import { RoomTypeFormValues, createRoomTypeSchema } from '../schema/roomTypeSchema'
 import { RoomType } from '../types/roomType'
+import { useTranslation } from 'react-i18next'
 
 interface RoomTypeFormProps {
   formId: string
@@ -13,13 +14,15 @@ interface RoomTypeFormProps {
 }
 
 export function RoomTypeForm({ formId, defaultValues, onSubmit }: RoomTypeFormProps) {
+  const { t } = useTranslation()
+  const schema = useMemo(() => createRoomTypeSchema(t), [t])
   const {
     control,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm<RoomTypeFormValues>({
-    resolver: zodResolver(roomTypeSchema),
+    resolver: zodResolver(schema),
     defaultValues: {
       name: '',
       description: '',
@@ -45,7 +48,7 @@ export function RoomTypeForm({ formId, defaultValues, onSubmit }: RoomTypeFormPr
             render={({ field }) => (
               <TextField
                 {...field}
-                label='Name'
+                label={t('roomTypes.form.name', { defaultValue: 'Name' })}
                 fullWidth
                 error={!!errors.name}
                 helperText={errors.name?.message}
@@ -61,7 +64,7 @@ export function RoomTypeForm({ formId, defaultValues, onSubmit }: RoomTypeFormPr
             render={({ field }) => (
               <TextField
                 {...field}
-                label='Description'
+                label={t('roomTypes.form.description', { defaultValue: 'Description' })}
                 fullWidth
                 multiline
                 rows={3}

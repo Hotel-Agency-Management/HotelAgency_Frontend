@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import { Stack, Typography } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 import AgencyFilters from './components/AgencyFilters'
 import AgencyViewToggle from './components/AgencyViewToggle'
 import AgencyListView from './components/AgencyListView'
@@ -12,6 +13,7 @@ import FadeIn from '@/components/animation/FadeIn'
 
 export default function AgenciesPage() {
   const router = useRouter()
+  const { t } = useTranslation()
   const {
     search,
     setSearch,
@@ -39,10 +41,10 @@ export default function AgenciesPage() {
         <Stack direction='row' alignItems='center' justifyContent='space-between'>
           <Stack gap={0.5}>
             <Typography variant='h5' fontWeight={700}>
-              Agencies
+              {t('agencies.title', 'Agencies')}
             </Typography>
             <Typography variant='body2' color='text.secondary'>
-              {filteredCount} of {totalCount} agencies
+              {t('agencies.countSummary', '{{filtered}} of {{total}} agencies', { filtered: filteredCount, total: totalCount })}
             </Typography>
           </Stack>
           <AgencyViewToggle value={viewMode} onChange={setViewMode} />
@@ -54,7 +56,7 @@ export default function AgenciesPage() {
           <SearchInput
             value={search}
             onChange={setSearch}
-            placeholder='Search by name, phone, city...'
+            placeholder={t('agencies.searchPlaceholder', 'Search by name, phone, city...')}
             sx={{ flex: 2, minWidth: 200 }}
           />
           <AgencyFilters

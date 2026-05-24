@@ -4,6 +4,7 @@ import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import Tooltip from "@mui/material/Tooltip";
 import { Pencil } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 interface HotelCardActionsProps {
   hotelId: string;
@@ -11,16 +12,17 @@ interface HotelCardActionsProps {
 }
 
 export function HotelCardActions({ hotelId, onEdit }: HotelCardActionsProps) {
+  const { t } = useTranslation();
   return (
     <Stack direction="row" spacing={0.25}>
-      <Tooltip title="Edit">
+      <Tooltip title={t('agencyHotels.actions.edit', 'Edit')}>
         <IconButton
           size="small"
           onClick={(e) => {
             e.stopPropagation();
             onEdit?.(hotelId);
           }}
-          aria-label="Edit hotel"
+          aria-label={t('agencyHotels.actions.editHotel', 'Edit hotel')}
         >
           <Pencil size={14} />
         </IconButton>

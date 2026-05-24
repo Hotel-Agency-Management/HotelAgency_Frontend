@@ -5,6 +5,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import type { RoomAmenity } from "../types/roomAmenity";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   open: boolean;
@@ -21,21 +22,25 @@ export function DeleteRoomAmenityDialog({
   onClose,
   onConfirm,
 }: Props) {
+  const { t } = useTranslation()
+
   return (
     <Dialog open={open} onClose={isDeleting ? undefined : onClose} maxWidth="xs" fullWidth>
-      <DialogTitle>Delete room amenity</DialogTitle>
+      <DialogTitle>{t('roomAmenities.deleteDialog.title', { defaultValue: 'Delete Room Amenity' })}</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Are you sure you want to delete {amenity?.name ?? "this amenity"}? Rooms that
-          already reference this amenity may need to be updated later.
+          {t('roomAmenities.deleteDialog.confirm', {
+            name: amenity?.name ?? t('roomAmenities.deleteDialog.thisAmenity', { defaultValue: 'this amenity' }),
+            defaultValue: 'Are you sure you want to delete {{name}}? Rooms that already reference this amenity may need to be updated later.',
+          })}
         </DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} disabled={isDeleting}>
-          Cancel
+          {t('common.cancel', { defaultValue: 'Cancel' })}
         </Button>
         <Button color="error" variant="contained" onClick={onConfirm} disabled={isDeleting}>
-          Delete
+          {t('roomAmenities.delete', { defaultValue: 'Delete' })}
         </Button>
       </DialogActions>
     </Dialog>

@@ -10,6 +10,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import { useTranslation } from "react-i18next";
 import type { UserRole } from "@/lib/abilities";
 import {
   AGENCY_ROLE_OPTIONS,
@@ -33,6 +34,7 @@ export function AssignTeamMemberRoleDialog({
   onClose,
   onSave,
 }: AssignTeamMemberRoleDialogProps) {
+  const { t } = useTranslation();
   const [role, setRole] = useState<UserRole | "">("");
 
   useEffect(() => {
@@ -46,13 +48,13 @@ export function AssignTeamMemberRoleDialog({
     await onSave(member.id, role);
     onClose();
     } catch (error) {
-    toast.error('Failed to update member role');
+    toast.error(t('users.updateRoleFailed', 'Failed to update member role'));
     }
   };
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="xs">
-      <DialogTitle>Assign role</DialogTitle>
+      <DialogTitle>{t('users.assignRole', 'Assign role')}</DialogTitle>
       <DialogContent>
         <Stack spacing={2}>
           {member ? (
@@ -65,7 +67,7 @@ export function AssignTeamMemberRoleDialog({
             select
             fullWidth
             size="small"
-            label="Role"
+            label={t('users.role', 'Role')}
             value={role}
             onChange={event => setRole(event.target.value as UserRole)}
           >
@@ -79,7 +81,7 @@ export function AssignTeamMemberRoleDialog({
       </DialogContent>
       <DialogActions>
         <Button color="inherit" onClick={onClose} disabled={isLoading}>
-          Cancel
+          {t('common.cancel', 'Cancel')}
         </Button>
         <Button
           variant="contained"
@@ -87,7 +89,7 @@ export function AssignTeamMemberRoleDialog({
           onClick={() => void handleSave()}
           disabled={isLoading || !member || !role || role === member.role}
         >
-          Save
+          {t('users.save', 'Save')}
         </Button>
       </DialogActions>
     </Dialog>

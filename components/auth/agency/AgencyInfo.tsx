@@ -74,7 +74,7 @@ const AgencyForm: React.FC<AgencySignupFormProps> = ({
             </FadeIn>
 
             <FadeIn>
-              <FormFieldWrapper title={t('agency.phone', 'Phone')}>
+              <FormFieldWrapper title={t('agency.phone', 'Agency Phone')}>
                 <Controller
                   name='phone'
                   control={control}
@@ -84,6 +84,7 @@ const AgencyForm: React.FC<AgencySignupFormProps> = ({
                       fullWidth
                       size='small'
                       defaultCountry='PS'
+                      placeholder={t('agency.phonePlaceholder', '+970 59 000 0000')}
                       error={!!errors.phone}
                       helperText={errors.phone?.message}
                     />

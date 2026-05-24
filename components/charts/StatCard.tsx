@@ -5,6 +5,7 @@ import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import { useTheme } from '@mui/material/styles'
+import { useTranslation } from 'react-i18next'
 import Icon from '@/components/icon/Icon'
 import SparklineChart from './SparklineChart'
 import { useChartColors } from './utils/chartColors'
@@ -27,14 +28,16 @@ export default function StatCard({
   title,
   value,
   change,
-  subtitle = 'compared to last week',
+  subtitle,
   data,
   color,
   colors,
   area = true
 }: StatCardProps) {
+  const { t } = useTranslation()
   const theme = useTheme()
   const chartColors = useChartColors(colors)
+  const resolvedSubtitle = subtitle ?? t('common.comparedToLastWeek', 'compared to last week')
   const resolvedColor = color ?? chartColors[0]
   const isUp = change >= 0
   const badgeColor = isUp ? theme.palette.success.main : theme.palette.error.main
@@ -75,7 +78,7 @@ export default function StatCard({
             </Box>
 
             <Typography variant='caption' color='text.secondary'>
-              {subtitle}
+              {resolvedSubtitle}
             </Typography>
           </Box>
 

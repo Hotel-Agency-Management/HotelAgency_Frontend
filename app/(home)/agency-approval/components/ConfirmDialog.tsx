@@ -10,6 +10,7 @@ import {
   useTheme,
   alpha,
 } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 import { ConfirmDialogState, ActionType } from '../types/agency'
 import { ACTION_CONFIG } from '../constants/actionConfig'
 
@@ -26,6 +27,7 @@ export default function ConfirmDialog({
   onClose,
   isLoading,
 }: ConfirmDialogProps) {
+  const { t } = useTranslation()
   const theme = useTheme()
   const { open, action, request } = state
 
@@ -58,7 +60,7 @@ export default function ConfirmDialog({
             variant='h6'
             fontWeight={700}
           >
-            {config.title}
+            {t(`agencyApproval.confirm.${action}.title`, config.title)}
           </Typography>
         </Stack>
       </DialogTitle>
@@ -66,7 +68,7 @@ export default function ConfirmDialog({
       <DialogContent>
         <Stack direction='row' spacing={1} alignItems='flex-start'>
           <Typography variant='body2'>
-            {config.message(request.agencyName)}
+            {t(`agencyApproval.confirm.${action}.message`, config.message(request.agencyName), { name: request.agencyName })}
           </Typography>
         </Stack>
       </DialogContent>
@@ -78,7 +80,7 @@ export default function ConfirmDialog({
           onClick={onClose}
           disabled={isLoading}
         >
-          Cancel
+          {t('common.cancel', 'Cancel')}
         </Button>
         <Button
           variant='contained'
@@ -90,7 +92,7 @@ export default function ConfirmDialog({
             fontWeight: 700,
           }}
         >
-          {isLoading ? 'Processing…' : config.confirmLabel}
+          {isLoading ? t('agencyApproval.confirm.processing', 'Processing…') : t(`agencyApproval.confirm.${action}.label`, config.confirmLabel)}
         </Button>
       </DialogActions>
     </Dialog>

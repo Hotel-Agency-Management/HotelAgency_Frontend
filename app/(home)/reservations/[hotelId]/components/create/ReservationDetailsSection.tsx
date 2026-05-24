@@ -4,6 +4,7 @@ import { Autocomplete, Grid, ListItem, ListItemText, TextField } from '@mui/mate
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { useTranslation } from 'react-i18next'
 import { FormSection } from './FormSection'
 import type { DirectReservationFormInput } from '../../schema/directReservationSchema'
 import type { RoomListItemResponse } from '@/app/(home)/agency/hotels/[hotelId]/rooms/configs/roomConfig'
@@ -21,10 +22,12 @@ export function ReservationDetailsSection({
   rooms,
   roomsLoading,
 }: ReservationDetailsSectionProps) {
+  const { t } = useTranslation()
+
   return (
     <FormSection
-      title='Reservation Details'
-      description='Confirm the stay window, occupancy, and assigned room numbers for this reservation.'
+      title={t('reservations.form.stay.title', 'Reservation Details')}
+      description={t('reservations.form.stay.description', 'Confirm the stay window, occupancy, and assigned room numbers for this reservation.')}
     >
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Grid container spacing={2}>
@@ -34,7 +37,7 @@ export function ReservationDetailsSection({
               control={control}
               render={({ field }) => (
                 <DatePicker
-                  label='Check-in Date'
+                  label={t('reservations.form.stay.checkInDate', 'Check-in Date')}
                   value={field.value ? dayjs(field.value) : null}
                   onChange={value => field.onChange(value && value.isValid() ? value.format('YYYY-MM-DD') : '')}
                   slotProps={{
@@ -56,7 +59,7 @@ export function ReservationDetailsSection({
               control={control}
               render={({ field }) => (
                 <DatePicker
-                  label='Check-out Date'
+                  label={t('reservations.form.stay.checkOutDate', 'Check-out Date')}
                   value={field.value ? dayjs(field.value) : null}
                   onChange={value => field.onChange(value && value.isValid() ? value.format('YYYY-MM-DD') : '')}
                   slotProps={{
@@ -78,7 +81,7 @@ export function ReservationDetailsSection({
               control={control}
               render={({ field }) => (
                 <TextField
-                  label='Number of Guests'
+                  label={t('reservations.form.stay.numberOfGuests', 'Number of Guests')}
                   type='number'
                   fullWidth
                   size='small'
@@ -114,7 +117,7 @@ export function ReservationDetailsSection({
                   renderOption={(props, option) => (
                     <ListItem {...props} key={option.roomId} component='li'>
                       <ListItemText
-                        primary={`Room ${option.roomNumber}`}
+                        primary={t('reservations.form.stay.roomOption', 'Room {{number}}', { number: option.roomNumber })}
                         secondary={`${option.roomType} · $${option.pricePerNight}/night`}
                       />
                     </ListItem>
@@ -122,7 +125,7 @@ export function ReservationDetailsSection({
                   renderInput={params => (
                     <TextField
                       {...params}
-                      label='Rooms'
+                      label={t('reservations.form.stay.rooms', 'Rooms')}
                       error={!!errors.roomNumbers}
                       helperText={errors.roomNumbers?.message}
                     />

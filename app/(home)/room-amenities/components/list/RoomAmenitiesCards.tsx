@@ -12,6 +12,7 @@ import { MoreVertical, Trash2 } from 'lucide-react'
 import type { RoomAmenity } from '../../types/roomAmenity'
 import MenuItem from '@/components/ui/Menu'
 import { useRoomAmenitiesCards } from '../../hooks/useRoomAmenitiesCards'
+import { useTranslation } from 'react-i18next'
 
 interface Props {
   amenities: RoomAmenity[]
@@ -20,6 +21,7 @@ interface Props {
 }
 
 export function RoomAmenitiesCards({ amenities, isLoading, onDelete }: Props) {
+  const { t } = useTranslation()
   const {
     page,
     setPage,
@@ -47,7 +49,7 @@ export function RoomAmenitiesCards({ amenities, isLoading, onDelete }: Props) {
   }
 
   if (amenities.length === 0) {
-    return <Typography color="text.secondary">No room amenities match your filters.</Typography>
+    return <Typography color="text.secondary">{t('roomAmenities.empty', { defaultValue: 'No room amenities match your filters.' })}</Typography>
   }
 
   return (
@@ -60,7 +62,7 @@ export function RoomAmenitiesCards({ amenities, isLoading, onDelete }: Props) {
             <Grid key={amenity.id} size={{ xs: 12, sm: 6, md: 3 }}>
               <Card variant="roomAmenity">
                 <CardContent>
-                  <Tooltip title="Amenity actions" placement="top" arrow>
+                  <Tooltip title={t('roomAmenities.amenityActions', { defaultValue: 'Amenity actions' })} placement="top" arrow>
                     <IconButton
                       className="room-amenity-action-trigger"
                       size="small"
@@ -109,7 +111,7 @@ export function RoomAmenitiesCards({ amenities, isLoading, onDelete }: Props) {
       >
         <MenuItem onClick={handleDeleteAmenity} variant="danger">
           <Trash2 size={16} style={{ marginRight: 8 }} />
-          Delete
+          {t('roomAmenities.delete', { defaultValue: 'Delete' })}
         </MenuItem>
       </Menu>
 

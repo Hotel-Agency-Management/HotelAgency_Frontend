@@ -1,13 +1,17 @@
 import { fromNow } from "@/core/utils/Dateutils";
 import { Stack, Avatar, Typography } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
+import { TFunction } from "i18next";
 import AgencyActionsCell from "../components/AgencyActionsCell";
 import { Agency } from "../types/agency";
 
-export const columns = (onSettingsClick: (agencyId: number) => void): GridColDef<Agency>[] => [
+export const columns = (
+  onSettingsClick: (agencyId: number) => void,
+  t: TFunction
+): GridColDef<Agency>[] => [
   {
     field: 'name',
-    headerName: 'Agency',
+    headerName: t('agencies.table.agency', 'Agency'),
     flex: 1.5,
     minWidth: 200,
     renderCell: ({ row }) => (
@@ -32,13 +36,13 @@ export const columns = (onSettingsClick: (agencyId: number) => void): GridColDef
   },
   {
     field: 'phone',
-    headerName: 'Phone',
+    headerName: t('agencies.table.phone', 'Phone'),
     flex: 1,
     minWidth: 140,
   },
   {
     field: 'country',
-    headerName: 'Location',
+    headerName: t('agencies.table.location', 'Location'),
     flex: 1,
     minWidth: 140,
     renderCell: ({ row }) => (
@@ -49,7 +53,7 @@ export const columns = (onSettingsClick: (agencyId: number) => void): GridColDef
   },
   {
     field: 'createdAt',
-    headerName: 'Created',
+    headerName: t('agencies.table.created', 'Created'),
     flex: 1,
     minWidth: 120,
     renderCell: ({ row }) => (

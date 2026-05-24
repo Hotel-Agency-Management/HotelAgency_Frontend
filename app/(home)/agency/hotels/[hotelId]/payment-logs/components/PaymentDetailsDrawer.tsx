@@ -2,7 +2,9 @@
 
 import { Avatar, Box, CircularProgress, Divider, IconButton, Stack, Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
+import { useTranslation } from 'react-i18next'
 import Icon from '@/components/icon/Icon'
+import DirectionalIcon from '@/components/common/DirectionalIcon'
 import { PaymentTypeChip } from './PaymentTypeChip'
 import { DetailRow } from './DetailRow'
 import {
@@ -24,13 +26,14 @@ interface PaymentDetailsDrawerProps {
 
 export function PaymentDetailsDrawer({ payment, isLoading, isIncoming, open, onClose }: PaymentDetailsDrawerProps) {
   const theme = useTheme()
+  const { t } = useTranslation()
   const amountColor = isIncoming ? theme.palette.success.main : theme.palette.error.main
 
   return (
     <PaymentDrawerPaper anchor="right" open={open} onClose={onClose}>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         <Typography variant="h6" fontWeight={700}>
-          Payment Details
+          {t("hotelPaymentLogs.drawer.title", "Payment Details")}
         </Typography>
         <IconButton onClick={onClose} size="small">
           <Icon icon="lucide:x" fontSize={18} />
@@ -62,7 +65,7 @@ export function PaymentDetailsDrawer({ payment, isLoading, isIncoming, open, onC
                   </Typography>
                 </Stack>
 
-                <Icon icon="lucide:arrow-right" fontSize={20} />
+                <DirectionalIcon icon="lucide:arrow-right" fontSize={20} />
 
                 <Stack alignItems="center" gap={0.5}>
                   <Avatar sx={{ width: 40, height: 40 }}>{getInitials(payment.toName)}</Avatar>
@@ -77,22 +80,22 @@ export function PaymentDetailsDrawer({ payment, isLoading, isIncoming, open, onC
               {payment.reservationReference && (
                 <DetailRow
                   icon="lucide:link"
-                  label="Reservation"
+                  label={t("hotelPaymentLogs.drawer.reservation", "Reservation")}
                   value={payment.reservationReference}
                 />
               )}
-              <DetailRow icon="lucide:tag" label="Payment Type" value={payment.paymentType} />
+              <DetailRow icon="lucide:tag" label={t("hotelPaymentLogs.drawer.paymentType", "Payment Type")} value={payment.paymentType} />
               <DetailRow
                 icon="lucide:calendar"
-                label="Date & Time"
+                label={t("hotelPaymentLogs.drawer.dateTime", "Date & Time")}
                 value={formatPaymentDateTime(payment.createdAt)}
               />
-              <DetailRow icon="lucide:hash" label="Payment ID" value={`#${payment.paymentId}`} />
+              <DetailRow icon="lucide:hash" label={t("hotelPaymentLogs.drawer.paymentId", "Payment ID")} value={`#${payment.paymentId}`} />
             </Stack>
 
             <Stack gap={1}>
               <Typography variant="subtitle2" fontWeight={700}>
-                Timeline
+                {t("hotelPaymentLogs.drawer.timeline", "Timeline")}
               </Typography>
               <Stack direction="row" gap={1.5}>
                 <Stack alignItems="center">

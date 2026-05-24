@@ -1,11 +1,14 @@
 'use client'
 
 import { Paper, Stack, Typography } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 import { TypewriterText } from '@/components/animation'
 import { heroStyle } from '../constants/hotelFilters'
 
 
 export function HotelsHero() {
+  const { t } = useTranslation()
+
   return (
     <Paper
       elevation={0}
@@ -16,11 +19,11 @@ export function HotelsHero() {
         spacing={2}
       >
         <Typography variant="overline">
-          Worldwide stays
+          {t('hotelPortal.hero.overline', 'Worldwide stays')}
         </Typography>
-        <TypewriterText variant="h1" text="Your next hotel starts anywhere." />
+        <TypewriterText variant="h1" text={t('hotelPortal.hero.title', 'Your next hotel starts anywhere.')} />
         <Typography>
-          Compare verified hotels from every partner agency in one place.
+          {t('hotelPortal.hero.subtitle', 'Compare verified hotels from every partner agency in one place.')}
         </Typography>
       </Stack>
     </Paper>

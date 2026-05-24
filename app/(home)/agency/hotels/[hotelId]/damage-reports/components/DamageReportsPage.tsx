@@ -12,9 +12,9 @@ import FadeIn from '@/components/animation/FadeIn'
 import Icon from '@/components/icon/Icon'
 import Can from '@/components/ability/Can'
 import {
-  DAMAGE_STATUS_LABELS,
+  getDamageStatusLabels,
+  getDamageSeverityLabels,
   DAMAGE_STATUS_COLOR_KEY,
-  DAMAGE_SEVERITY_LABELS,
   DAMAGE_SEVERITY_COLOR_KEY,
 } from '../constants/damageReport'
 import { DAMAGE_REPORT_STATUS } from '../types/damageReport'
@@ -35,6 +35,8 @@ import { useDamageReportsPage } from '../hooks/useDamageReportsPage'
 export default function DamageReportsPage() {
   const { t } = useTranslation()
   const theme = useTheme()
+  const damageStatusLabels = getDamageStatusLabels(t)
+  const damageSeverityLabels = getDamageSeverityLabels(t)
 
   const {
     reports,
@@ -77,7 +79,7 @@ export default function DamageReportsPage() {
                 return (
                   <StyledChip
                     key={status}
-                    label={`${DAMAGE_STATUS_LABELS[status]}: ${count}`}
+                    label={`${damageStatusLabels[status]}: ${count}`}
                     size="small"
                     chipColor={color}
                   />
@@ -114,7 +116,7 @@ export default function DamageReportsPage() {
                       <Stack direction="row" alignItems="center" gap={1}>
                         <Icon icon="tabler:alert-triangle" fontSize={16} />
                         <StyledChip
-                          label={DAMAGE_SEVERITY_LABELS[report.severity]}
+                          label={damageSeverityLabels[report.severity]}
                           size="small"
                           chipColor={severityColor}
                         />

@@ -121,6 +121,7 @@ const AccountStep: React.FC<AccountStepProps> = ({
                 defaultCountry='PS'
                 error={!!errors.phone}
                 helperText={errors.phone?.message}
+                slotProps={{ htmlInput: { dir: 'ltr', style: { direction: 'ltr', textAlign: 'left' } } }}
               />
             )}
           />

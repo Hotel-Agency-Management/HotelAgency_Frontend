@@ -6,6 +6,7 @@ import Stack from "@mui/material/Stack";
 import Tooltip from "@mui/material/Tooltip";
 import EditIcon from "@mui/icons-material/Edit";
 import { useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { FileItem } from "../../types/agencyProfile";
 import { FileCardSkeleton } from "./FileCardSkelton";
 import { getFileIcon } from "../../util/fileIcon";
@@ -23,6 +24,7 @@ export function AgencyFileCards({
   onFileReplace,
 }: AgencyFileCardsProps) {
   const inputRefs = useRef<Record<string, HTMLInputElement | null>>({});
+  const { t } = useTranslation();
 
   const handleEditClick = (fileId: string) => {
     inputRefs.current[fileId]?.click();
@@ -62,7 +64,7 @@ export function AgencyFileCards({
   if (!files || files.length === 0) {
     return (
       <Typography variant="body2" color="text.secondary">
-        No files uploaded yet.
+        {t('agencySettings.profile.noFiles', 'No files uploaded yet.')}
       </Typography>
     );
   }
@@ -81,7 +83,7 @@ export function AgencyFileCards({
               onChange={(e) => handleFileChange(file.id, e)}
             />
 
-            <Tooltip title={canOpenFile ? "Open file in new tab" : ""}>
+            <Tooltip title={canOpenFile ? t('agencySettings.profile.openFileInNewTab', 'Open file in new tab') : ""}>
               <FileCard
                 canOpen={canOpenFile}
                 role={canOpenFile ? "button" : undefined}
@@ -89,7 +91,7 @@ export function AgencyFileCards({
                 onClick={() => handleOpenFile(file.url)}
                 onKeyDown={(event) => handleFileKeyDown(event, file.url)}
               >
-                <Tooltip title={`Replace ${file.documentType}`}>
+                <Tooltip title={t('agencySettings.profile.replaceFile', 'Replace {{documentType}}', { documentType: file.documentType })}>
                   <EditButton
                     size="small"
                     onClick={(event) => {

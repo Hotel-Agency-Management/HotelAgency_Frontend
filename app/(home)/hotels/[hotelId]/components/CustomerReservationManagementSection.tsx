@@ -35,7 +35,7 @@ export function CustomerReservationManagementSection({
   hotel,
   room,
 }: CustomerReservationManagementSectionProps) {
-  const { i18n } = useTranslation()
+  const { t, i18n } = useTranslation()
   const router = useRouter()
   const searchParams = useSearchParams()
 
@@ -130,10 +130,10 @@ export function CustomerReservationManagementSection({
           >
             <Stack spacing={0.75}>
               <Typography variant="h6" fontWeight={800}>
-                Reservation management
+                {t('hotelPortal.booking.reservationManagement', 'Reservation management')}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Manage your booked stay from one section without squeezing the side panel.
+                {t('hotelPortal.booking.reservationManagementSubtitle', 'Manage your booked stay from one section without squeezing the side panel.')}
               </Typography>
             </Stack>
 
@@ -162,14 +162,14 @@ export function CustomerReservationManagementSection({
                   variant="outlined"
                   color="success"
                   icon={<CheckCircle2 size={14} />}
-                  label="Status: confirmed"
+                  label={t('hotelPortal.booking.statusConfirmed', 'Status: confirmed')}
                 />
                 <Chip
                   size="small"
                   variant="outlined"
                   color={summary.canModify ? 'info' : 'warning'}
                   icon={summary.canModify ? <Edit3 size={14} /> : <Clock3 size={14} />}
-                  label={summary.canModify ? 'Editable now' : 'Edit window closed'}
+                  label={summary.canModify ? t('hotelPortal.booking.editableNow', 'Editable now') : t('hotelPortal.booking.editWindowClosed', 'Edit window closed')}
                 />
                 <Chip
                   size="small"
@@ -184,8 +184,8 @@ export function CustomerReservationManagementSection({
                   }
                   label={
                     summary.freeCancellation
-                      ? 'Free cancellation active'
-                      : 'Cancellation fee applies'
+                      ? t('hotelPortal.booking.freeCancellationActive', 'Free cancellation active')
+                      : t('hotelPortal.booking.cancellationFeeApplies', 'Cancellation fee applies')
                   }
                 />
               </Stack>
@@ -217,7 +217,7 @@ export function CustomerReservationManagementSection({
                     disabled={!documents.contractDocumentUrl || isBusy}
                     onClick={documents.openContract}
                   >
-                    View contract
+                    {t('hotelPortal.booking.viewContract', 'View contract')}
                   </Button>
                   <Button
                     fullWidth
@@ -227,7 +227,7 @@ export function CustomerReservationManagementSection({
                     disabled={!documents.invoiceDocumentUrl || isBusy}
                     onClick={documents.openInvoice}
                   >
-                    View invoice
+                    {t('hotelPortal.booking.viewInvoice', 'View invoice')}
                   </Button>
                 </Stack>
               </Stack>

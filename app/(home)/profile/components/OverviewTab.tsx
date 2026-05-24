@@ -13,10 +13,11 @@ import {
   CheckOutlined,
   CloseOutlined,
 } from '@mui/icons-material'
+import { useTranslation } from 'react-i18next'
 import { SpotlightCard } from '@/components/animation'
 import { useTheme } from '@mui/material'
 import { ProfileFields } from '../types/profile'
-import { fieldsMeta, GENDER_OPTIONS } from '../constants/profileFields'
+import { getFieldsMeta, getGenderOptions } from '../constants/profileFields'
 import { ProfileFieldEditor } from './ProfileFieldEditor'
 import { ProfileFieldDisplay } from './ProfileFieldDisplay'
 import { useUpdateUserProfile } from '../hooks/mutations/useUpdateUserProfile'
@@ -27,6 +28,7 @@ interface OverviewTabProps {
 }
 export function OverviewTab({ data }: OverviewTabProps) {
   const theme = useTheme()
+  const { t } = useTranslation()
   const updateUserProfile = useUpdateUserProfile()
 
   const [isEditing, setIsEditing] = useState(false)
@@ -72,7 +74,7 @@ export function OverviewTab({ data }: OverviewTabProps) {
     if (!val) return '—'
 
     if (key === 'gender') {
-      return GENDER_OPTIONS.find((option) => option.value === val)?.label ?? val
+      return getGenderOptions(t).find((option) => option.value === val)?.label ?? val
     }
 
     if (key === 'birthDate') {
@@ -101,12 +103,12 @@ export function OverviewTab({ data }: OverviewTabProps) {
           <Stack spacing={3} sx={{ p: { xs: 2, sm: 3 } }}>
             <Stack direction='row' alignItems='center' justifyContent='space-between'>
               <Typography variant='h6' fontWeight={700}>
-                Personal Information
+                {t('profile.form.personalInformation', 'Personal Information')}
               </Typography>
 
               {!isEditing ? (
                 <Fade in>
-                  <Tooltip title='Edit' arrow>
+                  <Tooltip title={t('profile.actions.edit', 'Edit')} arrow>
                     <IconButton
                       size='small'
                       onClick={handleEdit}
@@ -118,7 +120,7 @@ export function OverviewTab({ data }: OverviewTabProps) {
               ) : (
                 <Fade in>
                   <Stack direction='row' spacing={0.5}>
-                    <Tooltip title='Save' arrow>
+                    <Tooltip title={t('profile.actions.save', 'Save')} arrow>
                       <IconButton
                         size='small'
                         onClick={handleSave}
@@ -134,7 +136,7 @@ export function OverviewTab({ data }: OverviewTabProps) {
                       </IconButton>
                     </Tooltip>
 
-                    <Tooltip title='Cancel' arrow>
+                    <Tooltip title={t('profile.actions.cancel', 'Cancel')} arrow>
                       <IconButton
                         size='small'
                         onClick={handleCancel}
@@ -157,7 +159,7 @@ export function OverviewTab({ data }: OverviewTabProps) {
             <Divider />
 
             <Grid container spacing={2.5}>
-              {fieldsMeta.map(({ key, label, icon, variant, editable, options }) => {
+              {getFieldsMeta(t).map(({ key, label, icon, variant, editable, options }) => {
                 const canEdit = isEditing && editable
 
                 return (

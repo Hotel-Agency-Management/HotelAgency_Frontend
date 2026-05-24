@@ -3,6 +3,7 @@
 import { StepLayout } from "../layout/StepLayout";
 import Stack from "@mui/material/Stack";
 import { useFormContext } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import type { HotelFormValues } from "../../types/hotel";
 import { LogoCard } from "@/app/(home)/agency/components/theme/LogoCard";
 import { ColorsCard } from "@/app/(home)/agency/components/theme/ColorsCard";
@@ -19,6 +20,7 @@ interface BrandingStepProps {
 export function BrandingStep({ isFirst, isLast, onBack, onNext }: BrandingStepProps) {
   const { trigger } = useFormContext<HotelFormValues>();
   const { settings } = useSettings();
+  const { t } = useTranslation();
   const fallbackColors = resolveBrandingColors(settings.branding.colors);
 
   const handleNext = async () => {
@@ -28,8 +30,8 @@ export function BrandingStep({ isFirst, isLast, onBack, onNext }: BrandingStepPr
 
   return (
     <StepLayout
-      title="Brand identity"
-      subtitle="Logo and theme colors for this hotel."
+      title={t('agencyHotels.steps.branding.title', 'Brand identity')}
+      subtitle={t('agencyHotels.steps.branding.subtitle', 'Logo and theme colors for this hotel.')}
       isFirst={isFirst}
       isLast={isLast}
       onBack={onBack}

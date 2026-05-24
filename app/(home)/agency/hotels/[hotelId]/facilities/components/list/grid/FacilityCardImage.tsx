@@ -1,4 +1,5 @@
 import Typography from "@mui/material/Typography";
+import { useTranslation } from "react-i18next";
 import type { FacilityPhoto } from "../../../types/facility";
 import {
   FacilityCardImageArea,
@@ -19,6 +20,7 @@ interface Props {
 }
 
 export function FacilityCardImage({ photos, title }: Props) {
+  const { t } = useTranslation();
   const url = getPrimaryPhotoUrl(photos);
 
   if (!url) {
@@ -26,7 +28,7 @@ export function FacilityCardImage({ photos, title }: Props) {
       <FacilityCardImageArea>
         <FacilityCardPlaceholder>
           <Typography variant="body2" color="text.secondary">
-            No photo
+            {t('facilities.card.noPhoto', 'No photo')}
           </Typography>
         </FacilityCardPlaceholder>
       </FacilityCardImageArea>

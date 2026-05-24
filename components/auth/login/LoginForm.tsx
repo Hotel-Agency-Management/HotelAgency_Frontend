@@ -232,7 +232,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
                     startIcon={
                       <ArrowLeft
                         size={16}
-                        style={{ transform: language === 'ar' ? 'rotate(180deg)' : 'none' }}
+                        style={{ transform: language === 'ar' ? 'scaleX(-1)' : 'none' }}
                       />
                     }
                   >

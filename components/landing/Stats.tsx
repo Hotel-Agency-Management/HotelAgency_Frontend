@@ -2,11 +2,12 @@
 
 import { useEffect, useRef } from 'react'
 import { gsap, ScrollTrigger } from '@/lib/gsap'
-import { landingContent as lc } from '@/components/landing/landingContent'
+import { useLandingContent } from '@/components/landing/landingContent'
 import { useTheme } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 
 export default function Stats() {
+  const lc = useLandingContent()
   const sectionRef = useRef<HTMLDivElement>(null)
   const num1Ref = useRef<HTMLSpanElement>(null)
   const num2Ref = useRef<HTMLSpanElement>(null)

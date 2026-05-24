@@ -1,4 +1,5 @@
 import type { GridColDef } from "@mui/x-data-grid";
+import type { TFunction } from "i18next";
 import {
   createDataGridColumnsFactory,
   type DataGridColumnRegistry,
@@ -76,11 +77,22 @@ const COLUMN_STRATEGIES = {
   FacilityColumnContext
 >;
 
-const buildFacilityColumns = createDataGridColumnsFactory(COLUMN_STRATEGIES);
-
 export function getFacilityGridColumns(
   context: FacilityColumnContext,
+  t: TFunction,
   columnOrder: readonly FacilityColumnKey[] = DEFAULT_COLUMN_ORDER
 ): GridColDef<HotelFacility>[] {
+  const translatedStrategies = {
+    name: { ...COLUMN_STRATEGIES.name, headerName: t("facilities.table.name", "Name") },
+    facilityType: { ...COLUMN_STRATEGIES.facilityType, headerName: t("facilities.table.type", "Type") },
+    status: { ...COLUMN_STRATEGIES.status, headerName: t("facilities.table.status", "Status") },
+    hours: { ...COLUMN_STRATEGIES.hours, headerName: t("facilities.table.hours", "Hours") },
+    actions: (ctx: FacilityColumnContext) => ({
+      ...COLUMN_STRATEGIES.actions(ctx),
+      headerName: t("facilities.table.actions", "Actions"),
+    }),
+  } satisfies DataGridColumnRegistry<FacilityColumnKey, HotelFacility, FacilityColumnContext>;
+
+  const buildFacilityColumns = createDataGridColumnsFactory(translatedStrategies);
   return buildFacilityColumns(context, columnOrder);
 }

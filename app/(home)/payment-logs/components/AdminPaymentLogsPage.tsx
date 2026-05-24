@@ -11,6 +11,7 @@ import {
   Tabs,
   Typography,
 } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 import Icon from '@/components/icon/Icon'
 import { PaymentFeed } from '@/app/(home)/agency/hotels/[hotelId]/payment-logs/components/PaymentFeed'
 import { AdminHotelPaymentLogs } from './AdminHotelPaymentLogs'
@@ -26,6 +27,7 @@ function resolveGroups(items: PaymentLogsGroup['items'] | undefined): PaymentLog
 }
 
 export function AdminPaymentLogsPage() {
+  const { t } = useTranslation()
   const [topTab, setTopTab] = useState<0 | 1>(0)
   const [selectedHotel, setSelectedHotel] = useState<CustomerHotel | null>(null)
   const [pageNumber, setPageNumber] = useState(1)
@@ -48,10 +50,10 @@ export function AdminPaymentLogsPage() {
     <Stack gap={3}>
       <Stack gap={0.5}>
         <Typography variant="h5" fontWeight={700}>
-          Payment Logs
+          {t('paymentLogs.title', { defaultValue: 'Payment Logs' })}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Track incoming and outgoing transactions across all hotels.
+          {t('paymentLogs.subtitle', { defaultValue: 'Track incoming and outgoing transactions across all hotels.' })}
         </Typography>
       </Stack>
 
@@ -65,7 +67,7 @@ export function AdminPaymentLogsPage() {
           label={
             <Stack direction="row" alignItems="center" gap={1}>
               <Icon icon="lucide:list" fontSize={16} />
-              <Box component="span">All Payments</Box>
+              <Box component="span">{t('paymentLogs.tabs.allPayments', { defaultValue: 'All Payments' })}</Box>
             </Stack>
           }
         />
@@ -73,7 +75,7 @@ export function AdminPaymentLogsPage() {
           label={
             <Stack direction="row" alignItems="center" gap={1}>
               <Icon icon="lucide:building-2" fontSize={16} />
-              <Box component="span">Hotels</Box>
+              <Box component="span">{t('paymentLogs.tabs.hotels', { defaultValue: 'Hotels' })}</Box>
             </Stack>
           }
         />
@@ -115,7 +117,7 @@ export function AdminPaymentLogsPage() {
               >
                 {[7, 10, 20, 50].map((n) => (
                   <MenuItem key={n} value={n}>
-                    {n} per page
+                    {t('paymentLogs.perPage', { count: n, defaultValue: '{{count}} per page' })}
                   </MenuItem>
                 ))}
               </Select>

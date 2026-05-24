@@ -2,7 +2,7 @@ import { Stack, Typography, useTheme } from "@mui/material"
 
 export interface InfoRowProps {
   icon: React.ReactNode
-  value: string
+  value: React.ReactNode
 }
 
 export function InfoRow({ icon, value }: InfoRowProps) {

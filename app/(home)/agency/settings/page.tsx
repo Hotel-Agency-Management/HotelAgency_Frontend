@@ -4,6 +4,7 @@ import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Box from '@mui/material/Box'
 import { Building2, Palette } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { AgencyProfileSection } from '../components/agencyProfile/AgencyProfileSection'
 import { CustomThemeTab } from '../components/theme/CustomThemeTab'
 import { useCustomThemeSection } from '../hooks/useCustomThemeSection'
@@ -25,6 +26,7 @@ function TabPanel({
 }
 export default function AgencyPage() {
   const [tab, setTab] = useState(0)
+  const { t } = useTranslation()
   const {
     brandingValues,
     handleThemeSave,
@@ -40,8 +42,8 @@ export default function AgencyPage() {
         onChange={(_, newVal) => setTab(newVal)}
         sx={{ borderBottom: 1, borderColor: 'divider' }}
       >
-        <Tab label="Agency Profile" icon={<Building2 size={18} />} iconPosition="start" />
-        <Tab label="Custom Theme" icon={<Palette size={18} />} iconPosition="start" />
+        <Tab label={t('agencySettings.tabs.profile', 'Agency Profile')} icon={<Building2 size={18} />} iconPosition="start" />
+        <Tab label={t('agencySettings.tabs.theme', 'Custom Theme')} icon={<Palette size={18} />} iconPosition="start" />
       </Tabs>
 
       <TabPanel value={tab} index={0}>

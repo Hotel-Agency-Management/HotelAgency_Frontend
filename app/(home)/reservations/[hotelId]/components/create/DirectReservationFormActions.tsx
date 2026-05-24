@@ -2,6 +2,7 @@
 
 import { LoadingButton } from '@mui/lab'
 import { Button, Paper, Stack, Typography } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 
 interface DirectReservationFormActionsProps {
   isFirstStep: boolean
@@ -20,6 +21,8 @@ export function DirectReservationFormActions({
   onBack,
   onNext,
 }: DirectReservationFormActionsProps) {
+  const { t } = useTranslation()
+
   return (
     <Paper variant='card'>
       <Stack
@@ -30,12 +33,14 @@ export function DirectReservationFormActions({
       >
         <Stack spacing={0.5}>
           <Typography variant='subtitle1' sx={{ fontWeight: 700 }}>
-            {isLastStep ? 'Finalize this reservation' : 'Continue to the next step'}
+            {isLastStep
+              ? t('reservations.form.actions.finalize', 'Finalize this reservation')
+              : t('reservations.form.actions.continue', 'Continue to the next step')}
           </Typography>
           <Typography variant='body2' color='text.secondary'>
             {isLastStep
-              ? 'Review the reservation details and confirm it in the final step.'
-              : 'Save the current section validation before moving forward.'}
+              ? t('reservations.form.actions.finalizeDesc', 'Review the reservation details and confirm it in the final step.')
+              : t('reservations.form.actions.continueDesc', 'Save the current section validation before moving forward.')}
           </Typography>
         </Stack>
 
@@ -47,7 +52,7 @@ export function DirectReservationFormActions({
             size='small'
             onClick={onBack}
           >
-            Back
+            {t('reservations.form.actions.back', 'Back')}
           </Button>
           {isLastStep ? (
             <LoadingButton
@@ -58,7 +63,7 @@ export function DirectReservationFormActions({
               disabled={isSubmitting}
               size='small'
             >
-              Create Reservation
+              {t('reservations.form.actions.submit', 'Create Reservation')}
             </LoadingButton>
           ) : (
             <LoadingButton
@@ -70,7 +75,7 @@ export function DirectReservationFormActions({
               size='small'
               onClick={() => void onNext()}
             >
-              Next
+              {t('reservations.form.actions.next', 'Next')}
             </LoadingButton>
           )}
         </Stack>

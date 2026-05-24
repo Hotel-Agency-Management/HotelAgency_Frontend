@@ -1,5 +1,6 @@
 
 import { Stack, TextField, MenuItem, IconButton, Tooltip } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 import Icon from '@/components/icon/Icon'
 import { AgencyFiltersState } from '../types/agency'
 import { COUNTRY_OPTIONS } from '../constants/contries'
@@ -11,13 +12,15 @@ interface Props {
 }
 
 export default function AgencyFilters({ filters, onFilterChange, onReset }: Props) {
+  const { t } = useTranslation()
+
   return (
     <Stack direction='row' alignItems='center' gap={2} flexWrap='wrap'>
 
       <TextField
         select
         size='small'
-        label='Country'
+        label={t('agencies.filters.country', 'Country')}
         value={filters.country}
         onChange={e => onFilterChange('country', e.target.value)}
         sx={{ width: 180 }}
@@ -29,7 +32,7 @@ export default function AgencyFilters({ filters, onFilterChange, onReset }: Prop
         ))}
       </TextField>
 
-      <Tooltip title='Reset filters'>
+      <Tooltip title={t('agencies.filters.resetFilters', 'Reset filters')}>
         <IconButton size='small' onClick={onReset}>
           <Icon icon='lucide:x' width={18} height={18} />
         </IconButton>

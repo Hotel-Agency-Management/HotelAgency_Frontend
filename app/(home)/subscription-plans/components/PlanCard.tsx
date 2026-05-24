@@ -15,6 +15,7 @@ import {
   useTheme,
 } from '@mui/material'
 import { Pencil, Trash2, CheckCircle, XCircle } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import type { SubscriptionPlan } from '../types/plans'
 import { formatPrice } from '../util/plans'
 import { formatFeatureLimits } from '../util/planFormatter'
@@ -26,6 +27,7 @@ interface PlanCardProps {
 }
 
 export default function PlanCard({ plan, onEdit, onDelete }: PlanCardProps) {
+  const { t } = useTranslation()
   const theme = useTheme()
   const isActive = plan.status === 'Active'
 
@@ -116,13 +118,13 @@ export default function PlanCard({ plan, onEdit, onDelete }: PlanCardProps) {
       <Divider />
 
       <CardActions sx={{ justifyContent: 'flex-end', px: 2, py: 1 }}>
-        <Tooltip title='Edit plan'>
+        <Tooltip title={t('subscriptionPlans.editTooltip', { defaultValue: 'Edit plan' })}>
           <IconButton size='small' onClick={() => onEdit(plan)}>
             <Pencil size={16} />
           </IconButton>
         </Tooltip>
 
-        <Tooltip title='Delete plan'>
+        <Tooltip title={t('subscriptionPlans.deleteTooltip', { defaultValue: 'Delete plan' })}>
           <IconButton
             size='small'
             color='error'

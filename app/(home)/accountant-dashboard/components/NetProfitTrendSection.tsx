@@ -7,6 +7,7 @@ import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import ToggleButton from '@mui/material/ToggleButton'
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
+import { useTranslation } from 'react-i18next'
 import ChartFactory from '@/components/charts/ChartFactory'
 import { View } from '../types/accountantDashboardTypes'
 import { formatCurrency } from '../utils/currency'
@@ -14,6 +15,7 @@ import { NET_PROFIT_CHART_DATA } from '../constants/netProfitChart'
 
 export default function NetProfitTrendSection() {
   const [view, setView] = useState<View>('monthly')
+  const { t } = useTranslation()
 
   const handleViewChange = (_: React.MouseEvent<HTMLElement>, next: View | null) => {
     if (next) setView(next)
@@ -28,10 +30,10 @@ export default function NetProfitTrendSection() {
           <Stack direction="row" alignItems="flex-start" justifyContent="space-between">
             <Stack spacing={0.5}>
               <Typography variant="subtitle1" fontWeight={600}>
-                Net Profit Trend
+                {t('dashboard.accountant.charts.netProfitTrend', { defaultValue: 'Net Profit Trend' })}
               </Typography>
               <Typography variant="caption" color="text.secondary">
-                Revenue − Expenses
+                {t('dashboard.accountant.charts.revenueMinusExpenses', { defaultValue: 'Revenue − Expenses' })}
               </Typography>
             </Stack>
             <ToggleButtonGroup
@@ -40,9 +42,9 @@ export default function NetProfitTrendSection() {
               onChange={handleViewChange}
               size="small"
             >
-              <ToggleButton value="daily">Daily</ToggleButton>
-              <ToggleButton value="weekly">Weekly</ToggleButton>
-              <ToggleButton value="monthly">Monthly</ToggleButton>
+              <ToggleButton value="daily">{t('dashboard.common.daily', { defaultValue: 'Daily' })}</ToggleButton>
+              <ToggleButton value="weekly">{t('dashboard.common.weekly', { defaultValue: 'Weekly' })}</ToggleButton>
+              <ToggleButton value="monthly">{t('dashboard.common.monthly', { defaultValue: 'Monthly' })}</ToggleButton>
             </ToggleButtonGroup>
           </Stack>
 

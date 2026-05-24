@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { Avatar, Card, CardActionArea, Divider, IconButton, Menu, MenuItem, Stack, Typography } from '@mui/material'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
+import { useTranslation } from 'react-i18next'
 import Icon from '@/components/icon/Icon'
 import { Agency } from '../types/agency'
 import { fromNow } from '@/core/utils/Dateutils'
+import LtrText from '@/components/ui/LtrText'
 
 interface Props {
   agency: Agency
@@ -13,6 +15,7 @@ interface Props {
 
 export default function AgencyCard({ agency, onClick, onSettingsClick }: Props) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const { t } = useTranslation()
 
   return (
     <Card variant='outlined'>
@@ -53,7 +56,7 @@ export default function AgencyCard({ agency, onClick, onSettingsClick }: Props) 
             onClose={() => setAnchorEl(null)}
           >
             <MenuItem onClick={() => { onSettingsClick?.(agency.id); setAnchorEl(null) }}>
-              Agency Settings
+              {t('agencies.actions.settings', 'Agency Settings')}
             </MenuItem>
           </Menu>
 
@@ -63,7 +66,7 @@ export default function AgencyCard({ agency, onClick, onSettingsClick }: Props) 
             <Stack direction='row' alignItems='center' gap={1}>
               <Icon icon='lucide:phone' width={15} height={15} color='gray' />
               <Typography variant='caption' color='text.secondary'>
-                {agency.phone}
+                <LtrText>{agency.phone}</LtrText>
               </Typography>
             </Stack>
             <Stack direction='row' alignItems='center' gap={1}>
@@ -77,7 +80,7 @@ export default function AgencyCard({ agency, onClick, onSettingsClick }: Props) 
           <Divider />
 
           <Typography variant='caption' color='text.secondary'>
-            Created {fromNow(agency.createdAt)}
+            {t('agencies.card.created', 'Created {{time}}', { time: fromNow(agency.createdAt) })}
           </Typography>
 
         </Stack>

@@ -6,6 +6,7 @@ import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 import { MuiTelInput } from "mui-tel-input";
 import { Hotel, MapPin, Phone, Wallet, MapPinned, ReceiptText } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { CURRENCIES } from "../../constants/currencies";
 import type { HotelFormValues } from "../../types/hotel";
 import { getCountryNameFromPhoneCountry } from "../../utils/phoneCountry";
@@ -26,12 +27,13 @@ export function HotelInfoFields({
   setValue,
   currentValues,
 }: HotelInfoFieldsProps) {
+  const { t } = useTranslation();
   return (
     <Grid container spacing={2}>
       <Grid size={{ xs: 12, md: 6 }}>
         <FormField
           icon={<Hotel size={15} />}
-          label="Hotel Name"
+          label={t("hotelSettings.form.hotelName", "Hotel Name")}
           isEditing={isEditing}
           isLoading={isLoading}
           value={currentValues.basicInfo.name}
@@ -39,13 +41,13 @@ export function HotelInfoFields({
           <Controller
             name="basicInfo.name"
             control={control}
-            rules={{ required: "Hotel name is required" }}
+            rules={{ required: t("hotelSettings.form.hotelNameRequired", "Hotel name is required") }}
             render={({ field, fieldState }) => (
               <TextField
                 {...field}
                 fullWidth
                 size="small"
-                placeholder="Enter hotel name"
+                placeholder={t("hotelSettings.form.hotelNamePlaceholder", "Enter hotel name")}
                 error={!!fieldState.error}
                 helperText={fieldState.error?.message}
               />
@@ -57,7 +59,7 @@ export function HotelInfoFields({
       <Grid size={{ xs: 12, md: 6 }}>
         <FormField
           icon={<Phone size={15} />}
-          label="Phone"
+          label={t("hotelSettings.form.phone", "Phone")}
           isEditing={isEditing}
           isLoading={isLoading}
           value={currentValues.basicInfo.phone}
@@ -65,13 +67,13 @@ export function HotelInfoFields({
           <Controller
             name="basicInfo.phone"
             control={control}
-            rules={{ required: "Phone number is required" }}
+            rules={{ required: t("hotelSettings.form.phoneRequired", "Phone number is required") }}
             render={({ field, fieldState }) => (
               <MuiTelInput
                 {...field}
                 fullWidth
                 size="small"
-                label="Phone"
+                label={t("hotelSettings.form.phone", "Phone")}
                 defaultCountry="US"
                 onChange={(value, info) => {
                   field.onChange(value);
@@ -83,6 +85,7 @@ export function HotelInfoFields({
                 }}
                 error={!!fieldState.error}
                 helperText={fieldState.error?.message}
+                slotProps={{ htmlInput: { dir: 'ltr', style: { direction: 'ltr', textAlign: 'left' } } }}
               />
             )}
           />
@@ -92,7 +95,7 @@ export function HotelInfoFields({
       <Grid size={{ xs: 12, md: 6 }}>
         <FormField
           icon={<MapPin size={15} />}
-          label="City"
+          label={t("hotelSettings.form.city", "City")}
           isEditing={isEditing}
           isLoading={isLoading}
           value={currentValues.basicInfo.city}
@@ -100,13 +103,13 @@ export function HotelInfoFields({
           <Controller
             name="basicInfo.city"
             control={control}
-            rules={{ required: "City is required" }}
+            rules={{ required: t("hotelSettings.form.cityRequired", "City is required") }}
             render={({ field, fieldState }) => (
               <TextField
                 {...field}
                 fullWidth
                 size="small"
-                placeholder="Enter city"
+                placeholder={t("hotelSettings.form.cityPlaceholder", "Enter city")}
                 error={!!fieldState.error}
                 helperText={fieldState.error?.message}
               />
@@ -118,7 +121,7 @@ export function HotelInfoFields({
       <Grid size={{ xs: 12, md: 6 }}>
         <FormField
           icon={<Wallet size={15} />}
-          label="Currency"
+          label={t("hotelSettings.form.currency", "Currency")}
           isEditing={isEditing}
           isLoading={isLoading}
           value={currentValues.basicInfo.currency}
@@ -126,7 +129,7 @@ export function HotelInfoFields({
           <Controller
             name="basicInfo.currency"
             control={control}
-            rules={{ required: "Currency is required" }}
+            rules={{ required: t("hotelSettings.form.currencyRequired", "Currency is required") }}
             render={({ field, fieldState }) => (
               <TextField
                 {...field}
@@ -150,7 +153,7 @@ export function HotelInfoFields({
       <Grid size={{ xs: 12, md: 6 }}>
         <FormField
           icon={<ReceiptText size={15} />}
-          label="Cancellation Fee"
+          label={t("hotelSettings.form.cancellationFee", "Cancellation Fee")}
           isEditing={isEditing}
           isLoading={isLoading}
           value={`${currentValues.basicInfo.cancellationFeePercentage ?? 0}%`}
@@ -159,9 +162,9 @@ export function HotelInfoFields({
             name="basicInfo.cancellationFeePercentage"
             control={control}
             rules={{
-              required: "Cancellation fee percentage is required",
-              min: { value: 0, message: "Percentage cannot be less than 0" },
-              max: { value: 100, message: "Percentage cannot exceed 100" },
+              required: t("hotelSettings.form.cancellationFeeRequired", "Cancellation fee percentage is required"),
+              min: { value: 0, message: t("hotelSettings.form.cancellationFeeMin", "Percentage cannot be less than 0") },
+              max: { value: 100, message: t("hotelSettings.form.cancellationFeeMax", "Percentage cannot exceed 100") },
             }}
             render={({ field, fieldState }) => (
               <TextField
@@ -182,7 +185,7 @@ export function HotelInfoFields({
       <Grid size={{ xs: 12 }}>
         <FormField
           icon={<MapPinned size={15} />}
-          label="Address"
+          label={t("hotelSettings.form.address", "Address")}
           isEditing={isEditing}
           isLoading={isLoading}
           value={currentValues.basicInfo.address}
@@ -191,7 +194,7 @@ export function HotelInfoFields({
           <Controller
             name="basicInfo.address"
             control={control}
-            rules={{ required: "Address is required" }}
+            rules={{ required: t("hotelSettings.form.addressRequired", "Address is required") }}
             render={({ field, fieldState }) => (
               <TextField
                 {...field}
@@ -199,7 +202,7 @@ export function HotelInfoFields({
                 size="small"
                 multiline
                 minRows={2}
-                placeholder="Enter hotel address"
+                placeholder={t("hotelSettings.form.addressPlaceholder", "Enter hotel address")}
                 error={!!fieldState.error}
                 helperText={fieldState.error?.message}
               />

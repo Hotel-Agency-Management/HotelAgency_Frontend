@@ -6,6 +6,7 @@ import Stack from "@mui/material/Stack";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Stepper from "@mui/material/Stepper";
+import { useTranslation } from "react-i18next";
 import type { FacilityPhoto } from "../../types/facility";
 import { FacilityFormFields } from "./FacilityFormFields";
 import { FacilityPhotosUpload } from "./FacilityPhotosUpload";
@@ -43,6 +44,7 @@ export function FacilityFormDialogFlow({
   isUpdating,
   isSavingPhotos,
 }: Props) {
+  const { t } = useTranslation();
   const detailsBusy = isCreating || isUpdating;
 
   return (
@@ -73,7 +75,7 @@ export function FacilityFormDialogFlow({
 
       <DialogActions>
         <Button onClick={onClose} disabled={detailsBusy || isSavingPhotos}>
-          Cancel
+          {t("facilities.form.cancel", "Cancel")}
         </Button>
 
         {activeStep === 0 ? (
@@ -84,12 +86,12 @@ export function FacilityFormDialogFlow({
             disabled={detailsBusy}
             startIcon={detailsBusy ? <CircularProgress size={16} /> : null}
           >
-            Next
+            {t("facilities.form.next", "Next")}
           </Button>
         ) : (
           <>
             <Button type="button" onClick={onBack} disabled={isSavingPhotos}>
-              Back
+              {t("facilities.form.back", "Back")}
             </Button>
             <Button
               type="button"
@@ -98,7 +100,7 @@ export function FacilityFormDialogFlow({
               disabled={isSavingPhotos}
               startIcon={isSavingPhotos ? <CircularProgress size={16} /> : null}
             >
-              Finish
+              {t("facilities.form.finish", "Finish")}
             </Button>
           </>
         )}

@@ -11,15 +11,17 @@ import { PhotoThumb } from "./PhotoThumb";
 import { AddPhotoTile } from "./AddPhotoTile";
 import { RoomPhotosUploadProps } from "./types";
 import { useRoomPhotosUpload } from "../../../hooks/useRoomPhotosUpload";
+import { useTranslation } from "react-i18next";
 
 export function RoomPhotosUpload(props: RoomPhotosUploadProps) {
+  const { t } = useTranslation();
   const upload = useRoomPhotosUpload(props);
 
   return (
     <Stack spacing={2}>
       <Stack direction="row" alignItems="center" justifyContent="space-between">
         <Typography variant="subtitle2" fontWeight={600} component="span">
-          Room Photos
+          {t("hotelRooms.photos.title", "Room Photos")}
         </Typography>
         <Button
           size="small"
@@ -34,7 +36,7 @@ export function RoomPhotosUpload(props: RoomPhotosUploadProps) {
           onClick={upload.openFilePicker}
           disabled={upload.uploading}
         >
-          Upload Photos
+          {t("hotelRooms.photos.upload", "Upload Photos")}
         </Button>
       </Stack>
 
@@ -65,8 +67,10 @@ export function RoomPhotosUpload(props: RoomPhotosUploadProps) {
       )}
 
       <UploadSummary variant="caption" color="text.secondary">
-        {upload.photos.length} photo{upload.photos.length !== 1 ? "s" : ""} — Star = set as
-        primary cover
+        {t("hotelRooms.photos.uploadSummary", {
+          defaultValue: "{{count}} photos - Star = set as primary cover",
+          count: upload.photos.length,
+        })}
       </UploadSummary>
     </Stack>
   );

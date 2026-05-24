@@ -9,6 +9,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 import Icon from '@/components/icon/Icon'
 import type { CustomerHotel } from '@/app/(home)/hotels/types/customerHotel'
 
@@ -19,6 +20,8 @@ interface HotelGridProps {
 }
 
 export function HotelGrid({ hotels, isLoading, onSelect }: HotelGridProps) {
+  const { t } = useTranslation()
+
   if (isLoading) {
     return (
       <Grid container spacing={2}>
@@ -36,7 +39,7 @@ export function HotelGrid({ hotels, isLoading, onSelect }: HotelGridProps) {
       <Stack alignItems="center" justifyContent="center" py={8} gap={1}>
         <Icon icon="lucide:building-2" fontSize={40} />
         <Typography variant="body1" color="text.secondary">
-          No hotels found
+          {t('paymentLogs.noHotels', { defaultValue: 'No hotels found' })}
         </Typography>
       </Stack>
     )
@@ -66,7 +69,7 @@ export function HotelGrid({ hotels, isLoading, onSelect }: HotelGridProps) {
                     </Stack>
                     {disabled && (
                       <Typography variant="caption" color="text.disabled">
-                        No agency linked
+                        {t('paymentLogs.noAgencyLinked', { defaultValue: 'No agency linked' })}
                       </Typography>
                     )}
                   </Stack>

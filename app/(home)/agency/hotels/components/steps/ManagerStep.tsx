@@ -10,6 +10,7 @@ import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import { useTranslation } from "react-i18next";
 import { useTeamMembers } from "@/app/(home)/users/hooks/useTeamMembers";
 import {
   getAgencyTeamMemberName,
@@ -17,6 +18,7 @@ import {
 } from "@/app/(home)/users/config/teamMemberConfig";
 import type { HotelFormValues } from "../../types/hotel";
 import { StepLayout } from "../layout/StepLayout";
+import LtrText from "@/components/ui/LtrText";
 
 interface ManagerStepProps {
   isFirst: boolean;
@@ -34,6 +36,7 @@ export function ManagerStep({ isFirst, isLast, isSubmitting, mode, onBack, onNex
     watch,
     trigger,
   } = useFormContext<HotelFormValues>();
+  const { t } = useTranslation();
 
   const selectedManagerId = watch("managerId");
   const selectedManager = selectedManagerId ? getMemberById(selectedManagerId) : undefined;
@@ -50,8 +53,8 @@ export function ManagerStep({ isFirst, isLast, isSubmitting, mode, onBack, onNex
 
   return (
     <StepLayout
-      title="Manager assignment"
-      subtitle="Choose the hotel manager from the agency team. Team members are managed separately in User Management."
+      title={t('agencyHotels.steps.manager.title', 'Manager assignment')}
+      subtitle={t('agencyHotels.steps.manager.subtitle', 'Choose the hotel manager from the agency team. Team members are managed separately in User Management.')}
       isFirst={isFirst}
       isLast={isLast}
       isSubmitting={isSubmitting}
@@ -71,11 +74,11 @@ export function ManagerStep({ isFirst, isLast, isSubmitting, mode, onBack, onNex
                 size="small"
                 color="inherit"
               >
-                Open users
+                {t('agencyHotels.steps.manager.openUsers', 'Open users')}
               </Button>
             }
           >
-            Add at least one Admin or Manager in User Management before creating the hotel.
+            {t('agencyHotels.steps.manager.noManagersAlert', 'Add at least one Admin or Manager in User Management before creating the hotel.')}
           </Alert>
         )}
 
@@ -84,23 +87,23 @@ export function ManagerStep({ isFirst, isLast, isSubmitting, mode, onBack, onNex
             <Controller
               name="managerId"
               control={control}
-              rules={{ required: "Manager selection is required" }}
+              rules={{ required: t('agencyHotels.form.managerRequired', 'Manager selection is required') }}
               render={({ field, fieldState }) => (
                 <TextField
                   {...field}
                   select
                   fullWidth
                   size="small"
-                  label="Hotel manager"
+                  label={t('agencyHotels.form.manager', 'Hotel manager')}
                   disabled={managerOptions.length === 0}
                   error={!!fieldState.error}
                   helperText={
                     fieldState.error?.message ??
-                    "Only team members with property manager roles can be assigned."
+                    t('agencyHotels.form.managerHelperText', 'Only team members with property manager roles can be assigned.')
                   }
                 >
                   <MenuItem value="" disabled>
-                    Select a manager
+                    {t('agencyHotels.form.selectManager', 'Select a manager')}
                   </MenuItem>
                   {managerOptions.map(member => (
                     <MenuItem key={member.id} value={member.id}>
@@ -121,7 +124,7 @@ export function ManagerStep({ isFirst, isLast, isSubmitting, mode, onBack, onNex
             <Stack spacing={1}>
               <Stack direction="row" justifyContent="space-between" alignItems="center">
                 <Typography variant="subtitle2" fontWeight={600}>
-                  Selected manager
+                  {t('agencyHotels.steps.manager.selectedManager', 'Selected manager')}
                 </Typography>
                 <Chip size="small" label={getRoleLabel(selectedManager.role)} color="primary" variant="outlined" />
               </Stack>
@@ -130,7 +133,7 @@ export function ManagerStep({ isFirst, isLast, isSubmitting, mode, onBack, onNex
                 {selectedManager.email}
               </Typography>
               <Typography variant="body2">
-                {selectedManager.phoneNumber}
+                <LtrText>{selectedManager.phoneNumber}</LtrText>
               </Typography>
             </Stack>
           </Paper>

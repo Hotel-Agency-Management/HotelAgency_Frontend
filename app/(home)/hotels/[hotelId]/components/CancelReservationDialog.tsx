@@ -1,6 +1,7 @@
 'use client'
 
 import { Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, Typography } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 
 interface CancelReservationDialogProps {
   open: boolean
@@ -27,20 +28,22 @@ export function CancelReservationDialog({
   onClose,
   onConfirm,
 }: CancelReservationDialogProps) {
+  const { t } = useTranslation()
+
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-      <DialogTitle>Cancel reservation</DialogTitle>
+      <DialogTitle>{t('hotelPortal.booking.cancelReservation', 'Cancel reservation')}</DialogTitle>
       <DialogContent>
         <Stack spacing={2} >
           <Alert severity={freeCancellation ? 'success' : 'warning'}>
             {freeCancellation
-              ? 'Cancellation is free until the last 3 days before check-in.'
-              : `Cancelling within the last 3 days before check-in applies a ${cancellationFeeRateLabel} fee of ${cancellationFeeLabel}.`}
+              ? t('hotelPortal.booking.freeCancellationInfo', 'Cancellation is free until the last 3 days before check-in.')
+              : t('hotelPortal.booking.cancellationFeeInfo', { rate: cancellationFeeRateLabel, fee: cancellationFeeLabel, defaultValue: 'Cancelling within the last 3 days before check-in applies a {{rate}} fee of {{fee}}.' })}
           </Alert>
 
           <Stack direction="row" justifyContent="space-between" gap={1}>
             <Typography variant="body2" color="text.secondary">
-              Fee starts on
+              {t('hotelPortal.booking.feeStartsOn', 'Fee starts on')}
             </Typography>
             <Typography variant="body2" fontWeight={600}>
               {freeCancellationDeadlineLabel}
@@ -49,7 +52,7 @@ export function CancelReservationDialog({
 
           <Stack direction="row" justifyContent="space-between" gap={1}>
             <Typography variant="body2" color="text.secondary">
-              Reservation total
+              {t('hotelPortal.booking.reservationTotal', 'Reservation total')}
             </Typography>
             <Typography variant="body2" fontWeight={700}>
               {reservationTotalLabel}
@@ -58,7 +61,7 @@ export function CancelReservationDialog({
 
           <Stack direction="row" justifyContent="space-between" gap={1}>
             <Typography variant="body2" color="text.secondary">
-              Cancellation fee ({cancellationFeeRateLabel})
+              {t('hotelPortal.booking.cancellationFeeWithRate', { rate: cancellationFeeRateLabel, defaultValue: 'Cancellation fee ({{rate}})' })}
             </Typography>
             <Typography variant="body2" fontWeight={700}>
               {cancellationFeeLabel}
@@ -67,7 +70,7 @@ export function CancelReservationDialog({
 
           <Stack direction="row" justifyContent="space-between" gap={1}>
             <Typography variant="body2">
-              Refund amount
+              {t('hotelPortal.booking.refundAmount', 'Refund amount')}
             </Typography>
             <Typography variant="body2" fontWeight={700}>
               {refundAmountLabel}
@@ -77,10 +80,10 @@ export function CancelReservationDialog({
       </DialogContent>
       <DialogActions>
         <Button color="inherit" onClick={onClose}>
-          Keep reservation
+          {t('hotelPortal.booking.keepReservation', 'Keep reservation')}
         </Button>
         <Button color="error" variant="contained" disabled={isBusy} onClick={onConfirm}>
-          Confirm cancellation
+          {t('hotelPortal.booking.confirmCancellation', 'Confirm cancellation')}
         </Button>
       </DialogActions>
     </Dialog>

@@ -30,12 +30,30 @@
       "title": "Current Tech",
       "description": "These are the core technologies powering this template. Hover over each logo to see its name.",
       "items": [
-        { "name": "MUI", "icon": "simple-icons:mui" },
-        { "name": "Tailwind CSS", "icon": "devicon:tailwindcss" },
-        { "name": "React", "icon": "devicon:react" },
-        { "name": "Next.js", "icon": "devicon:nextjs" },
-        { "name": "React Hook Form", "icon": "simple-icons:reacthookform" },
-        { "name": "TypeScript", "icon": "devicon:typescript" }
+        {
+          "name": "MUI",
+          "icon": "simple-icons:mui"
+        },
+        {
+          "name": "Tailwind CSS",
+          "icon": "devicon:tailwindcss"
+        },
+        {
+          "name": "React",
+          "icon": "devicon:react"
+        },
+        {
+          "name": "Next.js",
+          "icon": "devicon:nextjs"
+        },
+        {
+          "name": "React Hook Form",
+          "icon": "simple-icons:reacthookform"
+        },
+        {
+          "name": "TypeScript",
+          "icon": "devicon:typescript"
+        }
       ]
     },
     "footer": "Built with ❤️ by {{name}} using MUI. Ready for Tailwind v4, React Query, and more."
@@ -47,7 +65,10 @@
     "english": "English",
     "arabic": "Arabic",
     "loading": "Loading",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "yes": "Yes",
+    "no": "No",
+    "comparedToLastWeek": "compared to last week"
   },
   "validation": {
     "invalidEmail": "Invalid email address",
@@ -65,6 +86,54 @@
     "roleRequired": "Role is required",
     "passwordsDoNotMatch": "Passwords do not match",
     "confirmPasswordRequired": "Please confirm your password"
+  },
+  "zodValidation": {
+    "fieldRequired": "{{label}} is required",
+    "fieldInvalid": "{{label}} is invalid",
+    "fieldMin": "{{label}} must be at least {{min}}",
+    "validEmail": "Email must be a valid email address",
+    "invalidEmail": "Invalid email",
+    "mustBeNumber": "Must be a number",
+    "nameRequired": "Name is required",
+    "descriptionRequired": "Description is required",
+    "amenityNameRequired": "Amenity name is required",
+    "titleRequired": "Title is required",
+    "titleMax120": "Title must be 120 characters or less",
+    "termsContentRequired": "Terms content is required",
+    "termsContentMax20000": "Terms content must be 20,000 characters or less",
+    "timeFormat": "Time must be HH:mm or HH:mm:ss",
+    "facilityNameRequired": "Facility name is required",
+    "facilityTypeRequired": "Facility type is required",
+    "customerNameRequired": "Customer name is required",
+    "amountGreaterThanZero": "Amount must be greater than 0",
+    "roomNumberRequired": "Room number is required",
+    "floorNumberMustBeNumber": "Floor number must be a number",
+    "floorNumberMin0": "Floor number must be 0 or above",
+    "roomTypeRequired": "Room type is required",
+    "capacityMustBeNumber": "Capacity must be a number",
+    "capacityMin1": "Capacity must be at least 1",
+    "dailyPriceMustBeNumber": "Daily price must be a number",
+    "weeklyPriceMustBeNumber": "Weekly price must be a number",
+    "monthlyPriceMustBeNumber": "Monthly price must be a number",
+    "extendPriceMustBeNumber": "Extend price must be a number",
+    "insuranceFeeMustBeNumber": "Insurance fee must be a number",
+    "insuranceFeePositive": "Insurance fee must be a positive number",
+    "insurancePerReservationMustBeNumber": "Insurance per reservation must be a number",
+    "atLeastOneRoomRequired": "At least one room is required",
+    "totalAmountRequired": "Total amount is required",
+    "totalAmountInvalid": "Total amount is invalid",
+    "totalAmountMin0": "Total amount must be at least 0",
+    "checkOutAfterCheckIn": "Check-out date must be after check-in date",
+    "labels": {
+      "guestFullName": "Guest full name",
+      "guestPhone": "Guest phone",
+      "guestEmail": "Guest email",
+      "checkInDate": "Check-in date",
+      "checkOutDate": "Check-out date",
+      "numberOfGuests": "Number of guests",
+      "roomNumber": "Room number",
+      "reservationSource": "Reservation source"
+    }
   },
   "login": {
     "brand": "Welcome Back",
@@ -220,86 +289,113 @@
       "noNotes": "No notes.",
       "noPhotos": "No photos available.",
       "roomHeading": "Room {{number}} - {{type}}",
-      "loadError": "Could not load this room."
-    },
-    "dialog": {
-      "addTitle": "Add New Room",
-      "editTitle": "Edit Room — #{{number}}",
-      "stepDetails": "Room details",
-      "stepPhotos": "Photos",
-      "next": "Next",
-      "back": "Back",
-      "finish": "Finish",
-      "cancel": "Cancel",
-      "saveChanges": "Save Changes"
-    }
-  },
-  "changePassword": {
-    "tab": "Change Password",
-    "page": {
-      "title": "Change Password",
-      "subtitle": "Update your password to keep your account secure.",
-      "updateButton": "Update Password"
-    },
-    "section": {
-      "title": "Password Details",
-      "subtitle": "Enter your current password and choose a strong new one."
-    },
-    "fields": {
-      "current": "Current Password",
-      "new": "New Password",
-      "confirm": "Confirm New Password"
-    },
-    "strength": {
-      "veryWeak": "Very weak",
-      "weak": "Weak",
-      "okay": "Okay",
-      "good": "Good",
-      "strong": "Strong",
-      "veryStrong": "Very strong"
-    },
-    "toast": {
-      "success": "Password updated successfully",
-      "failed": "Failed to update password"
-    }
-  },
-  "hotelRooms": {
-    "profile": {
-      "backAria": "Go back",
-      "type": "Type",
-      "floor": "Floor",
-      "capacity": "Capacity",
-      "bed": "Bed",
-      "pricePerNight": "Price / night",
-      "stars": "Star rating",
-      "edit": "Edit",
-      "delete": "Delete",
-      "amenities": "Amenities",
-      "noAmenities": "No amenities listed.",
-      "description": "Description",
-      "notes": "Notes",
-      "noDescription": "No description provided.",
-      "noNotes": "No notes.",
-      "noPhotos": "No photos available.",
-      "roomHeading": "Room {{number}} - {{type}}",
-      "loadError": "Could not load this room."
+      "loadError": "Could not load this room.",
+      "guests": "guests",
+      "dailyPrice": "Daily price",
+      "weeklyPrice": "Weekly price",
+      "monthlyPrice": "Monthly price",
+      "extendPrice": "Extend price",
+      "yearlyInsurance": "Yearly insurance",
+      "insurancePerReservation": "Insurance per reservation",
+      "guestCount_one": "{{count}} guest",
+      "guestCount_other": "{{count}} guests"
     },
     "grid": {
       "noPhoto": "No photo",
       "noRooms": "No rooms match your filters.",
       "editRoom": "Edit room",
-      "deleteRoom": "Delete room"
+      "deleteRoom": "Delete room",
+      "roomNumber": "Room #",
+      "capacity": "Capacity",
+      "type": "Type",
+      "status": "Status",
+      "actions": "Actions"
     },
     "dialog": {
       "addTitle": "Add New Room",
       "editTitle": "Edit Room — #{{number}}",
       "stepDetails": "Room details",
+      "stepPricing": "Pricing",
+      "stepNotes": "Notes & amenities",
       "stepPhotos": "Photos",
       "next": "Next",
       "back": "Back",
       "finish": "Finish",
       "cancel": "Cancel",
-      "saveChanges": "Save Changes"
+      "saveChanges": "Save Changes",
+      "close": "Close"
+    },
+    "page": {
+      "title": "Rooms Management",
+      "addRoom": "Add Room"
+    },
+    "toolbar": {
+      "searchPlaceholder": "Search room...",
+      "status": "Status",
+      "all": "All",
+      "listView": "List view",
+      "gridView": "Grid view"
+    },
+    "form": {
+      "roomNumber": "Room Number",
+      "roomType": "Room Type",
+      "noRoomTypes": "No room types available",
+      "floorNumber": "Floor Number",
+      "capacity": "Capacity",
+      "status": "Status",
+      "dailyPrice": "Daily Price",
+      "weeklyPrice": "Weekly Price",
+      "monthlyPrice": "Monthly Price",
+      "extendPrice": "Extend Price",
+      "yearlyInsurance": "Yearly Insurance",
+      "insurancePerReservation": "Insurance Per Reservation",
+      "description": "Description",
+      "internalNotes": "Internal Notes",
+      "amenitiesSelected": "{{count}} amenities selected"
+    },
+    "photos": {
+      "title": "Room Photos",
+      "upload": "Upload Photos",
+      "empty": "Click to upload room photos",
+      "cover": "Cover",
+      "new": "New",
+      "primary": "Primary",
+      "primaryPhoto": "Primary photo",
+      "setAsPrimary": "Set as primary",
+      "replaceCover": "Replace cover photo",
+      "deleteUnavailable": "Photo id is not available for deletion",
+      "deletePhoto": "Delete photo",
+      "primaryCoverHint": "Star = set as primary cover",
+      "createSummary": "{{count}} photos selected. The first photo is used as the cover.",
+      "editSummary": "{{existingCount}} existing photos, {{newCount}} new photos selected{{replacementText}}",
+      "coverReplacementSelected": ", cover replacement selected",
+      "uploadSummary": "{{count}} photos - Star = set as primary cover",
+      "summaryWithLabel": "{{count}} photos - {{summaryLabel}}"
+    },
+    "status": {
+      "Available": "Available",
+      "Occupied": "Occupied",
+      "Maintenance": "Maintenance",
+      "Reserved": "Reserved",
+      "OutOfService": "Out of service",
+      "available": "Available",
+      "occupied": "Occupied",
+      "maintenance": "Maintenance",
+      "reserved": "Reserved",
+      "blocked": "Blocked"
+    },
+    "deleteDialog": {
+      "title": "Delete room",
+      "message": "Are you sure you want to delete {{roomLabel}}? This action cannot be undone.",
+      "roomLabel": "room {{number}}",
+      "thisRoom": "this room"
+    },
+    "toast": {
+      "roomCreated": "Room created successfully",
+      "roomUpdated": "Room updated successfully",
+      "roomDeleted": "Room deleted successfully",
+      "photoUploaded": "Photo uploaded successfully",
+      "photoDeleted": "Photo deleted successfully"
     }
   },
   "myBookings": {
@@ -332,6 +428,2555 @@
     "guestPhone": "Guest Phone",
     "guestId": "Guest ID / Passport",
     "cardView": "Card view",
-    "listView": "List view"
+    "listView": "List view",
+    "nightCount_one": "{{count}} night",
+    "nightCount_other": "{{count}} nights"
+  },
+  "dashboard": {
+    "common": {
+      "by": "by",
+      "hotel": "Hotel",
+      "daily": "Daily",
+      "weekly": "Weekly",
+      "monthly": "Monthly"
+    },
+    "admin": {
+      "title": "Platform Dashboard",
+      "subtitle": "Agencies & Activity",
+      "overview": "Overview",
+      "stats": {
+        "totalAgencies": {
+          "title": "Total Agencies",
+          "subtitle": "Registered on platform",
+          "trend": "+14 this month"
+        },
+        "pendingApprovals": {
+          "title": "Pending Approvals",
+          "subtitle": "Awaiting review",
+          "trend": "+5 since yesterday"
+        },
+        "activeSubscriptions": {
+          "title": "Active Subscriptions",
+          "subtitle": "Currently active plans",
+          "trend": "+2.3% vs last month"
+        },
+        "totalRevenue": {
+          "title": "Total Revenue",
+          "subtitle": "All time",
+          "trend": "+$9,200 this month"
+        }
+      },
+      "charts": {
+        "revenueOverview": "Revenue Overview",
+        "subscriptionDistribution": "Subscription Distribution",
+        "approvalStatus": "Approval Status",
+        "agenciesGrowth": "Agencies Growth"
+      },
+      "latestAgencies": {
+        "title": "Latest Agencies",
+        "subtitle": "Most recently registered agencies",
+        "colAgency": "Agency",
+        "colStatus": "Status",
+        "colPlan": "Plan",
+        "colRegistered": "Registered"
+      },
+      "recentActivity": {
+        "title": "Recent Activity",
+        "subtitle": "Latest platform events"
+      }
+    },
+    "agencyOwner": {
+      "title": "Agency Overview",
+      "sections": {
+        "revenueFinance": "Revenue & Financial Overview",
+        "occupancyBooking": "Occupancy & Booking Analytics",
+        "hotelsPerformance": "Hotels Performance"
+      },
+      "charts": {
+        "revenueTrend": "Revenue Trend",
+        "profitVsExpenses": "Profit vs Expenses",
+        "occupancyPerHotel": "Occupancy Rate per Hotel",
+        "checkInsVsCheckOuts": "Check-ins vs Check-outs",
+        "bookingTypesDistribution": "Booking Types Distribution",
+        "revenuePerHotel": "Revenue per Hotel"
+      },
+      "stats": {
+        "totalRevenue": {
+          "title": "Total Revenue",
+          "subtitle": "All hotels combined",
+          "trend": "+$18,200 this month"
+        },
+        "occupancyRate": {
+          "title": "Occupancy Rate",
+          "subtitle": "Avg across all hotels",
+          "trend": "+4% vs last month"
+        },
+        "totalBookings": {
+          "title": "Total Bookings",
+          "subtitle": "All hotels YTD",
+          "trend": "+123 this week"
+        },
+        "activeHotels": {
+          "title": "Active Hotels",
+          "subtitle": "Portfolio size",
+          "trend": "Unchanged"
+        }
+      }
+    },
+    "propertyManager": {
+      "title": "Hotel Operations",
+      "sections": {
+        "revenueFinance": "Revenue & Finance",
+        "roomsHousekeeping": "Rooms & Housekeeping",
+        "operations": "Operations"
+      },
+      "charts": {
+        "adrTrend": "Average Daily Room Rate Trend",
+        "revpar": "Revenue per Available Room",
+        "roomStatusDistribution": "Room Status Distribution",
+        "housekeepingTasksByStatus": "Housekeeping Tasks by Status",
+        "serviceRequestsDistribution": "Service Requests Distribution",
+        "maintenanceByCategory": "Maintenance by Category"
+      },
+      "stats": {
+        "occupancyRate": {
+          "title": "Occupancy Rate",
+          "subtitle": "Tonight's occupancy",
+          "trend": "+6% vs last week"
+        },
+        "checkIns": {
+          "title": "Today's Check-ins",
+          "subtitle": "Arrivals today",
+          "trend": "+8 since yesterday"
+        },
+        "checkOuts": {
+          "title": "Today's Check-outs",
+          "subtitle": "Departures today",
+          "trend": "On schedule"
+        },
+        "pendingMaintenance": {
+          "title": "Pending Maintenance",
+          "subtitle": "Open work orders",
+          "trend": "-3 resolved today"
+        }
+      }
+    },
+    "frontDesk": {
+      "title": "Front Desk Dashboard",
+      "todayArrivals": {
+        "title": "Today's Arrivals",
+        "count": "{{count}} arrivals",
+        "room": "Room"
+      },
+      "alerts": {
+        "title": "Operational Alerts",
+        "active": "{{count}} active"
+      },
+      "roomReadiness": {
+        "title": "Room Readiness Status",
+        "ready": "ready"
+      },
+      "guestRequests": {
+        "title": "Guest Requests",
+        "total": "total"
+      },
+      "weeklyReservations": {
+        "title": "Weekly Reservation Volume"
+      },
+      "stats": {
+        "pendingCheckIns": {
+          "title": "Pending Check-ins",
+          "subtitle": "3 arriving in next hour"
+        },
+        "pendingCheckOuts": {
+          "title": "Pending Check-outs",
+          "subtitle": "2 overdue"
+        },
+        "roomsReady": {
+          "title": "Rooms Ready",
+          "subtitle": "Out of 30 assigned rooms"
+        },
+        "pendingPayments": {
+          "title": "Pending Payments",
+          "subtitle": "Awaiting settlement"
+        }
+      }
+    },
+    "accountant": {
+      "title": "Financial Dashboard",
+      "sections": {
+        "financialSummary": "Financial Summary",
+        "revenueAnalytics": "Revenue Analytics",
+        "netProfitTrend": "Net Profit Trend",
+        "cashFlow": "Cash Flow"
+      },
+      "charts": {
+        "revenueVsExpenses": "Revenue vs Expenses",
+        "revenueByPaymentType": "Revenue by Payment Type",
+        "refundImpact": "Refund Impact",
+        "revenueGrowth": "Revenue Growth",
+        "comparedToLastMonth": "Compared to last month",
+        "monthlyRevenueTrend": "Monthly Revenue Trend",
+        "netProfitTrend": "Net Profit Trend",
+        "revenueMinusExpenses": "Revenue − Expenses",
+        "incomingVsOutgoingCashFlow": "Incoming vs Outgoing Cash Flow",
+        "currentBalanceTrend": "Current Balance Trend"
+      },
+      "financialAlerts": {
+        "title": "Financial Alerts"
+      },
+      "stats": {
+        "totalRevenue": {
+          "title": "Total Revenue",
+          "subtitle": "This fiscal year",
+          "trend": "+12.4% vs last year"
+        },
+        "totalExpenses": {
+          "title": "Total Expenses",
+          "subtitle": "This fiscal year",
+          "trend": "+6.2% vs last year"
+        },
+        "netProfit": {
+          "title": "Net Profit",
+          "subtitle": "This fiscal year",
+          "trend": "+18.7% vs last year"
+        },
+        "outstandingPayments": {
+          "title": "Outstanding Payments",
+          "subtitle": "3 invoices overdue",
+          "trend": "Action required"
+        },
+        "refunds": {
+          "title": "Refunds",
+          "subtitle": "This month",
+          "trend": "-8.3% vs last month"
+        },
+        "cashBalance": {
+          "title": "Cash Balance",
+          "subtitle": "Current balance",
+          "trend": "+$7,200 this month"
+        }
+      }
+    }
+  },
+  "nav": {
+    "sections": {
+      "general": "General",
+      "administration": "Administration",
+      "finance": "Finance",
+      "agency": "Agency",
+      "hotels": "Hotels",
+      "rooms": "Rooms",
+      "hotelManagement": "Hotel Management",
+      "housekeeping": "Housekeeping",
+      "reservations": "Reservations",
+      "bookings": "Bookings",
+      "damageReports": "Damage Reports"
+    },
+    "items": {
+      "dashboard": "Dashboard",
+      "users": "Users",
+      "exploreHotels": "Explore Hotels",
+      "agencyApproval": "Agency Approval",
+      "subscriptionPlans": "Subscription Plans",
+      "supportTickets": "Support Tickets",
+      "paymentLogs": "Payment Logs",
+      "agencySettings": "Agency Settings",
+      "agencies": "Agencies",
+      "hotels": "Hotels",
+      "termsAndConditions": "Terms & Conditions",
+      "roomsAmenities": "Rooms Amenities",
+      "roomTypes": "Room Types",
+      "hotelSettings": "Hotel Settings",
+      "rooms": "Rooms",
+      "facilities": "Facilities",
+      "ticketManagement": "Ticket Management",
+      "issuesAndAlerts": "Issues & Alerts",
+      "staffManagement": "Staff Management",
+      "reservations": "Reservations",
+      "createReservation": "Create Reservation",
+      "adminReservations": "Admin Reservations",
+      "createAdminReservation": "Create Admin Reservation",
+      "damageReports": "Damage Reports"
+    }
+  },
+  "agencies": {
+    "title": "Agencies",
+    "countSummary": "{{filtered}} of {{total}} agencies",
+    "searchPlaceholder": "Search by name, phone, city...",
+    "table": {
+      "agency": "Agency",
+      "phone": "Phone",
+      "location": "Location",
+      "created": "Created"
+    },
+    "filters": {
+      "country": "Country",
+      "resetFilters": "Reset filters"
+    },
+    "actions": {
+      "settings": "Agency Settings"
+    },
+    "card": {
+      "created": "Created {{time}}"
+    },
+    "status": {
+      "approved": "Approved",
+      "pending": "Pending",
+      "rejected": "Rejected",
+      "incomplete": "Incomplete"
+    }
+  },
+  "users": {
+    "title": "User Management",
+    "subtitle": "Manage the agency team and choose which members can be assigned as hotel managers.",
+    "addTeam": "Add Team",
+    "addTeamMember": "Add Team Member",
+    "addTeamMemberSubheader": "Add a user and assign the role they should have in the agency.",
+    "hotelManagerInfo": "Only team members with the Property Manager role will appear when selecting a hotel manager.",
+    "firstName": "First name",
+    "firstNameRequired": "First name is required",
+    "lastName": "Last name",
+    "lastNameRequired": "Last name is required",
+    "email": "Email",
+    "emailRequired": "Email is required",
+    "emailInvalid": "Invalid email address",
+    "phone": "Phone",
+    "phoneRequired": "Phone is required",
+    "role": "Role",
+    "roleRequired": "Role is required",
+    "roleHelperText": "Choose the access level for this team member.",
+    "addMember": "Add member",
+    "selectAgency": "Select an agency",
+    "selectAgencyHint": "Choose the agency before loading or adding team members.",
+    "loadingAgencies": "Loading agencies...",
+    "assignRole": "Assign role",
+    "save": "Save",
+    "updateRoleFailed": "Failed to update member role",
+    "table": {
+      "member": "Team member",
+      "phone": "Phone",
+      "role": "Role",
+      "hotelManager": "Hotel manager",
+      "available": "Available",
+      "notEligible": "Not eligible",
+      "actions": "Actions",
+      "assignRole": "Assign role",
+      "assignRoleFor": "Assign role for {{name}}",
+      "rowsPerPage": "Rows per page",
+      "displayedRows": "{{from}}-{{to}} of {{count}}"
+    }
+  },
+  "agencyApproval": {
+    "title": "Agency Approval Requests",
+    "subtitle": "Review and manage agency registration applications",
+    "showingCount": "Showing {{filtered}} of {{total}} requests",
+    "searchPlaceholder": "Search by agency name, owner, or email…",
+    "request": "request",
+    "requests": "requests",
+    "pendingBadge": "{{count}} pending {{noun}}",
+    "stats": {
+      "totalRequests": "Total Requests",
+      "pendingReview": "Pending Review",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    },
+    "statusChip": {
+      "pending": "Pending Review",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "incomplete": "Incomplete"
+    },
+    "filter": {
+      "status": {
+        "all": "All",
+        "pending": "Pending",
+        "approved": "Approved",
+        "rejected": "Rejected"
+      },
+      "sort": {
+        "newest": "Newest",
+        "oldest": "Oldest",
+        "name": "Name"
+      }
+    },
+    "card": {
+      "submitted": "Submitted {{time}}",
+      "viewFullDetails": "View full details",
+      "details": "Details"
+    },
+    "actions": {
+      "reject": "Reject",
+      "rejectTooltip": "Reject this agency",
+      "approve": "Approve",
+      "approveTooltip": "Approve this agency"
+    },
+    "confirm": {
+      "processing": "Processing…",
+      "approve": {
+        "title": "Approve Agency Registration",
+        "message": "You are about to approve \"{{name}}\". They will receive an email notification and gain access to the platform immediately.",
+        "label": "Approve"
+      },
+      "reject": {
+        "title": "Reject Agency Registration",
+        "message": "You are about to reject \"{{name}}\". They will be notified by email. This action can be undone later if needed.",
+        "label": "Reject"
+      }
+    },
+    "drawer": {
+      "title": "Agency Details",
+      "contactInfo": "Contact Information",
+      "ownerContact": "Owner / Contact",
+      "emailAddress": "Email Address",
+      "phoneNumber": "Phone Number",
+      "location": "Location",
+      "website": "Website",
+      "registrationNo": "Registration No.",
+      "submittedOn": "Submitted On",
+      "actions": "Actions",
+      "approveRegistration": "Approve Registration",
+      "rejectRegistration": "Reject Registration"
+    },
+    "state": {
+      "loading": "Loading agency requests…",
+      "empty": {
+        "title": "No requests yet",
+        "description": "When agencies submit registration requests, they will appear here for your review."
+      },
+      "emptyFiltered": {
+        "title": "No matching requests",
+        "description": "Try adjusting your search or filter to find what you're looking for."
+      },
+      "error": {
+        "title": "Failed to load requests",
+        "description": "Something went wrong while fetching agency requests. Please try again."
+      },
+      "clearFilters": "Clear Filters",
+      "retry": "Retry"
+    },
+    "snackbar": {
+      "approved": "✓ {{name}} has been approved successfully.",
+      "rejected": "{{name}} has been rejected."
+    },
+    "pendingBadge_one": "{{count}} pending request",
+    "pendingBadge_other": "{{count}} pending requests"
+  },
+  "reservations": {
+    "title": "Reservations",
+    "create": "Create Reservation",
+    "allReservations": "All Reservations",
+    "viewManage": "View and manage guest reservations.",
+    "search": "Search by guest name…",
+    "filters": {
+      "allStatuses": "All Statuses"
+    },
+    "status": {
+      "confirmed": "Confirmed",
+      "pending": "Pending",
+      "cancelled": "Cancelled",
+      "checkedIn": "Checked In",
+      "checkedOut": "Checked Out",
+      "completed": "Completed"
+    },
+    "table": {
+      "reservationNumber": "Reservation #",
+      "guestName": "Guest Name",
+      "rooms": "Rooms",
+      "checkIn": "Check-In",
+      "checkOut": "Check-Out",
+      "status": "Status",
+      "total": "Total",
+      "actions": "Actions"
+    },
+    "actions": {
+      "checkIn": "Check In",
+      "checkOut": "Check Out",
+      "extend": "Extend reservation",
+      "update": "Update reservation",
+      "cancel": "Cancel reservation",
+      "reservationActions": "Reservation actions"
+    },
+    "details": {
+      "reservationNumber": "Reservation Number",
+      "backToReservations": "Back to reservations",
+      "failedToLoad": "Failed to load reservation details.",
+      "stayDetails": "Stay Details",
+      "guestDetails": "Guest Details",
+      "bookingInfo": "Booking Info",
+      "financial": "Financial",
+      "documents": "Documents",
+      "hotel": "Hotel",
+      "rooms": "Rooms",
+      "checkIn": "Check-In",
+      "checkOut": "Check-Out",
+      "guests": "Guests",
+      "numberOfRooms": "Number of Rooms",
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "idNumber": "ID Number",
+      "customerId": "Customer ID",
+      "reservationId": "Reservation ID",
+      "hotelId": "Hotel ID",
+      "source": "Source",
+      "specialRequests": "Special Requests",
+      "notes": "Notes",
+      "totalAmount": "Total Amount",
+      "hasInsurance": "Has Insurance",
+      "insuranceAmount": "Insurance Amount",
+      "yes": "Yes",
+      "no": "No",
+      "viewContract": "View Contract",
+      "viewInvoice": "View Invoice"
+    },
+    "create_page": {
+      "chipPhone": "Phone & Walk-in",
+      "chipHotel": "Hotel Reservation",
+      "chipPayment": "Payment Tracking",
+      "heading": "Create a hotel reservation",
+      "description": "Capture walk-in and phone reservations with guest details, stay dates, room selection, and payment in a guided step-by-step flow."
+    },
+    "stepper": {
+      "setup": "Reservation setup",
+      "setupDescription": "Complete this reservation step by step instead of filling the whole form at once.",
+      "stepOf": "Step {{current}} of {{total}}",
+      "steps": {
+        "guest": "Guest",
+        "guestDescription": "Guest identity and contact details",
+        "stay": "Stay",
+        "stayDescription": "Dates, occupancy, and assigned rooms",
+        "payment": "Payment",
+        "paymentDescription": "Review the calculated reservation total.",
+        "reservation": "Reservation",
+        "reservationDescription": "Reservation source, additional notes, and employee signature",
+        "confirm": "Confirm",
+        "confirmDescription": "Review and finalize the reservation"
+      }
+    },
+    "form": {
+      "actions": {
+        "finalize": "Finalize this reservation",
+        "finalizeDesc": "Review the reservation details and confirm it in the final step.",
+        "continue": "Continue to the next step",
+        "continueDesc": "Save the current section validation before moving forward.",
+        "back": "Back",
+        "next": "Next",
+        "submit": "Create Reservation"
+      },
+      "guest": {
+        "title": "Guest Information",
+        "description": "Store the guest identity exactly as it should appear on the reservation and check-in records.",
+        "fullName": "Full Name",
+        "phoneNumber": "Phone Number",
+        "email": "Email",
+        "idPassport": "ID / Passport Number"
+      },
+      "stay": {
+        "title": "Reservation Details",
+        "description": "Confirm the stay window, occupancy, and assigned room numbers for this reservation.",
+        "checkInDate": "Check-in Date",
+        "checkOutDate": "Check-out Date",
+        "numberOfGuests": "Number of Guests",
+        "rooms": "Rooms",
+        "roomOption": "Room {{number}}"
+      },
+      "payment": {
+        "title": "Payment",
+        "description": "Track payment method and current balance without leaving the reservation flow.",
+        "totalAmount": "Total Amount"
+      },
+      "additional": {
+        "title": "Additional",
+        "description": "Keep reservation context, guest requests, and internal notes in one place.",
+        "specialRequests": "Special Requests",
+        "reservationSource": "Reservation Source",
+        "selectSource": "Select reservation source",
+        "notes": "Notes",
+        "employeeSignature": "Employee Signature",
+        "employeeSignatureDesc": "Sign to confirm this reservation on behalf of the hotel."
+      },
+      "confirm": {
+        "title": "Confirm Reservation",
+        "description": "Review the details below, then click \"Create Reservation\" to complete.",
+        "summary": "Reservation Summary",
+        "guest": "Guest",
+        "stay": "Stay",
+        "rooms": "Rooms",
+        "total": "Total",
+        "generatedDocuments": "Generated Documents",
+        "contract": "Reservation Contract (PDF)",
+        "invoice": "Invoice (PDF)",
+        "ready": "Ready",
+        "notGenerated": "Not generated",
+        "nightCount_one": "{{count}} night",
+        "nightCount_other": "{{count}} nights"
+      }
+    },
+    "summary": {
+      "snapshot": "Reservation Snapshot",
+      "directHotel": "Direct Hotel Reservation",
+      "snapshotDesc": "A cleaner handoff for guest details, stay dates, and reservation source.",
+      "rooms": "Rooms",
+      "stay": "Stay",
+      "occupancy": "Occupancy",
+      "source": "Source",
+      "totalReservation": "Total Reservation"
+    },
+    "toast": {
+      "created": "Reservation created successfully",
+      "updated": "Reservation updated successfully",
+      "cancelled": "Reservation cancelled successfully",
+      "statusUpdated": "Reservation status updated successfully"
+    }
+  },
+  "adminReservations": {
+    "title": "Admin Reservations",
+    "create": "Create Reservation",
+    "allReservations": "All Reservations",
+    "viewManage": "View and manage guest reservations.",
+    "search": "Search by guest name…",
+    "filters": {
+      "allStatuses": "All Statuses"
+    },
+    "toast": {
+      "created": "Reservation created successfully",
+      "updated": "Reservation updated successfully",
+      "cancelled": "Reservation cancelled successfully",
+      "statusUpdated": "Reservation status updated successfully"
+    }
+  },
+  "roomTypes": {
+    "title": "Room Types",
+    "create": "Add Room Type",
+    "edit": "Edit Room Type",
+    "delete": "Delete Room Type",
+    "saveChanges": "Save Changes",
+    "empty": "No room types yet",
+    "emptyHint": "Add your first room type to get started",
+    "countConfigured": "{{count}} type(s) configured",
+    "defaultDescription": "Comfortable accommodation prepared for a refined hotel stay.",
+    "form": {
+      "name": "Name",
+      "description": "Description"
+    },
+    "deleteDialog": {
+      "title": "Delete Room Type",
+      "confirm": "Are you sure you want to delete",
+      "cannotUndo": "This action cannot be undone."
+    }
+  },
+  "roomAmenities": {
+    "title": "Room Amenities",
+    "subtitle": "Manage room amenity titles.",
+    "create": "Add Amenity",
+    "delete": "Delete",
+    "save": "Save",
+    "empty": "No room amenities match your filters.",
+    "loading": "Loading amenities...",
+    "loadError": "Failed to load room amenities",
+    "countConfigured": "{{count}} amenities configured",
+    "searchPlaceholder": "Search amenities",
+    "amenityActions": "Amenity actions",
+    "form": {
+      "name": "Amenity Name",
+      "namePlaceholder": "Enter amenity name"
+    },
+    "createDialog": {
+      "title": "Create Room Amenity"
+    },
+    "deleteDialog": {
+      "title": "Delete Room Amenity",
+      "confirm": "Are you sure you want to delete {{name}}? Rooms that already reference this amenity may need to be updated later.",
+      "thisAmenity": "this amenity"
+    }
+  },
+  "subscriptionPlans": {
+    "title": "Subscription Plans",
+    "subtitle": "Create and manage the plans available to hotel agencies on the platform.",
+    "create": "Create Plan",
+    "createNew": "Create New Plan",
+    "existing": "Existing Plans",
+    "saveChanges": "Save Changes",
+    "savePlan": "Save Plan",
+    "delete": "Delete",
+    "empty": "No plans yet",
+    "emptyHint": "Create your first subscription plan using the form above.",
+    "loadError": "Failed to load plans",
+    "loadErrorHint": "Something went wrong. Please try again.",
+    "retry": "Retry",
+    "editTooltip": "Edit plan",
+    "deleteTooltip": "Delete plan",
+    "form": {
+      "basicInfo": "Basic Information",
+      "planName": "Plan Name",
+      "planNamePlaceholder": "e.g. Pro",
+      "active": "Active",
+      "description": "Description",
+      "descriptionPlaceholder": "Brief description of what this plan offers",
+      "pricing": "Pricing",
+      "price": "Price (USD)",
+      "saving": "Saving…"
+    },
+    "features": {
+      "title": "Features",
+      "add": "Add Feature",
+      "empty": "No features yet. Click \"Add Feature\" to begin.",
+      "namePlaceholder": "Feature name *",
+      "remove": "Remove feature",
+      "limitPlaceholder": "Limit value (optional)"
+    },
+    "editDialog": {
+      "title": "Edit Plan — {{name}}"
+    },
+    "deleteDialog": {
+      "title": "Delete Plan",
+      "confirm": "Are you sure you want to delete the {{name}} plan? This action cannot be undone.",
+      "deleting": "Deleting…"
+    },
+    "toast": {
+      "created": "Plan \"{{name}}\" created successfully.",
+      "updated": "Plan \"{{name}}\" updated successfully.",
+      "deleted": "Plan \"{{name}}\" deleted."
+    }
+  },
+  "supportTickets": {
+    "title": "Support & Ticket Visibility",
+    "subtitle": "Monitor and manage all tenant support requests in one place — with real-time SLA tracking, escalation visibility, and agent assignment control.",
+    "searchPlaceholder": "Search by subject, ID, or agency…",
+    "unassigned": "Unassigned",
+    "stats": {
+      "totalTickets": "Total Tickets",
+      "allTime": "All time",
+      "inProgress": "In Progress",
+      "activelyWorked": "Actively being worked",
+      "overdue": "Overdue",
+      "slaBreached": "SLA breached",
+      "resolvedToday": "Resolved Today",
+      "sinceMidnight": "Since midnight UTC"
+    },
+    "table": {
+      "ticketId": "Ticket ID",
+      "agency": "Agency",
+      "category": "Category",
+      "priority": "Priority",
+      "status": "Status",
+      "assignedTo": "Assigned To",
+      "created": "Created",
+      "lastReply": "Last Reply",
+      "sla": "SLA"
+    },
+    "filters": {
+      "status": "Status",
+      "priority": "Priority",
+      "category": "Category",
+      "assignedTo": "Assigned To"
+    },
+    "drawer": {
+      "agency": "Agency",
+      "contact": "Contact",
+      "category": "Category",
+      "created": "Created",
+      "assignedTo": "Assigned To",
+      "status": "Status",
+      "priority": "Priority",
+      "assignAgent": "Assign Agent",
+      "resolveTicket": "Resolve Ticket"
+    },
+    "status": {
+      "open": "Open",
+      "inProgress": "In Progress",
+      "pendingTenant": "Pending Tenant",
+      "escalated": "Escalated",
+      "resolved": "Resolved",
+      "closed": "Closed"
+    },
+    "priority": {
+      "critical": "Critical",
+      "high": "High",
+      "medium": "Medium",
+      "low": "Low"
+    },
+    "sla": {
+      "onTrack": "On Track",
+      "atRisk": "At Risk",
+      "breached": "Breached"
+    }
+  },
+  "paymentLogs": {
+    "title": "Payment Logs",
+    "subtitle": "Track incoming and outgoing transactions across all hotels.",
+    "allHotels": "All Hotels",
+    "noHotels": "No hotels found",
+    "noAgencyLinked": "No agency linked",
+    "perPage": "{{count}} per page",
+    "tabs": {
+      "allPayments": "All Payments",
+      "hotels": "Hotels",
+      "incomingPayments": "Incoming Payments",
+      "outgoingExpenses": "Outgoing Expenses"
+    },
+    "stat": {
+      "transactionCount_one": "{{count}} transaction total",
+      "transactionCount_other": "{{count}} transactions total"
+    }
+  },
+  "housekeeping": {
+    "dashboard": {
+      "title": "Housekeeping Dashboard",
+      "charts": {
+        "statusOverview": "Housekeeping Status Overview",
+        "completionRate": "Completion Rate",
+        "roomsCleanedOverTime": "Rooms Cleaned Over Time",
+        "avgCleaningTime": "Average Cleaning Time by Room Type",
+        "trackDelays": "Track which room types take longer so delays are easier to spot."
+      },
+      "completionSubtitle": "{{completed}} of {{total}} rooms completed today",
+      "insights": {
+        "slowestType": "Slowest Type",
+        "fastestType": "Fastest Type",
+        "timeGap": "Time Gap",
+        "minAverage": "{{value}} min average",
+        "gapHelper": "difference between fastest and slowest"
+      },
+      "status": {
+        "clean": "Clean",
+        "dirty": "Dirty",
+        "inProgress": "In Progress",
+        "inspected": "Inspected"
+      },
+      "metrics": {
+        "totalRooms": "Total Rooms",
+        "cleanRooms": "Clean Rooms",
+        "dirtyRooms": "Dirty Rooms",
+        "inProgress": "In Progress",
+        "inspected": "Inspected",
+        "currentInventory": "current inventory",
+        "readyForGuests": "ready for guests",
+        "waitingAssignment": "waiting for assignment",
+        "currentlyCleaned": "currently being cleaned",
+        "approvedBySupervisor": "approved by supervisor"
+      }
+    },
+    "tickets": {
+      "boardTitle": "Tickets Board",
+      "createTicket": "Create Ticket",
+      "searchBoard": "Search board",
+      "ticketCount": "{{visible}} of {{total}} tickets",
+      "columns": {
+        "toDo": "To Do",
+        "inProgress": "In Progress",
+        "review": "Review",
+        "done": "Done"
+      },
+      "emptyColumn": "No tickets",
+      "dropHere": "Drop here",
+      "dialog": {
+        "createTitle": "Create Ticket",
+        "editTitle": "Edit Ticket",
+        "createSubtitle": "Create a new ticket and assign it to the right staff member.",
+        "editSubtitle": "Update the ticket details and assignment.",
+        "ticketType": "Ticket Type",
+        "priority": "Priority",
+        "locationType": "Location Type",
+        "room": "Room",
+        "facility": "Facility",
+        "assignedTo": "Assigned To",
+        "deadline": "Deadline",
+        "title": "Title",
+        "description": "Description",
+        "noRoomsAvailable": "No rooms available",
+        "noFacilitiesAvailable": "No facilities available",
+        "roomPrefix": "Room {{number}}",
+        "saveChanges": "Save Changes"
+      },
+      "deleteDialog": {
+        "title": "Delete Ticket",
+        "body": "This action will permanently remove the housekeeping ticket from the board.",
+        "delete": "Delete"
+      },
+      "detail": {
+        "ticketDetails": "Ticket Details",
+        "title": "Title",
+        "description": "Description",
+        "noDescription": "No description",
+        "ticketType": "Ticket type",
+        "location": "Location",
+        "locationType": "Location type",
+        "priority": "Priority",
+        "deadline": "Deadline",
+        "assignedTo": "Assigned to",
+        "reservation": "Reservation",
+        "close": "Close"
+      },
+      "actions": {
+        "moreActions": "More actions",
+        "editTicket": "Edit ticket",
+        "deleteTicket": "Delete ticket",
+        "reportDamage": "Report damage"
+      },
+      "types": {
+        "Task": "Task",
+        "Issue": "Issue",
+        "Inspection": "Inspection",
+        "MaintenanceRequest": "Maintenance request"
+      },
+      "locationTypes": {
+        "Room": "Room",
+        "Facility": "Facility"
+      },
+      "priority": {
+        "LOW": "Low",
+        "MEDIUM": "Medium",
+        "HIGH": "High"
+      },
+      "status": {
+        "TO_DO": "To Do",
+        "IN_PROGRESS": "In Progress",
+        "REVIEW": "Review",
+        "DONE": "Done"
+      },
+      "comments": {
+        "activity": "Activity",
+        "newestFirst": "Newest first",
+        "oldestFirst": "Oldest first",
+        "noActivity": "No activity yet",
+        "addComment": "Add a comment...",
+        "save": "Save",
+        "resolvedBody": "Ticket marked as resolved.",
+        "damageReportedBody": "Damage report submitted for this room.",
+        "quickActions": {
+          "looksGood": "Looks good!",
+          "needHelp": "Need help?",
+          "isBlocked": "This is blocked..."
+        },
+        "actionTypes": {
+          "Feedback": "Feedback",
+          "Resolved": "Resolved",
+          "DamageReported": "Damage Reported"
+        },
+        "edit": "Edit",
+        "more": "More",
+        "delete": "Delete"
+      }
+    },
+    "issues": {
+      "title": "Issues & Alerts",
+      "criticalIssues": {
+        "sectionTitle": "Critical Issues",
+        "sectionSubtitle": "Rooms that need immediate action before guest handoff.",
+        "liveAlerts": "Live alerts",
+        "roomLabel": "Room {{number}}",
+        "assigned": "Assigned:",
+        "resolve": "Resolve",
+        "reassign": "Reassign"
+      },
+      "activityOverview": {
+        "sectionTitle": "Activity Overview",
+        "sectionSubtitle": "Recent room issues and the live alert timeline."
+      },
+      "recentIssues": {
+        "title": "Recent Issues",
+        "subtitle": "Fast room-level scan for the latest housekeeping blockers."
+      },
+      "alertsTimeline": {
+        "title": "Alerts Timeline",
+        "subtitle": "Live-style activity from inspection and room status checks."
+      },
+      "reassignDialog": {
+        "title": "Reassign Room {{number}}",
+        "subtitle": "Choose the staff member who should handle this issue.",
+        "issueLabel": "Issue",
+        "assignedStaff": "Assigned Staff",
+        "currentSuffix": "(current)",
+        "confirmReassign": "Confirm Reassign",
+        "close": "Close"
+      },
+      "summary": {
+        "criticalIssues": "Critical Issues",
+        "criticalSubtitle": "need supervisor action",
+        "delayedRooms": "Delayed Rooms",
+        "delayedSubtitle": "behind cleaning target",
+        "recleanRequired": "Re-clean Required",
+        "recleanSubtitle": "failed inspection today",
+        "resolvedToday": "Resolved Today",
+        "resolvedSubtitle": "closed by housekeeping"
+      },
+      "severity": {
+        "HIGH": "High",
+        "MEDIUM": "Medium",
+        "LOW": "Low"
+      },
+      "toast": {
+        "resolved": "Room {{number}} resolved.",
+        "reassigned": "Room {{number}} reassigned to {{staff}}."
+      }
+    }
+  },
+  "damageReports": {
+    "title": "Damage Reports",
+    "subtitle": "Track and resolve room damage after checkout",
+    "empty": "No damage reports found.",
+    "room": "Room",
+    "reportedBy": "By",
+    "estimated": "Est.",
+    "insured": "Insured",
+    "notInsured": "No Insurance",
+    "escalate": "Escalate",
+    "resolve": "Resolve",
+    "escalateTitle": "Escalate to Front Desk",
+    "escalateConfirm": "Escalate the damage report for room {{room}} to Front Desk for resolution?",
+    "resolveTitle": "Resolve Damage Report",
+    "insuredNotice": "This guest has insurance. The damage can be covered at no charge to the guest.",
+    "noInsuranceNotice": "This guest has no insurance. A damage invoice must be generated.",
+    "markInsured": "Mark as Covered",
+    "generateInvoice": "Generate Invoice",
+    "generateAndOpen": "Generate & Open PDF",
+    "reportDamage": "Report Room Damage",
+    "description": "Damage Description",
+    "severity": "Severity",
+    "estimatedCost": "Estimated Cost",
+    "submitReport": "Submit Report",
+    "customerName": "Customer Name",
+    "customerEmail": "Customer Email",
+    "damageAmount": "Damage Amount",
+    "status": {
+      "Reported": "Reported",
+      "PendingReview": "Pending Review",
+      "Escalated": "Escalated",
+      "Insured": "Covered by Insurance",
+      "Invoiced": "Invoiced"
+    },
+    "severityLabels": {
+      "LOW": "Low",
+      "MEDIUM": "Medium",
+      "HIGH": "High"
+    }
+  },
+  "facilities": {
+    "title": "Hotel facilities",
+    "subtitle": "Manage guest-facing spaces, services, availability, and photos.",
+    "addFacility": "Add facility",
+    "toolbar": {
+      "searchPlaceholder": "Search facility...",
+      "statusAll": "All",
+      "typeAll": "All",
+      "statusLabel": "Status",
+      "typeLabel": "Type",
+      "listView": "List view",
+      "cardsView": "Cards view"
+    },
+    "form": {
+      "createTitle": "Create facility",
+      "editTitle": "Edit facility",
+      "createSubtitle": "Main information first, photos second",
+      "facilityName": "Facility name",
+      "facilityType": "Facility type",
+      "status": "Status",
+      "openAt": "Open at",
+      "closeAt": "Close at",
+      "description": "Description",
+      "stepInfo": "Main information",
+      "stepPhotos": "Facility photos",
+      "next": "Next",
+      "back": "Back",
+      "finish": "Finish",
+      "cancel": "Cancel"
+    },
+    "deleteDialog": {
+      "title": "Delete facility",
+      "confirm": "Are you sure you want to delete {{name}}? This action cannot be undone.",
+      "deleting": "Deleting...",
+      "delete": "Delete",
+      "cancel": "Cancel"
+    },
+    "status": {
+      "available": "Available",
+      "unavailable": "Unavailable"
+    },
+    "actions": {
+      "editFacility": "Edit facility",
+      "deleteFacility": "Delete facility"
+    },
+    "table": {
+      "name": "Name",
+      "type": "Type",
+      "status": "Status",
+      "hours": "Hours",
+      "actions": "Actions"
+    },
+    "toast": {
+      "created": "Facility created successfully",
+      "updated": "Facility updated successfully",
+      "deleted": "Facility deleted successfully",
+      "createFailed": "Failed to create facility",
+      "updateFailed": "Failed to update facility",
+      "deleteFailed": "Failed to delete facility"
+    },
+    "card": {
+      "noPhoto": "No photo",
+      "workingHours": "Working hours"
+    }
+  },
+  "hotelPaymentLogs": {
+    "title": "Payment Logs",
+    "subtitle": "Track all incoming and outgoing transactions for this hotel.",
+    "tabs": {
+      "incoming": "Incoming Payments",
+      "outgoing": "Outgoing Expenses"
+    },
+    "sortBy": "Sort by:",
+    "sortOptions": {
+      "newest": "Newest",
+      "oldest": "Oldest",
+      "amountDesc": "Highest Amount",
+      "amountAsc": "Lowest Amount"
+    },
+    "perPage": "{{count}} per page",
+    "summary": {
+      "totalIncoming": "Total Incoming",
+      "totalOutgoing": "Total Outgoing",
+      "transactions": "{{count}} transaction",
+      "transactionsPlural": "{{count}} transactions"
+    },
+    "drawer": {
+      "title": "Payment Details",
+      "reservation": "Reservation",
+      "paymentType": "Payment Type",
+      "dateTime": "Date & Time",
+      "paymentId": "Payment ID",
+      "timeline": "Timeline"
+    },
+    "paymentTypes": {
+      "Booking": "Booking",
+      "Cancellation": "Cancellation",
+      "ReservationInsurance": "Reservation Insurance",
+      "YearlyInsurance": "Yearly Insurance",
+      "Extend": "Extension",
+      "Damage": "Damage",
+      "Refund": "Refund"
+    },
+    "card": {
+      "paymentType": "Payment Type",
+      "from": "From",
+      "to": "To",
+      "amount": "Amount",
+      "reference": "Reference",
+      "date": "Date"
+    },
+    "empty": {
+      "title": "No transactions found",
+      "subtitle": "There are no payment records for this period."
+    }
+  },
+  "hotelSettings": {
+    "tabs": {
+      "hotelProfile": "Hotel Profile",
+      "customTheme": "Custom Theme",
+      "termsAndConditions": "Terms & Conditions"
+    },
+    "profile": {
+      "title": "Hotel Information",
+      "subtitle": "Review and update the main details returned for this hotel.",
+      "active": "Active",
+      "inactive": "Inactive",
+      "saveChanges": "Save changes",
+      "editHotel": "Edit hotel",
+      "cancel": "Cancel",
+      "loadingSettings": "Loading hotel settings...",
+      "loadingDetails": "Loading hotel details...",
+      "notFound": "Hotel not found."
+    },
+    "form": {
+      "hotelName": "Hotel Name",
+      "hotelNamePlaceholder": "Enter hotel name",
+      "phone": "Phone",
+      "city": "City",
+      "cityPlaceholder": "Enter city",
+      "currency": "Currency",
+      "cancellationFee": "Cancellation Fee",
+      "address": "Address",
+      "addressPlaceholder": "Enter hotel address",
+      "hotelNameRequired": "Hotel name is required",
+      "phoneRequired": "Phone number is required",
+      "cityRequired": "City is required",
+      "currencyRequired": "Currency is required",
+      "cancellationFeeRequired": "Cancellation fee percentage is required",
+      "cancellationFeeMin": "Percentage cannot be less than 0",
+      "cancellationFeeMax": "Percentage cannot exceed 100",
+      "addressRequired": "Address is required"
+    },
+    "chips": {
+      "hotel": "Hotel",
+      "cityNotSet": "City not set",
+      "currencyNotSet": "Currency not set"
+    }
+  },
+  "agencyHotels": {
+    "title": "Hotels",
+    "hotelSingular": "hotel",
+    "hotelPlural": "hotels",
+    "search": "Search hotels…",
+    "create": "Add hotel",
+    "empty": "No hotels yet. Add your first one.",
+    "actions": {
+      "edit": "Edit",
+      "editHotel": "Edit hotel",
+      "back": "Back",
+      "saveChanges": "Save changes",
+      "createHotel": "Create hotel",
+      "continue": "Continue"
+    },
+    "stepper": {
+      "basicInfo": "Basic info",
+      "basicInfoDesc": "Hotel details",
+      "branding": "Branding",
+      "brandingDesc": "Logo & theme",
+      "manager": "Manager",
+      "managerDesc": "Select from team"
+    },
+    "card": {
+      "managerUnavailable": "Manager unavailable",
+      "managerNoLongerInTeam": "This manager is no longer in the team list",
+      "managerMissing": "Missing"
+    },
+    "steps": {
+      "basicInfo": {
+        "title": "Basic information",
+        "subtitle": "Core hotel details and contact info."
+      },
+      "branding": {
+        "title": "Brand identity",
+        "subtitle": "Logo and theme colors for this hotel."
+      },
+      "manager": {
+        "title": "Hotel manager",
+        "subtitle": "Assign a property manager to this hotel.",
+        "openUsers": "Open users",
+        "noManagersAlert": "Add at least one Admin or Manager in User Management before creating the hotel.",
+        "selectedManager": "Selected manager"
+      }
+    },
+    "form": {
+      "name": "Hotel name",
+      "nameRequired": "Hotel name is required",
+      "hotelName": "Hotel name",
+      "hotelNameRequired": "Hotel name is required",
+      "phone": "Phone",
+      "phoneRequired": "Phone number is required",
+      "city": "City",
+      "cityRequired": "City is required",
+      "currency": "Currency",
+      "currencyRequired": "Currency is required",
+      "cancellationFee": "Cancellation fee (%)",
+      "cancellationFeeRequired": "Cancellation fee percentage is required",
+      "cancellationFeeMin": "Percentage cannot be less than 0",
+      "cancellationFeeMax": "Percentage cannot exceed 100",
+      "address": "Address",
+      "addressRequired": "Address is required",
+      "manager": "Hotel manager",
+      "managerRequired": "Manager selection is required",
+      "managerHelperText": "Only team members with property manager roles can be assigned.",
+      "selectManager": "Select a manager"
+    },
+    "basicInfo": {
+      "hotelName": "Hotel name",
+      "hotelNameRequired": "Hotel name is required",
+      "phone": "Phone",
+      "phoneRequired": "Phone number is required",
+      "city": "City",
+      "cityRequired": "City is required",
+      "currency": "Currency",
+      "currencyRequired": "Currency is required",
+      "cancellationFee": "Cancellation fee (%)",
+      "cancellationFeeRequired": "Cancellation fee percentage is required",
+      "cancellationFeeMin": "Percentage cannot be less than 0",
+      "cancellationFeeMax": "Percentage cannot exceed 100",
+      "address": "Address",
+      "addressRequired": "Address is required"
+    },
+    "manager": {
+      "alert": "Only Property Manager role members are eligible.",
+      "openUsers": "Open users",
+      "label": "Hotel manager",
+      "helperText": "Assign a property manager responsible for this hotel.",
+      "placeholder": "Select a manager",
+      "required": "Manager selection is required",
+      "selectedLabel": "Selected manager"
+    },
+    "coverImage": {
+      "label": "Cover image",
+      "overline": "Cover image",
+      "clickToUpload": "Click to upload cover image",
+      "fileTypes": "PNG, JPG, WEBP · max 5 MB",
+      "invalidType": "Only PNG, JPG, and WEBP images are allowed.",
+      "tooLarge": "Image must be smaller than 5 MB.",
+      "uploadFailed": "Cover image upload failed.",
+      "previewAlt": "Cover preview",
+      "altPreview": "Cover preview",
+      "change": "Change",
+      "remove": "Remove"
+    },
+    "currencies": {
+      "USD": "US Dollar",
+      "EUR": "Euro",
+      "GBP": "British Pound",
+      "SAR": "Saudi Riyal",
+      "AED": "UAE Dirham",
+      "JOD": "Jordanian Dinar",
+      "ILS": "Israeli Shekel"
+    },
+    "toast": {
+      "created": "Hotel created successfully",
+      "createFailed": "Failed to create hotel",
+      "updated": "Hotel updated successfully",
+      "updateFailed": "Failed to update hotel"
+    },
+    "hotelCount_one": "{{count}} hotel",
+    "hotelCount_other": "{{count}} hotels"
+  },
+  "agencySettings": {
+    "tabs": {
+      "profile": "Agency Profile",
+      "theme": "Custom Theme"
+    },
+    "profile": {
+      "title": "Agency Information",
+      "cancel": "Cancel",
+      "saveChanges": "Save changes",
+      "editProfile": "Edit profile",
+      "uploadedFiles": "Uploaded Files",
+      "agencyName": "Agency Name",
+      "agencyNameRequired": "Agency name is required",
+      "agencyNamePlaceholder": "Enter agency name",
+      "phone": "Phone",
+      "phoneRequired": "Phone number is required",
+      "city": "City",
+      "cityRequired": "City is required",
+      "cityPlaceholder": "Enter city",
+      "subscriptionPlan": "Subscription Plan",
+      "selectPlan": "Select a plan"
+    },
+    "fields": {
+      "agencyName": "Agency Name",
+      "agencyNameRequired": "Agency name is required",
+      "phone": "Phone",
+      "phoneRequired": "Phone is required",
+      "city": "City",
+      "cityRequired": "City is required",
+      "subscriptionPlan": "Subscription Plan",
+      "selectPlan": "Select a plan"
+    },
+    "files": {
+      "noFiles": "No files uploaded yet.",
+      "openFile": "Open file in new tab",
+      "replace": "Replace {{documentType}}"
+    },
+    "theme": {
+      "title": "Theme colors",
+      "subtitle": "Click any swatch to open the color picker.",
+      "colorsTitle": "Theme colors",
+      "colorsHint": "Click any swatch to open the color picker.",
+      "brandIdentityTitle": "Brand identity",
+      "uploadLogoHint": "Upload a custom logo for your agency.",
+      "noLogo": "No logo",
+      "upload": "Upload",
+      "remove": "Remove",
+      "logoFileTypes": "PNG, JPG, SVG or WEBP · max 2 MB",
+      "colorPrimary": "Primary",
+      "colorPrimaryHint": "Main brand color used for buttons and highlights.",
+      "colorSecondary": "Secondary",
+      "colorSecondaryHint": "Accent color for secondary actions and badges.",
+      "colorTertiary": "Tertiary",
+      "colorTertiaryHint": "Supporting color for charts and supplementary UI.",
+      "discard": "Discard",
+      "restoreDefaults": "Restore defaults",
+      "applyTheme": "Apply theme"
+    },
+    "logo": {
+      "title": "Brand identity",
+      "subtitle": "Upload a custom logo for your agency.",
+      "noLogo": "No logo",
+      "upload": "Upload",
+      "remove": "Remove",
+      "fileTypes": "PNG, JPG, SVG or WEBP · max 2 MB"
+    },
+    "toast": {
+      "profileUpdated": "Agency profile updated successfully",
+      "profileUpdateFailed": "Failed to update agency profile",
+      "logoUpdated": "Agency logo updated successfully",
+      "logoUpdateFailed": "Failed to update agency logo",
+      "documentUploaded": "Document uploaded successfully",
+      "documentUploadFailed": "Failed to upload document",
+      "documentUpdated": "Document updated successfully",
+      "documentUpdateFailed": "Failed to update document"
+    }
+  },
+  "terms": {
+    "title": "Terms & Conditions",
+    "createTitle": "Create Terms & Conditions",
+    "policiesTitle": "Hotel Policies & Agreements",
+    "redirecting": "Redirecting to your assigned hotel.",
+    "selectHotelHint": "Select a hotel to manage its Terms & Conditions settings.",
+    "loadError": "Failed to load hotels for this agency.",
+    "loadTermsError": "Failed to load Terms & Conditions.",
+    "noHotels": "No hotels are available yet. Add a hotel first to manage its Terms & Conditions.",
+    "selectHotel": "Select a hotel",
+    "agencyOwnerHint": "Agency owners can manage Terms & Conditions for any hotel under the agency.",
+    "openSettings": "Open settings",
+    "whyItMatters": "Why it matters",
+    "whyItMattersDesc": "Clear terms and policies help protect your hotels and set guest expectations.",
+    "accessRestricted": "Access Restricted",
+    "noPermission": "You do not have permission to manage hotel Terms & Conditions.",
+    "noPermissionHotel": "You do not have permission to manage Terms & Conditions for this hotel.",
+    "formCardSubtitle": "Keep the hotel's booking terms scoped to this property and ready for future contract flows.",
+    "untitledTerms": "Untitled terms",
+    "deleteTerms": "Delete terms",
+    "editTerms": "Edit terms",
+    "saveChanges": "Save changes",
+    "statusActive": "Active",
+    "statusDraft": "Draft",
+    "featureCards": {
+      "guestProtection": {
+        "title": "Guest Protection",
+        "description": "Define rules that protect both guests and your hotel from disputes."
+      },
+      "legalCompliance": {
+        "title": "Legal Compliance",
+        "description": "Stay aligned with local hospitality regulations and booking laws."
+      },
+      "perHotelControl": {
+        "title": "Per-Hotel Control",
+        "description": "Each hotel under your agency can have its own tailored set of terms."
+      },
+      "alwaysEditable": {
+        "title": "Always Editable",
+        "description": "Draft, review, and activate updated terms whenever your policies change."
+      }
+    },
+    "form": {
+      "title": "Title",
+      "status": "Status",
+      "statusActiveHint": "Terms are active and visible to guests.",
+      "statusDraftHint": "Draft can be reviewed before activation.",
+      "content": "Terms content",
+      "contentHint": "Write the hotel-specific booking, cancellation, liability, and stay terms.",
+      "saveTerms": "Save terms"
+    },
+    "emptyState": {
+      "description": "{{hotelName}} does not have a saved Terms & Conditions document yet. Add one now so future contracts and booking agreements can reference it.",
+      "createButton": "Create Terms"
+    },
+    "overviewCard": {
+      "title": "Current version",
+      "subtitle": "Review the latest saved document for {{hotelName}}.",
+      "updated": "Updated {{date}}",
+      "empty": "Nothing has been saved for this hotel yet."
+    },
+    "deleteDialog": {
+      "title": "Delete Terms & Conditions",
+      "confirmation": "Are you sure you want to delete the Terms & Conditions for {{hotelName}}? This action cannot be undone.",
+      "deleting": "Deleting...",
+      "delete": "Delete"
+    },
+    "toast": {
+      "created": "Terms & Conditions created successfully",
+      "createFailed": "Failed to create Terms & Conditions",
+      "updated": "Terms & Conditions updated successfully",
+      "updateFailed": "Failed to update Terms & Conditions"
+    }
+  },
+  "hotelPortal": {
+    "title": "Browse Hotels",
+    "search": "Find specific hotel",
+    "searchPlaceholder": "Search by name...",
+    "empty": "No hotels found",
+    "emptyHint": "Try adjusting your search or filters to find what you're looking for.",
+    "loading": "Loading hotels...",
+    "hotelsFound": "{{count}} hotels found",
+    "hotelsFoundSubtitle": "Showing hotels from all agencies across the platform. Total system hotels: {{total}}.",
+    "hero": {
+      "overline": "Worldwide stays",
+      "title": "Find your perfect stay",
+      "subtitle": "Browse hotels from agencies worldwide and book your next getaway with ease."
+    },
+    "filters": {
+      "location": "Location",
+      "allDestinations": "All destinations",
+      "sortBy": "Sort by",
+      "sortRecommended": "Recommended",
+      "sortTopRated": "Top rated",
+      "maxPrice": "Max price",
+      "roomType": "Room type",
+      "allRoomTypes": "All room types",
+      "resetFilters": "Reset filters"
+    },
+    "card": {
+      "available": "Available",
+      "openingSoon": "Opening soon",
+      "reviews": "{{count}} reviews",
+      "reviewsSuffix": "reviews",
+      "openToView": "Open hotel to view available rooms",
+      "viewRoomDetails": "View room details",
+      "notAvailable": "Not available",
+      "bed": "Bed",
+      "perNight": "/ night",
+      "perNightFull": "Price per night"
+    },
+    "details": {
+      "availableNow": "Available now",
+      "ratingReviews": "{{rating}} · {{reviews}} reviews",
+      "viewRooms": "View available rooms",
+      "availableStays": "Available stays",
+      "chooseRoom": "Choose your room",
+      "roomsMatchSearch": "{{count}} of {{total}} rooms match your search",
+      "noRoomsMatch": "No rooms match your search",
+      "noRoomsMatchHint": "Try changing the dates, guests, or room type filter.",
+      "resetSearch": "Reset search",
+      "hotelNotFound": "Hotel not found",
+      "hotelNotFoundHint": "This hotel may have been removed or is unavailable.",
+      "browseHotels": "Browse all hotels",
+      "searchRooms": "Search rooms"
+    },
+    "booking": {
+      "checkIn": "Check-in",
+      "checkOut": "Check-out",
+      "guests": "Guests",
+      "rooms": "Rooms",
+      "hotel": "Hotel",
+      "room": "Room",
+      "roomType": "Room type",
+      "lengthOfStay": "Length of stay",
+      "capacity": "Capacity",
+      "dates": "Dates",
+      "occupancy": "Occupancy",
+      "nights": "{{count}} night",
+      "nights_plural": "{{count}} nights",
+      "guestsCapacity": "{{count}} guests",
+      "guestsRoomsSummary": "{{guests}} guests, {{rooms}} rooms",
+      "estimatedTotal": "Est. total",
+      "estimatedTotalFull": "Estimated total",
+      "reserveRoom": "Reserve room",
+      "perNight": "/ night",
+      "reservationManagement": "Reservation management",
+      "reservationManagementSubtitle": "Manage your stay and access booking documents.",
+      "statusActive": "Active",
+      "statusPending": "Pending",
+      "statusCancelled": "Cancelled",
+      "viewContract": "View contract",
+      "viewInvoice": "View invoice",
+      "cancelReservation": "Cancel reservation",
+      "cancellationFeeInfo": "A cancellation fee will apply.",
+      "freeCancellationInfo": "Free cancellation is available.",
+      "feeStartsOn": "Fee starts on",
+      "reservationTotal": "Reservation total",
+      "cancellationFeeLabel": "Cancellation fee ({{rate}})",
+      "refundAmount": "Refund amount",
+      "keepReservation": "Keep reservation",
+      "confirmCancellation": "Confirm cancellation",
+      "extendReservation": "Extend reservation",
+      "extendInfo": "Extending your stay adds extra nights at the current nightly rate.",
+      "newCheckOut": "New check-out",
+      "extendConflict": "The new check-out date conflicts with another reservation.",
+      "extendInvalidDate": "The new check-out must be after the current check-out.",
+      "extraNights": "Extra nights:",
+      "extensionPrice": "Extension price:",
+      "extensionTotal": "Extension total:",
+      "confirmExtension": "Confirm extension",
+      "signInToBook": "Sign in to book your room",
+      "signInToBookBody": "Create an account or log in to reserve this room and manage your bookings.",
+      "logInSignUp": "Log in / Sign up",
+      "reservationCreated": "Reservation created",
+      "reservationCreatedBody": "Your reservation has been confirmed. You can view your contract and invoice below.",
+      "editReservation": "Edit reservation",
+      "reservationActions": "Reservation actions",
+      "extendStay": "Extend stay",
+      "reservationDetails": "Reservation details",
+      "editWithin24h": "You can edit this reservation because it is still within the first 24 hours.",
+      "edit24hExpired": "The 24-hour modification window has already ended.",
+      "loadingReservationDetails": "Loading reservation details...",
+      "guestInformation": "Guest information",
+      "guestFullName": "Guest Full Name",
+      "guestPhone": "Guest Phone",
+      "guestIdNumber": "Guest ID Number",
+      "stayDetails": "Stay details",
+      "postalCode": "Postal code",
+      "postalCodeRequired": "Postal code is required to calculate taxes for this hotel location.",
+      "roomCharges": "Room charges",
+      "taxesAndFees": "Taxes and fees",
+      "insurance": "Insurance",
+      "includeInsurance": "Include insurance",
+      "insuranceFeePerReservation": "{{fee}} / reservation",
+      "noInsuranceFee": "No additional insurance fee configured for this room.",
+      "bookingDetails": "Booking details",
+      "priceAndTaxes": "Price and taxes",
+      "reviewBeforeContinuing": "Review the reservation details, dates, pricing, and taxes before continuing.",
+      "checkOutAfterCheckIn": "Check-out must be later than check-in by at least one day.",
+      "guestsExceedCapacity": "This room can host up to {{capacity}} guests.",
+      "editConflict": "The updated dates conflict with another reservation from {{checkIn}} until {{checkOut}}.",
+      "reviewChanges": "Review changes",
+      "updatedStayTotal": "Updated stay total:",
+      "saveChanges": "Save changes",
+      "reservationSource": "Reservation Source",
+      "hasInsurance": "Has insurance",
+      "specialRequests": "Special Requests",
+      "notes": "Notes",
+      "policies": "Policies",
+      "modificationWindow": "Modification window",
+      "modificationAllowedUntil": "Reservation changes are allowed until {{deadline}}.",
+      "modificationWindowClosed": "Reservation changes are allowed only during the first 24 hours after booking.",
+      "cancellationPolicy": "Cancellation policy",
+      "freeCancellationUntil": "Cancellation is free until {{deadline}}, then a {{rate}} fee applies.",
+      "cancellationFeeCurrently": "Cancellation is within the last 3 days before check-in. Current fee: {{fee}}.",
+      "confirmYourReservation": "Confirm your reservation",
+      "back": "Back",
+      "next": "Next",
+      "preparingDocuments": "Preparing documents...",
+      "confirmReservation": "Confirm reservation",
+      "readTerms": "Read the terms and conditions, then accept them to continue.",
+      "noActiveTerms": "No active hotel terms were found. The standard reservation terms are shown instead.",
+      "loadingTerms": "Loading hotel terms and conditions...",
+      "agreeToTerms": "I agree to the terms and conditions.",
+      "hotelReservationTerms": "Hotel Reservation Terms",
+      "calculatingTax": "Calculating...",
+      "taxUnavailable": "Tax unavailable",
+      "stepBookingDetails": "Booking Details",
+      "stepTerms": "Terms & Conditions",
+      "stepContractPreview": "Contract Preview",
+      "stepSignature": "Signature",
+      "stepReviewConfirm": "Review & Confirm",
+      "reviewFinalSummary": "Review the final reservation summary before confirming.",
+      "finalSummary": "Final summary",
+      "includedWhereApplicable": "Included where applicable",
+      "approvals": "Approvals",
+      "termsAccepted": "Terms accepted",
+      "signature": "Signature",
+      "signatureCaptured": "Captured",
+      "signatureMissing": "Missing",
+      "customerSignature": "Customer signature",
+      "documents": "Documents",
+      "contractAndInvoice": "Contract and invoice",
+      "documentsReady": "Ready",
+      "documentsPreparing": "Preparing...",
+      "documentsPreparedOnConfirm": "Prepared when you confirm",
+      "preparingContractInvoice": "Preparing your contract and invoice for this reservation.",
+      "documentsReadyToAttach": "Contract and invoice files are ready to attach to this reservation.",
+      "addSignatureBelow": "Add your signature in the box below to attach it to this reservation.",
+      "drawSignatureApprove": "Draw your signature to approve this reservation.",
+      "clearSignature": "Clear signature",
+      "reservationContract": "Reservation contract",
+      "openContractToReview": "Open the contract in a new tab to review it before continuing.",
+      "contractPreviewFailed": "Failed to generate contract preview. Please try again.",
+      "openContractPreview": "Open contract preview",
+      "reviewedContractContinue": "I reviewed the contract and want to continue to signature.",
+      "pleaseAcceptTerms": "Please accept the terms and conditions before confirming.",
+      "pleaseAddSignature": "Please add your signature before confirming.",
+      "documentGenerationFailed": "Could not prepare the contract and invoice. Please try again.",
+      "closeDialog": "Close dialog",
+      "nightCount_one": "{{count}} night",
+      "nightCount_other": "{{count}} nights",
+      "guestCount_one": "{{count}} guest",
+      "guestCount_other": "{{count}} guests",
+      "guestsCapacity_one": "{{count}} guest",
+      "guestsCapacity_other": "{{count}} guests",
+      "roomCount_one": "{{count}} room",
+      "roomCount_other": "{{count}} rooms",
+      "occupancySummary": "{{guests}}, {{rooms}}"
+    }
+  },
+  "profile": {
+    "title": "My Profile",
+    "hero": {
+      "joined": "Joined {{date}}"
+    },
+    "tabs": {
+      "overview": "Overview",
+      "agencyInformation": "Agency Information",
+      "hotelInformation": "Hotel Information",
+      "changePassword": "Change Password"
+    },
+    "form": {
+      "personalInformation": "Personal Information",
+      "fullName": "Full Name",
+      "emailAddress": "Email Address",
+      "phoneNumber": "Phone Number",
+      "dateOfBirth": "Date of Birth",
+      "gender": "Gender",
+      "male": "Male",
+      "female": "Female",
+      "agencyName": "Agency Name",
+      "hotelName": "Hotel Name",
+      "city": "City",
+      "country": "Country"
+    },
+    "actions": {
+      "edit": "Edit",
+      "save": "Save",
+      "cancel": "Cancel"
+    },
+    "readOnly": "(read-only)"
+  },
+  "profileButton": {
+    "login": "Login",
+    "viewProfile": "View Profile",
+    "logout": "Logout",
+    "userFallback": "User"
+  },
+  "landingContent": {
+    "nav": {
+      "links": [
+        {
+          "label": "Features"
+        },
+        {
+          "label": "Offers"
+        },
+        {
+          "label": "Plans"
+        },
+        {
+          "label": "How It Works"
+        },
+        {
+          "label": "Docs"
+        }
+      ],
+      "cta": {
+        "label": "Get Started"
+      }
+    },
+    "hero": {
+      "eyebrow": "MULTI-AGENCY HOTEL PLATFORM",
+      "title": "Run Your Agency & Hotels, or Book Your Dream Trip All in One Place",
+      "subtitle": "Operate multiple agencies, centralize hotel management, and enable seamless booking workflows from a single dashboard.",
+      "primaryCta": {
+        "label": "Browse Hotels"
+      },
+      "bookingCta": "Check Now",
+      "scrollLabel": "SCROLL"
+    },
+    "installBanner": {
+      "row1": [
+        "Next.js 15",
+        "App Router",
+        "MUI v7",
+        "TypeScript",
+        "CASL RBAC",
+        "TanStack Query",
+        "React Hook Form",
+        "JWT Auth",
+        "Axios Client"
+      ],
+      "row2": [
+        "Dark Mode",
+        "i18n + RTL",
+        "Protected Routes",
+        "Role-based Access",
+        "Dashboard Layout",
+        "Tailwind v4",
+        "Auto Logout",
+        "Token Refresh",
+        "LocalStorage Sync"
+      ]
+    },
+    "features": {
+      "label": "OUR SERVICES",
+      "heading": "Run your entire hotel operations from one seamless platform",
+      "cards": [
+        {
+          "num": "01",
+          "name": "Multi-Agency Management",
+          "desc": "Manage multiple agencies from one platform with separated workspaces, team roles, and full control over each business unit."
+        },
+        {
+          "num": "02",
+          "name": "Hotel & Property Operations",
+          "desc": "Add hotels, organize branches, and keep property information centralized so your teams move faster with less operational confusion."
+        },
+        {
+          "num": "03",
+          "name": "Room Inventory Control",
+          "desc": "Track room types, availability, and status in real time to reduce errors and keep inventory ready for booking teams."
+        },
+        {
+          "num": "04",
+          "name": "Smart Booking Workflows",
+          "desc": "Handle booking requests from creation to confirmation with a streamlined flow that improves conversion and customer experience."
+        },
+        {
+          "num": "05",
+          "name": "Role-Based Team Access",
+          "desc": "Give each user the right level of access, so agencies, managers, and staff can collaborate securely without permission conflicts."
+        },
+        {
+          "num": "06",
+          "name": "Actionable Performance Insights",
+          "desc": "Monitor booking activity, property performance, and agency productivity with clear insights that support faster decisions."
+        }
+      ]
+    },
+    "hotelShowcase": {
+      "label": "HOTELS YOU CAN SCALE",
+      "heading": "Turn every visit into a confirmed booking",
+      "body": "Drive more bookings from every hotel you showcase.",
+      "items": [
+        {
+          "title": "City Hotels",
+          "description": "Popular stays in top city locations, easy to book and always in demand."
+        },
+        {
+          "title": "Resorts & Getaways",
+          "description": "Relaxing stays designed for comfort, leisure, and memorable experiences."
+        },
+        {
+          "title": "Business Hotels",
+          "description": "Reliable stays built for work trips and fast business decisions."
+        }
+      ]
+    },
+    "whyBook": {
+      "label": "WHY BOOK WITH US",
+      "heading": "Clarity in every stay, confidence in every booking",
+      "body": "Before booking, guests look for clarity, trust, and reassurance. This section brings those reasons into focus.",
+      "featureImage": "https://images.unsplash.com/photo-1551632436-cbf8dd35adfa?auto=format&fit=crop&w=1400&q=80",
+      "items": [
+        {
+          "kicker": "Book smarter",
+          "title": "Better value when booking direct",
+          "desc": "Clear pricing and stronger value without surprises at checkout."
+        },
+        {
+          "kicker": "No waiting",
+          "title": "Instant confirmation",
+          "desc": "Booking confirmed the moment payment is completed."
+        },
+        {
+          "kicker": "Easy planning",
+          "title": "Flexible stays",
+          "desc": "Simple policies that make planning feel safe and easy."
+        },
+        {
+          "kicker": "Built on trust",
+          "title": "Clear trust signals",
+          "desc": "Accurate photos, verified details, and transparent amenities."
+        }
+      ]
+    },
+    "offers": {
+      "label": "Special Offers",
+      "heading": "Smart offers that make booking an easy decision",
+      "body": "Real opportunities that deliver better value and turn hesitation into a quick, clear booking decision.",
+      "items": [
+        {
+          "badge": "Early Booking",
+          "title": "Better rates for early planners",
+          "desc": "Book early to unlock better prices on selected rooms, especially during high-demand periods and peak seasons."
+        },
+        {
+          "badge": "Family",
+          "title": "Feels more like home than a hotel",
+          "desc": "A comfortable stay with family-friendly benefits like space, ease, and services that make every stay smoother."
+        },
+        {
+          "badge": "Long Stay",
+          "title": "The longer you stay, the better the value",
+          "desc": "Get better value when extending your stay, with clearer per-night pricing as the booking duration increases."
+        }
+      ]
+    },
+    "plans": {
+      "label": "SUBSCRIPTION PLANS",
+      "heading": "Choose the right plan for the way your hotel business operates",
+      "body": "Start with a simple plan, grow into deeper reporting and multi-property control, or move to a custom enterprise setup when your operation needs full flexibility.",
+      "featuredBadge": "Most selected",
+      "ctaLabel": "Start with this plan",
+      "ctaHref": "/login",
+      "inactiveFeatureLabel": "Not included"
+    },
+    "guestExperience": {
+      "label": "BOOK WITH CONFIDENCE",
+      "heading": "Everything you need to book with confidence — no surprises, no stress",
+      "body": "We make sure every listing is accurate, every deal is fair, and every booking is protected — so you can focus on enjoying your trip.",
+      "items": [
+        {
+          "title": "Your booking is protected from the moment you confirm",
+          "desc": "Every reservation is secured and documented. No cancellations without notice, no hidden changes — your plans stay exactly as you made them."
+        },
+        {
+          "title": "Prices you see are prices you pay",
+          "desc": "No hidden fees added at checkout. The total shown includes everything — so you can budget your trip without any last-minute surprises."
+        },
+        {
+          "title": "Verified hotels and agencies — only the trusted ones",
+          "desc": "Every hotel and agency on our platform goes through a verification process. You are only seeing listings from providers we have reviewed and approved."
+        },
+        {
+          "title": "Real reviews from real guests",
+          "desc": "Ratings and feedback come from verified bookings only — not anonymous posts. What you read reflects what people actually experienced."
+        },
+        {
+          "title": "Support that responds before your trip, not after",
+          "desc": "Have a question before you book or need to make a change? Our support team is here to help — fast, clear, and on your side."
+        },
+        {
+          "title": "Your rights as a guest are always respected",
+          "desc": "Clear cancellation policies, fair refund terms, and transparent communication — because we believe every traveler deserves to be treated right."
+        }
+      ]
+    },
+    "operationsPulse": {
+      "label": "Operations Hub",
+      "heading": "All hotel operations in one clear place",
+      "body": "Track bookings, availability, and requests easily, and let your team work faster with less distraction.",
+      "mainBadge": "Live Control",
+      "mainTitle": "Everything under control in one view",
+      "mainBody": "A single dashboard that brings all hotel operations together for faster and clearer decisions.",
+      "cards": [
+        {
+          "eyebrow": "Requests",
+          "title": "Never miss a guest request",
+          "desc": "Every inquiry or booking comes through clearly and instantly."
+        },
+        {
+          "eyebrow": "Availability",
+          "title": "Real-time room updates",
+          "desc": "See what’s available and what’s booked instantly without delays."
+        },
+        {
+          "eyebrow": "Agencies",
+          "title": "Organized agency workflow",
+          "desc": "Each agency follows a clear flow without confusion or overlap."
+        },
+        {
+          "eyebrow": "Team",
+          "title": "Faster team, smarter control",
+          "desc": "Structured permissions that keep work fast and organized."
+        }
+      ]
+    },
+    "momentumWall": {
+      "label": "Why it feels better",
+      "heading": "Built to make hotel operations faster, cleaner, and more premium",
+      "body": "This is not just a data dashboard. It’s a system designed to reduce friction, improve clarity, and elevate confidence in every operational step.",
+      "cards": [
+        {
+          "stat": "01",
+          "title": "Less communication between teams",
+          "desc": "A unified workflow reduces the need to chase updates across agencies, operations, and reservation teams."
+        },
+        {
+          "stat": "02",
+          "title": "Faster guest responses",
+          "desc": "Real-time visibility into rooms, requests, and hotel data helps teams respond and confirm faster."
+        },
+        {
+          "stat": "03",
+          "title": "A more premium experience",
+          "desc": "Better backend organization translates into a smoother, more professional guest experience."
+        },
+        {
+          "stat": "04",
+          "title": "Clearer decisions with higher confidence",
+          "desc": "From inquiry to confirmation, every step is guided by clarity instead of guesswork."
+        }
+      ],
+      "note": "Well-structured systems don’t just save time — they elevate the entire hospitality experience."
+    },
+    "codeDemo": {
+      "label": "SYSTEM OVERVIEW",
+      "heading": "Run hotel operations from one clear control center",
+      "body": "Your team can monitor hotels, room inventory, booking requests, and agency activity from a single workflow built for fast decisions and cleaner coordination.",
+      "panelTitle": "operations-feed.hotel",
+      "panelBadge": "LIVE SYSTEM",
+      "bullets": [
+        "Track hotel inventory, room availability, and booking status in one place",
+        "Give each agency and staff member the right role with controlled access",
+        "Move requests from inquiry to confirmation with a cleaner booking workflow"
+      ],
+      "terminalLines": [
+        {
+          "tokens": [
+            {
+              "text": "# Morning operations snapshot"
+            }
+          ]
+        },
+        {
+          "tokens": [
+            {
+              "text": "agency"
+            },
+            {
+              "text": ".active"
+            },
+            {
+              "text": " = "
+            },
+            {
+              "text": "12"
+            }
+          ]
+        },
+        {
+          "tokens": [
+            {
+              "text": "hotels"
+            },
+            {
+              "text": ".listed"
+            },
+            {
+              "text": " = "
+            },
+            {
+              "text": "48"
+            }
+          ]
+        },
+        {
+          "tokens": [
+            {
+              "text": "bookings"
+            },
+            {
+              "text": ".today"
+            },
+            {
+              "text": " = "
+            },
+            {
+              "text": "126"
+            }
+          ]
+        },
+        {
+          "tokens": [
+            {
+              "text": "pending"
+            },
+            {
+              "text": ".confirmation"
+            },
+            {
+              "text": " = "
+            },
+            {
+              "text": "14"
+            }
+          ]
+        },
+        {
+          "tokens": []
+        },
+        {
+          "tokens": [
+            {
+              "text": "# Live property activity"
+            }
+          ]
+        },
+        {
+          "tokens": [
+            {
+              "text": "hotel"
+            },
+            {
+              "text": ".name"
+            },
+            {
+              "text": " = "
+            },
+            {
+              "text": "Grand Horizon / Amman"
+            }
+          ]
+        },
+        {
+          "tokens": [
+            {
+              "text": "room"
+            },
+            {
+              "text": ".deluxe.available"
+            },
+            {
+              "text": " = "
+            },
+            {
+              "text": "08"
+            }
+          ]
+        },
+        {
+          "tokens": [
+            {
+              "text": "room"
+            },
+            {
+              "text": ".suite.available"
+            },
+            {
+              "text": " = "
+            },
+            {
+              "text": "03"
+            }
+          ]
+        },
+        {
+          "tokens": [
+            {
+              "text": "housekeeping"
+            },
+            {
+              "text": ".in_service"
+            },
+            {
+              "text": " = "
+            },
+            {
+              "text": "02 rooms"
+            }
+          ]
+        },
+        {
+          "tokens": []
+        },
+        {
+          "tokens": [
+            {
+              "text": "# Guest request pipeline"
+            }
+          ]
+        },
+        {
+          "tokens": [
+            {
+              "text": "request"
+            },
+            {
+              "text": ".guest"
+            },
+            {
+              "text": " = "
+            },
+            {
+              "text": "Family stay / 3 nights"
+            }
+          ]
+        },
+        {
+          "tokens": [
+            {
+              "text": "quote"
+            },
+            {
+              "text": ".status"
+            },
+            {
+              "text": " = "
+            },
+            {
+              "text": "Sent to customer"
+            }
+          ]
+        },
+        {
+          "tokens": [
+            {
+              "text": "payment"
+            },
+            {
+              "text": ".status"
+            },
+            {
+              "text": " = "
+            },
+            {
+              "text": "Awaiting confirmation"
+            }
+          ]
+        }
+      ]
+    },
+    "techStack": {
+      "label": "TECH STACK",
+      "heading": "Eight libraries. One command.",
+      "subheading": "Every dependency in the generated project is chosen for real production use. Here's what you get and why it's there.",
+      "cards": [
+        {
+          "role": "FRAMEWORK",
+          "name": "Next.js 15",
+          "desc": "App Router, Server Components, Layouts, and middleware — the full feature set, not a pages-directory fallback."
+        },
+        {
+          "role": "COMPONENT LIBRARY",
+          "name": "Material UI v7",
+          "desc": "Theming, dark mode, RTL layout, and per-component overrides all pre-configured. Use the design system immediately."
+        },
+        {
+          "role": "AUTHORIZATION",
+          "name": "CASL",
+          "desc": "Attribute-based access control with a four-role hierarchy. Middleware enforces it. Client hooks expose it."
+        },
+        {
+          "role": "SERVER STATE",
+          "name": "TanStack Query v5",
+          "desc": "Caching, background refetch, and loading states configured with sensible defaults. No manual fetch boilerplate."
+        },
+        {
+          "role": "FORMS",
+          "name": "React Hook Form",
+          "desc": "Strongly-typed, performant forms. Used on the login and signup pages out of the box with full validation wiring."
+        },
+        {
+          "role": "INTERNATIONALIZATION",
+          "name": "i18next",
+          "desc": "English and Arabic with automatic RTL detection. Language preference is persisted to localStorage."
+        },
+        {
+          "role": "HTTP CLIENT",
+          "name": "Axios",
+          "desc": "Interceptors handle JWT injection, 401 token refresh, and auto-logout. One Axios instance, fully configured."
+        },
+        {
+          "role": "TYPE SAFETY",
+          "name": "TypeScript",
+          "desc": "Full coverage: CASL ability types, role enums, API response shapes, and Next.js 15 server component props."
+        }
+      ],
+      "callout": "Tailwind CSS v4 — zero-config utility classes, added at scaffold time"
+    },
+    "whatYouGet": {
+      "label": "WHAT YOU GET",
+      "heading": "A working app, not a starting point.",
+      "body": "Open your editor to a project that already does something. Every file below is scaffolded and wired on the first run.",
+      "terminalLabel": "project structure",
+      "defaultExpandedIds": [
+        "app",
+        "dashboard-group",
+        "lib-abilities",
+        "core",
+        "core-context",
+        "providers"
+      ],
+      "fileTree": [
+        {
+          "name": "app/",
+          "comment": "Next.js App Router root",
+          "children": [
+            {
+              "name": "(dashboard)/",
+              "comment": "protected route group",
+              "children": [
+                {
+                  "name": "dashboard/",
+                  "children": [
+                    {
+                      "name": "page.tsx",
+                      "comment": "→ Dashboard home"
+                    }
+                  ]
+                },
+                {
+                  "name": "layout.tsx",
+                  "comment": "→ Protected sidebar layout"
+                }
+              ]
+            },
+            {
+              "name": "home/",
+              "children": [
+                {
+                  "name": "page.tsx",
+                  "comment": "→ Home / landing page"
+                }
+              ]
+            },
+            {
+              "name": "login/",
+              "children": [
+                {
+                  "name": "page.tsx",
+                  "comment": "→ Login with React Hook Form"
+                }
+              ]
+            },
+            {
+              "name": "unauthorized/",
+              "children": [
+                {
+                  "name": "page.tsx",
+                  "comment": "→ CASL redirect target"
+                }
+              ]
+            },
+            {
+              "name": "layout.tsx",
+              "comment": "→ Root layout + all providers"
+            }
+          ]
+        },
+        {
+          "name": "lib/abilities/",
+          "comment": "CASL authorization",
+          "children": [
+            {
+              "name": "roles.ts",
+              "comment": "→ Role → ability definitions"
+            },
+            {
+              "name": "routeMap.ts",
+              "comment": "→ Route → permission mapping"
+            },
+            {
+              "name": "routeMatcher.ts",
+              "comment": "→ Pattern matching logic"
+            },
+            {
+              "name": "checkAuthorization.ts",
+              "comment": "→ Auth orchestration"
+            }
+          ]
+        },
+        {
+          "name": "core/",
+          "comment": "infrastructure layer",
+          "children": [
+            {
+              "name": "clients/",
+              "children": [
+                {
+                  "name": "apiClient.ts",
+                  "comment": "→ Axios with token refresh"
+                }
+              ]
+            },
+            {
+              "name": "context/",
+              "children": [
+                {
+                  "name": "AuthContext.tsx",
+                  "comment": "→ login / logout / token state"
+                },
+                {
+                  "name": "SettingsContext.tsx",
+                  "comment": "→ theme, language, direction"
+                }
+              ]
+            },
+            {
+              "name": "theme/overrides/",
+              "comment": "→ per-component MUI overrides"
+            }
+          ]
+        },
+        {
+          "name": "providers/",
+          "comment": "React context composition",
+          "children": [
+            {
+              "name": "AppProviders.tsx",
+              "comment": "→ Auth → Settings → Theme → Query"
+            },
+            {
+              "name": "I18nProvider.tsx",
+              "comment": "→ i18next initialization"
+            }
+          ]
+        }
+      ],
+      "includedItems": [
+        {
+          "title": "Login page",
+          "desc": "React Hook Form with validation. JWT stored in localStorage and mirrored to cookies for SSR."
+        },
+        {
+          "title": "Protected dashboard layout",
+          "desc": "Collapsible sidebar with nested routes and responsive design. Only accessible to authenticated users."
+        },
+        {
+          "title": "CASL authorization",
+          "desc": "Route map + middleware check on every request. Add a protected route by editing one file."
+        },
+        {
+          "title": "Auth context",
+          "desc": "login(), logout() with token storage, user state, and auto-redirect on session expiry."
+        },
+        {
+          "title": "Settings context",
+          "desc": "Theme mode (dark/light), UI direction (LTR/RTL), and language — persisted to localStorage."
+        },
+        {
+          "title": "MUI theme system",
+          "desc": "core/theme/overrides/ with one file per MUI component. Change global tokens without touching internals."
+        },
+        {
+          "title": "Axios API client",
+          "desc": "Request interceptor injects the access token. Response interceptor handles 401 refresh and cascade logout."
+        },
+        {
+          "title": "MSW mock layer",
+          "desc": "Mock Service Worker pre-configured for local development. Swap real endpoints in when ready."
+        }
+      ]
+    },
+    "howItWorks": {
+      "label": "How it works",
+      "heading": "From first inquiry to confirmed booking",
+      "body": "A simple, fast booking flow that helps you handle guest requests and turn them into confirmed reservations without complexity.",
+      "steps": [
+        {
+          "number": "Step 01",
+          "tag": "Guest Request",
+          "title": "Receive booking requests",
+          "desc": "Guest details like dates, budget, and room type appear clearly in one place.",
+          "points": [
+            "All booking information in one view",
+            "Faster responses with less effort"
+          ]
+        },
+        {
+          "number": "Step 02",
+          "tag": "Hotel Selection",
+          "title": "Present matching hotels",
+          "desc": "Show relevant hotel options with clear images and details to help guests decide quickly.",
+          "points": [
+            "Easy comparison between hotels",
+            "Clear and fast presentation"
+          ]
+        },
+        {
+          "number": "Step 03",
+          "tag": "Booking Confirmation",
+          "title": "Complete the booking",
+          "desc": "Turn the selection into a confirmed booking through a simple final step.",
+          "points": [
+            "Instant booking confirmation",
+            "Clear and complete details"
+          ]
+        }
+      ]
+    },
+    "stats": {
+      "items": [
+        {
+          "suffix": "+",
+          "display": "0+",
+          "label": "INTEGRATED PACKAGES"
+        },
+        {
+          "suffix": "",
+          "display": "0",
+          "label": "BUILT-IN RBAC ROLES"
+        },
+        {
+          "suffix": "",
+          "display": "<30s",
+          "label": "TO RUNNING DEV SERVER"
+        }
+      ]
+    },
+    "faq": {
+      "label": "FAQ",
+      "heading": "What agencies and hotel teams ask first",
+      "items": [
+        {
+          "question": "Can I manage more than one agency from the same system?",
+          "answer": "Yes. The platform is designed for multi-agency operations, so each agency can work inside a structured environment while management still keeps clear oversight across hotels, bookings, and team activity."
+        },
+        {
+          "question": "Can the system track hotels, rooms, and availability in one place?",
+          "answer": "Yes. You can organize hotels, manage room types, monitor room status, and follow availability from one dashboard so booking teams always work with updated inventory."
+        },
+        {
+          "question": "How does the booking workflow move from inquiry to confirmation?",
+          "answer": "The workflow is built to move clearly from guest request to hotel matching, quotation, follow-up, and final booking confirmation. This helps teams reduce confusion and respond faster with a more professional experience."
+        },
+        {
+          "question": "Can different team members have different access levels?",
+          "answer": "Yes. The system supports role-based access so admins, managers, agency staff, and other users can each work within the permissions that match their responsibility."
+        },
+        {
+          "question": "Does the platform support Arabic and English usage?",
+          "answer": "Yes. The interface is built to support both Arabic and English, which makes it easier for teams to work in the language and layout direction that fits their daily operations."
+        }
+      ]
+    },
+    "cta": {
+      "label": "GET STARTED",
+      "heading": "Your next project starts here",
+      "body": "Auth, roles, theming, i18n, and data fetching — scaffolded in under 30 seconds. Open your editor to a working dashboard, not an empty folder.",
+      "primaryBtn": {
+        "label": "Copy Install Command",
+        "copiedLabel": "Copied!"
+      },
+      "secondaryBtn": {
+        "label": "View Documentation"
+      }
+    },
+    "footer": {
+      "brand": {
+        "name": ".Hotel Agency",
+        "desc": "A premium platform for managing agencies, hotels, room inventory, and booking requests through one organized operational flow."
+      },
+      "techBadges": [
+        "Multi-Agency",
+        "Hotel Inventory",
+        "Room Control",
+        "Bookings",
+        "Role Access",
+        "Arabic + English"
+      ],
+      "templateLinks": [
+        {
+          "label": "Features"
+        },
+        {
+          "label": "Hotel Showcase"
+        },
+        {
+          "label": "Why Book"
+        },
+        {
+          "label": "Offers"
+        },
+        {
+          "label": "How It Works"
+        },
+        {
+          "label": "Guest Experience"
+        },
+        {
+          "label": "FAQ"
+        }
+      ],
+      "resourceLinks": [
+        {
+          "label": "Login Dashboard"
+        },
+        {
+          "label": "Subscription Plans"
+        },
+        {
+          "label": "Agencies"
+        },
+        {
+          "label": "Admin Dashboard"
+        },
+        {
+          "label": "Support Tickets"
+        },
+        {
+          "label": "Profile"
+        }
+      ],
+      "getStarted": {
+        "heading": "Start managing hotels and bookings from one clean dashboard.",
+        "note": "Sign in to monitor agencies, hotels, room availability, and booking activity in real time."
+      },
+      "copyright": "Hotel Agency Platform",
+      "builtWith": "Built for hospitality operations"
+    }
   }
 }

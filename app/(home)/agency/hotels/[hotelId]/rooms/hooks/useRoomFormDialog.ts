@@ -10,7 +10,7 @@ import { useRoomById, useRoomPhotos } from "./queries/roomQueries";
 import { adminDeleteRoomPhoto, adminUploadRoomPhoto } from "../clients/adminRoomPhotoClient";
 import { deleteRoomPhoto, uploadRoomPhoto } from "../clients/roomPhotoClient";
 import { resolveRoomImage } from "@/lib/image-url";
-import { RoomFormValues, roomSchema } from "../schema/roomSchema";
+import { RoomFormValues, createRoomSchema } from "../schema/roomSchema";
 import { useGetRoomTypes, useGetOwnerRoomTypes } from "../../../../../room-types/hooks/queries/roomTypeQueries";
 import type { RoomPhoto, RoomResponse, RoomRouteScope } from "../types/room";
 import { defaultFormValues, STEP_FIELDS } from "../constants/roomFormValues";
@@ -91,8 +91,10 @@ export function useRoomFormDialog({
   const createMutation = scope.mode === "admin" ? adminCreateRoom : agencyCreateRoom;
   const updateMutation = scope.mode === "admin" ? adminUpdateRoom : agencyUpdateRoom;
 
+  const schema = useMemo(() => createRoomSchema(t), [t]);
+
   const methods = useForm<RoomFormValues>({
-    resolver: zodResolver(roomSchema),
+    resolver: zodResolver(schema),
     defaultValues: defaultFormValues,
   });
 

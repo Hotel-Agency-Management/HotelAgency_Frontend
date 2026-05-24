@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'react-hot-toast'
+import { useTranslation } from 'react-i18next'
 import { getErrorMessage } from '@/core/utils/apiError'
 import { updateReservation, cancelReservation, updateReservationStatus } from '../../client/directReservationClient'
 import { RESERVATION_QUERY_KEYS } from '../../constants/reservationKey'
@@ -7,6 +8,7 @@ import type { UpdateReservationRequest, CancelReservationRequest, UpdateReservat
 
 export function useUpdateReservation(hotelId: number) {
   const queryClient = useQueryClient()
+  const { t } = useTranslation()
 
   return useMutation({
     mutationFn: ({ reservationId, data }: { reservationId: number; data: UpdateReservationRequest }) =>
@@ -14,7 +16,7 @@ export function useUpdateReservation(hotelId: number) {
 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: RESERVATION_QUERY_KEYS.byHotelList(hotelId) })
-      toast.success('Reservation updated successfully')
+      toast.success(t('reservations.toast.updated', 'Reservation updated successfully'))
     },
 
     onError: (error) => {
@@ -25,6 +27,7 @@ export function useUpdateReservation(hotelId: number) {
 
 export function useCancelReservation(hotelId: number) {
   const queryClient = useQueryClient()
+  const { t } = useTranslation()
 
   return useMutation({
     mutationFn: ({ reservationId, data }: { reservationId: number; data: CancelReservationRequest }) =>
@@ -32,7 +35,7 @@ export function useCancelReservation(hotelId: number) {
 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: RESERVATION_QUERY_KEYS.byHotelList(hotelId) })
-      toast.success('Reservation cancelled successfully')
+      toast.success(t('reservations.toast.cancelled', 'Reservation cancelled successfully'))
     },
 
     onError: (error) => {
@@ -43,6 +46,7 @@ export function useCancelReservation(hotelId: number) {
 
 export function useUpdateReservationStatus(hotelId: number) {
   const queryClient = useQueryClient()
+  const { t } = useTranslation()
 
   return useMutation({
     mutationFn: ({ reservationId, data }: { reservationId: number; data: UpdateReservationStatusRequest }) =>
@@ -50,7 +54,7 @@ export function useUpdateReservationStatus(hotelId: number) {
 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: RESERVATION_QUERY_KEYS.byHotelList(hotelId) })
-      toast.success('Reservation status updated successfully')
+      toast.success(t('reservations.toast.statusUpdated', 'Reservation status updated successfully'))
     },
 
     onError: (error) => {

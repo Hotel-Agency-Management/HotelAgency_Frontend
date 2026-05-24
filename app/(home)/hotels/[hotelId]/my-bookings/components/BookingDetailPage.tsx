@@ -4,6 +4,7 @@ import { Button, Container, Grid, Link, Stack, Typography } from '@mui/material'
 import { useParams, useRouter } from 'next/navigation'
 import { useTranslation } from 'react-i18next'
 import Icon from '@/components/icon/Icon'
+import DirectionalIcon from '@/components/common/DirectionalIcon'
 import ErrorMessage from '@/components/ui/ErrorMessage'
 import Spinner from '@/components/loaders/Spinner'
 import { resolveBlobUrl } from '@/core/constant/blobStorage'
@@ -65,7 +66,7 @@ export function BookingDetailPage() {
       <Container maxWidth="md">
         <Stack spacing={2}>
           <Button
-            startIcon={<Icon icon="lucide:arrow-left" />}
+            startIcon={<DirectionalIcon icon="lucide:arrow-left" />}
             onClick={() => router.push(`/hotels/${hotelId}/my-bookings`)}
             sx={{ alignSelf: 'flex-start' }}
           >
@@ -81,7 +82,7 @@ export function BookingDetailPage() {
     <Container maxWidth="lg">
       <Stack spacing={3}>
         <Button
-          startIcon={<Icon icon="lucide:arrow-left" />}
+          startIcon={<DirectionalIcon icon="lucide:arrow-left" />}
           onClick={() => router.push(`/hotels/${hotelId}/my-bookings`)}
           sx={{ alignSelf: 'flex-start' }}
         >

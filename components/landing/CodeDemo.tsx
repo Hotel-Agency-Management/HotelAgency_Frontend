@@ -3,14 +3,14 @@
 import { useEffect, useRef } from 'react'
 import { gsap, ScrollTrigger } from '@/lib/gsap'
 import SectionLabel from '@/components/landing/SectionLabel'
-import { landingContent as lc } from '@/components/landing/landingContent'
+import { useLandingContent } from '@/components/landing/landingContent'
 import { useTheme } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 import themeConfig from '@/core/configs/themeConfig'
 
-const bullets = lc.codeDemo.bullets
-
 export default function CodeDemo() {
+  const lc = useLandingContent()
+  const bullets = lc.codeDemo.bullets
   const sectionRef = useRef<HTMLElement>(null)
   const leftRef = useRef<HTMLDivElement>(null)
   const rightRef = useRef<HTMLDivElement>(null)

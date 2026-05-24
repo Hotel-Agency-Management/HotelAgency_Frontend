@@ -39,6 +39,7 @@ export function ProfileFieldEditor({
         defaultCountry='US'
         forceCallingCode
         focusOnSelectCountry
+        slotProps={{ htmlInput: { dir: 'ltr', style: { direction: 'ltr', textAlign: 'left' } } }}
       />
     )
   }

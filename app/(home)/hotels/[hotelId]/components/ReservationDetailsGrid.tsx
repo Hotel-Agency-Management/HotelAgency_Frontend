@@ -1,6 +1,7 @@
 'use client'
 
 import { Stack, Typography } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 import type { ReservationDetailsItem } from '../constants/reservationDetails'
 
 interface ReservationDetailsGridProps {
@@ -8,10 +9,12 @@ interface ReservationDetailsGridProps {
 }
 
 export function ReservationDetailsGrid({ items }: ReservationDetailsGridProps) {
+  const { t } = useTranslation()
+
   return (
     <Stack gap={1.25}>
       <Typography variant="subtitle1" fontWeight={700}>
-        Reservation details
+        {t('hotelPortal.booking.reservationDetails', 'Reservation details')}
       </Typography>
 
       {items.map(item => (

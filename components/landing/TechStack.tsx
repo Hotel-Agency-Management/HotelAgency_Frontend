@@ -3,14 +3,14 @@
 import { useEffect, useRef, useCallback } from 'react'
 import { gsap } from '@/lib/gsap'
 import SectionLabel from '@/components/landing/SectionLabel'
-import { landingContent as lc } from '@/components/landing/landingContent'
+import { useLandingContent } from '@/components/landing/landingContent'
 import { useTheme } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 import themeConfig from '@/core/configs/themeConfig'
 
-const stackItems = lc.techStack.cards
-
 export default function TechStack() {
+  const lc = useLandingContent()
+  const stackItems = lc.techStack.cards
   const sectionRef = useRef<HTMLElement>(null)
   const gridRef = useRef<HTMLDivElement>(null)
   const cardRefs = useRef<(HTMLDivElement | null)[]>([])

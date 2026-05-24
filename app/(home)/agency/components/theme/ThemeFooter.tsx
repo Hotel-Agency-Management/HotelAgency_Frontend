@@ -5,6 +5,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Stack from "@mui/material/Stack";
 import RestartAltOutlinedIcon from "@mui/icons-material/RestartAltOutlined";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
+import { useTranslation } from "react-i18next";
 
 interface ThemeFooterProps {
   isSaving: boolean;
@@ -23,6 +24,7 @@ export function ThemeFooter({
   onRestoreDefaults,
   onApply,
 }: ThemeFooterProps) {
+  const { t } = useTranslation();
   return (
     <Stack
       direction={{ xs: "column", sm: "row" }}
@@ -34,7 +36,7 @@ export function ThemeFooter({
       <Stack direction="row" spacing={1}>
         <Button size="small" color="inherit" onClick={onDiscard}
           sx={{ color: "text.secondary" }}>
-          Discard
+          {t('agencySettings.theme.discard', 'Discard')}
         </Button>
         <Button size="small" variant="outlined" color="inherit"
           startIcon={<RestartAltOutlinedIcon fontSize="small" />}
@@ -42,7 +44,7 @@ export function ThemeFooter({
           onClick={onRestoreDefaults}
           sx={{ borderColor: "divider" }}
         >
-          Restore defaults
+          {t('agencySettings.theme.restoreDefaults', 'Restore defaults')}
         </Button>
       </Stack>
 
@@ -55,7 +57,7 @@ export function ThemeFooter({
         disabled={isSaving || !isDirty}
         onClick={onApply}
       >
-        Apply theme
+        {t('agencySettings.theme.applyTheme', 'Apply theme')}
       </Button>
     </Stack>
   );

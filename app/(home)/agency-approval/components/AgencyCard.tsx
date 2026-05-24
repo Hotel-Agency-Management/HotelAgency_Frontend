@@ -13,6 +13,7 @@ import {
 import {
   ArrowRight,
 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import type { AgencyRequest, ActionType } from '../types/agency'
 import StatusChip from './StatusChip'
 import Avatar from '@/components/ui/Avatar'
@@ -21,6 +22,8 @@ import { AGENCY_INFO_FIELDS } from '../constants/agencyConfig'
 import AgencyCardActions from './AgencyCardActions'
 import { fromNow } from '@/core/utils/Dateutils'
 import { AGENCY_STATUS } from '@/components/auth/types/authType'
+import useLanguage from '@/core/hooks/useLanguage'
+import LtrText from '@/components/ui/LtrText'
 
 interface AgencyCardProps {
   request: AgencyRequest
@@ -29,8 +32,11 @@ interface AgencyCardProps {
 }
 
 export default function AgencyCard({ request, onAction, onViewDetails }: AgencyCardProps) {
+  const { t } = useTranslation()
   const theme = useTheme()
+  const { language } = useLanguage()
   const isPending = request.status === AGENCY_STATUS.PENDING
+  const rtlFlip: React.CSSProperties = language === 'ar' ? { transform: 'scaleX(-1)' } : {}
 
   const formattedDate = fromNow(request.submittedAt)
 
@@ -97,7 +103,11 @@ export default function AgencyCard({ request, onAction, onViewDetails }: AgencyC
                 <Grid key={key} size={{ xs: 12, sm: 6 }} >
                   <InfoRow
                     icon={<Icon size={14} />}
-                    value={request[key]}
+                    value={
+                      key === 'phone'
+                        ? <LtrText>{request[key]}</LtrText>
+                        : request[key]
+                    }
                   />
                 </Grid>
               ))}
@@ -114,16 +124,16 @@ export default function AgencyCard({ request, onAction, onViewDetails }: AgencyC
         >
           <Stack direction='row' alignItems='center' spacing={0.75}>
             <Typography variant='caption' color='text.disabled' sx={{ fontSize: '0.72rem' }}>
-              Submitted {formattedDate}
+              {t('agencyApproval.card.submitted', 'Submitted {{time}}', { time: formattedDate })}
             </Typography>
           </Stack>
 
           <Stack direction='row' alignItems='center' spacing={1}>
-            <Tooltip title='View full details' placement='top'>
+            <Tooltip title={t('agencyApproval.card.viewFullDetails', 'View full details')} placement='top'>
               <Button
                 size='small'
                 variant='text'
-                endIcon={<ArrowRight size={13} />}
+                endIcon={<ArrowRight size={13} style={rtlFlip} />}
                 onClick={() => onViewDetails(request)}
                 sx={{
                   fontSize: '0.75rem',
@@ -132,7 +142,7 @@ export default function AgencyCard({ request, onAction, onViewDetails }: AgencyC
                   '&:hover': { color: theme.palette.primary.main },
                 }}
               >
-                Details
+                {t('agencyApproval.card.details', 'Details')}
               </Button>
             </Tooltip>
 

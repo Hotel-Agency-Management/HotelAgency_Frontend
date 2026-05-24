@@ -5,6 +5,7 @@ import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Can from "@/components/ability/Can";
+import { useTranslation } from "react-i18next";
 import { useHotelTermsSettingsView } from "../hooks/useHotelTermsSettingsView";
 import { DeleteHotelTermsDialog } from "./DeleteHotelTermsDialog";
 import { HotelTermsEmptyState } from "./HotelTermsEmptyState";
@@ -36,13 +37,14 @@ export function HotelTermsSettingsView({
     handleCloseDeleteDialog,
     handleDelete,
   } = useHotelTermsSettingsView(hotelId);
+  const { t } = useTranslation();
 
   if (isLoading) {
     return <HotelTermsLoadingState />;
   }
 
   if (error) {
-    return <Alert severity="error">Failed to load Terms & Conditions.</Alert>;
+    return <Alert severity="error">{t('terms.loadTermsError', 'Failed to load Terms & Conditions.')}</Alert>;
   }
 
   return (
@@ -50,7 +52,7 @@ export function HotelTermsSettingsView({
       <Can do="manage" this="HotelTerms">
         <Stack spacing={3}>
           <Stack spacing={0.75}>
-            <Typography variant="h5">Terms & Conditions</Typography>
+            <Typography variant="h5">{t('terms.title', 'Terms & Conditions')}</Typography>
           </Stack>
 
           {!resolvedTerms ? <HotelTermsEmptyState hotelName={hotelName} /> : null}
@@ -86,7 +88,7 @@ export function HotelTermsSettingsView({
 
       <Can do="manage" this="HotelTerms" not>
         <Alert severity="error">
-          You do not have permission to manage Terms & Conditions for this hotel.
+          {t('terms.noPermissionHotel', 'You do not have permission to manage Terms & Conditions for this hotel.')}
         </Alert>
       </Can>
     </>

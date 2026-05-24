@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import {
   Dialog,
@@ -18,7 +18,7 @@ import { generateDamageInvoiceNumber } from '../invoice/utils/damageInvoice'
 import type { DamageReport } from '../types/damageReport'
 import type { DamageInvoice } from '../invoice/types/damageInvoice'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { damageInvoiceSchema } from '../schema/damageInvoiceSchema'
+import { createDamageInvoiceSchema } from '../schema/damageInvoiceSchema'
 
 
 interface FormValues {
@@ -49,9 +49,10 @@ export default function GenerateDamageInvoiceDialog({
   onInvoiced,
 }: GenerateDamageInvoiceDialogProps) {
   const { t } = useTranslation()
+  const schema = useMemo(() => createDamageInvoiceSchema(t), [t])
 
   const { control, handleSubmit, reset, formState: { errors } } = useForm<FormValues>({
-    resolver: zodResolver(damageInvoiceSchema),
+    resolver: zodResolver(schema),
     defaultValues: {
       customerName: '',
       customerEmail: '',

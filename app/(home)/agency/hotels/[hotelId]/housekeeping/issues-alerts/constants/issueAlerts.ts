@@ -1,3 +1,4 @@
+import type { TFunction } from "i18next";
 import type { HousekeepingIssueSeverity } from "../types/issue";
 
 export const STAFF_OPTIONS = ["Ahmad", "Maya", "Omar", "Leen", "Sara", "Nour"];
@@ -15,31 +16,54 @@ export interface IssueAlertSummaryCard {
   subtitle: string;
 }
 
-export function getIssueAlertSummaryCards(summary: IssueAlertSummary): IssueAlertSummaryCard[] {
+export function getIssueAlertSummaryCards(summary: IssueAlertSummary, t: TFunction): IssueAlertSummaryCard[] {
   return [
     {
-      title: "Critical Issues",
+      title: t("housekeeping.issues.summary.criticalIssues", "Critical Issues"),
       value: summary.critical,
-      subtitle: "need supervisor action"
+      subtitle: t("housekeeping.issues.summary.criticalSubtitle", "need supervisor action")
     },
     {
-      title: "Delayed Rooms",
+      title: t("housekeeping.issues.summary.delayedRooms", "Delayed Rooms"),
       value: summary.delayed,
-      subtitle: "behind cleaning target"
+      subtitle: t("housekeeping.issues.summary.delayedSubtitle", "behind cleaning target")
     },
     {
-      title: "Re-clean Required",
+      title: t("housekeeping.issues.summary.recleanRequired", "Re-clean Required"),
       value: summary.reclean,
-      subtitle: "failed inspection today"
+      subtitle: t("housekeeping.issues.summary.recleanSubtitle", "failed inspection today")
     },
     {
-      title: "Resolved Today",
+      title: t("housekeeping.issues.summary.resolvedToday", "Resolved Today"),
       value: summary.resolvedToday,
-      subtitle: "closed by housekeeping"
+      subtitle: t("housekeeping.issues.summary.resolvedSubtitle", "closed by housekeeping")
     }
   ];
 }
 
+export function getSeverityMeta(
+  t: TFunction
+): Record<HousekeepingIssueSeverity, { label: string; icon: string; palette: "error" | "warning" | "success" }> {
+  return {
+    HIGH: {
+      label: t("housekeeping.issues.severity.HIGH", "High"),
+      icon: "lucide:alert-triangle",
+      palette: "error",
+    },
+    MEDIUM: {
+      label: t("housekeeping.issues.severity.MEDIUM", "Medium"),
+      icon: "lucide:alert-circle",
+      palette: "warning",
+    },
+    LOW: {
+      label: t("housekeeping.issues.severity.LOW", "Low"),
+      icon: "lucide:info",
+      palette: "success",
+    },
+  };
+}
+
+/** @deprecated Use getSeverityMeta(t) for translated labels. */
 export const SEVERITY_META: Record<
   HousekeepingIssueSeverity,
   { label: string; icon: string; palette: "error" | "warning" | "success" }

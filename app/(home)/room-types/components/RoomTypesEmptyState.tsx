@@ -1,7 +1,10 @@
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
+import { useTranslation } from 'react-i18next'
 
 export function RoomTypesEmptyState() {
+  const { t } = useTranslation()
+
   return (
     <Stack
       alignItems='center'
@@ -16,10 +19,10 @@ export function RoomTypesEmptyState() {
       }}
     >
       <Typography variant='body1' color='text.secondary'>
-        No room types yet
+        {t('roomTypes.empty', { defaultValue: 'No room types yet' })}
       </Typography>
       <Typography variant='body2' color='text.secondary'>
-        Add your first room type to get started
+        {t('roomTypes.emptyHint', { defaultValue: 'Add your first room type to get started' })}
       </Typography>
     </Stack>
   )

@@ -9,6 +9,7 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { Plus, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useTranslation } from "react-i18next";
 import { HotelCard } from "./hotelCard/HotelCard";
 import type { HotelFormValues } from "../types/hotel";
 
@@ -36,21 +37,22 @@ export function HotelGrid({
   onPageChange,
 }: HotelGridProps) {
   const router = useRouter()
+  const { t } = useTranslation()
   const handleAdd = onAdd ?? (() => router.push('/agency/hotels/addHotel'))
 
   return (
     <Stack spacing={3}>
       <Stack direction="row" justifyContent="space-between" alignItems="center" gap={2}>
         <Stack spacing={0.25} flexShrink={0}>
-          <Typography variant="h6" fontWeight={500}>Hotels</Typography>
+          <Typography variant="h6" fontWeight={500}>{t('agencyHotels.title', 'Hotels')}</Typography>
           <Typography variant="body2">
-            {hotels.length} {hotels.length === 1 ? "hotel" : "hotels"}
+            {t('agencyHotels.hotelCount', { count: hotels.length })}
           </Typography>
         </Stack>
         <Stack direction="row" gap={1.5} alignItems="center">
           <TextField
             size="small"
-            placeholder="Search hotels…"
+            placeholder={t('agencyHotels.search', 'Search hotels…')}
             value={search}
             onChange={e => onSearchChange?.(e.target.value)}
             InputProps={{
@@ -69,7 +71,7 @@ export function HotelGrid({
             startIcon={<Plus size={15} />}
             onClick={handleAdd}
           >
-            Add hotel
+            {t('agencyHotels.create', 'Add hotel')}
           </Button>
         </Stack>
       </Stack>
@@ -77,7 +79,7 @@ export function HotelGrid({
       {hotels.length === 0 ? (
         <Stack alignItems="center" justifyContent="center" py={8} spacing={1}>
           <Typography variant="body2" color="text.secondary">
-            No hotels yet. Add your first one.
+            {t('agencyHotels.empty', 'No hotels yet. Add your first one.')}
           </Typography>
         </Stack>
       ) : (

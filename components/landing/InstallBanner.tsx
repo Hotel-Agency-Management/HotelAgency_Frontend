@@ -2,7 +2,7 @@
 
 import { useTheme } from '@mui/material'
 import { alpha } from '@mui/material/styles'
-import { landingContent as lc } from '@/components/landing/landingContent'
+import { useLandingContent } from '@/components/landing/landingContent'
 
 function MarqueeRow({ items, reverse = false }: { items: string[]; reverse?: boolean }) {
   const theme = useTheme()
@@ -57,6 +57,7 @@ function MarqueeRow({ items, reverse = false }: { items: string[]; reverse?: boo
 }
 
 export default function InstallBanner() {
+  const lc = useLandingContent()
   const theme = useTheme()
   const divider = theme.palette.divider
 

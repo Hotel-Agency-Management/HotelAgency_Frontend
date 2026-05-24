@@ -1,6 +1,7 @@
 import { Controller, type Control, type FieldErrors } from 'react-hook-form'
 import { Grid, TextField } from '@mui/material'
 import { MuiTelInput } from 'mui-tel-input'
+import { useTranslation } from 'react-i18next'
 import { FormSection } from './FormSection'
 import type { DirectReservationFormInput } from '../../schema/directReservationSchema'
 
@@ -13,10 +14,12 @@ export function GuestInformationSection({
   control,
   errors,
 }: GuestInformationSectionProps) {
+  const { t } = useTranslation()
+
   return (
     <FormSection
-      title='Guest Information'
-      description='Store the guest identity exactly as it should appear on the reservation and check-in records.'
+      title={t('reservations.form.guest.title', 'Guest Information')}
+      description={t('reservations.form.guest.description', 'Store the guest identity exactly as it should appear on the reservation and check-in records.')}
     >
       <Grid container spacing={2}>
         <Grid size={{ xs: 12, md: 6 }}>
@@ -26,7 +29,7 @@ export function GuestInformationSection({
             render={({ field }) => (
               <TextField
                 {...field}
-                label='Full Name'
+                label={t('reservations.form.guest.fullName', 'Full Name')}
                 fullWidth
                 size='small'
                 error={!!errors.guestFullName}
@@ -45,10 +48,11 @@ export function GuestInformationSection({
                 {...field}
                 fullWidth
                 size='small'
-                label='Phone Number'
+                label={t('reservations.form.guest.phoneNumber', 'Phone Number')}
                 defaultCountry='PS'
                 error={!!errors.guestPhone}
                 helperText={errors.guestPhone?.message}
+                slotProps={{ htmlInput: { dir: 'ltr', style: { direction: 'ltr', textAlign: 'left' } } }}
               />
             )}
           />
@@ -61,7 +65,7 @@ export function GuestInformationSection({
             render={({ field }) => (
               <TextField
                 {...field}
-                label='Email'
+                label={t('reservations.form.guest.email', 'Email')}
                 type='email'
                 fullWidth
                 size='small'
@@ -79,7 +83,7 @@ export function GuestInformationSection({
             render={({ field }) => (
               <TextField
                 {...field}
-                label='ID / Passport Number'
+                label={t('reservations.form.guest.idPassport', 'ID / Passport Number')}
                 fullWidth
                 size='small'
                 error={!!errors.guestIdNumber}

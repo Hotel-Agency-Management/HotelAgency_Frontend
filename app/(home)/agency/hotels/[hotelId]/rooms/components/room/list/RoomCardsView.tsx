@@ -8,6 +8,7 @@ import type { RoomRouteScope } from "../../../types/room";
 import { ROOM_PAGE_SIZE_OPTIONS } from "../../../constants/pagination";
 import { useRoomsPageController } from "../../../hooks/useRoomsPageController";
 import { getRoomGridColumns } from "../../../util/roomGridColumns";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   scope: RoomRouteScope;
@@ -16,6 +17,7 @@ interface Props {
 }
 
 export const RoomCardsView = ({ scope, onAddRoom, onEditRoom }: Props) => {
+  const { t } = useTranslation();
   const controller = useRoomsPageController(scope);
   const [deleteRoomId, setDeleteRoomId] = useState<number | null>(null);
 
@@ -37,7 +39,7 @@ export const RoomCardsView = ({ scope, onAddRoom, onEditRoom }: Props) => {
     controller.deleteRoom(deleteRoomId, { onSuccess: () => setDeleteRoomId(null) });
   };
 
-  const columns = getRoomGridColumns(onEditRoom, openDeleteDialog);
+  const columns = getRoomGridColumns(t, onEditRoom, openDeleteDialog);
 
   const totalPages = Math.ceil(controller.totalCount / controller.paginationModel.pageSize);
 

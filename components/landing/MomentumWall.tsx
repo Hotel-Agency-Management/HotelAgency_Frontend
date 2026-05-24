@@ -1,15 +1,16 @@
 'use client'
 
 import SectionLabel from '@/components/landing/SectionLabel'
-import { landingContent as lc } from '@/components/landing/landingContent'
+import { useLandingContent } from '@/components/landing/landingContent'
 import { FadeIn, FloatingElement, StaggerGroup, StaggerItem } from '@/components/animation'
 import { useTheme } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 
-const section = lc.momentumWall
 const cardFloatOffsets = [-10, 10, -12, 12]
 
 export default function MomentumWall() {
+  const lc = useLandingContent()
+  const section = lc.momentumWall
   const theme = useTheme()
   const primaryMain = theme.palette.primary.main
   const textPrimary = theme.palette.text.primary

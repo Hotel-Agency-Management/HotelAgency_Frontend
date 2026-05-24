@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import type { CustomerHotel } from '@/app/(home)/hotels/types/customerHotel'
 import { buildReservationDetailsItems } from '../constants/reservationDetails'
 import type { CustomerReservation } from '../types/customerReservation'
@@ -27,6 +28,7 @@ export function useReservationManagementLabels({
   cancellationFee,
   language,
 }: UseReservationManagementLabelsOptions) {
+  const { t } = useTranslation()
   const formatReservationTimestamp = useCallback(
     (value: string) =>
       new Intl.DateTimeFormat(language, {
@@ -46,6 +48,7 @@ export function useReservationManagementLabels({
     ? buildReservationDetailsItems({
         reservation: currentReservation,
         stayLength,
+        t,
         formatReservationTimestamp,
         formatBookingDate: value => formatBookingDate(value, language),
         formatCurrencyValue,

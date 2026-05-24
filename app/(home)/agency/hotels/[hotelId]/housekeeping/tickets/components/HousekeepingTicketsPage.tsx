@@ -7,6 +7,7 @@ import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
+import { useTranslation } from "react-i18next";
 import { Plus } from "lucide-react";
 import { useAuth } from "@/core/context/AuthContext";
 import SearchInput from "@/components/common/SearchInput";
@@ -31,6 +32,7 @@ import { useDamageReports } from "../../../damage-reports/hooks/useDamageReports
 export function HousekeepingTicketsPage() {
   const params = useParams<{ hotelId?: string }>();
   const { user } = useAuth();
+  const { t } = useTranslation();
   const hotelId = params.hotelId ?? "";
   const numericHotelId = Number(hotelId);
   const [ticketSearch, setTicketSearch] = useState("");
@@ -117,7 +119,7 @@ export function HousekeepingTicketsPage() {
         >
           <Stack gap={0.5}>
             <Typography variant="h6" fontWeight={700}>
-              Tickets Board
+              {t("housekeeping.tickets.boardTitle", "Tickets Board")}
             </Typography>
           </Stack>
 
@@ -128,7 +130,7 @@ export function HousekeepingTicketsPage() {
             startIcon={<Plus size={15} />}
             onClick={() => setIsCreateDialogOpen(true)}
           >
-            Create Ticket
+            {t("housekeeping.tickets.createTicket", "Create Ticket")}
           </Button>
         </TicketsPageHeader>
       </Container>
@@ -138,10 +140,10 @@ export function HousekeepingTicketsPage() {
           <SearchInput
             value={ticketSearch}
             onChange={setTicketSearch}
-            placeholder="Search board"
+            placeholder={t("housekeeping.tickets.searchBoard", "Search board")}
           />
           <Typography variant="caption">
-            {visibleTickets.length} of {roleScopedTicketCount} tickets
+            {t("housekeeping.tickets.ticketCount", "{{visible}} of {{total}} tickets", { visible: visibleTickets.length, total: roleScopedTicketCount })}
           </Typography>
         </Stack>
         <TicketBoard

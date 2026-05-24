@@ -9,6 +9,7 @@ import {
   Stack,
   Typography
 } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import type { HousekeepingTicket } from "../types/ticket";
 
 interface DeleteTicketDialogProps {
@@ -24,13 +25,14 @@ export function DeleteTicketDialog({
   onClose,
   onConfirm
 }: DeleteTicketDialogProps) {
+  const { t } = useTranslation();
   return (
     <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth>
-      <DialogTitle>Delete Ticket</DialogTitle>
+      <DialogTitle>{t("housekeeping.tickets.deleteDialog.title", "Delete Ticket")}</DialogTitle>
       <DialogContent>
         <Stack gap={1}>
           <Typography variant="body2">
-            This action will permanently remove the housekeeping ticket from the board.
+            {t("housekeeping.tickets.deleteDialog.body", "This action will permanently remove the housekeeping ticket from the board.")}
           </Typography>
           {ticket && (
             <Typography variant="body2" fontWeight={600}>
@@ -41,10 +43,10 @@ export function DeleteTicketDialog({
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="inherit">
-          Cancel
+          {t("common.cancel", "Cancel")}
         </Button>
         <Button onClick={onConfirm} color="error" variant="contained">
-          Delete
+          {t("housekeeping.tickets.deleteDialog.delete", "Delete")}
         </Button>
       </DialogActions>
     </Dialog>

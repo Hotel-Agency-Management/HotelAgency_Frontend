@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useMemo, useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import { MOCK_REQUESTS } from '@/app/(home)/agency-approval/data/AgencyRequest'
 import { AgencyRequest, FilterState } from '../components'
 import { filterAndSort } from '../util/agencyRequests'
@@ -11,6 +12,7 @@ import { ConfirmDialogState, ActionType } from '../types/agency'
 import { AGENCY_STATUS } from '@/components/auth/types/authType'
 
 export function useAgencyApprovals() {
+  const { t } = useTranslation()
   const [requests, setRequests] = useState<AgencyRequest[]>(MOCK_REQUESTS)
   const [pageStatus, setPageStatus] = useState<PageStatus>('idle')
   const [filters, setFilters] = useState<FilterState>(DEFAULT_FILTERS)
@@ -55,8 +57,8 @@ export function useAgencyApprovals() {
     setSnackbar({
       open: true,
       message: action === 'approve'
-        ? `✓ ${request.agencyName} has been approved successfully.`
-        : `${request.agencyName} has been rejected.`,
+        ? t('agencyApproval.snackbar.approved', '✓ {{name}} has been approved successfully.', { name: request.agencyName })
+        : t('agencyApproval.snackbar.rejected', '{{name}} has been rejected.', { name: request.agencyName }),
       severity: action === 'approve' ? 'success' : 'error',
     })
 

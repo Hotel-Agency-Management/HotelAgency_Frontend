@@ -13,6 +13,7 @@ import {
 } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { MapPin, Star } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import type { CustomerHotel } from '../../types/customerHotel'
 import { formatReviewCount } from '../../utils/formatters'
 import { fallbackCover } from '../constants/hotelRoomProfilesMock'
@@ -23,6 +24,7 @@ interface HotelDetailsHeroProps {
 }
 
 export function HotelDetailsHero({ hotel, isLoading }: HotelDetailsHeroProps) {
+  const { t } = useTranslation()
   const theme = useTheme()
   const coverImage = hotel?.coverImage ?? fallbackCover
   const style = {
@@ -45,7 +47,7 @@ export function HotelDetailsHero({ hotel, isLoading }: HotelDetailsHeroProps) {
                 <Stack direction="row" spacing={1} flexWrap="wrap">
                   <Chip label={hotel.tag} size="small" />
                   <Chip
-                    label={hotel.isActive ? 'Available now' : 'Opening soon'}
+                    label={hotel.isActive ? t('hotelPortal.details.availableNow', 'Available now') : t('hotelPortal.card.openingSoon', 'Opening soon')}
                     size="small"
                     color={hotel.isActive ? 'success' : 'warning'}
                   />
@@ -72,7 +74,7 @@ export function HotelDetailsHero({ hotel, isLoading }: HotelDetailsHeroProps) {
               <Stack direction="row" spacing={1} alignItems="center">
                 <Star size={18} fill="currentColor" />
                 <Typography>
-                  {hotel.rating} rating · {formatReviewCount(hotel.reviews)} reviews
+                  {t('hotelPortal.details.ratingReviews', { rating: hotel.rating, reviews: formatReviewCount(hotel.reviews), defaultValue: '{{rating}} rating · {{reviews}} reviews' })}
                 </Typography>
               </Stack>
             </Stack>
@@ -92,7 +94,7 @@ export function HotelDetailsHero({ hotel, isLoading }: HotelDetailsHeroProps) {
                   background: `linear-gradient(135deg, ${theme.palette.secondary.main} 0%, ${theme.palette.tertiary.main} 100%)`,
                 }}
               >
-                View available rooms
+                {t('hotelPortal.details.viewRooms', 'View available rooms')}
               </Button>
             </Box>
           </Stack>

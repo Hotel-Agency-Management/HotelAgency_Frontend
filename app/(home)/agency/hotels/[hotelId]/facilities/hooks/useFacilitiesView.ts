@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   useDeleteFacility,
   useDeleteAdminFacility,
@@ -20,6 +21,7 @@ export function useFacilitiesView({
   agencyId,
   onEditFacility,
 }: UseFacilitiesViewArgs) {
+  const { t } = useTranslation();
   const [filters, setFilters] = useState<FacilityFilters>({});
   const [view, setView] = useState<"list" | "cards">("list");
   const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
@@ -37,11 +39,14 @@ export function useFacilitiesView({
 
   const columns = useMemo(
     () =>
-      getFacilityGridColumns({
-        onEdit: onEditFacility,
-        onDelete: setDeleteTargetId,
-      }),
-    [onEditFacility]
+      getFacilityGridColumns(
+        {
+          onEdit: onEditFacility,
+          onDelete: setDeleteTargetId,
+        },
+        t
+      ),
+    [onEditFacility, t]
   );
 
   const closeDeleteDialog = () => setDeleteTargetId(null);

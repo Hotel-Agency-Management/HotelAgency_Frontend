@@ -6,6 +6,7 @@ import Stack from "@mui/material/Stack";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import { Building2, FileText, Palette } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import {
   getHotelSettingsRoute,
   getHotelTermsRoute,
@@ -22,6 +23,7 @@ export function HotelSettingsShell({
   agencyId,
   children,
 }: HotelSettingsShellProps) {
+  const { t } = useTranslation();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const generalPath = getHotelSettingsRoute(hotelId, agencyId);
@@ -40,7 +42,7 @@ export function HotelSettingsShell({
       >
         <Tab
           value="profile"
-          label="Hotel Profile"
+          label={t("hotelSettings.tabs.hotelProfile", "Hotel Profile")}
           icon={<Building2 size={18} />}
           iconPosition="start"
           component={Link}
@@ -48,7 +50,7 @@ export function HotelSettingsShell({
         />
         <Tab
           value="theme"
-          label="Custom Theme"
+          label={t("hotelSettings.tabs.customTheme", "Custom Theme")}
           icon={<Palette size={18} />}
           iconPosition="start"
           component={Link}
@@ -56,7 +58,7 @@ export function HotelSettingsShell({
         />
         <Tab
           value="terms"
-          label="Terms & Conditions"
+          label={t("hotelSettings.tabs.termsAndConditions", "Terms & Conditions")}
           icon={<FileText size={18} />}
           iconPosition="start"
           component={Link}

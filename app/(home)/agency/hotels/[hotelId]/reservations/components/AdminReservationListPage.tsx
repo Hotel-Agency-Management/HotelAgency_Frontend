@@ -13,6 +13,7 @@ import {
 } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
 import { Plus } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import themeConfig from '@/core/configs/themeConfig'
 import SearchInput from '@/components/common/SearchInput'
 import { CancelReservationDialog } from '@/app/(home)/hotels/[hotelId]/components/CancelReservationDialog'
@@ -25,6 +26,7 @@ import { RESERVATION_LIST_PAGE_SIZE_OPTIONS } from '@/app/(home)/reservations/[h
 
 export function AdminReservationListPage() {
   const router = useRouter()
+  const { t } = useTranslation()
   const {
     reservationsBasePath,
     reservations,
@@ -66,13 +68,14 @@ export function AdminReservationListPage() {
   const columns = useMemo(
     () =>
       getReservationListColumns({
+        t,
         onExtend: handleOpenExtend,
         onUpdate: handleOpenUpdate,
         onCancel: handleOpenCancel,
         onUpdateStatus: handleUpdateStatus,
         statusUpdatingId,
       }),
-    [handleOpenExtend, handleOpenUpdate, handleOpenCancel, handleUpdateStatus, statusUpdatingId]
+    [t, handleOpenExtend, handleOpenUpdate, handleOpenCancel, handleUpdateStatus, statusUpdatingId]
   )
 
   const editStayLength = useMemo(() => {
@@ -106,7 +109,7 @@ export function AdminReservationListPage() {
         >
           <Stack gap={0.75}>
             <Typography variant="h5" fontWeight={700}>
-              Reservations
+              {t('adminReservations.title', 'Reservations')}
             </Typography>
           </Stack>
 
@@ -116,7 +119,7 @@ export function AdminReservationListPage() {
             startIcon={<Plus size={16} />}
             onClick={() => router.push(`${reservationsBasePath}/create`)}
           >
-            Create Reservation
+            {t('adminReservations.create', 'Create Reservation')}
           </Button>
         </Stack>
 
@@ -130,17 +133,17 @@ export function AdminReservationListPage() {
             >
               <Stack gap={0.5}>
                 <Typography variant="subtitle1" fontWeight={700}>
-                  All Reservations
+                  {t('adminReservations.allReservations', 'All Reservations')}
                 </Typography>
                 <Typography variant="body2">
-                  View and manage guest reservations.
+                  {t('adminReservations.viewManage', 'View and manage guest reservations.')}
                 </Typography>
               </Stack>
 
               <Stack direction={{ xs: 'column', sm: 'row' }} gap={1.5}>
                 <SearchInput
                   value={search}
-                  placeholder="Search by guest name…"
+                  placeholder={t('adminReservations.search', 'Search by guest name…')}
                   onChange={handleSearch}
                 />
                 <TextField
@@ -150,7 +153,7 @@ export function AdminReservationListPage() {
                   onChange={(e) => handleStatusChange(e.target.value)}
                   sx={{ minWidth: 150 }}
                 >
-                  <MenuItem value="">All Statuses</MenuItem>
+                  <MenuItem value="">{t('adminReservations.filters.allStatuses', 'All Statuses')}</MenuItem>
                   {RESERVATION_STATUSES.map((s) => (
                     <MenuItem key={s} value={s}>
                       {s}

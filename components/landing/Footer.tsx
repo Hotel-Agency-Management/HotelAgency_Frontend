@@ -2,7 +2,7 @@
 
 import { useTheme } from '@mui/material'
 import { alpha } from '@mui/material/styles'
-import { landingContent as lc } from '@/components/landing/landingContent'
+import { useLandingContent } from '@/components/landing/landingContent'
 import themeConfig from '@/core/configs/themeConfig'
 
 const ExternalLinkIcon = () => (
@@ -24,6 +24,7 @@ const ExternalLinkIcon = () => (
 )
 
 export default function Footer() {
+  const lc = useLandingContent()
   const theme = useTheme()
   const primaryMain = theme.palette.primary.main
   const textPrimary = theme.palette.text.primary

@@ -2,7 +2,8 @@
 
 import { alpha, useTheme } from '@mui/material'
 import Chip from '@mui/material/Chip'
-import { DAMAGE_STATUS_COLOR_KEY, DAMAGE_STATUS_LABELS } from '../constants/damageReport'
+import { useTranslation } from 'react-i18next'
+import { DAMAGE_STATUS_COLOR_KEY, getDamageStatusLabels } from '../constants/damageReport'
 import type { DamageReportStatus } from '../types/damageReport'
 
 interface DamageStatusChipProps {
@@ -11,13 +12,15 @@ interface DamageStatusChipProps {
 
 export default function DamageStatusChip({ status }: DamageStatusChipProps) {
   const theme = useTheme()
+  const { t } = useTranslation()
   const colorKey = DAMAGE_STATUS_COLOR_KEY[status]
   const color = theme.palette[colorKey].main
+  const statusLabels = getDamageStatusLabels(t)
 
   return (
     <Chip
       size="small"
-      label={DAMAGE_STATUS_LABELS[status]}
+      label={statusLabels[status]}
       sx={{
         bgcolor: alpha(color, 0.14),
         color,

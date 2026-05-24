@@ -14,6 +14,8 @@ import {
   Typography,
 } from '@mui/material'
 import { ArrowLeft, ArrowRight, CheckCircle2 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
+import useLanguage from '@/core/hooks/useLanguage'
 import type { RoomProfile } from '@/app/(home)/agency/hotels/[hotelId]/rooms/components/profile/types'
 import type { CustomerHotel } from '@/app/(home)/hotels/types/customerHotel'
 import { BOOKING_CONFIRMATION_STEP_IDS } from '../constants/customerReservationConfirmation'
@@ -45,6 +47,16 @@ export function CustomerReservationConfirmationModal({
   onClose,
   onConfirm,
 }: CustomerReservationConfirmationModalProps) {
+  const { t } = useTranslation()
+  const { language } = useLanguage()
+  const rtlFlip: React.CSSProperties = language === 'ar' ? { transform: 'scaleX(-1)' } : {}
+  const stepLabelMap: Record<string, string> = {
+    'Booking Details': t('hotelPortal.booking.stepBookingDetails', 'Booking Details'),
+    'Terms & Conditions': t('hotelPortal.booking.stepTerms', 'Terms & Conditions'),
+    'Contract Preview': t('hotelPortal.booking.stepContractPreview', 'Contract Preview'),
+    'Signature': t('hotelPortal.booking.stepSignature', 'Signature'),
+    'Review & Confirm': t('hotelPortal.booking.stepReviewConfirm', 'Review & Confirm'),
+  }
   const modalState = useCustomerReservationConfirmationModal({
     open,
     hotelId,
@@ -65,13 +77,13 @@ export function CustomerReservationConfirmationModal({
         <Box className="customer-reservation-confirmation-header">
           <Stack spacing={0.5}>
             <Typography id="customer-reservation-confirmation-title" variant="h6">
-              Confirm your reservation
+              {t('hotelPortal.booking.confirmYourReservation', 'Confirm your reservation')}
             </Typography>
             <Typography
               id="customer-reservation-confirmation-step"
               variant="body2"
             >
-              {modalState.currentStepLabel}
+              {stepLabelMap[modalState.currentStepLabel] ?? modalState.currentStepLabel}
             </Typography>
           </Stack>
         </Box>
@@ -83,7 +95,7 @@ export function CustomerReservationConfirmationModal({
             <Stepper activeStep={modalState.activeStep} alternativeLabel>
               {modalState.steps.map(step => (
                 <Step key={step.id}>
-                  <StepLabel>{step.label}</StepLabel>
+                  <StepLabel>{stepLabelMap[step.label] ?? step.label}</StepLabel>
                 </Step>
               ))}
             </Stepper>
@@ -111,16 +123,16 @@ export function CustomerReservationConfirmationModal({
           alignItems="center"
         >
           <Button color="secondary" onClick={onClose} disabled={confirming}>
-            Cancel
+            {t('common.cancel', 'Cancel')}
           </Button>
           <Box className="customer-reservation-confirmation-spacer" />
           <Button
             color="secondary"
-            startIcon={<ArrowLeft size={16} />}
+            startIcon={<ArrowLeft size={16} style={rtlFlip} />}
             onClick={modalState.handleBack}
             disabled={modalState.isFirstStep || confirming}
           >
-            Back
+            {t('hotelPortal.booking.back', 'Back')}
           </Button>
           {modalState.isFinalStep ? (
             <Button
@@ -135,17 +147,17 @@ export function CustomerReservationConfirmationModal({
                 confirming
               }
             >
-              {modalState.documentsGenerating ? 'Preparing documents...' : 'Confirm reservation'}
+              {modalState.documentsGenerating ? t('hotelPortal.booking.preparingDocuments', 'Preparing documents...') : t('hotelPortal.booking.confirmReservation', 'Confirm reservation')}
             </Button>
           ) : (
             <Button
               variant="contained"
               color="secondary"
-              endIcon={<ArrowRight size={16} />}
+              endIcon={<ArrowRight size={16} style={rtlFlip} />}
               onClick={modalState.handleNext}
               disabled={confirming}
             >
-              Next
+              {t('hotelPortal.booking.next', 'Next')}
             </Button>
           )}
         </Stack>

@@ -6,6 +6,7 @@ import {
 } from '@mui/material'
 import { Calendar, MapPin } from 'lucide-react'
 import { Icon } from '@iconify/react'
+import { useTranslation } from 'react-i18next'
 import { FadeIn, StaggerGroup, StaggerItem, TextReveal } from '@/components/animation'
 import Avatar from '@/components/ui/Avatar'
 import type { ProfileHeroData } from '../types/profile'
@@ -16,6 +17,7 @@ interface HeroCardProps {
 
 export function HeroCard({ data }: HeroCardProps) {
   const theme = useTheme()
+  const { t } = useTranslation()
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const initials = data.name
@@ -87,7 +89,7 @@ export function HeroCard({ data }: HeroCardProps) {
               </Stack>
               <Stack direction='row' alignItems='center' gap={0.75}>
                 <Calendar size={14} />
-                <Typography variant='caption'>Joined {data.joinedDate}</Typography>
+                <Typography variant='caption'>{t('profile.hero.joined', { date: data.joinedDate, defaultValue: 'Joined {{date}}' })}</Typography>
               </Stack>
             </Stack>
           </FadeIn>

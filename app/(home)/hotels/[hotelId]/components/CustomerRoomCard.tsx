@@ -76,7 +76,7 @@ export function CustomerRoomCard({ room, roomTypeName, currency, onRoomClick }: 
             ) : null}
 
             <Stack direction="row" spacing={1} flexWrap="wrap">
-              <Chip icon={<BedDouble size={14} />} label={room.bedType ?? 'Bed'} size="small" variant="outlined" />
+              <Chip icon={<BedDouble size={14} />} label={room.bedType ?? t('hotelPortal.card.bed', 'Bed')} size="small" variant="outlined" />
               {room.amenities.slice(0, 3).map(amenity => (
                 <Chip
                   key={getPublicRoomAmenityName(amenity)}
@@ -101,7 +101,7 @@ export function CustomerRoomCard({ room, roomTypeName, currency, onRoomClick }: 
               onRoomClick(roomId)
             }}
           >
-            {isAvailable ? 'View room details' : 'Not available'}
+            {isAvailable ? t('hotelPortal.card.viewRoomDetails', 'View room details') : t('hotelPortal.card.notAvailable', 'Not available')}
           </Button>
         </CardActions>
       </Stack>

@@ -6,6 +6,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import { Controller, useWatch, type UseFormReturn } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { HOTEL_TERMS_FORM_ID } from "../constants/form";
 import { HOTEL_TERMS_STATUS_OPTIONS, HOTEL_TERMS_STATUSES } from "../constants/status";
 import type { HotelTermsFormValues } from "../schema/hotelTermsSchema";
@@ -31,6 +32,7 @@ export function HotelTermsForm({
     control,
     formState: { errors, isValid },
   } = form;
+  const { t } = useTranslation();
   const currentStatus = useWatch({ control, name: "status" });
 
   return (
@@ -49,7 +51,7 @@ export function HotelTermsForm({
           render={({ field }) => (
             <TextField
               {...field}
-              label="Title"
+              label={t('terms.form.title', 'Title')}
               fullWidth
               disabled={isReadOnly}
               error={Boolean(errors.title)}
@@ -65,20 +67,22 @@ export function HotelTermsForm({
             <TextField
               {...field}
               select
-              label="Status"
+              label={t('terms.form.status', 'Status')}
               fullWidth
               disabled={isReadOnly}
               error={Boolean(errors.status)}
               helperText={
                 errors.status?.message ??
                 (currentStatus === HOTEL_TERMS_STATUSES.ACTIVE
-                  ? "Terms are active and visible to guests."
-                  : "Draft can be reviewed before activation.")
+                  ? t('terms.form.statusActiveHint', 'Terms are active and visible to guests.')
+                  : t('terms.form.statusDraftHint', 'Draft can be reviewed before activation.'))
               }
             >
               {HOTEL_TERMS_STATUS_OPTIONS.map(option => (
                 <MenuItem key={option.value} value={option.value}>
-                  {option.label}
+                  {option.label === HOTEL_TERMS_STATUSES.ACTIVE
+                    ? t('terms.statusActive', 'Active')
+                    : t('terms.statusDraft', 'Draft')}
                 </MenuItem>
               ))}
             </TextField>
@@ -91,7 +95,7 @@ export function HotelTermsForm({
           render={({ field }) => (
             <TextField
               {...field}
-              label="Terms content"
+              label={t('terms.form.content', 'Terms content')}
               fullWidth
               multiline
               minRows={12}
@@ -99,7 +103,7 @@ export function HotelTermsForm({
               error={Boolean(errors.content)}
               helperText={
                 errors.content?.message ??
-                "Write the hotel-specific booking, cancellation, liability, and stay terms."
+                t('terms.form.contentHint', 'Write the hotel-specific booking, cancellation, liability, and stay terms.')
               }
             />
           )}
@@ -117,7 +121,7 @@ export function HotelTermsForm({
                 isSaving ? <CircularProgress size={16} color="inherit" /> : null
               }
             >
-              Save terms
+              {t('terms.form.saveTerms', 'Save terms')}
             </Button>
           </Stack>
         ) : null}

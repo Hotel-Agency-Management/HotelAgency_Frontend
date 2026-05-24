@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslation } from "react-i18next";
 import { defaultFacilityFormValues } from "../constants/facilityFormValues";
-import { facilitySchema, type FacilityFormValues } from "../schema/facilitySchema";
+import { createFacilitySchema, type FacilityFormValues } from "../schema/facilitySchema";
 import type { FacilityPhoto, HotelFacility } from "../types/facility";
 import {
   useCreateFacility,
@@ -41,14 +42,17 @@ export function useFacilityFormDialog({
   hotelId,
   agencyId,
 }: Args) {
+  const { t } = useTranslation();
   const isEdit = !!facility || !!facilityId;
   const [activeStep, setActiveStep] = useState(0);
   const [workingFacilityId, setWorkingFacilityId] = useState<string | null>(null);
   const [flowPhotos, setFlowPhotos] = useState<FacilityPhoto[]>([]);
   const scope = useFacilityScope(hotelId, agencyId);
 
+  const schema = useMemo(() => createFacilitySchema(t), [t]);
+
   const methods = useForm<FacilityFormValues>({
-    resolver: zodResolver(facilitySchema),
+    resolver: zodResolver(schema),
     defaultValues: defaultFacilityFormValues,
   });
 

@@ -15,7 +15,7 @@ import {
   Typography,
 } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { DAMAGE_SEVERITY_OPTIONS } from '../constants/damageReport'
+import { getDamageSeverityOptions } from '../constants/damageReport'
 import type { ReportDamageInput } from '../hooks/useDamageReports'
 import type { DamageSeverity } from '../types/damageReport'
 
@@ -111,7 +111,7 @@ export default function ReportDamageDialog({
                 helperText={errors.severity?.message}
                 fullWidth
               >
-                {DAMAGE_SEVERITY_OPTIONS.map(opt => (
+                {getDamageSeverityOptions(t).map(opt => (
                   <MenuItem key={opt.value} value={opt.value}>
                     {opt.label}
                   </MenuItem>

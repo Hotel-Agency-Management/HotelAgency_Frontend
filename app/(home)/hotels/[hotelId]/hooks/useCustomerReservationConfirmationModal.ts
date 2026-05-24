@@ -16,7 +16,7 @@ import {
   BOOKING_CONFIRMATION_STEP_IDS,
   BOOKING_CONFIRMATION_STEPS,
   FALLBACK_TERMS_CONTENT,
-  buildBookingDetailItems,
+  buildTranslatedBookingDetailItems,
   type BookingConfirmationStepId,
 } from '../constants/customerReservationConfirmation'
 import type {
@@ -63,7 +63,7 @@ export function useCustomerReservationConfirmationModal({
   reservation,
   onConfirm,
 }: UseCustomerReservationConfirmationModalOptions) {
-  const { i18n } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { user } = useAuth()
   const { data: hotelTerms, isLoading: termsLoading } = useHotelTerms(hotelId)
   const [activeStep, setActiveStep] = useState(0)
@@ -98,7 +98,7 @@ export function useCustomerReservationConfirmationModal({
   const activeTerms = hotelTerms?.status === HOTEL_TERMS_STATUSES.ACTIVE ? hotelTerms : null
 
   const termsContent = activeTerms?.content ?? FALLBACK_TERMS_CONTENT
-  const termsTitle = activeTerms?.title ?? 'Hotel Reservation Terms'
+  const termsTitle = activeTerms?.title ?? t('hotelPortal.booking.hotelReservationTerms', 'Hotel Reservation Terms')
   const guestName =
     user?.name ||
     [user?.firstName, user?.lastName].filter(Boolean).join(' ') ||
@@ -106,17 +106,19 @@ export function useCustomerReservationConfirmationModal({
     'Guest customer'
   const totalPriceLabel = formatCurrency(totalPrice, i18n.language, reservation.currency)
   const taxAmountLabel = taxLoading
-    ? 'Calculating...'
+    ? t('hotelPortal.booking.calculatingTax', 'Calculating...')
     : taxAmount == null
-      ? 'Tax unavailable'
+      ? t('hotelPortal.booking.taxUnavailable', 'Tax unavailable')
       : formatCurrency(taxAmount, i18n.language, reservation.currency)
   const estimatedTotalLabel = formatCurrency(estimatedTotal, i18n.language, reservation.currency)
   const pricePerNightLabel = formatCurrency(room.pricePerNight, i18n.language, reservation.currency)
-  const stayLengthLabel = stayLength > 0 ? `${stayLength} night${stayLength > 1 ? 's' : ''}` : '-'
+  const stayLengthLabel = stayLength > 0
+    ? t('hotelPortal.booking.nightCount', { count: stayLength })
+    : '-'
 
   const bookingDetails = useMemo(
     () =>
-      buildBookingDetailItems({
+      buildTranslatedBookingDetailItems({
         hotelName: reservation.hotelName,
         roomNumber: reservation.roomNumber,
         roomTypeLabel: roomType.label,
@@ -125,10 +127,11 @@ export function useCustomerReservationConfirmationModal({
         stayLengthLabel,
         guests: reservation.guests,
         rooms: reservation.rooms,
-        capacityLabel: `${room.capacity} guests`,
-      }),
+        capacityLabel: t('hotelPortal.booking.guestsCapacity', { count: room.capacity, defaultValue: '{{count}} guests' }),
+      }, t),
     [
       i18n.language,
+      t,
       reservation.checkIn,
       reservation.checkOut,
       reservation.guests,
@@ -308,7 +311,7 @@ export function useCustomerReservationConfirmationModal({
     } catch (error) {
       console.error('Customer reservation document generation failed:', error)
       setGeneratedFiles(null)
-      setStepError('Could not prepare the contract and invoice. Please try again.')
+      setStepError(t('hotelPortal.booking.documentGenerationFailed', 'Could not prepare the contract and invoice. Please try again.'))
       return null
     } finally {
       setDocumentsGenerating(false)
@@ -349,13 +352,13 @@ export function useCustomerReservationConfirmationModal({
   const handleConfirm = async () => {
     if (!termsAccepted) {
       setActiveStep(getStepIndexById(BOOKING_CONFIRMATION_STEP_IDS.TERMS))
-      setStepError('Please accept the terms and conditions before confirming.')
+      setStepError(t('hotelPortal.booking.pleaseAcceptTerms', 'Please accept the terms and conditions before confirming.'))
       return
     }
 
     if (!signatureDataUrl) {
       setActiveStep(getStepIndexById(BOOKING_CONFIRMATION_STEP_IDS.SIGNATURE))
-      setStepError('Please add your signature before confirming.')
+      setStepError(t('hotelPortal.booking.pleaseAddSignature', 'Please add your signature before confirming.'))
       return
     }
 

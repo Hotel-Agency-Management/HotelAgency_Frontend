@@ -3,6 +3,7 @@ import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { Clock3 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { FACILITY_STATUSES } from "../../../constants/facilityStatuses";
 import type { FacilityStatus } from "../../../types/facility";
 import { FacilityDescription } from "./facilityGridViewStyles";
@@ -24,6 +25,7 @@ export function FacilityCardInfo({
   openAt,
   closeAt,
 }: Props) {
+  const { t } = useTranslation();
   const { label, color } = FACILITY_STATUSES[status];
 
   return (
@@ -46,7 +48,7 @@ export function FacilityCardInfo({
 
       <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
         <Typography variant="caption" color="text.secondary">
-          Working hours
+          {t('facilities.card.workingHours', 'Working hours')}
         </Typography>
         <Chip
           icon={<Clock3 size={13} />}

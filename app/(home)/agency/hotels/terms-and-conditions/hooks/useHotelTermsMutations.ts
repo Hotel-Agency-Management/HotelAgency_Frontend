@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 import { getErrorMessage } from "@/core/utils/apiError";
 import { createHotelTerms, updateHotelTerms } from "../clients/termsClient";
 import { adminCreateHotelTerms, adminUpdateHotelTerms } from "../clients/adminTermsClient";
@@ -14,6 +15,7 @@ import { hotelTermsQueryKeys } from "../constants/termsKey";
 
 export function useCreateHotelTerms() {
   const queryClient = useQueryClient();
+  const { t } = useTranslation();
 
   return useMutation<TermsResponse, unknown, CreateTermsVariables>({
     mutationFn: ({ hotelId, data }) => createHotelTerms(hotelId, data),
@@ -21,16 +23,17 @@ export function useCreateHotelTerms() {
       queryClient.invalidateQueries({
         queryKey: hotelTermsQueryKeys.list(variables.hotelId),
       });
-      toast.success("Terms & Conditions created successfully");
+      toast.success(t('terms.toast.created', 'Terms & Conditions created successfully'));
     },
     onError: (error) => {
-      toast.error(getErrorMessage(error, "Failed to create Terms & Conditions"));
+      toast.error(getErrorMessage(error, t('terms.toast.createFailed', 'Failed to create Terms & Conditions')));
     },
   });
 }
 
 export function useUpdateHotelTerms() {
   const queryClient = useQueryClient();
+  const { t } = useTranslation();
 
   return useMutation<TermsResponse, unknown, UpdateTermsVariables>({
     mutationFn: ({ hotelId, id, data }) => updateHotelTerms(hotelId, id, data),
@@ -41,16 +44,17 @@ export function useUpdateHotelTerms() {
       queryClient.invalidateQueries({
         queryKey: hotelTermsQueryKeys.detail(variables.hotelId, variables.id),
       });
-      toast.success("Terms & Conditions updated successfully");
+      toast.success(t('terms.toast.updated', 'Terms & Conditions updated successfully'));
     },
     onError: (error) => {
-      toast.error(getErrorMessage(error, "Failed to update Terms & Conditions"));
+      toast.error(getErrorMessage(error, t('terms.toast.updateFailed', 'Failed to update Terms & Conditions')));
     },
   });
 }
 
 export function useAdminCreateHotelTerms() {
   const queryClient = useQueryClient();
+  const { t } = useTranslation();
 
   return useMutation<TermsResponse, unknown, CreateAdminTermsVariables>({
     mutationFn: ({ agencyId, hotelId, data }) =>
@@ -59,16 +63,17 @@ export function useAdminCreateHotelTerms() {
       queryClient.invalidateQueries({
         queryKey: hotelTermsQueryKeys.adminList(variables.agencyId, variables.hotelId),
       });
-      toast.success("Terms & Conditions created successfully");
+      toast.success(t('terms.toast.created', 'Terms & Conditions created successfully'));
     },
     onError: (error) => {
-      toast.error(getErrorMessage(error, "Failed to create Terms & Conditions"));
+      toast.error(getErrorMessage(error, t('terms.toast.createFailed', 'Failed to create Terms & Conditions')));
     },
   });
 }
 
 export function useAdminUpdateHotelTerms() {
   const queryClient = useQueryClient();
+  const { t } = useTranslation();
 
   return useMutation<TermsResponse, unknown, UpdateAdminTermsVariables>({
     mutationFn: ({ agencyId, hotelId, id, data }) =>
@@ -84,10 +89,10 @@ export function useAdminUpdateHotelTerms() {
           variables.id
         ),
       });
-      toast.success("Terms & Conditions updated successfully");
+      toast.success(t('terms.toast.updated', 'Terms & Conditions updated successfully'));
     },
     onError: (error) => {
-      toast.error(getErrorMessage(error, "Failed to update Terms & Conditions"));
+      toast.error(getErrorMessage(error, t('terms.toast.updateFailed', 'Failed to update Terms & Conditions')));
     },
   });
 }

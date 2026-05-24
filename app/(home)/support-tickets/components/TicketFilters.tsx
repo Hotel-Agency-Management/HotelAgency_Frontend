@@ -10,6 +10,7 @@ import {
   Select,
   useTheme,
 } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { TicketFilters } from '@/core/types/supportTickets';
 import SearchInput from '@/components/common/SearchInput';
 import { TICKET_STATUSES, TICKET_PRIORITIES, TICKET_CATEGORIES, SUPPORT_AGENTS } from '../constant/tickets';
@@ -22,6 +23,7 @@ interface TicketFiltersProps {
 
 export function TicketFiltersBar({ filters, onChange }: TicketFiltersProps) {
   const theme = useTheme();
+  const { t } = useTranslation();
   const searchTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [localSearch, setLocalSearch] = React.useState(filters.search);
 
@@ -62,16 +64,16 @@ export function TicketFiltersBar({ filters, onChange }: TicketFiltersProps) {
           <SearchInput
             value={localSearch}
             onChange={handleSearchChange}
-            placeholder="Search by subject, ID, or agency…"
+            placeholder={t('supportTickets.searchPlaceholder', { defaultValue: 'Search by subject, ID, or agency…' })}
             fullWidth
           />
         </Grid>
 
         <Grid size={{ xs: 6, sm: 4, md: 1.5 }}>
           <FormControl fullWidth size="small">
-            <InputLabel>Status</InputLabel>
+            <InputLabel>{t('supportTickets.filters.status', { defaultValue: 'Status' })}</InputLabel>
             <Select
-              label="Status"
+              label={t('supportTickets.filters.status', { defaultValue: 'Status' })}
               value={filters.status}
               onChange={(e) => handleChange('status', e.target.value as TicketFilters['status'])}
             >
@@ -86,9 +88,9 @@ export function TicketFiltersBar({ filters, onChange }: TicketFiltersProps) {
 
         <Grid size={{ xs: 6, sm: 4, md: 1.5 }}>
           <FormControl fullWidth size="small">
-            <InputLabel>Priority</InputLabel>
+            <InputLabel>{t('supportTickets.filters.priority', { defaultValue: 'Priority' })}</InputLabel>
             <Select
-              label="Priority"
+              label={t('supportTickets.filters.priority', { defaultValue: 'Priority' })}
               value={filters.priority}
               onChange={(e) => handleChange('priority', e.target.value as TicketFilters['priority'])}
             >
@@ -103,9 +105,9 @@ export function TicketFiltersBar({ filters, onChange }: TicketFiltersProps) {
 
         <Grid size={{ xs: 6, sm: 4, md: 1.5 }}>
           <FormControl fullWidth size="small">
-            <InputLabel>Category</InputLabel>
+            <InputLabel>{t('supportTickets.filters.category', { defaultValue: 'Category' })}</InputLabel>
             <Select
-              label="Category"
+              label={t('supportTickets.filters.category', { defaultValue: 'Category' })}
               value={filters.category}
               onChange={(e) => handleChange('category', e.target.value as TicketFilters['category'])}
             >
@@ -120,9 +122,9 @@ export function TicketFiltersBar({ filters, onChange }: TicketFiltersProps) {
 
         <Grid size={{ xs: 6, sm: 4, md: 2 }}>
           <FormControl fullWidth size="small">
-            <InputLabel>Assigned To</InputLabel>
+            <InputLabel>{t('supportTickets.filters.assignedTo', { defaultValue: 'Assigned To' })}</InputLabel>
             <Select
-              label="Assigned To"
+              label={t('supportTickets.filters.assignedTo', { defaultValue: 'Assigned To' })}
               value={filters.assignedTo}
               onChange={(e) => handleChange('assignedTo', e.target.value)}
             >

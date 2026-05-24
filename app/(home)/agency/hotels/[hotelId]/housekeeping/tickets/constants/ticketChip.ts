@@ -1,3 +1,4 @@
+import type { TFunction } from "i18next";
 import {
   HOUSEKEEPING_TICKET_PRIORITY,
   HOUSEKEEPING_TICKET_STATUS,
@@ -7,12 +8,31 @@ import type {
   HousekeepingTicketStatus
 } from "../types/ticket";
 
+export function getPriorityLabels(t: TFunction): Record<HousekeepingTicketPriority, string> {
+  return {
+    [HOUSEKEEPING_TICKET_PRIORITY.LOW]: t("housekeeping.tickets.priority.LOW", "Low"),
+    [HOUSEKEEPING_TICKET_PRIORITY.MEDIUM]: t("housekeeping.tickets.priority.MEDIUM", "Medium"),
+    [HOUSEKEEPING_TICKET_PRIORITY.HIGH]: t("housekeeping.tickets.priority.HIGH", "High"),
+  };
+}
+
+export function getStatusLabels(t: TFunction): Record<HousekeepingTicketStatus, string> {
+  return {
+    [HOUSEKEEPING_TICKET_STATUS.TO_DO]: t("housekeeping.tickets.status.TO_DO", "To Do"),
+    [HOUSEKEEPING_TICKET_STATUS.IN_PROGRESS]: t("housekeeping.tickets.status.IN_PROGRESS", "In Progress"),
+    [HOUSEKEEPING_TICKET_STATUS.REVIEW]: t("housekeeping.tickets.status.REVIEW", "Review"),
+    [HOUSEKEEPING_TICKET_STATUS.DONE]: t("housekeeping.tickets.status.DONE", "Done"),
+  };
+}
+
+/** @deprecated Use getPriorityLabels(t) for translated labels. */
 export const PRIORITY_LABELS: Record<HousekeepingTicketPriority, string> = {
   [HOUSEKEEPING_TICKET_PRIORITY.LOW]: "Low",
   [HOUSEKEEPING_TICKET_PRIORITY.MEDIUM]: "Medium",
   [HOUSEKEEPING_TICKET_PRIORITY.HIGH]: "High"
 };
 
+/** @deprecated Use getStatusLabels(t) for translated labels. */
 export const STATUS_LABELS: Record<HousekeepingTicketStatus, string> = {
   [HOUSEKEEPING_TICKET_STATUS.TO_DO]: "To Do",
   [HOUSEKEEPING_TICKET_STATUS.IN_PROGRESS]: "In Progress",

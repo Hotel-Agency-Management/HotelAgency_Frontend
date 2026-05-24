@@ -2,6 +2,7 @@ import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import Tooltip from "@mui/material/Tooltip";
 import { Pencil, Trash2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   id: string;
@@ -10,9 +11,10 @@ interface Props {
 }
 
 export function FacilityQuickActions({ id, onEdit, onDelete }: Props) {
+  const { t } = useTranslation();
   return (
     <Stack direction="row" spacing={0.5}>
-      <Tooltip title="Edit facility">
+      <Tooltip title={t("facilities.actions.editFacility", "Edit facility")}>
         <IconButton
           size="small"
           onClick={(event) => {
@@ -24,7 +26,7 @@ export function FacilityQuickActions({ id, onEdit, onDelete }: Props) {
         </IconButton>
       </Tooltip>
 
-      <Tooltip title="Delete facility">
+      <Tooltip title={t("facilities.actions.deleteFacility", "Delete facility")}>
         <IconButton
           size="small"
           color="error"

@@ -11,6 +11,7 @@ import Fade from "@mui/material/Fade";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import { useTranslation } from "react-i18next";
 import { useAgencyProfile } from "../../hooks/useAgencyProfile";
 import { AgencyProfile, FileItem } from "../../types/agencyProfile";
 import { AgencyFileCards } from "./AgencyFileCards";
@@ -38,6 +39,7 @@ export function AgencyProfileTab({
 }: AgencyProfileTabProps) {
   const { isEditing, isLoading: isSaving, form, handleEdit, handleSave, handleCancel } =
     useAgencyProfile({ defaultValues, onSave });
+  const { t } = useTranslation();
 
   const currentValues = form.watch();
 
@@ -49,11 +51,11 @@ export function AgencyProfileTab({
       >
         <Stack gap={3} >
           <Stack direction="row" alignItems="center" justifyContent="space-between">
-            <Typography variant="h5">Agency Information</Typography>
+            <Typography variant="h5">{t('agencySettings.profile.title', 'Agency Information')}</Typography>
             <Stack direction="row" gap={1}>
               {isEditing && (
                 <Fade in={isEditing}>
-                  <Tooltip title="Cancel">
+                  <Tooltip title={t('common.cancel', 'Cancel')}>
                     <Box component='span'>
                       <IconButton
                         size="small"
@@ -67,7 +69,7 @@ export function AgencyProfileTab({
                   </Tooltip>
                 </Fade>
               )}
-              <Tooltip title={isEditing ? "Save changes" : "Edit profile"}>
+              <Tooltip title={isEditing ? t('agencySettings.actions.saveChanges', 'Save changes') : t('agencySettings.actions.editProfile', 'Edit profile')}>
                 <Box component='span'>
                   <IconButton
                     size="small"
@@ -109,7 +111,7 @@ export function AgencyProfileTab({
         variant="card"
       >
         <Stack gap={3}>
-          <Typography variant="h5">Uploaded Files</Typography>
+          <Typography variant="h5">{t('agencySettings.profile.uploadedFiles', 'Uploaded Files')}</Typography>
           <Divider />
           <AgencyFileCards
             files={documents}

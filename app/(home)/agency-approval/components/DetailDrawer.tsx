@@ -21,12 +21,14 @@ import {
   CheckCircle,
   XCircle,
 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import StatusChip from './StatusChip'
 import { br } from '@/core/utils/themeUtils'
 import { AgencyRequest } from '.'
 import { ActionType } from '../types/agency'
 import { DetailItem } from './DetailItem'
 import { fromNow } from '@/core/utils/Dateutils'
+import LtrText from '@/components/ui/LtrText'
 import { AGENCY_STATUS } from '@/components/auth/types/authType'
 
 interface DetailDrawerProps {
@@ -37,6 +39,7 @@ interface DetailDrawerProps {
 }
 
 export default function DetailDrawer({ request, open, onClose, onAction }: DetailDrawerProps) {
+  const { t } = useTranslation()
   const theme = useTheme()
 
   if (!request) return null
@@ -59,7 +62,7 @@ export default function DetailDrawer({ request, open, onClose, onAction }: Detai
           sx={{ p: 3 }}
         >
           <Typography variant='subtitle1' fontWeight={700}>
-            Agency Details
+            {t('agencyApproval.drawer.title', 'Agency Details')}
           </Typography>
 
           <IconButton size='small' onClick={onClose} sx={{ borderRadius: br(theme) }}>
@@ -107,21 +110,21 @@ export default function DetailDrawer({ request, open, onClose, onAction }: Detai
               variant='overline'
               color='text.disabled'
             >
-              Contact Information
+              {t('agencyApproval.drawer.contactInfo', 'Contact Information')}
             </Typography>
 
             <Stack spacing={2.5}>
-              <DetailItem icon={<Mail size={15} />} label='Owner / Contact' value={request.ownerName} />
-              <DetailItem icon={<Mail size={15} />} label='Email Address' value={request.email} />
-              <DetailItem icon={<Phone size={15} />} label='Phone Number' value={request.phone} />
-              <DetailItem icon={<MapPin size={15} />} label='Location' value={request.location} />
+              <DetailItem icon={<Mail size={15} />} label={t('agencyApproval.drawer.ownerContact', 'Owner / Contact')} value={request.ownerName} />
+              <DetailItem icon={<Mail size={15} />} label={t('agencyApproval.drawer.emailAddress', 'Email Address')} value={request.email} />
+              <DetailItem icon={<Phone size={15} />} label={t('agencyApproval.drawer.phoneNumber', 'Phone Number')} value={<LtrText>{request.phone}</LtrText>} />
+              <DetailItem icon={<MapPin size={15} />} label={t('agencyApproval.drawer.location', 'Location')} value={request.location} />
               {request.website && (
-                <DetailItem icon={<Globe size={15} />} label='Website' value={request.website} />
+                <DetailItem icon={<Globe size={15} />} label={t('agencyApproval.drawer.website', 'Website')} value={request.website} />
               )}
               {request.registrationNumber && (
-                <DetailItem icon={<IdCard size={15} />} label='Registration No.' value={request.registrationNumber} />
+                <DetailItem icon={<IdCard size={15} />} label={t('agencyApproval.drawer.registrationNo', 'Registration No.')} value={request.registrationNumber} />
               )}
-              <DetailItem icon={<Calendar size={15} />} label='Submitted On' value={formattedDate} />
+              <DetailItem icon={<Calendar size={15} />} label={t('agencyApproval.drawer.submittedOn', 'Submitted On')} value={formattedDate} />
             </Stack>
           </Stack>
 
@@ -134,7 +137,7 @@ export default function DetailDrawer({ request, open, onClose, onAction }: Detai
                   variant='overline'
                   color='text.disabled'
                 >
-                  Actions
+                  {t('agencyApproval.drawer.actions', 'Actions')}
                 </Typography>
 
                 <Stack spacing={1.5}>
@@ -151,7 +154,7 @@ export default function DetailDrawer({ request, open, onClose, onAction }: Detai
                       fontWeight: 700,
                     }}
                   >
-                    Approve Registration
+                    {t('agencyApproval.drawer.approveRegistration', 'Approve Registration')}
                   </Button>
 
                   <Button
@@ -164,7 +167,7 @@ export default function DetailDrawer({ request, open, onClose, onAction }: Detai
                     }}
                     color='error'
                   >
-                    Reject Registration
+                    {t('agencyApproval.drawer.rejectRegistration', 'Reject Registration')}
                   </Button>
                 </Stack>
               </Stack>

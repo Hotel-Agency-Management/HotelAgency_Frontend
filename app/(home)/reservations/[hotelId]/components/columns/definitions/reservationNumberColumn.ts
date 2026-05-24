@@ -1,9 +1,12 @@
 import type { GridColDef } from '@mui/x-data-grid'
+import type { ReservationColumnContext } from '../types'
 import type { ReservationListItem } from '../../../config/reservationConfig'
 
-export const reservationNumberColumn: GridColDef<ReservationListItem> = {
-  field: 'reservationNumber',
-  headerName: 'Reservation #',
-  flex: 1.2,
-  minWidth: 160,
+export function createReservationNumberColumn({ t }: ReservationColumnContext): GridColDef<ReservationListItem> {
+  return {
+    field: 'reservationNumber',
+    headerName: t('reservations.table.reservationNumber', 'Reservation #'),
+    flex: 1.2,
+    minWidth: 160,
+  }
 }

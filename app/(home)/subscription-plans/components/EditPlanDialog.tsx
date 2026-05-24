@@ -7,6 +7,7 @@ import {
   IconButton,
 } from '@mui/material'
 import { Close } from '@mui/icons-material'
+import { useTranslation } from 'react-i18next'
 import PlanForm from './PlanForm'
 import { SubscriptionPlan, PlanFormValues } from '../types/plans'
 
@@ -23,12 +24,14 @@ export default function EditPlanDialog({
   onClose,
   onSubmit,
 }: EditPlanDialogProps) {
+  const { t } = useTranslation()
+
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth scroll="paper">
       <DialogTitle>
         <Stack direction="row" alignItems="center" justifyContent="space-between">
           <Typography variant="h6" fontWeight={700}>
-            Edit Plan — {plan?.name}
+            {t('subscriptionPlans.editDialog.title', { name: plan?.name, defaultValue: 'Edit Plan — {{name}}' })}
           </Typography>
 
           <IconButton size="small" onClick={onClose}>
@@ -43,7 +46,7 @@ export default function EditPlanDialog({
             initial={plan}
             onSubmit={onSubmit}
             onCancel={onClose}
-            submitLabel="Save Changes"
+            submitLabel={t('subscriptionPlans.saveChanges', { defaultValue: 'Save Changes' })}
           />
         </DialogContent>
       )}

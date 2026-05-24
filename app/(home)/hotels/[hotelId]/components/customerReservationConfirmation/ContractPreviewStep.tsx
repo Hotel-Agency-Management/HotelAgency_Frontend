@@ -12,6 +12,7 @@ import {
   Typography,
 } from '@mui/material'
 import { FileText } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import Spinner from '@/components/loaders/Spinner'
 import type { ReservationContractData } from '../../types/customerReservationContract'
 import { ReservationContractDocument } from '../customerReservationContract/ReservationContractDocument'
@@ -29,6 +30,7 @@ export function ContractPreviewStep({
   stepError,
   onPreviewAcceptedChange,
 }: ContractPreviewStepProps) {
+  const { t } = useTranslation()
   const [pdfBlobUrl, setPdfBlobUrl] = useState<string | null>(null)
   const [pdfError, setPdfError] = useState(false)
 
@@ -71,17 +73,17 @@ export function ContractPreviewStep({
 
           <Stack spacing={0.75} alignItems="center">
             <Typography variant="h6" fontWeight={800}>
-              Reservation contract
+              {t('hotelPortal.booking.reservationContract', 'Reservation contract')}
             </Typography>
 
             <Typography variant="body2">
-              Open the contract in a new tab to review it before continuing.
+              {t('hotelPortal.booking.openContractToReview', 'Open the contract in a new tab to review it before continuing.')}
             </Typography>
           </Stack>
 
           {pdfError ? (
             <Alert severity="error" sx={{ width: '100%' }}>
-              Failed to generate contract preview. Please try again.
+              {t('hotelPortal.booking.contractPreviewFailed', 'Failed to generate contract preview. Please try again.')}
             </Alert>
           ) : pdfBlobUrl ? (
             <Button
@@ -92,7 +94,7 @@ export function ContractPreviewStep({
               variant="outlined"
               startIcon={<FileText size={16} />}
             >
-              Open contract preview
+              {t('hotelPortal.booking.openContractPreview', 'Open contract preview')}
             </Button>
           ) : (
             <Spinner />
@@ -112,7 +114,7 @@ export function ContractPreviewStep({
               }
             />
           }
-          label="I reviewed the contract and want to continue to signature."
+          label={t('hotelPortal.booking.reviewedContractContinue', 'I reviewed the contract and want to continue to signature.')}
         />
       </Paper>
     </Stack>

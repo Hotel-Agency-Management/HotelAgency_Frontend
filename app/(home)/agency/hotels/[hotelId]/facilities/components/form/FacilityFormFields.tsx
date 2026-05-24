@@ -2,12 +2,14 @@ import Grid from "@mui/material/Grid";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 import { Controller, useFormContext } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { FACILITY_STATUSES } from "../../constants/facilityStatuses";
 import { FACILITY_TYPES } from "../../constants/facilityTypes";
 import type { FacilityFormValues } from "../../schema/facilitySchema";
 import type { FacilityStatus } from "../../types/facility";
 
 export function FacilityFormFields() {
+  const { t } = useTranslation();
   const {
     register,
     control,
@@ -18,7 +20,7 @@ export function FacilityFormFields() {
     <Grid container spacing={2}>
       <Grid size={{ xs: 12, sm: 6 }}>
         <TextField
-          label="Facility name"
+          label={t("facilities.form.facilityName", "Facility name")}
           fullWidth
           size="small"
           {...register("name")}
@@ -34,7 +36,7 @@ export function FacilityFormFields() {
           render={({ field }) => (
             <TextField
               select
-              label="Facility type"
+              label={t("facilities.form.facilityType", "Facility type")}
               fullWidth
               size="small"
               {...field}
@@ -59,7 +61,7 @@ export function FacilityFormFields() {
           render={({ field }) => (
             <TextField
               select
-              label="Status"
+              label={t("facilities.form.status", "Status")}
               fullWidth
               size="small"
               {...field}
@@ -79,7 +81,7 @@ export function FacilityFormFields() {
 
       <Grid size={{ xs: 12, sm: 4 }}>
         <TextField
-          label="Open at"
+          label={t("facilities.form.openAt", "Open at")}
           type="time"
           fullWidth
           size="small"
@@ -92,7 +94,7 @@ export function FacilityFormFields() {
 
       <Grid size={{ xs: 12, sm: 4 }}>
         <TextField
-          label="Close at"
+          label={t("facilities.form.closeAt", "Close at")}
           type="time"
           fullWidth
           size="small"
@@ -105,7 +107,7 @@ export function FacilityFormFields() {
 
       <Grid size={{ xs: 12 }}>
         <TextField
-          label="Description"
+          label={t("facilities.form.description", "Description")}
           fullWidth
           size="small"
           multiline

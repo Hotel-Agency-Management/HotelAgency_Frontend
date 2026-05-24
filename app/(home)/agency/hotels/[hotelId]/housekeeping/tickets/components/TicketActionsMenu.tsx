@@ -9,6 +9,7 @@ import Stack from "@mui/material/Stack";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
+import { useTranslation } from "react-i18next";
 import { AlertTriangle, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import { useCan } from "@/core/hooks/useAbility";
 import { HOUSEKEEPING_LOCATION_TYPE } from "../constants/ticket";
@@ -28,6 +29,7 @@ export function TicketActionsMenu({
   onReportDamage,
 }: TicketActionsMenuProps) {
   const theme = useTheme();
+  const { t } = useTranslation();
   const [menuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
   const canReportDamage = useCan("create", "DamageReports");
   const isRoom = ticket.locationType === HOUSEKEEPING_LOCATION_TYPE.ROOM;
@@ -41,7 +43,7 @@ export function TicketActionsMenu({
 
   return (
     <>
-      <Tooltip title="More actions">
+      <Tooltip title={t("housekeeping.tickets.actions.moreActions", "More actions")}>
         <IconButton
           size="small"
           onClick={(e) => { e.stopPropagation(); setMenuAnchor(e.currentTarget); }}
@@ -60,7 +62,7 @@ export function TicketActionsMenu({
         <MenuItem dense onClick={handleEdit}>
           <Stack direction="row" gap={1.5} alignItems="center">
             <Pencil size={14} color={theme.palette.text.secondary} />
-            <Typography variant="body2">Edit ticket</Typography>
+            <Typography variant="body2">{t("housekeeping.tickets.actions.editTicket", "Edit ticket")}</Typography>
           </Stack>
         </MenuItem>
 
@@ -68,7 +70,7 @@ export function TicketActionsMenu({
           <MenuItem dense onClick={handleReportDamage}>
             <Stack direction="row" gap={1.5} alignItems="center">
               <AlertTriangle size={14} color={theme.palette.warning.main} />
-              <Typography variant="body2" color="warning.main">Report damage</Typography>
+              <Typography variant="body2" color="warning.main">{t("housekeeping.tickets.actions.reportDamage", "Report damage")}</Typography>
             </Stack>
           </MenuItem>
         )}
@@ -77,7 +79,7 @@ export function TicketActionsMenu({
         <MenuItem dense onClick={handleDelete} sx={{ color: theme.palette.error.main }}>
           <Stack direction="row" gap={1.5} alignItems="center">
             <Trash2 size={14} />
-            <Typography variant="body2" color="inherit">Delete ticket</Typography>
+            <Typography variant="body2" color="inherit">{t("housekeeping.tickets.actions.deleteTicket", "Delete ticket")}</Typography>
           </Stack>
         </MenuItem>
       </Menu>

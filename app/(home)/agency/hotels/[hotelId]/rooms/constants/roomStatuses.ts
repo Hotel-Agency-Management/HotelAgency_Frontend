@@ -1,6 +1,12 @@
 import { ROOM_STATUS, RoomStatus } from "../types/room";
+import type { TFunction } from "i18next";
 
-export const ROOM_STATUSES: Record<string, { label: string; color: "success" | "error" | "warning" | "info" | "default" }> = {
+type RoomStatusColor = "success" | "error" | "warning" | "info" | "default";
+
+export const ROOM_STATUSES: Record<
+  string,
+  { label: string; color: RoomStatusColor }
+> = {
   [RoomStatus.Available]: { label: "Available", color: "success" },
   [RoomStatus.Occupied]: { label: "Occupied", color: "error" },
   [RoomStatus.Maintenance]: { label: "Maintenance", color: "warning" },
@@ -12,3 +18,9 @@ export const ROOM_STATUSES: Record<string, { label: string; color: "success" | "
   [ROOM_STATUS.RESERVED]: { label: "Reserved", color: "info" },
   [ROOM_STATUS.BLOCKED]: { label: "Blocked", color: "default" },
 };
+
+export const getRoomStatusLabel = (
+  t: TFunction,
+  status: string,
+  defaultValue = ROOM_STATUSES[status]?.label ?? status,
+) => t(`hotelRooms.status.${status}`, defaultValue);

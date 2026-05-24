@@ -5,6 +5,7 @@ import { useFormContext } from "react-hook-form";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import { useTranslation } from "react-i18next";
 import type { HotelFormValues } from "../../../types/hotel";
 import { MAX_COVER_SIZE, readFileAsDataUrl } from "@/app/(home)/agency/constants/logoDetails";
 import { CoverUploadBox } from "./CoverUploadBox";
@@ -16,19 +17,20 @@ export function CoverImageField() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [error, setError] = useState<string | null>(null);
   const coverImage = watch("basicInfo.coverImage");
+  const { t } = useTranslation();
 
   const handleUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
     if (!file.type.startsWith("image/")) {
-      setError("Please choose an image file.");
+      setError(t('agencyHotels.coverImage.invalidType', 'Please choose an image file.'));
       e.target.value = "";
       return;
     }
 
     if (file.size > MAX_COVER_SIZE) {
-      setError("Image must be 5 MB or less.");
+      setError(t('agencyHotels.coverImage.tooLarge', 'Image must be 5 MB or less.'));
       e.target.value = "";
       return;
     }
@@ -37,7 +39,7 @@ export function CoverImageField() {
       setValue("basicInfo.coverImage", await readFileAsDataUrl(file), { shouldDirty: true });
       setError(null);
     } catch {
-      setError("Upload failed.");
+      setError(t('agencyHotels.coverImage.uploadFailed', 'Upload failed.'));
     } finally {
       e.target.value = "";
     }
@@ -45,7 +47,7 @@ export function CoverImageField() {
 
   return (
     <Stack spacing={1}>
-      <Typography variant="overline">Cover image</Typography>
+      <Typography variant="overline">{t('agencyHotels.coverImage.label', 'Cover image')}</Typography>
 
       <CoverUploadBox
         hasImage={!!coverImage}

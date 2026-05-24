@@ -2,12 +2,14 @@ import { Grid, TextField } from "@mui/material";
 import { useFormContext } from "react-hook-form";
 import { RoomFormValues } from "../../../schema/roomSchema";
 import type { RoomTypeOption } from "./RoomFormFields";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   roomTypes: RoomTypeOption[];
 }
 
 export const RoomNotesFields = (_: Props) => {
+  const { t } = useTranslation();
   const {
     register,
     formState: { errors },
@@ -17,7 +19,7 @@ export const RoomNotesFields = (_: Props) => {
     <Grid container spacing={2}>
       <Grid size={{ xs: 12 }}>
         <TextField
-          label="Description"
+          label={t("hotelRooms.form.description", "Description")}
           fullWidth
           size="small"
           multiline
@@ -30,7 +32,7 @@ export const RoomNotesFields = (_: Props) => {
 
       <Grid size={{ xs: 12 }}>
         <TextField
-          label="Internal Notes"
+          label={t("hotelRooms.form.internalNotes", "Internal Notes")}
           fullWidth
           size="small"
           multiline

@@ -10,6 +10,7 @@ import {
   useTheme,
 } from '@mui/material'
 import { Building } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { br } from '@/core/utils/themeUtils'
 import Avatar from '@/components/ui/Avatar'
 import ConfirmDialog from './components/ConfirmDialog'
@@ -23,6 +24,7 @@ import { CLOSED_CONFIRM, CLOSED_SNACKBAR } from '@/core/constant/pageStatus'
 
 export default function AgencyApprovalsPage() {
 
+  const { t } = useTranslation()
   const theme = useTheme()
   const {
     requests,
@@ -77,10 +79,10 @@ export default function AgencyApprovalsPage() {
                   variant='h5'
                   fontWeight={800}
                 >
-                  Agency Approval Requests
+                  {t('agencyApproval.title', 'Agency Approval Requests')}
                 </Typography>
                 <Typography variant='body2'>
-                  Review and manage agency registration applications
+                  {t('agencyApproval.subtitle', 'Review and manage agency registration applications')}
                 </Typography>
               </Box>
             </Stack>
@@ -109,7 +111,7 @@ export default function AgencyApprovalsPage() {
               color='text.disabled'
               sx={{ fontSize: '0.75rem', px: 0.5 }}
             >
-              Showing {filtered.length} of {requests.length} requests
+              {t('agencyApproval.showingCount', 'Showing {{filtered}} of {{total}} requests', { filtered: filtered.length, total: requests.length })}
             </Typography>
           )}
 

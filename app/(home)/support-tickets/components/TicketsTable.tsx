@@ -16,6 +16,8 @@ import {
   GridRenderCellParams,
   GridToolbar,
 } from '@mui/x-data-grid';
+import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 import { Ticket } from '@/core/types/supportTickets';
 import { CATEGORY_LABELS } from '../constant/tickets';
 import { getAgentInitials, formatRelativeTime, formatSLARemaining } from '../util/utils';
@@ -24,13 +26,14 @@ import { fromNow } from '@/core/utils/Dateutils';
 
 type ColumnFactory = (deps: {
   theme: Theme;
+  t: TFunction;
   onSelectTicket: (ticket: Ticket) => void;
 }) => GridColDef<Ticket>[];
 
-const buildColumns: ColumnFactory = ({ theme }) => [
+const buildColumns: ColumnFactory = ({ theme, t }) => [
   {
     field: 'id',
-    headerName: 'Ticket ID',
+    headerName: t('supportTickets.table.ticketId', { defaultValue: 'Ticket ID' }),
     width: 110,
     renderCell: ({ value }: GridRenderCellParams) => (
       <Typography variant="caption" fontWeight={600} color="primary" fontFamily="monospace">
@@ -40,7 +43,7 @@ const buildColumns: ColumnFactory = ({ theme }) => [
   },
   {
     field: 'agency',
-    headerName: 'Agency',
+    headerName: t('supportTickets.table.agency', { defaultValue: 'Agency' }),
     width: 190,
     sortable: false,
     renderCell: ({ row }: GridRenderCellParams<Ticket>) => (
@@ -69,7 +72,7 @@ const buildColumns: ColumnFactory = ({ theme }) => [
   },
   {
     field: 'category',
-    headerName: 'Category',
+    headerName: t('supportTickets.table.category', { defaultValue: 'Category' }),
     width: 150,
     renderCell: ({ value }: GridRenderCellParams) => (
       <Typography variant="body2" color="text.secondary" noWrap>
@@ -79,7 +82,7 @@ const buildColumns: ColumnFactory = ({ theme }) => [
   },
   {
     field: 'priority',
-    headerName: 'Priority',
+    headerName: t('supportTickets.table.priority', { defaultValue: 'Priority' }),
     width: 110,
     renderCell: ({ value }: GridRenderCellParams) => (
       <TicketPriorityChip priority={value} />
@@ -87,7 +90,7 @@ const buildColumns: ColumnFactory = ({ theme }) => [
   },
   {
     field: 'status',
-    headerName: 'Status',
+    headerName: t('supportTickets.table.status', { defaultValue: 'Status' }),
     width: 140,
     renderCell: ({ value }: GridRenderCellParams) => (
       <TicketStatusChip status={value} />
@@ -95,7 +98,7 @@ const buildColumns: ColumnFactory = ({ theme }) => [
   },
   {
     field: 'assignedTo',
-    headerName: 'Assigned To',
+    headerName: t('supportTickets.table.assignedTo', { defaultValue: 'Assigned To' }),
     width: 160,
     renderCell: ({ value }: GridRenderCellParams) =>
       value ? (
@@ -117,13 +120,13 @@ const buildColumns: ColumnFactory = ({ theme }) => [
         </Stack>
       ) : (
         <Typography variant="caption" color="text.disabled" fontStyle="italic">
-          Unassigned
+          {t('supportTickets.unassigned', { defaultValue: 'Unassigned' })}
         </Typography>
       ),
   },
   {
     field: 'createdAt',
-    headerName: 'Created',
+    headerName: t('supportTickets.table.created', { defaultValue: 'Created' }),
     width: 120,
     renderCell: ({ value }: GridRenderCellParams) => (
       <Typography variant="caption" color="text.secondary" noWrap>
@@ -133,7 +136,7 @@ const buildColumns: ColumnFactory = ({ theme }) => [
   },
   {
     field: 'lastReplyAt',
-    headerName: 'Last Reply',
+    headerName: t('supportTickets.table.lastReply', { defaultValue: 'Last Reply' }),
     width: 120,
     renderCell: ({ value }: GridRenderCellParams) => (
       <Typography variant="caption" color="text.secondary" noWrap>
@@ -143,7 +146,7 @@ const buildColumns: ColumnFactory = ({ theme }) => [
   },
   {
     field: 'slaDeadline',
-    headerName: 'SLA',
+    headerName: t('supportTickets.table.sla', { defaultValue: 'SLA' }),
     width: 130,
     renderCell: ({ row }: GridRenderCellParams<Ticket>) => (
       <Tooltip title={formatSLARemaining(row.slaDeadline)}>
@@ -173,10 +176,12 @@ export function TicketsTable({
   onSelectTicket,
 }: TicketsTableProps) {
   const theme = useTheme();
+  const { t } = useTranslation();
 
   // useMemo: الأعمدة تتبنى مرة وحدة، ما بتتعاد إلا لو تغير theme أو onSelectTicket
   const columns = useMemo(
-    () => buildColumns({ theme, onSelectTicket }),
+    () => buildColumns({ theme, t, onSelectTicket }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [theme, onSelectTicket],
   );
 

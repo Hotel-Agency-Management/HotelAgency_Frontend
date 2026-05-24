@@ -3,6 +3,7 @@ import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { format } from "date-fns";
+import { useTranslation } from "react-i18next";
 import { HOTEL_TERMS_PREVIEW_MAX_LENGTH } from "../constants/form";
 import { HOTEL_TERMS_STATUSES } from "../constants/status";
 import type { HotelTermsAndConditions } from "../types/terms";
@@ -23,12 +24,14 @@ export function HotelTermsOverviewCard({
   hotelName,
   terms,
 }: HotelTermsOverviewCardProps) {
+  const { t } = useTranslation();
+
   return (
     <InfoCard>
       <Stack spacing={1}>
-        <Typography variant="h6">Current version</Typography>
+        <Typography variant="h6">{t('terms.overviewCard.title', 'Current version')}</Typography>
         <Typography variant="body2" color="text.secondary">
-          Review the latest saved document for {hotelName}.
+          {t('terms.overviewCard.subtitle', 'Review the latest saved document for {{hotelName}}.', { hotelName })}
         </Typography>
       </Stack>
 
@@ -40,10 +43,10 @@ export function HotelTermsOverviewCard({
             <Chip
               size="small"
               color={terms.status === HOTEL_TERMS_STATUSES.ACTIVE ? "success" : "default"}
-              label={terms.status === HOTEL_TERMS_STATUSES.ACTIVE ? "Active" : "Draft"}
+              label={terms.status === HOTEL_TERMS_STATUSES.ACTIVE ? t('terms.statusActive', 'Active') : t('terms.statusDraft', 'Draft')}
             />
             <Typography variant="caption" color="text.secondary">
-              Updated {format(new Date(terms.updatedAt), "MMM d, yyyy 'at' h:mm a")}
+              {t('terms.overviewCard.updated', 'Updated {{date}}', { date: format(new Date(terms.updatedAt), "MMM d, yyyy 'at' h:mm a") })}
             </Typography>
           </Stack>
 
@@ -62,7 +65,7 @@ export function HotelTermsOverviewCard({
         </Stack>
       ) : (
         <Typography variant="body2" color="text.secondary">
-          Nothing has been saved for this hotel yet.
+          {t('terms.overviewCard.empty', 'Nothing has been saved for this hotel yet.')}
         </Typography>
       )}
     </InfoCard>

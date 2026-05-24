@@ -2,7 +2,10 @@
 
 import { Button, Container, Grid, Link, Stack, Typography } from '@mui/material'
 import { useParams, useRouter } from 'next/navigation'
+import { useTranslation } from 'react-i18next'
 import Icon from '@/components/icon/Icon'
+import DirectionalIcon from '@/components/common/DirectionalIcon'
+import LtrText from '@/components/ui/LtrText'
 import ErrorMessage from '@/components/ui/ErrorMessage'
 import Spinner from '@/components/loaders/Spinner'
 import { BookingHeaderPaper } from '@/app/(home)/hotels/[hotelId]/my-bookings/styles/StyledComponents'
@@ -15,8 +18,9 @@ import { useAdminReservationById } from '@/app/(home)/reservations/[hotelId]/hoo
 export function AdminReservationDetailsPage() {
   const params = useParams<{ agencyId?: string; hotelId?: string; reservationId?: string }>()
   const router = useRouter()
+  const { t } = useTranslation()
   const agencyId = Number(params.agencyId)
-  const hotelId =  Number(params.hotelId) 
+  const hotelId =  Number(params.hotelId)
   const reservationId = Number(params.reservationId)
   const { data: reservation, isLoading, isError } = useAdminReservationById(
     agencyId as number,
@@ -43,13 +47,13 @@ export function AdminReservationDetailsPage() {
       <Container maxWidth="md">
         <Stack spacing={2}>
           <Button
-            startIcon={<Icon icon="lucide:arrow-left" />}
+            startIcon={<DirectionalIcon icon="lucide:arrow-left" />}
             onClick={() => router.push(backHref)}
             sx={{ alignSelf: 'flex-start' }}
           >
-            Back to reservations
+            {t('reservations.details.backToReservations', 'Back to reservations')}
           </Button>
-          <ErrorMessage message="Failed to load reservation details." />
+          <ErrorMessage message={t('reservations.details.failedToLoad', 'Failed to load reservation details.')} />
         </Stack>
       </Container>
     )
@@ -59,11 +63,11 @@ export function AdminReservationDetailsPage() {
     <Container maxWidth="lg">
       <Stack spacing={3}>
         <Button
-          startIcon={<Icon icon="lucide:arrow-left" />}
+          startIcon={<DirectionalIcon icon="lucide:arrow-left" />}
           onClick={() => router.push(backHref)}
           sx={{ alignSelf: 'flex-start' }}
         >
-          Back to reservations
+          {t('reservations.details.backToReservations', 'Back to reservations')}
         </Button>
 
         <BookingHeaderPaper variant="outlined">
@@ -75,7 +79,7 @@ export function AdminReservationDetailsPage() {
           >
             <Stack spacing={0.5}>
               <Typography variant="caption" fontWeight={500}>
-                Reservation Number
+                {t('reservations.details.reservationNumber', 'Reservation Number')}
               </Typography>
               <Typography variant="h5" fontWeight={800}>
                 {reservation.reservationNumber}
@@ -90,52 +94,52 @@ export function AdminReservationDetailsPage() {
 
         <Grid container spacing={2}>
           <Grid size={{ xs: 12, md: 6 }}>
-            <SectionPaper icon="lucide:calendar-check" title="Stay Details">
-              <InfoRow label="Hotel" value={reservation.hotelName} />
-              <InfoRow label="Rooms" value={reservation.roomNumbers.join(', ')} />
-              <InfoRow label="Check-In" value={reservation.checkInDate} />
-              <InfoRow label="Check-Out" value={reservation.checkOutDate} />
-              <InfoRow label="Guests" value={reservation.numberOfGuests} />
-              <InfoRow label="Number of Rooms" value={reservation.numberOfRooms} />
+            <SectionPaper icon="lucide:calendar-check" title={t('reservations.details.stayDetails', 'Stay Details')}>
+              <InfoRow label={t('reservations.details.hotel', 'Hotel')} value={reservation.hotelName} />
+              <InfoRow label={t('reservations.details.rooms', 'Rooms')} value={reservation.roomNumbers.join(', ')} />
+              <InfoRow label={t('reservations.details.checkIn', 'Check-In')} value={reservation.checkInDate} />
+              <InfoRow label={t('reservations.details.checkOut', 'Check-Out')} value={reservation.checkOutDate} />
+              <InfoRow label={t('reservations.details.guests', 'Guests')} value={reservation.numberOfGuests} />
+              <InfoRow label={t('reservations.details.numberOfRooms', 'Number of Rooms')} value={reservation.numberOfRooms} />
             </SectionPaper>
           </Grid>
 
           <Grid size={{ xs: 12, md: 6 }}>
-            <SectionPaper icon="lucide:user" title="Guest Details">
-              <InfoRow label="Name" value={reservation.guestFullName} />
-              <InfoRow label="Email" value={reservation.guestEmail} />
-              <InfoRow label="Phone" value={reservation.guestPhone} />
-              <InfoRow label="ID Number" value={reservation.guestIdNumber ?? '-'} />
-              <InfoRow label="Customer ID" value={reservation.customerId} />
+            <SectionPaper icon="lucide:user" title={t('reservations.details.guestDetails', 'Guest Details')}>
+              <InfoRow label={t('reservations.details.name', 'Name')} value={reservation.guestFullName} />
+              <InfoRow label={t('reservations.details.email', 'Email')} value={reservation.guestEmail} />
+              <InfoRow label={t('reservations.details.phone', 'Phone')} value={<LtrText>{reservation.guestPhone}</LtrText>} />
+              <InfoRow label={t('reservations.details.idNumber', 'ID Number')} value={reservation.guestIdNumber ?? '-'} />
+              <InfoRow label={t('reservations.details.customerId', 'Customer ID')} value={reservation.customerId} />
             </SectionPaper>
           </Grid>
 
           <Grid size={{ xs: 12, md: 6 }}>
-            <SectionPaper icon="lucide:clipboard-list" title="Booking Info">
-              <InfoRow label="Reservation ID" value={reservation.id} />
-              <InfoRow label="Hotel ID" value={reservation.hotelId} />
-              <InfoRow label="Source" value={reservation.source} />
-              <InfoRow label="Special Requests" value={reservation.specialRequests} />
-              <InfoRow label="Notes" value={reservation.notes} />
+            <SectionPaper icon="lucide:clipboard-list" title={t('reservations.details.bookingInfo', 'Booking Info')}>
+              <InfoRow label={t('reservations.details.reservationId', 'Reservation ID')} value={reservation.id} />
+              <InfoRow label={t('reservations.details.hotelId', 'Hotel ID')} value={reservation.hotelId} />
+              <InfoRow label={t('reservations.details.source', 'Source')} value={reservation.source} />
+              <InfoRow label={t('reservations.details.specialRequests', 'Special Requests')} value={reservation.specialRequests} />
+              <InfoRow label={t('reservations.details.notes', 'Notes')} value={reservation.notes} />
             </SectionPaper>
           </Grid>
 
           <Grid size={{ xs: 12, md: 6 }}>
             <Stack spacing={2} sx={{ height: '100%' }}>
-              <SectionPaper icon="lucide:badge-dollar-sign" title="Financial">
-                <InfoRow label="Total Amount" value={reservation.totalAmount} emphasized />
-                <InfoRow label="Has Insurance" value={reservation.hasInsurance ? 'Yes' : 'No'} />
-                <InfoRow label="Insurance Amount" value={reservation.insuranceAmount} />
+              <SectionPaper icon="lucide:badge-dollar-sign" title={t('reservations.details.financial', 'Financial')}>
+                <InfoRow label={t('reservations.details.totalAmount', 'Total Amount')} value={reservation.totalAmount} emphasized />
+                <InfoRow label={t('reservations.details.hasInsurance', 'Has Insurance')} value={reservation.hasInsurance ? t('reservations.details.yes', 'Yes') : t('reservations.details.no', 'No')} />
+                <InfoRow label={t('reservations.details.insuranceAmount', 'Insurance Amount')} value={reservation.insuranceAmount} />
               </SectionPaper>
 
               {(contractHref || invoiceHref) && (
-                <SectionPaper icon="lucide:file-text" title="Documents">
+                <SectionPaper icon="lucide:file-text" title={t('reservations.details.documents', 'Documents')}>
                   <Stack spacing={1.5}>
                     {contractHref && (
                       <Link href={contractHref} target="_blank" rel="noopener noreferrer" underline="hover">
                         <Stack direction="row" spacing={1} alignItems="center">
                           <Icon icon="lucide:file-text" fontSize={15} />
-                          <Typography component="span" variant="body2">View Contract</Typography>
+                          <Typography component="span" variant="body2">{t('reservations.details.viewContract', 'View Contract')}</Typography>
                         </Stack>
                       </Link>
                     )}
@@ -143,7 +147,7 @@ export function AdminReservationDetailsPage() {
                       <Link href={invoiceHref} target="_blank" rel="noopener noreferrer" underline="hover">
                         <Stack direction="row" spacing={1} alignItems="center">
                           <Icon icon="lucide:receipt" fontSize={15} />
-                          <Typography component="span" variant="body2">View Invoice</Typography>
+                          <Typography component="span" variant="body2">{t('reservations.details.viewInvoice', 'View Invoice')}</Typography>
                         </Stack>
                       </Link>
                     )}

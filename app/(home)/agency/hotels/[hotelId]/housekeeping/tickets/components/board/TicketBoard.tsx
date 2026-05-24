@@ -5,7 +5,8 @@ import {
   DragOverlay,
   closestCorners,
 } from "@dnd-kit/core";
-import { BOARD_COLUMNS, DROP_ANIMATION } from "../../constants/board";
+import { useTranslation } from "react-i18next";
+import { getBoardColumns, DROP_ANIMATION } from "../../constants/board";
 import { useTicketBoardDrag } from "../../hooks/useTicketBoardDrag";
 import { BoardScrollContainer } from "../../styles/StyledComponents";
 import { type HousekeepingTicket, type HousekeepingTicketStatus } from "../../types/ticket";
@@ -35,6 +36,8 @@ export function TicketBoard({
   onReportDamage,
   onOpenDetail,
 }: TicketBoardProps) {
+  const { t } = useTranslation();
+  const boardColumns = getBoardColumns(t);
   const {
     activeTicket,
     overId,
@@ -55,7 +58,7 @@ export function TicketBoard({
       onDragCancel={handleDragCancel}
     >
       <BoardScrollContainer direction="row" spacing={1.5}>
-        {BOARD_COLUMNS.map((column) => (
+        {boardColumns.map((column) => (
           <TicketColumn
             key={column.id}
             column={column}

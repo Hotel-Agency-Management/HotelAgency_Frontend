@@ -3,7 +3,7 @@ import { Box, Stack, Typography } from "@mui/material";
 interface DetailItemProps {
   icon: React.ReactNode
   label: string
-  value: string
+  value: React.ReactNode
 }
 
 export function DetailItem({ icon, label, value }: DetailItemProps) {
