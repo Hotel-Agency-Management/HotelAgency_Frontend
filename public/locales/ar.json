@@ -1314,6 +1314,19 @@
     "empty": {
       "title": "لا توجد معاملات",
       "subtitle": "لا توجد سجلات دفع لهذه الفترة."
+    },
+    "excel": {
+      "direction": "الاتجاه",
+      "paymentType": "نوع الدفع",
+      "from": "من",
+      "to": "إلى",
+      "amount": "المبلغ",
+      "reference": "المرجع",
+      "date": "التاريخ"
+    },
+    "viewMode": {
+      "feed": "عرض الخلاصة",
+      "excel": "وضع الجداول"
     }
   },
   "hotelSettings": {

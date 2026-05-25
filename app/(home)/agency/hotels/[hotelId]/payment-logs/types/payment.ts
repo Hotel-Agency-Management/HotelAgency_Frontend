@@ -6,3 +6,10 @@ export type PaymentType =
   | 'Extend'
   | 'Damage'
   | 'Refund'
+
+export type PaymentViewMode = 'feed' | 'excel'
+
+export interface PaymentViewToggleProps {
+  value: PaymentViewMode
+  onChange: (value: PaymentViewMode) => void
+}

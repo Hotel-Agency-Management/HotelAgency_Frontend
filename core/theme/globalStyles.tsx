@@ -1,4 +1,4 @@
-import { Theme } from '@mui/material/styles'
+import { Theme, alpha } from '@mui/material/styles'
 
 const GlobalStyles = (theme: Theme) => {
   const perfectScrollbarThumbBgColor = () =>
@@ -56,7 +56,59 @@ const GlobalStyles = (theme: Theme) => {
         position: 'fixed',
         backgroundColor: theme.palette.primary.main
       }
-    }
+    },
+
+    // react-datasheet-grid dark-mode overrides
+    // CSS variables for elements that use them (sourced from docs/styling)
+    '.dsg-container': {
+      '--dsg-border-color': theme.palette.divider,
+      '--dsg-cell-background-color': theme.palette.background.paper,
+      '--dsg-cell-disabled-background-color': theme.palette.action.hover,
+      '--dsg-header-text-color': theme.palette.text.secondary,
+      '--dsg-header-active-text-color': theme.palette.text.primary,
+      '--dsg-selection-border-color': theme.palette.primary.main,
+      '--dsg-selection-background-color': alpha(theme.palette.primary.main, 0.08),
+      '--dsg-selection-disabled-border-color': theme.palette.divider,
+      '--dsg-selection-disabled-background-color': theme.palette.action.disabledBackground,
+      '--dsg-scroll-shadow-color': alpha(theme.palette.common.black, 0.08),
+      // library hardcodes color:black and background:white — must override directly
+      color: `${theme.palette.text.primary} !important`,
+      background: `${theme.palette.background.paper} !important`,
+    } as object,
+
+    // "Add N rows" bar — hardcoded #fafafa / black in library CSS
+    '.dsg-add-row': {
+      background: `${theme.palette.background.default} !important`,
+      color: `${theme.palette.text.primary} !important`,
+      borderColor: `${theme.palette.divider} !important`,
+    } as object,
+
+    // Add-row button + number input — hardcoded white / #dcdcdc
+    '.dsg-add-row-btn, .dsg-add-row-input': {
+      background: `${theme.palette.background.paper} !important`,
+      color: `${theme.palette.text.primary} !important`,
+      borderColor: `${theme.palette.divider} !important`,
+    } as object,
+
+    // "+" icon lines inside button — hardcoded #9da6ab
+    '.dsg-add-row-btn:before, .dsg-add-row-btn:after': {
+      background: `${theme.palette.text.secondary} !important`,
+    } as object,
+
+    // Cell input — browser UA stylesheet resets color on <input>, breaking inheritance
+    '.dsg-input': {
+      color: `${theme.palette.text.primary} !important`,
+    } as object,
+
+    // Context menu — hardcoded white / black
+    '.dsg-context-menu': {
+      background: `${theme.palette.background.paper} !important`,
+      color: `${theme.palette.text.primary} !important`,
+    } as object,
+
+    '.dsg-context-menu-item:hover': {
+      background: `${theme.palette.action.hover} !important`,
+    } as object,
   }
 }
 
