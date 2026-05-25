@@ -32,12 +32,6 @@ export function TeamMembersGrid({ members, onEditRole }: TeamMembersGridProps) {
           t('users.table.displayedRows', { defaultValue: '{{from}}-{{to}} of {{count}}', from, to, count })
       }}
       rowHeight={74}
-      sx={{
-        '& .MuiTablePagination-displayedRows, & .MuiTablePagination-selectLabel': {
-          direction: 'ltr',
-          unicodeBidi: 'isolate'
-        }
-      }}
     />
   )
 }

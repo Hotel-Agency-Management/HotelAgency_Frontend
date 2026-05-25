@@ -62,7 +62,7 @@ export default function SpecialOffers() {
         style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '20px' }}
       >
         {lc.offers.items.map((offer, index) => (
-          <StaggerItem key={offer.title} style={{ height: '100%', display: 'grid' }}>
+          <StaggerItem key={offer.title} style={{ height: '100%' }}>
             <TiltCard
               maxRotation={6}
               scaleOnHover={1.012}
