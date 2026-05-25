@@ -4,16 +4,7 @@ import Grid from '@mui/material/Grid'
 import { useTranslation } from 'react-i18next'
 import Icon from '@/components/icon/Icon'
 import { SummaryStatCard } from '@/app/(home)/admin-dashboard/components/SummaryStatCard'
-import { STAT_CARDS_CONFIG } from '../constants/statCards'
-
-const CARD_TRANSLATION_KEYS = [
-  'totalRevenue',
-  'totalExpenses',
-  'netProfit',
-  'outstandingPayments',
-  'refunds',
-  'cashBalance',
-] as const
+import { STAT_CARDS_CONFIG, CARD_TRANSLATION_KEYS } from '../constants/statCards'
 
 export default function FinancialSummarySection() {
   const { t } = useTranslation()
