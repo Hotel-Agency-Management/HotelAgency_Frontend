@@ -50,3 +50,12 @@ export const STAT_CARDS_CONFIG: StatCardConfig[] = [
     color: 'success',
   },
 ]
+
+export const CARD_TRANSLATION_KEYS = [
+  'totalRevenue',
+  'totalExpenses',
+  'netProfit',
+  'outstandingPayments',
+  'refunds',
+  'cashBalance',
+] as const
