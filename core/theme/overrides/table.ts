@@ -70,6 +70,10 @@ const Table = () => {
         root: ({ theme }: OwnerStateThemeType) => ({
           '& .MuiIconButton-root.Mui-disabled': {
             color: theme.palette.action.active
+          },
+          '& .MuiTablePagination-displayedRows, & .MuiTablePagination-selectLabel': {
+            direction: 'ltr',
+            unicodeBidi: 'isolate'
           }
         }),
         displayedRows: ({ theme }: OwnerStateThemeType) => ({
