@@ -39,6 +39,7 @@ export type Subjects =
   | 'DamageReports'
   | 'DamageInvoices'
   | 'PaymentLogs'
+  | 'AllPaymentLogs'
   | 'all'
 
 /**
