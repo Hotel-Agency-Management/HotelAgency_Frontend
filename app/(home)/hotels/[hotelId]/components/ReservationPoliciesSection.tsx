@@ -2,6 +2,7 @@
 
 import { Alert, Stack, Typography } from '@mui/material'
 import { ShieldCheck } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 interface ReservationPoliciesSectionProps {
   canModify: boolean
@@ -18,36 +19,49 @@ export function ReservationPoliciesSection({
   modificationDeadlineLabel,
   freeCancellationDeadlineLabel,
   cancellationFeeRateLabel,
-  cancellationFeeLabel,
+  cancellationFeeLabel
 }: ReservationPoliciesSectionProps) {
+  const { t } = useTranslation()
+
   return (
     <Stack gap={1}>
-      <Typography variant="subtitle1" fontWeight={700}>
-        Policies
+      <Typography variant='subtitle1' fontWeight={700}>
+        {t('hotelPortal.booking.policies', { defaultValue: 'Policies' })}
       </Typography>
 
       <Alert icon={<ShieldCheck size={18} />} severity={canModify ? 'info' : 'warning'}>
-        <Typography variant="body2" fontWeight={600}>
-          Modification window
+        <Typography variant='body2' fontWeight={600}>
+          {t('hotelPortal.booking.modificationWindow', { defaultValue: 'Modification window' })}
         </Typography>
-        <Typography variant="body2">
+        <Typography variant='body2'>
           {canModify
-            ? `Reservation changes are allowed until ${modificationDeadlineLabel}.`
-            : 'Reservation changes are allowed only during the first 24 hours after booking.'}
+            ? t('hotelPortal.booking.modificationAllowedUntil', {
+                deadline: modificationDeadlineLabel,
+                defaultValue: 'Reservation changes are allowed until {{deadline}}.'
+              })
+            : t('hotelPortal.booking.modificationWindowClosed', {
+                defaultValue: 'Reservation changes are allowed only during the first 24 hours after booking.'
+              })}
         </Typography>
       </Alert>
 
       <Alert severity={freeCancellation ? 'success' : 'warning'}>
-        <Typography variant="body2" fontWeight={600}>
-          Cancellation policy
+        <Typography variant='body2' fontWeight={600}>
+          {t('hotelPortal.booking.cancellationPolicy', { defaultValue: 'Cancellation policy' })}
         </Typography>
-        <Typography variant="body2">
+        <Typography variant='body2'>
           {freeCancellation
-            ? `Cancellation is free until ${freeCancellationDeadlineLabel}, then a ${cancellationFeeRateLabel} fee applies.`
-            : `Cancellation is within the last 3 days before check-in. Current fee: ${cancellationFeeLabel}.`}
+            ? t('hotelPortal.booking.freeCancellationUntil', {
+                deadline: freeCancellationDeadlineLabel,
+                rate: cancellationFeeRateLabel,
+                defaultValue: 'Cancellation is free until {{deadline}}, then a {{rate}} fee applies.'
+              })
+            : t('hotelPortal.booking.cancellationFeeCurrently', {
+                fee: cancellationFeeLabel,
+                defaultValue: 'Cancellation is within the last 3 days before check-in. Current fee: {{fee}}.'
+              })}
         </Typography>
       </Alert>
     </Stack>
   )
 }
-

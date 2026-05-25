@@ -10,6 +10,7 @@ import {
   PreviewImage,
 } from "../../../roomStyle";
 import { PhotoDropSurface } from "../roomPhoto/PhotoDropSurface";
+import { useTranslation } from "react-i18next";
 
 interface RoomCreatePhotosUploadProps {
   files: File[];
@@ -17,6 +18,7 @@ interface RoomCreatePhotosUploadProps {
 }
 
 export function RoomCreatePhotosUpload({ files, onFilesChange }: RoomCreatePhotosUploadProps) {
+  const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement>(null);
   const previews = useMemo(
     () => files.map((file) => ({ file, url: URL.createObjectURL(file) })),
@@ -46,7 +48,7 @@ export function RoomCreatePhotosUpload({ files, onFilesChange }: RoomCreatePhoto
     <Stack spacing={2}>
       <Stack direction="row" alignItems="center" justifyContent="space-between">
         <Typography variant="subtitle2" fontWeight={600}>
-          Room Photos
+          {t("hotelRooms.photos.title", "Room Photos")}
         </Typography>
         <Button
           size="small"
@@ -54,7 +56,7 @@ export function RoomCreatePhotosUpload({ files, onFilesChange }: RoomCreatePhoto
           startIcon={<AddPhotoAlternateIcon />}
           onClick={openFilePicker}
         >
-          Upload Photos
+          {t("hotelRooms.photos.upload", "Upload Photos")}
         </Button>
       </Stack>
 
@@ -71,7 +73,7 @@ export function RoomCreatePhotosUpload({ files, onFilesChange }: RoomCreatePhoto
         <PhotoDropSurface onActivate={openFilePicker}>
           <EmptyPhotoIcon />
           <Typography variant="body2" color="text.secondary" mt={1}>
-            Click to upload room photos
+            {t("hotelRooms.photos.empty", "Click to upload room photos")}
           </Typography>
         </PhotoDropSurface>
       ) : (
@@ -86,7 +88,7 @@ export function RoomCreatePhotosUpload({ files, onFilesChange }: RoomCreatePhoto
               />
               {index === 0 ? (
                 <CoverChip
-                  label="Cover"
+                  label={t("hotelRooms.photos.cover", "Cover")}
                   size="small"
                   color="primary"
                 />
@@ -104,7 +106,10 @@ export function RoomCreatePhotosUpload({ files, onFilesChange }: RoomCreatePhoto
       )}
 
       <Typography variant="caption" color="text.secondary">
-        {files.length} photo{files.length !== 1 ? "s" : ""} selected. The first photo is used as the cover.
+        {t("hotelRooms.photos.createSummary", {
+          defaultValue: "{{count}} photos selected. The first photo is used as the cover.",
+          count: files.length,
+        })}
       </Typography>
     </Stack>
   );

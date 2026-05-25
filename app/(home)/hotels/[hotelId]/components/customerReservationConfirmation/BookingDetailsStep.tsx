@@ -1,4 +1,5 @@
 import { Checkbox, Divider, FormControlLabel, Stack, TextField, Typography } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 import type { ReservationSummaryItem } from '../../types/customerReservationConfirmation'
 import { SectionPanel } from './SectionPanel'
 import { SummaryRow } from './SummaryRow'
@@ -30,54 +31,80 @@ export function BookingDetailsStep({
   hasInsurance,
   insuranceFeeLabel,
   includeInsurance,
-  onIncludeInsuranceChange,
+  onIncludeInsuranceChange
 }: BookingDetailsStepProps) {
+  const { t } = useTranslation()
+
   return (
     <Stack spacing={2}>
-      <Typography variant="body2">
-        Review the reservation details, dates, pricing, and taxes before continuing.
+      <Typography variant='body2'>
+        {t('hotelPortal.booking.reviewBeforeContinuing', {
+          defaultValue: 'Review the reservation details, dates, pricing, and taxes before continuing.'
+        })}
       </Typography>
 
-      <SectionPanel title="Booking details">
+      <SectionPanel title={t('hotelPortal.booking.bookingDetails', { defaultValue: 'Booking details' })}>
         {bookingDetails.map(item => (
           <SummaryRow key={item.label} label={item.label} value={item.value} />
         ))}
       </SectionPanel>
 
-      <SectionPanel title="Price and taxes">
-        <SummaryRow label="Price per night" value={pricePerNightLabel} />
-        <SummaryRow label="Room charges" value={totalPriceLabel} />
+      <SectionPanel title={t('hotelPortal.booking.priceAndTaxes', { defaultValue: 'Price and taxes' })}>
+        <SummaryRow
+          label={t('hotelPortal.card.perNightFull', { defaultValue: 'Price per night' })}
+          value={pricePerNightLabel}
+        />
+        <SummaryRow
+          label={t('hotelPortal.booking.roomCharges', { defaultValue: 'Room charges' })}
+          value={totalPriceLabel}
+        />
         {taxRequiresPostalCode ? (
           <TextField
-            label="Postal code"
+            label={t('hotelPortal.booking.postalCode', { defaultValue: 'Postal code' })}
             value={taxPostalCode}
             onChange={event => onTaxPostalCodeChange(event.target.value)}
-            size="small"
+            size='small'
             fullWidth
-            helperText="Postal code is required to calculate taxes for this hotel location."
+            helperText={t('hotelPortal.booking.postalCodeRequired', {
+              defaultValue: 'Postal code is required to calculate taxes for this hotel location.'
+            })}
           />
         ) : null}
-        <SummaryRow label="Taxes and fees" value={taxAmountLabel} />
+        <SummaryRow
+          label={t('hotelPortal.booking.taxesAndFees', { defaultValue: 'Taxes and fees' })}
+          value={taxAmountLabel}
+        />
         <Divider />
-        <SummaryRow label="Estimated total" value={estimatedTotalLabel} emphasis />
+        <SummaryRow
+          label={t('hotelPortal.booking.estimatedTotalFull', { defaultValue: 'Estimated total' })}
+          value={estimatedTotalLabel}
+          emphasis
+        />
       </SectionPanel>
 
-      <SectionPanel title="Insurance">
+      <SectionPanel title={t('hotelPortal.booking.insurance', { defaultValue: 'Insurance' })}>
         <FormControlLabel
           control={
             <Checkbox
               checked={includeInsurance}
               onChange={event => onIncludeInsuranceChange(event.target.checked)}
-              size="small"
+              size='small'
             />
           }
           label={
             <Stack>
-              <Typography variant="body2">Include insurance</Typography>
-              <Typography variant="caption">
+              <Typography variant='body2'>
+                {t('hotelPortal.booking.includeInsurance', { defaultValue: 'Include insurance' })}
+              </Typography>
+              <Typography variant='caption'>
                 {hasInsurance && insuranceFeeLabel
-                  ? `${insuranceFeeLabel} / reservation`
-                  : 'No additional insurance fee configured for this room.'}
+                  ? t('hotelPortal.booking.insuranceFeePerReservation', {
+                      fee: insuranceFeeLabel,
+                      defaultValue: '{{fee}} / reservation'
+                    })
+                  : t('hotelPortal.booking.noInsuranceFee', {
+                      defaultValue: 'No additional insurance fee configured for this room.'
+                    })}
               </Typography>
             </Stack>
           }

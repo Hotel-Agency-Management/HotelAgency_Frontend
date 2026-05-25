@@ -1,3 +1,4 @@
+import type { TFunction } from 'i18next'
 import type { CustomerReservation } from '../types/customerReservation'
 
 export interface ReservationDetailsItem {
@@ -9,6 +10,7 @@ export interface ReservationDetailsItem {
 interface BuildReservationDetailsItemsOptions {
   reservation: CustomerReservation
   stayLength: number
+  t: TFunction
   formatReservationTimestamp: (value: string) => string
   formatBookingDate: (value: string) => string
   formatCurrencyValue: (value: number, currency: string) => string
@@ -17,6 +19,7 @@ interface BuildReservationDetailsItemsOptions {
 export function buildReservationDetailsItems({
   reservation,
   stayLength,
+  t,
   formatReservationTimestamp,
   formatBookingDate,
   formatCurrencyValue,
@@ -36,7 +39,7 @@ export function buildReservationDetailsItems({
     },
     {
       label: 'Stay length',
-      value: `${stayLength} night${stayLength === 1 ? '' : 's'}`,
+      value: t('myBookings.nightCount', { count: stayLength }),
     },
     {
       label: 'Guests',

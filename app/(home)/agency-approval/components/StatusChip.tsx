@@ -1,16 +1,20 @@
 import { Chip, useTheme } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 import { STATUS_CONFIG, StatusChipProps } from '../constants/statusChip'
 
 
 export default function StatusChip({ status }: StatusChipProps) {
+  const { t } = useTranslation()
   const theme = useTheme()
   const config = STATUS_CONFIG[status]
 
   const palette = theme.palette[config.colorKey]
 
+  const label = t(`agencyApproval.statusChip.${status.toLowerCase()}`, config.label)
+
   return (
     <Chip
-      label={config.label}
+      label={label}
       size='small'
       sx={{
         fontWeight: 600,

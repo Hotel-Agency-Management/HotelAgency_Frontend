@@ -4,6 +4,7 @@ import { Button, Divider, Stack, Typography } from '@mui/material'
 import { useRouter } from 'next/navigation'
 import { useTranslation } from 'react-i18next'
 import Icon from '@/components/icon/Icon'
+import DirectionalIcon from '@/components/common/DirectionalIcon'
 import type { ReservationListItem } from '../config'
 import {
   BookingCardBody,
@@ -82,7 +83,7 @@ export function BookingListCard({ booking, hotelId }: BookingListCardProps) {
           fullWidth
           variant="contained"
           size="small"
-          endIcon={<Icon icon="lucide:arrow-right" fontSize={14} />}
+          endIcon={<DirectionalIcon icon="lucide:arrow-right" fontSize={14} />}
           onClick={() => router.push(`/hotels/${hotelId}/my-bookings/${booking.id}`)}
         >
           {t('myBookings.viewDetails')}

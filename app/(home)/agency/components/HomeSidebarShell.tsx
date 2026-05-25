@@ -3,6 +3,7 @@
 import { useMemo, type ReactNode } from 'react'
 import { useParams, usePathname } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
 import SidebarLayout from '@/core/layouts/SidebarLayout'
 import type { SidebarNavItems } from '@/core/layouts/types'
 import { useAuth } from '@/core/context/AuthContext'
@@ -25,6 +26,7 @@ export default function HomeSidebarShell({
   const pathname = usePathname()
   const { user } = useAuth()
   const { brandName } = useBrandNameContext()
+  const { t } = useTranslation()
 
   const customerHotelId = useMemo(() => {
     const match = pathname.match(CUSTOMER_HOTEL_DETAIL_PATTERN)
@@ -51,7 +53,7 @@ export default function HomeSidebarShell({
 
   return (
     <SidebarLayout
-      navItems={navigation(hotelId, params.agencyId)}
+      navItems={navigation(hotelId, params.agencyId, t)}
       dynamicNavItems={dynamicNavItems}
       appName={appName}
       variant={layoutVariant}

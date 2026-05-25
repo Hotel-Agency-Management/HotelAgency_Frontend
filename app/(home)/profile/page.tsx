@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react'
 import { Container, Tabs, Tab, Stack } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 import { FadeIn } from '@/components/animation'
 import { useAuth } from '@/core/context/AuthContext'
 import { useAbility } from '@/core/hooks/useAbility'
@@ -12,8 +13,16 @@ import { TAB_LIST } from './constants/tabs'
 import Can from '@/components/ability/Can'
 import { useUserProfile } from './hooks/queries/useUserProfile'
 
+const TAB_LABEL_KEYS: Record<string, string> = {
+  'Overview': 'profile.tabs.overview',
+  'Agency Information': 'profile.tabs.agencyInformation',
+  'Hotel Information': 'profile.tabs.hotelInformation',
+  'Change Password': 'profile.tabs.changePassword',
+}
+
 export default function ProfilePage() {
   const [tab, setTab] = useState(0)
+  const { t } = useTranslation()
   const { user } = useAuth()
   const { data: profile } = useUserProfile()
   const ability = useAbility()
@@ -38,7 +47,7 @@ export default function ProfilePage() {
         <FadeIn direction='up' distance={12} transition={{ delay: 0.15, duration: 0.22 }}>
           <Tabs value={tab} onChange={(_, v) => setTab(v)} sx={{ borderBottom: 1, borderColor: 'divider' }}>
             {visibleTabs.map((tabItem) => (
-              <Tab key={tabItem.label} label={tabItem.label} />
+              <Tab key={tabItem.label} label={t(TAB_LABEL_KEYS[tabItem.label] ?? tabItem.label, tabItem.label)} />
             ))}
           </Tabs>
         </FadeIn>

@@ -2,12 +2,14 @@ import { Grid, TextField } from "@mui/material";
 import { useFormContext } from "react-hook-form";
 import { RoomFormValues } from "../../../schema/roomSchema";
 import type { RoomTypeOption } from "./RoomFormFields";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   roomTypes: RoomTypeOption[];
 }
 
 export const RoomPricingFields = (_: Props) => {
+  const { t } = useTranslation();
   const {
     register,
     formState: { errors },
@@ -17,7 +19,7 @@ export const RoomPricingFields = (_: Props) => {
     <Grid container spacing={2}>
       <Grid size={{ xs: 12, sm: 6, md: 3 }}>
         <TextField
-          label="Daily Price"
+          label={t("hotelRooms.form.dailyPrice", "Daily Price")}
           type="number"
           fullWidth
           size="small"
@@ -29,7 +31,7 @@ export const RoomPricingFields = (_: Props) => {
 
       <Grid size={{ xs: 12, sm: 6, md: 3 }}>
         <TextField
-          label="Weekly Price"
+          label={t("hotelRooms.form.weeklyPrice", "Weekly Price")}
           type="number"
           fullWidth
           size="small"
@@ -41,7 +43,7 @@ export const RoomPricingFields = (_: Props) => {
 
       <Grid size={{ xs: 12, sm: 6, md: 3 }}>
         <TextField
-          label="Monthly Price"
+          label={t("hotelRooms.form.monthlyPrice", "Monthly Price")}
           type="number"
           fullWidth
           size="small"
@@ -53,7 +55,7 @@ export const RoomPricingFields = (_: Props) => {
 
       <Grid size={{ xs: 12, sm: 6, md: 3 }}>
         <TextField
-          label="Extend Price"
+          label={t("hotelRooms.form.extendPrice", "Extend Price")}
           type="number"
           fullWidth
           size="small"
@@ -65,7 +67,7 @@ export const RoomPricingFields = (_: Props) => {
 
       <Grid size={{ xs: 12, sm: 6 }}>
         <TextField
-          label="Yearly Insurance"
+          label={t("hotelRooms.form.yearlyInsurance", "Yearly Insurance")}
           type="number"
           fullWidth
           size="small"
@@ -77,7 +79,10 @@ export const RoomPricingFields = (_: Props) => {
 
       <Grid size={{ xs: 12, sm: 6 }}>
         <TextField
-          label="Insurance Per Reservation"
+          label={t(
+            "hotelRooms.form.insurancePerReservation",
+            "Insurance Per Reservation",
+          )}
           type="number"
           fullWidth
           size="small"

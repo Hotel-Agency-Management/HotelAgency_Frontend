@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { HOTEL_TERMS_STATUSES } from "../constants/status";
-import { hotelTermsSchema, type HotelTermsFormValues } from "../schema/hotelTermsSchema";
+import { createHotelTermsSchema, type HotelTermsFormValues } from "../schema/hotelTermsSchema";
 import type { HotelTermsAndConditions } from "../types/terms";
 
 export const getHotelTermsDefaultValues = (
@@ -15,8 +16,11 @@ export const getHotelTermsDefaultValues = (
   status: terms?.status ?? HOTEL_TERMS_STATUSES.DRAFT,});
 
 export function useHotelTermsForm(terms?: HotelTermsAndConditions | null) {
+  const { t } = useTranslation();
+  const schema = useMemo(() => createHotelTermsSchema(t), [t]);
+
   const form = useForm<HotelTermsFormValues>({
-    resolver: zodResolver(hotelTermsSchema),
+    resolver: zodResolver(schema),
     mode: "onChange",
     defaultValues: getHotelTermsDefaultValues(terms),
   });

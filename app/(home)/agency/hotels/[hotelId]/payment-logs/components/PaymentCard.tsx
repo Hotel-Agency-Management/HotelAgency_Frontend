@@ -2,7 +2,9 @@
 
 import { Box, Stack, Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
+import { useTranslation } from 'react-i18next'
 import Icon from '@/components/icon/Icon'
+import DirectionalIcon from '@/components/common/DirectionalIcon'
 import { PAYMENT_TYPE_CONFIG } from '../constants/paymentTypeConfig'
 import { formatAmount, formatPaymentDateTime } from '../utils/dateFormat'
 import type { PaymentLogItem } from '../config/paymentLogsConfig'
@@ -18,6 +20,7 @@ interface PaymentCardProps {
 
 export function PaymentCard({ payment, selected, isIncoming, onClick }: PaymentCardProps) {
   const theme = useTheme()
+  const { t } = useTranslation()
   const amountColor = isIncoming ? theme.palette.success.main : theme.palette.error.main
   const typeConfig = PAYMENT_TYPE_CONFIG[payment.paymentType]
   const typePalette = theme.palette[typeConfig.color]
@@ -35,14 +38,14 @@ export function PaymentCard({ payment, selected, isIncoming, onClick }: PaymentC
           </PaymentTypeAvatar>
           <Stack flex={1} gap={0.25}>
             <Typography variant="caption" color="text.disabled" fontWeight={500}>
-              Payment Type
+              {t("hotelPaymentLogs.card.paymentType", "Payment Type")}
             </Typography>
             <Typography variant="body2" fontWeight={600}>
               {typeConfig.label}
             </Typography>
           </Stack>
           <DataColumn
-            label="Amount"
+            label={t("hotelPaymentLogs.card.amount", "Amount")}
             value={formatAmount(payment.amount, isIncoming)}
             align="right"
             valueColor={amountColor}
@@ -54,7 +57,7 @@ export function PaymentCard({ payment, selected, isIncoming, onClick }: PaymentC
           <Typography variant="body2" fontWeight={500} noWrap flex={1} minWidth={0}>
             {payment.fromName}
           </Typography>
-          <Icon icon="lucide:arrow-right" fontSize={12} />
+          <DirectionalIcon icon="lucide:arrow-right" fontSize={12} />
           <Typography variant="body2" fontWeight={500} noWrap flex={1} minWidth={0}>
             {payment.toName}
           </Typography>
@@ -70,23 +73,23 @@ export function PaymentCard({ payment, selected, isIncoming, onClick }: PaymentC
           <Icon icon={typeConfig.icon} fontSize={20} color={typePalette.main} />
         </PaymentTypeAvatar>
 
-        <DataColumn label="Payment Type" value={typeConfig.label} valueWeight={600} width={140} />
+        <DataColumn label={t("hotelPaymentLogs.card.paymentType", "Payment Type")} value={typeConfig.label} valueWeight={600} width={140} />
 
         <Stack flex={1} rowGap={0.5}>
           <Stack direction="row" alignItems="center" columnGap={1}>
             <Typography variant="caption" color="text.disabled" fontWeight={500} width={120}>
-              From
+              {t("hotelPaymentLogs.card.from", "From")}
             </Typography>
             <Box sx={{ width: 22 }} />
             <Typography variant="caption" color="text.disabled" fontWeight={500}>
-              To
+              {t("hotelPaymentLogs.card.to", "To")}
             </Typography>
           </Stack>
           <Stack direction="row" alignItems="center" columnGap={1}>
             <Typography variant="body2" fontWeight={500} width={120} noWrap>
               {payment.fromName}
             </Typography>
-            <Icon icon="lucide:arrow-right" fontSize={14} />
+            <DirectionalIcon icon="lucide:arrow-right" fontSize={14} />
             <Typography variant="body2" fontWeight={500} noWrap>
               {payment.toName}
             </Typography>
@@ -95,7 +98,7 @@ export function PaymentCard({ payment, selected, isIncoming, onClick }: PaymentC
 
         <Box display={{ md: 'none', lg: 'block' }}>
           <DataColumn
-            label="Reference"
+            label={t("hotelPaymentLogs.card.reference", "Reference")}
             value={payment.reservationReference || '—'}
             muted={!payment.reservationReference}
             width={96}
@@ -103,7 +106,7 @@ export function PaymentCard({ payment, selected, isIncoming, onClick }: PaymentC
         </Box>
 
         <DataColumn
-          label="Amount"
+          label={t("hotelPaymentLogs.card.amount", "Amount")}
           value={formatAmount(payment.amount, isIncoming)}
           align="right"
           valueColor={amountColor}
@@ -112,13 +115,13 @@ export function PaymentCard({ payment, selected, isIncoming, onClick }: PaymentC
         />
 
         <DataColumn
-          label="Date"
+          label={t("hotelPaymentLogs.card.date", "Date")}
           value={formatPaymentDateTime(payment.createdAt)}
           align="center"
           width={150}
         />
 
-        <Icon icon="lucide:chevron-right" fontSize={16} />
+        <DirectionalIcon icon="lucide:chevron-right" fontSize={16} />
       </Stack>
 
     </PaymentLogCard>

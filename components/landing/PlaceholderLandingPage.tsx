@@ -37,7 +37,7 @@ import HowItWorks from '@/components/landing/HowItWorks'
 import GuestExperience from '@/components/landing/GuestExperience'
 import FAQ from '@/components/landing/FAQ'
 import Footer from '@/components/landing/Footer'
-import { landingContent as lc } from '@/components/landing/landingContent'
+import { useLandingContent } from '@/components/landing/landingContent'
 
 // ---------------------------------------------------------------------------
 // SectionMarker — decorative "+" rendered at the guide-line ends of dividers
@@ -130,6 +130,7 @@ function ParallaxDivider({ direction = 'left' }: { direction?: 'left' | 'right' 
 // ---------------------------------------------------------------------------
 
 export default function PlaceholderLandingPage() {
+  const lc = useLandingContent()
   const heroWrapperRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLElement>(null)
   const theme = useTheme()

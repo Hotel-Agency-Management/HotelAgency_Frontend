@@ -12,6 +12,7 @@ import { EmptyPhotoIcon, UploadSummary } from "../../../roomStyle";
 import { PhotoDropSurface } from "../roomPhoto/PhotoDropSurface";
 import { PhotoThumb } from "../roomPhoto/PhotoThumb";
 import { AddPhotoTile } from "../roomPhoto/AddPhotoTile";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   roomId: string;
@@ -27,11 +28,12 @@ export const RoomPhotosUpload = ({
   roomId,
   existingPhotos,
   onPhotosChange,
-  title = "Room Photos",
-  uploadButtonLabel = "Upload Photos",
-  emptyLabel = "Click to upload room photos",
-  summaryLabel = "Star = set as primary cover",
+  title,
+  uploadButtonLabel,
+  emptyLabel,
+  summaryLabel,
 }: Props) => {
+  const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement>(null);
   const [photos, setPhotos] = useState<RoomPhoto[]>(existingPhotos);
   const [uploading, setUploading] = useState(false);
@@ -84,7 +86,7 @@ export const RoomPhotosUpload = ({
     <Stack spacing={2}>
       <Stack direction="row" alignItems="center" justifyContent="space-between">
         <Typography variant="subtitle2" fontWeight={600} component="span">
-          {title}
+          {title ?? t("hotelRooms.photos.title", "Room Photos")}
         </Typography>
         <Button
           size="small"
@@ -95,7 +97,7 @@ export const RoomPhotosUpload = ({
           onClick={openFilePicker}
           disabled={uploading}
         >
-          {uploadButtonLabel}
+          {uploadButtonLabel ?? t("hotelRooms.photos.upload", "Upload Photos")}
         </Button>
       </Stack>
 
@@ -113,7 +115,7 @@ export const RoomPhotosUpload = ({
         <PhotoDropSurface onActivate={openFilePicker}>
           <EmptyPhotoIcon />
           <Typography variant="body2" color="text.secondary" mt={1}>
-            {emptyLabel}
+            {emptyLabel ?? t("hotelRooms.photos.empty", "Click to upload room photos")}
           </Typography>
         </PhotoDropSurface>
       ) : (
@@ -131,7 +133,11 @@ export const RoomPhotosUpload = ({
       )}
 
       <UploadSummary variant="caption" color="text.secondary">
-        {photos.length} photo{photos.length !== 1 ? "s" : ""} — {summaryLabel}
+        {t("hotelRooms.photos.summaryWithLabel", {
+          defaultValue: "{{count}} photos - {{summaryLabel}}",
+          count: photos.length,
+          summaryLabel: summaryLabel ?? t("hotelRooms.photos.primaryCoverHint", "Star = set as primary cover"),
+        })}
       </UploadSummary>
     </Stack>
   );

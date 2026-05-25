@@ -56,7 +56,7 @@ const ThemeComponent = (props: Props) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Direction direction={settings.direction}>
+      <Direction direction={settings.direction} lang={lang}>
         <CssBaseline />
         <GlobalStyles styles={() => GlobalStyling(theme)} />
         {children}

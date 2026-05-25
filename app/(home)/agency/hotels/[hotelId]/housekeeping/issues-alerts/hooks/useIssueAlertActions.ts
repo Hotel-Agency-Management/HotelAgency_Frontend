@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import type {
   AlertTimelineItem,
   HousekeepingIssue,
@@ -25,6 +26,7 @@ export function useIssueAlertActions({
   initialTimeline,
   initialResolvedToday = 9
 }: UseIssueAlertActionsParams) {
+  const { t } = useTranslation();
   const [criticalIssues, setCriticalIssues] = useState(initialCriticalIssues);
   const [timeline, setTimeline] = useState(initialTimeline);
   const [reassigningIssue, setReassigningIssue] = useState<HousekeepingIssue | null>(null);
@@ -73,8 +75,8 @@ export function useIssueAlertActions({
     setCriticalIssues((current) => current.filter((item) => item.id !== issue.id));
     setReassigningIssue((current) => (current?.id === issue.id ? null : current));
     setResolvedToday((current) => current + 1);
-    addTimelineItem(`Room ${issue.roomNumber} resolved`, HOUSEKEEPING_ISSUE_SEVERITY.LOW);
-    setMessage(`Room ${issue.roomNumber} resolved.`);
+    addTimelineItem(t("housekeeping.issues.toast.resolved", "Room {{number}} resolved.", { number: issue.roomNumber }), HOUSEKEEPING_ISSUE_SEVERITY.LOW);
+    setMessage(t("housekeeping.issues.toast.resolved", "Room {{number}} resolved.", { number: issue.roomNumber }));
   };
 
   const handleOpenReassign = (issue: HousekeepingIssue) => {
@@ -102,8 +104,8 @@ export function useIssueAlertActions({
           : item
       )
     );
-    addTimelineItem(`Room ${reassigningIssue.roomNumber} reassigned to ${selectedStaff}`, reassigningIssue.severity);
-    setMessage(`Room ${reassigningIssue.roomNumber} reassigned to ${selectedStaff}.`);
+    addTimelineItem(t("housekeeping.issues.toast.reassigned", "Room {{number}} reassigned to {{staff}}.", { number: reassigningIssue.roomNumber, staff: selectedStaff }), reassigningIssue.severity);
+    setMessage(t("housekeeping.issues.toast.reassigned", "Room {{number}} reassigned to {{staff}}.", { number: reassigningIssue.roomNumber, staff: selectedStaff }));
     handleCloseReassign();
   };
 

@@ -16,30 +16,28 @@ import {
   BOOKING_CONFIRMATION_STEP_IDS,
   BOOKING_CONFIRMATION_STEPS,
   FALLBACK_TERMS_CONTENT,
-  buildBookingDetailItems,
-  type BookingConfirmationStepId,
+  buildTranslatedBookingDetailItems,
+  type BookingConfirmationStepId
 } from '../constants/customerReservationConfirmation'
 import type {
   CustomerReservationConfirmationPayload,
-  ReservationDetails,
+  ReservationDetails
 } from '../types/customerReservationConfirmation'
 import type { ReservationContractData } from '../types/customerReservationContract'
 import {
   generateCustomerReservationContractFile,
-  generateCustomerReservationInvoiceFile,
+  generateCustomerReservationInvoiceFile
 } from '../utils/generateCustomerReservationPdfs'
-import {
-  formatBookingDate,
-  formatCurrency,
-  getStayLength,
-  getTotalReservationPrice,
-} from '../utils/roomBooking'
+import { formatBookingDate, formatCurrency, getStayLength, getTotalReservationPrice } from '../utils/roomBooking'
 
 interface UseCustomerReservationConfirmationModalOptions {
   open: boolean
   hotelId: string
   hotel: CustomerHotel | null
-  room: Pick<RoomProfile, 'type' | 'capacity' | 'pricePerNight' | 'extendPrice' | 'yearlyInsurance' | 'insurancePerReservation'>
+  room: Pick<
+    RoomProfile,
+    'type' | 'capacity' | 'pricePerNight' | 'extendPrice' | 'yearlyInsurance' | 'insurancePerReservation'
+  >
   reservation: ReservationDetails
   onConfirm: (payload: CustomerReservationConfirmationPayload) => void
 }
@@ -61,9 +59,9 @@ export function useCustomerReservationConfirmationModal({
   hotel,
   room,
   reservation,
-  onConfirm,
+  onConfirm
 }: UseCustomerReservationConfirmationModalOptions) {
-  const { i18n } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { user } = useAuth()
   const { data: hotelTerms, isLoading: termsLoading } = useHotelTerms(hotelId)
   const [activeStep, setActiveStep] = useState(0)
@@ -79,18 +77,12 @@ export function useCustomerReservationConfirmationModal({
   const currentStep = BOOKING_CONFIRMATION_STEPS[activeStep] ?? BOOKING_CONFIRMATION_STEPS[0]
   const stayLength = getStayLength(reservation.checkIn, reservation.checkOut)
   const totalPrice = getTotalReservationPrice(room.pricePerNight, stayLength, reservation.rooms)
-  const {
-    taxAmount,
-    taxLoading,
-    taxPostalCode,
-    taxRequiresPostalCode,
-    setTaxPostalCode,
-    resolvedTaxPostalCode,
-  } = useReservationTaxEstimate({
-    open,
-    hotel,
-    subtotal: totalPrice ?? 0,
-  })
+  const { taxAmount, taxLoading, taxPostalCode, taxRequiresPostalCode, setTaxPostalCode, resolvedTaxPostalCode } =
+    useReservationTaxEstimate({
+      open,
+      hotel,
+      subtotal: totalPrice ?? 0
+    })
   const insuranceFee = room.insurancePerReservation ?? room.yearlyInsurance ?? 0
   const hasInsurance = insuranceFee > 0
   const selectedInsuranceFee = includeInsurance ? insuranceFee : 0
@@ -98,37 +90,42 @@ export function useCustomerReservationConfirmationModal({
   const activeTerms = hotelTerms?.status === HOTEL_TERMS_STATUSES.ACTIVE ? hotelTerms : null
 
   const termsContent = activeTerms?.content ?? FALLBACK_TERMS_CONTENT
-  const termsTitle = activeTerms?.title ?? 'Hotel Reservation Terms'
+  const termsTitle =
+    activeTerms?.title ?? t('hotelPortal.booking.hotelReservationTerms', { defaultValue: 'Hotel Reservation Terms' })
   const guestName =
-    user?.name ||
-    [user?.firstName, user?.lastName].filter(Boolean).join(' ') ||
-    user?.email ||
-    'Guest customer'
+    user?.name || [user?.firstName, user?.lastName].filter(Boolean).join(' ') || user?.email || 'Guest customer'
   const totalPriceLabel = formatCurrency(totalPrice, i18n.language, reservation.currency)
   const taxAmountLabel = taxLoading
-    ? 'Calculating...'
+    ? t('hotelPortal.booking.calculatingTax', { defaultValue: 'Calculating...' })
     : taxAmount == null
-      ? 'Tax unavailable'
+      ? t('hotelPortal.booking.taxUnavailable', { defaultValue: 'Tax unavailable' })
       : formatCurrency(taxAmount, i18n.language, reservation.currency)
   const estimatedTotalLabel = formatCurrency(estimatedTotal, i18n.language, reservation.currency)
   const pricePerNightLabel = formatCurrency(room.pricePerNight, i18n.language, reservation.currency)
-  const stayLengthLabel = stayLength > 0 ? `${stayLength} night${stayLength > 1 ? 's' : ''}` : '-'
+  const stayLengthLabel = stayLength > 0 ? t('hotelPortal.booking.nightCount', { count: stayLength }) : '-'
 
   const bookingDetails = useMemo(
     () =>
-      buildBookingDetailItems({
-        hotelName: reservation.hotelName,
-        roomNumber: reservation.roomNumber,
-        roomTypeLabel: roomType.label,
-        checkInLabel: formatBookingDate(reservation.checkIn, i18n.language),
-        checkOutLabel: formatBookingDate(reservation.checkOut, i18n.language),
-        stayLengthLabel,
-        guests: reservation.guests,
-        rooms: reservation.rooms,
-        capacityLabel: `${room.capacity} guests`,
-      }),
+      buildTranslatedBookingDetailItems(
+        {
+          hotelName: reservation.hotelName,
+          roomNumber: reservation.roomNumber,
+          roomTypeLabel: roomType.label,
+          checkInLabel: formatBookingDate(reservation.checkIn, i18n.language),
+          checkOutLabel: formatBookingDate(reservation.checkOut, i18n.language),
+          stayLengthLabel,
+          guests: reservation.guests,
+          rooms: reservation.rooms,
+          capacityLabel: t('hotelPortal.booking.guestsCapacity', {
+            count: room.capacity,
+            defaultValue: '{{count}} guests'
+          })
+        },
+        t
+      ),
     [
       i18n.language,
+      t,
       reservation.checkIn,
       reservation.checkOut,
       reservation.guests,
@@ -137,7 +134,7 @@ export function useCustomerReservationConfirmationModal({
       reservation.rooms,
       room.capacity,
       roomType.label,
-      stayLengthLabel,
+      stayLengthLabel
     ]
   )
 
@@ -153,12 +150,12 @@ export function useCustomerReservationConfirmationModal({
         address: hotel?.address,
         logo: hotel?.logo ?? hotel?.branding.logo,
         primaryColor: hotel?.branding.colors.primary,
-        secondaryColor: hotel?.branding.colors.secondary,
+        secondaryColor: hotel?.branding.colors.secondary
       },
       guest: {
         name: guestName,
         email: user?.email,
-        phone: user?.phoneNumber,
+        phone: user?.phoneNumber
       },
       stay: {
         reservationId: 'Preview',
@@ -169,14 +166,14 @@ export function useCustomerReservationConfirmationModal({
         stayLength: stayLengthLabel,
         guests: reservation.guests,
         rooms: reservation.rooms,
-        capacity: `${room.capacity} guests`,
+        capacity: `${room.capacity} guests`
       },
       terms: {
         title: termsTitle,
         content: termsContent,
-        acceptedAt: new Date().toISOString(),
+        acceptedAt: new Date().toISOString()
       },
-      customerSignatureDataUrl: '',
+      customerSignatureDataUrl: ''
     }),
     [
       guestName,
@@ -194,7 +191,7 @@ export function useCustomerReservationConfirmationModal({
       termsContent,
       termsTitle,
       user?.email,
-      user?.phoneNumber,
+      user?.phoneNumber
     ]
   )
 
@@ -227,7 +224,7 @@ export function useCustomerReservationConfirmationModal({
       paymentMethod: 'Online payment',
       bookingSource: 'Website',
       invoiceDate: new Date().toISOString(),
-      invoiceStatus: CUSTOMER_INVOICE_STATUS.UNPAID,
+      invoiceStatus: CUSTOMER_INVOICE_STATUS.UNPAID
     }),
     [
       estimatedTotal,
@@ -245,7 +242,7 @@ export function useCustomerReservationConfirmationModal({
       stayLength,
       taxAmount,
       totalPrice,
-      user?.email,
+      user?.email
     ]
   )
 
@@ -272,7 +269,7 @@ export function useCustomerReservationConfirmationModal({
     includeInsurance,
     taxAmount,
     termsContent,
-    termsTitle,
+    termsTitle
   ])
 
   const generateDocuments = async () => {
@@ -288,18 +285,18 @@ export function useCustomerReservationConfirmationModal({
         ...contractPreview,
         stay: {
           ...contractPreview.stay,
-          reservationId: 'PENDING',
+          reservationId: 'PENDING'
         },
         terms: {
           ...contractPreview.terms,
-          acceptedAt: new Date().toISOString(),
+          acceptedAt: new Date().toISOString()
         },
-        customerSignatureDataUrl: signatureDataUrl,
+        customerSignatureDataUrl: signatureDataUrl
       }
 
       const [contract, invoice] = await Promise.all([
         generateCustomerReservationContractFile(contractWithSignature),
-        generateCustomerReservationInvoiceFile(invoicePreview),
+        generateCustomerReservationInvoiceFile(invoicePreview)
       ])
       const files = { contract, invoice }
 
@@ -308,7 +305,11 @@ export function useCustomerReservationConfirmationModal({
     } catch (error) {
       console.error('Customer reservation document generation failed:', error)
       setGeneratedFiles(null)
-      setStepError('Could not prepare the contract and invoice. Please try again.')
+      setStepError(
+        t('hotelPortal.booking.documentGenerationFailed', {
+          defaultValue: 'Could not prepare the contract and invoice. Please try again.'
+        })
+      )
       return null
     } finally {
       setDocumentsGenerating(false)
@@ -319,7 +320,7 @@ export function useCustomerReservationConfirmationModal({
     const validationError = createConfirmationStepStrategy(currentStep.id).validate?.({
       signatureDataUrl,
       contractPreviewAccepted,
-      termsAccepted,
+      termsAccepted
     })
 
     if (validationError) {
@@ -336,9 +337,7 @@ export function useCustomerReservationConfirmationModal({
       return
     }
 
-    setActiveStep(currentStep =>
-      Math.min(currentStep + 1, BOOKING_CONFIRMATION_STEPS.length - 1)
-    )
+    setActiveStep(currentStep => Math.min(currentStep + 1, BOOKING_CONFIRMATION_STEPS.length - 1))
   }
 
   const handleBack = () => {
@@ -349,17 +348,23 @@ export function useCustomerReservationConfirmationModal({
   const handleConfirm = async () => {
     if (!termsAccepted) {
       setActiveStep(getStepIndexById(BOOKING_CONFIRMATION_STEP_IDS.TERMS))
-      setStepError('Please accept the terms and conditions before confirming.')
+      setStepError(
+        t('hotelPortal.booking.pleaseAcceptTerms', {
+          defaultValue: 'Please accept the terms and conditions before confirming.'
+        })
+      )
       return
     }
 
     if (!signatureDataUrl) {
       setActiveStep(getStepIndexById(BOOKING_CONFIRMATION_STEP_IDS.SIGNATURE))
-      setStepError('Please add your signature before confirming.')
+      setStepError(
+        t('hotelPortal.booking.pleaseAddSignature', { defaultValue: 'Please add your signature before confirming.' })
+      )
       return
     }
 
-    const files = generatedFiles ?? await generateDocuments()
+    const files = generatedFiles ?? (await generateDocuments())
 
     if (!files) {
       setActiveStep(getStepIndexById(BOOKING_CONFIRMATION_STEP_IDS.REVIEW_CONFIRM))
@@ -375,13 +380,11 @@ export function useCustomerReservationConfirmationModal({
       taxPostalCode: resolvedTaxPostalCode,
       includeInsurance,
       contractFile: files.contract,
-      invoiceFile: files.invoice,
+      invoiceFile: files.invoice
     })
   }
 
-  const insuranceFeeLabel = hasInsurance
-    ? formatCurrency(insuranceFee, i18n.language, reservation.currency)
-    : null
+  const insuranceFeeLabel = hasInsurance ? formatCurrency(insuranceFee, i18n.language, reservation.currency) : null
 
   return {
     activeStep,
@@ -429,6 +432,6 @@ export function useCustomerReservationConfirmationModal({
     includeInsurance,
     setIncludeInsurance,
     documentsGenerating,
-    hasGeneratedDocuments: generatedFiles != null,
+    hasGeneratedDocuments: generatedFiles != null
   }
 }

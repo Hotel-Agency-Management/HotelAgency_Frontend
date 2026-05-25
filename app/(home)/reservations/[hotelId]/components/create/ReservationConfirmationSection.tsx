@@ -1,6 +1,7 @@
 import { Divider, Stack, Typography } from '@mui/material'
 import { User, CalendarDays, BedDouble, DollarSign } from 'lucide-react'
 import dayjs from 'dayjs'
+import { useTranslation } from 'react-i18next'
 import { DocumentStatusRow } from './DocumentStatusRow'
 import { FormSection } from './FormSection'
 import { SummaryRow } from './SummaryRow'
@@ -22,35 +23,46 @@ export function ReservationConfirmationSection({
   roomNumbers,
   totalAmount,
   hasContract,
-  hasInvoice,
+  hasInvoice
 }: ReservationConfirmationSectionProps) {
+  const { t } = useTranslation()
   const nights = Math.max(0, dayjs(checkOutDate).diff(dayjs(checkInDate), 'day'))
   const stayValue =
     checkInDate && checkOutDate
-      ? `${dayjs(checkInDate).format('D MMM')} – ${dayjs(checkOutDate).format('D MMM YYYY')} · ${nights} night${nights !== 1 ? 's' : ''}`
+      ? `${dayjs(checkInDate).format('D MMM')} – ${dayjs(checkOutDate).format('D MMM YYYY')} · ${t('reservations.form.confirm.nightCount', { count: nights })}`
       : '—'
 
   return (
     <FormSection
-      title='Confirm Reservation'
-      description='Review the details below, then click "Create Reservation" to complete.'
+      title={t('reservations.form.confirm.title', { defaultValue: 'Confirm Reservation' })}
+      description={t('reservations.form.confirm.description', {
+        defaultValue: 'Review the details below, then click "Create Reservation" to complete.'
+      })}
     >
       <Stack spacing={3}>
         <Stack spacing={1.5}>
           <Typography variant='subtitle2' fontWeight={800}>
-            Reservation Summary
+            {t('reservations.form.confirm.summary', { defaultValue: 'Reservation Summary' })}
           </Typography>
           <Stack spacing={1.5}>
-            <SummaryRow icon={User} label='Guest' value={guestFullName} />
-            <SummaryRow icon={CalendarDays} label='Stay' value={stayValue} />
+            <SummaryRow
+              icon={User}
+              label={t('reservations.form.confirm.guest', { defaultValue: 'Guest' })}
+              value={guestFullName}
+            />
+            <SummaryRow
+              icon={CalendarDays}
+              label={t('reservations.form.confirm.stay', { defaultValue: 'Stay' })}
+              value={stayValue}
+            />
             <SummaryRow
               icon={BedDouble}
-              label='Rooms'
+              label={t('reservations.form.confirm.rooms', { defaultValue: 'Rooms' })}
               value={roomNumbers.length > 0 ? roomNumbers.join(', ') : '—'}
             />
             <SummaryRow
               icon={DollarSign}
-              label='Total'
+              label={t('reservations.form.confirm.total', { defaultValue: 'Total' })}
               value={`$${totalAmount.toFixed(2)}`}
             />
           </Stack>
@@ -60,10 +72,16 @@ export function ReservationConfirmationSection({
 
         <Stack spacing={1.5}>
           <Typography variant='subtitle2' fontWeight={700}>
-            Generated Documents
+            {t('reservations.form.confirm.generatedDocuments', { defaultValue: 'Generated Documents' })}
           </Typography>
-          <DocumentStatusRow label='Reservation Contract (PDF)' ready={hasContract} />
-          <DocumentStatusRow label='Invoice (PDF)' ready={hasInvoice} />
+          <DocumentStatusRow
+            label={t('reservations.form.confirm.contract', { defaultValue: 'Reservation Contract (PDF)' })}
+            ready={hasContract}
+          />
+          <DocumentStatusRow
+            label={t('reservations.form.confirm.invoice', { defaultValue: 'Invoice (PDF)' })}
+            ready={hasInvoice}
+          />
         </Stack>
       </Stack>
     </FormSection>

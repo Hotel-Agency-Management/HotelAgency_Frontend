@@ -4,15 +4,18 @@ import Grid from '@mui/material/Grid'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import Chip from '@mui/material/Chip'
+import { useTranslation } from 'react-i18next'
 import FinancialAlertCard from './FinancialAlertCard'
 import { FINANCIAL_ALERTS } from '../data/accountantDashboardMock'
 
 export default function FinancialAlertsSection() {
+  const { t } = useTranslation()
+
   return (
     <Stack spacing={2}>
       <Stack direction="row" alignItems="center" spacing={1.5}>
         <Typography variant="h6" fontWeight={600}>
-          Financial Alerts
+          {t('dashboard.accountant.financialAlerts.title', { defaultValue: 'Financial Alerts' })}
         </Typography>
         <Chip
           label={FINANCIAL_ALERTS.length}

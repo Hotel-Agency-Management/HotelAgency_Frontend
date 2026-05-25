@@ -1,12 +1,13 @@
 'use client'
 
 import SectionLabel from '@/components/landing/SectionLabel'
-import { landingContent as lc } from '@/components/landing/landingContent'
+import { useLandingContent } from '@/components/landing/landingContent'
 import { FadeIn, SpotlightCard, StaggerGroup, StaggerItem } from '@/components/animation'
 import { useTheme } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 
 export default function GuestExperience() {
+  const lc = useLandingContent()
   const theme = useTheme()
   const primaryMain = theme.palette.primary.main
   const textPrimary = theme.palette.text.primary

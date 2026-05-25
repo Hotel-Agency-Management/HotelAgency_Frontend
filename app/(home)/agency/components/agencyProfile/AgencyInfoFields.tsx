@@ -1,57 +1,59 @@
-"use client";
-import { Controller } from "react-hook-form";
-import Grid from "@mui/material/Grid";
-import Skeleton from "@mui/material/Skeleton";
-import Typography from "@mui/material/Typography";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-import { MuiTelInput } from "mui-tel-input";
-import { Building2, MapPin, Phone, Tag } from "lucide-react";
-import { AgencyInfoFieldsProps } from "../../types/agencyProfile";
-import TextField from "@mui/material/TextField";
-import { FieldLabel } from "./FieldLabel";
-import { getCountryName } from "../../util/phoneUtils";
-import { InfoCard } from "./InfoCard";
-import { useGetSubscriptionPlans } from "@/app/(home)/subscription-plans/hooks/queries/usePlanQueries";
+'use client'
+import { Controller } from 'react-hook-form'
+import Grid from '@mui/material/Grid'
+import Skeleton from '@mui/material/Skeleton'
+import Typography from '@mui/material/Typography'
+import FormControl from '@mui/material/FormControl'
+import Select from '@mui/material/Select'
+import MenuItem from '@mui/material/MenuItem'
+import { MuiTelInput } from 'mui-tel-input'
+import { Building2, MapPin, Phone, Tag } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
+import { AgencyInfoFieldsProps } from '../../types/agencyProfile'
+import TextField from '@mui/material/TextField'
+import { FieldLabel } from './FieldLabel'
+import { getCountryName } from '../../util/phoneUtils'
+import { InfoCard } from './InfoCard'
+import { useGetSubscriptionPlans } from '@/app/(home)/subscription-plans/hooks/queries/usePlanQueries'
+import LtrText from '@/components/ui/LtrText'
 
-export function AgencyInfoFields({
-  isEditing,
-  isLoading,
-  control,
-  setValue,
-  currentValues,
-}: AgencyInfoFieldsProps) {
+export function AgencyInfoFields({ isEditing, isLoading, control, setValue, currentValues }: AgencyInfoFieldsProps) {
   const { data: plans = [], isLoading: isPlansLoading } = useGetSubscriptionPlans()
+  const { t } = useTranslation()
   const currentPlanName = plans.find(p => p.id === currentValues.planId)?.name
 
   return (
     <Grid container spacing={2}>
       <Grid size={{ xs: 12, md: 3 }}>
         <InfoCard>
-          <FieldLabel icon={<Building2 size={15} />} text="Agency Name" />
+          <FieldLabel
+            icon={<Building2 size={15} />}
+            text={t('agencySettings.profile.agencyName', { defaultValue: 'Agency Name' })}
+          />
           {isLoading ? (
-            <Skeleton variant="text" width="72%" height={38} />
+            <Skeleton variant='text' width='72%' height={38} />
           ) : isEditing ? (
             <Controller
-              name="name"
+              name='name'
               control={control}
-              rules={{ required: "Agency name is required" }}
+              rules={{
+                required: t('agencySettings.profile.agencyNameRequired', { defaultValue: 'Agency name is required' })
+              }}
               render={({ field, fieldState }) => (
                 <TextField
                   {...field}
                   fullWidth
-                  variant="outlined"
-                  size="small"
+                  variant='outlined'
+                  size='small'
                   error={!!fieldState.error}
                   helperText={fieldState.error?.message}
-                  placeholder="Enter agency name"
+                  placeholder={t('agencySettings.profile.agencyNamePlaceholder', { defaultValue: 'Enter agency name' })}
                 />
               )}
             />
           ) : (
-            <Typography variant="h6" fontWeight={600} sx={{ lineHeight: 1.35 }}>
-              {currentValues.name || "—"}
+            <Typography variant='h6' fontWeight={600} sx={{ lineHeight: 1.35 }}>
+              {currentValues.name || '—'}
             </Typography>
           )}
         </InfoCard>
@@ -59,39 +61,42 @@ export function AgencyInfoFields({
 
       <Grid size={{ xs: 12, md: 3 }}>
         <InfoCard>
-          <FieldLabel icon={<Phone size={15} />} text="Phone" />
+          <FieldLabel icon={<Phone size={15} />} text={t('agencySettings.profile.phone', { defaultValue: 'Phone' })} />
           {isLoading ? (
-            <Skeleton variant="text" width="68%" height={38} />
+            <Skeleton variant='text' width='68%' height={38} />
           ) : isEditing ? (
             <Controller
-              name="phone"
+              name='phone'
               control={control}
-              rules={{ required: "Phone number is required" }}
+              rules={{
+                required: t('agencySettings.profile.phoneRequired', { defaultValue: 'Phone number is required' })
+              }}
               render={({ field, fieldState }) => (
                 <MuiTelInput
                   {...field}
                   fullWidth
-                  size="small"
-                  defaultCountry="US"
+                  size='small'
+                  defaultCountry='US'
                   error={!!fieldState.error}
                   helperText={fieldState.error?.message}
                   onChange={(value, info) => {
-                    field.onChange(value);
+                    field.onChange(value)
 
-                    const countryName = getCountryName(info);
+                    const countryName = getCountryName(info)
                     if (countryName) {
-                      setValue("country", countryName, {
+                      setValue('country', countryName, {
                         shouldDirty: true,
-                        shouldValidate: true,
-                      });
+                        shouldValidate: true
+                      })
                     }
                   }}
+                  slotProps={{ htmlInput: { dir: 'ltr', style: { direction: 'ltr', textAlign: 'left' } } }}
                 />
               )}
             />
           ) : (
-            <Typography variant="h6" fontWeight={600} sx={{ lineHeight: 1.35 }}>
-              {currentValues.phone || "—"}
+            <Typography variant='h6' fontWeight={600} sx={{ lineHeight: 1.35 }}>
+              <LtrText>{currentValues.phone || '—'}</LtrText>
             </Typography>
           )}
         </InfoCard>
@@ -99,29 +104,29 @@ export function AgencyInfoFields({
 
       <Grid size={{ xs: 12, md: 3 }}>
         <InfoCard>
-          <FieldLabel icon={<MapPin size={15} />} text="City" />
+          <FieldLabel icon={<MapPin size={15} />} text={t('agencySettings.profile.city', { defaultValue: 'City' })} />
           {isLoading ? (
-            <Skeleton variant="text" width="55%" height={38} />
+            <Skeleton variant='text' width='55%' height={38} />
           ) : isEditing ? (
             <Controller
-              name="city"
+              name='city'
               control={control}
-              rules={{ required: "City is required" }}
+              rules={{ required: t('agencySettings.profile.cityRequired', { defaultValue: 'City is required' }) }}
               render={({ field, fieldState }) => (
                 <TextField
                   {...field}
                   fullWidth
-                  variant="outlined"
-                  size="small"
+                  variant='outlined'
+                  size='small'
                   error={!!fieldState.error}
                   helperText={fieldState.error?.message}
-                  placeholder="Enter city"
+                  placeholder={t('agencySettings.profile.cityPlaceholder', { defaultValue: 'Enter city' })}
                 />
               )}
             />
           ) : (
-            <Typography variant="h6" fontWeight={600} sx={{ lineHeight: 1.35 }}>
-              {currentValues.city || "—"}
+            <Typography variant='h6' fontWeight={600} sx={{ lineHeight: 1.35 }}>
+              {currentValues.city || '—'}
             </Typography>
           )}
         </InfoCard>
@@ -129,31 +134,38 @@ export function AgencyInfoFields({
 
       <Grid size={{ xs: 12, md: 3 }}>
         <InfoCard>
-          <FieldLabel icon={<Tag size={15} />} text="Subscription Plan" />
+          <FieldLabel
+            icon={<Tag size={15} />}
+            text={t('agencySettings.profile.subscriptionPlan', { defaultValue: 'Subscription Plan' })}
+          />
           {isLoading || isPlansLoading ? (
-            <Skeleton variant="text" width="60%" height={38} />
+            <Skeleton variant='text' width='60%' height={38} />
           ) : isEditing ? (
             <Controller
-              name="planId"
+              name='planId'
               control={control}
               render={({ field }) => (
-                <FormControl fullWidth size="small">
+                <FormControl fullWidth size='small'>
                   <Select {...field} value={field.value ?? ''} displayEmpty>
-                    <MenuItem value="" disabled>Select a plan</MenuItem>
+                    <MenuItem value='' disabled>
+                      {t('agencySettings.profile.selectPlan', { defaultValue: 'Select a plan' })}
+                    </MenuItem>
                     {plans.map(plan => (
-                      <MenuItem key={plan.id} value={plan.id}>{plan.name}</MenuItem>
+                      <MenuItem key={plan.id} value={plan.id}>
+                        {plan.name}
+                      </MenuItem>
                     ))}
                   </Select>
                 </FormControl>
               )}
             />
           ) : (
-            <Typography variant="h6" fontWeight={600} sx={{ lineHeight: 1.35 }}>
-              {currentPlanName || "—"}
+            <Typography variant='h6' fontWeight={600} sx={{ lineHeight: 1.35 }}>
+              {currentPlanName || '—'}
             </Typography>
           )}
         </InfoCard>
       </Grid>
     </Grid>
-  );
+  )
 }

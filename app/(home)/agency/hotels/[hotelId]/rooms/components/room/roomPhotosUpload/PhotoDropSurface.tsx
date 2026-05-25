@@ -1,6 +1,7 @@
 import { Typography } from "@mui/material";
 import { ReactNode } from "react";
 import { EmptyPhotoIcon, PhotoDropSurfaceRoot } from "../../../roomStyle";
+import { useTranslation } from "react-i18next";
 
 interface PhotoDropSurfaceProps {
   children?: ReactNode;
@@ -11,6 +12,7 @@ export function PhotoDropSurface({
   children,
   onActivate,
 }: PhotoDropSurfaceProps) {
+  const { t } = useTranslation();
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
@@ -30,7 +32,7 @@ export function PhotoDropSurface({
         <>
           <EmptyPhotoIcon />
           <Typography variant="body2" color="text.secondary" mt={1}>
-            Click to upload room photos
+            {t("hotelRooms.photos.empty", "Click to upload room photos")}
           </Typography>
         </>
       )}

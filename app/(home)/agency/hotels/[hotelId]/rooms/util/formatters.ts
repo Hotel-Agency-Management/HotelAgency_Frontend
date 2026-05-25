@@ -6,7 +6,3 @@ export function formatPrice(value: number, currency: string) {
 
   return `${formattedValue} ${currency}`
 }
-
-export function formatCapacity(capacity: number) {
-  return `${capacity} guest${capacity === 1 ? '' : 's'}`
-}

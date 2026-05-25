@@ -1,7 +1,7 @@
 import { Chip, Divider, Stack, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { Users } from "lucide-react";
-import { ROOM_STATUSES } from "../../../../constants/roomStatuses";
+import { getRoomStatusLabel, ROOM_STATUSES } from "../../../../constants/roomStatuses";
 import type { LegacyRoomStatus, RoomStatus } from "../../../../types/room";
 import { formatPrice } from "../../../../util/formatters";
 
@@ -34,7 +34,7 @@ export function RoomCardInfo({
         <Typography variant="subtitle1" fontWeight={700}>
           {roomNumber}
         </Typography>
-        <Chip label={label} color={color} size="small" />
+        <Chip label={getRoomStatusLabel(t, status, label)} color={color} size="small" />
       </Stack>
 
       <Typography variant="body2" color="text.secondary">
@@ -57,7 +57,7 @@ export function RoomCardInfo({
             {capacity != null ? (
               <Chip
                 icon={<Users size={13} />}
-                label={`${capacity} ${t("hotelRooms.profile.guests", "guests")}`}
+                label={t("hotelRooms.profile.guestCount", "{{count}} guest", { count: capacity })}
                 size="small"
                 variant="outlined"
               />

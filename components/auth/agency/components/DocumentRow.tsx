@@ -2,7 +2,17 @@
 
 import type { Control, FieldErrors } from 'react-hook-form'
 import { Controller } from 'react-hook-form'
-import { Stack, Box, TextField, IconButton, InputAdornment, MenuItem, Select, FormControl, FormHelperText } from '@mui/material'
+import {
+  Stack,
+  Box,
+  TextField,
+  IconButton,
+  InputAdornment,
+  MenuItem,
+  Select,
+  FormControl,
+  FormHelperText
+} from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { Trash2, Upload } from 'lucide-react'
 import { useRef } from 'react'
@@ -20,34 +30,34 @@ interface DocumentRowProps {
   currentFile: File | null
 }
 
-export default function DocumentRow({
-  index,
-  control,
-  errors,
-  onRemove,
-  canRemove,
-}: DocumentRowProps) {
+export default function DocumentRow({ index, control, errors, onRemove, canRemove }: DocumentRowProps) {
   const { t } = useTranslation()
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   return (
     <Stack direction={{ xs: 'column', sm: 'row' }} gap={1.5} alignItems='flex-end'>
       <Box flex={1.2} minWidth={0}>
-        <FormFieldWrapper title={index === 0 ? t('docs.fileType', 'File Type') : ''}>
+        <FormFieldWrapper title={index === 0 ? t('docs.fileType', { defaultValue: 'File Type' }) : ''}>
           <Controller
             name={`documents.${index}.title`}
             control={control}
             rules={{
               validate: value =>
                 value.trim().length > 0 ||
-                t('docs.validation.fileTypeRequired', 'File type is required')
+                t('docs.validation.fileTypeRequired', { defaultValue: 'File type is required' })
             }}
             render={({ field }) => (
               <FormControl fullWidth size='small' error={!!errors.documents?.[index]?.title}>
                 <Select
                   {...field}
                   displayEmpty
-                  renderValue={value => value || <span style={{ opacity: 0.4, fontSize: '0.875rem' }}>{t('docs.titlePlaceholder', 'Select file type')}</span>}
+                  renderValue={value =>
+                    value || (
+                      <span style={{ opacity: 0.4, fontSize: '0.875rem' }}>
+                        {t('docs.titlePlaceholder', { defaultValue: 'Select file type' })}
+                      </span>
+                    )
+                  }
                 >
                   {DOCUMENT_TYPES.map(type => (
                     <MenuItem key={type} value={type}>
@@ -65,12 +75,13 @@ export default function DocumentRow({
       </Box>
 
       <Box flex={1} minWidth={0}>
-        <FormFieldWrapper title={index === 0 ? t('docs.file', 'File') : ''}>
+        <FormFieldWrapper title={index === 0 ? t('docs.file', { defaultValue: 'File' }) : ''}>
           <Controller
             name={`documents.${index}.file`}
             control={control}
             rules={{
-              validate: value => value !== null || t('docs.validation.fileRequired', 'File is required')
+              validate: value =>
+                value !== null || t('docs.validation.fileRequired', { defaultValue: 'File is required' })
             }}
             render={({ field }) => (
               <>
@@ -87,7 +98,7 @@ export default function DocumentRow({
                 <TextField
                   fullWidth
                   size='small'
-                  placeholder={t('docs.filePlaceholder', 'Select a file')}
+                  placeholder={t('docs.filePlaceholder', { defaultValue: 'Select a file' })}
                   value={field.value?.name ?? ''}
                   onClick={() => fileInputRef.current?.click()}
                   error={!!errors.documents?.[index]?.file}

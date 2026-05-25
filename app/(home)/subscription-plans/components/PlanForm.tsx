@@ -9,6 +9,7 @@ import {
   CircularProgress,
 } from '@mui/material'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import type { PlanFormState, PlanFormValues, SubscriptionPlan } from '../types/plans'
 import FeatureEditor from './FeatureEditor'
 import { FormErrors, validatePlanForm, hasErrors } from '../util/plans'
@@ -25,8 +26,10 @@ export default function PlanForm({
   initial,
   onSubmit,
   onCancel,
-  submitLabel = 'Save Plan',
+  submitLabel,
 }: PlanFormProps) {
+  const { t } = useTranslation()
+  const resolvedSubmitLabel = submitLabel ?? t('subscriptionPlans.savePlan', { defaultValue: 'Save Plan' })
   const isCreateMode = !initial
   const [values, setValues] = useState<PlanFormState>(
     initial ? makeInitialFormState(initial) : makeEmptyFormState(),
@@ -68,19 +71,19 @@ export default function PlanForm({
     <Stack gap={3}>
       <Stack spacing={2}>
         <Typography variant='subtitle2' color='text.secondary'>
-          Basic Information
+          {t('subscriptionPlans.form.basicInfo', { defaultValue: 'Basic Information' })}
         </Typography>
 
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
           <TextField
-            label='Plan Name'
+            label={t('subscriptionPlans.form.planName', { defaultValue: 'Plan Name' })}
             fullWidth
             required
             value={values.name}
             onChange={e => set('name', e.target.value)}
             error={!!errors.name}
             helperText={errors.name}
-            placeholder='e.g. Pro'
+            placeholder={t('subscriptionPlans.form.planNamePlaceholder', { defaultValue: 'e.g. Pro' })}
           />
 
           <FormControlLabel
@@ -90,13 +93,13 @@ export default function PlanForm({
                 onChange={e => set('status', e.target.checked ? 'Active' : 'Inactive')}
               />
             }
-            label='Active'
+            label={t('subscriptionPlans.form.active', { defaultValue: 'Active' })}
             sx={{ whiteSpace: 'nowrap', ml: 0 }}
           />
         </Stack>
 
         <TextField
-          label='Description'
+          label={t('subscriptionPlans.form.description', { defaultValue: 'Description' })}
           fullWidth
           required
           multiline
@@ -105,7 +108,7 @@ export default function PlanForm({
           onChange={e => set('description', e.target.value)}
           error={!!errors.description}
           helperText={errors.description}
-          placeholder='Brief description of what this plan offers'
+          placeholder={t('subscriptionPlans.form.descriptionPlaceholder', { defaultValue: 'Brief description of what this plan offers' })}
         />
       </Stack>
 
@@ -113,11 +116,11 @@ export default function PlanForm({
 
       <Stack spacing={2}>
         <Typography variant='subtitle2' color='text.secondary'>
-          Pricing
+          {t('subscriptionPlans.form.pricing', { defaultValue: 'Pricing' })}
         </Typography>
 
         <TextField
-          label='Price (USD)'
+          label={t('subscriptionPlans.form.price', { defaultValue: 'Price (USD)' })}
           type='number'
           fullWidth
           value={values.price}
@@ -141,7 +144,7 @@ export default function PlanForm({
       <Stack direction='row' spacing={1.5} justifyContent='flex-end'>
         {onCancel && (
           <Button variant='outlined' onClick={onCancel} disabled={submitting}>
-            Cancel
+            {t('common.cancel', { defaultValue: 'Cancel' })}
           </Button>
         )}
         <Button
@@ -150,7 +153,7 @@ export default function PlanForm({
           disabled={submitting}
           startIcon={submitting ? <CircularProgress size={16} color='inherit' /> : undefined}
         >
-          {submitting ? 'Saving…' : submitLabel}
+          {submitting ? t('subscriptionPlans.form.saving', { defaultValue: 'Saving…' }) : resolvedSubmitLabel}
         </Button>
       </Stack>
     </Stack>

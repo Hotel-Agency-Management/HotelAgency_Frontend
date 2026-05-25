@@ -3,7 +3,7 @@ import { SpotlightCard } from '@/components/animation'
 
 interface DetailItem {
   label: string
-  value: string
+  value: React.ReactNode
   icon: React.ReactNode
 }
 

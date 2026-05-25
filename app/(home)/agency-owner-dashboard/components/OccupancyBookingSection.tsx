@@ -5,6 +5,7 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import Stack from '@mui/material/Stack'
+import { useTranslation } from 'react-i18next'
 import BarChart from '@/components/charts/BarChart'
 import LineChart from '@/components/charts/LineChart'
 import DoughnutChart from '@/components/charts/DoughnutChart'
@@ -17,13 +18,15 @@ import {
 } from '../data/agencyOwnerDashboardMock'
 
 export default function OccupancyBookingSection() {
+  const { t } = useTranslation()
+
   return (
     <Grid container spacing={3} alignItems="stretch">
       <Grid size={{ xs: 12 }}>
         <Card variant="outlined" sx={{ width: '100%', height: '100%' }}>
           <CardContent>
             <Stack spacing={2}>
-              <Typography variant="h6">Occupancy Rate per Hotel</Typography>
+              <Typography variant="h6">{t('dashboard.agencyOwner.charts.occupancyPerHotel', { defaultValue: 'Occupancy Rate per Hotel' })}</Typography>
               <BarChart data={OCCUPANCY_BY_HOTEL} labels={HOTEL_NAMES_SHORT} height={240} percentage />
             </Stack>
           </CardContent>
@@ -34,7 +37,7 @@ export default function OccupancyBookingSection() {
         <Card variant="outlined" sx={{ width: '100%' }}>
           <CardContent>
             <Stack spacing={2}>
-              <Typography variant="h6">Check-ins vs Check-outs</Typography>
+              <Typography variant="h6">{t('dashboard.agencyOwner.charts.checkInsVsCheckOuts', { defaultValue: 'Check-ins vs Check-outs' })}</Typography>
               <LineChart
                 series={CHECKINS_CHECKOUTS_SERIES}
                 labels={MONTHS}
@@ -52,7 +55,7 @@ export default function OccupancyBookingSection() {
         <Card variant="outlined" sx={{ width: '100%' }}>
           <CardContent>
             <Stack spacing={2}>
-              <Typography variant="h6">Booking Types Distribution</Typography>
+              <Typography variant="h6">{t('dashboard.agencyOwner.charts.bookingTypesDistribution', { defaultValue: 'Booking Types Distribution' })}</Typography>
               <DoughnutChart
                 data={BOOKING_TYPE_DISTRIBUTION}
                 percentage

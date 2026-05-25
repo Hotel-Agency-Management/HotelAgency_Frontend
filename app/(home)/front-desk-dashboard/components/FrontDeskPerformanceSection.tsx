@@ -1,6 +1,7 @@
 'use client'
 
 import { Card, CardContent, Typography, Stack, Chip, Divider } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 import Avatar from '@/components/ui/Avatar'
 import Icon from '@/components/icon/Icon'
 import { ALERT_ITEMS } from '../data/frontDeskMock'
@@ -8,15 +9,17 @@ import { ALERT_SEVERITY_LABELS } from '../constants/frontDeskConstants'
 import type { PaletteColorKey } from '../types/frontDeskTypes'
 
 export function AlertsWidget() {
+  const { t } = useTranslation()
+
   return (
     <Card variant="outlined" sx={{ height: '100%' }}>
       <CardContent>
         <Stack direction="row" justifyContent="space-between" alignItems="center">
           <Typography variant="h6" fontWeight={600}>
-            Operational Alerts
+            {t('dashboard.frontDesk.alerts.title', { defaultValue: 'Operational Alerts' })}
           </Typography>
           <Typography variant="caption">
-            {ALERT_ITEMS.length} active
+            {t('dashboard.frontDesk.alerts.active', { defaultValue: '{{count}} active', count: ALERT_ITEMS.length })}
           </Typography>
         </Stack>
 

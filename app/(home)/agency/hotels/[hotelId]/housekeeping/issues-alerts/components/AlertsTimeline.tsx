@@ -4,28 +4,30 @@ import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
-import { SEVERITY_META } from "../constants/issueAlerts";
+import { useTranslation } from "react-i18next";
+import { getSeverityMeta } from "../constants/issueAlerts";
 import type { AlertTimelineItem } from "../types/issue";
 import { TimelineMarker } from "./TimelineMarker";
 
 export function AlertsTimeline({ items }: { items: AlertTimelineItem[] }) {
   const theme = useTheme();
+  const { t } = useTranslation();
 
   return (
     <Paper variant="card">
       <Stack gap={2.5}>
         <Stack gap={0.5}>
           <Typography variant="subtitle1" fontWeight={700}>
-            Alerts Timeline
+            {t("housekeeping.issues.alertsTimeline.title", "Alerts Timeline")}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Live-style activity from inspection and room status checks.
+            {t("housekeeping.issues.alertsTimeline.subtitle", "Live-style activity from inspection and room status checks.")}
           </Typography>
         </Stack>
 
         <Stack>
           {items.map((item, index) => {
-            const meta = SEVERITY_META[item.severity];
+            const meta = getSeverityMeta(t)[item.severity];
             const color = theme.palette[meta.palette].main;
             const isLast = index === items.length - 1;
 

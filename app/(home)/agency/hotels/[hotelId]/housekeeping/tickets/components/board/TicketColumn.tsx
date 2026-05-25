@@ -3,6 +3,7 @@
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
+import { useTranslation } from "react-i18next";
 import { useDroppable } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import {
@@ -42,6 +43,7 @@ export function TicketColumn({
   onOpenDetail,
 }: TicketColumnProps) {
   const theme = useTheme();
+  const { t } = useTranslation();
   const accentColor = theme.palette[column.colorKey].main;
   const shouldShowEndIndicator =
     Boolean(activeTicketId) && overId === column.id && tickets.length > 0;
@@ -97,7 +99,7 @@ export function TicketColumn({
             {tickets.length === 0 && (
               <EmptyColumnState isOver={isOver}>
                 <Typography variant="caption" fontWeight={500} >
-                  {isOver ? "Drop here" : "No tickets"}
+                  {isOver ? t("housekeeping.tickets.dropHere", "Drop here") : t("housekeeping.tickets.emptyColumn", "No tickets")}
                 </Typography>
               </EmptyColumnState>
             )}

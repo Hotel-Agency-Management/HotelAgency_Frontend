@@ -16,6 +16,7 @@ import stylisRTLPlugin from 'stylis-plugin-rtl'
 interface DirectionProps {
   children: ReactNode
   direction: MuiDirection
+  lang?: string
 }
 
 const createRtlCache = () =>
@@ -26,11 +27,17 @@ const createRtlCache = () =>
   })
 
 const Direction = (props: DirectionProps) => {
-  const { children, direction } = props
+  const { children, direction, lang } = props
 
   useEffect(() => {
     document.dir = direction
   }, [direction])
+
+  useEffect(() => {
+    if (lang) {
+      document.documentElement.lang = lang
+    }
+  }, [lang])
 
   const cache = useMemo(() => createRtlCache(), [])
 

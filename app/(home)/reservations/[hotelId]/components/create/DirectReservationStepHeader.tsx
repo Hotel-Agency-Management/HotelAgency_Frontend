@@ -1,6 +1,7 @@
 'use client'
 
 import { Paper, Stack, Step, StepLabel, Stepper, Typography } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 import type { DirectReservationStep } from '../../constants/directReservationSteps'
 
 interface DirectReservationStepHeaderProps {
@@ -9,38 +10,50 @@ interface DirectReservationStepHeaderProps {
   steps: DirectReservationStep[]
 }
 
-export function DirectReservationStepHeader({
-  activeStep,
-  currentStep,
-  steps,
-}: DirectReservationStepHeaderProps) {
+export function DirectReservationStepHeader({ activeStep, currentStep, steps }: DirectReservationStepHeaderProps) {
+  const { t } = useTranslation()
+
   return (
     <Paper variant='card'>
       <Stack spacing={2.5}>
         <Stack spacing={0.75}>
           <Typography variant='subtitle1' sx={{ fontWeight: 700 }}>
-            Reservation setup
+            {t('reservations.stepper.setup', { defaultValue: 'Reservation setup' })}
           </Typography>
           <Typography variant='body2'>
-            Complete this reservation step by step instead of filling the whole form at once.
+            {t('reservations.stepper.setupDescription', {
+              defaultValue: 'Complete this reservation step by step instead of filling the whole form at once.'
+            })}
           </Typography>
         </Stack>
 
         <Stepper activeStep={activeStep} alternativeLabel>
-          {steps.map(step => (
-            <Step key={step.label}>
-              <StepLabel>{step.label}</StepLabel>
-            </Step>
-          ))}
+          {steps.map((step, index) => {
+            const stepLabelKeys: Record<number, string> = {
+              0: 'reservations.stepper.steps.guest',
+              1: 'reservations.stepper.steps.stay',
+              2: 'reservations.stepper.steps.payment',
+              3: 'reservations.stepper.steps.reservation',
+              4: 'reservations.stepper.steps.confirm'
+            }
+            const stepLabel = t(stepLabelKeys[index] ?? '', step.label)
+            return (
+              <Step key={step.label}>
+                <StepLabel>{stepLabel}</StepLabel>
+              </Step>
+            )
+          })}
         </Stepper>
 
         <Stack spacing={0.5}>
           <Typography variant='body2' sx={{ fontWeight: 600 }}>
-            Step {activeStep + 1} of {steps.length}
+            {t('reservations.stepper.stepOf', {
+              defaultValue: 'Step {{current}} of {{total}}',
+              current: activeStep + 1,
+              total: steps.length
+            })}
           </Typography>
-          <Typography variant='body2'>
-            {currentStep.description}
-          </Typography>
+          <Typography variant='body2'>{currentStep.description}</Typography>
         </Stack>
       </Stack>
     </Paper>

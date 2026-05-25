@@ -1,22 +1,19 @@
-import { fromNow } from "@/core/utils/Dateutils";
-import { Stack, Avatar, Typography } from "@mui/material";
-import { GridColDef } from "@mui/x-data-grid";
-import AgencyActionsCell from "../components/AgencyActionsCell";
-import { Agency } from "../types/agency";
+import { fromNow } from '@/core/utils/Dateutils'
+import { Stack, Avatar, Typography } from '@mui/material'
+import { GridColDef } from '@mui/x-data-grid'
+import { TFunction } from 'i18next'
+import AgencyActionsCell from '../components/AgencyActionsCell'
+import { Agency } from '../types/agency'
 
-export const columns = (onSettingsClick: (agencyId: number) => void): GridColDef<Agency>[] => [
+export const columns = (onSettingsClick: (agencyId: number) => void, t: TFunction): GridColDef<Agency>[] => [
   {
     field: 'name',
-    headerName: 'Agency',
+    headerName: t('agencies.table.agency', { defaultValue: 'Agency' }),
     flex: 1.5,
     minWidth: 200,
     renderCell: ({ row }) => (
       <Stack direction='row' alignItems='center' gap={1.5} sx={{ height: '100%' }}>
-        <Avatar
-          src={row.logoUrl ?? undefined}
-          alt={row.name}
-          sx={{ width: 32, height: 32 }}
-        >
+        <Avatar src={row.logoUrl ?? undefined} alt={row.name} sx={{ width: 32, height: 32 }}>
           {row.name[0].toUpperCase()}
         </Avatar>
         <Stack>
@@ -32,13 +29,13 @@ export const columns = (onSettingsClick: (agencyId: number) => void): GridColDef
   },
   {
     field: 'phone',
-    headerName: 'Phone',
+    headerName: t('agencies.table.phone', { defaultValue: 'Phone' }),
     flex: 1,
-    minWidth: 140,
+    minWidth: 140
   },
   {
     field: 'country',
-    headerName: 'Location',
+    headerName: t('agencies.table.location', { defaultValue: 'Location' }),
     flex: 1,
     minWidth: 140,
     renderCell: ({ row }) => (
@@ -49,22 +46,16 @@ export const columns = (onSettingsClick: (agencyId: number) => void): GridColDef
   },
   {
     field: 'createdAt',
-    headerName: 'Created',
+    headerName: t('agencies.table.created', { defaultValue: 'Created' }),
     flex: 1,
     minWidth: 120,
-    renderCell: ({ row }) => (
-      <Typography variant='body2'>
-        {fromNow(row.createdAt)}
-      </Typography>
-    )
+    renderCell: ({ row }) => <Typography variant='body2'>{fromNow(row.createdAt)}</Typography>
   },
   {
     field: 'actions',
     headerName: '',
     sortable: false,
     width: 60,
-    renderCell: ({ row }) => (
-      <AgencyActionsCell agencyId={row.id} onSettingsClick={onSettingsClick} />
-    )
+    renderCell: ({ row }) => <AgencyActionsCell agencyId={row.id} onSettingsClick={onSettingsClick} />
   }
 ]

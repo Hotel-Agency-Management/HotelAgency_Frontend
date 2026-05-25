@@ -5,18 +5,21 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import Stack from '@mui/material/Stack'
+import { useTranslation } from 'react-i18next'
 import LineChart from '@/components/charts/LineChart'
 import BarChart from '@/components/charts/BarChart'
 import { ADR_SERIES, REVPAR_DATA, MONTHS } from '../data/propertyManagerDashboardMock'
 
 export default function RevenueFinanceSection() {
+  const { t } = useTranslation()
+
   return (
     <Grid container spacing={3}>
       <Grid size={{ xs: 12 }}>
         <Card variant="outlined">
           <CardContent>
             <Stack spacing={2}>
-              <Typography variant="h6">Average Daily Room Rate Trend</Typography>
+              <Typography variant="h6">{t('dashboard.propertyManager.charts.adrTrend', { defaultValue: 'Average Daily Room Rate Trend' })}</Typography>
               <LineChart
                 series={ADR_SERIES}
                 labels={MONTHS}
@@ -32,7 +35,7 @@ export default function RevenueFinanceSection() {
         <Card variant="outlined">
           <CardContent>
             <Stack spacing={2}>
-              <Typography variant="h6">Revenue per Available Room</Typography>
+              <Typography variant="h6">{t('dashboard.propertyManager.charts.revpar', { defaultValue: 'Revenue per Available Room' })}</Typography>
               <BarChart
                 data={REVPAR_DATA}
                 labels={MONTHS}

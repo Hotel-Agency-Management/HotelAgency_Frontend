@@ -10,6 +10,7 @@ import { useTeamMembers } from "@/app/(home)/users/hooks/useTeamMembers";
 import { HotelCardActions } from "./HotelCardActions";
 import { HotelCardManager } from "./HotelCardManager";
 import type { HotelCardHotel } from "./types";
+import LtrText from "@/components/ui/LtrText";
 
 interface HotelCardOverlayProps {
   hotel: HotelCardHotel;
@@ -59,10 +60,8 @@ export function HotelCardOverlay({ hotel, onEdit }: HotelCardOverlayProps) {
 
           <Stack direction="row" spacing={0.75} alignItems="center">
             <Phone size={13} />
-            <Typography
-              variant="caption"
-            >
-              {basicInfo.phone}
+            <Typography variant="caption">
+              <LtrText>{basicInfo.phone}</LtrText>
             </Typography>
           </Stack>
         </Stack>

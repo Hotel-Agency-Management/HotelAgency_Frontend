@@ -9,6 +9,7 @@ import {
 import LoadingButton from '@mui/lab/LoadingButton'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { RoomType } from '../types/roomType'
+import { useTranslation } from 'react-i18next'
 
 interface DeleteRoomTypeDialogProps {
   open: boolean
@@ -25,23 +26,25 @@ export function DeleteRoomTypeDialog({
   onClose,
   onConfirm,
 }: DeleteRoomTypeDialogProps) {
+  const { t } = useTranslation()
+
   return (
     <Dialog open={open} onClose={onClose} maxWidth='xs' fullWidth>
-      <DialogTitle>Delete room type</DialogTitle>
+      <DialogTitle>{t('roomTypes.deleteDialog.title', { defaultValue: 'Delete Room Type' })}</DialogTitle>
 
       <DialogContent>
         <Typography variant='body2'>
-          Are you sure you want to delete{' '}
+          {t('roomTypes.deleteDialog.confirm', { defaultValue: 'Are you sure you want to delete' })}{' '}
           <Typography component='span' variant='body2' fontWeight={500} color='text.primary'>
             {roomType?.name}
           </Typography>
-          ? This action cannot be undone.
+          ? {t('roomTypes.deleteDialog.cannotUndo', { defaultValue: 'This action cannot be undone.' })}
         </Typography>
       </DialogContent>
 
       <DialogActions>
         <Button onClick={onClose} color='inherit' disabled={isLoading}>
-          Cancel
+          {t('common.cancel', { defaultValue: 'Cancel' })}
         </Button>
         <LoadingButton
           onClick={onConfirm}
@@ -51,7 +54,7 @@ export function DeleteRoomTypeDialog({
           loadingPosition='start'
           startIcon={<DeleteIcon />}
         >
-          Delete
+          {t('roomTypes.delete', { defaultValue: 'Delete Room Type' })}
         </LoadingButton>
       </DialogActions>
     </Dialog>

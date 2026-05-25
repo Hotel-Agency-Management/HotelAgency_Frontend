@@ -5,6 +5,7 @@ import { Avatar, Box, Button, Divider, ListItemIcon, Menu, MenuItem, Tooltip, Ty
 import { LogIn, LogOut, MoreVertical, User } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/navigation'
+import { useTranslation } from 'react-i18next'
 import { useAuth } from '@/core/context/AuthContext'
 import { useSidebar } from '../SidebarContext'
 import UserAvatarButton from './UserAvatarButton'
@@ -16,6 +17,7 @@ interface ProfileButtonProps {
 export default function ProfileButton({ variant = 'sidebar' }: ProfileButtonProps) {
   const { isLoading, logout, user } = useAuth()
   const { isCollapsed } = useSidebar()
+  const { t } = useTranslation()
   const router = useRouter()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const isNavbar = variant === 'navbar'
@@ -25,14 +27,9 @@ export default function ProfileButton({ variant = 'sidebar' }: ProfileButtonProp
   }
 
   if (!user && isNavbar) {
-    return  (
-      <Button
-        size='small'
-        variant='contained'
-        startIcon={<LogIn size={16} />}
-        onClick={() => router.push('/login')}
-      >
-        Login
+    return (
+      <Button size='small' variant='contained' startIcon={<LogIn size={16} />} onClick={() => router.push('/login')}>
+        {t('profileButton.login', { defaultValue: 'Login' })}
       </Button>
     )
   }
@@ -40,7 +37,7 @@ export default function ProfileButton({ variant = 'sidebar' }: ProfileButtonProp
   if (!user) return null
 
   const email = user.email ?? ''
-  const name = user.name ?? email.split('@')[0] ?? 'User'
+  const name = user.name ?? email.split('@')[0] ?? t('profileButton.userFallback', { defaultValue: 'User' })
   const initials = name
     .split(' ')
     .map(n => n[0])
@@ -71,11 +68,7 @@ export default function ProfileButton({ variant = 'sidebar' }: ProfileButtonProp
            * We only animate gap/padding (CSS, same easing as sidebar) and
            * fade content in/out fast enough that nothing gets squashed.
            */}
-          <UserAvatarButton
-            isNavbar={isNavbar}
-            isCollapsed={isCollapsed}
-            onClick={handleOpen}
-          >
+          <UserAvatarButton isNavbar={isNavbar} isCollapsed={isCollapsed} onClick={handleOpen}>
             <Avatar
               sx={{
                 width: isNavbar ? 28 : 34,
@@ -90,7 +83,7 @@ export default function ProfileButton({ variant = 'sidebar' }: ProfileButtonProp
             </Avatar>
 
             {/* Text — fades out fast so the sidebar wall never catches it */}
-          <AnimatePresence initial={false}>
+            <AnimatePresence initial={false}>
               {!isNavbar && !isCollapsed && (
                 <motion.div
                   key='profile-text'
@@ -110,7 +103,7 @@ export default function ProfileButton({ variant = 'sidebar' }: ProfileButtonProp
             </AnimatePresence>
 
             {/* Icon — same fast fade */}
-          <AnimatePresence initial={false}>
+            <AnimatePresence initial={false}>
               {!isNavbar && !isCollapsed && (
                 <motion.div
                   key='profile-icon'
@@ -160,14 +153,14 @@ export default function ProfileButton({ variant = 'sidebar' }: ProfileButtonProp
           <ListItemIcon>
             <User size={16} />
           </ListItemIcon>
-          <Typography variant='body2'>View Profile</Typography>
+          <Typography variant='body2'>{t('profileButton.viewProfile', { defaultValue: 'View Profile' })}</Typography>
         </MenuItem>
 
         <MenuItem onClick={handleLogout} sx={{ borderRadius: 1.5, py: 1, color: 'error.main' }}>
           <ListItemIcon sx={{ color: 'error.main' }}>
             <LogOut size={16} />
           </ListItemIcon>
-          <Typography variant='body2'>Logout</Typography>
+          <Typography variant='body2'>{t('profileButton.logout', { defaultValue: 'Logout' })}</Typography>
         </MenuItem>
       </Menu>
     </>

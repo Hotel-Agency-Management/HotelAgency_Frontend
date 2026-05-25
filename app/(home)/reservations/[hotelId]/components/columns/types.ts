@@ -1,3 +1,4 @@
+import type { TFunction } from 'i18next'
 import type { ReservationListItem } from '../../config/reservationConfig'
 
 export type ReservationColumnKey =
@@ -11,6 +12,7 @@ export type ReservationColumnKey =
   | 'actions'
 
 export type ReservationColumnContext = {
+  t: TFunction
   onExtend: (row: ReservationListItem) => void
   onUpdate: (row: ReservationListItem) => void
   onCancel: (row: ReservationListItem) => void

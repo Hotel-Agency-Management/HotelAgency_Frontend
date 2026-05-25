@@ -4,12 +4,10 @@ import { useEffect, useRef, useState } from 'react'
 import { SimpleTreeView, TreeItem } from '@mui/x-tree-view'
 import { gsap, ScrollTrigger } from '@/lib/gsap'
 import SectionLabel from '@/components/landing/SectionLabel'
-import { landingContent as lc, type TreeNode } from '@/components/landing/landingContent'
+import { useLandingContent, type TreeNode } from '@/components/landing/landingContent'
 import { useTheme } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 import themeConfig from '@/core/configs/themeConfig'
-
-const included = lc.whatYouGet.includedItems
 
 function collectDirIds(nodes: TreeNode[]): string[] {
   return nodes.flatMap(n => (n.type === 'dir' ? [n.id, ...collectDirIds(n.children ?? [])] : []))
@@ -61,6 +59,8 @@ function FileLabel({ name, comment, type }: { name: string; comment?: string; ty
 }
 
 export default function WhatYouGet() {
+  const lc = useLandingContent()
+  const included = lc.whatYouGet.includedItems
   const sectionRef = useRef<HTMLElement>(null)
   const leftRef = useRef<HTMLDivElement>(null)
   const rightRef = useRef<HTMLDivElement>(null)

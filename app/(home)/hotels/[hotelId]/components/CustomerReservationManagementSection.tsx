@@ -33,9 +33,9 @@ export function CustomerReservationManagementSection({
   hotelId,
   roomId,
   hotel,
-  room,
+  room
 }: CustomerReservationManagementSectionProps) {
-  const { i18n } = useTranslation()
+  const { t, i18n } = useTranslation()
   const router = useRouter()
   const searchParams = useSearchParams()
 
@@ -47,7 +47,7 @@ export function CustomerReservationManagementSection({
     extendReservation,
     cancelReservation,
     isBusy,
-    isLoading,
+    isLoading
   } = useCustomerReservationManager(hotelId, roomId, room.roomNumber, hotel?.agencyId ?? undefined)
 
   const { feedback, showFeedback, closeFeedback } = useReservationFeedback()
@@ -59,7 +59,7 @@ export function CustomerReservationManagementSection({
     hotel,
     stayLength: summary.stayLength,
     cancellationFee: summary.cancellationFee,
-    language: i18n.language,
+    language: i18n.language
   })
 
   const { roomOptions, availableRooms } = useReservationRoomOptions(hotelId, currentReservation?.roomId)
@@ -86,29 +86,29 @@ export function CustomerReservationManagementSection({
       nextParams.set('rooms', String(updatedReservation.rooms))
 
       router.replace(`/hotels/${hotelId}/rooms/${updatedReservation.roomId}?${nextParams.toString()}`)
-    },
+    }
   })
 
   const extend = useReservationExtend({
     currentReservation,
     roomReservations,
     extendReservation,
-    showFeedback,
+    showFeedback
   })
 
   const cancellation = useReservationCancel({
     currentReservation,
     cancelReservation,
     showFeedback,
-    formatCurrencyValue: labels.formatCurrencyValue,
+    formatCurrencyValue: labels.formatCurrencyValue
   })
 
   if (isLoading && currentReservation == null) {
     return (
-      <Paper variant="card">
+      <Paper variant='card'>
         <Stack gap={2}>
-          <Skeleton variant="text" width={240} height={32} />
-          <Skeleton variant="rounded" height={120} />
+          <Skeleton variant='text' width={240} height={32} />
+          <Skeleton variant='rounded' height={120} />
         </Stack>
       </Paper>
     )
@@ -120,28 +120,26 @@ export function CustomerReservationManagementSection({
 
   return (
     <>
-      <Paper variant="card">
+      <Paper variant='card'>
         <Stack gap={2.5}>
           <Stack
             direction={{ xs: 'column', md: 'row' }}
-            justifyContent="space-between"
+            justifyContent='space-between'
             alignItems={{ xs: 'flex-start', md: 'flex-start' }}
             gap={1.5}
           >
             <Stack spacing={0.75}>
-              <Typography variant="h6" fontWeight={800}>
-                Reservation management
+              <Typography variant='h6' fontWeight={800}>
+                {t('hotelPortal.booking.reservationManagement', { defaultValue: 'Reservation management' })}
               </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Manage your booked stay from one section without squeezing the side panel.
+              <Typography variant='body2' color='text.secondary'>
+                {t('hotelPortal.booking.reservationManagementSubtitle', {
+                  defaultValue: 'Manage your booked stay from one section without squeezing the side panel.'
+                })}
               </Typography>
             </Stack>
 
-            <Stack
-              alignItems={{ xs: 'flex-start', md: 'flex-end' }}
-              spacing={1}
-              sx={{ width: { xs: 1, md: 'auto' } }}
-            >
+            <Stack alignItems={{ xs: 'flex-start', md: 'flex-end' }} spacing={1} sx={{ width: { xs: 1, md: 'auto' } }}>
               <ReservationActionsMenu
                 canModify={summary.canModify}
                 isBusy={isBusy}
@@ -151,41 +149,39 @@ export function CustomerReservationManagementSection({
               />
 
               <Stack
-                direction="row"
+                direction='row'
                 spacing={1}
-                flexWrap="wrap"
+                flexWrap='wrap'
                 useFlexGap
                 justifyContent={{ xs: 'flex-start', md: 'flex-end' }}
               >
                 <Chip
-                  size="small"
-                  variant="outlined"
-                  color="success"
+                  size='small'
+                  variant='outlined'
+                  color='success'
                   icon={<CheckCircle2 size={14} />}
-                  label="Status: confirmed"
+                  label={t('hotelPortal.booking.statusConfirmed', { defaultValue: 'Status: confirmed' })}
                 />
                 <Chip
-                  size="small"
-                  variant="outlined"
+                  size='small'
+                  variant='outlined'
                   color={summary.canModify ? 'info' : 'warning'}
                   icon={summary.canModify ? <Edit3 size={14} /> : <Clock3 size={14} />}
-                  label={summary.canModify ? 'Editable now' : 'Edit window closed'}
+                  label={
+                    summary.canModify
+                      ? t('hotelPortal.booking.editableNow', { defaultValue: 'Editable now' })
+                      : t('hotelPortal.booking.editWindowClosed', { defaultValue: 'Edit window closed' })
+                  }
                 />
                 <Chip
-                  size="small"
-                  variant="outlined"
+                  size='small'
+                  variant='outlined'
                   color={summary.freeCancellation ? 'warning' : 'error'}
-                  icon={
-                    summary.freeCancellation ? (
-                      <Clock3 size={14} />
-                    ) : (
-                      <ReceiptText size={14} />
-                    )
-                  }
+                  icon={summary.freeCancellation ? <Clock3 size={14} /> : <ReceiptText size={14} />}
                   label={
                     summary.freeCancellation
-                      ? 'Free cancellation active'
-                      : 'Cancellation fee applies'
+                      ? t('hotelPortal.booking.freeCancellationActive', { defaultValue: 'Free cancellation active' })
+                      : t('hotelPortal.booking.cancellationFeeApplies', { defaultValue: 'Cancellation fee applies' })
                   }
                 />
               </Stack>
@@ -211,23 +207,23 @@ export function CustomerReservationManagementSection({
                 <Stack direction={{ xs: 'column', sm: 'row' }} gap={1}>
                   <Button
                     fullWidth
-                    variant="outlined"
-                    color="primary"
+                    variant='outlined'
+                    color='primary'
                     startIcon={<FileText size={16} />}
                     disabled={!documents.contractDocumentUrl || isBusy}
                     onClick={documents.openContract}
                   >
-                    View contract
+                    {t('hotelPortal.booking.viewContract', { defaultValue: 'View contract' })}
                   </Button>
                   <Button
                     fullWidth
-                    variant="outlined"
-                    color="primary"
+                    variant='outlined'
+                    color='primary'
                     startIcon={<ReceiptText size={16} />}
                     disabled={!documents.invoiceDocumentUrl || isBusy}
                     onClick={documents.openInvoice}
                   >
-                    View invoice
+                    {t('hotelPortal.booking.viewInvoice', { defaultValue: 'View invoice' })}
                   </Button>
                 </Stack>
               </Stack>
@@ -291,7 +287,7 @@ export function CustomerReservationManagementSection({
         onClose={closeFeedback}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       >
-        <Alert onClose={closeFeedback} severity={feedback.severity} variant="filled">
+        <Alert onClose={closeFeedback} severity={feedback.severity} variant='filled'>
           {feedback.message}
         </Alert>
       </Snackbar>

@@ -1,33 +1,35 @@
 "use client";
 
-import { Icon } from "@iconify/react";
+import DirectionalIcon from "@/components/common/DirectionalIcon";
 import Divider from "@mui/material/Divider";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
-import { SEVERITY_META } from "../constants/issueAlerts";
+import { useTranslation } from "react-i18next";
+import { getSeverityMeta } from "../constants/issueAlerts";
 import type { RecentIssue } from "../types/issue";
 import Chip from "@mui/material/Chip";
 
 export function RecentIssuesList({ issues }: { issues: RecentIssue[] }) {
   const theme = useTheme();
+  const { t } = useTranslation();
 
   return (
     <Paper variant="card">
       <Stack gap={2}>
         <Stack gap={0.5}>
           <Typography variant="subtitle1" fontWeight={700}>
-            Recent Issues
+            {t("housekeeping.issues.recentIssues.title", "Recent Issues")}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Fast room-level scan for the latest housekeeping blockers.
+            {t("housekeeping.issues.recentIssues.subtitle", "Fast room-level scan for the latest housekeeping blockers.")}
           </Typography>
         </Stack>
 
         <Stack divider={<Divider flexItem />}>
           {issues.map((issue) => {
-            const meta = SEVERITY_META[issue.severity];
+            const meta = getSeverityMeta(t)[issue.severity];
             const color = theme.palette[meta.palette].main;
 
             return (
@@ -44,12 +46,12 @@ export function RecentIssuesList({ issues }: { issues: RecentIssue[] }) {
                     sx={{ color }}
                   />
                   <Typography variant="body2" fontWeight={800} noWrap>
-                    Room {issue.roomNumber}
+                    {t("housekeeping.issues.criticalIssues.roomLabel", "Room {{number}}", { number: issue.roomNumber })}
                   </Typography>
                 </Stack>
 
                 <Stack direction="row" alignItems="center" gap={1} minWidth={0}>
-                  <Icon
+                  <DirectionalIcon
                     icon="lucide:arrow-right"
                     width={14}
                     height={14}

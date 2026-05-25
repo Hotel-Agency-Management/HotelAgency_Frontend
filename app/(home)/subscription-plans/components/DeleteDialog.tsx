@@ -7,6 +7,7 @@ import {
   Typography,
   CircularProgress,
 } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 import { SubscriptionPlan } from '../types/plans'
 interface DeleteDialogProps {
   plan: SubscriptionPlan | null
@@ -23,20 +24,24 @@ export default function DeleteDialog({
   onConfirm,
   onClose,
 }: DeleteDialogProps) {
+  const { t } = useTranslation()
+
   if (!plan) return null
 
   return (
     <Dialog open={open} onClose={loading ? undefined : onClose} maxWidth='xs' fullWidth>
-      <DialogTitle>Delete Plan</DialogTitle>
+      <DialogTitle>{t('subscriptionPlans.deleteDialog.title', { defaultValue: 'Delete Plan' })}</DialogTitle>
       <DialogContent>
         <Typography variant='body2'>
-          Are you sure you want to delete the{' '}
-          <strong>{plan.name}</strong> plan? This action cannot be undone.
+          {t('subscriptionPlans.deleteDialog.confirm', {
+            name: plan.name,
+            defaultValue: 'Are you sure you want to delete the {{name}} plan? This action cannot be undone.',
+          })}
         </Typography>
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} disabled={loading}>
-          Cancel
+          {t('common.cancel', { defaultValue: 'Cancel' })}
         </Button>
         <Button
           variant='contained'
@@ -45,7 +50,9 @@ export default function DeleteDialog({
           disabled={loading}
           startIcon={loading ? <CircularProgress size={14} color='inherit' /> : undefined}
         >
-          {loading ? 'Deleting…' : 'Delete'}
+          {loading
+            ? t('subscriptionPlans.deleteDialog.deleting', { defaultValue: 'Deleting…' })
+            : t('subscriptionPlans.delete', { defaultValue: 'Delete' })}
         </Button>
       </DialogActions>
     </Dialog>

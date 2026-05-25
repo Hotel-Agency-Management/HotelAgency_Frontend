@@ -1,6 +1,7 @@
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import type { RoomAmenityFilters } from "../types/roomAmenity";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   filters: RoomAmenityFilters;
@@ -11,6 +12,8 @@ export function RoomAmenitiesToolbar({
   filters,
   onFilterChange,
 }: Props) {
+  const { t } = useTranslation()
+
   return (
     <Stack
       direction={{ xs: "column", md: "row" }}
@@ -21,7 +24,7 @@ export function RoomAmenitiesToolbar({
       <Stack direction={{ xs: "column", md: "row" }} spacing={2}>
         <TextField
           size="small"
-          placeholder="Search amenities"
+          placeholder={t('roomAmenities.searchPlaceholder', { defaultValue: 'Search amenities' })}
           value={filters.search ?? ""}
           onChange={(event) =>
             onFilterChange({ ...filters, search: event.target.value || undefined })

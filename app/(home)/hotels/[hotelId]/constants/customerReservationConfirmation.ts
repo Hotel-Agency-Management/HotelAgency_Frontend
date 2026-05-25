@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import type { TFunction } from 'i18next'
 
 export const BOOKING_CONFIRMATION_STEP_IDS = {
   BOOKING_DETAILS: 'bookingDetails',
@@ -41,5 +42,23 @@ export type BookingDetailValues = Record<BookingDetailFieldKey, ReactNode>
 export const buildBookingDetailItems = (values: BookingDetailValues) =>
   BOOKING_DETAIL_FIELDS.map(field => ({
     label: field.label,
+    value: values[field.key],
+  }))
+
+const BOOKING_DETAIL_FIELD_KEYS: Record<string, string> = {
+  'Hotel': 'hotelPortal.booking.hotel',
+  'Room': 'hotelPortal.booking.room',
+  'Room type': 'hotelPortal.booking.roomType',
+  'Check-in': 'hotelPortal.booking.checkIn',
+  'Check-out': 'hotelPortal.booking.checkOut',
+  'Length of stay': 'hotelPortal.booking.lengthOfStay',
+  'Guests': 'hotelPortal.booking.guests',
+  'Rooms': 'hotelPortal.booking.rooms',
+  'Capacity': 'hotelPortal.booking.capacity',
+}
+
+export const buildTranslatedBookingDetailItems = (values: BookingDetailValues, t: TFunction) =>
+  BOOKING_DETAIL_FIELDS.map(field => ({
+    label: t(BOOKING_DETAIL_FIELD_KEYS[field.label] ?? field.label, field.label),
     value: values[field.key],
   }))

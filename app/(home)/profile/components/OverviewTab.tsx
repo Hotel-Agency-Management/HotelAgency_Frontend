@@ -1,22 +1,11 @@
 import { useEffect, useState } from 'react'
-import {
-  Grid,
-  Typography,
-  IconButton,
-  Tooltip,
-  Fade,
-  Divider,
-  Stack,
-} from '@mui/material'
-import {
-  EditOutlined,
-  CheckOutlined,
-  CloseOutlined,
-} from '@mui/icons-material'
+import { Grid, Typography, IconButton, Tooltip, Fade, Divider, Stack } from '@mui/material'
+import { EditOutlined, CheckOutlined, CloseOutlined } from '@mui/icons-material'
+import { useTranslation } from 'react-i18next'
 import { SpotlightCard } from '@/components/animation'
 import { useTheme } from '@mui/material'
 import { ProfileFields } from '../types/profile'
-import { fieldsMeta, GENDER_OPTIONS } from '../constants/profileFields'
+import { getFieldsMeta, getGenderOptions } from '../constants/profileFields'
 import { ProfileFieldEditor } from './ProfileFieldEditor'
 import { ProfileFieldDisplay } from './ProfileFieldDisplay'
 import { useUpdateUserProfile } from '../hooks/mutations/useUpdateUserProfile'
@@ -27,6 +16,7 @@ interface OverviewTabProps {
 }
 export function OverviewTab({ data }: OverviewTabProps) {
   const theme = useTheme()
+  const { t } = useTranslation()
   const updateUserProfile = useUpdateUserProfile()
 
   const [isEditing, setIsEditing] = useState(false)
@@ -63,7 +53,7 @@ export function OverviewTab({ data }: OverviewTabProps) {
   }
 
   const handleChange = (key: keyof ProfileFields, value: string) => {
-    setDraft((prev) => ({ ...prev, [key]: value }))
+    setDraft(prev => ({ ...prev, [key]: value }))
   }
 
   const displayValue = (key: keyof ProfileFields) => {
@@ -72,14 +62,14 @@ export function OverviewTab({ data }: OverviewTabProps) {
     if (!val) return '—'
 
     if (key === 'gender') {
-      return GENDER_OPTIONS.find((option) => option.value === val)?.label ?? val
+      return getGenderOptions(t).find(option => option.value === val)?.label ?? val
     }
 
     if (key === 'birthDate') {
       return new Date(val).toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'long',
-        day: 'numeric',
+        day: 'numeric'
       })
     }
 
@@ -95,22 +85,19 @@ export function OverviewTab({ data }: OverviewTabProps) {
             height: '100%',
             borderRadius: Number(theme.shape.borderRadius) * 2,
             border: `1px solid ${theme.palette.divider}`,
-            background: theme.palette.background.paper,
+            background: theme.palette.background.paper
           }}
         >
           <Stack spacing={3} sx={{ p: { xs: 2, sm: 3 } }}>
             <Stack direction='row' alignItems='center' justifyContent='space-between'>
               <Typography variant='h6' fontWeight={700}>
-                Personal Information
+                {t('profile.form.personalInformation', { defaultValue: 'Personal Information' })}
               </Typography>
 
               {!isEditing ? (
                 <Fade in>
-                  <Tooltip title='Edit' arrow>
-                    <IconButton
-                      size='small'
-                      onClick={handleEdit}
-                    >
+                  <Tooltip title={t('profile.actions.edit', { defaultValue: 'Edit' })} arrow>
+                    <IconButton size='small' onClick={handleEdit}>
                       <EditOutlined fontSize='small' />
                     </IconButton>
                   </Tooltip>
@@ -118,7 +105,7 @@ export function OverviewTab({ data }: OverviewTabProps) {
               ) : (
                 <Fade in>
                   <Stack direction='row' spacing={0.5}>
-                    <Tooltip title='Save' arrow>
+                    <Tooltip title={t('profile.actions.save', { defaultValue: 'Save' })} arrow>
                       <IconButton
                         size='small'
                         onClick={handleSave}
@@ -126,15 +113,15 @@ export function OverviewTab({ data }: OverviewTabProps) {
                         sx={{
                           color: theme.palette.success.main,
                           '&:hover': {
-                            backgroundColor: theme.palette.action.hover,
-                          },
+                            backgroundColor: theme.palette.action.hover
+                          }
                         }}
                       >
                         <CheckOutlined fontSize='small' />
                       </IconButton>
                     </Tooltip>
 
-                    <Tooltip title='Cancel' arrow>
+                    <Tooltip title={t('profile.actions.cancel', { defaultValue: 'Cancel' })} arrow>
                       <IconButton
                         size='small'
                         onClick={handleCancel}
@@ -142,8 +129,8 @@ export function OverviewTab({ data }: OverviewTabProps) {
                         sx={{
                           color: theme.palette.error.main,
                           '&:hover': {
-                            backgroundColor: theme.palette.action.hover,
-                          },
+                            backgroundColor: theme.palette.action.hover
+                          }
                         }}
                       >
                         <CloseOutlined fontSize='small' />
@@ -157,7 +144,7 @@ export function OverviewTab({ data }: OverviewTabProps) {
             <Divider />
 
             <Grid container spacing={2.5}>
-              {fieldsMeta.map(({ key, label, icon, variant, editable, options }) => {
+              {getFieldsMeta(t).map(({ key, label, icon, variant, editable, options }) => {
                 const canEdit = isEditing && editable
 
                 return (
@@ -178,11 +165,7 @@ export function OverviewTab({ data }: OverviewTabProps) {
                         value={displayValue(key)}
                         icon={icon}
                         editable={editable}
-                        iconColor={
-                          editable
-                            ? theme.palette.primary.main
-                            : theme.palette.text.disabled
-                        }
+                        iconColor={editable ? theme.palette.primary.main : theme.palette.text.disabled}
                       />
                     )}
                   </Grid>

@@ -17,6 +17,7 @@ import {
   useTheme,
 } from '@mui/material';
 import { X, CheckCircle2 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 import type { Ticket } from '@/core/types/supportTickets';
 import { CATEGORY_LABELS, TICKET_STATUSES, TICKET_PRIORITIES, SUPPORT_AGENTS, DRAWER_WIDTH } from '../constant/tickets';
@@ -36,6 +37,7 @@ export function TicketDetailsDrawer({
   onClose,
 }: TicketDetailsDrawerProps) {
   const theme = useTheme();
+  const { t } = useTranslation();
 
   if (!ticket) return null;
 
@@ -92,7 +94,7 @@ export function TicketDetailsDrawer({
 
         <Divider sx={{ mb: 2 }} />
 
-        <InfoRow label="Agency">
+        <InfoRow label={t('supportTickets.drawer.agency', { defaultValue: 'Agency' })}>
           <Stack direction="row" spacing={1} alignItems="center">
             <Avatar
               sx={{
@@ -111,7 +113,7 @@ export function TicketDetailsDrawer({
           </Stack>
         </InfoRow>
 
-        <InfoRow label="Contact">
+        <InfoRow label={t('supportTickets.drawer.contact', { defaultValue: 'Contact' })}>
           <Stack spacing={0.25}>
             <Typography variant="body2">{ticket.contactName}</Typography>
             <Typography variant="caption" color="text.secondary">
@@ -120,15 +122,15 @@ export function TicketDetailsDrawer({
           </Stack>
         </InfoRow>
 
-        <InfoRow label="Category">
+        <InfoRow label={t('supportTickets.drawer.category', { defaultValue: 'Category' })}>
           <Typography variant="body2">{CATEGORY_LABELS[ticket.category]}</Typography>
         </InfoRow>
 
-        <InfoRow label="Created">
+        <InfoRow label={t('supportTickets.drawer.created', { defaultValue: 'Created' })}>
           <Typography variant="body2">{formatDateTime(ticket.createdAt)}</Typography>
         </InfoRow>
 
-        <InfoRow label="Assigned To">
+        <InfoRow label={t('supportTickets.drawer.assignedTo', { defaultValue: 'Assigned To' })}>
           {ticket.assignedTo ? (
             <Stack direction="row" spacing={1} alignItems="center">
               <Avatar
@@ -145,7 +147,7 @@ export function TicketDetailsDrawer({
             </Stack>
           ) : (
             <Typography variant="body2" color="text.secondary">
-              Unassigned
+              {t('supportTickets.unassigned', { defaultValue: 'Unassigned' })}
             </Typography>
           )}
         </InfoRow>
@@ -154,8 +156,8 @@ export function TicketDetailsDrawer({
 
         <Stack spacing={1.5}>
           <FormControl fullWidth size="small">
-            <InputLabel>Status</InputLabel>
-            <Select label="Status" defaultValue={ticket.status}>
+            <InputLabel>{t('supportTickets.drawer.status', { defaultValue: 'Status' })}</InputLabel>
+            <Select label={t('supportTickets.drawer.status', { defaultValue: 'Status' })} defaultValue={ticket.status}>
               {TICKET_STATUSES.filter((s) => s.value !== 'all').map((s) => (
                 <MenuItem key={s.value} value={s.value}>
                   {s.label}
@@ -165,8 +167,8 @@ export function TicketDetailsDrawer({
           </FormControl>
 
           <FormControl fullWidth size="small">
-            <InputLabel>Priority</InputLabel>
-            <Select label="Priority" defaultValue={ticket.priority}>
+            <InputLabel>{t('supportTickets.drawer.priority', { defaultValue: 'Priority' })}</InputLabel>
+            <Select label={t('supportTickets.drawer.priority', { defaultValue: 'Priority' })} defaultValue={ticket.priority}>
               {TICKET_PRIORITIES.filter((p) => p.value !== 'all').map((p) => (
                 <MenuItem key={p.value} value={p.value}>
                   {p.label}
@@ -176,8 +178,8 @@ export function TicketDetailsDrawer({
           </FormControl>
 
           <FormControl fullWidth size="small">
-            <InputLabel>Assign Agent</InputLabel>
-            <Select label="Assign Agent" defaultValue={ticket.assignedTo ?? ''}>
+            <InputLabel>{t('supportTickets.drawer.assignAgent', { defaultValue: 'Assign Agent' })}</InputLabel>
+            <Select label={t('supportTickets.drawer.assignAgent', { defaultValue: 'Assign Agent' })} defaultValue={ticket.assignedTo ?? ''}>
               {SUPPORT_AGENTS.filter((a) => a.value !== 'all').map((a) => (
                 <MenuItem key={a.value} value={a.value}>
                   {a.label}
@@ -192,7 +194,7 @@ export function TicketDetailsDrawer({
             color="success"
             startIcon={<CheckCircle2 size={16} />}
           >
-            Resolve Ticket
+            {t('supportTickets.drawer.resolveTicket', { defaultValue: 'Resolve Ticket' })}
           </Button>
         </Stack>
       </Box>

@@ -51,7 +51,7 @@ const AccountStep: React.FC<AccountStepProps> = ({
         exit='hidden'
       >
         <FadeIn variants={fadeInUp} sx={{ width: '100%' }}>
-          <FormFieldWrapper title={t('signup.firstName', 'First Name')}>
+          <FormFieldWrapper title={t('signup.firstName', { defaultValue: 'First Name' })}>
             <Controller
               name='firstName'
               control={control}
@@ -60,7 +60,7 @@ const AccountStep: React.FC<AccountStepProps> = ({
                   {...field}
                   fullWidth
                   size='small'
-                  placeholder={t('signup.firstNamePlaceholder', 'John')}
+                  placeholder={t('signup.firstNamePlaceholder', { defaultValue: 'John' })}
                   error={!!errors.firstName}
                   helperText={errors.firstName?.message}
                 />
@@ -70,7 +70,7 @@ const AccountStep: React.FC<AccountStepProps> = ({
         </FadeIn>
 
         <FadeIn variants={fadeInUp} sx={{ width: '100%' }}>
-          <FormFieldWrapper title={t('signup.lastName', 'Last Name')}>
+          <FormFieldWrapper title={t('signup.lastName', { defaultValue: 'Last Name' })}>
             <Controller
               name='lastName'
               control={control}
@@ -79,7 +79,7 @@ const AccountStep: React.FC<AccountStepProps> = ({
                   {...field}
                   fullWidth
                   size='small'
-                  placeholder={t('signup.lastNamePlaceholder', 'Doe')}
+                  placeholder={t('signup.lastNamePlaceholder', { defaultValue: 'Doe' })}
                   error={!!errors.lastName}
                   helperText={errors.lastName?.message}
                 />
@@ -90,7 +90,7 @@ const AccountStep: React.FC<AccountStepProps> = ({
       </MotionStack>
 
       <FadeIn variants={fadeInUp}>
-        <FormFieldWrapper title={t('signup.email', 'Email')}>
+        <FormFieldWrapper title={t('signup.email', { defaultValue: 'Email' })}>
           <Controller
             name='email'
             control={control}
@@ -99,7 +99,7 @@ const AccountStep: React.FC<AccountStepProps> = ({
                 {...field}
                 fullWidth
                 size='small'
-                placeholder={t('signup.emailPlaceholder', 'your@email.com')}
+                placeholder={t('signup.emailPlaceholder', { defaultValue: 'your@email.com' })}
                 error={!!errors.email}
                 helperText={errors.email?.message}
               />
@@ -109,7 +109,7 @@ const AccountStep: React.FC<AccountStepProps> = ({
       </FadeIn>
 
       <FadeIn variants={fadeInUp}>
-        <FormFieldWrapper title={t('signup.phone', 'Phone')}>
+        <FormFieldWrapper title={t('signup.phone', { defaultValue: 'Phone' })}>
           <Controller
             name='phone'
             control={control}
@@ -121,6 +121,7 @@ const AccountStep: React.FC<AccountStepProps> = ({
                 defaultCountry='PS'
                 error={!!errors.phone}
                 helperText={errors.phone?.message}
+                slotProps={{ htmlInput: { dir: 'ltr', style: { direction: 'ltr', textAlign: 'left' } } }}
               />
             )}
           />
@@ -128,7 +129,7 @@ const AccountStep: React.FC<AccountStepProps> = ({
       </FadeIn>
 
       <FadeIn variants={fadeInUp}>
-        <FormFieldWrapper title={t('signup.password', 'Password')}>
+        <FormFieldWrapper title={t('signup.password', { defaultValue: 'Password' })}>
           <Controller
             name='password'
             control={control}
@@ -164,7 +165,7 @@ const AccountStep: React.FC<AccountStepProps> = ({
       </FadeIn>
 
       <FadeIn variants={fadeInUp}>
-        <FormFieldWrapper title={t('signup.confirmPassword', 'Confirm Password')}>
+        <FormFieldWrapper title={t('signup.confirmPassword', { defaultValue: 'Confirm Password' })}>
           <Controller
             name='confirmPassword'
             control={control}
@@ -184,26 +185,19 @@ const AccountStep: React.FC<AccountStepProps> = ({
       </FadeIn>
 
       <FadeIn variants={fadeInUp}>
-        <LoadingButton
-          loading={isLoading}
-          type='submit'
-          variant='contained'
-          fullWidth
-          disabled={isSubmitting}
-        >
-          {!isLoading && (
-            accountType === SIGNUP_UI_ACCOUNT_TYPE.AGENCY_OWNER
-              ? t('signup.continue', 'Continue')
-              : t('signup.create', 'Create Account')
-          )}
+        <LoadingButton loading={isLoading} type='submit' variant='contained' fullWidth disabled={isSubmitting}>
+          {!isLoading &&
+            (accountType === SIGNUP_UI_ACCOUNT_TYPE.AGENCY_OWNER
+              ? t('signup.continue', { defaultValue: 'Continue' })
+              : t('signup.create', { defaultValue: 'Create Account' }))}
         </LoadingButton>
       </FadeIn>
 
       <FadeIn variants={fadeInUp}>
         <Typography variant='body2' textAlign='center' color='text.secondary'>
-          {t('signup.alreadyHaveAccount', 'Already have an account?')}{' '}
+          {t('signup.alreadyHaveAccount', { defaultValue: 'Already have an account?' })}{' '}
           <Button variant='text' onClick={onSwitchToLogin} color='primary'>
-            {t('signup.signIn', 'Sign In')}
+            {t('signup.signIn', { defaultValue: 'Sign In' })}
           </Button>
         </Typography>
       </FadeIn>

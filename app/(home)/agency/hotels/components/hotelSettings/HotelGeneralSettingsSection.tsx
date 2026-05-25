@@ -1,6 +1,7 @@
 "use client";
 
 import Alert from "@mui/material/Alert";
+import { useTranslation } from "react-i18next";
 import { CustomThemeTab } from "@/app/(home)/agency/components/theme/CustomThemeTab";
 import { authConfig } from "@/core/configs/clientConfig";
 import { useAuth } from "@/core/context/AuthContext";
@@ -19,6 +20,7 @@ export function HotelGeneralSettingsSection({
   hotelId,
   activeTab,
 }: HotelGeneralSettingsSectionProps) {
+  const { t } = useTranslation();
   const numericHotelId = Number.isFinite(Number(hotelId)) ? Number(hotelId) : undefined;
   const { data: hotel, isLoading: isLoadingDetail } = useGetHotelById(numericHotelId);
   const { updateHotel, isLoading: isUpdating } = useHotelFormActions();
@@ -26,11 +28,11 @@ export function HotelGeneralSettingsSection({
   const isLoading = isLoadingDetail || isUpdating;
 
   if (isLoadingDetail && !hotel) {
-    return <Alert severity="info">Loading hotel settings...</Alert>;
+    return <Alert severity="info">{t("hotelSettings.profile.loadingSettings", "Loading hotel settings...")}</Alert>;
   }
 
   if (!hotel) {
-    return <Alert severity="error">Hotel not found.</Alert>;
+    return <Alert severity="error">{t("hotelSettings.profile.notFound", "Hotel not found.")}</Alert>;
   }
 
   const handleSave = async (data: HotelFormValues) => {

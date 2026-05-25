@@ -3,9 +3,11 @@
 import { Box, Button, Container, Stack, Typography } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 import { FadeIn, TextReveal } from '@/components/animation'
-import { landingContent as lc } from '@/components/landing/landingContent'
+import { useLandingContent } from '@/components/landing/landingContent'
 
 export default function Hero() {
+  const lc = useLandingContent()
+
   return (
     <Box
       component='section'

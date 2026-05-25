@@ -4,13 +4,14 @@ import { useCallback } from "react";
 import dayjs from "dayjs";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
+import { useTranslation } from "react-i18next";
 import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
 import { X } from "lucide-react";
-import { LOCATION_TYPE_LABELS } from "../constants/ticketLabel";
+import { getLocationTypeLabels } from "../constants/ticketLabel";
 import { ColoredChip, TicketCardAssigneeAvatar } from "../styles/StyledComponents";
 import type { AddCommentValues, TicketComment } from "../types/comment";
 import type { HousekeepingTicket } from "../types/ticket";
@@ -45,6 +46,8 @@ export function TicketDetailDrawer({
   onDeleteComment,
 }: TicketDetailDrawerProps) {
   const theme = useTheme();
+  const { t } = useTranslation();
+  const locationTypeLabels = getLocationTypeLabels(t);
 
   const {
     priorityColor,
@@ -90,7 +93,7 @@ export function TicketDetailDrawer({
                   onDelete={handleDelete}
                   onReportDamage={onReportDamage ? handleReportDamage : undefined}
                 />
-                <Tooltip title="Close">
+                <Tooltip title={t("housekeeping.tickets.detail.close", "Close")}>
                   <IconButton size="small" onClick={onClose}>
                     <X size={18} />
                   </IconButton>
@@ -115,43 +118,43 @@ export function TicketDetailDrawer({
           <Stack flex={1} minHeight={0} overflow="auto" gap={0}>
             <Stack gap={3} pb={2}>
               <Typography variant="caption" fontWeight={700} textTransform="uppercase">
-                Ticket Details
+                {t("housekeeping.tickets.detail.ticketDetails", "Ticket Details")}
               </Typography>
 
               <Stack gap={1.75}>
-                <DetailItem label="Title">
+                <DetailItem label={t("housekeeping.tickets.detail.title", "Title")}>
                   <Typography variant="subtitle2" fontWeight={700}>
                     {ticket.title}
                   </Typography>
                 </DetailItem>
-                <DetailItem label="Description">
+                <DetailItem label={t("housekeeping.tickets.detail.description", "Description")}>
                   <Typography variant="body2" fontWeight={500}>
-                    {ticket.description || "No description"}
+                    {ticket.description || t("housekeeping.tickets.detail.noDescription", "No description")}
                   </Typography>
                 </DetailItem>
                 <Divider />
-                <DetailItem label="Ticket type" inline>
+                <DetailItem label={t("housekeeping.tickets.detail.ticketType", "Ticket type")} inline>
                   <ColoredChip size="small" label={ticketTypeLabel} chipColor={ticketTypeColor} />
                 </DetailItem>
-                <DetailItem label="Location" inline>
+                <DetailItem label={t("housekeeping.tickets.detail.location", "Location")} inline>
                   <ColoredChip size="small" label={locationLabel} chipColor={theme.palette.primary.main} opacity={0.08} />
                 </DetailItem>
-                <DetailItem label="Location type" inline>
+                <DetailItem label={t("housekeeping.tickets.detail.locationType", "Location type")} inline>
                   <Typography variant="body2" fontWeight={600}>
-                    {LOCATION_TYPE_LABELS[ticket.locationType]}
+                    {locationTypeLabels[ticket.locationType]}
                   </Typography>
                 </DetailItem>
-                <DetailItem label="Priority" inline>
+                <DetailItem label={t("housekeeping.tickets.detail.priority", "Priority")} inline>
                   <ColoredChip size="small" label={priorityLabel} chipColor={priorityColor} />
                 </DetailItem>
                 {ticket.deadline && (
-                  <DetailItem label="Deadline" inline>
+                  <DetailItem label={t("housekeeping.tickets.detail.deadline", "Deadline")} inline>
                     <Typography variant="body2" fontWeight={600}>
                       {dayjs(ticket.deadline).format("MMM D, YYYY · h:mm A")}
                     </Typography>
                   </DetailItem>
                 )}
-                <DetailItem label="Assigned to" inline>
+                <DetailItem label={t("housekeeping.tickets.detail.assignedTo", "Assigned to")} inline>
                   <Stack direction="row" alignItems="center" gap={1}>
                     <TicketCardAssigneeAvatar>{initials}</TicketCardAssigneeAvatar>
                     <Typography variant="body2" fontWeight={600}>
@@ -160,7 +163,7 @@ export function TicketDetailDrawer({
                   </Stack>
                 </DetailItem>
                 {ticket.reservationId && (
-                  <DetailItem label="Reservation" inline>
+                  <DetailItem label={t("housekeeping.tickets.detail.reservation", "Reservation")} inline>
                     <Typography variant="body2" fontWeight={600}>
                       #{ticket.reservationId}
                     </Typography>

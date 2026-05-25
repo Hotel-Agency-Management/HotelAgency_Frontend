@@ -1,5 +1,6 @@
 import { Stack, Button, Tooltip, Divider } from '@mui/material'
 import { XCircle, CheckCircle } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import type { AgencyRequest, ActionType } from '../types/agency'
 
 interface AgencyCardActionsProps {
@@ -7,15 +8,14 @@ interface AgencyCardActionsProps {
   onAction: (request: AgencyRequest, action: ActionType) => void
 }
 
-export default function AgencyCardActions({
-  request,
-  onAction,
-}: AgencyCardActionsProps) {
+export default function AgencyCardActions({ request, onAction }: AgencyCardActionsProps) {
+  const { t } = useTranslation()
+
   return (
     <Stack direction='row' alignItems='center' spacing={1}>
       <Divider orientation='vertical' flexItem sx={{ height: 20 }} />
 
-      <Tooltip title='Reject this agency'>
+      <Tooltip title={t('agencyApproval.actions.rejectTooltip', { defaultValue: 'Reject this agency' })}>
         <Button
           size='small'
           variant='outlined'
@@ -23,11 +23,11 @@ export default function AgencyCardActions({
           onClick={() => onAction(request, 'reject')}
           color='error'
         >
-          Reject
+          {t('agencyApproval.actions.reject', { defaultValue: 'Reject' })}
         </Button>
       </Tooltip>
 
-      <Tooltip title='Approve this agency'>
+      <Tooltip title={t('agencyApproval.actions.approveTooltip', { defaultValue: 'Approve this agency' })}>
         <Button
           size='small'
           variant='contained'
@@ -35,7 +35,7 @@ export default function AgencyCardActions({
           onClick={() => onAction(request, 'approve')}
           color='success'
         >
-          Approve
+          {t('agencyApproval.actions.approve', { defaultValue: 'Approve' })}
         </Button>
       </Tooltip>
     </Stack>

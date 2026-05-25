@@ -2,9 +2,11 @@ import type { GridColDef } from '@mui/x-data-grid'
 import { CircularProgress, IconButton, Menu, MenuItem, Stack, Typography } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 import { useState, type MouseEvent } from 'react'
+import { useTranslation } from 'react-i18next'
 import { CalendarClock, LogIn, LogOut, MoreVertical, Pencil, XCircle } from 'lucide-react'
+import type { ReservationColumnContext } from '../types'
 import type { ReservationListItem } from '../../../config/reservationConfig'
-import { NEXT_STATUS_LABEL, NEXT_STATUS_VALUE } from '../../../constants/status'
+import { NEXT_STATUS_VALUE } from '../../../constants/status'
 
 type ActionParams = {
   onExtend: (row: ReservationListItem) => void
@@ -20,12 +22,18 @@ function ReservationRowActions({
   onUpdate,
   onCancel,
   onUpdateStatus,
-  statusUpdatingId,
+  statusUpdatingId
 }: ActionParams & { row: ReservationListItem }) {
+  const { t } = useTranslation()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = anchorEl != null
   const isUpdatingStatus = statusUpdatingId === row.id
   const statusColor = row.status === 'Confirmed' ? 'success.main' : 'warning.main'
+
+  const nextStatusLabel =
+    row.status === 'Confirmed'
+      ? t('reservations.actions.checkIn', { defaultValue: 'Check In' })
+      : t('reservations.actions.checkOut', { defaultValue: 'Check Out' })
 
   const openMenu = (event: MouseEvent<HTMLElement>) => {
     event.stopPropagation()
@@ -42,10 +50,10 @@ function ReservationRowActions({
   return (
     <>
       <IconButton
-        size="small"
-        aria-label="Reservation actions"
+        size='small'
+        aria-label={t('reservations.actions.reservationActions', { defaultValue: 'Reservation actions' })}
         aria-controls={open ? `reservation-actions-${row.id}` : undefined}
-        aria-haspopup="true"
+        aria-haspopup='true'
         aria-expanded={open ? 'true' : undefined}
         onClick={openMenu}
       >
@@ -66,19 +74,19 @@ function ReservationRowActions({
             disabled={statusUpdatingId !== null}
             onClick={() => runAction(onUpdateStatus)}
             sx={theme => ({
-              '&:hover': { bgcolor: alpha(theme.palette.success.main, 0.08) },
+              '&:hover': { bgcolor: alpha(theme.palette.success.main, 0.08) }
             })}
           >
-            <Stack direction="row" alignItems="center" spacing={1} sx={{ color: statusColor }}>
+            <Stack direction='row' alignItems='center' spacing={1} sx={{ color: statusColor }}>
               {isUpdatingStatus ? (
-                <CircularProgress size={16} color="inherit" />
+                <CircularProgress size={16} color='inherit' />
               ) : row.status === 'Confirmed' ? (
                 <LogIn size={15} />
               ) : (
                 <LogOut size={15} />
               )}
-              <Typography variant="inherit" color="text.primary">
-                {NEXT_STATUS_LABEL[row.status]}
+              <Typography variant='inherit' color='text.primary'>
+                {nextStatusLabel}
               </Typography>
             </Stack>
           </MenuItem>
@@ -87,13 +95,13 @@ function ReservationRowActions({
         <MenuItem
           onClick={() => runAction(onExtend)}
           sx={theme => ({
-            '&:hover': { bgcolor: alpha(theme.palette.primary.main, 0.08) },
+            '&:hover': { bgcolor: alpha(theme.palette.primary.main, 0.08) }
           })}
         >
-          <Stack direction="row" alignItems="center" spacing={1} sx={{ color: 'primary.main' }}>
+          <Stack direction='row' alignItems='center' spacing={1} sx={{ color: 'primary.main' }}>
             <CalendarClock size={15} />
-            <Typography variant="inherit" color="text.primary">
-              Extend reservation
+            <Typography variant='inherit' color='text.primary'>
+              {t('reservations.actions.extend', { defaultValue: 'Extend reservation' })}
             </Typography>
           </Stack>
         </MenuItem>
@@ -101,13 +109,13 @@ function ReservationRowActions({
         <MenuItem
           onClick={() => runAction(onUpdate)}
           sx={theme => ({
-            '&:hover': { bgcolor: alpha(theme.palette.tertiary.main, 0.08) },
+            '&:hover': { bgcolor: alpha(theme.palette.tertiary.main, 0.08) }
           })}
         >
-          <Stack direction="row" alignItems="center" spacing={1} sx={{ color: 'tertiary.main' }}>
+          <Stack direction='row' alignItems='center' spacing={1} sx={{ color: 'tertiary.main' }}>
             <Pencil size={15} />
-            <Typography variant="inherit" color="text.primary">
-              Update reservation
+            <Typography variant='inherit' color='text.primary'>
+              {t('reservations.actions.update', { defaultValue: 'Update reservation' })}
             </Typography>
           </Stack>
         </MenuItem>
@@ -116,12 +124,14 @@ function ReservationRowActions({
           onClick={() => runAction(onCancel)}
           sx={theme => ({
             color: 'error.main',
-            '&:hover': { bgcolor: alpha(theme.palette.error.main, 0.08) },
+            '&:hover': { bgcolor: alpha(theme.palette.error.main, 0.08) }
           })}
         >
-          <Stack direction="row" alignItems="center" spacing={1}>
+          <Stack direction='row' alignItems='center' spacing={1}>
             <XCircle size={15} />
-            <Typography variant="inherit">Cancel reservation</Typography>
+            <Typography variant='inherit'>
+              {t('reservations.actions.cancel', { defaultValue: 'Cancel reservation' })}
+            </Typography>
           </Stack>
         </MenuItem>
       </Menu>
@@ -130,15 +140,16 @@ function ReservationRowActions({
 }
 
 export function createActionsColumn({
+  t,
   onExtend,
   onUpdate,
   onCancel,
   onUpdateStatus,
-  statusUpdatingId,
-}: ActionParams): GridColDef<ReservationListItem> {
+  statusUpdatingId
+}: ReservationColumnContext): GridColDef<ReservationListItem> {
   return {
     field: 'actions',
-    headerName: 'Actions',
+    headerName: t('reservations.table.actions', { defaultValue: 'Actions' }),
     sortable: false,
     filterable: false,
     disableColumnMenu: true,
@@ -155,6 +166,6 @@ export function createActionsColumn({
         onUpdateStatus={onUpdateStatus}
         statusUpdatingId={statusUpdatingId}
       />
-    ),
+    )
   }
 }

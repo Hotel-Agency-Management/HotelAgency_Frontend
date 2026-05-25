@@ -8,6 +8,7 @@ import CardContent from "@mui/material/CardContent";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
+import { useTranslation } from "react-i18next";
 import type { HousekeepingIssue } from "../types/issue";
 import { SeverityChip } from "./SeverityChip";
 import { CheckCircle, UserCog } from "lucide-react";
@@ -25,13 +26,14 @@ export function CriticalIssueCard({
   onReassign
 }: CriticalIssueCardProps) {
   const theme = useTheme();
+  const { t } = useTranslation();
 
   return (
     <Card sx={{ p: 3 }}>
       <CardContent>
         <Stack direction="row" alignItems="center" justifyContent="space-between" gap={1.5}>
           <Typography variant="h6" fontWeight={800}>
-            Room {issue.roomNumber}
+            {t("housekeeping.issues.criticalIssues.roomLabel", "Room {{number}}", { number: issue.roomNumber })}
           </Typography>
           <SeverityChip severity={issue.severity} />
         </Stack>
@@ -53,7 +55,7 @@ export function CriticalIssueCard({
             style={{ color: theme.palette.text.secondary }}
           />
           <Typography variant="body2" color="text.secondary">
-            Assigned:{" "}
+            {t("housekeeping.issues.criticalIssues.assigned", "Assigned:")}{" "}
             <Box component="span" sx={{ color: "text.primary", fontWeight: 700 }}>
               {issue.assignedTo}
             </Box>
@@ -68,7 +70,7 @@ export function CriticalIssueCard({
             onClick={() => onResolve(issue)}
             color="success"
           >
-            Resolve
+            {t("housekeeping.issues.criticalIssues.resolve", "Resolve")}
           </Button>
 
           <Button
@@ -78,7 +80,7 @@ export function CriticalIssueCard({
             startIcon={<UserCog size={16} />}
             onClick={() => onReassign(issue)}
           >
-            Reassign
+            {t("housekeeping.issues.criticalIssues.reassign", "Reassign")}
           </Button>
         </Stack>
       </CardContent>

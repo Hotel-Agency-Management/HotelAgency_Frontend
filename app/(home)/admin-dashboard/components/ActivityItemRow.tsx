@@ -1,11 +1,13 @@
 import { useTheme } from "@mui/material/styles";
 import { Stack, Avatar, Typography, Box } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import { ACTIVITY_CONFIG } from "../constants/activityConfig";
 import { ActivityItem } from "../types/dashboardTypes";
 import { fromNow } from "@/core/utils/Dateutils";
 
 export function ActivityItemRow({ item }: { item: ActivityItem }) {
   const theme = useTheme();
+  const { t } = useTranslation();
   const config = ACTIVITY_CONFIG[item.type];
   const Icon = config.icon;
 
@@ -40,7 +42,7 @@ export function ActivityItemRow({ item }: { item: ActivityItem }) {
 
         {item.actor && (
           <Typography variant="caption" color="text.disabled">
-            by {item.actor}
+            {t('dashboard.common.by', { defaultValue: 'by' })} {item.actor}
           </Typography>
         )}
       </Box>

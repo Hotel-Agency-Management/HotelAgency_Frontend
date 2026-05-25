@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { toast } from "react-hot-toast"
+import { useTranslation } from "react-i18next"
 import {
   createFacility,
   updateFacility,
@@ -24,6 +25,7 @@ import { getErrorMessage } from "@/core/utils/apiError"
 
 export const useCreateFacility = () => {
   const queryClient = useQueryClient()
+  const { t } = useTranslation()
 
   return useMutation<FacilityResponse, unknown, CreateFacilityVariables>({
     mutationFn: ({ hotelId, data }) => createFacility(hotelId, data),
@@ -33,17 +35,18 @@ export const useCreateFacility = () => {
         queryKey: facilityQueryKeys.list(variables.hotelId),
       })
 
-      toast.success("Facility created successfully")
+      toast.success(t("facilities.toast.created", "Facility created successfully"))
     },
 
     onError: (error) => {
-      toast.error(getErrorMessage(error, "Failed to create facility"))
+      toast.error(getErrorMessage(error, t("facilities.toast.createFailed", "Failed to create facility")))
     },
   })
 }
 
 export const useUpdateFacility = () => {
   const queryClient = useQueryClient()
+  const { t } = useTranslation()
 
   return useMutation<FacilityResponse, unknown, UpdateFacilityVariables>({
     mutationFn: ({ hotelId, facilityId, data }) =>
@@ -61,17 +64,18 @@ export const useUpdateFacility = () => {
         ),
       })
 
-      toast.success("Facility updated successfully")
+      toast.success(t("facilities.toast.updated", "Facility updated successfully"))
     },
 
     onError: (error) => {
-      toast.error(getErrorMessage(error, "Failed to update facility"))
+      toast.error(getErrorMessage(error, t("facilities.toast.updateFailed", "Failed to update facility")))
     },
   })
 }
 
 export const useDeleteFacility = () => {
   const queryClient = useQueryClient()
+  const { t } = useTranslation()
 
   return useMutation<void, unknown, DeleteFacilityVariables>({
     mutationFn: ({ hotelId, facilityId }) =>
@@ -82,17 +86,18 @@ export const useDeleteFacility = () => {
         queryKey: facilityQueryKeys.list(variables.hotelId),
       })
 
-      toast.success("Facility deleted successfully")
+      toast.success(t("facilities.toast.deleted", "Facility deleted successfully"))
     },
 
     onError: (error) => {
-      toast.error(getErrorMessage(error, "Failed to delete facility"))
+      toast.error(getErrorMessage(error, t("facilities.toast.deleteFailed", "Failed to delete facility")))
     },
   })
 }
 
 export const useCreateAdminFacility = () => {
   const queryClient = useQueryClient()
+  const { t } = useTranslation()
 
   return useMutation<FacilityResponse, unknown, CreateAdminFacilityVariables>({
     mutationFn: ({ agencyId, hotelId, data }) =>
@@ -106,17 +111,18 @@ export const useCreateAdminFacility = () => {
         ),
       })
 
-      toast.success("Facility created successfully")
+      toast.success(t("facilities.toast.created", "Facility created successfully"))
     },
 
     onError: (error) => {
-      toast.error(getErrorMessage(error, "Failed to create facility"))
+      toast.error(getErrorMessage(error, t("facilities.toast.createFailed", "Failed to create facility")))
     },
   })
 }
 
 export const useUpdateAdminFacility = () => {
   const queryClient = useQueryClient()
+  const { t } = useTranslation()
 
   return useMutation<FacilityResponse, unknown, UpdateAdminFacilityVariables>({
     mutationFn: ({ agencyId, hotelId, facilityId, data }) =>
@@ -138,17 +144,18 @@ export const useUpdateAdminFacility = () => {
         ),
       })
 
-      toast.success("Facility updated successfully")
+      toast.success(t("facilities.toast.updated", "Facility updated successfully"))
     },
 
     onError: (error) => {
-      toast.error(getErrorMessage(error, "Failed to update facility"))
+      toast.error(getErrorMessage(error, t("facilities.toast.updateFailed", "Failed to update facility")))
     },
   })
 }
 
 export const useDeleteAdminFacility = () => {
   const queryClient = useQueryClient()
+  const { t } = useTranslation()
 
   return useMutation<void, unknown, DeleteAdminFacilityVariables>({
     mutationFn: ({ agencyId, hotelId, facilityId }) =>
@@ -162,11 +169,11 @@ export const useDeleteAdminFacility = () => {
         ),
       })
 
-      toast.success("Facility deleted successfully")
+      toast.success(t("facilities.toast.deleted", "Facility deleted successfully"))
     },
 
     onError: (error) => {
-      toast.error(getErrorMessage(error, "Failed to delete facility"))
+      toast.error(getErrorMessage(error, t("facilities.toast.deleteFailed", "Failed to delete facility")))
     },
   })
 }

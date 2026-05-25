@@ -3,12 +3,11 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from '@/lib/gsap'
 import SectionLabel from '@/components/landing/SectionLabel'
-import { landingContent as lc } from '@/components/landing/landingContent'
+import { useLandingContent } from '@/components/landing/landingContent'
 import FadeIn from '@/components/animation/FadeIn'
 import { useTheme } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 
-const section = lc.operationsPulse
 const cardOffsets = [
   { x: -90, y: -36 },
   { x: 90, y: -28 },
@@ -17,6 +16,8 @@ const cardOffsets = [
 ]
 
 export default function OperationsPulse() {
+  const lc = useLandingContent()
+  const section = lc.operationsPulse
   const sectionRef = useRef<HTMLElement>(null)
 
   const theme = useTheme()

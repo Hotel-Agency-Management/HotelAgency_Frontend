@@ -15,6 +15,7 @@ import { RoomTypeForm } from './RoomTypeForm'
 import { RoomTypeFormValues } from '../schema/roomTypeSchema'
 import { RoomType } from '../types/roomType'
 import { FORM_ID } from '../constants/form'
+import { useTranslation } from 'react-i18next'
 
 interface RoomTypeFormDialogProps {
   open: boolean
@@ -31,13 +32,16 @@ export function RoomTypeFormDialog({
   onClose,
   onSubmit,
 }: RoomTypeFormDialogProps) {
+  const { t } = useTranslation()
   const isEditing = !!editingRoomType
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth='sm' fullWidth>
       <DialogTitle>
           <Stack direction='row' alignItems='center' justifyContent='space-between'>
-            {isEditing ? 'Edit room type' : 'Add room type'}
+            {isEditing
+              ? t('roomTypes.edit', { defaultValue: 'Edit Room Type' })
+              : t('roomTypes.create', { defaultValue: 'Add Room Type' })}
             <IconButton onClick={onClose} size='small' disabled={isLoading}>
               <CloseIcon fontSize='small' />
             </IconButton>
@@ -52,7 +56,7 @@ export function RoomTypeFormDialog({
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color='inherit' disabled={isLoading}>
-          Cancel
+          {t('common.cancel', { defaultValue: 'Cancel' })}
         </Button>
         <LoadingButton
           type='submit'
@@ -63,7 +67,9 @@ export function RoomTypeFormDialog({
           loadingPosition='start'
           startIcon={isEditing ? <SaveIcon /> : <AddIcon />}
         >
-          {isEditing ? 'Save changes' : 'Add room type'}
+          {isEditing
+            ? t('roomTypes.saveChanges', { defaultValue: 'Save Changes' })
+            : t('roomTypes.create', { defaultValue: 'Add Room Type' })}
         </LoadingButton>
       </DialogActions>
     </Dialog>

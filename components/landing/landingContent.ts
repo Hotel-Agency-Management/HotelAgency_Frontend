@@ -2,6 +2,10 @@
 // All user-visible text for the landing page lives here.
 // Set `visible: false` on any section to hide it entirely from page.tsx.
 
+import { useMemo } from 'react'
+import type { TFunction } from 'i18next'
+import { useTranslation } from 'react-i18next'
+
 export type TreeNode = {
   id: string
   name: string
@@ -62,7 +66,7 @@ export type LandingContent = {
     label: string
     heading: string
     body: string
-    items: { badge: string; title: string; desc: string; value: string; note: string; image: string }[]
+    items: { badge: string; title: string; desc: string; image: string; value?: string; note?: string }[]
   }>
   plans: Section<{
     label: string
@@ -151,6 +155,50 @@ export type LandingContent = {
     copyright: string
     builtWith: string
   }>
+}
+
+const NON_TRANSLATED_KEYS = new Set([
+  'id',
+  'href',
+  'image',
+  'command',
+  'color',
+  'type',
+  'visible',
+  'animateTo',
+  'featuredPlanId'
+])
+
+const translateLandingContent = <T,>(value: T, t: TFunction, path = 'landingContent'): T => {
+  if (typeof value === 'string') {
+    return t(path, value) as T
+  }
+
+  if (Array.isArray(value)) {
+    return value.map((item, index) => translateLandingContent(item, t, `${path}.${index}`)) as T
+  }
+
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(
+      Object.entries(value).map(([key, entry]) => [
+        key,
+        NON_TRANSLATED_KEYS.has(key)
+          ? entry
+          : translateLandingContent(entry, t, `${path}.${key}`)
+      ])
+    ) as T
+  }
+
+  return value
+}
+
+export function useLandingContent(): LandingContent {
+  const { t, i18n } = useTranslation()
+
+  return useMemo(
+    () => translateLandingContent(landingContent, t),
+    [t, i18n.language]
+  )
 }
 
 export const landingContent: LandingContent = {
@@ -313,8 +361,6 @@ export const landingContent: LandingContent = {
         badge: 'EARLY BOOKING',
         title: 'Plan ahead and save on premium stays',
         desc: 'Reward guests who book earlier with a better rate on selected room categories and peak-season dates.',
-        value: 'Save up to 12%',
-        note: 'Ideal for guests comparing several stays before making a final choice.',
         image:
           'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1200&q=80'
       },
@@ -322,8 +368,6 @@ export const landingContent: LandingContent = {
         badge: 'FAMILY PACKAGE',
         title: 'More value for longer family stays',
         desc: 'Bundle family-friendly benefits such as breakfast, extra bedding, or late checkout into one clear offer.',
-        value: 'Breakfast + flexible checkout',
-        note: 'Helps families feel the offer is practical, not just promotional.',
         image:
           'https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&cs=tinysrgb&w=1200'
       },
@@ -331,8 +375,6 @@ export const landingContent: LandingContent = {
         badge: 'LONG STAY',
         title: 'A stronger rate when the stay gets longer',
         desc: 'Encourage extended bookings with a visible multi-night advantage that makes the total value feel obvious.',
-        value: 'Better nightly rate after 3 nights',
-        note: 'Works well for business trips, work-from-hotel stays, and mixed leisure plans.',
         image:
           'https://images.unsplash.com/photo-1496417263034-38ec4f0b665a?auto=format&fit=crop&w=1200&q=80'
       }

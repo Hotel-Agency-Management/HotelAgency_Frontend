@@ -1,26 +1,24 @@
-"use client";
+'use client'
 
-import Alert from "@mui/material/Alert";
-import Grid from "@mui/material/Grid";
-import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
-import Can from "@/components/ability/Can";
-import { useHotelTermsSettingsView } from "../hooks/useHotelTermsSettingsView";
-import { DeleteHotelTermsDialog } from "./DeleteHotelTermsDialog";
-import { HotelTermsEmptyState } from "./HotelTermsEmptyState";
-import { HotelTermsFormCard } from "./HotelTermsFormCard";
-import { HotelTermsLoadingState } from "./HotelTermsLoadingState";
-import { HotelTermsOverviewCard } from "./HotelTermsOverviewCard";
+import Alert from '@mui/material/Alert'
+import Grid from '@mui/material/Grid'
+import Stack from '@mui/material/Stack'
+import Typography from '@mui/material/Typography'
+import Can from '@/components/ability/Can'
+import { useTranslation } from 'react-i18next'
+import { useHotelTermsSettingsView } from '../hooks/useHotelTermsSettingsView'
+import { DeleteHotelTermsDialog } from './DeleteHotelTermsDialog'
+import { HotelTermsEmptyState } from './HotelTermsEmptyState'
+import { HotelTermsFormCard } from './HotelTermsFormCard'
+import { HotelTermsLoadingState } from './HotelTermsLoadingState'
+import { HotelTermsOverviewCard } from './HotelTermsOverviewCard'
 
 interface HotelTermsSettingsViewProps {
-  hotelId: string;
-  hotelName: string;
+  hotelId: string
+  hotelName: string
 }
 
-export function HotelTermsSettingsView({
-  hotelId,
-  hotelName,
-}: HotelTermsSettingsViewProps) {
+export function HotelTermsSettingsView({ hotelId, hotelName }: HotelTermsSettingsViewProps) {
   const {
     resolvedTerms,
     isLoading,
@@ -34,23 +32,28 @@ export function HotelTermsSettingsView({
     handleSave,
     handleOpenDeleteDialog,
     handleCloseDeleteDialog,
-    handleDelete,
-  } = useHotelTermsSettingsView(hotelId);
+    handleDelete
+  } = useHotelTermsSettingsView(hotelId)
+  const { t } = useTranslation()
 
   if (isLoading) {
-    return <HotelTermsLoadingState />;
+    return <HotelTermsLoadingState />
   }
 
   if (error) {
-    return <Alert severity="error">Failed to load Terms & Conditions.</Alert>;
+    return (
+      <Alert severity='error'>
+        {t('terms.loadTermsError', { defaultValue: 'Failed to load Terms & Conditions.' })}
+      </Alert>
+    )
   }
 
   return (
     <>
-      <Can do="manage" this="HotelTerms">
+      <Can do='manage' this='HotelTerms'>
         <Stack spacing={3}>
           <Stack spacing={0.75}>
-            <Typography variant="h5">Terms & Conditions</Typography>
+            <Typography variant='h5'>{t('terms.title', { defaultValue: 'Terms & Conditions' })}</Typography>
           </Stack>
 
           {!resolvedTerms ? <HotelTermsEmptyState hotelName={hotelName} /> : null}
@@ -84,11 +87,13 @@ export function HotelTermsSettingsView({
         </Stack>
       </Can>
 
-      <Can do="manage" this="HotelTerms" not>
-        <Alert severity="error">
-          You do not have permission to manage Terms & Conditions for this hotel.
+      <Can do='manage' this='HotelTerms' not>
+        <Alert severity='error'>
+          {t('terms.noPermissionHotel', {
+            defaultValue: 'You do not have permission to manage Terms & Conditions for this hotel.'
+          })}
         </Alert>
       </Can>
     </>
-  );
+  )
 }

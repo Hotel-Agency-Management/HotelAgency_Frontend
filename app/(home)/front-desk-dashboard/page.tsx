@@ -1,6 +1,7 @@
 'use client'
 
 import { Container, Grid, Stack, Typography } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 import { FrontDeskStatsSection } from './components/FrontDeskStatsSection'
 import { TodayArrivalsWidget } from './components/TodayTimelineSection'
 import { AlertsWidget } from './components/FrontDeskPerformanceSection'
@@ -9,6 +10,8 @@ import { GuestRequestsChart } from './components/GuestRequestsChart'
 import { WeeklyReservationChart } from './components/WeeklyReservation'
 
 export default function FrontDeskDashboardPage() {
+  const { t } = useTranslation()
+
   const today = new Date().toLocaleDateString('en-GB', {
     weekday: 'long',
     day: 'numeric',
@@ -20,7 +23,7 @@ export default function FrontDeskDashboardPage() {
     <Container maxWidth="xl">
       <Stack spacing={0.5} >
         <Typography variant="h5" fontWeight={700} color="text.primary">
-          Front Desk Dashboard
+          {t('dashboard.frontDesk.title', { defaultValue: 'Front Desk Dashboard' })}
         </Typography>
         <Typography variant="body2" color="text.disabled">
           {today}

@@ -10,6 +10,7 @@ import {
   Snackbar,
   Alert,
 } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 import DeleteDialog from './components/DeleteDialog'
 import PlanForm from './components/PlanForm'
 import { usePlansManager } from './hooks/usePlansManager'
@@ -17,6 +18,7 @@ import { PlansContentFactory } from './components/PlansContentFactory'
 import EditPlanDialog from './components/EditPlanDialog'
 
 export default function SubscriptionPlansPage() {
+  const { t } = useTranslation()
   const {
     plans,
     pageStatus,
@@ -42,20 +44,20 @@ export default function SubscriptionPlansPage() {
       <Container maxWidth='lg'>
         <Stack spacing={4}>
           <Stack>
-            <Typography variant='h5' fontWeight={700}>Subscription Plans</Typography>
+            <Typography variant='h5' fontWeight={700}>{t('subscriptionPlans.title', { defaultValue: 'Subscription Plans' })}</Typography>
             <Typography variant='body2' color='text.secondary'>
-              Create and manage the plans available to hotel agencies on the platform.
+              {t('subscriptionPlans.subtitle', { defaultValue: 'Create and manage the plans available to hotel agencies on the platform.' })}
             </Typography>
           </Stack>
 
           <Paper variant='outlined' sx={{ p: 3 }}>
-            <Typography variant='subtitle1' fontWeight={600}>Create New Plan</Typography>
+            <Typography variant='subtitle1' fontWeight={600}>{t('subscriptionPlans.createNew', { defaultValue: 'Create New Plan' })}</Typography>
             <Divider sx={{ mb: 3 }} />
-            <PlanForm onSubmit={handleCreate} submitLabel='Create Plan' />
+            <PlanForm onSubmit={handleCreate} submitLabel={t('subscriptionPlans.create', { defaultValue: 'Create Plan' })} />
           </Paper>
 
           <Stack>
-            <Typography variant='subtitle1' fontWeight={600} mb={2}>Existing Plans</Typography>
+            <Typography variant='subtitle1' fontWeight={600} mb={2}>{t('subscriptionPlans.existing', { defaultValue: 'Existing Plans' })}</Typography>
 
             <PlansContentFactory
               pageStatus={pageStatus}

@@ -5,6 +5,7 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import Stack from '@mui/material/Stack'
+import { useTranslation } from 'react-i18next'
 import DoughnutChart from '@/components/charts/DoughnutChart'
 import HorizontalBarChart from '@/components/charts/HorizontalBarChart'
 import {
@@ -14,13 +15,15 @@ import {
 } from '../data/propertyManagerDashboardMock'
 
 export default function RoomsHousekeepingSection() {
+  const { t } = useTranslation()
+
   return (
     <Grid container spacing={3} alignItems="stretch">
       <Grid size={{ xs: 12, md: 6 }} >
         <Card variant="outlined" sx={{ width: '100%', height: '100%' }}>
           <CardContent>
             <Stack spacing={2}>
-              <Typography variant="h6">Room Status Distribution</Typography>
+              <Typography variant="h6">{t('dashboard.propertyManager.charts.roomStatusDistribution', { defaultValue: 'Room Status Distribution' })}</Typography>
               <DoughnutChart
                 data={ROOM_STATUS_DISTRIBUTION}
                 percentage
@@ -40,7 +43,7 @@ export default function RoomsHousekeepingSection() {
         <Card variant="outlined" sx={{ width: '100%', height: '100%' }}>
           <CardContent>
             <Stack spacing={2}>
-              <Typography variant="h6">Housekeeping Tasks by Status</Typography>
+              <Typography variant="h6">{t('dashboard.propertyManager.charts.housekeepingTasksByStatus', { defaultValue: 'Housekeeping Tasks by Status' })}</Typography>
               <HorizontalBarChart
                 data={HOUSEKEEPING_TASKS}
                 labels={HOUSEKEEPING_LABELS}

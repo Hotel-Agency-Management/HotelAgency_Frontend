@@ -1,7 +1,7 @@
 'use client'
 
 import SectionLabel from '@/components/landing/SectionLabel'
-import { landingContent as lc } from '@/components/landing/landingContent'
+import { useLandingContent } from '@/components/landing/landingContent'
 import { FadeIn, MagneticButton, StaggerGroup, StaggerItem } from '@/components/animation'
 import { useGetSubscriptionPlans } from '@/app/(home)/subscription-plans/hooks/queries/usePlanQueries'
 import { formatPrice } from '@/app/(home)/subscription-plans/util/plans'
@@ -11,6 +11,7 @@ import { CheckCircle, XCircle } from 'lucide-react'
 import { formatFeatureLimits } from '@/app/(home)/subscription-plans/util/planFormatter'
 
 export default function Plans() {
+  const lc = useLandingContent()
   const { data: plans = [], isLoading, isError } = useGetSubscriptionPlans()
   const theme = useTheme()
   const primaryMain = theme.palette.primary.main

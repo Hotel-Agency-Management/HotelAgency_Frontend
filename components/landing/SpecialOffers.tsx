@@ -2,12 +2,13 @@
 
 import Badge from '@/components/landing/Badge'
 import SectionLabel from '@/components/landing/SectionLabel'
-import { landingContent as lc } from '@/components/landing/landingContent'
+import { useLandingContent } from '@/components/landing/landingContent'
 import { FadeIn, StaggerGroup, StaggerItem, TiltCard } from '@/components/animation'
 import { useTheme } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 
 export default function SpecialOffers() {
+  const lc = useLandingContent()
   const theme = useTheme()
   const primaryMain = theme.palette.primary.main
   const textPrimary = theme.palette.text.primary
@@ -99,19 +100,21 @@ export default function SpecialOffers() {
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
                   <Badge label={offer.badge} variant={index === 0 ? 'primary' : index === 1 ? 'yellow' : 'purple'} />
-                  <p
-                    style={{
-                      fontFamily: 'var(--font)',
-                      color: primaryMain,
-                      fontSize: '0.8rem',
-                      letterSpacing: '0.1em',
-                      textTransform: 'uppercase',
-                      margin: 0,
-                      textAlign: 'right'
-                    }}
-                  >
-                    {offer.value}
-                  </p>
+                  {offer.value && (
+                    <p
+                      style={{
+                        fontFamily: 'var(--font)',
+                        color: primaryMain,
+                        fontSize: '0.8rem',
+                        letterSpacing: '0.1em',
+                        textTransform: 'uppercase',
+                        margin: 0,
+                        textAlign: 'right'
+                      }}
+                    >
+                      {offer.value}
+                    </p>
+                  )}
                 </div>
 
                 <h3
@@ -139,25 +142,19 @@ export default function SpecialOffers() {
                   {offer.desc}
                 </p>
 
-                <div
-                  style={{
-                    marginTop: '20px',
-                    paddingTop: '16px',
-                    borderTop: `1px solid ${alpha(primaryMain, 0.12)}`
-                  }}
-                >
+                {offer.note && (
                   <p
                     style={{
                       fontFamily: 'var(--font)',
                       color: textSecondary,
                       fontSize: '0.82rem',
                       lineHeight: 1.62,
-                      margin: 0
+                      margin: '20px 0 0'
                     }}
                   >
                     {offer.note}
                   </p>
-                </div>
+                )}
               </div>
             </TiltCard>
           </StaggerItem>

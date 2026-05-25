@@ -9,6 +9,7 @@ import { RoomType } from '../types/roomType'
 import { BedDouble, MoreVertical, Pencil, Trash2 } from 'lucide-react'
 import MenuItem from '@/components/ui/Menu'
 import { RoomTypeCardContent, RoomTypeCardRoot } from '../styles/StyledComponents'
+import { useTranslation } from 'react-i18next'
 
 interface RoomTypeCardProps {
   roomType: RoomType
@@ -17,6 +18,7 @@ interface RoomTypeCardProps {
 }
 
 export function RoomTypeCard({ roomType, onEdit, onDelete }: RoomTypeCardProps) {
+  const { t } = useTranslation()
   const [menuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null)
   const menuOpen = Boolean(menuAnchor)
 
@@ -49,7 +51,7 @@ export function RoomTypeCard({ roomType, onEdit, onDelete }: RoomTypeCardProps) 
               color='text.secondary'
               sx={{ textTransform: 'uppercase', fontWeight: 700 }}
             >
-              Room type
+              {t('roomTypes.title', { defaultValue: 'Room Types' })}
             </Typography>
           </Stack>
           <Stack direction='row' spacing={1} alignItems='center'>
@@ -71,7 +73,7 @@ export function RoomTypeCard({ roomType, onEdit, onDelete }: RoomTypeCardProps) 
         </Typography>
 
         <Typography variant='body2'>
-          {roomType.description || 'Comfortable accommodation prepared for a refined hotel stay.'}
+          {roomType.description || t('roomTypes.defaultDescription', { defaultValue: 'Comfortable accommodation prepared for a refined hotel stay.' })}
         </Typography>
       </RoomTypeCardContent>
 
@@ -86,13 +88,13 @@ export function RoomTypeCard({ roomType, onEdit, onDelete }: RoomTypeCardProps) 
         <MenuItem onClick={handleEdit} variant='default'>
           <Stack direction='row' alignItems='center' gap={1}>
             <Pencil size={16} />
-            Edit room type
+            {t('roomTypes.edit', { defaultValue: 'Edit Room Type' })}
           </Stack>
         </MenuItem>
         <MenuItem onClick={handleDelete} variant='danger'>
           <Stack direction='row' alignItems='center' gap={1}>
             <Trash2 size={16} />
-            Delete
+            {t('roomTypes.delete', { defaultValue: 'Delete Room Type' })}
           </Stack>
         </MenuItem>
       </Menu>

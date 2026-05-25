@@ -1,5 +1,6 @@
 import { Chip, Stack, Typography } from '@mui/material'
 import { AlertCircle, CheckCircle2 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 interface DocumentStatusRowProps {
   label: string
@@ -7,6 +8,8 @@ interface DocumentStatusRowProps {
 }
 
 export function DocumentStatusRow({ label, ready }: DocumentStatusRowProps) {
+  const { t } = useTranslation()
+
   return (
     <Stack direction='row' spacing={1.5} alignItems='center'>
       <Stack sx={{ color: ready ? 'success.main' : 'text.disabled' }}>
@@ -16,7 +19,11 @@ export function DocumentStatusRow({ label, ready }: DocumentStatusRowProps) {
         {label}
       </Typography>
       <Chip
-        label={ready ? 'Ready' : 'Not generated'}
+        label={
+          ready
+            ? t('reservations.form.confirm.ready', { defaultValue: 'Ready' })
+            : t('reservations.form.confirm.notGenerated', { defaultValue: 'Not generated' })
+        }
         size='small'
         color={ready ? 'success' : 'default'}
         variant='outlined'

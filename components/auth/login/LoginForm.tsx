@@ -29,12 +29,7 @@ interface LoginFormProps {
   fillTrigger?: number
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({
-  showEmailForm,
-  setShowEmailForm,
-  onSwitchToSignup,
-  fillTrigger
-}) => {
+const LoginForm: React.FC<LoginFormProps> = ({ showEmailForm, setShowEmailForm, onSwitchToSignup, fillTrigger }) => {
   const { t } = useTranslation()
   const { language } = useLanguage()
   const [showPassword, setShowPassword] = useState(false)
@@ -94,18 +89,13 @@ const LoginForm: React.FC<LoginFormProps> = ({
       <Stack spacing={showEmailForm ? 3 : 4}>
         <FadeIn>
           <Typography variant='h4' textAlign='center' mb={1}>
-            {t('login.brand', 'Welcome Back')}
+            {t('login.brand', { defaultValue: 'Welcome Back' })}
           </Typography>
         </FadeIn>
 
         <FadeIn>
-          <Typography
-            variant='body2'
-            textAlign='center'
-            color='text.secondary'
-            mb={showEmailForm ? 1 : 0}
-          >
-            {t('login.subtitle', 'Sign in to continue to your account')}
+          <Typography variant='body2' textAlign='center' color='text.secondary' mb={showEmailForm ? 1 : 0}>
+            {t('login.subtitle', { defaultValue: 'Sign in to continue to your account' })}
           </Typography>
         </FadeIn>
 
@@ -119,7 +109,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
                   startIcon={<Mail size={18} />}
                   onClick={() => setShowEmailForm(true)}
                 >
-                  {t('login.signInWithEmail', 'Sign in with Email')}
+                  {t('login.signInWithEmail', { defaultValue: 'Sign in with Email' })}
                 </Button>
               </FadeIn>
 
@@ -134,7 +124,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
                       onSwitchToSignup()
                     }}
                   >
-                    {t('login.signUp', 'Sign Up')}
+                    {t('login.signUp', { defaultValue: 'Sign Up' })}
                   </Button>
                 </Typography>
               </FadeIn>
@@ -145,7 +135,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
                 <ErrorMessage message={errorMessage} />
 
                 <FadeIn>
-                  <FormFieldWrapper title={t('login.email', 'Email')}>
+                  <FormFieldWrapper title={t('login.email', { defaultValue: 'Email' })}>
                     <Controller
                       name='email'
                       control={control}
@@ -154,7 +144,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
                           {...field}
                           fullWidth
                           size='small'
-                          placeholder={t('login.emailPlaceholder', 'your@email.com')}
+                          placeholder={t('login.emailPlaceholder', { defaultValue: 'your@email.com' })}
                           error={!!errors.email}
                           helperText={errors.email?.message}
                         />
@@ -164,7 +154,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
                 </FadeIn>
 
                 <FadeIn>
-                  <FormFieldWrapper title={t('login.password', 'Password')}>
+                  <FormFieldWrapper title={t('login.password', { defaultValue: 'Password' })}>
                     <Controller
                       name='password'
                       control={control}
@@ -207,19 +197,13 @@ const LoginForm: React.FC<LoginFormProps> = ({
                     sx={{ alignSelf: 'flex-end', mt: -2 }}
                     onClick={() => setForgotPasswordOpen(true)}
                   >
-                    {t('login.forgotPassword', 'Forgot password?')}
+                    {t('login.forgotPassword', { defaultValue: 'Forgot password?' })}
                   </Button>
                 </FadeIn>
 
                 <FadeIn>
-                  <LoadingButton
-                    loading={isLoading}
-                    type='submit'
-                    variant='contained'
-                    fullWidth
-                    sx={{ mt: 2 }}
-                  >
-                    {!isLoading && t('login.signIn', 'Sign In')}
+                  <LoadingButton loading={isLoading} type='submit' variant='contained' fullWidth sx={{ mt: 2 }}>
+                    {!isLoading && t('login.signIn', { defaultValue: 'Sign In' })}
                   </LoadingButton>
                 </FadeIn>
 
@@ -229,14 +213,9 @@ const LoginForm: React.FC<LoginFormProps> = ({
                     variant='text'
                     size='small'
                     onClick={() => setShowEmailForm(false)}
-                    startIcon={
-                      <ArrowLeft
-                        size={16}
-                        style={{ transform: language === 'ar' ? 'rotate(180deg)' : 'none' }}
-                      />
-                    }
+                    startIcon={<ArrowLeft size={16} style={{ transform: language === 'ar' ? 'scaleX(-1)' : 'none' }} />}
                   >
-                    {t('login.backToSocial', 'Back to social login')}
+                    {t('login.backToSocial', { defaultValue: 'Back to social login' })}
                   </Button>
                 </FadeIn>
               </Stack>

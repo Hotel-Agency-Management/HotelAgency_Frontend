@@ -2,6 +2,7 @@
 
 import { useParams } from "next/navigation";
 import { useTheme } from "@mui/material/styles";
+import { useTranslation } from "react-i18next";
 import { useGetHotelById } from "../../../hooks/queries/useHotelQueries";
 import { getHousekeepingDashboardSeed } from "../data/housekeepingDashboard";
 import { buildHousekeepingPalette } from "../utils/housekeepingPalette";
@@ -9,6 +10,7 @@ import { buildHousekeepingPalette } from "../utils/housekeepingPalette";
 export function useHousekeepingDashboard() {
   const params = useParams<{ hotelId?: string }>();
   const theme = useTheme();
+  const { t } = useTranslation();
   const hotelId = params.hotelId;
   const numericHotelId = hotelId ? Number(hotelId) : undefined;
   const { data: hotel } = useGetHotelById(
@@ -55,10 +57,10 @@ export function useHousekeepingDashboard() {
     completedRooms,
     completionRate,
     statusOverview: [
-      { label: "Clean", value: dashboardSeed.statusCounts.clean },
-      { label: "Dirty", value: dashboardSeed.statusCounts.dirty },
-      { label: "In Progress", value: dashboardSeed.statusCounts.inProgress },
-      { label: "Inspected", value: dashboardSeed.statusCounts.inspected }
+      { label: t("housekeeping.dashboard.status.clean", "Clean"), value: dashboardSeed.statusCounts.clean },
+      { label: t("housekeeping.dashboard.status.dirty", "Dirty"), value: dashboardSeed.statusCounts.dirty },
+      { label: t("housekeeping.dashboard.status.inProgress", "In Progress"), value: dashboardSeed.statusCounts.inProgress },
+      { label: t("housekeeping.dashboard.status.inspected", "Inspected"), value: dashboardSeed.statusCounts.inspected }
     ],
     chartColors,
     statusOverviewColors: chartColors.slice(0, 4),
@@ -66,19 +68,19 @@ export function useHousekeepingDashboard() {
     cleaningTimeByRoomType: dashboardSeed.cleaningTimeByRoomType,
     cleaningTimeInsights: [
       {
-        label: "Slowest Type",
+        label: t("housekeeping.dashboard.insights.slowestType", "Slowest Type"),
         value: slowestRoomType.label,
-        helper: `${slowestRoomType.value} min average`
+        helper: t("housekeeping.dashboard.insights.minAverage", "{{value}} min average", { value: slowestRoomType.value })
       },
       {
-        label: "Fastest Type",
+        label: t("housekeeping.dashboard.insights.fastestType", "Fastest Type"),
         value: fastestRoomType.label,
-        helper: `${fastestRoomType.value} min average`
+        helper: t("housekeeping.dashboard.insights.minAverage", "{{value}} min average", { value: fastestRoomType.value })
       },
       {
-        label: "Time Gap",
+        label: t("housekeeping.dashboard.insights.timeGap", "Time Gap"),
         value: `${cleaningTimeGap} min`,
-        helper: "difference between fastest and slowest"
+        helper: t("housekeeping.dashboard.insights.gapHelper", "difference between fastest and slowest")
       }
     ],
     lineColor: chartColors[0],
@@ -86,38 +88,38 @@ export function useHousekeepingDashboard() {
     barColor: chartColors[0],
     metricCards: [
       {
-        title: "Total Rooms",
+        title: t("housekeeping.dashboard.metrics.totalRooms", "Total Rooms"),
         value: totalRooms,
         change: dashboardSeed.metricChanges.totalRooms,
-        subtitle: "current inventory",
+        subtitle: t("housekeeping.dashboard.metrics.currentInventory", "current inventory"),
         color: chartColors[0]
       },
       {
-        title: "Clean Rooms",
+        title: t("housekeeping.dashboard.metrics.cleanRooms", "Clean Rooms"),
         value: dashboardSeed.statusCounts.clean,
         change: dashboardSeed.metricChanges.cleanRooms,
-        subtitle: "ready for guests",
+        subtitle: t("housekeeping.dashboard.metrics.readyForGuests", "ready for guests"),
         color: chartColors[1]
       },
       {
-        title: "Dirty Rooms",
+        title: t("housekeeping.dashboard.metrics.dirtyRooms", "Dirty Rooms"),
         value: dashboardSeed.statusCounts.dirty,
         change: dashboardSeed.metricChanges.dirtyRooms,
-        subtitle: "waiting for assignment",
+        subtitle: t("housekeeping.dashboard.metrics.waitingAssignment", "waiting for assignment"),
         color: chartColors[2]
       },
       {
-        title: "In Progress",
+        title: t("housekeeping.dashboard.metrics.inProgress", "In Progress"),
         value: dashboardSeed.statusCounts.inProgress,
         change: dashboardSeed.metricChanges.inProgress,
-        subtitle: "currently being cleaned",
+        subtitle: t("housekeeping.dashboard.metrics.currentlyCleaned", "currently being cleaned"),
         color: chartColors[3]
       },
       {
-        title: "Inspected",
+        title: t("housekeeping.dashboard.metrics.inspected", "Inspected"),
         value: dashboardSeed.statusCounts.inspected,
         change: dashboardSeed.metricChanges.inspected,
-        subtitle: "approved by supervisor",
+        subtitle: t("housekeeping.dashboard.metrics.approvedBySupervisor", "approved by supervisor"),
         color: chartColors[4]
       }
     ]

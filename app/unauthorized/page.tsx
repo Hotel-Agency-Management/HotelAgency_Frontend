@@ -5,11 +5,14 @@ import { Box, Button, Container, Typography, Stack, Paper } from '@mui/material'
 import { ShieldX, ArrowLeft, Home } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { Suspense } from 'react'
+import useLanguage from '@/core/hooks/useLanguage'
 
 function UnauthorizedContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const { t } = useTranslation()
+  const { language } = useLanguage()
+  const rtlFlip: React.CSSProperties = language === 'ar' ? { transform: 'scaleX(-1)' } : {}
 
   const resource = searchParams.get('resource')
   const action = searchParams.get('action')
@@ -52,7 +55,7 @@ function UnauthorizedContent() {
           </Box>
 
           <Typography variant='h4' fontWeight={700} gutterBottom>
-            {t('errors.unauthorized.title', 'Access Denied')}
+            {t('errors.unauthorized.title', { defaultValue: 'Access Denied' })}
           </Typography>
 
           <Typography variant='body1' color='text.secondary' sx={{ mb: 1 }}>
@@ -77,11 +80,15 @@ function UnauthorizedContent() {
           )}
 
           <Stack direction='row' spacing={2} justifyContent='center' sx={{ mt: 4 }}>
-            <Button variant='outlined' startIcon={<ArrowLeft size={18} />} onClick={() => router.back()}>
-              {t('common.goBack', 'Go Back')}
+            <Button
+              variant='outlined'
+              startIcon={<ArrowLeft size={18} style={rtlFlip} />}
+              onClick={() => router.back()}
+            >
+              {t('common.goBack', { defaultValue: 'Go Back' })}
             </Button>
             <Button variant='contained' startIcon={<Home size={18} />} onClick={() => router.push('/dashboard')}>
-              {t('common.goHome', 'Go to Dashboard')}
+              {t('common.goHome', { defaultValue: 'Go to Dashboard' })}
             </Button>
           </Stack>
         </Paper>

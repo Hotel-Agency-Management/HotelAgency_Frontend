@@ -2,6 +2,7 @@
 
 import { Box, Typography, useTheme } from "@mui/material"
 import { SxProps, Theme } from '@mui/material'
+import { useTranslation } from "react-i18next";
 import { RECENT_ACTIVITY } from "../data/dashboardMock";
 import { ActivityItemRow } from "./ActivityItemRow";
 import { ActivityItem } from "../types/dashboardTypes";
@@ -13,6 +14,7 @@ interface RecentActivitySectionProps {
 }
 export function RecentActivitySection({ activities = RECENT_ACTIVITY }: RecentActivitySectionProps) {
   const theme = useTheme();
+  const { t } = useTranslation();
 
   return (
     <Box
@@ -25,10 +27,10 @@ export function RecentActivitySection({ activities = RECENT_ACTIVITY }: RecentAc
     >
       <Box sx={{ px: 2.5, py: 2, borderBottom: `1px solid ${theme.palette.divider}` }}>
         <Typography variant="subtitle2" fontWeight={600} color="text.primary">
-          Recent Activity
+          {t('dashboard.admin.recentActivity.title', { defaultValue: 'Recent Activity' })}
         </Typography>
         <Typography variant="caption" color="text.disabled">
-          Latest platform events
+          {t('dashboard.admin.recentActivity.subtitle', { defaultValue: 'Latest platform events' })}
         </Typography>
       </Box>
 

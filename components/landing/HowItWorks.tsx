@@ -3,14 +3,14 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from '@/lib/gsap'
 import SectionLabel from '@/components/landing/SectionLabel'
-import { landingContent as lc } from '@/components/landing/landingContent'
+import { useLandingContent } from '@/components/landing/landingContent'
 import FadeIn from '@/components/animation/FadeIn'
 import { useTheme } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 
-const section = lc.howItWorks
-
 export default function HowItWorks() {
+  const lc = useLandingContent()
+  const section = lc.howItWorks
   const sectionRef = useRef<HTMLElement>(null)
 
   const theme = useTheme()

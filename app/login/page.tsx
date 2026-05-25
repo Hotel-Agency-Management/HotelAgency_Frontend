@@ -31,8 +31,8 @@ const HeroBefore = () => {
           content: '""',
           position: 'absolute',
           inset: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.55)',
-        },
+          backgroundColor: 'rgba(0, 0, 0, 0.55)'
+        }
       }}
     >
       <Box sx={{ position: 'relative', zIndex: 1 }}>
@@ -40,16 +40,16 @@ const HeroBefore = () => {
           variant='overline'
           sx={{ color: 'primary.main', fontWeight: 900, letterSpacing: 2, mb: 1, display: 'block' }}
         >
-          {t('login.heroBefore.overline', 'Welcome Back')}
+          {t('login.heroBefore.overline', { defaultValue: 'Welcome Back' })}
         </Typography>
         <Typography
           variant='h2'
           sx={{ fontWeight: 900, mb: 2, letterSpacing: -1.5, fontSize: { md: '3rem', lg: '3.75rem' }, color: 'white' }}
         >
-          {t('login.heroBefore.title', 'Sign in to your account')}
+          {t('login.heroBefore.title', { defaultValue: 'Sign in to your account' })}
         </Typography>
         <Typography variant='h6' sx={{ color: 'rgba(255,255,255,0.75)', maxWidth: 450, fontWeight: 400 }}>
-          {t('login.heroBefore.subtitle', 'Access your dashboard and manage your business')}
+          {t('login.heroBefore.subtitle', { defaultValue: 'Access your dashboard and manage your business' })}
         </Typography>
       </Box>
     </Stack>
@@ -76,8 +76,8 @@ const HeroAfter = () => {
           content: '""',
           position: 'absolute',
           inset: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.55)',
-        },
+          backgroundColor: 'rgba(0, 0, 0, 0.55)'
+        }
       }}
     >
       <Box sx={{ position: 'relative', zIndex: 1 }}>
@@ -85,7 +85,7 @@ const HeroAfter = () => {
           variant='overline'
           sx={{ color: 'primary.main', fontWeight: 900, letterSpacing: 2, mb: 1, display: 'block' }}
         >
-          {t('login.heroAfter.overline', 'Get Started')}
+          {t('login.heroAfter.overline', { defaultValue: 'Get Started' })}
         </Typography>
         <Typography
           variant='h2'
@@ -97,10 +97,10 @@ const HeroAfter = () => {
             fontSize: { md: '3rem', lg: '3.75rem' }
           }}
         >
-          {t('login.heroAfter.title', 'Create your account')}
+          {t('login.heroAfter.title', { defaultValue: 'Create your account' })}
         </Typography>
         <Typography variant='h6' sx={{ color: 'rgba(255,255,255,0.75)', maxWidth: 450, fontWeight: 400 }}>
-          {t('login.heroAfter.subtitle', 'Join thousands of businesses already using our platform')}
+          {t('login.heroAfter.subtitle', { defaultValue: 'Join thousands of businesses already using our platform' })}
         </Typography>
       </Box>
     </Stack>
@@ -226,10 +226,7 @@ export default function LoginPage() {
                 exit={{ opacity: 0, x: 20 }}
                 transition={{ duration: 0.5 }}
               >
-                <SignupForm
-                  onSwitchToLogin={handleSwitchToLogin}
-                  initialStep={signupInitialStep}
-                />
+                <SignupForm onSwitchToLogin={handleSwitchToLogin} initialStep={signupInitialStep} />
               </MotionBox>
             )}
           </AnimatePresence>

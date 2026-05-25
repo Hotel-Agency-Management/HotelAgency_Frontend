@@ -2,6 +2,7 @@
 
 import { Chip, Grid, Stack, Typography } from '@mui/material'
 import { BedDouble, PhoneCall, ReceiptText } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { DirectReservationForm } from '@/app/(home)/reservations/[hotelId]/components/create/DirectReservationForm'
 import { ReservationSummaryCard } from '@/app/(home)/reservations/[hotelId]/components/create/ReservationSummaryCard'
 import { GradientCard } from '@/app/(home)/reservations/[hotelId]/styles/StyledComponents'
@@ -11,9 +12,8 @@ interface AdminReservationCreatePageProps {
   hotelId: number
 }
 
-export default function AdminReservationCreatePage({
-  hotelId,
-}: AdminReservationCreatePageProps) {
+export default function AdminReservationCreatePage({ hotelId }: AdminReservationCreatePageProps) {
+  const { t } = useTranslation()
   const {
     control,
     errors,
@@ -25,7 +25,7 @@ export default function AdminReservationCreatePage({
     reservationSnapshot,
     handleFormSubmit,
     handleBeforeNextStep,
-    trigger,
+    trigger
   } = useAdminDirectReservationCreatePage(hotelId)
 
   return (
@@ -33,17 +33,32 @@ export default function AdminReservationCreatePage({
       <GradientCard variant='card'>
         <Stack spacing={2}>
           <Stack direction='row' spacing={1} flexWrap='wrap' useFlexGap>
-            <Chip icon={<PhoneCall size={14} />} label='Phone & Walk-in' variant='outlined' />
-            <Chip icon={<BedDouble size={14} />} label='Hotel Reservation' variant='outlined' />
-            <Chip icon={<ReceiptText size={14} />} label='Payment Tracking' variant='outlined' />
+            <Chip
+              icon={<PhoneCall size={14} />}
+              label={t('reservations.create_page.chipPhone', { defaultValue: 'Phone & Walk-in' })}
+              variant='outlined'
+            />
+            <Chip
+              icon={<BedDouble size={14} />}
+              label={t('reservations.create_page.chipHotel', { defaultValue: 'Hotel Reservation' })}
+              variant='outlined'
+            />
+            <Chip
+              icon={<ReceiptText size={14} />}
+              label={t('reservations.create_page.chipPayment', { defaultValue: 'Payment Tracking' })}
+              variant='outlined'
+            />
           </Stack>
 
           <Stack spacing={1}>
             <Typography variant='h4' fontWeight={800}>
-              Create a hotel reservation
+              {t('reservations.create_page.heading', { defaultValue: 'Create a hotel reservation' })}
             </Typography>
             <Typography variant='body1' maxWidth={760}>
-              Capture walk-in and phone reservations with guest details, stay dates, room selection, and payment in a guided step-by-step flow.
+              {t('reservations.create_page.description', {
+                defaultValue:
+                  'Capture walk-in and phone reservations with guest details, stay dates, room selection, and payment in a guided step-by-step flow.'
+              })}
             </Typography>
           </Stack>
         </Stack>

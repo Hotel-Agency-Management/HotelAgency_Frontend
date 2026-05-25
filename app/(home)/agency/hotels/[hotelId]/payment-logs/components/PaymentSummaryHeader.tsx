@@ -1,6 +1,7 @@
 'use client'
 
 import Grid from '@mui/material/Grid'
+import { useTranslation } from 'react-i18next'
 import { StatCard } from './StatCard'
 
 interface PaymentSummaryHeaderProps {
@@ -20,11 +21,12 @@ export function PaymentSummaryHeader({
   isLoading,
   activeTab,
 }: PaymentSummaryHeaderProps) {
+  const { t } = useTranslation()
   return (
     <Grid container spacing={2}>
       <Grid size={{ xs: 12, sm: 6 }}>
         <StatCard
-          label="Total Incoming"
+          label={t("hotelPaymentLogs.summary.totalIncoming", "Total Incoming")}
           icon="lucide:trending-up"
           amount={incomingAmount}
           count={incomingCount}
@@ -35,7 +37,7 @@ export function PaymentSummaryHeader({
       </Grid>
       <Grid size={{ xs: 12, sm: 6 }}>
         <StatCard
-          label="Total Outgoing"
+          label={t("hotelPaymentLogs.summary.totalOutgoing", "Total Outgoing")}
           icon="lucide:trending-down"
           amount={outgoingAmount}
           count={outgoingCount}

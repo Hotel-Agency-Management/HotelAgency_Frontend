@@ -1,7 +1,10 @@
 import { Box, Stack, Typography, useTheme } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 export function PageHeader() {
   const theme = useTheme();
+  const { t } = useTranslation();
+
   return (
     <Box
       sx={{
@@ -22,7 +25,7 @@ export function PageHeader() {
               letterSpacing={-0.5}
               color="text.primary"
             >
-              Support & Ticket Visibility
+              {t('supportTickets.title', { defaultValue: 'Support & Ticket Visibility' })}
             </Typography>
           <Typography
             variant="body2"
@@ -30,8 +33,7 @@ export function PageHeader() {
               maxWidth: 540,
             }}
           >
-            Monitor and manage all tenant support requests in one place — with real-time
-            SLA tracking, escalation visibility, and agent assignment control.
+            {t('supportTickets.subtitle', { defaultValue: 'Monitor and manage all tenant support requests in one place — with real-time SLA tracking, escalation visibility, and agent assignment control.' })}
           </Typography>
         </Stack>
       </Stack>

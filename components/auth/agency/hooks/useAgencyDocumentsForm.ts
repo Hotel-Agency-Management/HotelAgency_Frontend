@@ -8,7 +8,7 @@ import { AgencyDocumentsFormData, AgencyDocumentsFormProps } from '../types/docu
 
 export function useAgencyDocumentsForm({
   onSubmit: onSubmitProp,
-  defaultValues,
+  defaultValues
 }: Pick<AgencyDocumentsFormProps, 'onSubmit' | 'defaultValues'>) {
   const { t } = useTranslation()
   const [errorMessage, setErrorMessage] = useState('')
@@ -37,16 +37,14 @@ export function useAgencyDocumentsForm({
   const canAddMore = (lastDocument?.title ?? '').trim().length > 0 && lastDocument?.file !== null
 
   const isStepComplete =
-    documents.length > 0 &&
-    documents.every(doc => (doc.title ?? '').trim().length > 0 && doc.file !== null) &&
-    isValid
+    documents.length > 0 && documents.every(doc => (doc.title ?? '').trim().length > 0 && doc.file !== null) && isValid
 
   const onSubmit = async (data: AgencyDocumentsFormData) => {
     setErrorMessage('')
     try {
       await onSubmitProp(data)
     } catch (error) {
-      setErrorMessage(getErrorMessage(error, t('docs.submitError', 'Something went wrong')))
+      setErrorMessage(getErrorMessage(error, t('docs.submitError', { defaultValue: 'Something went wrong' })))
     }
   }
 
@@ -63,6 +61,6 @@ export function useAgencyDocumentsForm({
     isStepComplete,
     errorMessage,
     handleSubmit,
-    onSubmit,
+    onSubmit
   }
 }

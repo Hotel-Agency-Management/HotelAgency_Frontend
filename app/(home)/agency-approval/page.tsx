@@ -1,15 +1,8 @@
 'use client'
 
-import {
-  Box,
-  Container,
-  Typography,
-  Stack,
-  Snackbar,
-  Alert,
-  useTheme,
-} from '@mui/material'
+import { Box, Container, Typography, Stack, Snackbar, Alert, useTheme } from '@mui/material'
 import { Building } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { br } from '@/core/utils/themeUtils'
 import Avatar from '@/components/ui/Avatar'
 import ConfirmDialog from './components/ConfirmDialog'
@@ -22,7 +15,7 @@ import { useAgencyApprovals } from './hooks/useAgencyApprovals'
 import { CLOSED_CONFIRM, CLOSED_SNACKBAR } from '@/core/constant/pageStatus'
 
 export default function AgencyApprovalsPage() {
-
+  const { t } = useTranslation()
   const theme = useTheme()
   const {
     requests,
@@ -44,23 +37,23 @@ export default function AgencyApprovalsPage() {
     handleRetry,
     setSnackbar,
     setConfirmDialog,
-    setDrawerOpen,
+    setDrawerOpen
   } = useAgencyApprovals()
-  
+
   return (
     <Stack
+      sx={{
+        minHeight: '100vh',
+        gap: { xs: 3, sm: 4 }
+      }}
+    >
+      <Box
         sx={{
-          minHeight: '100vh',
-          gap: { xs: 3, sm: 4 },
+          borderBottom: `1px solid ${theme.palette.divider}`,
+          bgcolor: theme.palette.background.paper,
+          py: { xs: 3, sm: 4 }
         }}
       >
-        <Box
-          sx={{
-            borderBottom: `1px solid ${theme.palette.divider}`,
-            bgcolor: theme.palette.background.paper,
-            py: { xs: 3, sm: 4 },
-          }}
-        >
         <Container maxWidth='lg'>
           <Stack
             direction={{ xs: 'column', sm: 'row' }}
@@ -73,43 +66,33 @@ export default function AgencyApprovalsPage() {
                 <Building size={20} color={theme.palette.primary.contrastText} />
               </Avatar>
               <Box>
-                <Typography
-                  variant='h5'
-                  fontWeight={800}
-                >
-                  Agency Approval Requests
+                <Typography variant='h5' fontWeight={800}>
+                  {t('agencyApproval.title', { defaultValue: 'Agency Approval Requests' })}
                 </Typography>
                 <Typography variant='body2'>
-                  Review and manage agency registration applications
+                  {t('agencyApproval.subtitle', { defaultValue: 'Review and manage agency registration applications' })}
                 </Typography>
               </Box>
             </Stack>
 
-            {pendingCount > 0 && (
-              <PendingRequestsBadge count={pendingCount} />
-            )}
+            {pendingCount > 0 && <PendingRequestsBadge count={pendingCount} />}
           </Stack>
         </Container>
       </Box>
 
       <Container maxWidth='lg'>
         <Stack spacing={3}>
-
           <SummaryStats requests={requests} />
 
-          <FilterBar
-            filters={filters}
-            pendingCount={pendingCount}
-            onFilterChange={handleFilterChange}
-          />
+          <FilterBar filters={filters} pendingCount={pendingCount} onFilterChange={handleFilterChange} />
 
           {pageStatus === 'idle' && filtered.length > 0 && (
-            <Typography
-              variant='caption'
-              color='text.disabled'
-              sx={{ fontSize: '0.75rem', px: 0.5 }}
-            >
-              Showing {filtered.length} of {requests.length} requests
+            <Typography variant='caption' color='text.disabled' sx={{ fontSize: '0.75rem', px: 0.5 }}>
+              {t('agencyApproval.showingCount', {
+                defaultValue: 'Showing {{filtered}} of {{total}} requests',
+                filtered: filtered.length,
+                total: requests.length
+              })}
             </Typography>
           )}
 
@@ -153,7 +136,7 @@ export default function AgencyApprovalsPage() {
             borderRadius: br(theme, 1.5),
             fontSize: '0.83rem',
             fontWeight: 500,
-            boxShadow: theme.shadows[8],
+            boxShadow: theme.shadows[8]
           }}
         >
           {snackbar.message}

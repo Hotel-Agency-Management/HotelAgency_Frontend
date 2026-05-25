@@ -13,6 +13,7 @@ import type { RoomPhoto } from "../../../types/room";
 import { AddPhotoTile } from "../roomPhoto/AddPhotoTile";
 import { PhotoDropSurface } from "../roomPhoto/PhotoDropSurface";
 import { PhotoThumb } from "../roomPhoto/PhotoThumb";
+import { useTranslation } from "react-i18next";
 
 interface RoomEditPhotosUploadProps {
   existingPhotos: RoomPhoto[];
@@ -31,6 +32,7 @@ export function RoomEditPhotosUpload({
   onReplaceCoverPhoto,
   onDeleteExistingPhoto,
 }: RoomEditPhotosUploadProps) {
+  const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement>(null);
   const replaceInputRef = useRef<HTMLInputElement>(null);
   const previews = useMemo(
@@ -76,7 +78,7 @@ export function RoomEditPhotosUpload({
     <Stack spacing={2}>
       <Stack direction="row" alignItems="center" justifyContent="space-between">
         <Typography variant="subtitle2" fontWeight={600}>
-          Room Photos
+          {t("hotelRooms.photos.title", "Room Photos")}
         </Typography>
         <Button
           size="small"
@@ -84,7 +86,7 @@ export function RoomEditPhotosUpload({
           startIcon={<AddPhotoAlternateIcon />}
           onClick={openFilePicker}
         >
-          Upload Photos
+          {t("hotelRooms.photos.upload", "Upload Photos")}
         </Button>
       </Stack>
 
@@ -109,7 +111,7 @@ export function RoomEditPhotosUpload({
         <PhotoDropSurface onActivate={openFilePicker}>
           <EmptyPhotoIcon />
           <Typography variant="body2" color="text.secondary" mt={1}>
-            Click to upload room photos
+            {t("hotelRooms.photos.empty", "Click to upload room photos")}
           </Typography>
         </PhotoDropSurface>
       ) : (
@@ -142,7 +144,7 @@ export function RoomEditPhotosUpload({
                 alt={file.name}
               />
               <NewChip
-                label="New"
+                label={t("hotelRooms.photos.new", "New")}
                 size="small"
                 color="primary"
               />
@@ -161,9 +163,14 @@ export function RoomEditPhotosUpload({
       )}
 
       <Typography variant="caption" color="text.secondary">
-        {existingPhotos.length} existing photo{existingPhotos.length !== 1 ? "s" : ""},{" "}
-        {newFiles.length} new photo{newFiles.length !== 1 ? "s" : ""} selected
-        {replacementCoverPhoto ? ", cover replacement selected" : ""}
+        {t("hotelRooms.photos.editSummary", {
+          defaultValue: "{{existingCount}} existing photos, {{newCount}} new photos selected{{replacementText}}",
+          existingCount: existingPhotos.length,
+          newCount: newFiles.length,
+          replacementText: replacementCoverPhoto
+            ? t("hotelRooms.photos.coverReplacementSelected", ", cover replacement selected")
+            : "",
+        })}
       </Typography>
     </Stack>
   );

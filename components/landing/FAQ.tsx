@@ -2,13 +2,13 @@
 
 import { useState } from 'react'
 import SectionLabel from '@/components/landing/SectionLabel'
-import { landingContent as lc } from '@/components/landing/landingContent'
+import { useLandingContent } from '@/components/landing/landingContent'
 import { FadeIn, RevealHeight, StaggerGroup, StaggerItem } from '@/components/animation'
 import { useTheme } from '@mui/material'
 
-const faqs = lc.faq.items
-
 export default function FAQ() {
+  const lc = useLandingContent()
+  const faqs = lc.faq.items
   const [openIndex, setOpenIndex] = useState<number | null>(null)
 
   const theme = useTheme()

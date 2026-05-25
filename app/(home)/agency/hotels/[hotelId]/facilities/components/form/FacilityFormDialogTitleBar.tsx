@@ -2,6 +2,7 @@ import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { X } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import type { HotelFacility } from "../../types/facility";
 
 interface Props {
@@ -12,14 +13,15 @@ interface Props {
 }
 
 export function FacilityFormDialogTitleBar({ isEdit, facility, onClose, busy }: Props) {
+  const { t } = useTranslation();
   return (
     <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={2}>
       <Stack spacing={0.25}>
         <Typography variant="h6" component="span">
-          {isEdit ? "Edit facility" : "Create facility"}
+          {isEdit ? t("facilities.form.editTitle", "Edit facility") : t("facilities.form.createTitle", "Create facility")}
         </Typography>
         <Typography variant="body2" color="text.secondary" component="span">
-          {facility?.name ?? "Main information first, photos second"}
+          {facility?.name ?? t("facilities.form.createSubtitle", "Main information first, photos second")}
         </Typography>
       </Stack>
 

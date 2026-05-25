@@ -1,21 +1,21 @@
-"use client";
+'use client'
 
-import Button from "@mui/material/Button";
-import Container from "@mui/material/Container";
-import FormHelperText from "@mui/material/FormHelperText";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
-import { Plus, Users } from "lucide-react";
-import { useTranslation } from "react-i18next";
-import { AddTeamDrawer } from "./AddTeamDrawer";
-import { AssignTeamMemberRoleDialog } from "./AssignTeamMemberRoleDialog";
-import { TeamMembersGrid } from "./TeamMembersGrid";
-import { useUserManagementPage } from "../hooks/useUserManagementPage";
+import Button from '@mui/material/Button'
+import Container from '@mui/material/Container'
+import FormHelperText from '@mui/material/FormHelperText'
+import MenuItem from '@mui/material/MenuItem'
+import Select from '@mui/material/Select'
+import Stack from '@mui/material/Stack'
+import Typography from '@mui/material/Typography'
+import { Plus, Users } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
+import { AddTeamDrawer } from './AddTeamDrawer'
+import { AssignTeamMemberRoleDialog } from './AssignTeamMemberRoleDialog'
+import { TeamMembersGrid } from './TeamMembersGrid'
+import { useUserManagementPage } from '../hooks/useUserManagementPage'
 
 export function UserManagementPage() {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   const {
     isSuperAdmin,
     isLoading,
@@ -32,48 +32,46 @@ export function UserManagementPage() {
     handleCloseDrawer,
     handleCloseRoleDialog,
     handleAddMember,
-    handleUpdateMemberRole,
-  } = useUserManagementPage();
+    handleUpdateMemberRole
+  } = useUserManagementPage()
 
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth='lg'>
       <Stack spacing={3}>
         <Stack
-          direction={{ xs: "column", sm: "row" }}
-          justifyContent="space-between"
-          alignItems={{ xs: "flex-start", sm: "center" }}
+          direction={{ xs: 'column', sm: 'row' }}
+          justifyContent='space-between'
+          alignItems={{ xs: 'flex-start', sm: 'center' }}
           spacing={2}
         >
           <Stack spacing={0.75}>
-            <Stack direction="row" spacing={1} alignItems="center">
+            <Stack direction='row' spacing={1} alignItems='center'>
               <Users size={20} />
-              <Typography variant="h5">
-                {t("users.title", "User Management")}
-              </Typography>
+              <Typography variant='h5'>{t('users.title', { defaultValue: 'User Management' })}</Typography>
             </Stack>
-            <Typography variant="body2">
+            <Typography variant='body2'>
               {t(
-                "users.subtitle",
-                "Manage the agency team and choose which members can be assigned as hotel managers."
+                'users.subtitle',
+                'Manage the agency team and choose which members can be assigned as hotel managers.'
               )}
             </Typography>
           </Stack>
 
           <Button
-            variant="contained"
+            variant='contained'
             disableElevation
             startIcon={<Plus size={16} />}
             onClick={handleOpenDrawer}
             disabled={!hasSelectedAgency || isLoadingAgencies}
           >
-            {t("users.addTeam", "Add Team")}
+            {t('users.addTeam', { defaultValue: 'Add Team' })}
           </Button>
         </Stack>
 
         {isSuperAdmin ? (
           <Stack spacing={0.5} sx={{ maxWidth: 360 }}>
             <Select
-              size="small"
+              size='small'
               displayEmpty
               value={selectedAgencyId}
               onChange={event => setSelectedAgencyId(event.target.value)}
@@ -81,7 +79,7 @@ export function UserManagementPage() {
               renderValue={value =>
                 value
                   ? agencies.find(a => String(a.id) === value)?.name
-                  : "Select an agency"
+                  : t('users.selectAgency', { defaultValue: 'Select an agency' })
               }
             >
               {agencies.map(agency => (
@@ -92,8 +90,10 @@ export function UserManagementPage() {
             </Select>
             <FormHelperText>
               {isLoadingAgencies
-                ? "Loading agencies..."
-                : "Choose the agency before loading or adding team members."}
+                ? t('users.loadingAgencies', { defaultValue: 'Loading agencies...' })
+                : t('users.selectAgencyHint', {
+                    defaultValue: 'Choose the agency before loading or adding team members.'
+                  })}
             </FormHelperText>
           </Stack>
         ) : null}
@@ -115,5 +115,5 @@ export function UserManagementPage() {
         onSave={handleUpdateMemberRole}
       />
     </Container>
-  );
+  )
 }

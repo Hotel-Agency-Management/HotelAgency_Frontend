@@ -4,12 +4,13 @@ import { useEffect, useRef } from 'react'
 import { gsap, ScrollTrigger } from '@/lib/gsap'
 import BrandLogo from '@/components/landing/BrandLogo'
 import { MagneticButton } from '@/components/animation'
-import { landingContent as lc } from '@/components/landing/landingContent'
+import { useLandingContent } from '@/components/landing/landingContent'
 import { useTheme } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 import themeConfig from '@/core/configs/themeConfig'
 
 export default function Nav() {
+  const lc = useLandingContent()
   const navRef = useRef<HTMLElement>(null)
   const borderRef = useRef<HTMLDivElement>(null)
   const progressRef = useRef<HTMLDivElement>(null)

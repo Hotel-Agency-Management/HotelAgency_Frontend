@@ -5,6 +5,7 @@ import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Tooltip from "@mui/material/Tooltip";
 import { LayoutGrid, List } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { FACILITY_STATUSES } from "../../constants/facilityStatuses";
 import { FACILITY_TYPES } from "../../constants/facilityTypes";
 import type { FacilityFilters, FacilityStatus } from "../../types/facility";
@@ -23,6 +24,7 @@ export function FacilitiesToolbar({
   onFilterChange,
   onViewChange,
 }: Props) {
+  const { t } = useTranslation();
   return (
     <Stack
       direction="row"
@@ -35,7 +37,7 @@ export function FacilitiesToolbar({
         <TextField
           sx={{ minWidth: 280 }}
           size="small"
-          placeholder="Search facility..."
+          placeholder={t("facilities.toolbar.searchPlaceholder", "Search facility...")}
           value={filters.search ?? ""}
           onChange={(event) =>
             onFilterChange({
@@ -59,12 +61,12 @@ export function FacilitiesToolbar({
             displayEmpty: true,
             renderValue: (selected) => {
               const value = selected as string;
-              if (!value) return <span style={{ opacity: 0.7 }}>Status</span>;
+              if (!value) return <span style={{ opacity: 0.7 }}>{t("facilities.toolbar.statusLabel", "Status")}</span>;
               return FACILITY_STATUSES[value as FacilityStatus]?.label ?? value;
             },
           }}
         >
-          <MenuItem value="">All</MenuItem>
+          <MenuItem value="">{t("facilities.toolbar.statusAll", "All")}</MenuItem>
           {Object.entries(FACILITY_STATUSES).map(([value, { label }]) => (
             <MenuItem key={value} value={value}>
               {label}
@@ -86,11 +88,11 @@ export function FacilitiesToolbar({
             displayEmpty: true,
             renderValue: (selected) => {
               const value = selected as string;
-              return value || <Box component="span" sx={{ opacity: 0.7 }}>Type</Box>
+              return value || <Box component="span" sx={{ opacity: 0.7 }}>{t("facilities.toolbar.typeLabel", "Type")}</Box>
             },
           }}
         >
-          <MenuItem value="">All</MenuItem>
+          <MenuItem value="">{t("facilities.toolbar.typeAll", "All")}</MenuItem>
           {FACILITY_TYPES.map((type) => (
             <MenuItem key={type} value={type}>
               {type}
@@ -108,12 +110,12 @@ export function FacilitiesToolbar({
         size="small"
       >
         <ToggleButton value="list">
-          <Tooltip title="List view" placement="top">
+          <Tooltip title={t("facilities.toolbar.listView", "List view")} placement="top">
             <List size={15} />
           </Tooltip>
         </ToggleButton>
         <ToggleButton value="cards">
-          <Tooltip title="Cards view" placement="top">
+          <Tooltip title={t("facilities.toolbar.cardsView", "Cards view")} placement="top">
             <LayoutGrid size={15} />
           </Tooltip>
         </ToggleButton>

@@ -5,6 +5,7 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
+import { useTranslation } from 'react-i18next'
 import ChartFactory from '@/components/charts/ChartFactory'
 import {
   MONTHS,
@@ -17,13 +18,15 @@ import {
 } from '../data/accountantDashboardMock'
 
 export default function RevenueAnalyticsSection() {
+  const { t } = useTranslation()
+
   return (
     <Stack spacing={2.5}>
       <Card variant="outlined">
         <CardContent>
           <Stack spacing={2}>
             <Typography variant="subtitle1" fontWeight={600}>
-              Revenue vs Expenses
+              {t('dashboard.accountant.charts.revenueVsExpenses', { defaultValue: 'Revenue vs Expenses' })}
             </Typography>
             <ChartFactory
               type="Area"
@@ -43,7 +46,7 @@ export default function RevenueAnalyticsSection() {
             <CardContent>
               <Stack spacing={2}>
                 <Typography variant="subtitle1" fontWeight={600}>
-                  Revenue by Payment Type
+                  {t('dashboard.accountant.charts.revenueByPaymentType', { defaultValue: 'Revenue by Payment Type' })}
                 </Typography>
                 <ChartFactory
                   type="Bar"
@@ -62,7 +65,7 @@ export default function RevenueAnalyticsSection() {
             <CardContent>
               <Stack spacing={2}>
                 <Typography variant="subtitle1" fontWeight={600}>
-                  Refund Impact
+                  {t('dashboard.accountant.charts.refundImpact', { defaultValue: 'Refund Impact' })}
                 </Typography>
                 <ChartFactory
                   type="Doughnut"
@@ -83,7 +86,7 @@ export default function RevenueAnalyticsSection() {
             <CardContent sx={{ height: '100%' }}>
               <Stack spacing={2} sx={{ height: '100%' }}>
                 <Typography variant="subtitle1" fontWeight={600}>
-                  Revenue Growth
+                  {t('dashboard.accountant.charts.revenueGrowth', { defaultValue: 'Revenue Growth' })}
                 </Typography>
                 <Stack
                   flex={1}
@@ -100,7 +103,7 @@ export default function RevenueAnalyticsSection() {
                     height={220}
                   />
                   <Typography variant="caption" align="center" display="block" mt={0.5}>
-                    Compared to last month
+                    {t('dashboard.accountant.charts.comparedToLastMonth', { defaultValue: 'Compared to last month' })}
                   </Typography>
                 </Stack>
               </Stack>
@@ -113,7 +116,7 @@ export default function RevenueAnalyticsSection() {
             <CardContent>
               <Stack spacing={2}>
                 <Typography variant="subtitle1" fontWeight={600}>
-                  Monthly Revenue Trend
+                  {t('dashboard.accountant.charts.monthlyRevenueTrend', { defaultValue: 'Monthly Revenue Trend' })}
                 </Typography>
                 <ChartFactory
                   type="Bar"

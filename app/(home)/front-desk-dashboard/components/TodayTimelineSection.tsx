@@ -1,21 +1,24 @@
 'use client'
 
 import { Card, CardContent, Typography, Stack, Chip, Divider } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 import Avatar from '@/components/ui/Avatar'
 import Icon from '@/components/icon/Icon'
 import { TODAY_ARRIVALS } from '../data/frontDeskMock'
 
 export function TodayArrivalsWidget() {
+  const { t } = useTranslation()
+
   return (
     <Card variant="outlined" sx={{ height: '100%' }}>
       <CardContent>
         <Stack direction="row" justifyContent="space-between" alignItems="center">
           <Typography variant="h6" fontWeight={600}>
-            Today&apos;s Arrivals
+            {t('dashboard.frontDesk.todayArrivals.title', { defaultValue: "Today's Arrivals" })}
           </Typography>
 
           <Typography variant="caption">
-            {TODAY_ARRIVALS.length} arrivals
+            {t('dashboard.frontDesk.todayArrivals.count', { defaultValue: '{{count}} arrivals', count: TODAY_ARRIVALS.length })}
           </Typography>
         </Stack>
 
@@ -51,7 +54,7 @@ export function TodayArrivalsWidget() {
                 </Stack>
 
                 <Typography variant="caption">
-                  Room {guest.roomNumber}
+                  {t('dashboard.frontDesk.todayArrivals.room', { defaultValue: 'Room' })} {guest.roomNumber}
                 </Typography>
 
                 {guest.note && (

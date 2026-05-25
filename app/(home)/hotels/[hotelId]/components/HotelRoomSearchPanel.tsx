@@ -1,18 +1,10 @@
 'use client'
 
-import {
-  FormControl,
-  Grid,
-  InputAdornment,
-  InputLabel,
-  MenuItem,
-  Paper,
-  Select,
-  TextField,
-} from '@mui/material'
+import { FormControl, Grid, InputAdornment, InputLabel, MenuItem, Paper, Select, TextField } from '@mui/material'
 import { DatePickerField } from '@/components/common/DatePickerField'
 import dayjs from 'dayjs'
 import { Search, Users } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import type { CustomerRoomSearchFilters } from '../types/customerHotelDetails'
 import { parsePositiveNumber } from '../utils/number'
 
@@ -24,19 +16,18 @@ interface RoomTypeOption {
 interface HotelRoomSearchPanelProps {
   filters: CustomerRoomSearchFilters
   roomTypes: RoomTypeOption[]
-  onChange: <TKey extends keyof CustomerRoomSearchFilters>(
-    key: TKey,
-    value: CustomerRoomSearchFilters[TKey]
-  ) => void
+  onChange: <TKey extends keyof CustomerRoomSearchFilters>(key: TKey, value: CustomerRoomSearchFilters[TKey]) => void
 }
 
 export function HotelRoomSearchPanel({ filters, roomTypes, onChange }: HotelRoomSearchPanelProps) {
+  const { t } = useTranslation()
+
   return (
-    <Paper elevation={0} variant="customerHotelRoomSearch">
+    <Paper elevation={0} variant='customerHotelRoomSearch'>
       <Grid container spacing={2}>
         <Grid size={{ xs: 12, md: 3 }}>
           <DatePickerField
-            label="Check-in"
+            label={t('hotelPortal.booking.checkIn', { defaultValue: 'Check-in' })}
             value={filters.checkIn}
             onChange={value => onChange('checkIn', value)}
           />
@@ -44,7 +35,7 @@ export function HotelRoomSearchPanel({ filters, roomTypes, onChange }: HotelRoom
 
         <Grid size={{ xs: 12, md: 3 }}>
           <DatePickerField
-            label="Check-out"
+            label={t('hotelPortal.booking.checkOut', { defaultValue: 'Check-out' })}
             value={filters.checkOut}
             minDate={filters.checkIn ? dayjs(filters.checkIn).add(1, 'day').format('YYYY-MM-DD') : undefined}
             onChange={value => onChange('checkOut', value)}
@@ -54,19 +45,19 @@ export function HotelRoomSearchPanel({ filters, roomTypes, onChange }: HotelRoom
         <Grid size={{ xs: 12, sm: 6, md: 2 }}>
           <TextField
             fullWidth
-            label="Guests"
-            type="number"
+            label={t('hotelPortal.booking.guests', { defaultValue: 'Guests' })}
+            type='number'
             value={filters.guests}
             onChange={event => onChange('guests', parsePositiveNumber(event.target.value, 1))}
             slotProps={{
               input: {
                 inputProps: { min: 1 },
                 startAdornment: (
-                  <InputAdornment position="start">
+                  <InputAdornment position='start'>
                     <Users size={18} />
                   </InputAdornment>
-                ),
-              },
+                )
+              }
             }}
           />
         </Grid>
@@ -74,14 +65,14 @@ export function HotelRoomSearchPanel({ filters, roomTypes, onChange }: HotelRoom
         <Grid size={{ xs: 12, sm: 6, md: 2 }}>
           <TextField
             fullWidth
-            label="Rooms"
-            type="number"
+            label={t('hotelPortal.booking.rooms', { defaultValue: 'Rooms' })}
+            type='number'
             value={filters.rooms}
             onChange={event => onChange('rooms', parsePositiveNumber(event.target.value, 1))}
             slotProps={{
               input: {
-                inputProps: { min: 1 },
-              },
+                inputProps: { min: 1 }
+              }
             }}
           />
         </Grid>
@@ -89,14 +80,14 @@ export function HotelRoomSearchPanel({ filters, roomTypes, onChange }: HotelRoom
         <Grid size={{ xs: 12, md: 2 }}>
           <TextField
             fullWidth
-            label="Max price"
-            type="number"
+            label={t('hotelPortal.filters.maxPrice', { defaultValue: 'Max price' })}
+            type='number'
             value={filters.maxPrice}
             onChange={event => onChange('maxPrice', event.target.value)}
             slotProps={{
               input: {
-                inputProps: { min: 0 },
-              },
+                inputProps: { min: 0 }
+              }
             }}
           />
         </Grid>
@@ -104,32 +95,36 @@ export function HotelRoomSearchPanel({ filters, roomTypes, onChange }: HotelRoom
         <Grid size={{ xs: 12, md: 6 }}>
           <TextField
             fullWidth
-            label="Search rooms"
+            label={t('hotelPortal.details.searchRooms', { defaultValue: 'Search rooms' })}
             value={filters.query}
             onChange={event => onChange('query', event.target.value)}
-            placeholder="Room type, amenity, view"
+            placeholder={t('hotelPortal.details.searchRoomsPlaceholder', { defaultValue: 'Room type, amenity, view' })}
             slotProps={{
               input: {
                 startAdornment: (
-                  <InputAdornment position="start">
+                  <InputAdornment position='start'>
                     <Search size={18} />
                   </InputAdornment>
-                ),
-              },
+                )
+              }
             }}
           />
         </Grid>
 
         <Grid size={{ xs: 12, md: 6 }}>
           <FormControl fullWidth>
-            <InputLabel id="customer-room-type-label">Room type</InputLabel>
+            <InputLabel id='customer-room-type-label'>
+              {t('hotelPortal.filters.roomType', { defaultValue: 'Room type' })}
+            </InputLabel>
             <Select
-              labelId="customer-room-type-label"
-              label="Room type"
+              labelId='customer-room-type-label'
+              label={t('hotelPortal.filters.roomType', { defaultValue: 'Room type' })}
               value={filters.roomTypeId}
               onChange={event => onChange('roomTypeId', event.target.value)}
             >
-              <MenuItem value="all">All room types</MenuItem>
+              <MenuItem value='all'>
+                {t('hotelPortal.filters.allRoomTypes', { defaultValue: 'All room types' })}
+              </MenuItem>
               {roomTypes.map(roomType => (
                 <MenuItem key={roomType.id} value={roomType.name}>
                   {roomType.name}

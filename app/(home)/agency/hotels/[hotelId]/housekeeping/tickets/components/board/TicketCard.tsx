@@ -18,6 +18,7 @@ import {
   Trash2,
 } from "lucide-react";
 import Can from "@/components/ability/Can";
+import { useTranslation } from "react-i18next";
 import { HOUSEKEEPING_LOCATION_TYPE } from "../../constants/ticket";
 import {
   CommentCountIndicator,
@@ -53,6 +54,7 @@ export function TicketCard({
   onOpenDetail,
 }: TicketCardProps) {
   const theme = useTheme();
+  const { t } = useTranslation();
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: ticket.id,
     disabled: isOverlay,
@@ -165,13 +167,13 @@ export function TicketCard({
         <MenuItem onClick={handleEdit} dense>
           <Stack direction="row" gap={1.5} alignItems="center">
             <Pencil size={14} color={theme.palette.text.secondary} />
-            <Typography variant="body2">Edit ticket</Typography>
+            <Typography variant="body2">{t("housekeeping.tickets.actions.editTicket", "Edit ticket")}</Typography>
           </Stack>
         </MenuItem>
         <MenuItem onClick={handleDelete} dense sx={{ color: theme.palette.error.main }}>
           <Stack direction="row" gap={1.5} alignItems="center">
             <Trash2 size={14} />
-            <Typography variant="body2" color="inherit">Delete ticket</Typography>
+            <Typography variant="body2" color="inherit">{t("housekeeping.tickets.actions.deleteTicket", "Delete ticket")}</Typography>
           </Stack>
         </MenuItem>
         {ticket.locationType === HOUSEKEEPING_LOCATION_TYPE.ROOM && onReportDamage && (
@@ -180,7 +182,7 @@ export function TicketCard({
             <MenuItem onClick={handleReportDamage} dense>
               <Stack direction="row" gap={1.5} alignItems="center">
                 <AlertTriangle size={14} color={theme.palette.warning.main} />
-                <Typography variant="body2" color="warning.main">Report damage</Typography>
+                <Typography variant="body2" color="warning.main">{t("housekeeping.tickets.actions.reportDamage", "Report damage")}</Typography>
               </Stack>
             </MenuItem>
           </Can>

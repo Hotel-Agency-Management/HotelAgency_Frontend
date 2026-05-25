@@ -12,6 +12,7 @@ import Paper from "@mui/material/Paper";
 import Select, { type SelectChangeEvent } from "@mui/material/Select";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import { useTranslation } from "react-i18next";
 import { STAFF_OPTIONS } from "../constants/issueAlerts";
 import type { HousekeepingIssue } from "../types/issue";
 import { SeverityChip } from "./SeverityChip";
@@ -31,6 +32,8 @@ export function ReassignDialog({
   onStaffChange,
   onConfirm
 }: ReassignDialogProps) {
+  const { t } = useTranslation();
+
   if (!issue) {
     return null;
   }
@@ -41,10 +44,10 @@ export function ReassignDialog({
         <Stack direction="row" alignItems="center" justifyContent="space-between" gap={2}>
           <Stack>
             <Typography variant="h6" fontWeight={800}>
-              Reassign Room {issue.roomNumber}
+              {t("housekeeping.issues.reassignDialog.title", "Reassign Room {{number}}", { number: issue.roomNumber })}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Choose the staff member who should handle this issue.
+              {t("housekeeping.issues.reassignDialog.subtitle", "Choose the staff member who should handle this issue.")}
             </Typography>
           </Stack>
           <SeverityChip severity={issue.severity} />
@@ -55,7 +58,7 @@ export function ReassignDialog({
         <Stack gap={1.5}>
           <Paper variant="outlined" sx={{ p: 2, borderRadius: 1 }}>
             <Typography variant="body2" color="text.secondary">
-              Issue
+              {t("housekeeping.issues.reassignDialog.issueLabel", "Issue")}
             </Typography>
             <Typography variant="subtitle1" fontWeight={700}>
               {issue.issueType} - {issue.delayLabel}
@@ -63,17 +66,17 @@ export function ReassignDialog({
           </Paper>
 
           <FormControl fullWidth>
-            <InputLabel id="reassign-staff-label">Assigned Staff</InputLabel>
+            <InputLabel id="reassign-staff-label">{t("housekeeping.issues.reassignDialog.assignedStaff", "Assigned Staff")}</InputLabel>
             <Select
               labelId="reassign-staff-label"
               value={selectedStaff}
-              label="Assigned Staff"
+              label={t("housekeeping.issues.reassignDialog.assignedStaff", "Assigned Staff")}
               onChange={(event: SelectChangeEvent) => onStaffChange(event.target.value)}
             >
               {STAFF_OPTIONS.map((staff) => (
                 <MenuItem key={staff} value={staff}>
                   {staff}
-                  {staff === issue.assignedTo ? " (current)" : ""}
+                  {staff === issue.assignedTo ? ` ${t("housekeeping.issues.reassignDialog.currentSuffix", "(current)")}` : ""}
                 </MenuItem>
               ))}
             </Select>
@@ -83,10 +86,10 @@ export function ReassignDialog({
 
       <DialogActions>
         <Button onClick={onClose}>
-          Close
+          {t("housekeeping.issues.reassignDialog.close", "Close")}
         </Button>
         <Button variant="contained" disableElevation onClick={onConfirm}>
-          Confirm Reassign
+          {t("housekeeping.issues.reassignDialog.confirmReassign", "Confirm Reassign")}
         </Button>
       </DialogActions>
     </Dialog>

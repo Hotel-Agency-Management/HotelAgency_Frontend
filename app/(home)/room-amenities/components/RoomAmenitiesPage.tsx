@@ -1,6 +1,7 @@
 "use client";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
+import { useTranslation } from "react-i18next";
 import { useRoomAmenitiesPage } from "../hooks/useRoomAmenitiesPage";
 import { DeleteRoomAmenityDialog } from "./DeleteRoomAmenityDialog";
 import { RoomAmenityFormDialog } from "./form/RoomAmenityFormDialog";
@@ -9,6 +10,7 @@ import { RoomAmenitiesPageHeader } from "./RoomAmenitiesPageHeader";
 import { RoomAmenitiesToolbar } from "./RoomAmenitiesToolbar";
 
 export function RoomAmenitiesPage() {
+  const { t } = useTranslation()
   const {
     filters, formOpen,
     deleteTargetId, deleteTarget, amenities,
@@ -29,7 +31,7 @@ export function RoomAmenitiesPage() {
         filters={filters}
         onFilterChange={setFilters}
       />
-      {error ? <Alert severity="error">Failed to load room amenities</Alert> : null}
+      {error ? <Alert severity="error">{t('roomAmenities.loadError', { defaultValue: 'Failed to load room amenities' })}</Alert> : null}
       <RoomAmenitiesCards
         amenities={amenities}
         isLoading={isLoading}

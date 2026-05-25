@@ -1,15 +1,6 @@
 'use client'
 
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Button,
-  Typography,
-  Stack,
-  Alert,
-} from '@mui/material'
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, Stack, Alert } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import type { DamageReport } from '../types/damageReport'
 
@@ -26,7 +17,7 @@ export default function ResolveDamageDialog({
   report,
   onClose,
   onMarkInsured,
-  onGenerateInvoice,
+  onGenerateInvoice
 }: ResolveDamageDialogProps) {
   const { t } = useTranslation()
 
@@ -35,53 +26,56 @@ export default function ResolveDamageDialog({
   const hasInsurance = report.hasInsurance === true
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle>{t('damageReports.resolveTitle', 'Resolve Damage Report')}</DialogTitle>
+    <Dialog open={open} onClose={onClose} maxWidth='sm' fullWidth>
+      <DialogTitle>{t('damageReports.resolveTitle', { defaultValue: 'Resolve Damage Report' })}</DialogTitle>
       <DialogContent>
         <Stack gap={2}>
           <Stack gap={0.5}>
-            <Typography variant="body2">
-              {t('damageReports.room', 'Room')}: <strong>{report.roomNumber}</strong>
+            <Typography variant='body2'>
+              {t('damageReports.room', { defaultValue: 'Room' })}: <strong>{report.roomNumber}</strong>
             </Typography>
-            <Typography variant="body2">{report.description}</Typography>
+            <Typography variant='body2'>{report.description}</Typography>
           </Stack>
 
           {hasInsurance ? (
-            <Alert severity="success">
+            <Alert severity='success'>
               {t(
                 'damageReports.insuredNotice',
                 'This guest has insurance. The damage can be covered at no charge to the guest.'
               )}
             </Alert>
           ) : (
-            <Alert severity="warning">
-              {t(
-                'damageReports.noInsuranceNotice',
-                'This guest has no insurance. A damage invoice must be generated.'
-              )}
+            <Alert severity='warning'>
+              {t('damageReports.noInsuranceNotice', { defaultValue: 'This guest has no insurance. A damage invoice must be generated.' })}
             </Alert>
           )}
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} color="inherit">
-          {t('common.cancel', 'Cancel')}
+        <Button onClick={onClose} color='inherit'>
+          {t('common.cancel', { defaultValue: 'Cancel' })}
         </Button>
         {hasInsurance ? (
           <Button
-            onClick={() => { onMarkInsured(report.id); onClose() }}
-            variant="contained"
-            color="success"
+            onClick={() => {
+              onMarkInsured(report.id)
+              onClose()
+            }}
+            variant='contained'
+            color='success'
           >
-            {t('damageReports.markInsured', 'Mark as Covered')}
+            {t('damageReports.markInsured', { defaultValue: 'Mark as Covered' })}
           </Button>
         ) : (
           <Button
-            onClick={() => { onGenerateInvoice(report); onClose() }}
-            variant="contained"
-            color="primary"
+            onClick={() => {
+              onGenerateInvoice(report)
+              onClose()
+            }}
+            variant='contained'
+            color='primary'
           >
-            {t('damageReports.generateInvoice', 'Generate Invoice')}
+            {t('damageReports.generateInvoice', { defaultValue: 'Generate Invoice' })}
           </Button>
         )}
       </DialogActions>

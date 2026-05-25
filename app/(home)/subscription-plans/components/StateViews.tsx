@@ -1,5 +1,6 @@
 import { Box, Typography, Button, CircularProgress, Stack } from '@mui/material'
 import { Refresh } from '@mui/icons-material'
+import { useTranslation } from 'react-i18next'
 
 export function LoadingState() {
   return (
@@ -10,13 +11,15 @@ export function LoadingState() {
 }
 
 export function EmptyState() {
+  const { t } = useTranslation()
+
   return (
     <Box textAlign='center' py={8}>
       <Typography variant='subtitle1' fontWeight={600} gutterBottom>
-        No plans yet
+        {t('subscriptionPlans.empty', { defaultValue: 'No plans yet' })}
       </Typography>
       <Typography variant='body2' color='text.secondary'>
-        Create your first subscription plan using the form above.
+        {t('subscriptionPlans.emptyHint', { defaultValue: 'Create your first subscription plan using the form above.' })}
       </Typography>
     </Box>
   )
@@ -27,17 +30,19 @@ interface ErrorStateProps {
 }
 
 export function ErrorState({ onRetry }: ErrorStateProps) {
+  const { t } = useTranslation()
+
   return (
     <Box textAlign='center' py={8}>
       <Typography variant='subtitle1' fontWeight={600} gutterBottom>
-        Failed to load plans
+        {t('subscriptionPlans.loadError', { defaultValue: 'Failed to load plans' })}
       </Typography>
       <Stack spacing={2}>
       <Typography variant='body2' color='text.secondary'>
-        Something went wrong. Please try again.
+        {t('subscriptionPlans.loadErrorHint', { defaultValue: 'Something went wrong. Please try again.' })}
       </Typography>
       <Button startIcon={<Refresh />} onClick={onRetry} variant='outlined' size='small'>
-        Retry
+        {t('subscriptionPlans.retry', { defaultValue: 'Retry' })}
       </Button>
       </Stack>
     </Box>

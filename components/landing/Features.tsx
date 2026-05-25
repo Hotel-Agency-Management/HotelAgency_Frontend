@@ -3,15 +3,15 @@
 import { useEffect, useRef, useCallback } from 'react'
 import { gsap } from '@/lib/gsap'
 import SectionLabel from '@/components/landing/SectionLabel'
-import { landingContent as lc } from '@/components/landing/landingContent'
+import { useLandingContent } from '@/components/landing/landingContent'
 import FadeIn from '@/components/animation/FadeIn'
 import { useTheme } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 import themeConfig from '@/core/configs/themeConfig'
 
-const features = lc.features.cards
-
 export default function Features() {
+  const lc = useLandingContent()
+  const features = lc.features.cards
   const sectionRef = useRef<HTMLElement>(null)
   const gridRef = useRef<HTMLDivElement>(null)
   const cardRefs = useRef<(HTMLDivElement | null)[]>([])
@@ -94,21 +94,6 @@ export default function Features() {
           >
             {lc.features.heading}
           </h2>
-        </FadeIn>
-
-        <FadeIn direction='up' distance={24} transition={{ delay: 0.14 }}>
-          <p
-            style={{
-              fontFamily: 'var(--font)',
-              color: textSecondary,
-              fontSize: '1rem',
-              lineHeight: 1.7,
-              maxWidth: '760px',
-              marginTop: '14px'
-            }}
-          >
-            Built to help hospitality businesses scale faster, improve booking conversion, and operate with full visibility.
-          </p>
         </FadeIn>
       </div>
 

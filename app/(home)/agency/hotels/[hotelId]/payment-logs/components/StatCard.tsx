@@ -2,6 +2,7 @@
 
 import { Skeleton, Stack, Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
+import { useTranslation } from 'react-i18next'
 import Icon from '@/components/icon/Icon'
 import { formatAmount } from '../utils/dateFormat'
 import { PaymentSummaryCard, StatusDotBadge } from '../styles/StyledComponents'
@@ -17,6 +18,7 @@ export interface StatCardProps {
 }
 
 export function StatCard({ label, icon, amount, count, color, isLoading, active }: StatCardProps) {
+  const { t } = useTranslation()
   const theme = useTheme()
   const palette = theme.palette[color]
 
@@ -48,7 +50,7 @@ export function StatCard({ label, icon, amount, count, color, isLoading, active 
           <Stack direction="row" alignItems="center" gap={0.75}>
             <StatusDotBadge variant="dot" $color={palette.main} />
             <Typography variant="caption" color="text.secondary">
-              {count} transaction{count !== 1 ? 's' : ''} total
+              {t('paymentLogs.stat.transactionCount', { count })}
             </Typography>
           </Stack>
         )}

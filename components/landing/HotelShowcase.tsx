@@ -3,11 +3,11 @@
 import { useTheme } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 import { FadeIn, StaggerGroup, StaggerItem } from '@/components/animation'
-import { landingContent as lc } from '@/components/landing/landingContent'
-
-const showcase = lc.hotelShowcase
+import { useLandingContent } from '@/components/landing/landingContent'
 
 export default function HotelShowcase() {
+  const lc = useLandingContent()
+  const showcase = lc.hotelShowcase
   const theme = useTheme()
   const textPrimary = theme.palette.text.primary
   const textSecondary = theme.palette.text.secondary

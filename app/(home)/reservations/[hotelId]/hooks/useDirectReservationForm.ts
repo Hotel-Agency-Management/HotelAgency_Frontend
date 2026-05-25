@@ -1,11 +1,12 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import dayjs from 'dayjs'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import {
-  directReservationSchema,
+  createDirectReservationSchema,
   getDirectReservationDefaultValues,
   type DirectReservationFormInput,
   type DirectReservationFormValues,
@@ -21,6 +22,9 @@ export function useDirectReservationForm({
   rooms,
   onSubmit,
 }: UseDirectReservationFormOptions) {
+  const { t } = useTranslation()
+  const schema = useMemo(() => createDirectReservationSchema(t), [t])
+
   const {
     control,
     formState: { errors, isSubmitting },
@@ -30,7 +34,7 @@ export function useDirectReservationForm({
     trigger,
     watch,
   } = useForm<DirectReservationFormInput, unknown, DirectReservationFormValues>({
-    resolver: zodResolver(directReservationSchema),
+    resolver: zodResolver(schema),
     defaultValues: getDirectReservationDefaultValues(0),
     mode: 'onBlur',
   })
