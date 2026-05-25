@@ -4,6 +4,7 @@ import Badge from '@/components/landing/Badge'
 import SectionLabel from '@/components/landing/SectionLabel'
 import { useLandingContent } from '@/components/landing/landingContent'
 import { FadeIn, StaggerGroup, StaggerItem, TiltCard } from '@/components/animation'
+import Grid from '@mui/material/Grid'
 import { useTheme } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 
@@ -57,117 +58,110 @@ export default function SpecialOffers() {
         </FadeIn>
       </div>
 
-      <StaggerGroup
-        staggerDelay={0.12}
-        style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '20px' }}
-      >
-        {lc.offers.items.map((offer, index) => (
-          <StaggerItem key={offer.title} style={{ height: '100%' }}>
-            <TiltCard
-              maxRotation={6}
-              scaleOnHover={1.012}
-              style={{
-                height: '100%',
-                borderRadius: '28px',
-                overflow: 'hidden',
-                background: bgPaper,
-                border: `1px solid ${index === 0 ? alpha(primaryMain, 0.22) : divider}`,
-                display: 'flex',
-                flexDirection: 'column',
-                minHeight: 460
-              }}
-            >
-              <div
-                style={{
-                  height: '220px',
-                  backgroundImage: `linear-gradient(180deg, ${alpha(theme.palette.common.black, 0.04)} 0%, ${alpha(theme.palette.common.black, 0.36)} 100%), url('${offer.image}')`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center'
-                }}
-              />
+      <StaggerGroup staggerDelay={0.12}>
+        <Grid container spacing={2.5}>
+          {lc.offers.items.map((offer, index) => (
+            <Grid key={offer.title} size={{ xs: 12, md: 4 }}>
+              <StaggerItem style={{ height: '100%' }}>
+                <TiltCard
+                  maxRotation={6}
+                  scaleOnHover={1.012}
+                  style={{
+                    height: '100%',
+                    borderRadius: '28px',
+                    overflow: 'hidden',
+                    background: bgPaper,
+                    border: `1px solid ${index === 0 ? alpha(primaryMain, 0.22) : divider}`,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    minHeight: 460
+                  }}
+                >
+                  <div
+                    style={{
+                      height: '220px',
+                      backgroundImage: `linear-gradient(180deg, ${alpha(theme.palette.common.black, 0.04)} 0%, ${alpha(theme.palette.common.black, 0.36)} 100%), url('${offer.image}')`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center'
+                    }}
+                  />
 
-              <div
-                style={{
-                  padding: '26px 26px 24px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  flex: 1,
-                  background:
-                    index === 0
-                      ? `linear-gradient(180deg, ${alpha(primaryMain, 0.08)} 0%, ${bgPaper} 100%)`
-                      : bgPaper
-                }}
-              >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
-                  <Badge label={offer.badge} variant={index === 0 ? 'primary' : index === 1 ? 'yellow' : 'purple'} />
-                  {offer.value && (
+                  <div
+                    style={{
+                      padding: '26px 26px 24px',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      flex: 1,
+                      background:
+                        index === 0
+                          ? `linear-gradient(180deg, ${alpha(primaryMain, 0.08)} 0%, ${bgPaper} 100%)`
+                          : bgPaper
+                    }}
+                  >
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+                      <Badge label={offer.badge} variant={index === 0 ? 'primary' : index === 1 ? 'yellow' : 'purple'} />
+                      {offer.value && (
+                        <p
+                          style={{
+                            fontFamily: 'var(--font)',
+                            color: primaryMain,
+                            fontSize: '0.8rem',
+                            letterSpacing: '0.1em',
+                            textTransform: 'uppercase',
+                            margin: 0,
+                            textAlign: 'right'
+                          }}
+                        >
+                          {offer.value}
+                        </p>
+                      )}
+                    </div>
+
+                    <h3
+                      style={{
+                        fontFamily: 'var(--font)',
+                        color: textPrimary,
+                        fontSize: '1.28rem',
+                        lineHeight: 1.16,
+                        margin: '0 0 12px'
+                      }}
+                    >
+                      {offer.title}
+                    </h3>
+
                     <p
                       style={{
                         fontFamily: 'var(--font)',
-                        color: primaryMain,
-                        fontSize: '0.8rem',
-                        letterSpacing: '0.1em',
-                        textTransform: 'uppercase',
+                        color: textSecondary,
+                        fontSize: '0.9rem',
+                        lineHeight: 1.7,
                         margin: 0,
-                        textAlign: 'right'
+                        flex: 1
                       }}
                     >
-                      {offer.value}
+                      {offer.desc}
                     </p>
-                  )}
-                </div>
 
-                <h3
-                  style={{
-                    fontFamily: 'var(--font)',
-                    color: textPrimary,
-                    fontSize: '1.28rem',
-                    lineHeight: 1.16,
-                    margin: '0 0 12px'
-                  }}
-                >
-                  {offer.title}
-                </h3>
-
-                <p
-                  style={{
-                    fontFamily: 'var(--font)',
-                    color: textSecondary,
-                    fontSize: '0.9rem',
-                    lineHeight: 1.7,
-                    margin: 0,
-                    flex: 1
-                  }}
-                >
-                  {offer.desc}
-                </p>
-
-                {offer.note && (
-                  <p
-                    style={{
-                      fontFamily: 'var(--font)',
-                      color: textSecondary,
-                      fontSize: '0.82rem',
-                      lineHeight: 1.62,
-                      margin: '20px 0 0'
-                    }}
-                  >
-                    {offer.note}
-                  </p>
-                )}
-              </div>
-            </TiltCard>
-          </StaggerItem>
-        ))}
+                    {offer.note && (
+                      <p
+                        style={{
+                          fontFamily: 'var(--font)',
+                          color: textSecondary,
+                          fontSize: '0.82rem',
+                          lineHeight: 1.62,
+                          margin: '20px 0 0'
+                        }}
+                      >
+                        {offer.note}
+                      </p>
+                    )}
+                  </div>
+                </TiltCard>
+              </StaggerItem>
+            </Grid>
+          ))}
+        </Grid>
       </StaggerGroup>
-
-      <style>{`
-        @media (max-width: 959px) {
-          #offers [style*="grid-template-columns: repeat(3"] {
-            grid-template-columns: 1fr !important;
-          }
-        }
-      `}</style>
     </section>
   )
 }
