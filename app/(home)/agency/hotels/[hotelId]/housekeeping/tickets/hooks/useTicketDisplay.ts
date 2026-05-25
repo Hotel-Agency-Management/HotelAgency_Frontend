@@ -17,12 +17,12 @@ export function useTicketDisplay(
   const ticketTypeLabels = getTicketTypeLabels(t);
   const statusLabels = getStatusLabels(t);
 
-  const priorityColor = theme.palette[ticket ? PRIORITY_COLOR_KEY[ticket.priority] : "secondary"].main;
-  const ticketTypeColor = theme.palette[ticket ? TICKET_TYPE_COLOR_KEY[ticket.ticketType] : "secondary"].main;
-  const statusColor = theme.palette[ticket ? STATUS_COLOR_KEY[ticket.status] : "secondary"].main;
-  const priorityLabel = ticket ? priorityLabels[ticket.priority] : "";
-  const ticketTypeLabel = ticket ? ticketTypeLabels[ticket.ticketType] : "";
-  const statusLabel = ticket ? statusLabels[ticket.status] : "";
+  const priorityColor = theme.palette[ticket ? (PRIORITY_COLOR_KEY[ticket.priority] ?? "secondary") : "secondary"].main;
+  const ticketTypeColor = theme.palette[ticket ? (TICKET_TYPE_COLOR_KEY[ticket.ticketType] ?? "secondary") : "secondary"].main;
+  const statusColor = theme.palette[ticket ? (STATUS_COLOR_KEY[ticket.status] ?? "secondary") : "secondary"].main;
+  const priorityLabel = ticket ? (priorityLabels[ticket.priority] ?? String(ticket.priority)) : "";
+  const ticketTypeLabel = ticket ? (ticketTypeLabels[ticket.ticketType] ?? String(ticket.ticketType)) : "";
+  const statusLabel = ticket ? (statusLabels[ticket.status] ?? String(ticket.status)) : "";
   const locationLabel = ticket && getTicketLocationLabel ? getTicketLocationLabel(ticket) : "";
   const initials = ticket ? getInitials(ticket.assignedTo) : "";
 

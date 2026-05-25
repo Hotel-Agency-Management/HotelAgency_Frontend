@@ -20,8 +20,11 @@ export interface HousekeepingTicket {
   description: string;
   roomId?: string;
   facilityId?: string;
+  /** Pre-formatted location label from board/list API responses. */
+  locationLabel?: string;
   status: HousekeepingTicketStatus;
   assignedTo: string;
+  assignedToId?: number;
   priority: HousekeepingTicketPriority;
   reservationId?: string;
   deadline?: string;
@@ -35,6 +38,7 @@ export interface HousekeepingTicketValues {
   roomId?: string;
   facilityId?: string;
   assignedTo: string;
+  assignedToId?: number;
   priority: HousekeepingTicketPriority;
   deadline: string;
 }
@@ -42,22 +46,6 @@ export interface HousekeepingTicketValues {
 export interface HousekeepingTicketFilters {
   status: HousekeepingTicketStatus | HousekeepingFilterAll;
   assignedTo: string | HousekeepingFilterAll;
-}
-
-export interface HousekeepingTicketStore {
-  tickets: HousekeepingTicket[];
-  createTicket: (values: HousekeepingTicketValues) => void;
-  moveTicket: (
-    ticketId: string,
-    newStatus: HousekeepingTicketStatus,
-    targetTicketId?: string
-  ) => void;
-  updateTicket: (ticketId: string, values: HousekeepingTicketValues) => void;
-  deleteTicket: (ticketId: string) => void;
-  ticketComments: Record<string, TicketComment[]>;
-  addComment: (ticketId: string, values: AddCommentValues, author: string) => void;
-  editComment: (ticketId: string, commentId: string, newBody: string) => void;
-  deleteComment: (ticketId: string, commentId: string) => void;
 }
 
 export type { TicketComment, AddCommentValues };
