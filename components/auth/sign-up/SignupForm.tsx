@@ -11,7 +11,13 @@ import AccountStep from './components/AccountStep'
 import SignupStepper from './components/SignupStepper'
 import FadeIn from '@/components/animation/FadeIn'
 import type { SignupFormProps } from './types/signup'
-import { fadeInUp, slideInFromLeft, slideInFromRight, slideTransition, staggerContainer } from './constants/signupAnimation'
+import {
+  fadeInUp,
+  slideInFromLeft,
+  slideInFromRight,
+  slideTransition,
+  staggerContainer
+} from './constants/signupAnimation'
 
 const defaultDocumentValues = {
   documents: [{ title: '', file: null }]
@@ -35,36 +41,29 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSwitchToLogin, initialStep = 
     onAgencyInfoSubmit,
     onAgencyDocumentsSubmit,
     setActiveStep
-  } = useSignupForm({ initialStep }) 
+  } = useSignupForm({ initialStep })
 
-  const { control, handleSubmit, formState: { errors, isSubmitting } } = form
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isSubmitting }
+  } = form
 
   const stepLabels = [
-    t('signup.steps.account', 'Account'),
-    t('signup.steps.agency', 'Agency'),
-    t('signup.steps.files', 'Files')
+    t('signup.steps.account', { defaultValue: 'Account' }),
+    t('signup.steps.agency', { defaultValue: 'Agency' }),
+    t('signup.steps.files', { defaultValue: 'Files' })
   ]
 
   return (
     <Box>
       <AnimatePresence mode='wait'>
-
         {activeStep === 0 && (
-          <FadeIn
-            key='account-step'
-            {...slideInFromLeft}
-            transition={slideTransition}
-            direction='none'
-          >
-            <MotionStack
-              spacing={2}
-              variants={staggerContainer}
-              initial='hidden'
-              animate='show'
-            >
+          <FadeIn key='account-step' {...slideInFromLeft} transition={slideTransition} direction='none'>
+            <MotionStack spacing={2} variants={staggerContainer} initial='hidden' animate='show'>
               <FadeIn variants={fadeInUp}>
                 <Typography variant='h4' textAlign='center'>
-                  {t('signup.title', 'Create Account')}
+                  {t('signup.title', { defaultValue: 'Create Account' })}
                 </Typography>
               </FadeIn>
 
@@ -95,12 +94,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSwitchToLogin, initialStep = 
         )}
 
         {activeStep === 1 && (
-          <FadeIn
-            key='agency-step'
-            {...slideInFromRight}
-            transition={slideTransition}
-            direction='none'
-          >
+          <FadeIn key='agency-step' {...slideInFromRight} transition={slideTransition} direction='none'>
             <Stack spacing={3}>
               <SignupStepper activeStep={activeStep} labels={stepLabels} />
               <AgencyForm
@@ -115,25 +109,19 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSwitchToLogin, initialStep = 
         )}
 
         {activeStep === 2 && (
-          <FadeIn
-            key='documents-step'
-            {...slideInFromRight}
-            transition={slideTransition}
-            direction='none'
-          >
+          <FadeIn key='documents-step' {...slideInFromRight} transition={slideTransition} direction='none'>
             <Stack spacing={3}>
               <SignupStepper activeStep={activeStep} labels={stepLabels} />
               <AgencyDocumentsForm
                 defaultValues={defaultDocumentValues}
                 onBack={() => setActiveStep(1)}
                 onSubmit={onAgencyDocumentsSubmit}
-                submitLabel={t('signup.uploadFiles', 'Upload Files')}
+                submitLabel={t('signup.uploadFiles', { defaultValue: 'Upload Files' })}
                 isLoading={isLoading}
               />
             </Stack>
           </FadeIn>
         )}
-
       </AnimatePresence>
     </Box>
   )

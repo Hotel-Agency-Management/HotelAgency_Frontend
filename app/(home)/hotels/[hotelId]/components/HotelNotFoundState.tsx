@@ -9,14 +9,18 @@ export function HotelNotFoundState() {
   const router = useRouter()
 
   return (
-    <Paper variant="customerHotelRoomEmpty">
-      <Stack spacing={2} alignItems="center">
-        <Typography variant="h4">{t('hotelPortal.details.hotelNotFound', 'Hotel not found')}</Typography>
-        <Typography color="text.secondary">
-          {t('hotelPortal.details.hotelNotFoundHint', 'The hotel may be unavailable or the link is no longer valid.')}
+    <Paper variant='customerHotelRoomEmpty'>
+      <Stack spacing={2} alignItems='center'>
+        <Typography variant='h4'>
+          {t('hotelPortal.details.hotelNotFound', { defaultValue: 'Hotel not found' })}
         </Typography>
-        <Button variant="contained" onClick={() => router.push('/hotels')}>
-          {t('hotelPortal.details.browseHotels', 'Browse hotels')}
+        <Typography color='text.secondary'>
+          {t('hotelPortal.details.hotelNotFoundHint', {
+            defaultValue: 'The hotel may be unavailable or the link is no longer valid.'
+          })}
+        </Typography>
+        <Button variant='contained' onClick={() => router.push('/hotels')}>
+          {t('hotelPortal.details.browseHotels', { defaultValue: 'Browse hotels' })}
         </Button>
       </Stack>
     </Paper>

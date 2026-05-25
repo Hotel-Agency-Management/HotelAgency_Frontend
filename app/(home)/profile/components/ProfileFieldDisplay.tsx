@@ -9,13 +9,7 @@ interface ProfileFieldDisplayProps {
   iconColor?: string
 }
 
-export function ProfileFieldDisplay({
-  label,
-  value,
-  icon,
-  editable,
-  iconColor,
-}: ProfileFieldDisplayProps) {
+export function ProfileFieldDisplay({ label, value, icon, editable, iconColor }: ProfileFieldDisplayProps) {
   const { t } = useTranslation()
 
   return (
@@ -23,7 +17,7 @@ export function ProfileFieldDisplay({
       <Stack
         sx={{
           color: iconColor ?? 'inherit',
-          flexShrink: 0,
+          flexShrink: 0
         }}
       >
         {icon}
@@ -36,13 +30,8 @@ export function ProfileFieldDisplay({
           </Typography>
 
           {!editable && (
-            <Typography
-              component='span'
-              variant='caption'
-              color='text.disabled'
-              sx={{ opacity: 0.65 }}
-            >
-              {t('profile.readOnly', '(read-only)')}
+            <Typography component='span' variant='caption' color='text.disabled' sx={{ opacity: 0.65 }}>
+              {t('profile.readOnly', { defaultValue: '(read-only)' })}
             </Typography>
           )}
         </Stack>

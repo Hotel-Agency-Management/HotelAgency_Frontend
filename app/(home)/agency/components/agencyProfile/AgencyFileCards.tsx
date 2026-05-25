@@ -1,113 +1,122 @@
-"use client";
-import Grid from "@mui/material/Grid";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
-import Stack from "@mui/material/Stack";
-import Tooltip from "@mui/material/Tooltip";
-import EditIcon from "@mui/icons-material/Edit";
-import { useRef } from "react";
-import { useTranslation } from "react-i18next";
-import { FileItem } from "../../types/agencyProfile";
-import { FileCardSkeleton } from "./FileCardSkelton";
-import { getFileIcon } from "../../util/fileIcon";
-import { FileCard, EditButton, FileName } from "../../styles/StyledComponents";
+'use client'
+import Grid from '@mui/material/Grid'
+import CardContent from '@mui/material/CardContent'
+import Typography from '@mui/material/Typography'
+import Stack from '@mui/material/Stack'
+import Tooltip from '@mui/material/Tooltip'
+import EditIcon from '@mui/icons-material/Edit'
+import { useRef } from 'react'
+import { useTranslation } from 'react-i18next'
+import { FileItem } from '../../types/agencyProfile'
+import { FileCardSkeleton } from './FileCardSkelton'
+import { getFileIcon } from '../../util/fileIcon'
+import { FileCard, EditButton, FileName } from '../../styles/StyledComponents'
 
 interface AgencyFileCardsProps {
-  files: FileItem[];
-  isLoading?: boolean;
-  onFileReplace?: (fileId: string, newFile: File) => void;
+  files: FileItem[]
+  isLoading?: boolean
+  onFileReplace?: (fileId: string, newFile: File) => void
 }
 
-export function AgencyFileCards({
-  files,
-  isLoading,
-  onFileReplace,
-}: AgencyFileCardsProps) {
-  const inputRefs = useRef<Record<string, HTMLInputElement | null>>({});
-  const { t } = useTranslation();
+export function AgencyFileCards({ files, isLoading, onFileReplace }: AgencyFileCardsProps) {
+  const inputRefs = useRef<Record<string, HTMLInputElement | null>>({})
+  const { t } = useTranslation()
 
   const handleEditClick = (fileId: string) => {
-    inputRefs.current[fileId]?.click();
-  };
+    inputRefs.current[fileId]?.click()
+  }
 
   const handleOpenFile = (url: string) => {
-    if (!url) return;
-    window.open(url, "_blank", "noopener,noreferrer");
-  };
+    if (!url) return
+    window.open(url, '_blank', 'noopener,noreferrer')
+  }
 
   const handleFileKeyDown = (event: React.KeyboardEvent, url: string) => {
-    if (event.key !== "Enter" && event.key !== " ") return;
-    event.preventDefault();
-    handleOpenFile(url);
-  };
+    if (event.key !== 'Enter' && event.key !== ' ') return
+    event.preventDefault()
+    handleOpenFile(url)
+  }
 
   const handleFileChange = (fileId: string, event: React.ChangeEvent<HTMLInputElement>) => {
-    const newFile = event.target.files?.[0];
+    const newFile = event.target.files?.[0]
     if (newFile && onFileReplace) {
-      onFileReplace(fileId, newFile);
+      onFileReplace(fileId, newFile)
     }
-    event.target.value = "";
-  };
+    event.target.value = ''
+  }
 
   if (isLoading) {
     return (
       <Grid container spacing={2}>
-        {[1, 2, 3].map((i) => (
+        {[1, 2, 3].map(i => (
           <Grid key={i} size={{ xs: 6, sm: 4, md: 3 }}>
             <FileCardSkeleton />
           </Grid>
         ))}
       </Grid>
-    );
+    )
   }
 
   if (!files || files.length === 0) {
     return (
-      <Typography variant="body2" color="text.secondary">
-        {t('agencySettings.profile.noFiles', 'No files uploaded yet.')}
+      <Typography variant='body2' color='text.secondary'>
+        {t('agencySettings.profile.noFiles', { defaultValue: 'No files uploaded yet.' })}
       </Typography>
-    );
+    )
   }
 
   return (
     <Grid container spacing={2}>
-      {files.map((file) => {
-        const canOpenFile = Boolean(file.url);
+      {files.map(file => {
+        const canOpenFile = Boolean(file.url)
 
         return (
           <Grid key={file.id} size={{ xs: 6, sm: 4, md: 3 }}>
             <input
-              type="file"
-              ref={(el) => { inputRefs.current[file.id] = el }}
+              type='file'
+              ref={el => {
+                inputRefs.current[file.id] = el
+              }}
               style={{ display: 'none' }}
-              onChange={(e) => handleFileChange(file.id, e)}
+              onChange={e => handleFileChange(file.id, e)}
             />
 
-            <Tooltip title={canOpenFile ? t('agencySettings.profile.openFileInNewTab', 'Open file in new tab') : ""}>
+            <Tooltip
+              title={
+                canOpenFile
+                  ? t('agencySettings.profile.openFileInNewTab', { defaultValue: 'Open file in new tab' })
+                  : ''
+              }
+            >
               <FileCard
                 canOpen={canOpenFile}
-                role={canOpenFile ? "button" : undefined}
+                role={canOpenFile ? 'button' : undefined}
                 tabIndex={canOpenFile ? 0 : undefined}
                 onClick={() => handleOpenFile(file.url)}
-                onKeyDown={(event) => handleFileKeyDown(event, file.url)}
+                onKeyDown={event => handleFileKeyDown(event, file.url)}
               >
-                <Tooltip title={t('agencySettings.profile.replaceFile', 'Replace {{documentType}}', { documentType: file.documentType })}>
+                <Tooltip
+                  title={t('agencySettings.profile.replaceFile', {
+                    defaultValue: 'Replace {{documentType}}',
+                    documentType: file.documentType
+                  })}
+                >
                   <EditButton
-                    size="small"
-                    onClick={(event) => {
-                      event.stopPropagation();
-                      handleEditClick(file.id);
+                    size='small'
+                    onClick={event => {
+                      event.stopPropagation()
+                      handleEditClick(file.id)
                     }}
-                    onKeyDown={(event) => event.stopPropagation()}
+                    onKeyDown={event => event.stopPropagation()}
                   >
-                    <EditIcon fontSize="small" />
+                    <EditIcon fontSize='small' />
                   </EditButton>
                 </Tooltip>
 
                 <CardContent>
-                  <Stack spacing={1} alignItems="center">
+                  <Stack spacing={1} alignItems='center'>
                     {getFileIcon(file.type)}
-                    <FileName variant="caption" color="text.primary" align="center">
+                    <FileName variant='caption' color='text.primary' align='center'>
                       {file.documentType}
                     </FileName>
                   </Stack>
@@ -115,8 +124,8 @@ export function AgencyFileCards({
               </FileCard>
             </Tooltip>
           </Grid>
-        );
+        )
       })}
     </Grid>
-  );
+  )
 }

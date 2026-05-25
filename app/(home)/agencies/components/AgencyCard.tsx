@@ -21,14 +21,9 @@ export default function AgencyCard({ agency, onClick, onSettingsClick }: Props) 
     <Card variant='outlined'>
       <CardActionArea onClick={() => onClick(agency.id)} sx={{ borderRadius: 'inherit', overflow: 'visible' }}>
         <Stack gap={2}>
-
           <Stack direction='row' alignItems='flex-start' justifyContent='space-between' gap={1}>
             <Stack direction='row' alignItems='center' gap={1.5} sx={{ minWidth: 0 }}>
-              <Avatar
-                src={agency.logoUrl ?? undefined}
-                alt={agency.name}
-                sx={{ width: 40, height: 40, flexShrink: 0 }}
-              >
+              <Avatar src={agency.logoUrl ?? undefined} alt={agency.name} sx={{ width: 40, height: 40, flexShrink: 0 }}>
                 {agency.name[0].toUpperCase()}
               </Avatar>
               <Stack gap={0.5} sx={{ minWidth: 0 }}>
@@ -43,20 +38,24 @@ export default function AgencyCard({ agency, onClick, onSettingsClick }: Props) 
             {onSettingsClick && (
               <IconButton
                 size='small'
-                onClick={(e) => { e.stopPropagation(); setAnchorEl(e.currentTarget) }}
+                onClick={e => {
+                  e.stopPropagation()
+                  setAnchorEl(e.currentTarget)
+                }}
               >
                 <MoreVertIcon fontSize='small' />
               </IconButton>
             )}
           </Stack>
 
-          <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={() => setAnchorEl(null)}
-          >
-            <MenuItem onClick={() => { onSettingsClick?.(agency.id); setAnchorEl(null) }}>
-              {t('agencies.actions.settings', 'Agency Settings')}
+          <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
+            <MenuItem
+              onClick={() => {
+                onSettingsClick?.(agency.id)
+                setAnchorEl(null)
+              }}
+            >
+              {t('agencies.actions.settings', { defaultValue: 'Agency Settings' })}
             </MenuItem>
           </Menu>
 
@@ -80,9 +79,8 @@ export default function AgencyCard({ agency, onClick, onSettingsClick }: Props) 
           <Divider />
 
           <Typography variant='caption' color='text.secondary'>
-            {t('agencies.card.created', 'Created {{time}}', { time: fromNow(agency.createdAt) })}
+            {t('agencies.card.created', { defaultValue: 'Created {{time}}', time: fromNow(agency.createdAt) })}
           </Typography>
-
         </Stack>
       </CardActionArea>
     </Card>

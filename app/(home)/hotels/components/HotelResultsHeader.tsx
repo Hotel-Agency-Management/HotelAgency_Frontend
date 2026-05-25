@@ -20,33 +20,36 @@ export function HotelResultsHeader({ count, total, sort, onSortChange }: HotelRe
     <Stack
       direction={{ xs: 'column', sm: 'row' }}
       spacing={2}
-      justifyContent="space-between"
+      justifyContent='space-between'
       alignItems={{ xs: 'flex-start', sm: 'center' }}
     >
       <Stack spacing={1}>
-        <Typography variant="h4">
+        <Typography variant='h4'>
           {t('hotelPortal.hotelsFound', { count, defaultValue: '{{count}} hotels found' })}
         </Typography>
-        <Typography variant="body2">
-          {t('hotelPortal.hotelsFoundSubtitle', { total, defaultValue: 'Showing hotels from all agencies across the platform. Total system hotels: {{total}}.' })}
+        <Typography variant='body2'>
+          {t('hotelPortal.hotelsFoundSubtitle', {
+            total,
+            defaultValue: 'Showing hotels from all agencies across the platform. Total system hotels: {{total}}.'
+          })}
         </Typography>
       </Stack>
-      <FormControl size="small" sx={{ minWidth: 180 }}>
-        <HotelSortInputLabel id="hotel-sort-label">
-          {t('hotelPortal.filters.sortBy', 'Sort by')}
+      <FormControl size='small' sx={{ minWidth: 180 }}>
+        <HotelSortInputLabel id='hotel-sort-label'>
+          {t('hotelPortal.filters.sortBy', { defaultValue: 'Sort by' })}
         </HotelSortInputLabel>
         <Select
-          labelId="hotel-sort-label"
+          labelId='hotel-sort-label'
           value={sort}
-          label={t('hotelPortal.filters.sortBy', 'Sort by')}
+          label={t('hotelPortal.filters.sortBy', { defaultValue: 'Sort by' })}
           onChange={event => onSortChange(event.target.value as CustomerHotelFilters['sort'])}
         >
           {HOTEL_SORT_OPTIONS.map(option => (
             <MenuItem key={option.value} value={option.value}>
               {option.value === 'recommended'
-                ? t('hotelPortal.filters.sortRecommended', 'Recommended')
+                ? t('hotelPortal.filters.sortRecommended', { defaultValue: 'Recommended' })
                 : option.value === 'rating-desc'
-                  ? t('hotelPortal.filters.sortTopRated', 'Top rated')
+                  ? t('hotelPortal.filters.sortTopRated', { defaultValue: 'Top rated' })
                   : option.label}
             </MenuItem>
           ))}

@@ -16,31 +16,30 @@ export function HotelTab({ data }: HotelTabProps) {
     <Grid container spacing={3}>
       <Grid size={{ xs: 12 }}>
         <ProfileDetailsCard
-          title={t('profile.tabs.hotelInformation', 'Hotel Information')}
+          title={t('profile.tabs.hotelInformation', { defaultValue: 'Hotel Information' })}
           items={[
             {
-              label: t('profile.form.hotelName', 'Hotel Name'),
+              label: t('profile.form.hotelName', { defaultValue: 'Hotel Name' }),
               value: data.name,
-              icon: <Hotel size={16} />,
+              icon: <Hotel size={16} />
             },
             {
-              label: t('profile.form.phoneNumber', 'Phone Number'),
+              label: t('profile.form.phoneNumber', { defaultValue: 'Phone Number' }),
               value: <LtrText>{data.phone}</LtrText>,
-              icon: <Phone size={16} />,
+              icon: <Phone size={16} />
             },
             {
-              label: t('profile.form.city', 'City'),
+              label: t('profile.form.city', { defaultValue: 'City' }),
               value: data.city,
-              icon: <Building2 size={16} />,
+              icon: <Building2 size={16} />
             },
             {
-              label: t('profile.form.country', 'Country'),
+              label: t('profile.form.country', { defaultValue: 'Country' }),
               value: data.country ?? '—',
-              icon: <Globe size={16} />,
-            },
+              icon: <Globe size={16} />
+            }
           ]}
-        >
-        </ProfileDetailsCard>
+        ></ProfileDetailsCard>
       </Grid>
     </Grid>
   )

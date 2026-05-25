@@ -19,9 +19,11 @@ export function DocumentStatusRow({ label, ready }: DocumentStatusRowProps) {
         {label}
       </Typography>
       <Chip
-        label={ready
-          ? t('reservations.form.confirm.ready', 'Ready')
-          : t('reservations.form.confirm.notGenerated', 'Not generated')}
+        label={
+          ready
+            ? t('reservations.form.confirm.ready', { defaultValue: 'Ready' })
+            : t('reservations.form.confirm.notGenerated', { defaultValue: 'Not generated' })
+        }
         size='small'
         color={ready ? 'success' : 'default'}
         variant='outlined'

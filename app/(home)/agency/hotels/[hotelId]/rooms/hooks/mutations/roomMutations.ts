@@ -16,14 +16,14 @@ export function useCreateRoom(hotelId?: number) {
 
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ROOM_QUERY_KEYS.roomsByHotelList(hotelId as number),
+        queryKey: ROOM_QUERY_KEYS.roomsByHotelList(hotelId as number)
       })
-      toast.success(t('hotelRooms.toast.roomCreated', 'Room created successfully'))
+      toast.success(t('hotelRooms.toast.roomCreated', { defaultValue: 'Room created successfully' }))
     },
 
-    onError: (error) => {
+    onError: error => {
       toast.error(getErrorMessage(error))
-    },
+    }
   })
 }
 
@@ -32,22 +32,21 @@ export function useUpdateRoom(hotelId?: number, roomId?: number) {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (data: UpdateRoomRequest) =>
-      updateRoom(hotelId as number, roomId as number, data),
+    mutationFn: (data: UpdateRoomRequest) => updateRoom(hotelId as number, roomId as number, data),
 
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ROOM_QUERY_KEYS.room(hotelId as number, roomId as number),
+        queryKey: ROOM_QUERY_KEYS.room(hotelId as number, roomId as number)
       })
       queryClient.invalidateQueries({
-        queryKey: ROOM_QUERY_KEYS.roomsByHotelList(hotelId as number),
+        queryKey: ROOM_QUERY_KEYS.roomsByHotelList(hotelId as number)
       })
-      toast.success(t('hotelRooms.toast.roomUpdated', 'Room updated successfully'))
+      toast.success(t('hotelRooms.toast.roomUpdated', { defaultValue: 'Room updated successfully' }))
     },
 
-    onError: (error) => {
+    onError: error => {
       toast.error(getErrorMessage(error))
-    },
+    }
   })
 }
 
@@ -60,14 +59,14 @@ export function useDeleteRoom(hotelId?: number) {
 
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ROOM_QUERY_KEYS.roomsByHotelList(hotelId as number),
+        queryKey: ROOM_QUERY_KEYS.roomsByHotelList(hotelId as number)
       })
-      toast.success(t('hotelRooms.toast.roomDeleted', 'Room deleted successfully'))
+      toast.success(t('hotelRooms.toast.roomDeleted', { defaultValue: 'Room deleted successfully' }))
     },
 
-    onError: (error) => {
+    onError: error => {
       toast.error(getErrorMessage(error))
-    },
+    }
   })
 }
 
@@ -80,17 +79,17 @@ export function useUploadRoomPhoto(hotelId?: number, roomId?: number) {
 
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ROOM_QUERY_KEYS.roomPhotos(hotelId as number, roomId as number),
+        queryKey: ROOM_QUERY_KEYS.roomPhotos(hotelId as number, roomId as number)
       })
       queryClient.invalidateQueries({
-        queryKey: ROOM_QUERY_KEYS.room(hotelId as number, roomId as number),
+        queryKey: ROOM_QUERY_KEYS.room(hotelId as number, roomId as number)
       })
-      toast.success(t('hotelRooms.toast.photoUploaded', 'Photo uploaded successfully'))
+      toast.success(t('hotelRooms.toast.photoUploaded', { defaultValue: 'Photo uploaded successfully' }))
     },
 
-    onError: (error) => {
+    onError: error => {
       toast.error(getErrorMessage(error))
-    },
+    }
   })
 }
 
@@ -99,18 +98,17 @@ export function useDeleteRoomPhoto(hotelId?: number, roomId?: number) {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (photoId: number) =>
-      deleteRoomPhoto(hotelId as number, roomId as number, photoId),
+    mutationFn: (photoId: number) => deleteRoomPhoto(hotelId as number, roomId as number, photoId),
 
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ROOM_QUERY_KEYS.roomPhotos(hotelId as number, roomId as number),
+        queryKey: ROOM_QUERY_KEYS.roomPhotos(hotelId as number, roomId as number)
       })
-      toast.success(t('hotelRooms.toast.photoDeleted', 'Photo deleted successfully'))
+      toast.success(t('hotelRooms.toast.photoDeleted', { defaultValue: 'Photo deleted successfully' }))
     },
 
-    onError: (error) => {
+    onError: error => {
       toast.error(getErrorMessage(error))
-    },
+    }
   })
 }

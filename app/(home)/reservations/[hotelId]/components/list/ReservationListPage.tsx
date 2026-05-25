@@ -2,15 +2,7 @@
 
 import { useMemo } from 'react'
 import { useRouter } from 'next/navigation'
-import {
-  Button,
-  Container,
-  MenuItem,
-  Paper,
-  Stack,
-  TextField,
-  Typography,
-} from '@mui/material'
+import { Button, Container, MenuItem, Paper, Stack, TextField, Typography } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
 import { Plus } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
@@ -62,7 +54,7 @@ export function ReservationListPage() {
     isUpdating,
     isCancelling,
     handleUpdateStatus,
-    statusUpdatingId,
+    statusUpdatingId
   } = useReservationListPage()
 
   const columns = useMemo(
@@ -73,88 +65,89 @@ export function ReservationListPage() {
         onUpdate: handleOpenUpdate,
         onCancel: handleOpenCancel,
         onUpdateStatus: handleUpdateStatus,
-        statusUpdatingId,
+        statusUpdatingId
       }),
     [t, handleOpenExtend, handleOpenUpdate, handleOpenCancel, handleUpdateStatus, statusUpdatingId]
   )
 
   const editStayLength = useMemo(() => {
     if (!editForm.checkIn || !editForm.checkOut) return 0
-    const diff =
-      new Date(editForm.checkOut).getTime() - new Date(editForm.checkIn).getTime()
+    const diff = new Date(editForm.checkOut).getTime() - new Date(editForm.checkIn).getTime()
     return Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)))
   }, [editForm.checkIn, editForm.checkOut])
 
   const roomOptions = useMemo(
     () =>
-      (updatingReservation?.roomNumbers ?? []).map((r) => ({
+      (updatingReservation?.roomNumbers ?? []).map(r => ({
         id: r,
         label: `Room ${r}`,
         capacity: 999,
         nightlyRate: 0,
         extendPrice: 0,
-        disabled: false,
+        disabled: false
       })),
     [updatingReservation]
   )
 
   return (
-    <Container maxWidth="xl">
+    <Container maxWidth='xl'>
       <Stack gap={themeConfig.common.commonSpacing}>
         <Stack
           direction={{ xs: 'column', md: 'row' }}
           alignItems={{ xs: 'flex-start', md: 'center' }}
-          justifyContent="space-between"
+          justifyContent='space-between'
           gap={2}
         >
           <Stack gap={0.75}>
-            <Typography variant="h5" fontWeight={700}>
-              {t('reservations.title', 'Reservations')}
+            <Typography variant='h5' fontWeight={700}>
+              {t('reservations.title', { defaultValue: 'Reservations' })}
             </Typography>
           </Stack>
 
           <Button
-            variant="contained"
+            variant='contained'
             disableElevation
             startIcon={<Plus size={16} />}
             onClick={() => router.push(`/reservations/${hotelId}/create`)}
           >
-            {t('reservations.create', 'Create Reservation')}
+            {t('reservations.create', { defaultValue: 'Create Reservation' })}
           </Button>
         </Stack>
 
-        <Paper variant="card">
+        <Paper variant='card'>
           <Stack gap={themeConfig.common.commonSpacing}>
             <Stack
               direction={{ xs: 'column', md: 'row' }}
               alignItems={{ xs: 'stretch', md: 'center' }}
-              justifyContent="space-between"
+              justifyContent='space-between'
               gap={2}
             >
               <Stack gap={0.5}>
-                <Typography variant="subtitle1" fontWeight={700}>
-                  {t('reservations.allReservations', 'All Reservations')}
+                <Typography variant='subtitle1' fontWeight={700}>
+                  {t('reservations.allReservations', { defaultValue: 'All Reservations' })}
                 </Typography>
-                <Typography variant="body2">
-                  {t('reservations.viewManage', 'View and manage guest reservations.')}
+                <Typography variant='body2'>
+                  {t('reservations.viewManage', { defaultValue: 'View and manage guest reservations.' })}
                 </Typography>
               </Stack>
 
               <Stack direction={{ xs: 'column', sm: 'row' }} gap={1.5}>
                 <SearchInput
                   value={search}
-                  placeholder={t('reservations.search', 'Search by guest name…')}
+                  placeholder={t('reservations.search', { defaultValue: 'Search by guest name…' })}
                   onChange={handleSearch}
                 />
                 <TextField
                   select
-                  size="small"
+                  size='small'
                   value={status}
-                  onChange={(e) => handleStatusChange(e.target.value)}
+                  onChange={e => handleStatusChange(e.target.value)}
                   sx={{ minWidth: 150 }}
                 >
-                  <MenuItem value="">{t('reservations.filters.allStatuses', 'All Statuses')}</MenuItem>
-                  {RESERVATION_STATUSES.map((s) => (
+                  <MenuItem value=''>
+                    {t('reservations.filters.allStatuses', { defaultValue: 'All Statuses' })}
+                  </MenuItem>
+                  {RESERVATION_STATUSES.map(s => (
                     <MenuItem key={s} value={s}>
                       {s}
                     </MenuItem>
@@ -168,7 +161,7 @@ export function ReservationListPage() {
               rows={reservations}
               columns={columns}
               loading={isLoading}
-              paginationMode="server"
+              paginationMode='server'
               rowCount={totalCount}
               paginationModel={paginationModel}
               onPaginationModelChange={setPaginationModel}
@@ -184,8 +177,8 @@ export function ReservationListPage() {
           open={!!extendingReservation}
           currentCheckOut={extendingReservation?.checkOutDate ?? ''}
           extendPrice={extendPrice}
-          language="en"
-          currency="USD"
+          language='en'
+          currency='USD'
           extendCheckOut={extendCheckOut}
           extendHasValidRange={extendHasValidRange}
           extendConflict={null}
@@ -200,8 +193,8 @@ export function ReservationListPage() {
           canModify
           roomCapacity={999}
           isBusy={isUpdating}
-          currency="USD"
-          language="en"
+          currency='USD'
+          language='en'
           nightlyRate={0}
           roomOptions={roomOptions}
           editForm={editForm}
@@ -218,10 +211,10 @@ export function ReservationListPage() {
         <CancelReservationDialog
           open={!!cancellingReservation}
           freeCancellation
-          freeCancellationDeadlineLabel="—"
+          freeCancellationDeadlineLabel='—'
           reservationTotalLabel={`$${Number(cancellingReservation?.totalAmount ?? 0).toLocaleString()}`}
-          cancellationFeeRateLabel="0%"
-          cancellationFeeLabel="$0"
+          cancellationFeeRateLabel='0%'
+          cancellationFeeLabel='$0'
           refundAmountLabel={`$${Number(cancellingReservation?.totalAmount ?? 0).toLocaleString()}`}
           isBusy={isCancelling}
           onClose={handleCloseCancel}

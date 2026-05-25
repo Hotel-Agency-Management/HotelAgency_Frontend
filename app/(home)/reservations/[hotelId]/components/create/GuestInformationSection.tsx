@@ -10,16 +10,15 @@ interface GuestInformationSectionProps {
   errors: FieldErrors<DirectReservationFormInput>
 }
 
-export function GuestInformationSection({
-  control,
-  errors,
-}: GuestInformationSectionProps) {
+export function GuestInformationSection({ control, errors }: GuestInformationSectionProps) {
   const { t } = useTranslation()
 
   return (
     <FormSection
-      title={t('reservations.form.guest.title', 'Guest Information')}
-      description={t('reservations.form.guest.description', 'Store the guest identity exactly as it should appear on the reservation and check-in records.')}
+      title={t('reservations.form.guest.title', { defaultValue: 'Guest Information' })}
+      description={t('reservations.form.guest.description', {
+        defaultValue: 'Store the guest identity exactly as it should appear on the reservation and check-in records.'
+      })}
     >
       <Grid container spacing={2}>
         <Grid size={{ xs: 12, md: 6 }}>
@@ -29,7 +28,7 @@ export function GuestInformationSection({
             render={({ field }) => (
               <TextField
                 {...field}
-                label={t('reservations.form.guest.fullName', 'Full Name')}
+                label={t('reservations.form.guest.fullName', { defaultValue: 'Full Name' })}
                 fullWidth
                 size='small'
                 error={!!errors.guestFullName}
@@ -48,7 +47,7 @@ export function GuestInformationSection({
                 {...field}
                 fullWidth
                 size='small'
-                label={t('reservations.form.guest.phoneNumber', 'Phone Number')}
+                label={t('reservations.form.guest.phoneNumber', { defaultValue: 'Phone Number' })}
                 defaultCountry='PS'
                 error={!!errors.guestPhone}
                 helperText={errors.guestPhone?.message}
@@ -65,7 +64,7 @@ export function GuestInformationSection({
             render={({ field }) => (
               <TextField
                 {...field}
-                label={t('reservations.form.guest.email', 'Email')}
+                label={t('reservations.form.guest.email', { defaultValue: 'Email' })}
                 type='email'
                 fullWidth
                 size='small'
@@ -83,7 +82,7 @@ export function GuestInformationSection({
             render={({ field }) => (
               <TextField
                 {...field}
-                label={t('reservations.form.guest.idPassport', 'ID / Passport Number')}
+                label={t('reservations.form.guest.idPassport', { defaultValue: 'ID / Passport Number' })}
                 fullWidth
                 size='small'
                 error={!!errors.guestIdNumber}

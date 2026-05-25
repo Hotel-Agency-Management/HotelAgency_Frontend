@@ -15,17 +15,14 @@ import {
   StepLabel,
   Stepper,
   TextField,
-  Typography,
+  Typography
 } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { DatePickerField } from '@/components/common/DatePickerField'
 import { ReservationSource } from '@/app/(home)/reservations/[hotelId]/config/reservationConfig'
 import { useEditReservationDialog } from '../hooks/useEditReservationDialog'
 import type { ReservationEditRoomOption } from '../hooks/useReservationEdit'
-import type {
-  EditReservationFieldKey,
-  EditReservationFormState,
-} from '../types/editReservationForm'
+import type { EditReservationFieldKey, EditReservationFormState } from '../types/editReservationForm'
 import { formatCurrency } from '../utils/roomBooking'
 
 interface EditReservationDialogProps {
@@ -72,11 +69,10 @@ export function EditReservationDialog({
   canEditGuestFullName = true,
   onClose,
   onSave,
-  onFieldChange,
+  onFieldChange
 }: EditReservationDialogProps) {
   const { t } = useTranslation()
-  const selectedRoomLabel =
-    roomOptions.find(option => option.id === editForm.roomId)?.label ?? editForm.roomId
+  const selectedRoomLabel = roomOptions.find(option => option.id === editForm.roomId)?.label ?? editForm.roomId
   const {
     steps,
     activeStep,
@@ -89,7 +85,7 @@ export function EditReservationDialog({
     updatedStayTotal,
     handleBack,
     handleNext,
-    handleCheckInChange,
+    handleCheckInChange
   } = useEditReservationDialog({
     open,
     canModify,
@@ -102,27 +98,28 @@ export function EditReservationDialog({
     editConflict,
     isLoadingDetails,
     showDirectReservationFields,
-    onFieldChange,
+    onFieldChange
   })
 
   return (
-    <Dialog
-      open={open}
-      onClose={onClose}
-      fullWidth
-      maxWidth={showDirectReservationFields ? 'md' : 'sm'}
-    >
-      <DialogTitle>{t('hotelPortal.booking.editReservation', 'Edit reservation')}</DialogTitle>
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth={showDirectReservationFields ? 'md' : 'sm'}>
+      <DialogTitle>{t('hotelPortal.booking.editReservation', { defaultValue: 'Edit reservation' })}</DialogTitle>
       <DialogContent>
         <Stack spacing={3}>
           <Alert severity={canModify ? 'info' : 'warning'}>
             {canModify
-              ? t('hotelPortal.booking.editWithin24h', 'You can edit this reservation because it is still within the first 24 hours.')
-              : t('hotelPortal.booking.edit24hExpired', 'The 24-hour modification window has already ended.')}
+              ? t('hotelPortal.booking.editWithin24h', {
+                  defaultValue: 'You can edit this reservation because it is still within the first 24 hours.'
+                })
+              : t('hotelPortal.booking.edit24hExpired', {
+                  defaultValue: 'The 24-hour modification window has already ended.'
+                })}
           </Alert>
 
           {isLoadingDetails ? (
-            <Alert severity="info">{t('hotelPortal.booking.loadingReservationDetails', 'Loading reservation details...')}</Alert>
+            <Alert severity='info'>
+              {t('hotelPortal.booking.loadingReservationDetails', { defaultValue: 'Loading reservation details...' })}
+            </Alert>
           ) : null}
 
           <Stepper activeStep={activeStep} alternativeLabel>
@@ -135,14 +132,14 @@ export function EditReservationDialog({
 
           {showDirectReservationFields && activeStep === 0 ? (
             <Stack spacing={2}>
-              <Typography variant="subtitle2" fontWeight={700}>
-                {t('hotelPortal.booking.guestInformation', 'Guest information')}
+              <Typography variant='subtitle2' fontWeight={700}>
+                {t('hotelPortal.booking.guestInformation', { defaultValue: 'Guest information' })}
               </Typography>
 
               <TextField
                 fullWidth
-                size="small"
-                label={t('hotelPortal.booking.guestFullName', 'Guest Full Name')}
+                size='small'
+                label={t('hotelPortal.booking.guestFullName', { defaultValue: 'Guest Full Name' })}
                 value={editForm.guestFullName ?? ''}
                 disabled={!canEditGuestFullName}
                 onChange={event => onFieldChange('guestFullName', event.target.value)}
@@ -151,16 +148,16 @@ export function EditReservationDialog({
               <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
                 <TextField
                   fullWidth
-                  size="small"
-                  label={t('hotelPortal.booking.guestPhone', 'Guest Phone')}
+                  size='small'
+                  label={t('hotelPortal.booking.guestPhone', { defaultValue: 'Guest Phone' })}
                   value={editForm.guestPhone ?? ''}
                   onChange={event => onFieldChange('guestPhone', event.target.value)}
                 />
 
                 <TextField
                   fullWidth
-                  size="small"
-                  label={t('hotelPortal.booking.guestIdNumber', 'Guest ID Number')}
+                  size='small'
+                  label={t('hotelPortal.booking.guestIdNumber', { defaultValue: 'Guest ID Number' })}
                   value={editForm.guestIdNumber ?? ''}
                   onChange={event => onFieldChange('guestIdNumber', event.target.value)}
                 />
@@ -170,15 +167,15 @@ export function EditReservationDialog({
 
           {activeStep === stayStepIndex ? (
             <Stack spacing={2}>
-              <Typography variant="subtitle2" fontWeight={700}>
-                {t('hotelPortal.booking.stayDetails', 'Stay details')}
+              <Typography variant='subtitle2' fontWeight={700}>
+                {t('hotelPortal.booking.stayDetails', { defaultValue: 'Stay details' })}
               </Typography>
 
               <TextField
                 select
                 fullWidth
-                size="small"
-                label={t('hotelPortal.booking.room', 'Room')}
+                size='small'
+                label={t('hotelPortal.booking.room', { defaultValue: 'Room' })}
                 value={editForm.roomId}
                 onChange={event => onFieldChange('roomId', event.target.value)}
               >
@@ -190,14 +187,14 @@ export function EditReservationDialog({
               </TextField>
 
               <DatePickerField
-                label={t('hotelPortal.booking.checkIn', 'Check-in')}
+                label={t('hotelPortal.booking.checkIn', { defaultValue: 'Check-in' })}
                 value={editForm.checkIn}
                 minDate={minCheckInDate}
                 onChange={handleCheckInChange}
               />
 
               <DatePickerField
-                label={t('hotelPortal.booking.checkOut', 'Check-out')}
+                label={t('hotelPortal.booking.checkOut', { defaultValue: 'Check-out' })}
                 value={editForm.checkOut}
                 minDate={minCheckOutDate}
                 onChange={value => onFieldChange('checkOut', value)}
@@ -206,9 +203,9 @@ export function EditReservationDialog({
               <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
                 <TextField
                   fullWidth
-                  size="small"
-                  type="number"
-                  label={t('hotelPortal.booking.guests', 'Guests')}
+                  size='small'
+                  type='number'
+                  label={t('hotelPortal.booking.guests', { defaultValue: 'Guests' })}
                   value={editForm.guests}
                   inputProps={{ min: 1, max: roomCapacity }}
                   onChange={event => onFieldChange('guests', Number(event.target.value))}
@@ -216,9 +213,9 @@ export function EditReservationDialog({
 
                 <TextField
                   fullWidth
-                  size="small"
-                  type="number"
-                  label={t('hotelPortal.booking.rooms', 'Rooms')}
+                  size='small'
+                  type='number'
+                  label={t('hotelPortal.booking.rooms', { defaultValue: 'Rooms' })}
                   value={editForm.rooms}
                   inputProps={{ min: 1 }}
                   onChange={event => onFieldChange('rooms', Number(event.target.value))}
@@ -226,20 +223,30 @@ export function EditReservationDialog({
               </Stack>
 
               {!editFormHasValidRange ? (
-                <Alert severity="error">
-                  {t('hotelPortal.booking.checkOutAfterCheckIn', 'Check-out must be later than check-in by at least one day.')}
+                <Alert severity='error'>
+                  {t('hotelPortal.booking.checkOutAfterCheckIn', {
+                    defaultValue: 'Check-out must be later than check-in by at least one day.'
+                  })}
                 </Alert>
               ) : null}
 
               {editForm.guests > roomCapacity ? (
-                <Alert severity="error">
-                  {t('hotelPortal.booking.guestsExceedCapacity', { capacity: roomCapacity, defaultValue: 'This room can host up to {{capacity}} guests.' })}
+                <Alert severity='error'>
+                  {t('hotelPortal.booking.guestsExceedCapacity', {
+                    capacity: roomCapacity,
+                    defaultValue: 'This room can host up to {{capacity}} guests.'
+                  })}
                 </Alert>
               ) : null}
 
               {editConflict != null ? (
-                <Alert severity="error">
-                  {t('hotelPortal.booking.editConflict', { checkIn: editConflict.checkIn, checkOut: editConflict.checkOut, defaultValue: 'The updated dates conflict with another reservation from {{checkIn}} until {{checkOut}}.' })}
+                <Alert severity='error'>
+                  {t('hotelPortal.booking.editConflict', {
+                    checkIn: editConflict.checkIn,
+                    checkOut: editConflict.checkOut,
+                    defaultValue:
+                      'The updated dates conflict with another reservation from {{checkIn}} until {{checkOut}}.'
+                  })}
                 </Alert>
               ) : null}
             </Stack>
@@ -247,20 +254,18 @@ export function EditReservationDialog({
 
           {showDirectReservationFields && activeStep === 2 ? (
             <Stack spacing={2}>
-              <Typography variant="subtitle2" fontWeight={700}>
-                {t('hotelPortal.booking.reservationDetails', 'Reservation details')}
+              <Typography variant='subtitle2' fontWeight={700}>
+                {t('hotelPortal.booking.reservationDetails', { defaultValue: 'Reservation details' })}
               </Typography>
 
               {showReservationSourceField ? (
                 <TextField
                   select
                   fullWidth
-                  size="small"
-                  label={t('hotelPortal.booking.reservationSource', 'Reservation Source')}
+                  size='small'
+                  label={t('hotelPortal.booking.reservationSource', { defaultValue: 'Reservation Source' })}
                   value={editForm.source ?? ''}
-                  onChange={event =>
-                    onFieldChange('source', event.target.value as ReservationSource)
-                  }
+                  onChange={event => onFieldChange('source', event.target.value as ReservationSource)}
                 >
                   {Object.values(ReservationSource).map(source => (
                     <MenuItem key={source} value={source}>
@@ -277,13 +282,13 @@ export function EditReservationDialog({
                     onChange={event => onFieldChange('hasInsurance', event.target.checked)}
                   />
                 }
-                label={t('hotelPortal.booking.hasInsurance', 'Has insurance')}
+                label={t('hotelPortal.booking.hasInsurance', { defaultValue: 'Has insurance' })}
               />
 
               <TextField
                 fullWidth
-                size="small"
-                label={t('hotelPortal.booking.specialRequests', 'Special Requests')}
+                size='small'
+                label={t('hotelPortal.booking.specialRequests', { defaultValue: 'Special Requests' })}
                 value={editForm.specialRequests ?? ''}
                 multiline
                 minRows={3}
@@ -292,8 +297,8 @@ export function EditReservationDialog({
 
               <TextField
                 fullWidth
-                size="small"
-                label={t('hotelPortal.booking.notes', 'Notes')}
+                size='small'
+                label={t('hotelPortal.booking.notes', { defaultValue: 'Notes' })}
                 value={editForm.notes ?? ''}
                 multiline
                 minRows={3}
@@ -304,38 +309,38 @@ export function EditReservationDialog({
 
           {!showDirectReservationFields && activeStep === 1 ? (
             <Stack spacing={2}>
-              <Typography variant="subtitle2" fontWeight={700}>
-                {t('hotelPortal.booking.reviewChanges', 'Review changes')}
+              <Typography variant='subtitle2' fontWeight={700}>
+                {t('hotelPortal.booking.reviewChanges', { defaultValue: 'Review changes' })}
               </Typography>
 
               <Stack spacing={1}>
-                <Typography variant="body2">
-                  {t('hotelPortal.booking.room', 'Room')}:{' '}
-                  <Typography component="span" variant="body2" fontWeight={700}>
+                <Typography variant='body2'>
+                  {t('hotelPortal.booking.room', { defaultValue: 'Room' })}:{' '}
+                  <Typography component='span' variant='body2' fontWeight={700}>
                     {selectedRoomLabel}
                   </Typography>
                 </Typography>
-                <Typography variant="body2">
-                  {t('hotelPortal.booking.checkIn', 'Check-in')}:{' '}
-                  <Typography component="span" variant="body2" fontWeight={700}>
+                <Typography variant='body2'>
+                  {t('hotelPortal.booking.checkIn', { defaultValue: 'Check-in' })}:{' '}
+                  <Typography component='span' variant='body2' fontWeight={700}>
                     {editForm.checkIn}
                   </Typography>
                 </Typography>
-                <Typography variant="body2">
-                  {t('hotelPortal.booking.checkOut', 'Check-out')}:{' '}
-                  <Typography component="span" variant="body2" fontWeight={700}>
+                <Typography variant='body2'>
+                  {t('hotelPortal.booking.checkOut', { defaultValue: 'Check-out' })}:{' '}
+                  <Typography component='span' variant='body2' fontWeight={700}>
                     {editForm.checkOut}
                   </Typography>
                 </Typography>
-                <Typography variant="body2">
-                  {t('hotelPortal.booking.guests', 'Guests')}:{' '}
-                  <Typography component="span" variant="body2" fontWeight={700}>
+                <Typography variant='body2'>
+                  {t('hotelPortal.booking.guests', { defaultValue: 'Guests' })}:{' '}
+                  <Typography component='span' variant='body2' fontWeight={700}>
                     {editForm.guests}
                   </Typography>
                 </Typography>
-                <Typography variant="body2">
-                  {t('hotelPortal.booking.rooms', 'Rooms')}:{' '}
-                  <Typography component="span" variant="body2" fontWeight={700}>
+                <Typography variant='body2'>
+                  {t('hotelPortal.booking.rooms', { defaultValue: 'Rooms' })}:{' '}
+                  <Typography component='span' variant='body2' fontWeight={700}>
                     {editForm.rooms}
                   </Typography>
                 </Typography>
@@ -343,36 +348,28 @@ export function EditReservationDialog({
             </Stack>
           ) : null}
 
-          <Typography variant="body2">
-            {t('hotelPortal.booking.updatedStayTotal', 'Updated stay total:')}{' '}
-            <Typography component="span" variant="body2" fontWeight={700} color="text.primary">
+          <Typography variant='body2'>
+            {t('hotelPortal.booking.updatedStayTotal', { defaultValue: 'Updated stay total:' })}{' '}
+            <Typography component='span' variant='body2' fontWeight={700} color='text.primary'>
               {formatCurrency(updatedStayTotal, language, currency)}
             </Typography>
           </Typography>
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button color="inherit" onClick={onClose}>
-          {t('common.cancel', 'Close')}
+        <Button color='inherit' onClick={onClose}>
+          {t('common.cancel', { defaultValue: 'Close' })}
         </Button>
         <Button disabled={activeStep === 0 || isBusy} onClick={handleBack}>
-          {t('hotelPortal.booking.back', 'Back')}
+          {t('hotelPortal.booking.back', { defaultValue: 'Back' })}
         </Button>
         {isLastStep ? (
-          <Button
-            variant="contained"
-            disabled={isSaveDisabled}
-            onClick={onSave}
-          >
-            {t('hotelPortal.booking.saveChanges', 'Save changes')}
+          <Button variant='contained' disabled={isSaveDisabled} onClick={onSave}>
+            {t('hotelPortal.booking.saveChanges', { defaultValue: 'Save changes' })}
           </Button>
         ) : (
-          <Button
-            variant="contained"
-            disabled={!isCurrentStepValid || isLoadingDetails || isBusy}
-            onClick={handleNext}
-          >
-            {t('hotelPortal.booking.next', 'Next')}
+          <Button variant='contained' disabled={!isCurrentStepValid || isLoadingDetails || isBusy} onClick={handleNext}>
+            {t('hotelPortal.booking.next', { defaultValue: 'Next' })}
           </Button>
         )}
       </DialogActions>

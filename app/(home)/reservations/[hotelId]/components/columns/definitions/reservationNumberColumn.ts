@@ -5,8 +5,8 @@ import type { ReservationListItem } from '../../../config/reservationConfig'
 export function createReservationNumberColumn({ t }: ReservationColumnContext): GridColDef<ReservationListItem> {
   return {
     field: 'reservationNumber',
-    headerName: t('reservations.table.reservationNumber', 'Reservation #'),
+    headerName: t('reservations.table.reservationNumber', { defaultValue: 'Reservation #' }),
     flex: 1.2,
-    minWidth: 160,
+    minWidth: 160
   }
 }

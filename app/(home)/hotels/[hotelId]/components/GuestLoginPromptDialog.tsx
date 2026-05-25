@@ -20,19 +20,22 @@ export function GuestLoginPromptDialog({ open, onClose }: GuestLoginPromptDialog
   }
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth>
-      <DialogTitle>{t('hotelPortal.booking.signInToBook', 'Sign in to book your room')}</DialogTitle>
+    <Dialog open={open} onClose={onClose} maxWidth='xs' fullWidth>
+      <DialogTitle>{t('hotelPortal.booking.signInToBook', { defaultValue: 'Sign in to book your room' })}</DialogTitle>
       <DialogContent>
-        <Typography variant="body2">
-          {t('hotelPortal.booking.signInToBookHint', 'You need an account to complete your reservation. Log in or create a free account to continue.')}
+        <Typography variant='body2'>
+          {t('hotelPortal.booking.signInToBookHint', {
+            defaultValue:
+              'You need an account to complete your reservation. Log in or create a free account to continue.'
+          })}
         </Typography>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} color="inherit">
-          {t('common.cancel', 'Cancel')}
+        <Button onClick={onClose} color='inherit'>
+          {t('common.cancel', { defaultValue: 'Cancel' })}
         </Button>
-        <Button onClick={handleLogin} variant="contained">
-          {t('hotelPortal.booking.logInSignUp', 'Log in / Sign up')}
+        <Button onClick={handleLogin} variant='contained'>
+          {t('hotelPortal.booking.logInSignUp', { defaultValue: 'Log in / Sign up' })}
         </Button>
       </DialogActions>
     </Dialog>

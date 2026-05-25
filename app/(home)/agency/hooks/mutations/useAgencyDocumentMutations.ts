@@ -14,11 +14,11 @@ export function useUploadAgencyDocument() {
     mutationFn: (payload: UploadAgencyDocumentPayload) => uploadAgencyDocumentSelf(payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: AGENCY_DOCUMENTS_KEY })
-      toast.success(t('agencySettings.toast.documentUploaded', 'Document uploaded successfully'))
+      toast.success(t('agencySettings.toast.documentUploaded', { defaultValue: 'Document uploaded successfully' }))
     },
-    onError: (error) => {
+    onError: error => {
       toast.error(getErrorMessage(error))
-    },
+    }
   })
 }
 
@@ -31,10 +31,10 @@ export function useUpdateAgencyDocument() {
       updateAgencyDocumentSelf(documentId, payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: AGENCY_DOCUMENTS_KEY })
-      toast.success(t('agencySettings.toast.documentUpdated', 'Document updated successfully'))
+      toast.success(t('agencySettings.toast.documentUpdated', { defaultValue: 'Document updated successfully' }))
     },
-    onError: (error) => {
+    onError: error => {
       toast.error(getErrorMessage(error))
-    },
+    }
   })
 }

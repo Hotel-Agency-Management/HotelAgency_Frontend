@@ -14,8 +14,10 @@ export function PaymentSection({ control }: PaymentSectionProps) {
 
   return (
     <FormSection
-      title={t('reservations.form.payment.title', 'Payment')}
-      description={t('reservations.form.payment.description', 'Track payment method and current balance without leaving the reservation flow.')}
+      title={t('reservations.form.payment.title', { defaultValue: 'Payment' })}
+      description={t('reservations.form.payment.description', {
+        defaultValue: 'Track payment method and current balance without leaving the reservation flow.'
+      })}
     >
       <Grid container spacing={2}>
         <Grid size={{ xs: 12, md: 6 }}>
@@ -24,15 +26,15 @@ export function PaymentSection({ control }: PaymentSectionProps) {
             control={control}
             render={({ field }) => (
               <TextField
-                label={t('reservations.form.payment.totalAmount', 'Total Amount')}
+                label={t('reservations.form.payment.totalAmount', { defaultValue: 'Total Amount' })}
                 type='number'
                 fullWidth
                 size='small'
                 value={field.value}
                 InputProps={{ readOnly: true }}
               />
-              )}
-            />
+            )}
+          />
         </Grid>
       </Grid>
     </FormSection>

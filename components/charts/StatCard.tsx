@@ -24,27 +24,29 @@ export interface StatCardProps {
   area?: boolean
 }
 
-export default function StatCard({
-  title,
-  value,
-  change,
-  subtitle,
-  data,
-  color,
-  colors,
-  area = true
-}: StatCardProps) {
+export default function StatCard({ title, value, change, subtitle, data, color, colors, area = true }: StatCardProps) {
   const { t } = useTranslation()
   const theme = useTheme()
   const chartColors = useChartColors(colors)
-  const resolvedSubtitle = subtitle ?? t('common.comparedToLastWeek', 'compared to last week')
+  const resolvedSubtitle = subtitle ?? t('common.comparedToLastWeek', { defaultValue: 'compared to last week' })
   const resolvedColor = color ?? chartColors[0]
   const isUp = change >= 0
   const badgeColor = isUp ? theme.palette.success.main : theme.palette.error.main
 
   return (
-    <Card variant='outlined' sx={{ borderRadius: themeConfig.common.commonBorderRadius, overflow: 'hidden', height: '100%' }}>
-      <CardContent sx={{ p: themeConfig.common.commonPadding, '&:last-child': { pb: 2.5 }, height: '100%', display: 'flex', flexDirection: 'column' }}>
+    <Card
+      variant='outlined'
+      sx={{ borderRadius: themeConfig.common.commonBorderRadius, overflow: 'hidden', height: '100%' }}
+    >
+      <CardContent
+        sx={{
+          p: themeConfig.common.commonPadding,
+          '&:last-child': { pb: 2.5 },
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column'
+        }}
+      >
         <Box sx={{ display: 'flex', alignItems: 'stretch', gap: 2, flex: 1 }}>
           {/* Left: title → value + badge → subtitle */}
           <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>

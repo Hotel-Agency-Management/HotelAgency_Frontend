@@ -11,18 +11,18 @@ export function HotelEmptyState({ onReset }: HotelEmptyStateProps) {
   const { t } = useTranslation()
 
   return (
-    <Paper variant="customerHotelEmpty">
-      <Stack spacing={3} alignItems="center">
+    <Paper variant='customerHotelEmpty'>
+      <Stack spacing={3} alignItems='center'>
         <Stack spacing={1}>
-          <Typography variant="h5">
-            {t('hotelPortal.empty', 'No hotels match this search.')}
+          <Typography variant='h5'>
+            {t('hotelPortal.empty', { defaultValue: 'No hotels match this search.' })}
           </Typography>
-          <Typography variant="body2">
-            {t('hotelPortal.emptyHint', 'Try another destination, budget, or hotel name.')}
+          <Typography variant='body2'>
+            {t('hotelPortal.emptyHint', { defaultValue: 'Try another destination, budget, or hotel name.' })}
           </Typography>
         </Stack>
-        <Button variant="outlined" onClick={onReset}>
-          {t('hotelPortal.filters.resetFilters', 'Reset filters')}
+        <Button variant='outlined' onClick={onReset}>
+          {t('hotelPortal.filters.resetFilters', { defaultValue: 'Reset filters' })}
         </Button>
       </Stack>
     </Paper>

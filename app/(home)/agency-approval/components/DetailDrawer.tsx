@@ -1,26 +1,6 @@
-import {
-  Drawer,
-  Box,
-  Typography,
-  Avatar,
-  Stack,
-  Divider,
-  IconButton,
-  useTheme,
-  Button,
-} from '@mui/material'
+import { Drawer, Box, Typography, Avatar, Stack, Divider, IconButton, useTheme, Button } from '@mui/material'
 import { alpha } from '@mui/material/styles'
-import {
-  X,
-  Mail,
-  Phone,
-  MapPin,
-  Globe,
-  IdCard,
-  Calendar,
-  CheckCircle,
-  XCircle,
-} from 'lucide-react'
+import { X, Mail, Phone, MapPin, Globe, IdCard, Calendar, CheckCircle, XCircle } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import StatusChip from './StatusChip'
 import { br } from '@/core/utils/themeUtils'
@@ -48,21 +28,11 @@ export default function DetailDrawer({ request, open, onClose, onAction }: Detai
   const formattedDate = fromNow(request.submittedAt)
 
   return (
-    <Drawer
-      anchor='right'
-      open={open}
-      onClose={onClose}
-    >
+    <Drawer anchor='right' open={open} onClose={onClose}>
       <Stack sx={{ borderBottom: `1px solid ${theme.palette.divider}` }}>
-        <Stack
-          direction='row'
-          alignItems='center'
-          justifyContent='space-between'
-          spacing={2}
-          sx={{ p: 3 }}
-        >
+        <Stack direction='row' alignItems='center' justifyContent='space-between' spacing={2} sx={{ p: 3 }}>
           <Typography variant='subtitle1' fontWeight={700}>
-            {t('agencyApproval.drawer.title', 'Agency Details')}
+            {t('agencyApproval.drawer.title', { defaultValue: 'Agency Details' })}
           </Typography>
 
           <IconButton size='small' onClick={onClose} sx={{ borderRadius: br(theme) }}>
@@ -72,11 +42,11 @@ export default function DetailDrawer({ request, open, onClose, onAction }: Detai
       </Stack>
 
       <Box sx={{ overflowY: 'auto', flex: 1 }}>
-        <Stack spacing={4} sx={{ p:3 }}>
+        <Stack spacing={4} sx={{ p: 3 }}>
           <Stack
             spacing={2}
             sx={{
-              background: `linear-gradient(135deg, ${alpha(request.avatarColor, 0.06)} 0%, transparent 60%)`,
+              background: `linear-gradient(135deg, ${alpha(request.avatarColor, 0.06)} 0%, transparent 60%)`
             }}
           >
             <Stack direction='row' gap={2.5} alignItems='center'>
@@ -85,10 +55,7 @@ export default function DetailDrawer({ request, open, onClose, onAction }: Detai
               </Avatar>
 
               <Stack spacing={0.75}>
-                <Typography
-                  variant='h6'
-                  fontWeight={800}
-                >
+                <Typography variant='h6' fontWeight={800}>
                   {request.agencyName}
                 </Typography>
 
@@ -96,35 +63,56 @@ export default function DetailDrawer({ request, open, onClose, onAction }: Detai
               </Stack>
             </Stack>
 
-            <Typography
-              variant='body2'
-            >
-              {request.description}
-            </Typography>
+            <Typography variant='body2'>{request.description}</Typography>
           </Stack>
 
           <Divider />
 
           <Stack spacing={3}>
-            <Typography
-              variant='overline'
-              color='text.disabled'
-            >
-              {t('agencyApproval.drawer.contactInfo', 'Contact Information')}
+            <Typography variant='overline' color='text.disabled'>
+              {t('agencyApproval.drawer.contactInfo', { defaultValue: 'Contact Information' })}
             </Typography>
 
             <Stack spacing={2.5}>
-              <DetailItem icon={<Mail size={15} />} label={t('agencyApproval.drawer.ownerContact', 'Owner / Contact')} value={request.ownerName} />
-              <DetailItem icon={<Mail size={15} />} label={t('agencyApproval.drawer.emailAddress', 'Email Address')} value={request.email} />
-              <DetailItem icon={<Phone size={15} />} label={t('agencyApproval.drawer.phoneNumber', 'Phone Number')} value={<LtrText>{request.phone}</LtrText>} />
-              <DetailItem icon={<MapPin size={15} />} label={t('agencyApproval.drawer.location', 'Location')} value={request.location} />
+              <DetailItem
+                icon={<Mail size={15} />}
+                label={t('agencyApproval.drawer.ownerContact', { defaultValue: 'Owner / Contact' })}
+                value={request.ownerName}
+              />
+              <DetailItem
+                icon={<Mail size={15} />}
+                label={t('agencyApproval.drawer.emailAddress', { defaultValue: 'Email Address' })}
+                value={request.email}
+              />
+              <DetailItem
+                icon={<Phone size={15} />}
+                label={t('agencyApproval.drawer.phoneNumber', { defaultValue: 'Phone Number' })}
+                value={<LtrText>{request.phone}</LtrText>}
+              />
+              <DetailItem
+                icon={<MapPin size={15} />}
+                label={t('agencyApproval.drawer.location', { defaultValue: 'Location' })}
+                value={request.location}
+              />
               {request.website && (
-                <DetailItem icon={<Globe size={15} />} label={t('agencyApproval.drawer.website', 'Website')} value={request.website} />
+                <DetailItem
+                  icon={<Globe size={15} />}
+                  label={t('agencyApproval.drawer.website', { defaultValue: 'Website' })}
+                  value={request.website}
+                />
               )}
               {request.registrationNumber && (
-                <DetailItem icon={<IdCard size={15} />} label={t('agencyApproval.drawer.registrationNo', 'Registration No.')} value={request.registrationNumber} />
+                <DetailItem
+                  icon={<IdCard size={15} />}
+                  label={t('agencyApproval.drawer.registrationNo', { defaultValue: 'Registration No.' })}
+                  value={request.registrationNumber}
+                />
               )}
-              <DetailItem icon={<Calendar size={15} />} label={t('agencyApproval.drawer.submittedOn', 'Submitted On')} value={formattedDate} />
+              <DetailItem
+                icon={<Calendar size={15} />}
+                label={t('agencyApproval.drawer.submittedOn', { defaultValue: 'Submitted On' })}
+                value={formattedDate}
+              />
             </Stack>
           </Stack>
 
@@ -133,11 +121,8 @@ export default function DetailDrawer({ request, open, onClose, onAction }: Detai
               <Divider />
 
               <Stack spacing={3}>
-                <Typography
-                  variant='overline'
-                  color='text.disabled'
-                >
-                  {t('agencyApproval.drawer.actions', 'Actions')}
+                <Typography variant='overline' color='text.disabled'>
+                  {t('agencyApproval.drawer.actions', { defaultValue: 'Actions' })}
                 </Typography>
 
                 <Stack spacing={1.5}>
@@ -151,10 +136,10 @@ export default function DetailDrawer({ request, open, onClose, onAction }: Detai
                     }}
                     color='success'
                     sx={{
-                      fontWeight: 700,
+                      fontWeight: 700
                     }}
                   >
-                    {t('agencyApproval.drawer.approveRegistration', 'Approve Registration')}
+                    {t('agencyApproval.drawer.approveRegistration', { defaultValue: 'Approve Registration' })}
                   </Button>
 
                   <Button
@@ -167,7 +152,7 @@ export default function DetailDrawer({ request, open, onClose, onAction }: Detai
                     }}
                     color='error'
                   >
-                    {t('agencyApproval.drawer.rejectRegistration', 'Reject Registration')}
+                    {t('agencyApproval.drawer.rejectRegistration', { defaultValue: 'Reject Registration' })}
                   </Button>
                 </Stack>
               </Stack>

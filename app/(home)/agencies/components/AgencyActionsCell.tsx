@@ -16,17 +16,21 @@ export default function AgencyActionsCell({ agencyId, onSettingsClick }: Props) 
     <>
       <IconButton
         size='small'
-        onClick={(e) => { e.stopPropagation(); setAnchorEl(e.currentTarget) }}
+        onClick={e => {
+          e.stopPropagation()
+          setAnchorEl(e.currentTarget)
+        }}
       >
         <MoreVertIcon fontSize='small' />
       </IconButton>
-      <Menu
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={() => setAnchorEl(null)}
-      >
-        <MenuItem onClick={() => { onSettingsClick(agencyId); setAnchorEl(null) }}>
-          {t('agencies.actions.settings', 'Agency Settings')}
+      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
+        <MenuItem
+          onClick={() => {
+            onSettingsClick(agencyId)
+            setAnchorEl(null)
+          }}
+        >
+          {t('agencies.actions.settings', { defaultValue: 'Agency Settings' })}
         </MenuItem>
       </Menu>
     </>

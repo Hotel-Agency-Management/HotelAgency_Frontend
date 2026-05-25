@@ -23,22 +23,23 @@ const AgencyForm: React.FC<AgencySignupFormProps> = ({
   errorMessage: externalErrorMessage
 }) => {
   const { t } = useTranslation()
-  const {
-    control, errors, isSubmitting, isStepComplete,
-    errorMessage, handleSubmit, onSubmit,
-  } = useAgencyForm({ onSubmit: onSubmitProp, defaultValues, errorMessage: externalErrorMessage })
+  const { control, errors, isSubmitting, isStepComplete, errorMessage, handleSubmit, onSubmit } = useAgencyForm({
+    onSubmit: onSubmitProp,
+    defaultValues,
+    errorMessage: externalErrorMessage
+  })
 
   return (
     <MotionStack spacing={3}>
       <FadeIn>
         <Typography variant='h4' textAlign='center'>
-          {t('agency.title', 'Agency Details')}
+          {t('agency.title', { defaultValue: 'Agency Details' })}
         </Typography>
       </FadeIn>
 
       <FadeIn>
         <Typography variant='body2' textAlign='center' color='text.secondary'>
-          {t('agency.subtitle', 'Tell us about your agency to complete setup')}
+          {t('agency.subtitle', { defaultValue: 'Tell us about your agency to complete setup' })}
         </Typography>
       </FadeIn>
 
@@ -48,7 +49,7 @@ const AgencyForm: React.FC<AgencySignupFormProps> = ({
             <ErrorMessage message={errorMessage} />
 
             <FadeIn>
-              <FormFieldWrapper title={t('agency.agencyName', 'Agency Name')}>
+              <FormFieldWrapper title={t('agency.agencyName', { defaultValue: 'Agency Name' })}>
                 <Controller
                   name='agencyName'
                   control={control}
@@ -57,14 +58,12 @@ const AgencyForm: React.FC<AgencySignupFormProps> = ({
                       {...field}
                       fullWidth
                       size='small'
-                      placeholder={t('agency.agencyNamePlaceholder', 'Acme Real Estate')}
+                      placeholder={t('agency.agencyNamePlaceholder', { defaultValue: 'Acme Real Estate' })}
                       error={!!errors.agencyName}
                       helperText={errors.agencyName?.message}
                       slotProps={{
                         input: {
-                          startAdornment: (
-                            <Building2 size={16} style={{ marginRight: 8, flexShrink: 0 }} />
-                          )
+                          startAdornment: <Building2 size={16} style={{ marginRight: 8, flexShrink: 0 }} />
                         }
                       }}
                     />
@@ -74,7 +73,7 @@ const AgencyForm: React.FC<AgencySignupFormProps> = ({
             </FadeIn>
 
             <FadeIn>
-              <FormFieldWrapper title={t('agency.phone', 'Agency Phone')}>
+              <FormFieldWrapper title={t('agency.phone', { defaultValue: 'Agency Phone' })}>
                 <Controller
                   name='phone'
                   control={control}
@@ -84,7 +83,7 @@ const AgencyForm: React.FC<AgencySignupFormProps> = ({
                       fullWidth
                       size='small'
                       defaultCountry='PS'
-                      placeholder={t('agency.phonePlaceholder', '+970 59 000 0000')}
+                      placeholder={t('agency.phonePlaceholder', { defaultValue: '+970 59 000 0000' })}
                       error={!!errors.phone}
                       helperText={errors.phone?.message}
                     />
@@ -94,7 +93,7 @@ const AgencyForm: React.FC<AgencySignupFormProps> = ({
             </FadeIn>
 
             <FadeIn>
-              <FormFieldWrapper title={t('agency.city', 'City')}>
+              <FormFieldWrapper title={t('agency.city', { defaultValue: 'City' })}>
                 <Controller
                   name='city'
                   control={control}
@@ -103,14 +102,12 @@ const AgencyForm: React.FC<AgencySignupFormProps> = ({
                       {...field}
                       fullWidth
                       size='small'
-                      placeholder={t('agency.cityPlaceholder', 'Nablus')}
+                      placeholder={t('agency.cityPlaceholder', { defaultValue: 'Nablus' })}
                       error={!!errors.city}
                       helperText={errors.city?.message}
                       slotProps={{
                         input: {
-                          startAdornment: (
-                            <MapPin size={16} style={{ marginRight: 8, flexShrink: 0 }} />
-                          )
+                          startAdornment: <MapPin size={16} style={{ marginRight: 8, flexShrink: 0 }} />
                         }
                       }}
                     />
@@ -127,15 +124,15 @@ const AgencyForm: React.FC<AgencySignupFormProps> = ({
                 fullWidth
                 disabled={isSubmitting || !isStepComplete}
               >
-                {!isLoading && t('agency.continue', 'Continue')}
+                {!isLoading && t('agency.continue', { defaultValue: 'Continue' })}
               </LoadingButton>
             </FadeIn>
 
             <FadeIn>
               <Typography variant='body2' textAlign='center'>
-                {t('agency.backPrompt', 'Want to change your account info?')}{' '}
+                {t('agency.backPrompt', { defaultValue: 'Want to change your account info?' })}{' '}
                 <Button variant='text' onClick={onBack} color='primary'>
-                  {t('agency.back', 'Go Back')}
+                  {t('agency.back', { defaultValue: 'Go Back' })}
                 </Button>
               </Typography>
             </FadeIn>

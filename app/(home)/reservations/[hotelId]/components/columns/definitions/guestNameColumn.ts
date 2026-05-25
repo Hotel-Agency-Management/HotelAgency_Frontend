@@ -5,8 +5,8 @@ import type { ReservationListItem } from '../../../config/reservationConfig'
 export function createGuestNameColumn({ t }: ReservationColumnContext): GridColDef<ReservationListItem> {
   return {
     field: 'guestFullName',
-    headerName: t('reservations.table.guestName', 'Guest Name'),
+    headerName: t('reservations.table.guestName', { defaultValue: 'Guest Name' }),
     flex: 1.2,
-    minWidth: 160,
+    minWidth: 160
   }
 }

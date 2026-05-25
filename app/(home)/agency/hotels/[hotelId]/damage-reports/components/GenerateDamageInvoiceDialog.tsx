@@ -2,16 +2,7 @@
 
 import { useEffect, useMemo } from 'react'
 import { useForm, Controller } from 'react-hook-form'
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Button,
-  TextField,
-  Stack,
-  Typography,
-} from '@mui/material'
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Stack, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { openDamageInvoicePdf } from '../invoice/components/openDamageInvoicePdf'
 import { generateDamageInvoiceNumber } from '../invoice/utils/damageInvoice'
@@ -19,7 +10,6 @@ import type { DamageReport } from '../types/damageReport'
 import type { DamageInvoice } from '../invoice/types/damageInvoice'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { createDamageInvoiceSchema } from '../schema/damageInvoiceSchema'
-
 
 interface FormValues {
   customerName: string
@@ -46,18 +36,23 @@ export default function GenerateDamageInvoiceDialog({
   hotelPrimaryColor,
   hotelSecondaryColor,
   onClose,
-  onInvoiced,
+  onInvoiced
 }: GenerateDamageInvoiceDialogProps) {
   const { t } = useTranslation()
   const schema = useMemo(() => createDamageInvoiceSchema(t), [t])
 
-  const { control, handleSubmit, reset, formState: { errors } } = useForm<FormValues>({
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors }
+  } = useForm<FormValues>({
     resolver: zodResolver(schema),
     defaultValues: {
       customerName: '',
       customerEmail: '',
-      damageAmount: 0,
-    },
+      damageAmount: 0
+    }
   })
 
   useEffect(() => {
@@ -65,7 +60,7 @@ export default function GenerateDamageInvoiceDialog({
       reset({
         customerName: report.reportedBy,
         customerEmail: '',
-        damageAmount: report.estimatedCost,
+        damageAmount: report.estimatedCost
       })
     }
   }, [open, report, reset])
@@ -93,7 +88,7 @@ export default function GenerateDamageInvoiceDialog({
       damageAmount: values.damageAmount,
       currency: report.currency,
       invoiceDate: new Date().toISOString(),
-      invoiceStatus: 'unpaid',
+      invoiceStatus: 'unpaid'
     }
 
     await openDamageInvoicePdf(invoice)
@@ -104,26 +99,24 @@ export default function GenerateDamageInvoiceDialog({
   if (!report) return null
 
   return (
-    <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
-      <DialogTitle>{t('damageReports.generateInvoice', 'Generate Damage Invoice')}</DialogTitle>
+    <Dialog open={open} onClose={handleClose} maxWidth='sm' fullWidth>
+      <DialogTitle>{t('damageReports.generateInvoice', { defaultValue: 'Generate Damage Invoice' })}</DialogTitle>
       <DialogContent>
         <Stack gap={2}>
           <Stack gap={0.5}>
-            <Typography variant="body2">
-              {t('damageReports.room', 'Room')}: <strong>{report.roomNumber}</strong>
+            <Typography variant='body2'>
+              {t('damageReports.room', { defaultValue: 'Room' })}: <strong>{report.roomNumber}</strong>
             </Typography>
-            <Typography variant="body2">
-              {report.description}
-            </Typography>
+            <Typography variant='body2'>{report.description}</Typography>
           </Stack>
 
           <Controller
-            name="customerName"
+            name='customerName'
             control={control}
             render={({ field }) => (
               <TextField
                 {...field}
-                label={t('damageReports.customerName', 'Customer Name')}
+                label={t('damageReports.customerName', { defaultValue: 'Customer Name' })}
                 error={!!errors.customerName}
                 helperText={errors.customerName?.message}
                 fullWidth
@@ -132,12 +125,12 @@ export default function GenerateDamageInvoiceDialog({
           />
 
           <Controller
-            name="customerEmail"
+            name='customerEmail'
             control={control}
             render={({ field }) => (
               <TextField
                 {...field}
-                label={t('damageReports.customerEmail', 'Customer Email (optional)')}
+                label={t('damageReports.customerEmail', { defaultValue: 'Customer Email (optional)' })}
                 error={!!errors.customerEmail}
                 helperText={errors.customerEmail?.message}
                 fullWidth
@@ -146,13 +139,13 @@ export default function GenerateDamageInvoiceDialog({
           />
 
           <Controller
-            name="damageAmount"
+            name='damageAmount'
             control={control}
             render={({ field }) => (
               <TextField
                 {...field}
-                label={t('damageReports.damageAmount', 'Damage Amount')}
-                type="number"
+                label={t('damageReports.damageAmount', { defaultValue: 'Damage Amount' })}
+                type='number'
                 slotProps={{ htmlInput: { min: 0 } }}
                 error={!!errors.damageAmount}
                 helperText={errors.damageAmount?.message}
@@ -163,11 +156,11 @@ export default function GenerateDamageInvoiceDialog({
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} color="inherit">
-          {t('common.cancel', 'Cancel')}
+        <Button onClick={handleClose} color='inherit'>
+          {t('common.cancel', { defaultValue: 'Cancel' })}
         </Button>
-        <Button onClick={handleSubmit(onValid)} variant="contained" color="primary">
-          {t('damageReports.generateAndOpen', 'Generate & Open PDF')}
+        <Button onClick={handleSubmit(onValid)} variant='contained' color='primary'>
+          {t('damageReports.generateAndOpen', { defaultValue: 'Generate & Open PDF' })}
         </Button>
       </DialogActions>
     </Dialog>

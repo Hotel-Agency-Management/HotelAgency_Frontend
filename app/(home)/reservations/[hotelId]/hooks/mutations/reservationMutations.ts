@@ -4,7 +4,11 @@ import { useTranslation } from 'react-i18next'
 import { getErrorMessage } from '@/core/utils/apiError'
 import { updateReservation, cancelReservation, updateReservationStatus } from '../../client/directReservationClient'
 import { RESERVATION_QUERY_KEYS } from '../../constants/reservationKey'
-import type { UpdateReservationRequest, CancelReservationRequest, UpdateReservationStatusRequest } from '../../config/reservationConfig'
+import type {
+  UpdateReservationRequest,
+  CancelReservationRequest,
+  UpdateReservationStatusRequest
+} from '../../config/reservationConfig'
 
 export function useUpdateReservation(hotelId: number) {
   const queryClient = useQueryClient()
@@ -16,12 +20,12 @@ export function useUpdateReservation(hotelId: number) {
 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: RESERVATION_QUERY_KEYS.byHotelList(hotelId) })
-      toast.success(t('reservations.toast.updated', 'Reservation updated successfully'))
+      toast.success(t('reservations.toast.updated', { defaultValue: 'Reservation updated successfully' }))
     },
 
-    onError: (error) => {
+    onError: error => {
       toast.error(getErrorMessage(error))
-    },
+    }
   })
 }
 
@@ -35,12 +39,12 @@ export function useCancelReservation(hotelId: number) {
 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: RESERVATION_QUERY_KEYS.byHotelList(hotelId) })
-      toast.success(t('reservations.toast.cancelled', 'Reservation cancelled successfully'))
+      toast.success(t('reservations.toast.cancelled', { defaultValue: 'Reservation cancelled successfully' }))
     },
 
-    onError: (error) => {
+    onError: error => {
       toast.error(getErrorMessage(error))
-    },
+    }
   })
 }
 
@@ -54,11 +58,11 @@ export function useUpdateReservationStatus(hotelId: number) {
 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: RESERVATION_QUERY_KEYS.byHotelList(hotelId) })
-      toast.success(t('reservations.toast.statusUpdated', 'Reservation status updated successfully'))
+      toast.success(t('reservations.toast.statusUpdated', { defaultValue: 'Reservation status updated successfully' }))
     },
 
-    onError: (error) => {
+    onError: error => {
       toast.error(getErrorMessage(error))
-    },
+    }
   })
 }

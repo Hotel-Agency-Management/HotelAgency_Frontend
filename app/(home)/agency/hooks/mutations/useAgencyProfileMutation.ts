@@ -12,14 +12,14 @@ export function useUpdateAgencyProfile() {
 
   return useMutation({
     mutationFn: (data: UpdateAgencyInfoRequest) => updateAgencyProfile(data),
-    onSuccess: (data) => {
+    onSuccess: data => {
       queryClient.setQueryData(AGENCY_PROFILE_KEY, data)
       queryClient.invalidateQueries({ queryKey: AGENCY_PROFILE_KEY })
-      toast.success(t('agencySettings.toast.profileUpdated', 'Agency profile updated successfully'))
+      toast.success(t('agencySettings.toast.profileUpdated', { defaultValue: 'Agency profile updated successfully' }))
     },
-    onError: (error) => {
+    onError: error => {
       toast.error(getErrorMessage(error))
-    },
+    }
   })
 }
 
@@ -31,10 +31,10 @@ export function useUpdateAgencyLogo() {
     mutationFn: (file: File) => updateAgencyLogo(file),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: AGENCY_PROFILE_KEY })
-      toast.success(t('agencySettings.toast.logoUpdated', 'Agency logo updated successfully'))
+      toast.success(t('agencySettings.toast.logoUpdated', { defaultValue: 'Agency logo updated successfully' }))
     },
-    onError: (error) => {
+    onError: error => {
       toast.error(getErrorMessage(error))
-    },
+    }
   })
 }

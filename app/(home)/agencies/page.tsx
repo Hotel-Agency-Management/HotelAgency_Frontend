@@ -41,10 +41,14 @@ export default function AgenciesPage() {
         <Stack direction='row' alignItems='center' justifyContent='space-between'>
           <Stack gap={0.5}>
             <Typography variant='h5' fontWeight={700}>
-              {t('agencies.title', 'Agencies')}
+              {t('agencies.title', { defaultValue: 'Agencies' })}
             </Typography>
             <Typography variant='body2' color='text.secondary'>
-              {t('agencies.countSummary', '{{filtered}} of {{total}} agencies', { filtered: filteredCount, total: totalCount })}
+              {t('agencies.countSummary', {
+                defaultValue: '{{filtered}} of {{total}} agencies',
+                filtered: filteredCount,
+                total: totalCount
+              })}
             </Typography>
           </Stack>
           <AgencyViewToggle value={viewMode} onChange={setViewMode} />
@@ -56,14 +60,10 @@ export default function AgenciesPage() {
           <SearchInput
             value={search}
             onChange={setSearch}
-            placeholder={t('agencies.searchPlaceholder', 'Search by name, phone, city...')}
+            placeholder={t('agencies.searchPlaceholder', { defaultValue: 'Search by name, phone, city...' })}
             sx={{ flex: 2, minWidth: 200 }}
           />
-          <AgencyFilters
-            filters={filters}
-            onFilterChange={updateFilter}
-            onReset={resetFilters}
-          />
+          <AgencyFilters filters={filters} onFilterChange={updateFilter} onReset={resetFilters} />
         </Stack>
       </FadeIn>
 
@@ -74,7 +74,6 @@ export default function AgenciesPage() {
           <AgencyGridView agencies={agencies} onAgencyClick={handleAgencyClick} onSettingsClick={handleSettingsClick} />
         )}
       </FadeIn>
-
     </Stack>
   )
 }

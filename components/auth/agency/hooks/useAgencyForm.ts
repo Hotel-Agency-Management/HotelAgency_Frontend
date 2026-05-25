@@ -45,7 +45,7 @@ export function useAgencyForm({
       await onSubmitProp(data)
     } catch (err) {
       setSubmitErrorMessage(
-        typeof err === 'string' ? err : t('agency.submitError', 'Something went wrong')
+        typeof err === 'string' ? err : t('agency.submitError', { defaultValue: 'Something went wrong' })
       )
     }
   }
@@ -57,6 +57,6 @@ export function useAgencyForm({
     isStepComplete,
     errorMessage: errorMessage || submitErrorMessage,
     handleSubmit,
-    onSubmit,
+    onSubmit
   }
 }

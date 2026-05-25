@@ -1,28 +1,28 @@
-"use client";
+'use client'
 
-import Button from "@mui/material/Button";
-import Grid from "@mui/material/Grid";
-import InputAdornment from "@mui/material/InputAdornment";
-import Pagination from "@mui/material/Pagination";
-import Stack from "@mui/material/Stack";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
-import { Plus, Search } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useTranslation } from "react-i18next";
-import { HotelCard } from "./hotelCard/HotelCard";
-import type { HotelFormValues } from "../types/hotel";
+import Button from '@mui/material/Button'
+import Grid from '@mui/material/Grid'
+import InputAdornment from '@mui/material/InputAdornment'
+import Pagination from '@mui/material/Pagination'
+import Stack from '@mui/material/Stack'
+import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
+import { Plus, Search } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { useTranslation } from 'react-i18next'
+import { HotelCard } from './hotelCard/HotelCard'
+import type { HotelFormValues } from '../types/hotel'
 
 interface HotelGridProps {
-  hotels: (HotelFormValues & { id: string })[];
-  onUpdate: (id: string) => void;
-  onOpen: (id: string) => void;
-  onAdd?: () => void;
-  search?: string;
-  onSearchChange?: (value: string) => void;
-  page?: number;
-  totalPages?: number;
-  onPageChange?: (event: unknown, page: number) => void;
+  hotels: (HotelFormValues & { id: string })[]
+  onUpdate: (id: string) => void
+  onOpen: (id: string) => void
+  onAdd?: () => void
+  search?: string
+  onSearchChange?: (value: string) => void
+  page?: number
+  totalPages?: number
+  onPageChange?: (event: unknown, page: number) => void
 }
 
 export function HotelGrid({
@@ -34,7 +34,7 @@ export function HotelGrid({
   onSearchChange,
   page = 1,
   totalPages = 1,
-  onPageChange,
+  onPageChange
 }: HotelGridProps) {
   const router = useRouter()
   const { t } = useTranslation()
@@ -42,49 +42,43 @@ export function HotelGrid({
 
   return (
     <Stack spacing={3}>
-      <Stack direction="row" justifyContent="space-between" alignItems="center" gap={2}>
+      <Stack direction='row' justifyContent='space-between' alignItems='center' gap={2}>
         <Stack spacing={0.25} flexShrink={0}>
-          <Typography variant="h6" fontWeight={500}>{t('agencyHotels.title', 'Hotels')}</Typography>
-          <Typography variant="body2">
-            {t('agencyHotels.hotelCount', { count: hotels.length })}
+          <Typography variant='h6' fontWeight={500}>
+            {t('agencyHotels.title', { defaultValue: 'Hotels' })}
           </Typography>
+          <Typography variant='body2'>{t('agencyHotels.hotelCount', { count: hotels.length })}</Typography>
         </Stack>
-        <Stack direction="row" gap={1.5} alignItems="center">
+        <Stack direction='row' gap={1.5} alignItems='center'>
           <TextField
-            size="small"
-            placeholder={t('agencyHotels.search', 'Search hotels…')}
+            size='small'
+            placeholder={t('agencyHotels.search', { defaultValue: 'Search hotels…' })}
             value={search}
             onChange={e => onSearchChange?.(e.target.value)}
             InputProps={{
               startAdornment: (
-                <InputAdornment position="start">
+                <InputAdornment position='start'>
                   <Search size={16} />
                 </InputAdornment>
-              ),
+              )
             }}
             sx={{ width: 220 }}
           />
-          <Button
-            size="small"
-            variant="contained"
-            disableElevation
-            startIcon={<Plus size={15} />}
-            onClick={handleAdd}
-          >
-            {t('agencyHotels.create', 'Add hotel')}
+          <Button size='small' variant='contained' disableElevation startIcon={<Plus size={15} />} onClick={handleAdd}>
+            {t('agencyHotels.create', { defaultValue: 'Add hotel' })}
           </Button>
         </Stack>
       </Stack>
 
       {hotels.length === 0 ? (
-        <Stack alignItems="center" justifyContent="center" py={8} spacing={1}>
-          <Typography variant="body2" color="text.secondary">
-            {t('agencyHotels.empty', 'No hotels yet. Add your first one.')}
+        <Stack alignItems='center' justifyContent='center' py={8} spacing={1}>
+          <Typography variant='body2' color='text.secondary'>
+            {t('agencyHotels.empty', { defaultValue: 'No hotels yet. Add your first one.' })}
           </Typography>
         </Stack>
       ) : (
         <Grid container spacing={2.5}>
-          {hotels.map((hotel) => (
+          {hotels.map(hotel => (
             <Grid key={hotel.id} size={{ xs: 12, sm: 6, md: 4 }}>
               <HotelCard hotel={hotel} onEdit={onUpdate} onOpen={onOpen} />
             </Grid>
@@ -93,16 +87,10 @@ export function HotelGrid({
       )}
 
       {totalPages > 1 && (
-        <Stack alignItems="center">
-          <Pagination
-            count={totalPages}
-            page={page}
-            onChange={onPageChange}
-            color="primary"
-            shape="rounded"
-          />
+        <Stack alignItems='center'>
+          <Pagination count={totalPages} page={page} onChange={onPageChange} color='primary' shape='rounded' />
         </Stack>
       )}
     </Stack>
-  );
+  )
 }

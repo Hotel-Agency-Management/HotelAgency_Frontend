@@ -8,7 +8,6 @@ import type { Hotel } from '../../types/hotel'
 import { mapHotelResponseToHotel } from '../../utils/hotelMapper'
 import { hotelQueryKeys } from '../queries/useHotelQueries'
 
-
 export const useCreateHotel = () => {
   const queryClient = useQueryClient()
   const { t } = useTranslation()
@@ -23,10 +22,12 @@ export const useCreateHotel = () => {
       queryClient.invalidateQueries({
         queryKey: hotelQueryKeys.lists(variables.agencyId)
       })
-      toast.success(t('agencyHotels.toast.created', 'Hotel created successfully'))
+      toast.success(t('agencyHotels.toast.created', { defaultValue: 'Hotel created successfully' }))
     },
     onError: error => {
-      toast.error(getErrorMessage(error, t('agencyHotels.toast.createFailed', 'Failed to create hotel')))
+      toast.error(
+        getErrorMessage(error, t('agencyHotels.toast.createFailed', { defaultValue: 'Failed to create hotel' }))
+      )
     }
   })
 }
@@ -49,10 +50,12 @@ export const useUpdateHotel = () => {
       queryClient.invalidateQueries({
         queryKey: hotelQueryKeys.detail(variables.agencyId, variables.hotelId)
       })
-      toast.success(t('agencyHotels.toast.updated', 'Hotel updated successfully'))
+      toast.success(t('agencyHotels.toast.updated', { defaultValue: 'Hotel updated successfully' }))
     },
     onError: error => {
-      toast.error(getErrorMessage(error, t('agencyHotels.toast.updateFailed', 'Failed to update hotel')))
+      toast.error(
+        getErrorMessage(error, t('agencyHotels.toast.updateFailed', { defaultValue: 'Failed to update hotel' }))
+      )
     }
   })
 }

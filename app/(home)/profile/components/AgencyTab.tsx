@@ -16,26 +16,25 @@ export function AgencyTab({ data }: AgencyTabProps) {
     <Grid container spacing={3}>
       <Grid size={{ xs: 12 }}>
         <ProfileDetailsCard
-          title={t('profile.tabs.agencyInformation', 'Agency Information')}
+          title={t('profile.tabs.agencyInformation', { defaultValue: 'Agency Information' })}
           items={[
             {
-              label: t('profile.form.agencyName', 'Agency Name'),
+              label: t('profile.form.agencyName', { defaultValue: 'Agency Name' }),
               value: data.name,
-              icon: <Building2 size={16} />,
+              icon: <Building2 size={16} />
             },
             {
-              label: t('profile.form.phoneNumber', 'Phone Number'),
+              label: t('profile.form.phoneNumber', { defaultValue: 'Phone Number' }),
               value: <LtrText>{data.phone}</LtrText>,
-              icon: <Phone size={16} />,
+              icon: <Phone size={16} />
             },
             {
-              label: t('profile.form.city', 'City'),
+              label: t('profile.form.city', { defaultValue: 'City' }),
               value: data.city,
-              icon: <MapPin size={16} />,
-            },
+              icon: <MapPin size={16} />
+            }
           ]}
-        >
-        </ProfileDetailsCard>
+        ></ProfileDetailsCard>
       </Grid>
     </Grid>
   )

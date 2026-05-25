@@ -11,14 +11,18 @@ export function HotelRoomsSectionEmpty({ onResetFilters }: HotelRoomsSectionEmpt
   const { t } = useTranslation()
 
   return (
-    <Paper variant="customerHotelRoomEmpty">
-      <Stack spacing={2} alignItems="center">
-        <Typography variant="h5">{t('hotelPortal.details.noRoomsMatch', 'No rooms match this search')}</Typography>
-        <Typography color="text.secondary">
-          {t('hotelPortal.details.noRoomsMatchHint', 'Try different dates, guest count, room type, or price range.')}
+    <Paper variant='customerHotelRoomEmpty'>
+      <Stack spacing={2} alignItems='center'>
+        <Typography variant='h5'>
+          {t('hotelPortal.details.noRoomsMatch', { defaultValue: 'No rooms match this search' })}
         </Typography>
-        <Button variant="outlined" onClick={onResetFilters}>
-          {t('hotelPortal.details.resetSearch', 'Reset search')}
+        <Typography color='text.secondary'>
+          {t('hotelPortal.details.noRoomsMatchHint', {
+            defaultValue: 'Try different dates, guest count, room type, or price range.'
+          })}
+        </Typography>
+        <Button variant='outlined' onClick={onResetFilters}>
+          {t('hotelPortal.details.resetSearch', { defaultValue: 'Reset search' })}
         </Button>
       </Stack>
     </Paper>

@@ -10,11 +10,7 @@ interface DirectReservationStepHeaderProps {
   steps: DirectReservationStep[]
 }
 
-export function DirectReservationStepHeader({
-  activeStep,
-  currentStep,
-  steps,
-}: DirectReservationStepHeaderProps) {
+export function DirectReservationStepHeader({ activeStep, currentStep, steps }: DirectReservationStepHeaderProps) {
   const { t } = useTranslation()
 
   return (
@@ -22,10 +18,12 @@ export function DirectReservationStepHeader({
       <Stack spacing={2.5}>
         <Stack spacing={0.75}>
           <Typography variant='subtitle1' sx={{ fontWeight: 700 }}>
-            {t('reservations.stepper.setup', 'Reservation setup')}
+            {t('reservations.stepper.setup', { defaultValue: 'Reservation setup' })}
           </Typography>
           <Typography variant='body2'>
-            {t('reservations.stepper.setupDescription', 'Complete this reservation step by step instead of filling the whole form at once.')}
+            {t('reservations.stepper.setupDescription', {
+              defaultValue: 'Complete this reservation step by step instead of filling the whole form at once.'
+            })}
           </Typography>
         </Stack>
 
@@ -36,7 +34,7 @@ export function DirectReservationStepHeader({
               1: 'reservations.stepper.steps.stay',
               2: 'reservations.stepper.steps.payment',
               3: 'reservations.stepper.steps.reservation',
-              4: 'reservations.stepper.steps.confirm',
+              4: 'reservations.stepper.steps.confirm'
             }
             const stepLabel = t(stepLabelKeys[index] ?? '', step.label)
             return (
@@ -49,11 +47,13 @@ export function DirectReservationStepHeader({
 
         <Stack spacing={0.5}>
           <Typography variant='body2' sx={{ fontWeight: 600 }}>
-            {t('reservations.stepper.stepOf', 'Step {{current}} of {{total}}', { current: activeStep + 1, total: steps.length })}
+            {t('reservations.stepper.stepOf', {
+              defaultValue: 'Step {{current}} of {{total}}',
+              current: activeStep + 1,
+              total: steps.length
+            })}
           </Typography>
-          <Typography variant='body2'>
-            {currentStep.description}
-          </Typography>
+          <Typography variant='body2'>{currentStep.description}</Typography>
         </Stack>
       </Stack>
     </Paper>

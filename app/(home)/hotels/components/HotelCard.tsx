@@ -19,26 +19,21 @@ export function HotelCard({ hotel }: HotelCardProps) {
   const hotelPath = `/hotels/${hotel.id}`
 
   return (
-    <Card variant="customerHotel">
-      <CardActionArea
-        onClick={() => router.push(hotelPath)}
-        aria-label={`Open ${hotel.name} rooms`}
-      >
-        <FadeIn direction="down" distance={12} transition={{ duration: 0.7, delay: 0.12 }}>
+    <Card variant='customerHotel'>
+      <CardActionArea onClick={() => router.push(hotelPath)} aria-label={`Open ${hotel.name} rooms`}>
+        <FadeIn direction='down' distance={12} transition={{ duration: 0.7, delay: 0.12 }}>
           <CardMedia
             image={hotel.coverImage ?? 'https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=1200&q=80'}
           >
-            <Stack
-              direction="row"
-              spacing={1}
-            >
+            <Stack direction='row' spacing={1}>
+              <Chip size='small' label={hotel.tag} />
               <Chip
-                size="small"
-                label={hotel.tag}
-              />
-              <Chip
-                size="small"
-                label={hotel.isActive ? t('hotelPortal.card.available', 'Available') : t('hotelPortal.card.openingSoon', 'Opening soon')}
+                size='small'
+                label={
+                  hotel.isActive
+                    ? t('hotelPortal.card.available', { defaultValue: 'Available' })
+                    : t('hotelPortal.card.openingSoon', { defaultValue: 'Opening soon' })
+                }
                 color={hotel.isActive ? 'success' : 'warning'}
               />
             </Stack>
@@ -46,47 +41,42 @@ export function HotelCard({ hotel }: HotelCardProps) {
         </FadeIn>
 
         <CardContent>
-          <Stack direction="row" justifyContent="space-between" spacing={1}>
+          <Stack direction='row' justifyContent='space-between' spacing={1}>
             <Stack>
-              <Typography variant="h6" noWrap>
+              <Typography variant='h6' noWrap>
                 {hotel.name}
               </Typography>
-              <Typography variant="body2" noWrap>
+              <Typography variant='body2' noWrap>
                 {hotel.agencyName}
               </Typography>
             </Stack>
-            <Stack direction="row" spacing={0.5} alignItems="center">
-              <Star size={17} fill="currentColor" />
-              <Typography variant="body2">{hotel.rating}</Typography>
+            <Stack direction='row' spacing={0.5} alignItems='center'>
+              <Star size={17} fill='currentColor' />
+              <Typography variant='body2'>{hotel.rating}</Typography>
             </Stack>
           </Stack>
 
-          <Stack direction="row" spacing={0.75} alignItems="center">
+          <Stack direction='row' spacing={0.75} alignItems='center'>
             <MapPin size={16} />
-            <Typography variant="body2" noWrap>
+            <Typography variant='body2' noWrap>
               {hotel.city}, {hotel.country}
             </Typography>
           </Stack>
 
-          <Stack direction="row" spacing={0.75}>
+          <Stack direction='row' spacing={0.75}>
             {hotel.amenities.slice(0, 3).map(amenity => (
-              <Chip
-                key={amenity}
-                label={amenity}
-                size="small"
-                variant="outlined"
-              />
+              <Chip key={amenity} label={amenity} size='small' variant='outlined' />
             ))}
           </Stack>
         </CardContent>
 
         <CardActions>
           <Stack spacing={0.5}>
-            <Typography variant="caption">
-              {`${reviews} ${t('hotelPortal.card.reviewsSuffix', 'reviews')}`}
+            <Typography variant='caption'>
+              {`${reviews} ${t('hotelPortal.card.reviewsSuffix', { defaultValue: 'reviews' })}`}
             </Typography>
-            <Typography variant="caption">
-              {t('hotelPortal.card.openToView', 'Open hotel to view available rooms')}
+            <Typography variant='caption'>
+              {t('hotelPortal.card.openToView', { defaultValue: 'Open hotel to view available rooms' })}
             </Typography>
           </Stack>
         </CardActions>

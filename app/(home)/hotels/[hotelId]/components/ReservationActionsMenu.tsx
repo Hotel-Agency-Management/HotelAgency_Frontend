@@ -1,13 +1,7 @@
 'use client'
 
 import { useState, type MouseEvent } from 'react'
-import {
-  IconButton,
-  Menu,
-  MenuItem,
-  Stack,
-  Typography,
-} from '@mui/material'
+import { IconButton, Menu, MenuItem, Stack, Typography } from '@mui/material'
 import { CalendarDays, MoreVertical, PencilLine, Trash2 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 
@@ -19,13 +13,7 @@ interface ReservationActionsMenuProps {
   onCancel: () => void
 }
 
-export function ReservationActionsMenu({
-  canModify,
-  isBusy,
-  onEdit,
-  onExtend,
-  onCancel,
-}: ReservationActionsMenuProps) {
+export function ReservationActionsMenu({ canModify, isBusy, onEdit, onExtend, onCancel }: ReservationActionsMenuProps) {
   const { t } = useTranslation()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = anchorEl != null
@@ -46,10 +34,10 @@ export function ReservationActionsMenu({
   return (
     <>
       <IconButton
-        size="small"
-        aria-label={t('hotelPortal.booking.reservationActions', 'Reservation actions')}
+        size='small'
+        aria-label={t('hotelPortal.booking.reservationActions', { defaultValue: 'Reservation actions' })}
         aria-controls={open ? 'reservation-actions-menu' : undefined}
-        aria-haspopup="true"
+        aria-haspopup='true'
         aria-expanded={open ? 'true' : undefined}
         onClick={handleOpenMenu}
         sx={{ alignSelf: { xs: 'flex-end', md: 'flex-end' } }}
@@ -58,7 +46,7 @@ export function ReservationActionsMenu({
       </IconButton>
 
       <Menu
-        id="reservation-actions-menu"
+        id='reservation-actions-menu'
         anchorEl={anchorEl}
         open={open}
         onClose={handleCloseMenu}
@@ -66,23 +54,29 @@ export function ReservationActionsMenu({
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
         <MenuItem disabled={!canModify || isBusy} onClick={() => runAction(onEdit)}>
-          <Stack direction="row" alignItems="center" spacing={1}>
+          <Stack direction='row' alignItems='center' spacing={1}>
             <PencilLine size={15} />
-            <Typography variant="inherit">{t('hotelPortal.booking.editReservation', 'Edit reservation')}</Typography>
+            <Typography variant='inherit'>
+              {t('hotelPortal.booking.editReservation', { defaultValue: 'Edit reservation' })}
+            </Typography>
           </Stack>
         </MenuItem>
 
         <MenuItem disabled={isBusy} onClick={() => runAction(onExtend)}>
-          <Stack direction="row" alignItems="center" spacing={1}>
+          <Stack direction='row' alignItems='center' spacing={1}>
             <CalendarDays size={15} />
-            <Typography variant="inherit">{t('hotelPortal.booking.extendStay', 'Extend stay')}</Typography>
+            <Typography variant='inherit'>
+              {t('hotelPortal.booking.extendStay', { defaultValue: 'Extend stay' })}
+            </Typography>
           </Stack>
         </MenuItem>
 
         <MenuItem disabled={isBusy} onClick={() => runAction(onCancel)} sx={{ color: 'error.main' }}>
-          <Stack direction="row" alignItems="center" spacing={1}>
+          <Stack direction='row' alignItems='center' spacing={1}>
             <Trash2 size={15} />
-            <Typography variant="inherit">{t('hotelPortal.booking.cancelReservation', 'Cancel reservation')}</Typography>
+            <Typography variant='inherit'>
+              {t('hotelPortal.booking.cancelReservation', { defaultValue: 'Cancel reservation' })}
+            </Typography>
           </Stack>
         </MenuItem>
       </Menu>

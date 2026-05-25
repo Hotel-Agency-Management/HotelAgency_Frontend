@@ -19,101 +19,94 @@ interface LogoCardProps {
   isUploading?: boolean
 }
 
-export function LogoCard({
-  namePrefix,
-  displayLogo,
-  onLogoUpload,
-  isUploading = false,
-}: LogoCardProps) {
-  const { fileInputRef, uploadError, logoLoadFailed, logo, setLogoLoadFailed, handleUpload, handleRemove, openFilePicker } =
-    useLogoCard({
-      namePrefix,
-      displayLogo,
-      onLogoUpload,
-    })
+export function LogoCard({ namePrefix, displayLogo, onLogoUpload, isUploading = false }: LogoCardProps) {
+  const {
+    fileInputRef,
+    uploadError,
+    logoLoadFailed,
+    logo,
+    setLogoLoadFailed,
+    handleUpload,
+    handleRemove,
+    openFilePicker
+  } = useLogoCard({
+    namePrefix,
+    displayLogo,
+    onLogoUpload
+  })
   const { t } = useTranslation()
 
   return (
-    <Paper elevation={0} variant="card">
+    <Paper elevation={0} variant='card'>
       <Stack spacing={0.5}>
-        <Typography variant="subtitle1" fontWeight={500}>
-          {t('agencySettings.theme.brandIdentityTitle', 'Brand identity')}
+        <Typography variant='subtitle1' fontWeight={500}>
+          {t('agencySettings.theme.brandIdentityTitle', { defaultValue: 'Brand identity' })}
         </Typography>
-        <Typography variant="body2">
-          {t('agencySettings.theme.uploadLogoHint', 'Upload a custom logo for your agency.')}
+        <Typography variant='body2'>
+          {t('agencySettings.theme.uploadLogoHint', { defaultValue: 'Upload a custom logo for your agency.' })}
         </Typography>
       </Stack>
 
       <Divider />
 
-      <Stack
-        direction={{ xs: 'column', sm: 'row' }}
-        spacing={2.5}
-        alignItems={{ xs: 'stretch', sm: 'center' }}
-      >
+      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2.5} alignItems={{ xs: 'stretch', sm: 'center' }}>
         <Avatar
           src={logoLoadFailed ? undefined : (logo ?? undefined)}
-          variant="rounded"
+          variant='rounded'
           sx={{ width: 96, height: 96 }}
           imgProps={{
             onError: () => setLogoLoadFailed(true),
-            style: { objectFit: 'contain' },
+            style: { objectFit: 'contain' }
           }}
         >
-          <Stack spacing={0.75} alignItems="center">
+          <Stack spacing={0.75} alignItems='center'>
             <ImageIcon size={20} />
-            <Typography variant="caption" color="text.disabled">
-              {t('agencySettings.theme.noLogo', 'No logo')}
+            <Typography variant='caption' color='text.disabled'>
+              {t('agencySettings.theme.noLogo', { defaultValue: 'No logo' })}
             </Typography>
           </Stack>
         </Avatar>
 
         <Stack spacing={1.5} flex={1}>
-          <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+          <Stack direction='row' spacing={1} flexWrap='wrap' useFlexGap>
             <Button
-              size="small"
-              variant="contained"
+              size='small'
+              variant='contained'
               disableElevation
               disabled={isUploading}
-              startIcon={
-                isUploading ? (
-                  <CircularProgress size={13} color="inherit" />
-                ) : (
-                  <Upload size={15} />
-                )
-              }
+              startIcon={isUploading ? <CircularProgress size={13} color='inherit' /> : <Upload size={15} />}
               onClick={openFilePicker}
             >
-              {t('agencySettings.theme.upload', 'Upload')}
+              {t('agencySettings.theme.upload', { defaultValue: 'Upload' })}
             </Button>
 
             <Button
-              size="small"
-              variant="outlined"
-              color="inherit"
+              size='small'
+              variant='outlined'
+              color='inherit'
               startIcon={<Trash2 size={15} />}
               disabled={!logo || isUploading || Boolean(onLogoUpload)}
               onClick={handleRemove}
               sx={{ borderColor: 'divider' }}
             >
-              {t('agencySettings.theme.remove', 'Remove')}
+              {t('agencySettings.theme.remove', { defaultValue: 'Remove' })}
             </Button>
           </Stack>
 
-          <Typography variant="caption" color="text.secondary">
-            {t('agencySettings.theme.logoFileTypes', 'PNG, JPG, SVG or WEBP · max 2 MB')}
+          <Typography variant='caption' color='text.secondary'>
+            {t('agencySettings.theme.logoFileTypes', { defaultValue: 'PNG, JPG, SVG or WEBP · max 2 MB' })}
           </Typography>
 
           <input
             ref={fileInputRef}
             hidden
-            type="file"
-            accept="image/png,image/jpeg,image/svg+xml,image/webp"
+            type='file'
+            accept='image/png,image/jpeg,image/svg+xml,image/webp'
             onChange={handleUpload}
           />
 
           {uploadError && (
-            <Alert severity="error" sx={{ py: 0.25 }}>
+            <Alert severity='error' sx={{ py: 0.25 }}>
               {uploadError}
             </Alert>
           )}

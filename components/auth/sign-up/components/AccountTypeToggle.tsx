@@ -12,42 +12,31 @@ interface AccountTypeToggleProps {
   onChange: (event: MouseEvent<HTMLElement>, nextValue: SignupUiAccountType | null) => void
 }
 
-const AccountTypeToggle: React.FC<AccountTypeToggleProps> = ({
-  accountType,
-  activeStep,
-  stepLabels,
-  onChange
-}) => {
+const AccountTypeToggle: React.FC<AccountTypeToggleProps> = ({ accountType, activeStep, stepLabels, onChange }) => {
   const { t } = useTranslation()
 
   return (
     <Stack spacing={3}>
       <Typography variant='body2' textAlign='center'>
-        {t('signup.chooseType', 'Choose account type')}
+        {t('signup.chooseType', { defaultValue: 'Choose account type' })}
       </Typography>
 
-      <ToggleButtonGroup
-        value={accountType}
-        exclusive
-        onChange={onChange}
-        fullWidth
-        color='primary'
-      >
+      <ToggleButtonGroup value={accountType} exclusive onChange={onChange} fullWidth color='primary'>
         <ToggleButton value={SIGNUP_UI_ACCOUNT_TYPE.CUSTOMER}>
           <UserRound size={16} />
-          {t('signup.customer', 'Customer')}
+          {t('signup.customer', { defaultValue: 'Customer' })}
         </ToggleButton>
 
         <ToggleButton value={SIGNUP_UI_ACCOUNT_TYPE.AGENCY_OWNER}>
           <Building2 size={16} />
-          {t('signup.agencyOwner', 'Agency Owner')}
+          {t('signup.agencyOwner', { defaultValue: 'Agency Owner' })}
         </ToggleButton>
       </ToggleButtonGroup>
 
       <Typography variant='caption' textAlign='center'>
         {accountType === SIGNUP_UI_ACCOUNT_TYPE.AGENCY_OWNER
-          ? t('signup.agencyOwnerHint', 'Register your agency in three quick steps.')
-          : t('signup.customerHint', 'Create a customer account and start right away.')}
+          ? t('signup.agencyOwnerHint', { defaultValue: 'Register your agency in three quick steps.' })
+          : t('signup.customerHint', { defaultValue: 'Create a customer account and start right away.' })}
       </Typography>
 
       {accountType === SIGNUP_UI_ACCOUNT_TYPE.AGENCY_OWNER && (

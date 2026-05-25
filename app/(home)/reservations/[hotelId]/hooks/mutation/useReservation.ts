@@ -12,19 +12,18 @@ export const useCreateReservation = (hotelId: number) => {
   const { t } = useTranslation()
 
   return useMutation({
-    mutationFn: (data: CreateReservationRequest) =>
-      createReservation(hotelId, data),
+    mutationFn: (data: CreateReservationRequest) => createReservation(hotelId, data),
 
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [...RESERVATIONS_QUERY_KEY, hotelId],
+        queryKey: [...RESERVATIONS_QUERY_KEY, hotelId]
       })
 
-      toast.success(t('reservations.toast.created', 'Reservation created successfully'))
+      toast.success(t('reservations.toast.created', { defaultValue: 'Reservation created successfully' }))
     },
 
-    onError: (error) => {
+    onError: error => {
       toast.error(getErrorMessage(error))
-    },
+    }
   })
 }

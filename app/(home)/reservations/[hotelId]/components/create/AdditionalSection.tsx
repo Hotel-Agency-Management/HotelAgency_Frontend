@@ -3,10 +3,7 @@ import { Box, Grid, TextField, FormControl, FormHelperText, InputLabel, MenuItem
 import { useTranslation } from 'react-i18next'
 import { FormSection } from './FormSection'
 import { SignaturePadField } from '@/components/common/SignaturePadField'
-import {
-  RESERVATION_SOURCE_OPTIONS,
-  type DirectReservationFormInput,
-} from '../../schema/directReservationSchema'
+import { RESERVATION_SOURCE_OPTIONS, type DirectReservationFormInput } from '../../schema/directReservationSchema'
 
 interface AdditionalSectionProps {
   control: Control<DirectReservationFormInput>
@@ -17,8 +14,10 @@ export function AdditionalSection({ control }: AdditionalSectionProps) {
 
   return (
     <FormSection
-      title={t('reservations.form.additional.title', 'Additional')}
-      description={t('reservations.form.additional.description', 'Keep reservation context, guest requests, and internal notes in one place.')}
+      title={t('reservations.form.additional.title', { defaultValue: 'Additional' })}
+      description={t('reservations.form.additional.description', {
+        defaultValue: 'Keep reservation context, guest requests, and internal notes in one place.'
+      })}
     >
       <Grid container spacing={2}>
         <Grid size={{ xs: 12 }}>
@@ -28,7 +27,7 @@ export function AdditionalSection({ control }: AdditionalSectionProps) {
             render={({ field }) => (
               <TextField
                 {...field}
-                label={t('reservations.form.additional.specialRequests', 'Special Requests')}
+                label={t('reservations.form.additional.specialRequests', { defaultValue: 'Special Requests' })}
                 fullWidth
                 size='small'
                 multiline
@@ -49,26 +48,28 @@ export function AdditionalSection({ control }: AdditionalSectionProps) {
               return (
                 <FormControl fullWidth error={showError} size='small'>
                   <InputLabel shrink id='reservation-source-label'>
-                    {t('reservations.form.additional.reservationSource', 'Reservation Source')}
+                    {t('reservations.form.additional.reservationSource', { defaultValue: 'Reservation Source' })}
                   </InputLabel>
                   <Select
                     {...field}
                     displayEmpty
                     labelId='reservation-source-label'
-                    label={t('reservations.form.additional.reservationSource', 'Reservation Source')}
+                    label={t('reservations.form.additional.reservationSource', { defaultValue: 'Reservation Source' })}
                     value={field.value}
                     renderValue={selected =>
                       selected ? (
                         selected
                       ) : (
                         <Box component='span'>
-                          {t('reservations.form.additional.selectSource', 'Select reservation source')}
+                          {t('reservations.form.additional.selectSource', {
+                            defaultValue: 'Select reservation source'
+                          })}
                         </Box>
                       )
                     }
                   >
                     <MenuItem disabled value=''>
-                      {t('reservations.form.additional.selectSource', 'Select reservation source')}
+                      {t('reservations.form.additional.selectSource', { defaultValue: 'Select reservation source' })}
                     </MenuItem>
                     {RESERVATION_SOURCE_OPTIONS.map(option => (
                       <MenuItem key={option.value} value={option.value}>
@@ -90,7 +91,7 @@ export function AdditionalSection({ control }: AdditionalSectionProps) {
             render={({ field }) => (
               <TextField
                 {...field}
-                label={t('reservations.form.additional.notes', 'Notes')}
+                label={t('reservations.form.additional.notes', { defaultValue: 'Notes' })}
                 fullWidth
                 size='small'
                 multiline
@@ -108,8 +109,10 @@ export function AdditionalSection({ control }: AdditionalSectionProps) {
               <SignaturePadField
                 value={field.value}
                 onChange={field.onChange}
-                title={t('reservations.form.additional.employeeSignature', 'Employee Signature')}
-                description={t('reservations.form.additional.employeeSignatureDesc', 'Sign to confirm this reservation on behalf of the hotel.')}
+                title={t('reservations.form.additional.employeeSignature', { defaultValue: 'Employee Signature' })}
+                description={t('reservations.form.additional.employeeSignatureDesc', {
+                  defaultValue: 'Sign to confirm this reservation on behalf of the hotel.'
+                })}
               />
             )}
           />

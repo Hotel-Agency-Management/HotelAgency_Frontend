@@ -12,9 +12,7 @@ interface AdminReservationCreatePageProps {
   hotelId: number
 }
 
-export default function AdminReservationCreatePage({
-  hotelId,
-}: AdminReservationCreatePageProps) {
+export default function AdminReservationCreatePage({ hotelId }: AdminReservationCreatePageProps) {
   const { t } = useTranslation()
   const {
     control,
@@ -27,7 +25,7 @@ export default function AdminReservationCreatePage({
     reservationSnapshot,
     handleFormSubmit,
     handleBeforeNextStep,
-    trigger,
+    trigger
   } = useAdminDirectReservationCreatePage(hotelId)
 
   return (
@@ -35,17 +33,32 @@ export default function AdminReservationCreatePage({
       <GradientCard variant='card'>
         <Stack spacing={2}>
           <Stack direction='row' spacing={1} flexWrap='wrap' useFlexGap>
-            <Chip icon={<PhoneCall size={14} />} label={t('reservations.create_page.chipPhone', 'Phone & Walk-in')} variant='outlined' />
-            <Chip icon={<BedDouble size={14} />} label={t('reservations.create_page.chipHotel', 'Hotel Reservation')} variant='outlined' />
-            <Chip icon={<ReceiptText size={14} />} label={t('reservations.create_page.chipPayment', 'Payment Tracking')} variant='outlined' />
+            <Chip
+              icon={<PhoneCall size={14} />}
+              label={t('reservations.create_page.chipPhone', { defaultValue: 'Phone & Walk-in' })}
+              variant='outlined'
+            />
+            <Chip
+              icon={<BedDouble size={14} />}
+              label={t('reservations.create_page.chipHotel', { defaultValue: 'Hotel Reservation' })}
+              variant='outlined'
+            />
+            <Chip
+              icon={<ReceiptText size={14} />}
+              label={t('reservations.create_page.chipPayment', { defaultValue: 'Payment Tracking' })}
+              variant='outlined'
+            />
           </Stack>
 
           <Stack spacing={1}>
             <Typography variant='h4' fontWeight={800}>
-              {t('reservations.create_page.heading', 'Create a hotel reservation')}
+              {t('reservations.create_page.heading', { defaultValue: 'Create a hotel reservation' })}
             </Typography>
             <Typography variant='body1' maxWidth={760}>
-              {t('reservations.create_page.description', 'Capture walk-in and phone reservations with guest details, stay dates, room selection, and payment in a guided step-by-step flow.')}
+              {t('reservations.create_page.description', {
+                defaultValue:
+                  'Capture walk-in and phone reservations with guest details, stay dates, room selection, and payment in a guided step-by-step flow.'
+              })}
             </Typography>
           </Stack>
         </Stack>

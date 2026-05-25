@@ -10,22 +10,22 @@ const STATUS_LABEL_KEY: Record<string, string> = {
   Cancelled: 'reservations.status.cancelled',
   CheckedIn: 'reservations.status.checkedIn',
   CheckedOut: 'reservations.status.checkedOut',
-  Completed: 'reservations.status.completed',
+  Completed: 'reservations.status.completed'
 }
 
 export function createStatusColumn({ t }: ReservationColumnContext): GridColDef<ReservationListItem> {
   return {
     field: 'status',
-    headerName: t('reservations.table.status', 'Status'),
+    headerName: t('reservations.table.status', { defaultValue: 'Status' }),
     flex: 0.9,
     minWidth: 130,
     renderCell: ({ value }) => (
       <Chip
         label={t(STATUS_LABEL_KEY[value as string] ?? '', value as string)}
         color={STATUS_COLOR[value as string] ?? 'default'}
-        size="small"
-        variant="outlined"
+        size='small'
+        variant='outlined'
       />
-    ),
+    )
   }
 }

@@ -22,7 +22,7 @@ function ReservationRowActions({
   onUpdate,
   onCancel,
   onUpdateStatus,
-  statusUpdatingId,
+  statusUpdatingId
 }: ActionParams & { row: ReservationListItem }) {
   const { t } = useTranslation()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
@@ -32,8 +32,8 @@ function ReservationRowActions({
 
   const nextStatusLabel =
     row.status === 'Confirmed'
-      ? t('reservations.actions.checkIn', 'Check In')
-      : t('reservations.actions.checkOut', 'Check Out')
+      ? t('reservations.actions.checkIn', { defaultValue: 'Check In' })
+      : t('reservations.actions.checkOut', { defaultValue: 'Check Out' })
 
   const openMenu = (event: MouseEvent<HTMLElement>) => {
     event.stopPropagation()
@@ -50,10 +50,10 @@ function ReservationRowActions({
   return (
     <>
       <IconButton
-        size="small"
-        aria-label={t('reservations.actions.reservationActions', 'Reservation actions')}
+        size='small'
+        aria-label={t('reservations.actions.reservationActions', { defaultValue: 'Reservation actions' })}
         aria-controls={open ? `reservation-actions-${row.id}` : undefined}
-        aria-haspopup="true"
+        aria-haspopup='true'
         aria-expanded={open ? 'true' : undefined}
         onClick={openMenu}
       >
@@ -74,18 +74,18 @@ function ReservationRowActions({
             disabled={statusUpdatingId !== null}
             onClick={() => runAction(onUpdateStatus)}
             sx={theme => ({
-              '&:hover': { bgcolor: alpha(theme.palette.success.main, 0.08) },
+              '&:hover': { bgcolor: alpha(theme.palette.success.main, 0.08) }
             })}
           >
-            <Stack direction="row" alignItems="center" spacing={1} sx={{ color: statusColor }}>
+            <Stack direction='row' alignItems='center' spacing={1} sx={{ color: statusColor }}>
               {isUpdatingStatus ? (
-                <CircularProgress size={16} color="inherit" />
+                <CircularProgress size={16} color='inherit' />
               ) : row.status === 'Confirmed' ? (
                 <LogIn size={15} />
               ) : (
                 <LogOut size={15} />
               )}
-              <Typography variant="inherit" color="text.primary">
+              <Typography variant='inherit' color='text.primary'>
                 {nextStatusLabel}
               </Typography>
             </Stack>
@@ -95,13 +95,13 @@ function ReservationRowActions({
         <MenuItem
           onClick={() => runAction(onExtend)}
           sx={theme => ({
-            '&:hover': { bgcolor: alpha(theme.palette.primary.main, 0.08) },
+            '&:hover': { bgcolor: alpha(theme.palette.primary.main, 0.08) }
           })}
         >
-          <Stack direction="row" alignItems="center" spacing={1} sx={{ color: 'primary.main' }}>
+          <Stack direction='row' alignItems='center' spacing={1} sx={{ color: 'primary.main' }}>
             <CalendarClock size={15} />
-            <Typography variant="inherit" color="text.primary">
-              {t('reservations.actions.extend', 'Extend reservation')}
+            <Typography variant='inherit' color='text.primary'>
+              {t('reservations.actions.extend', { defaultValue: 'Extend reservation' })}
             </Typography>
           </Stack>
         </MenuItem>
@@ -109,13 +109,13 @@ function ReservationRowActions({
         <MenuItem
           onClick={() => runAction(onUpdate)}
           sx={theme => ({
-            '&:hover': { bgcolor: alpha(theme.palette.tertiary.main, 0.08) },
+            '&:hover': { bgcolor: alpha(theme.palette.tertiary.main, 0.08) }
           })}
         >
-          <Stack direction="row" alignItems="center" spacing={1} sx={{ color: 'tertiary.main' }}>
+          <Stack direction='row' alignItems='center' spacing={1} sx={{ color: 'tertiary.main' }}>
             <Pencil size={15} />
-            <Typography variant="inherit" color="text.primary">
-              {t('reservations.actions.update', 'Update reservation')}
+            <Typography variant='inherit' color='text.primary'>
+              {t('reservations.actions.update', { defaultValue: 'Update reservation' })}
             </Typography>
           </Stack>
         </MenuItem>
@@ -124,12 +124,14 @@ function ReservationRowActions({
           onClick={() => runAction(onCancel)}
           sx={theme => ({
             color: 'error.main',
-            '&:hover': { bgcolor: alpha(theme.palette.error.main, 0.08) },
+            '&:hover': { bgcolor: alpha(theme.palette.error.main, 0.08) }
           })}
         >
-          <Stack direction="row" alignItems="center" spacing={1}>
+          <Stack direction='row' alignItems='center' spacing={1}>
             <XCircle size={15} />
-            <Typography variant="inherit">{t('reservations.actions.cancel', 'Cancel reservation')}</Typography>
+            <Typography variant='inherit'>
+              {t('reservations.actions.cancel', { defaultValue: 'Cancel reservation' })}
+            </Typography>
           </Stack>
         </MenuItem>
       </Menu>
@@ -143,11 +145,11 @@ export function createActionsColumn({
   onUpdate,
   onCancel,
   onUpdateStatus,
-  statusUpdatingId,
+  statusUpdatingId
 }: ReservationColumnContext): GridColDef<ReservationListItem> {
   return {
     field: 'actions',
-    headerName: t('reservations.table.actions', 'Actions'),
+    headerName: t('reservations.table.actions', { defaultValue: 'Actions' }),
     sortable: false,
     filterable: false,
     disableColumnMenu: true,
@@ -164,6 +166,6 @@ export function createActionsColumn({
         onUpdateStatus={onUpdateStatus}
         statusUpdatingId={statusUpdatingId}
       />
-    ),
+    )
   }
 }

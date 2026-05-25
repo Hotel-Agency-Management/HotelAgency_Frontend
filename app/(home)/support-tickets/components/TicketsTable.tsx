@@ -1,34 +1,21 @@
-'use client';
+'use client'
 
-import { useMemo } from 'react';
-import {
-  Avatar,
-  Paper,
-  Stack,
-  Tooltip,
-  Typography,
-  useTheme,
-  Theme,
-} from '@mui/material';
-import {
-  DataGrid,
-  GridColDef,
-  GridRenderCellParams,
-  GridToolbar,
-} from '@mui/x-data-grid';
-import { useTranslation } from 'react-i18next';
-import { TFunction } from 'i18next';
-import { Ticket } from '@/core/types/supportTickets';
-import { CATEGORY_LABELS } from '../constant/tickets';
-import { getAgentInitials, formatRelativeTime, formatSLARemaining } from '../util/utils';
-import { TicketPriorityChip, TicketStatusChip, SLAChip } from './TicketChips';
-import { fromNow } from '@/core/utils/Dateutils';
+import { useMemo } from 'react'
+import { Avatar, Paper, Stack, Tooltip, Typography, useTheme, Theme } from '@mui/material'
+import { DataGrid, GridColDef, GridRenderCellParams, GridToolbar } from '@mui/x-data-grid'
+import { useTranslation } from 'react-i18next'
+import { TFunction } from 'i18next'
+import { Ticket } from '@/core/types/supportTickets'
+import { CATEGORY_LABELS } from '../constant/tickets'
+import { getAgentInitials, formatRelativeTime, formatSLARemaining } from '../util/utils'
+import { TicketPriorityChip, TicketStatusChip, SLAChip } from './TicketChips'
+import { fromNow } from '@/core/utils/Dateutils'
 
 type ColumnFactory = (deps: {
-  theme: Theme;
-  t: TFunction;
-  onSelectTicket: (ticket: Ticket) => void;
-}) => GridColDef<Ticket>[];
+  theme: Theme
+  t: TFunction
+  onSelectTicket: (ticket: Ticket) => void
+}) => GridColDef<Ticket>[]
 
 const buildColumns: ColumnFactory = ({ theme, t }) => [
   {
@@ -36,10 +23,10 @@ const buildColumns: ColumnFactory = ({ theme, t }) => [
     headerName: t('supportTickets.table.ticketId', { defaultValue: 'Ticket ID' }),
     width: 110,
     renderCell: ({ value }: GridRenderCellParams) => (
-      <Typography variant="caption" fontWeight={600} color="primary" fontFamily="monospace">
+      <Typography variant='caption' fontWeight={600} color='primary' fontFamily='monospace'>
         {value}
       </Typography>
-    ),
+    )
   },
   {
     field: 'agency',
@@ -47,54 +34,50 @@ const buildColumns: ColumnFactory = ({ theme, t }) => [
     width: 190,
     sortable: false,
     renderCell: ({ row }: GridRenderCellParams<Ticket>) => (
-      <Stack direction="row" spacing={1} alignItems="center" sx={{ height: '100%' }}>
+      <Stack direction='row' spacing={1} alignItems='center' sx={{ height: '100%' }}>
         <Avatar
           sx={{
             width: 28,
             height: 28,
             fontWeight: 700,
             bgcolor: row.agency.logoColor,
-            flexShrink: 0,
+            flexShrink: 0
           }}
         >
           {row.agency.logoInitials}
         </Avatar>
         <Stack spacing={0}>
-          <Typography variant="body2" noWrap sx={{ maxWidth: 120 }}>
+          <Typography variant='body2' noWrap sx={{ maxWidth: 120 }}>
             {row.agency.name}
           </Typography>
-          <Typography variant="caption" color="text.secondary">
+          <Typography variant='caption' color='text.secondary'>
             {row.agency.planName}
           </Typography>
         </Stack>
       </Stack>
-    ),
+    )
   },
   {
     field: 'category',
     headerName: t('supportTickets.table.category', { defaultValue: 'Category' }),
     width: 150,
     renderCell: ({ value }: GridRenderCellParams) => (
-      <Typography variant="body2" color="text.secondary" noWrap>
+      <Typography variant='body2' color='text.secondary' noWrap>
         {CATEGORY_LABELS[value as keyof typeof CATEGORY_LABELS]}
       </Typography>
-    ),
+    )
   },
   {
     field: 'priority',
     headerName: t('supportTickets.table.priority', { defaultValue: 'Priority' }),
     width: 110,
-    renderCell: ({ value }: GridRenderCellParams) => (
-      <TicketPriorityChip priority={value} />
-    ),
+    renderCell: ({ value }: GridRenderCellParams) => <TicketPriorityChip priority={value} />
   },
   {
     field: 'status',
     headerName: t('supportTickets.table.status', { defaultValue: 'Status' }),
     width: 140,
-    renderCell: ({ value }: GridRenderCellParams) => (
-      <TicketStatusChip status={value} />
-    ),
+    renderCell: ({ value }: GridRenderCellParams) => <TicketStatusChip status={value} />
   },
   {
     field: 'assignedTo',
@@ -102,47 +85,47 @@ const buildColumns: ColumnFactory = ({ theme, t }) => [
     width: 160,
     renderCell: ({ value }: GridRenderCellParams) =>
       value ? (
-        <Stack direction="row" spacing={1} alignItems="center" sx={{ height: '100%' }}>
+        <Stack direction='row' spacing={1} alignItems='center' sx={{ height: '100%' }}>
           <Avatar
             sx={{
               width: 22,
               height: 22,
               fontSize: '0.6rem',
               bgcolor: theme.palette.primary.light,
-              color: theme.palette.primary.contrastText,
+              color: theme.palette.primary.contrastText
             }}
           >
             {getAgentInitials(value)}
           </Avatar>
-          <Typography variant="body2" noWrap>
+          <Typography variant='body2' noWrap>
             {value}
           </Typography>
         </Stack>
       ) : (
-        <Typography variant="caption" color="text.disabled" fontStyle="italic">
+        <Typography variant='caption' color='text.disabled' fontStyle='italic'>
           {t('supportTickets.unassigned', { defaultValue: 'Unassigned' })}
         </Typography>
-      ),
+      )
   },
   {
     field: 'createdAt',
     headerName: t('supportTickets.table.created', { defaultValue: 'Created' }),
     width: 120,
     renderCell: ({ value }: GridRenderCellParams) => (
-      <Typography variant="caption" color="text.secondary" noWrap>
+      <Typography variant='caption' color='text.secondary' noWrap>
         {fromNow(value)}
       </Typography>
-    ),
+    )
   },
   {
     field: 'lastReplyAt',
     headerName: t('supportTickets.table.lastReply', { defaultValue: 'Last Reply' }),
     width: 120,
     renderCell: ({ value }: GridRenderCellParams) => (
-      <Typography variant="caption" color="text.secondary" noWrap>
+      <Typography variant='caption' color='text.secondary' noWrap>
         {formatRelativeTime(value)}
       </Typography>
-    ),
+    )
   },
   {
     field: 'slaDeadline',
@@ -151,45 +134,35 @@ const buildColumns: ColumnFactory = ({ theme, t }) => [
     renderCell: ({ row }: GridRenderCellParams<Ticket>) => (
       <Tooltip title={formatSLARemaining(row.slaDeadline)}>
         <span>
-          <SLAChip
-            slaStatus={row.slaStatus}
-            label={formatSLARemaining(row.slaDeadline)}
-          />
+          <SLAChip slaStatus={row.slaStatus} label={formatSLARemaining(row.slaDeadline)} />
         </span>
       </Tooltip>
-    ),
+    )
   }
-];
+]
 
 // ─── Main Component ──────────────────────────────────────────────────────────
 
 interface TicketsTableProps {
-  tickets: Ticket[];
-  loading?: boolean;
-  onSelectTicket: (ticket: Ticket) => void;
-  isFiltered: boolean;
+  tickets: Ticket[]
+  loading?: boolean
+  onSelectTicket: (ticket: Ticket) => void
+  isFiltered: boolean
 }
 
-export function TicketsTable({
-  tickets,
-  loading = false,
-  onSelectTicket,
-}: TicketsTableProps) {
-  const theme = useTheme();
-  const { t } = useTranslation();
+export function TicketsTable({ tickets, loading = false, onSelectTicket }: TicketsTableProps) {
+  const theme = useTheme()
+  const { t } = useTranslation()
 
   // useMemo: الأعمدة تتبنى مرة وحدة، ما بتتعاد إلا لو تغير theme أو onSelectTicket
   const columns = useMemo(
     () => buildColumns({ theme, t, onSelectTicket }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [theme, onSelectTicket],
-  );
+    [theme, onSelectTicket]
+  )
 
   return (
-    <Paper
-      elevation={0}
-      sx={{ border: `1px solid ${theme.palette.divider}`, borderRadius: 2, overflow: 'hidden' }}
-    >
+    <Paper elevation={0} sx={{ border: `1px solid ${theme.palette.divider}`, borderRadius: 2, overflow: 'hidden' }}>
       <DataGrid
         rows={tickets}
         columns={columns}
@@ -201,11 +174,11 @@ export function TicketsTable({
         slotProps={{
           toolbar: {
             showQuickFilter: true,
-            quickFilterProps: { debounceMs: 300 },
-          },
+            quickFilterProps: { debounceMs: 300 }
+          }
         }}
         initialState={{
-          pagination: { paginationModel: { pageSize: 10 } },
+          pagination: { paginationModel: { pageSize: 10 } }
         }}
         pageSizeOptions={[10, 25, 50]}
         disableRowSelectionOnClick
@@ -213,32 +186,32 @@ export function TicketsTable({
           border: 'none',
           '& .MuiDataGrid-columnHeaders': {
             bgcolor: theme.palette.grey[50],
-            borderBottom: `2px solid ${theme.palette.divider}`,
+            borderBottom: `2px solid ${theme.palette.divider}`
           },
           '& .MuiDataGrid-columnHeaderTitle': {
             fontWeight: 600,
             fontSize: '0.72rem',
             letterSpacing: 0.5,
             textTransform: 'uppercase',
-            color: 'text.secondary',
+            color: 'text.secondary'
           },
           '& .MuiDataGrid-row': { cursor: 'pointer' },
           '& .MuiDataGrid-cell': {
             borderBottom: `1px solid ${theme.palette.divider}`,
             display: 'flex',
-            alignItems: 'center',
+            alignItems: 'center'
           },
           '& .MuiDataGrid-footerContainer': {
-            borderTop: `1px solid ${theme.palette.divider}`,
+            borderTop: `1px solid ${theme.palette.divider}`
           },
           '& .MuiDataGrid-toolbarContainer': {
             px: 2,
             pt: 1.5,
             pb: 1,
-            borderBottom: `1px solid ${theme.palette.divider}`,
-          },
+            borderBottom: `1px solid ${theme.palette.divider}`
+          }
         }}
       />
     </Paper>
-  );
+  )
 }

@@ -41,30 +41,38 @@ export function useAgencyApprovals() {
     setConfirmDialog({ open: true, action, request })
   }, [])
 
-  const handleConfirm = useCallback(async (action: ActionType) => {
-    if (!confirmDialog.request) return
-    const { request } = confirmDialog
+  const handleConfirm = useCallback(
+    async (action: ActionType) => {
+      if (!confirmDialog.request) return
+      const { request } = confirmDialog
 
-    setActionLoading(true)
+      setActionLoading(true)
 
-    await new Promise(resolve => setTimeout(resolve, 1200))
+      await new Promise(resolve => setTimeout(resolve, 1200))
 
-    const newStatus = action === 'approve' ? AGENCY_STATUS.APPROVED : AGENCY_STATUS.REJECTED
-    setRequests(prev =>
-      prev.map(r => r.id === request.id ? { ...r, status: newStatus } : r),
-    )
+      const newStatus = action === 'approve' ? AGENCY_STATUS.APPROVED : AGENCY_STATUS.REJECTED
+      setRequests(prev => prev.map(r => (r.id === request.id ? { ...r, status: newStatus } : r)))
 
-    setSnackbar({
-      open: true,
-      message: action === 'approve'
-        ? t('agencyApproval.snackbar.approved', '✓ {{name}} has been approved successfully.', { name: request.agencyName })
-        : t('agencyApproval.snackbar.rejected', '{{name}} has been rejected.', { name: request.agencyName }),
-      severity: action === 'approve' ? 'success' : 'error',
-    })
+      setSnackbar({
+        open: true,
+        message:
+          action === 'approve'
+            ? t('agencyApproval.snackbar.approved', {
+                defaultValue: '✓ {{name}} has been approved successfully.',
+                name: request.agencyName
+              })
+            : t('agencyApproval.snackbar.rejected', {
+                defaultValue: '{{name}} has been rejected.',
+                name: request.agencyName
+              }),
+        severity: action === 'approve' ? 'success' : 'error'
+      })
 
-    setActionLoading(false)
-    setConfirmDialog(CLOSED_CONFIRM)
-  }, [confirmDialog])
+      setActionLoading(false)
+      setConfirmDialog(CLOSED_CONFIRM)
+    },
+    [confirmDialog]
+  )
 
   const handleRetry = useCallback(() => {
     setPageStatus('loading')
@@ -103,6 +111,6 @@ export function useAgencyApprovals() {
     handleRetry,
     closeSnackbar,
     closeConfirmDialog,
-    closeDrawer,
+    closeDrawer
   }
 }

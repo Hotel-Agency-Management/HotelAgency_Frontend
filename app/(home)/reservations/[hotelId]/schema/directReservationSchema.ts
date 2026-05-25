@@ -29,15 +29,11 @@ export interface DirectReservationFormInput {
 // ---------------------------------------------------------------------------
 
 const requiredTextField = (t: TFunction, labelKey: string, fallbackLabel: string) =>
-  z.string().trim().min(1, t('zodValidation.fieldRequired', '{{label}} is required', {
-    label: t(labelKey, fallbackLabel),
-  }))
+  z.string().trim().min(1, t('zodValidation.fieldRequired', { defaultValue: '{{label}} is required', label: t(labelKey, fallbackLabel), }))
 
 const requiredDateField = (t: TFunction, labelKey: string, fallbackLabel: string) =>
   requiredTextField(t, labelKey, fallbackLabel).refine(value => dayjs(value).isValid(), {
-    message: t('zodValidation.fieldInvalid', '{{label}} is invalid', {
-      label: t(labelKey, fallbackLabel),
-    }),
+    message: t('zodValidation.fieldInvalid', { defaultValue: '{{label}} is invalid', label: t(labelKey, fallbackLabel), }),
   })
 
 const requiredNumberField = (t: TFunction, labelKey: string, fallbackLabel: string, min: number) =>
@@ -45,17 +41,11 @@ const requiredNumberField = (t: TFunction, labelKey: string, fallbackLabel: stri
     value => (value === '' || value === null || value === undefined ? undefined : value),
     z
       .number({
-        required_error: t('zodValidation.fieldRequired', '{{label}} is required', {
-          label: t(labelKey, fallbackLabel),
-        }),
-        invalid_type_error: t('zodValidation.fieldRequired', '{{label}} is required', {
-          label: t(labelKey, fallbackLabel),
-        }),
+        required_error: t('zodValidation.fieldRequired', { defaultValue: '{{label}} is required', label: t(labelKey, fallbackLabel), }),
+        invalid_type_error: t('zodValidation.fieldRequired', { defaultValue: '{{label}} is required', label: t(labelKey, fallbackLabel), }),
       })
-      .min(min, t('zodValidation.fieldMin', '{{label}} must be at least {{min}}', {
-        label: t(labelKey, fallbackLabel),
-        min,
-      }))
+      .min(min, t('zodValidation.fieldMin', { defaultValue: '{{label}} must be at least {{min}}', label: t(labelKey, fallbackLabel),
+        min, }))
   )
 
 const requiredEnumField = <T extends readonly string[]>(
@@ -67,13 +57,9 @@ const requiredEnumField = <T extends readonly string[]>(
   z
     .string()
     .trim()
-    .min(1, t('zodValidation.fieldRequired', '{{label}} is required', {
-      label: t(labelKey, fallbackLabel),
-    }))
+    .min(1, t('zodValidation.fieldRequired', { defaultValue: '{{label}} is required', label: t(labelKey, fallbackLabel), }))
     .refine((value): value is T[number] => values.includes(value as T[number]), {
-      message: t('zodValidation.fieldInvalid', '{{label}} is invalid', {
-        label: t(labelKey, fallbackLabel),
-      }),
+      message: t('zodValidation.fieldInvalid', { defaultValue: '{{label}} is invalid', label: t(labelKey, fallbackLabel), }),
     })
     .transform(value => value as T[number])
 
@@ -83,7 +69,7 @@ export const createDirectReservationSchema = (t: TFunction) =>
       guestFullName: requiredTextField(t, 'zodValidation.labels.guestFullName', 'Guest full name'),
       guestPhone: requiredTextField(t, 'zodValidation.labels.guestPhone', 'Guest phone'),
       guestEmail: requiredTextField(t, 'zodValidation.labels.guestEmail', 'Guest email').email(
-        t('zodValidation.validEmail', 'Email must be a valid email address')
+        t('zodValidation.validEmail', { defaultValue: 'Email must be a valid email address' })
       ),
       guestIdNumber: z.string().trim(),
       checkInDate: requiredDateField(t, 'zodValidation.labels.checkInDate', 'Check-in date'),
@@ -91,13 +77,13 @@ export const createDirectReservationSchema = (t: TFunction) =>
       numberOfGuests: requiredNumberField(t, 'zodValidation.labels.numberOfGuests', 'Number of guests', 1),
       roomNumbers: z
         .array(requiredTextField(t, 'zodValidation.labels.roomNumber', 'Room number'))
-        .min(1, t('zodValidation.atLeastOneRoomRequired', 'At least one room is required')),
+        .min(1, t('zodValidation.atLeastOneRoomRequired', { defaultValue: 'At least one room is required' })),
       totalAmount: z
         .number({
-          required_error: t('zodValidation.totalAmountRequired', 'Total amount is required'),
-          invalid_type_error: t('zodValidation.totalAmountInvalid', 'Total amount is invalid'),
+          required_error: t('zodValidation.totalAmountRequired', { defaultValue: 'Total amount is required' }),
+          invalid_type_error: t('zodValidation.totalAmountInvalid', { defaultValue: 'Total amount is invalid' }),
         })
-        .min(0, t('zodValidation.totalAmountMin0', 'Total amount must be at least 0')),
+        .min(0, t('zodValidation.totalAmountMin0', { defaultValue: 'Total amount must be at least 0' })),
       specialRequests: z.string().trim(),
       source: requiredEnumField(
         t,
@@ -112,7 +98,7 @@ export const createDirectReservationSchema = (t: TFunction) =>
       if (!dayjs(values.checkOutDate).isAfter(dayjs(values.checkInDate))) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
-          message: t('zodValidation.checkOutAfterCheckIn', 'Check-out date must be after check-in date'),
+          message: t('zodValidation.checkOutAfterCheckIn', { defaultValue: 'Check-out date must be after check-in date' }),
           path: ['checkOutDate'],
         })
       }

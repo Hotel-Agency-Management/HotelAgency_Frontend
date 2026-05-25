@@ -1,13 +1,7 @@
 'use client'
 
 import { useTheme } from '@mui/material/styles'
-import {
-  Button,
-  Container,
-  Typography,
-  Stack,
-  Chip,
-} from '@mui/material'
+import { Button, Container, Typography, Stack, Chip } from '@mui/material'
 import FadeIn from '@/components/animation/FadeIn'
 import Icon from '@/components/icon/Icon'
 import Can from '@/components/ability/Can'
@@ -15,7 +9,7 @@ import {
   getDamageStatusLabels,
   getDamageSeverityLabels,
   DAMAGE_STATUS_COLOR_KEY,
-  DAMAGE_SEVERITY_COLOR_KEY,
+  DAMAGE_SEVERITY_COLOR_KEY
 } from '../constants/damageReport'
 import { DAMAGE_REPORT_STATUS } from '../types/damageReport'
 import {
@@ -23,7 +17,7 @@ import {
   DamageReportsGrid,
   DamageReportCard,
   DamageCardActions,
-  StyledChip,
+  StyledChip
 } from '../styles/StyledComponents'
 import DamageStatusChip from './DamageStatusChip'
 import EscalateDamageDialog from './EscalateDamageDialog'
@@ -53,24 +47,24 @@ export default function DamageReportsPage() {
     setInvoiceTarget,
     escalateReport,
     markAsInsured,
-    markAsInvoiced,
+    markAsInvoiced
   } = useDamageReportsPage()
 
   return (
-    <Container maxWidth="xl">
+    <Container maxWidth='xl'>
       <FadeIn>
         <Stack gap={3}>
           <DamageReportsHeader>
             <Stack gap={0.5}>
-              <Typography variant="h5" fontWeight={700}>
-                {t('damageReports.title', 'Damage Reports')}
+              <Typography variant='h5' fontWeight={700}>
+                {t('damageReports.title', { defaultValue: 'Damage Reports' })}
               </Typography>
-              <Typography variant="body2">
-                {t('damageReports.subtitle', 'Track and resolve room damage after checkout')}
+              <Typography variant='body2'>
+                {t('damageReports.subtitle', { defaultValue: 'Track and resolve room damage after checkout' })}
               </Typography>
             </Stack>
 
-            <Stack direction="row" gap={1} flexWrap="wrap">
+            <Stack direction='row' gap={1} flexWrap='wrap'>
               {Object.values(DAMAGE_REPORT_STATUS).map(status => {
                 const count = reports.filter(r => r.status === status).length
                 if (!count) return null
@@ -80,7 +74,7 @@ export default function DamageReportsPage() {
                   <StyledChip
                     key={status}
                     label={`${damageStatusLabels[status]}: ${count}`}
-                    size="small"
+                    size='small'
                     chipColor={color}
                   />
                 )
@@ -89,10 +83,10 @@ export default function DamageReportsPage() {
           </DamageReportsHeader>
 
           {visibleReports.length === 0 ? (
-            <Stack alignItems="center" gap={1}>
-              <Icon icon="tabler:circle-check" fontSize={48} />
-              <Typography variant="body1" color="text.secondary">
-                {t('damageReports.empty', 'No damage reports found.')}
+            <Stack alignItems='center' gap={1}>
+              <Icon icon='tabler:circle-check' fontSize={48} />
+              <Typography variant='body1' color='text.secondary'>
+                {t('damageReports.empty', { defaultValue: 'No damage reports found.' })}
               </Typography>
             </Stack>
           ) : (
@@ -102,83 +96,85 @@ export default function DamageReportsPage() {
                 const severityColor = theme.palette[severityColorKey].main
 
                 return (
-                  <DamageReportCard
-                    key={report.id}
-                  >
+                  <DamageReportCard key={report.id}>
                     <Stack gap={1.5}>
-                      <Stack direction="row" alignItems="center" justifyContent="space-between">
-                        <Typography variant="subtitle1" fontWeight={700}>
-                          {t('damageReports.room', 'Room')} {report.roomNumber}
+                      <Stack direction='row' alignItems='center' justifyContent='space-between'>
+                        <Typography variant='subtitle1' fontWeight={700}>
+                          {t('damageReports.room', { defaultValue: 'Room' })} {report.roomNumber}
                         </Typography>
                         <DamageStatusChip status={report.status} />
                       </Stack>
 
-                      <Stack direction="row" alignItems="center" gap={1}>
-                        <Icon icon="tabler:alert-triangle" fontSize={16} />
+                      <Stack direction='row' alignItems='center' gap={1}>
+                        <Icon icon='tabler:alert-triangle' fontSize={16} />
                         <StyledChip
                           label={damageSeverityLabels[report.severity]}
-                          size="small"
+                          size='small'
                           chipColor={severityColor}
                         />
                       </Stack>
 
-                      <Typography variant="body2" color="text.secondary">
+                      <Typography variant='body2' color='text.secondary'>
                         {report.description}
                       </Typography>
 
-                      <Stack direction="row" gap={2}>
-                        <Typography variant="caption" color="text.secondary">
-                          <strong>{t('damageReports.reportedBy', 'By')}:</strong> {report.reportedBy}
+                      <Stack direction='row' gap={2}>
+                        <Typography variant='caption' color='text.secondary'>
+                          <strong>{t('damageReports.reportedBy', { defaultValue: 'By' })}:</strong> {report.reportedBy}
                         </Typography>
-                        <Typography variant="caption" color="text.secondary">
-                          <strong>{t('damageReports.estimated', 'Est.')}:</strong>{' '}
+                        <Typography variant='caption' color='text.secondary'>
+                          <strong>{t('damageReports.estimated', { defaultValue: 'Est.' })}:</strong>{' '}
                           {new Intl.NumberFormat('en-US', {
                             style: 'currency',
-                            currency: report.currency,
+                            currency: report.currency
                           }).format(report.estimatedCost)}
                         </Typography>
                       </Stack>
 
                       {report.hasInsurance !== undefined && (
-                        <Stack direction="row">
+                        <Stack direction='row'>
                           <Chip
                             icon={<Icon icon={report.hasInsurance ? 'tabler:shield-check' : 'tabler:shield-off'} />}
-                            label={report.hasInsurance
-                              ? t('damageReports.insured', 'Insured')
-                              : t('damageReports.notInsured', 'No Insurance')}
-                            size="small"
+                            label={
+                              report.hasInsurance
+                                ? t('damageReports.insured', { defaultValue: 'Insured' })
+                                : t('damageReports.notInsured', { defaultValue: 'No Insurance' })
+                            }
+                            size='small'
                             color={report.hasInsurance ? 'success' : 'default'}
-                            variant="outlined"
+                            variant='outlined'
                           />
                         </Stack>
                       )}
 
                       <DamageCardActions>
-                        <Can do="manage" this="DamageReports">
+                        <Can do='manage' this='DamageReports'>
                           {(report.status === DAMAGE_REPORT_STATUS.REPORTED ||
                             report.status === DAMAGE_REPORT_STATUS.PENDING_REVIEW) && (
                             <Button
-                              size="small"
-                              variant="outlined"
-                              color="warning"
-                              startIcon={<Icon icon="tabler:arrow-up-right" />}
+                              size='small'
+                              variant='outlined'
+                              color='warning'
+                              startIcon={<Icon icon='tabler:arrow-up-right' />}
                               onClick={() => setEscalateTarget(report)}
                             >
-                              {t('damageReports.escalate', 'Escalate')}
+                              {t('damageReports.escalate', { defaultValue: 'Escalate' })}
                             </Button>
                           )}
                         </Can>
 
-                        <Can do="manage" this="DamageInvoices">
+                        <Can do='manage' this='DamageInvoices'>
                           {report.status === DAMAGE_REPORT_STATUS.ESCALATED && (
                             <Button
-                              size="small"
-                              variant="contained"
+                              size='small'
+                              variant='contained'
                               color={report.hasInsurance ? 'success' : 'primary'}
-                              startIcon={<Icon icon={report.hasInsurance ? 'tabler:shield-check' : 'tabler:file-invoice'} />}
+                              startIcon={
+                                <Icon icon={report.hasInsurance ? 'tabler:shield-check' : 'tabler:file-invoice'} />
+                              }
                               onClick={() => setResolveTarget(report)}
                             >
-                              {t('damageReports.resolve', 'Resolve')}
+                              {t('damageReports.resolve', { defaultValue: 'Resolve' })}
                             </Button>
                           )}
                         </Can>

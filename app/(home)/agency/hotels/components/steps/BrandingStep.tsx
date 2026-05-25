@@ -1,46 +1,46 @@
-"use client";
+'use client'
 
-import { StepLayout } from "../layout/StepLayout";
-import Stack from "@mui/material/Stack";
-import { useFormContext } from "react-hook-form";
-import { useTranslation } from "react-i18next";
-import type { HotelFormValues } from "../../types/hotel";
-import { LogoCard } from "@/app/(home)/agency/components/theme/LogoCard";
-import { ColorsCard } from "@/app/(home)/agency/components/theme/ColorsCard";
-import { useSettings } from "@/core/hooks/useSettings";
-import { resolveBrandingColors } from "@/core/theme/palette/branding";
+import { StepLayout } from '../layout/StepLayout'
+import Stack from '@mui/material/Stack'
+import { useFormContext } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
+import type { HotelFormValues } from '../../types/hotel'
+import { LogoCard } from '@/app/(home)/agency/components/theme/LogoCard'
+import { ColorsCard } from '@/app/(home)/agency/components/theme/ColorsCard'
+import { useSettings } from '@/core/hooks/useSettings'
+import { resolveBrandingColors } from '@/core/theme/palette/branding'
 
 interface BrandingStepProps {
-  isFirst: boolean;
-  isLast: boolean;
-  onBack: () => void;
-  onNext: () => void;
+  isFirst: boolean
+  isLast: boolean
+  onBack: () => void
+  onNext: () => void
 }
 
 export function BrandingStep({ isFirst, isLast, onBack, onNext }: BrandingStepProps) {
-  const { trigger } = useFormContext<HotelFormValues>();
-  const { settings } = useSettings();
-  const { t } = useTranslation();
-  const fallbackColors = resolveBrandingColors(settings.branding.colors);
+  const { trigger } = useFormContext<HotelFormValues>()
+  const { settings } = useSettings()
+  const { t } = useTranslation()
+  const fallbackColors = resolveBrandingColors(settings.branding.colors)
 
   const handleNext = async () => {
-    const valid = await trigger("branding");
-    if (valid) onNext();
-  };
+    const valid = await trigger('branding')
+    if (valid) onNext()
+  }
 
   return (
     <StepLayout
-      title={t('agencyHotels.steps.branding.title', 'Brand identity')}
-      subtitle={t('agencyHotels.steps.branding.subtitle', 'Logo and theme colors for this hotel.')}
+      title={t('agencyHotels.steps.branding.title', { defaultValue: 'Brand identity' })}
+      subtitle={t('agencyHotels.steps.branding.subtitle', { defaultValue: 'Logo and theme colors for this hotel.' })}
       isFirst={isFirst}
       isLast={isLast}
       onBack={onBack}
       onNext={handleNext}
     >
       <Stack spacing={2.5}>
-        <LogoCard namePrefix="branding" />
-        <ColorsCard namePrefix="branding" fallbackColors={fallbackColors} />
+        <LogoCard namePrefix='branding' />
+        <ColorsCard namePrefix='branding' fallbackColors={fallbackColors} />
       </Stack>
     </StepLayout>
-  );
+  )
 }

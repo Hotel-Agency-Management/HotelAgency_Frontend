@@ -21,9 +21,19 @@ const AgencyDocumentsForm: React.FC<AgencyDocumentsFormProps> = ({
 }) => {
   const { t } = useTranslation()
   const {
-    control, errors, isSubmitting, fields, append, insert,
-    remove, documents, canAddMore, isStepComplete,
-    errorMessage, handleSubmit, onSubmit,
+    control,
+    errors,
+    isSubmitting,
+    fields,
+    append,
+    insert,
+    remove,
+    documents,
+    canAddMore,
+    isStepComplete,
+    errorMessage,
+    handleSubmit,
+    onSubmit
   } = useAgencyDocumentsForm({ onSubmit: onSubmitProp, defaultValues })
 
   return (
@@ -31,13 +41,13 @@ const AgencyDocumentsForm: React.FC<AgencyDocumentsFormProps> = ({
       <Stack gap={2}>
         <FadeIn>
           <Typography variant='h4' textAlign='center'>
-            {t('docs.title', 'Agency Files')}
+            {t('docs.title', { defaultValue: 'Agency Files' })}
           </Typography>
         </FadeIn>
 
         <FadeIn>
           <Typography variant='body2' textAlign='center'>
-            {t('docs.subtitle', 'Add a file type and upload the matching document for your agency.')}
+            {t('docs.subtitle', { defaultValue: 'Add a file type and upload the matching document for your agency.' })}
           </Typography>
         </FadeIn>
       </Stack>
@@ -83,7 +93,7 @@ const AgencyDocumentsForm: React.FC<AgencyDocumentsFormProps> = ({
                   fullWidth
                   disabled={!canAddMore}
                 >
-                  {t('docs.addDocument', 'Add Document')}
+                  {t('docs.addDocument', { defaultValue: 'Add Document' })}
                 </Button>
               </FadeIn>
 
@@ -95,16 +105,16 @@ const AgencyDocumentsForm: React.FC<AgencyDocumentsFormProps> = ({
                   loading={isLoading}
                   disabled={isSubmitting || !isStepComplete}
                 >
-                  {!isLoading && (submitLabel ?? t('docs.continue', 'Continue'))}
+                  {!isLoading && (submitLabel ?? t('docs.continue', { defaultValue: 'Continue' }))}
                 </LoadingButton>
               </FadeIn>
             </Stack>
 
             <FadeIn>
               <Typography variant='body2' textAlign='center'>
-                {t('docs.backPrompt', 'Need to update agency details?')}{' '}
+                {t('docs.backPrompt', { defaultValue: 'Need to update agency details?' })}{' '}
                 <Button variant='text' onClick={onBack} color='primary'>
-                  {t('docs.back', 'Go Back')}
+                  {t('docs.back', { defaultValue: 'Go Back' })}
                 </Button>
               </Typography>
             </FadeIn>
