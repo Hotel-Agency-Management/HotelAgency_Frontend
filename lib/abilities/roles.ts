@@ -29,7 +29,7 @@ export function defineAbilitiesFor(role: UserRole): AppAbility {
       can ('update', 'HotelInformation')
       can('manage', 'Reservations')
       can('manage' , 'HotelTerms')
-      can('manage', 'PaymentLogs')
+      can('manage', 'AllPaymentLogs')
       break
 
     case USER_ROLES.PROPERTY_MANAGER:
@@ -68,6 +68,7 @@ export function defineAbilitiesFor(role: UserRole): AppAbility {
 
     case USER_ROLES.CUSTOMER:
       can('read', 'AllHotels')
+      can('read', 'Reservations')
       break
 
     case USER_ROLES.HOUSEKEEPING_MANAGER:
