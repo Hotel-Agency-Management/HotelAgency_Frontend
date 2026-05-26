@@ -14,5 +14,6 @@ export const INITIAL_FORM = {
   roomId: "",
   facilityId: "",
   assignedTo: "",
+  assignedToId: undefined as number | undefined,
   deadline: "",
 };

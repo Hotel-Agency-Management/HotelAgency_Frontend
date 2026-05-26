@@ -1,23 +1,58 @@
 "use client";
 
 import { useMemo } from "react";
+import { useAuth } from "@/core/context/AuthContext";
 import { USER_ROLES } from "@/lib/abilities";
-import { HousekeepingTicket } from "../types/ticket";
+import { useGetHousekeepingStaff, useGetAdminHousekeepingStaff } from "./queries/ticketQueries";
+import type { TicketEndpointScope } from "../configs/ticketConfig";
 
-interface UseAssignableEmployeesProps {
-  tickets: HousekeepingTicket[];
-  assigneeName: string | undefined;
-  role: string | undefined;
+export interface AssignableEmployee {
+  id: number;
+  name: string;
 }
 
-export function useAssignableEmployees({ tickets, assigneeName, role }: UseAssignableEmployeesProps) {
+interface UseAssignableEmployeesProps {
+  scope: TicketEndpointScope;
+}
+
+export function useAssignableEmployees({ scope }: UseAssignableEmployeesProps): AssignableEmployee[] {
+  const { user } = useAuth();
+
+  const hotelStaff = useGetHousekeepingStaff(
+    scope.type === "hotel" ? scope.hotelId : undefined
+  );
+  const adminStaff = useGetAdminHousekeepingStaff(
+    scope.type === "admin" ? scope.agencyId : undefined,
+    scope.type === "admin" ? scope.hotelId : undefined
+  );
+
+  const staffList =
+    scope.type === "admin"
+      ? (adminStaff.data?.items ?? [])
+      : (hotelStaff.data?.items ?? []);
+
   return useMemo(() => {
-    if (role === USER_ROLES.HOUSEKEEPING_EMPLOYEE) {
-      return assigneeName ? [assigneeName] : [];
+    const employees: AssignableEmployee[] = staffList.map((staff) => ({
+      id: staff.id,
+      name: `${staff.firstName} ${staff.lastName}`.trim(),
+    }));
+
+    if (user?.role === USER_ROLES.HOUSEKEEPING_EMPLOYEE) {
+      const currentUserEmail = user?.email ?? "";
+      const currentUserName = [
+        user?.name,
+        `${user?.firstName ?? ""} ${user?.lastName ?? ""}`.trim(),
+      ].find(Boolean) ?? "";
+
+      return employees.filter(
+        (emp) =>
+          emp.name === currentUserName ||
+          staffList.some(
+            (s) => s.id === emp.id && s.email === currentUserEmail
+          )
+      );
     }
 
-    return Array.from(
-      new Set(tickets.map((ticket) => ticket.assignedTo).filter(Boolean))
-    );
-  }, [assigneeName, tickets, role]);
+    return employees;
+  }, [staffList, user]);
 }

@@ -21,23 +21,63 @@ import {
 } from "../styles/StyledComponents";
 import { useAssignableEmployees } from "../hooks/useAssignableEmployees";
 import { useHousekeepingLocations } from "../hooks/useHousekeepingLocations";
-import { useHousekeepingTicketStore } from "../hooks/useHousekeepingTicketStore";
 import { useTicketComments } from "../hooks/useTicketComments";
 import { useTicketManager } from "../hooks/useTicketManager";
+import { useTicketScope } from "../hooks/useTicketScope";
 import { useVisibleTickets } from "../hooks/useVisibleTickets";
+import {
+  useGetTicketBoard,
+  useGetAdminTicketBoard,
+} from "../hooks/queries/ticketQueries";
+import { mapSummaryToTicket } from "../utils/ticketMappers";
 import type { HousekeepingTicket } from "../types/ticket";
 import ReportDamageDialog from "../../../damage-reports/components/ReportDamageDialog";
 import { useDamageReports } from "../../../damage-reports/hooks/useDamageReports";
 
+function getRouteParam(value: string | string[] | undefined) {
+  return Array.isArray(value) ? value[0] : value;
+}
+
 export function HousekeepingTicketsPage() {
-  const params = useParams<{ hotelId?: string }>();
+  const params = useParams();
   const { user } = useAuth();
   const { t } = useTranslation();
-  const hotelId = params.hotelId ?? "";
-  const numericHotelId = Number(hotelId);
+  const hotelId = getRouteParam(params.hotelId) ?? "";
+  const agencyId = getRouteParam(params.agencyId);
   const [ticketSearch, setTicketSearch] = useState("");
-  const ticketManager = useTicketManager();
-  const locations = useHousekeepingLocations(numericHotelId);
+
+  const scope = useTicketScope(hotelId, agencyId);
+
+  // ── Board queries ──────────────────────────────────────────────────────────
+  const hotelBoard = useGetTicketBoard(
+    scope.type === "hotel" ? scope.hotelId : undefined
+  );
+  const adminBoard = useGetAdminTicketBoard(
+    scope.type === "admin" ? scope.agencyId : undefined,
+    scope.type === "admin" ? scope.hotelId : undefined
+  );
+  const boardData = scope.type === "admin" ? adminBoard.data : hotelBoard.data;
+  const tickets: HousekeepingTicket[] = boardData
+    ? [
+        ...(boardData.todo ?? []),
+        ...(boardData.inProgress ?? []),
+        ...(boardData.review ?? []),
+        ...(boardData.done ?? []),
+      ].map(mapSummaryToTicket)
+    : [];
+
+  // ── Hooks ──────────────────────────────────────────────────────────────────
+  const ticketManager = useTicketManager({ scope, tickets });
+  const locations = useHousekeepingLocations(scope);
+  const assignableEmployees = useAssignableEmployees({ scope });
+  const {
+    ticketComments,
+    getComments,
+    addComment,
+    addDamageReportedComment,
+    editComment,
+    deleteComment,
+  } = useTicketComments();
 
   const assigneeName = [
     user?.name,
@@ -50,12 +90,6 @@ export function HousekeepingTicketsPage() {
     tickets: ticketManager.tickets,
     locations,
     normalizedSearch: normalizedTicketSearch,
-    assigneeName,
-    role: user?.role,
-  });
-
-  const assignableEmployees = useAssignableEmployees({
-    tickets: ticketManager.tickets,
     assigneeName,
     role: user?.role,
   });
@@ -88,14 +122,10 @@ export function HousekeepingTicketsPage() {
   const reportingRoom = reportingTicket ? getTicketRoom(reportingTicket) : undefined;
   const theme = useTheme();
 
-  const { getComments, addComment, addDamageReportedComment, editComment, deleteComment } =
-    useTicketComments();
-  const ticketComments = useHousekeepingTicketStore((s) => s.ticketComments);
-
   const commentCounts = useMemo(
     () =>
       Object.fromEntries(
-        ticketManager.tickets.map((t) => [t.id, (ticketComments[t.id] ?? []).length])
+        ticketManager.tickets.map((ticket) => [ticket.id, (ticketComments[ticket.id] ?? []).length])
       ),
     [ticketManager.tickets, ticketComments]
   );

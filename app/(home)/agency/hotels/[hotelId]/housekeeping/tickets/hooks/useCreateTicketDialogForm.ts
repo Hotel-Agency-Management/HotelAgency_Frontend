@@ -7,6 +7,7 @@ import type {
   HousekeepingFacilityOption,
   HousekeepingRoomOption,
 } from "./useHousekeepingLocations";
+import type { AssignableEmployee } from "./useAssignableEmployees";
 import type {
   HousekeepingLocationType,
   HousekeepingTicket,
@@ -17,7 +18,7 @@ import type {
 
 interface UseCreateTicketDialogFormProps {
   open: boolean;
-  employees: string[];
+  employees: AssignableEmployee[];
   roomOptions: HousekeepingRoomOption[];
   facilityOptions: HousekeepingFacilityOption[];
   initialValues?: HousekeepingTicket | null;
@@ -41,6 +42,9 @@ export function useCreateTicketDialogForm({
     if (!open) return;
 
     if (initialValues) {
+      const matchedEmployee = employees.find(
+        (emp) => emp.name === initialValues.assignedTo
+      );
       setForm({
         ticketType: initialValues.ticketType,
         locationType: initialValues.locationType,
@@ -50,20 +54,24 @@ export function useCreateTicketDialogForm({
         roomId: initialValues.roomId ?? "",
         facilityId: initialValues.facilityId ?? "",
         assignedTo: initialValues.assignedTo,
+        assignedToId: matchedEmployee?.id ?? initialValues.assignedToId,
         deadline: initialValues.deadline ?? "",
       });
       return;
     }
 
+    const firstEmployee = employees[0];
     setForm({
       ...INITIAL_FORM,
-      assignedTo: employees[0] ?? "",
+      assignedTo: firstEmployee?.name ?? "",
+      assignedToId: firstEmployee?.id,
     });
   }, [employees, initialValues, open]);
 
   const isRoomLocation = form.locationType === HOUSEKEEPING_LOCATION_TYPE.ROOM;
   const hasLocation = isRoomLocation ? Boolean(form.roomId) : Boolean(form.facilityId);
-  const isSubmitDisabled = !form.title.trim() || !form.assignedTo || !hasLocation || !form.deadline;
+  const isSubmitDisabled =
+    !form.title.trim() || !form.assignedToId || !hasLocation || !form.deadline;
 
   const displayedRoomOptions = useMemo(() => {
     if (!form.roomId || roomOptions.some((room) => room.id === form.roomId)) {
@@ -119,8 +127,13 @@ export function useCreateTicketDialogForm({
     setForm((current) => ({ ...current, roomId: "", facilityId }));
   };
 
-  const updateAssignedTo = (assignedTo: string) => {
-    setForm((current) => ({ ...current, assignedTo }));
+  const updateAssignedTo = (employeeId: number) => {
+    const employee = employees.find((emp) => emp.id === employeeId);
+    setForm((current) => ({
+      ...current,
+      assignedTo: employee?.name ?? current.assignedTo,
+      assignedToId: employeeId,
+    }));
   };
 
   const updateTitle = (title: string) => {
@@ -146,6 +159,7 @@ export function useCreateTicketDialogForm({
       title: form.title.trim(),
       description: form.description.trim(),
       assignedTo: form.assignedTo,
+      assignedToId: form.assignedToId,
       deadline: form.deadline,
     });
 

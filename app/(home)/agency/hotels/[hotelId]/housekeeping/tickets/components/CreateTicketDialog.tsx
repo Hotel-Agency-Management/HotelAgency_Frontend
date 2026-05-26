@@ -25,6 +25,7 @@ import type {
   HousekeepingFacilityOption,
   HousekeepingRoomOption,
 } from "../hooks/useHousekeepingLocations";
+import type { AssignableEmployee } from "../hooks/useAssignableEmployees";
 import { useCreateTicketDialogForm } from "../hooks/useCreateTicketDialogForm";
 import type {
   HousekeepingTicket,
@@ -38,7 +39,7 @@ import { getTicketTypeLabels, getLocationTypeLabels } from "../constants/ticketL
 
 interface CreateTicketDialogProps {
   open: boolean;
-  employees: string[];
+  employees: AssignableEmployee[];
   roomOptions: HousekeepingRoomOption[];
   facilityOptions: HousekeepingFacilityOption[];
   locationsLoading?: boolean;
@@ -221,14 +222,14 @@ export function CreateTicketDialog({
                   labelId="create-ticket-employee-label"
                   fullWidth
                   label={t("housekeeping.tickets.dialog.assignedTo", "Assigned To")}
-                  value={form.assignedTo}
+                  value={form.assignedToId ?? ""}
                   onChange={(event) =>
-                    updateAssignedTo(event.target.value)
+                    updateAssignedTo(Number(event.target.value))
                   }
                 >
                   {employees.map((employee) => (
-                    <MenuItem key={employee} value={employee}>
-                      {employee}
+                    <MenuItem key={employee.id} value={employee.id}>
+                      {employee.name}
                     </MenuItem>
                   ))}
                 </Select>

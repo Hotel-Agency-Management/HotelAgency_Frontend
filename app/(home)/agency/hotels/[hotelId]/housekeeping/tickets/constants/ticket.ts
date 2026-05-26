@@ -11,16 +11,17 @@ export const HOUSEKEEPING_LOCATION_TYPE = {
 } as const;
 
 export const HOUSEKEEPING_TICKET_STATUS = {
-  TO_DO: "TO_DO",
-  IN_PROGRESS: "IN_PROGRESS",
-  REVIEW: "REVIEW",
-  DONE: "DONE",
+  TO_DO: "Todo",
+  IN_PROGRESS: "InProgress",
+  REVIEW: "Review",
+  DONE: "Done",
 } as const;
 
 export const HOUSEKEEPING_TICKET_PRIORITY = {
-  LOW: "LOW",
-  MEDIUM: "MEDIUM",
-  HIGH: "HIGH",
+  LOW: "Low",
+  MEDIUM: "Medium",
+  HIGH: "High",
+  URGENT: "Urgent",
 } as const;
 
 export const HOUSEKEEPING_FILTER_ALL = "ALL";

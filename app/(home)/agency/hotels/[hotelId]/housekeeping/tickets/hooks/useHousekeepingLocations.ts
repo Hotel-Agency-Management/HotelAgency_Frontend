@@ -1,12 +1,14 @@
 "use client";
 
 import { useCallback, useMemo } from "react";
-import { useGetFacilities } from "../../../facilities/hooks/queries/facilityQueries";
+import { useGetFacilities, useGetAdminFacilities } from "../../../facilities/hooks/queries/facilityQueries";
 import type { FacilityResponse } from "../../../facilities/configs/facilityConfig";
 import { useRoomsByHotel } from "../../../rooms/hooks/queries/roomQueries";
+import { useAdminRoomsByHotel } from "../../../rooms/hooks/queries/adminRoomQueries";
 import type { RoomListItemResponse } from "../../../rooms/configs/roomConfig";
 import { HOUSEKEEPING_LOCATION_TYPE } from "../constants/ticket";
 import type { HousekeepingTicket } from "../types/ticket";
+import type { TicketEndpointScope } from "../configs/ticketConfig";
 
 export interface HousekeepingRoomOption {
   id: string;
@@ -67,9 +69,23 @@ const toTitle = (value: string) =>
 const getLegacyFacilityName = (facilityId?: string) =>
   facilityId ? toTitle(facilityId.replace(/^facility-/, "")) : undefined;
 
-export function useHousekeepingLocations(hotelId?: number) {
-  const roomsQuery = useRoomsByHotel(hotelId);
-  const facilitiesQuery = useGetFacilities(hotelId);
+export function useHousekeepingLocations(scope: TicketEndpointScope) {
+  const hotelId = scope.hotelId;
+  const agencyId = scope.type === "admin" ? scope.agencyId : undefined;
+
+  const hotelRoomsQuery = useRoomsByHotel(scope.type === "hotel" ? hotelId : undefined);
+  const adminRoomsQuery = useAdminRoomsByHotel(
+    scope.type === "admin" ? agencyId : undefined,
+    scope.type === "admin" ? hotelId : undefined
+  );
+  const roomsQuery = scope.type === "admin" ? adminRoomsQuery : hotelRoomsQuery;
+
+  const hotelFacilitiesQuery = useGetFacilities(scope.type === "hotel" ? hotelId : undefined);
+  const adminFacilitiesQuery = useGetAdminFacilities(
+    scope.type === "admin" ? agencyId : undefined,
+    scope.type === "admin" ? hotelId : undefined
+  );
+  const facilitiesQuery = scope.type === "admin" ? adminFacilitiesQuery : hotelFacilitiesQuery;
 
   const roomOptions = useMemo(
     () =>
@@ -132,7 +148,12 @@ export function useHousekeepingLocations(hotelId?: number) {
       if (room) return `Room ${room.roomNumber}`;
 
       const facility = getTicketFacility(ticket);
-      return facility?.name ?? ticket.locationType;
+      if (facility) return facility.name;
+
+      // Use pre-formatted label from API summary response if available
+      if (ticket.locationLabel) return ticket.locationLabel;
+
+      return ticket.locationType;
     },
     [getTicketFacility, getTicketRoom]
   );

@@ -192,6 +192,35 @@ const navigation = (hotelId?: string, agencyId?: string, t?: TFunction): Sidebar
       ...items,
       hotelManagementSection,
       {
+        sectionTitle: T('nav.sections.housekeeping', 'Housekeeping'),
+        icon: 'lucide:sparkles',
+        subject: 'Housekeeping',
+        action: 'manage',
+        items: [
+          {
+            title: T('nav.items.dashboard', 'Dashboard'),
+            path: `${hotelBasePath}/housekeeping`,
+            icon: 'lucide:layout-dashboard',
+            subject: 'Housekeeping',
+            action: 'manage'
+          },
+          {
+            title: T('nav.items.ticketManagement', 'Ticket Management'),
+            path: `${hotelBasePath}/housekeeping/tickets`,
+            icon: 'lucide:clipboard-check',
+            subject: 'HousekeepingTickets',
+            action: 'manage'
+          },
+          {
+            title: T('nav.items.issuesAndAlerts', 'Issues & Alerts'),
+            path: `${hotelBasePath}/housekeeping/issues-alerts`,
+            icon: 'lucide:alert-triangle',
+            subject: 'Housekeeping',
+            action: 'manage'
+          },
+        ]
+      },
+      {
         sectionTitle: T('nav.sections.bookings', 'Bookings'),
         icon: 'lucide:book-open-check',
         subject: 'AdminReservations',
