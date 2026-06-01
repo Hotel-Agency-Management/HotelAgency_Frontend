@@ -50,3 +50,13 @@ export interface PaymentLogsParams {
   pageSize?: number
   type?: PaymentType
 }
+
+export interface PaymentLogExcelRow {
+  direction: string | null
+  paymentType: string | null
+  fromName: string | null
+  toName: string | null
+  amount: number | null
+  reservationReference: string | null
+  createdAt: string | null
+}

@@ -1567,6 +1567,19 @@
     "empty": {
       "title": "No transactions found",
       "subtitle": "There are no payment records for this period."
+    },
+    "excel": {
+      "direction": "Direction",
+      "paymentType": "Payment Type",
+      "from": "From",
+      "to": "To",
+      "amount": "Amount",
+      "reference": "Reference",
+      "date": "Date"
+    },
+    "viewMode": {
+      "feed": "Feed view",
+      "excel": "Excel mode"
     }
   },
   "hotelSettings": {

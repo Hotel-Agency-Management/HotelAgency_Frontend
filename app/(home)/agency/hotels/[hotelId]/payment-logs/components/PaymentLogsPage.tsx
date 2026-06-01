@@ -15,6 +15,8 @@ import Icon from '@/components/icon/Icon'
 import { PaymentFeed } from './PaymentFeed'
 import { PaymentDetailsDrawer } from './PaymentDetailsDrawer'
 import { PaymentSummaryHeader } from './PaymentSummaryHeader'
+import { PaymentViewToggle } from './PaymentViewToggle'
+import { ExcelModeGrid } from './ExcelModeGrid'
 import { usePaymentLogs } from '../hooks/usePaymentLogs'
 
 interface PaymentLogsPageProps {
@@ -36,6 +38,10 @@ export function PaymentLogsPage({ hotelId }: PaymentLogsPageProps) {
     outgoingQuery,
     activeQuery,
     detailsQuery,
+    viewMode,
+    handleViewModeChange,
+    excelRows,
+    handleExcelRowsChange,
   } = usePaymentLogs(hotelId)
 
   const { t } = useTranslation()
@@ -99,6 +105,7 @@ export function PaymentLogsPage({ hotelId }: PaymentLogsPageProps) {
         </Tabs>
 
         <Stack direction="row" alignItems="center" gap={1} flexShrink={0}>
+          <PaymentViewToggle value={viewMode} onChange={handleViewModeChange} />
           <Typography variant="caption">
             {t("hotelPaymentLogs.sortBy", "Sort by:")}
           </Typography>
@@ -117,13 +124,21 @@ export function PaymentLogsPage({ hotelId }: PaymentLogsPageProps) {
         </Stack>
       </Stack>
 
-      <PaymentFeed
-        groups={activeData?.groups ?? []}
-        selectedId={selectedPaymentId}
-        isIncoming={isIncoming}
-        isLoading={activeQuery.isLoading}
-        onSelect={handleSelectPayment}
-      />
+      {viewMode === 'feed' ? (
+        <PaymentFeed
+          groups={activeData?.groups ?? []}
+          selectedId={selectedPaymentId}
+          isIncoming={isIncoming}
+          isLoading={activeQuery.isLoading}
+          onSelect={handleSelectPayment}
+        />
+      ) : (
+        <ExcelModeGrid
+          rows={excelRows}
+          onChange={handleExcelRowsChange}
+          isLoading={activeQuery.isLoading}
+        />
+      )}
 
       {activeData && activeData.totalCount > 0 && (
         <Stack
@@ -158,13 +173,15 @@ export function PaymentLogsPage({ hotelId }: PaymentLogsPageProps) {
         </Stack>
       )}
 
-      <PaymentDetailsDrawer
-        payment={detailsQuery.data ?? null}
-        isLoading={detailsQuery.isLoading}
-        isIncoming={isIncoming}
-        open={!!selectedPaymentId}
-        onClose={handleCloseDrawer}
-      />
+      {viewMode === 'feed' && (
+        <PaymentDetailsDrawer
+          payment={detailsQuery.data ?? null}
+          isLoading={detailsQuery.isLoading}
+          isIncoming={isIncoming}
+          open={!!selectedPaymentId}
+          onClose={handleCloseDrawer}
+        />
+      )}
     </Stack>
   )
 }
