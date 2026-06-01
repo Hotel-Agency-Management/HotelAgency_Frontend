@@ -9,10 +9,12 @@ export interface TicketComment {
   actionType: TicketCommentActionType;
   author: string;
   body: string;
+  damageCost?: number | null;
   createdAt: string;
 }
 
 export interface AddCommentValues {
   actionType: TicketCommentActionType;
   body: string;
+  damageCost?: number;
 }

@@ -19,9 +19,21 @@ interface TicketCommentSectionProps {
   onAddComment: (values: AddCommentValues) => void;
   onEditComment: (commentId: string, newBody: string) => void;
   onDeleteComment: (commentId: string) => void;
+  canAddComment?: boolean;
+  canEditComment?: boolean;
+  canDeleteComment?: boolean;
 }
 
-export function TicketCommentSection({ ticketId: _ticketId, comments, onAddComment, onEditComment, onDeleteComment }: TicketCommentSectionProps) {
+export function TicketCommentSection({
+  ticketId: _ticketId,
+  comments,
+  onAddComment,
+  onEditComment,
+  onDeleteComment,
+  canAddComment = true,
+  canEditComment = true,
+  canDeleteComment = true,
+}: TicketCommentSectionProps) {
   const theme = useTheme();
   const { t } = useTranslation();
   const [newestFirst, setNewestFirst] = useState(true);
@@ -41,7 +53,7 @@ export function TicketCommentSection({ ticketId: _ticketId, comments, onAddComme
         </Tooltip>
       </Stack>
 
-      <TicketCommentComposer onSubmit={onAddComment} />
+      {canAddComment && <TicketCommentComposer onSubmit={onAddComment} />}
 
       {sorted.length === 0 ? (
         <EmptyColumnState>
@@ -57,6 +69,8 @@ export function TicketCommentSection({ ticketId: _ticketId, comments, onAddComme
               comment={comment}
               onEdit={onEditComment}
               onDelete={onDeleteComment}
+              canEdit={canEditComment}
+              canDelete={canDeleteComment}
             />
           ))}
         </Stack>

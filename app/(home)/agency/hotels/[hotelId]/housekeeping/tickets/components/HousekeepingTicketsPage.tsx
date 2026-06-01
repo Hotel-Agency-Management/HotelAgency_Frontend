@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useParams } from "next/navigation";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
@@ -29,6 +29,10 @@ import {
   useGetTicketBoard,
   useGetAdminTicketBoard,
 } from "../hooks/queries/ticketQueries";
+import {
+  useGetAdminTicketCommentCounts,
+  useGetTicketCommentCounts,
+} from "../hooks/queries/commentQueries";
 import { mapSummaryToTicket } from "../utils/ticketMappers";
 import type { HousekeepingTicket } from "../types/ticket";
 import ReportDamageDialog from "../../../damage-reports/components/ReportDamageDialog";
@@ -45,6 +49,9 @@ export function HousekeepingTicketsPage() {
   const hotelId = getRouteParam(params.hotelId) ?? "";
   const agencyId = getRouteParam(params.agencyId);
   const [ticketSearch, setTicketSearch] = useState("");
+  const [reportingTicket, setReportingTicket] = useState<HousekeepingTicket | null>(null);
+  const [detailTicket, setDetailTicket] = useState<HousekeepingTicket | null>(null);
+  const [commentCountsByTicket, setCommentCountsByTicket] = useState<Record<string, number>>({});
 
   const scope = useTicketScope(hotelId, agencyId);
 
@@ -65,19 +72,41 @@ export function HousekeepingTicketsPage() {
         ...(boardData.done ?? []),
       ].map(mapSummaryToTicket)
     : [];
+  const ticketIds = useMemo(
+    () =>
+      tickets
+        .map((ticket) => Number(ticket.id))
+        .filter((ticketId) => Number.isFinite(ticketId)),
+    [tickets]
+  );
+  const hotelCommentCountQueries = useGetTicketCommentCounts(
+    scope.type === "hotel" ? scope.hotelId : undefined,
+    scope.type === "hotel" ? ticketIds : []
+  );
+  const adminCommentCountQueries = useGetAdminTicketCommentCounts(
+    scope.type === "admin" ? scope.agencyId : undefined,
+    scope.type === "admin" ? scope.hotelId : undefined,
+    scope.type === "admin" ? ticketIds : []
+  );
+  const commentCountQueries =
+    scope.type === "admin" ? adminCommentCountQueries : hotelCommentCountQueries;
 
   // ── Hooks ──────────────────────────────────────────────────────────────────
   const ticketManager = useTicketManager({ scope, tickets });
   const locations = useHousekeepingLocations(scope);
   const assignableEmployees = useAssignableEmployees({ scope });
   const {
-    ticketComments,
-    getComments,
+    comments,
+    totalCount: detailCommentCount,
+    isSuccess: commentsLoaded,
     addComment,
     addDamageReportedComment,
     editComment,
     deleteComment,
-  } = useTicketComments();
+  } = useTicketComments({
+    scope,
+    ticketId: detailTicket?.id,
+  });
 
   const assigneeName = [
     user?.name,
@@ -117,18 +146,48 @@ export function HousekeepingTicketsPage() {
   } = locations;
 
   const { reportDamage } = useDamageReports(hotelId);
-  const [reportingTicket, setReportingTicket] = useState<HousekeepingTicket | null>(null);
-  const [detailTicket, setDetailTicket] = useState<HousekeepingTicket | null>(null);
   const reportingRoom = reportingTicket ? getTicketRoom(reportingTicket) : undefined;
   const theme = useTheme();
 
   const commentCounts = useMemo(
     () =>
       Object.fromEntries(
-        ticketManager.tickets.map((ticket) => [ticket.id, (ticketComments[ticket.id] ?? []).length])
+        ticketManager.tickets.map((ticket) => [
+          ticket.id,
+          commentCountsByTicket[ticket.id] ?? 0,
+        ])
       ),
-    [ticketManager.tickets, ticketComments]
+    [commentCountsByTicket, ticketManager.tickets]
   );
+
+  useEffect(() => {
+    if (!detailTicket || !commentsLoaded) return;
+
+    setCommentCountsByTicket((prev) => ({
+      ...prev,
+      [detailTicket.id]: detailCommentCount,
+    }));
+  }, [commentsLoaded, detailCommentCount, detailTicket]);
+
+  useEffect(() => {
+    setCommentCountsByTicket((prev) => {
+      const next = { ...prev };
+      let hasChanges = false;
+
+      ticketIds.forEach((ticketId, index) => {
+        const totalCount = commentCountQueries[index]?.data?.totalCount;
+        if (typeof totalCount === "number") {
+          const key = String(ticketId);
+          if (next[key] !== totalCount) {
+            next[key] = totalCount;
+            hasChanges = true;
+          }
+        }
+      });
+
+      return hasChanges ? next : prev;
+    });
+  }, [commentCountQueries, ticketIds]);
 
   const handleOpenReportDamage = useCallback((ticket: HousekeepingTicket) => {
     setReportingTicket(ticket);
@@ -210,7 +269,12 @@ export function HousekeepingTicketsPage() {
         onClose={() => setReportingTicket(null)}
         onSubmit={(input) => {
           reportDamage(input);
-          if (reportingTicket) addDamageReportedComment(reportingTicket.id);
+          if (reportingTicket) {
+            addDamageReportedComment({
+              body: input.description,
+              damageCost: input.estimatedCost,
+            }, reportingTicket.id);
+          }
         }}
         prefill={{
           hotelId,
@@ -225,20 +289,17 @@ export function HousekeepingTicketsPage() {
       <TicketDetailDrawer
         ticket={detailTicket}
         getTicketLocationLabel={getTicketLocationLabel}
-        comments={detailTicket ? getComments(detailTicket.id) : []}
+        comments={comments}
         onClose={() => setDetailTicket(null)}
         onEdit={handleOpenEdit}
         onDelete={handleOpenDelete}
         onReportDamage={handleOpenReportDamage}
-        onAddComment={(values) => {
-          if (detailTicket) addComment(detailTicket.id, values);
-        }}
-        onEditComment={(commentId, newBody) => {
-          if (detailTicket) editComment(detailTicket.id, commentId, newBody);
-        }}
-        onDeleteComment={(commentId) => {
-          if (detailTicket) deleteComment(detailTicket.id, commentId);
-        }}
+        onAddComment={addComment}
+        onEditComment={editComment}
+        onDeleteComment={deleteComment}
+        canAddComment={scope.type === "hotel"}
+        canEditComment={scope.type === "hotel"}
+        canDeleteComment
       />
     </>
   );
