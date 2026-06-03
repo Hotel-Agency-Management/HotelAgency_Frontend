@@ -13,7 +13,10 @@ import { alpha, useTheme } from "@mui/material/styles";
 import { useTranslation } from "react-i18next";
 import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import { fromNow } from "@/core/utils/Dateutils";
-import { getCommentActionTypeConfig } from "../constants/comments";
+import {
+  getCommentActionTypeConfig,
+  TICKET_COMMENT_ACTION_TYPE,
+} from "../constants/comments";
 import { CommentActionBadge, CommentItemRoot, TicketCardAssigneeAvatar } from "../styles/StyledComponents";
 import type { TicketComment } from "../types/comment";
 
@@ -21,13 +24,24 @@ interface TicketCommentItemProps {
   comment: TicketComment;
   onEdit: (commentId: string, newBody: string) => void;
   onDelete: (commentId: string) => void;
+  canEdit?: boolean;
+  canDelete?: boolean;
 }
 
-export function TicketCommentItem({ comment, onEdit, onDelete }: TicketCommentItemProps) {
+export function TicketCommentItem({
+  comment,
+  onEdit,
+  onDelete,
+  canEdit = true,
+  canDelete = true,
+}: TicketCommentItemProps) {
   const theme = useTheme();
   const { t } = useTranslation();
   const config = getCommentActionTypeConfig(t)[comment.actionType];
   const badgeColor = theme.palette[config.paletteKey].main;
+  const shouldShowDamageCost =
+    comment.actionType === TICKET_COMMENT_ACTION_TYPE.DAMAGE_REPORTED &&
+    typeof comment.damageCost === "number";
 
   const [isEditing, setIsEditing] = useState(false);
   const [editBody, setEditBody] = useState(comment.body);
@@ -100,35 +114,49 @@ export function TicketCommentItem({ comment, onEdit, onDelete }: TicketCommentIt
             </Stack>
           </Stack>
         ) : (
-          <Typography variant="body2">
-            {comment.body}
-          </Typography>
+          <Stack gap={0.5}>
+            <Typography variant="body2">
+              {comment.body}
+            </Typography>
+            {shouldShowDamageCost && (
+              <Typography variant="caption" color="error.main" fontWeight={700}>
+                {t("housekeeping.tickets.comments.damageCostDisplay", {
+                  defaultValue: "Damage cost: {{cost}}",
+                  cost: comment.damageCost,
+                })}
+              </Typography>
+            )}
+          </Stack>
         )}
 
-        {!isEditing && (
+        {!isEditing && (canEdit || canDelete) && (
           <Stack direction="row" alignItems="center" gap={0.25} mt={0.25}>
-            <Tooltip title={t("housekeeping.tickets.comments.edit", "Edit")}>
-              <IconButton
-                size="small"
-                onClick={() => setIsEditing(true)}
-                sx={{ color: alpha(theme.palette.text.secondary, 0.5), padding: theme.spacing(0.375) }}
-              >
-                <Pencil size={13} />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title={t("housekeeping.tickets.comments.more", "More")}>
-              <IconButton
-                size="small"
-                onClick={(e) => setMenuAnchor(e.currentTarget)}
-                sx={{ color: alpha(theme.palette.text.secondary, 0.5), padding: theme.spacing(0.375) }}
-              >
-                <MoreHorizontal size={13} />
-              </IconButton>
-            </Tooltip>
+            {canEdit && (
+              <Tooltip title={t("housekeeping.tickets.comments.edit", "Edit")}>
+                <IconButton
+                  size="small"
+                  onClick={() => setIsEditing(true)}
+                  sx={{ color: alpha(theme.palette.text.secondary, 0.5), padding: theme.spacing(0.375) }}
+                >
+                  <Pencil size={13} />
+                </IconButton>
+              </Tooltip>
+            )}
+            {canDelete && (
+              <Tooltip title={t("housekeeping.tickets.comments.more", "More")}>
+                <IconButton
+                  size="small"
+                  onClick={(e) => setMenuAnchor(e.currentTarget)}
+                  sx={{ color: alpha(theme.palette.text.secondary, 0.5), padding: theme.spacing(0.375) }}
+                >
+                  <MoreHorizontal size={13} />
+                </IconButton>
+              </Tooltip>
+            )}
 
             <Menu
               anchorEl={menuAnchor}
-              open={Boolean(menuAnchor)}
+              open={canDelete && Boolean(menuAnchor)}
               onClose={() => setMenuAnchor(null)}
               transformOrigin={{ horizontal: "right", vertical: "top" }}
               anchorOrigin={{ horizontal: "right", vertical: "bottom" }}

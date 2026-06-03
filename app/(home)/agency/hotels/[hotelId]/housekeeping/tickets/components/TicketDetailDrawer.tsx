@@ -31,6 +31,9 @@ interface TicketDetailDrawerProps {
   onAddComment: (values: AddCommentValues) => void;
   onEditComment: (commentId: string, newBody: string) => void;
   onDeleteComment: (commentId: string) => void;
+  canAddComment?: boolean;
+  canEditComment?: boolean;
+  canDeleteComment?: boolean;
 }
 
 export function TicketDetailDrawer({
@@ -44,6 +47,9 @@ export function TicketDetailDrawer({
   onAddComment,
   onEditComment,
   onDeleteComment,
+  canAddComment,
+  canEditComment,
+  canDeleteComment,
 }: TicketDetailDrawerProps) {
   const theme = useTheme();
   const { t } = useTranslation();
@@ -180,6 +186,9 @@ export function TicketDetailDrawer({
               onAddComment={onAddComment}
               onEditComment={onEditComment}
               onDeleteComment={onDeleteComment}
+              canAddComment={canAddComment}
+              canEditComment={canEditComment}
+              canDeleteComment={canDeleteComment}
             />
           </Stack>
         </Stack>
