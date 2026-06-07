@@ -1,10 +1,11 @@
 @import 'react-datasheet-grid/dist/style.css';
 
 :root {
-  /* Font */
   --font: var(--font-montserrat), system-ui, -apple-system, sans-serif;
 }
-
+.copilotKitSidebar *, .copilotKitPopup * {
+  font-family: var(--font-montserrat), Inter, sans-serif !important;
+}
 * {
   margin: 0;
   padding: 0;

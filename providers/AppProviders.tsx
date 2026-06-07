@@ -13,6 +13,7 @@ import MSWProvider from '@/providers/MSWProvider'
 import AppToaster from '@/providers/AppToaster'
 import { BrandNameProvider } from '@/core/context/BrandNameContext'
 import '@/core/icons/customIcons'
+import { CopilotProvider } from '@/app/copilotKit/provider/CopilotProvider'
 
 function InnerProviders({ children, client }: { children: React.ReactNode; client: QueryClient }) {
   const { settings } = useSettings()
@@ -22,7 +23,9 @@ function InnerProviders({ children, client }: { children: React.ReactNode; clien
       <ThemeComponent settings={settings}>
         <I18nProvider>
           <BrandNameProvider>
+          <CopilotProvider>
             <HydrationGate fallback={<Spinner />}>{children}</HydrationGate>
+            </CopilotProvider>
           </BrandNameProvider>
           <AppToaster />
         </I18nProvider>
