@@ -4,43 +4,44 @@ import type { MongoAbility } from '@casl/ability'
  * Subject types for authorization
  * These represent resource areas in the application
  */
-export type Subjects =
-  | 'Home'
-  | 'Dashboard'
-  | 'Users'
-  | 'Settings'
-  | 'Reports'
-  | 'Tickets'
-  | 'Agency'
-  | 'Hotels'
-  | 'Agencies'
-  | 'AgencySettings'
-  | 'AgencyApproval'
-  | 'SubscriptionPlans'
-  | 'HotelSettings'
-  | 'HotelInformation'
-  | 'HotelManagement'
-  | 'HotelInformation'
-  | 'HotelTerms'
-  | 'AllHotels'
-  | 'Rooms'
-  | 'RoomAmenities'
-  | 'RoomTypes'
-  | 'Operations'
-  | 'Housekeeping'
-  | 'HousekeepingTickets'
-  | 'HousekeepingStaff'
-  | 'Maintenance'
-  | 'Insurance'
-  | 'Finance'
-  | 'Bookings'
-  | 'Reservations'
-  | 'AdminReservations'
-  | 'DamageReports'
-  | 'DamageInvoices'
-  | 'PaymentLogs'
-  | 'AllPaymentLogs'
-  | 'all'
+export const SUBJECTS = [
+  'Home',
+  'Dashboard',
+  'Users',
+  'Settings',
+  'Reports',
+  'Tickets',
+  'Agency',
+  'Hotels',
+  'Agencies',
+  'AgencySettings',
+  'AgencyApproval',
+  'SubscriptionPlans',
+  'HotelSettings',
+  'HotelInformation',
+  'HotelManagement',
+  'HotelTerms',
+  'AllHotels',
+  'Rooms',
+  'RoomAmenities',
+  'RoomTypes',
+  'Operations',
+  'Housekeeping',
+  'HousekeepingTickets',
+  'HousekeepingStaff',
+  'Maintenance',
+  'Insurance',
+  'Finance',
+  'Bookings',
+  'Reservations',
+  'AdminReservations',
+  'DamageReports',
+  'DamageInvoices',
+  'PaymentLogs',
+  'AllPaymentLogs',
+] as const
+
+export type Subjects = typeof SUBJECTS[number] | 'all'
 
 /**
  * Action types for CASL permissions
@@ -50,8 +51,8 @@ export type Subjects =
  * - delete: Remove resources
  * - manage: Full access (all actions)
  */
-export type Actions = 'read' | 'create' | 'update' | 'delete' | 'manage'
-
+export const ACTIONS = ['read', 'create', 'update', 'delete', 'manage'] as const
+export type Actions = typeof ACTIONS[number]
 /**
  * CASL Ability type for the application
  */
