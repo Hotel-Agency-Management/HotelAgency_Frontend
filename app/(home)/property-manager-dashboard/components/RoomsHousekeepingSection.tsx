@@ -9,13 +9,19 @@ import { useTranslation } from 'react-i18next'
 import DoughnutChart from '@/components/charts/DoughnutChart'
 import HorizontalBarChart from '@/components/charts/HorizontalBarChart'
 import {
-  ROOM_STATUS_DISTRIBUTION,
   HOUSEKEEPING_TASKS,
   HOUSEKEEPING_LABELS,
 } from '../data/propertyManagerDashboardMock'
+import { useRoomStatusDistribution } from '../hooks/queries/useStatistic'
 
-export default function RoomsHousekeepingSection() {
+interface RoomsHousekeepingSectionProps {
+  hotelId?: number
+}
+
+export default function RoomsHousekeepingSection({ hotelId }: RoomsHousekeepingSectionProps) {
   const { t } = useTranslation()
+  const { data: roomStatusDistribution } = useRoomStatusDistribution(hotelId)
+  const roomStatusItems = roomStatusDistribution?.items ?? []
 
   return (
     <Grid container spacing={3} alignItems="stretch">
@@ -25,7 +31,11 @@ export default function RoomsHousekeepingSection() {
             <Stack spacing={2}>
               <Typography variant="h6">{t('dashboard.propertyManager.charts.roomStatusDistribution', { defaultValue: 'Room Status Distribution' })}</Typography>
               <DoughnutChart
-                data={ROOM_STATUS_DISTRIBUTION}
+                data={roomStatusItems.map(item => ({
+                  label: item.status,
+                  value: item.count,
+                }))}
+                percentageData={roomStatusItems.map(item => item.percentage)}
                 percentage
                 innerRadius={60}
                 paddingAngle={3}
@@ -39,6 +49,7 @@ export default function RoomsHousekeepingSection() {
         </Card>
       </Grid>
 
+      //TODO: replace mock data with real API data when available
       <Grid size={{ xs: 12, md: 6 }} >
         <Card variant="outlined" sx={{ width: '100%', height: '100%' }}>
           <CardContent>

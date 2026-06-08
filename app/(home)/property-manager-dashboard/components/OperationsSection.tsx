@@ -9,13 +9,20 @@ import { useTranslation } from 'react-i18next'
 import DoughnutChart from '@/components/charts/DoughnutChart'
 import HorizontalBarChart from '@/components/charts/HorizontalBarChart'
 import {
-  SERVICE_REQUESTS_DISTRIBUTION,
-  MAINTENANCE_CATEGORIES,
-  MAINTENANCE_LABELS,
-} from '../data/propertyManagerDashboardMock'
+  useReservationStatusDistribution,
+  useReservationTypeDistribution,
+} from '../hooks/queries/useStatistic'
 
-export default function OperationsSection() {
+interface OperationsSectionProps {
+  hotelId?: number
+}
+
+export default function OperationsSection({ hotelId }: OperationsSectionProps) {
   const { t } = useTranslation()
+  const { data: reservationStatusDistribution } = useReservationStatusDistribution(hotelId)
+  const { data: reservationTypeDistribution } = useReservationTypeDistribution(hotelId)
+  const reservationStatusItems = reservationStatusDistribution?.items ?? []
+  const reservationTypeItems = reservationTypeDistribution?.items ?? []
 
   return (
     <Grid container spacing={3} alignItems="stretch">
@@ -23,9 +30,13 @@ export default function OperationsSection() {
         <Card variant="outlined" sx={{ width: '100%', height: '100%' }}>
           <CardContent>
             <Stack spacing={2}>
-              <Typography variant="h6">{t('dashboard.propertyManager.charts.serviceRequestsDistribution', { defaultValue: 'Service Requests Distribution' })}</Typography>
+              <Typography variant="h6">{t('dashboard.propertyManager.charts.reservationStatusDistribution', { defaultValue: 'Reservation Status Distribution' })}</Typography>
               <DoughnutChart
-                data={SERVICE_REQUESTS_DISTRIBUTION}
+                data={reservationStatusItems.map(item => ({
+                  label: item.status,
+                  value: item.count,
+                }))}
+                percentageData={reservationStatusItems.map(item => item.percentage)}
                 percentage
                 innerRadius={60}
                 paddingAngle={3}
@@ -43,10 +54,11 @@ export default function OperationsSection() {
         <Card variant="outlined" sx={{ width: '100%', height: '100%' }}>
           <CardContent>
             <Stack spacing={2}>
-              <Typography variant="h6">{t('dashboard.propertyManager.charts.maintenanceByCategory', { defaultValue: 'Maintenance by Category' })}</Typography>
+              <Typography variant="h6">{t('dashboard.propertyManager.charts.bookingTypesDistribution', { defaultValue: 'Booking Types Distribution' })}</Typography>
               <HorizontalBarChart
-                data={MAINTENANCE_CATEGORIES}
-                labels={MAINTENANCE_LABELS}
+                data={reservationTypeItems.map(item => item.count)}
+                labels={reservationTypeItems.map(item => item.type)}
+                percentageData={reservationTypeItems.map(item => item.percentage)}
                 percentage
               />
             </Stack>

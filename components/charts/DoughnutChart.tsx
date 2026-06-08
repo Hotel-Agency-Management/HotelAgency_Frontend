@@ -60,7 +60,7 @@ export default function DoughnutChart({
   const activePercentages = percentageData ?? calculatedPercentages
 
   // Only filter for rendering — after percentages are locked in
-  const visibleData = data.filter(d => !hiddenLabels.has(d.label))
+  const visibleData = data.filter(d => !hiddenLabels.has(d.label) && d.value > 0)
 
   const pieData = visibleData.map(d => {
     const originalIndex = data.indexOf(d)
@@ -71,6 +71,7 @@ export default function DoughnutChart({
       color: chartColors[originalIndex % chartColors.length]
     }
   })
+  const isSingleSlice = pieData.length === 1
 
   const valueFormatter = (item: { value: number }, context: { dataIndex: number }) => {
     const originalIndex = data.indexOf(visibleData[context.dataIndex])
@@ -95,8 +96,8 @@ export default function DoughnutChart({
             data: pieData,
             innerRadius,
             outerRadius,
-            cornerRadius,
-            paddingAngle,
+            cornerRadius: isSingleSlice ? 0 : cornerRadius,
+            paddingAngle: isSingleSlice ? 0 : paddingAngle,
             highlightScope: { highlight: 'item', fade: 'global' },
             valueFormatter
           }

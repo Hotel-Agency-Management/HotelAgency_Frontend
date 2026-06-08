@@ -1,38 +1,22 @@
 import type { StatCardProps } from '../../admin-dashboard/types/dashboardTypes'
 
-export type StatCardConfig = Omit<StatCardProps, 'icon'> & { iconName: string }
+type StatCardPresentation = Pick<StatCardProps, 'color'> & { iconName: string }
 
-export const STAT_CARDS_CONFIG: StatCardConfig[] = [
-  {
-    title: 'Occupancy Rate',
-    value: '78%',
-    subtitle: "Tonight's occupancy",
-    trend: { value: '+6% vs last week', direction: 'up' },
+export const STAT_CARD_PRESENTATION = {
+  totalReservations: {
     color: 'primary',
-    iconName: 'tabler:bed',
+    iconName: 'tabler:calendar-stats',
   },
-  {
-    title: "Today's Check-ins",
-    value: '34',
-    subtitle: 'Arrivals today',
-    trend: { value: '+8 since yesterday', direction: 'up' },
+  todayCheckIns: {
     color: 'success',
     iconName: 'tabler:login',
   },
-  {
-    title: "Today's Check-outs",
-    value: '29',
-    subtitle: 'Departures today',
-    trend: { value: 'On schedule', direction: 'neutral' },
+  todayCheckOuts: {
     color: 'info',
     iconName: 'tabler:logout',
   },
-  {
-    title: 'Pending Maintenance',
-    value: '7',
-    subtitle: 'Open work orders',
-    trend: { value: '-3 resolved today', direction: 'down' },
+  pendingReservations: {
     color: 'warning',
-    iconName: 'tabler:tool',
+    iconName: 'tabler:clock-hour-4',
   },
-]
+} satisfies Record<string, StatCardPresentation>
