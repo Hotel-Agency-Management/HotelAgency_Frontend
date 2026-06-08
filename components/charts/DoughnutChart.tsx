@@ -59,7 +59,8 @@ export default function DoughnutChart({
 
   const activePercentages = percentageData ?? calculatedPercentages
 
-  // Only filter for rendering — after percentages are locked in
+  // Only filter for rendering — after percentages are locked in.
+  // Zero-value slices should stay in the legend but not reserve arc padding.
   const visibleData = data.filter(d => !hiddenLabels.has(d.label) && d.value > 0)
 
   const pieData = visibleData.map(d => {

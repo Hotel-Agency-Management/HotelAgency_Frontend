@@ -532,8 +532,15 @@
         "profitVsExpenses": "الأرباح مقابل المصروفات",
         "occupancyPerHotel": "معدل الإشغال لكل فندق",
         "checkInsVsCheckOuts": "تسجيل الدخول مقابل تسجيل الخروج",
+        "reservationsByRoomType": "الحجوزات حسب نوع الغرفة",
+        "reservationsStatusDistribution": "توزيع حالات الحجوزات",
         "bookingTypesDistribution": "توزيع أنواع الحجوزات",
         "revenuePerHotel": "الإيرادات لكل فندق"
+      },
+      "chartSeries": {
+        "revenue": "الإيرادات",
+        "profit": "الأرباح",
+        "expenses": "المصروفات"
       },
       "stats": {
         "totalRevenue": {
@@ -550,6 +557,12 @@
           "title": "إجمالي الحجوزات",
           "subtitle": "جميع الفنادق هذا العام",
           "trend": "+123 هذا الأسبوع"
+        },
+        "pendingReservations": {
+          "title": "الحجوزات المعلقة"
+        },
+        "averageBookingValue": {
+          "title": "متوسط قيمة الحجز"
         },
         "activeHotels": {
           "title": "الفنادق النشطة",

@@ -6,14 +6,16 @@ import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import Stack from '@mui/material/Stack'
 import { useTranslation } from 'react-i18next'
+import { useAuth } from '@/core/context/AuthContext'
 import HorizontalBarChart from '@/components/charts/HorizontalBarChart'
-import {
-  REVENUE_BY_HOTEL,
-  HOTEL_NAMES_FULL,
-} from '../data/agencyOwnerDashboardMock'
+import { useRevenuePerHotel } from '../hooks/queries/useStatisticQueries'
 
 export default function HotelPerformanceSection() {
   const { t } = useTranslation()
+  const { user } = useAuth()
+  const agencyId = user?.agencyId === undefined ? undefined : Number(user.agencyId)
+  const revenuePerHotelQuery = useRevenuePerHotel(agencyId)
+  const revenuePerHotelData = revenuePerHotelQuery.data ?? []
 
   return (
     <Grid container spacing={3} alignItems="stretch">
@@ -24,8 +26,8 @@ export default function HotelPerformanceSection() {
               <Typography variant="h6">{t('dashboard.agencyOwner.charts.revenuePerHotel', { defaultValue: 'Revenue per Hotel' })}</Typography>
               <HorizontalBarChart
                 percentage
-                data={REVENUE_BY_HOTEL}
-                labels={HOTEL_NAMES_FULL}
+                data={revenuePerHotelData.map(item => item.revenue)}
+                labels={revenuePerHotelData.map(item => item.hotelName)}
                 labelWidth={160}
               />
             </Stack>
