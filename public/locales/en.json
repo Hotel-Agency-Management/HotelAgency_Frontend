@@ -497,8 +497,15 @@
         "profitVsExpenses": "Profit vs Expenses",
         "occupancyPerHotel": "Occupancy Rate per Hotel",
         "checkInsVsCheckOuts": "Check-ins vs Check-outs",
+        "reservationsByRoomType": "Reservations by Room Type",
+        "reservationsStatusDistribution": "Reservations Status Distribution",
         "bookingTypesDistribution": "Booking Types Distribution",
         "revenuePerHotel": "Revenue per Hotel"
+      },
+      "chartSeries": {
+        "revenue": "Revenue",
+        "profit": "Profit",
+        "expenses": "Expenses"
       },
       "stats": {
         "totalRevenue": {
@@ -515,6 +522,12 @@
           "title": "Total Bookings",
           "subtitle": "All hotels YTD",
           "trend": "+123 this week"
+        },
+        "pendingReservations": {
+          "title": "Pending Reservations"
+        },
+        "averageBookingValue": {
+          "title": "Average Booking Value"
         },
         "activeHotels": {
           "title": "Active Hotels",

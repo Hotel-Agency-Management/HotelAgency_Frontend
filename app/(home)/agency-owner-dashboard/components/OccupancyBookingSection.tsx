@@ -6,19 +6,26 @@ import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import Stack from '@mui/material/Stack'
 import { useTranslation } from 'react-i18next'
+import { useAuth } from '@/core/context/AuthContext'
 import BarChart from '@/components/charts/BarChart'
-import LineChart from '@/components/charts/LineChart'
 import DoughnutChart from '@/components/charts/DoughnutChart'
 import {
-  OCCUPANCY_BY_HOTEL,
-  CHECKINS_CHECKOUTS_SERIES,
-  BOOKING_TYPE_DISTRIBUTION,
-  HOTEL_NAMES_SHORT,
-  MONTHS,
-} from '../data/agencyOwnerDashboardMock'
+  useBookingDistribution,
+  useReservationByRoomType,
+  useStatusDistribution,
+} from '../hooks/queries/useStatisticQueries'
 
 export default function OccupancyBookingSection() {
   const { t } = useTranslation()
+  const { user } = useAuth()
+  const agencyId = user?.agencyId === undefined ? undefined : Number(user.agencyId)
+  const reservationByRoomTypeQuery = useReservationByRoomType(agencyId)
+  const statusDistributionQuery = useStatusDistribution(agencyId)
+  const bookingDistributionQuery = useBookingDistribution(agencyId)
+
+  const reservationByRoomTypeData = reservationByRoomTypeQuery.data ?? []
+  const statusDistributionData = statusDistributionQuery.data ?? []
+  const bookingDistributionData = bookingDistributionQuery.data ?? []
 
   return (
     <Grid container spacing={3} alignItems="stretch">
@@ -26,8 +33,13 @@ export default function OccupancyBookingSection() {
         <Card variant="outlined" sx={{ width: '100%', height: '100%' }}>
           <CardContent>
             <Stack spacing={2}>
-              <Typography variant="h6">{t('dashboard.agencyOwner.charts.occupancyPerHotel', { defaultValue: 'Occupancy Rate per Hotel' })}</Typography>
-              <BarChart data={OCCUPANCY_BY_HOTEL} labels={HOTEL_NAMES_SHORT} height={240} percentage />
+              <Typography variant="h6">{t('dashboard.agencyOwner.charts.reservationsByRoomType', { defaultValue: 'Reservations by Room Type' })}</Typography>
+              <BarChart
+                data={reservationByRoomTypeData.map(item => item.reservationsCount)}
+                labels={reservationByRoomTypeData.map(item => item.roomTypeName)}
+                height={240}
+                percentage
+              />
             </Stack>
           </CardContent>
         </Card>
@@ -37,13 +49,15 @@ export default function OccupancyBookingSection() {
         <Card variant="outlined" sx={{ width: '100%' }}>
           <CardContent>
             <Stack spacing={2}>
-              <Typography variant="h6">{t('dashboard.agencyOwner.charts.checkInsVsCheckOuts', { defaultValue: 'Check-ins vs Check-outs' })}</Typography>
-              <LineChart
-                series={CHECKINS_CHECKOUTS_SERIES}
-                labels={MONTHS}
+              <Typography variant="h6">{t('dashboard.agencyOwner.charts.reservationsStatusDistribution', { defaultValue: 'Reservations Status Distribution' })}</Typography>
+              <DoughnutChart
+                data={statusDistributionData.map(item => ({ label: item.status, value: item.count }))}
+                percentageData={statusDistributionData.map(item => item.percentage)}
+                innerRadius={60}
+                paddingAngle={3}
+                cornerRadius={4}
                 height={260}
-                showLegend
-                legendPosition='bottom'
+                legendPosition="bottom"
                 legendAlign="center"
               />
             </Stack>
@@ -57,8 +71,8 @@ export default function OccupancyBookingSection() {
             <Stack spacing={2}>
               <Typography variant="h6">{t('dashboard.agencyOwner.charts.bookingTypesDistribution', { defaultValue: 'Booking Types Distribution' })}</Typography>
               <DoughnutChart
-                data={BOOKING_TYPE_DISTRIBUTION}
-                percentage
+                data={bookingDistributionData.map(item => ({ label: item.type, value: item.count }))}
+                percentageData={bookingDistributionData.map(item => item.percentage)}
                 innerRadius={60}
                 paddingAngle={3}
                 cornerRadius={4}
