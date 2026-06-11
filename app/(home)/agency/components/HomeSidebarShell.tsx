@@ -12,6 +12,7 @@ import { USER_ROLES } from '@/lib/abilities'
 import { useBrandNameContext } from '@/core/context/BrandNameContext'
 import { getCustomerHotels } from '../../hotels/client/hotelClient'
 import { CUSTOMER_HOTEL_DETAIL_PATTERN } from '../constants/routePatterns'
+import { AgentChat } from '@/app/copilotKit/chat/AgentChat'
 
 interface HomeSidebarShellProps {
   children: ReactNode
@@ -59,6 +60,7 @@ export default function HomeSidebarShell({
       variant={layoutVariant}
     >
       {children}
+      <AgentChat />
     </SidebarLayout>
   )
 }
