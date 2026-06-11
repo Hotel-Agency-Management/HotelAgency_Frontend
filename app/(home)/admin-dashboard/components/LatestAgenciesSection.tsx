@@ -5,18 +5,24 @@ import {
 } from "@mui/material";
 import { SxProps, Theme } from '@mui/material'
 import { useTranslation } from "react-i18next";
-import { LATEST_AGENCIES } from "../data/dashboardMock";
-import { LatestAgency } from "../types/dashboardTypes";
+import Spinner from "@/components/loaders/Spinner";
+import ErrorMessage from "@/components/ui/ErrorMessage";
 import { AgencyRow } from "./AgencyRow";
+import { useAdminRecentAgencies } from "../hooks/queries/useAdminStatistic";
+import { mapAgencyItemToLatestAgency } from "../utils/mapAgencyItem";
+import { LoadingBox } from "../styles/StyledComponents";
 
 interface LatestAgenciesSectionProps {
-  agencies?: LatestAgency[];
   sx?: SxProps<Theme>
 }
 
-export function LatestAgenciesSection({ agencies = LATEST_AGENCIES }: LatestAgenciesSectionProps) {
+export function LatestAgenciesSection({ sx }: LatestAgenciesSectionProps) {
   const theme = useTheme();
   const { t } = useTranslation();
+  const { data, isLoading, isError } = useAdminRecentAgencies();
+
+  const agencies = data?.items.map(mapAgencyItemToLatestAgency) ?? [];
+
   return (
     <Box
       sx={{
@@ -24,6 +30,7 @@ export function LatestAgenciesSection({ agencies = LATEST_AGENCIES }: LatestAgen
         border: `1px solid ${theme.palette.divider}`,
         borderRadius: 2,
         overflow: "hidden",
+        ...sx,
       }}
     >
       <Stack sx={{ px: 2.5, py: 2, borderBottom: `1px solid ${theme.palette.divider}` }}>
@@ -35,37 +42,51 @@ export function LatestAgenciesSection({ agencies = LATEST_AGENCIES }: LatestAgen
         </Typography>
       </Stack>
 
-      <TableContainer>
-        <Table size="small">
-          <TableHead>
-            <TableRow>
-              {[
-                t('dashboard.admin.latestAgencies.colAgency', { defaultValue: 'Agency' }),
-                t('dashboard.admin.latestAgencies.colStatus', { defaultValue: 'Status' }),
-                t('dashboard.admin.latestAgencies.colPlan', { defaultValue: 'Plan' }),
-                t('dashboard.admin.latestAgencies.colRegistered', { defaultValue: 'Registered' }),
-              ].map(header => (
-                <TableCell key={header}>
-                  <Typography
-                    variant="caption"
-                    color="text.disabled"
-                    fontWeight={600}
-                    textTransform="uppercase"
-                    letterSpacing={0.5}
-                  >
-                    {header}
-                  </Typography>
-                </TableCell>
+      {isLoading && (
+        <LoadingBox>
+          <Spinner />
+        </LoadingBox>
+      )}
+
+      {isError && (
+        <Box>
+          <ErrorMessage message={t('dashboard.admin.latestAgencies.loadError', { defaultValue: 'Failed to load latest agencies' })} />
+        </Box>
+      )}
+
+      {!isLoading && !isError && (
+        <TableContainer>
+          <Table size="small">
+            <TableHead>
+              <TableRow>
+                {[
+                  t('dashboard.admin.latestAgencies.colAgency', { defaultValue: 'Agency' }),
+                  t('dashboard.admin.latestAgencies.colStatus', { defaultValue: 'Status' }),
+                  t('dashboard.admin.latestAgencies.colPlan', { defaultValue: 'Plan' }),
+                  t('dashboard.admin.latestAgencies.colRegistered', { defaultValue: 'Registered' }),
+                ].map(header => (
+                  <TableCell key={header}>
+                    <Typography
+                      variant="caption"
+                      color="text.disabled"
+                      fontWeight={600}
+                      textTransform="uppercase"
+                      letterSpacing={0.5}
+                    >
+                      {header}
+                    </Typography>
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody sx={{ "& tr:last-of-type td": { border: 0 } }}>
+              {agencies.map(agency => (
+                <AgencyRow key={agency.id} agency={agency} />
               ))}
-            </TableRow>
-          </TableHead>
-          <TableBody sx={{ "& tr:last-of-type td": { border: 0 } }}>
-            {agencies.map(agency => (
-              <AgencyRow key={agency.id} agency={agency} />
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
     </Box>
   );
 }

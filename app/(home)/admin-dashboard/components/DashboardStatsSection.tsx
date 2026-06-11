@@ -1,60 +1,61 @@
 "use client";
 
-import React from "react";
 import { Grid, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import BusinessIcon from "@mui/icons-material/Business";
-import HourglassTopIcon from "@mui/icons-material/HourglassTop";
-import VerifiedIcon from "@mui/icons-material/Verified";
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import Spinner from "@/components/loaders/Spinner";
+import ErrorMessage from "@/components/ui/ErrorMessage";
 import { SummaryStatCard } from "./SummaryStatCard";
-import { STAT_CARDS } from "../data/dashboardMock";
+import { STAT_CARDS_CONFIG } from "../constants/statCardsConfig";
 import { StatCardProps } from "../types/dashboardTypes";
+import { useAdminOverviewStats } from "../hooks/queries/useAdminStatistic";
+import { LoadingBox } from "../styles/StyledComponents";
 
-const CARD_ICONS: React.ReactNode[] = [
-  <BusinessIcon fontSize="small" />,
-  <HourglassTopIcon fontSize="small" />,
-  <VerifiedIcon fontSize="small" />,
-  <AttachMoneyIcon fontSize="small" />,
-];
-
-const CARD_TRANSLATION_KEYS = [
-  "totalAgencies",
-  "pendingApprovals",
-  "activeSubscriptions",
-  "totalRevenue",
-] as const;
+const currencyFormatter = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+  maximumFractionDigits: 0,
+});
 
 export function DashboardStatsSection() {
   const { t } = useTranslation();
+  const { data, isLoading, isError } = useAdminOverviewStats();
 
   return (
     <>
       <Typography variant="h6" fontWeight={600} color="text.primary" >
         {t('dashboard.admin.overview', { defaultValue: 'Overview' })}
       </Typography>
-      <Grid container spacing={2.5}>
-        {STAT_CARDS.map((card: StatCardProps, i) => {
-          const translationKey = CARD_TRANSLATION_KEYS[i];
-          const translatedCard: StatCardProps = {
-            ...card,
-            title: t(`dashboard.admin.stats.${translationKey}.title`, { defaultValue: card.title }),
-            subtitle: t(`dashboard.admin.stats.${translationKey}.subtitle`, { defaultValue: card.subtitle }),
-            trend: card.trend
-              ? {
-                  ...card.trend,
-                  value: t(`dashboard.admin.stats.${translationKey}.trend`, { defaultValue: card.trend.value }),
-                }
-              : undefined,
-          };
 
-          return (
-            <Grid key={card.title} size={{ xs: 12, sm: 6, md: 3 }}>
-              <SummaryStatCard {...translatedCard} icon={CARD_ICONS[i]} />
-            </Grid>
-          );
-        })}
-      </Grid>
+      {isLoading && (
+        <LoadingBox>
+          <Spinner />
+        </LoadingBox>
+      )}
+
+      {isError && <ErrorMessage message={t('dashboard.admin.stats.loadError', { defaultValue: 'Failed to load overview statistics' })} />}
+
+      {!isLoading && !isError && (
+        <Grid container spacing={2.5}>
+          {STAT_CARDS_CONFIG.map(({ key, icon, ...card }) => {
+            const value = key === 'totalRevenue'
+              ? currencyFormatter.format(data?.[key] ?? 0)
+              : (data?.[key] ?? 0);
+
+            const translatedCard: StatCardProps = {
+              ...card,
+              value,
+              title: t(`dashboard.admin.stats.${key}.title`, { defaultValue: card.title }),
+              subtitle: t(`dashboard.admin.stats.${key}.subtitle`, { defaultValue: card.subtitle }),
+            };
+
+            return (
+              <Grid key={key} size={{ xs: 12, sm: 6, md: 3 }}>
+                <SummaryStatCard {...translatedCard} icon={icon} />
+              </Grid>
+            );
+          })}
+        </Grid>
+      )}
     </>
   );
 }

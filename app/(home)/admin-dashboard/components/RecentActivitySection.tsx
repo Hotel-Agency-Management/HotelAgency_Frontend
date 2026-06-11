@@ -3,6 +3,8 @@
 import { Box, Typography, useTheme } from "@mui/material"
 import { SxProps, Theme } from '@mui/material'
 import { useTranslation } from "react-i18next";
+// TODO: replace mock RECENT_ACTIVITY with a real query hook once the
+// admin recent-activity endpoint is available from the backend.
 import { RECENT_ACTIVITY } from "../data/dashboardMock";
 import { ActivityItemRow } from "./ActivityItemRow";
 import { ActivityItem } from "../types/dashboardTypes";
