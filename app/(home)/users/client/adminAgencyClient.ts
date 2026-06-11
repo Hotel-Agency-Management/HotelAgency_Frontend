@@ -1,7 +1,7 @@
 import apiClient from "@/core/clients/apiClient"
-import type { Agency } from '@/app/(home)/agencies/types/agency'
+import type { AgencyDTO, PaginatedAgencyDTO } from '@/app/(home)/agency/configs/agencyProfileConfig'
 
-export async function adminGetAllAgencies(): Promise<Agency[]> {
-  const response = await apiClient.get<Agency[]>('/admin/agencies')
-  return response.data
+export async function adminGetAllAgencies(): Promise<AgencyDTO[]> {
+  const response = await apiClient.get<PaginatedAgencyDTO>('/admin/agencies')
+  return response.data.items
 }

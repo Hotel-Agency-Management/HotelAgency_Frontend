@@ -1,10 +1,10 @@
 // useAgencyOptionQueries.ts
 import { useQuery } from '@tanstack/react-query'
-import type { Agency } from '@/app/(home)/agencies/types/agency'
+import type { AgencyDTO } from '@/app/(home)/agency/configs/agencyProfileConfig'
 import { adminGetAllAgencies } from '../../client/adminAgencyClient'
 
 export const useGetAdminAgencyOptions = (enabled = true) =>
-  useQuery<Agency[]>({
+  useQuery<AgencyDTO[]>({
     queryKey: ['admin', 'agency-options'],
     queryFn: adminGetAllAgencies,
     enabled,

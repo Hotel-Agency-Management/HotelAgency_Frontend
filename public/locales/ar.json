@@ -756,6 +756,9 @@
       "agency": "الوكالة",
       "phone": "الهاتف",
       "location": "الموقع",
+      "status": "الحالة",
+      "emailVerified": "تأكيد البريد الإلكتروني",
+      "plan": "الخطة",
       "created": "تاريخ الإنشاء"
     },
     "filters": {
@@ -769,10 +772,14 @@
       "created": "أُنشئت {{time}}"
     },
     "status": {
-      "approved": "معتمدة",
+      "active": "نشطة",
       "pending": "قيد الانتظار",
       "rejected": "مرفوضة",
       "incomplete": "غير مكتملة"
+    },
+    "emailVerified": {
+      "verified": "مؤكد",
+      "unverified": "غير مؤكد"
     }
   },
   "users": {

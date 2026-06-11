@@ -1,8 +1,9 @@
 import { fromNow } from '@/core/utils/Dateutils'
-import { Stack, Avatar, Typography } from '@mui/material'
+import { Stack, Avatar, Typography, Chip } from '@mui/material'
 import { GridColDef } from '@mui/x-data-grid'
 import { TFunction } from 'i18next'
 import AgencyActionsCell from '../components/AgencyActionsCell'
+import AgencyStatusChip from '../components/AgencyStatusChip'
 import { Agency } from '../types/agency'
 
 export const columns = (onSettingsClick: (agencyId: number) => void, t: TFunction): GridColDef<Agency>[] => [
@@ -45,6 +46,32 @@ export const columns = (onSettingsClick: (agencyId: number) => void, t: TFunctio
     )
   },
   {
+    field: 'status',
+    headerName: t('agencies.table.status', { defaultValue: 'Status' }),
+    flex: 1,
+    minWidth: 120,
+    renderCell: ({ row }) => <AgencyStatusChip status={row.status} />
+  },
+  {
+    field: 'emailVerified',
+    headerName: t('agencies.table.emailVerified', { defaultValue: 'Email Verified' }),
+    flex: 1,
+    minWidth: 140,
+    renderCell: ({ row }) =>
+      row.emailVerified ? (
+        <Chip label={t('agencies.emailVerified.verified', { defaultValue: 'Verified' })} color='success' size='small' variant='filled' />
+      ) : (
+        <Chip label={t('agencies.emailVerified.unverified', { defaultValue: 'Unverified' })} size='small' variant='outlined' />
+      )
+  },
+  {
+    field: 'planName',
+    headerName: t('agencies.table.plan', { defaultValue: 'Plan' }),
+    flex: 1,
+    minWidth: 120,
+    renderCell: ({ row }) => <Chip label={row.planName} size='small' variant='outlined' />
+  },
+  {
     field: 'createdAt',
     headerName: t('agencies.table.created', { defaultValue: 'Created' }),
     flex: 1,
@@ -56,6 +83,7 @@ export const columns = (onSettingsClick: (agencyId: number) => void, t: TFunctio
     headerName: '',
     sortable: false,
     width: 60,
+    align: 'center',
     renderCell: ({ row }) => <AgencyActionsCell agencyId={row.id} onSettingsClick={onSettingsClick} />
   }
 ]

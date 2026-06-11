@@ -721,6 +721,9 @@
       "agency": "Agency",
       "phone": "Phone",
       "location": "Location",
+      "status": "Status",
+      "emailVerified": "Email Verified",
+      "plan": "Plan",
       "created": "Created"
     },
     "filters": {
@@ -734,10 +737,14 @@
       "created": "Created {{time}}"
     },
     "status": {
-      "approved": "Approved",
+      "active": "Active",
       "pending": "Pending",
       "rejected": "Rejected",
       "incomplete": "Incomplete"
+    },
+    "emailVerified": {
+      "verified": "Verified",
+      "unverified": "Unverified"
     }
   },
   "users": {

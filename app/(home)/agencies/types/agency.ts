@@ -1,18 +1,6 @@
 export type ViewMode = 'list' | 'grid'
 
-export interface Agency {
-  id: number
-  ownerId: number
-  name: string
-  plan_id: number
-  email: string
-  phone: string
-  country: string
-  city: string
-  logoUrl: string | null
-  createdAt: string
-  updatedAt: string
-}
+export type { AgencyDTO as Agency, PaginatedAgencyDTO } from '@/app/(home)/agency/configs/agencyProfileConfig'
 
 export interface AgencyFiltersState {
   country: string

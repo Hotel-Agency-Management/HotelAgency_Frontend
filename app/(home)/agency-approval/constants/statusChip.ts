@@ -7,7 +7,7 @@ export interface StatusChipProps {
 
 export const STATUS_CONFIG: Record<AgencyStatus, StatusConfig> = {
   Pending:  { label: 'Pending Review', colorKey: 'warning' },
-  Approved: { label: 'Approved',       colorKey: 'success' },
+  Active: { label: 'Active',           colorKey: 'success' },
   Rejected: { label: 'Rejected',       colorKey: 'error'   },
   InComplete: { label: 'Incomplete',   colorKey: 'warning' },
 }

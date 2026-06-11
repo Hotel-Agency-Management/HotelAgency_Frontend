@@ -1,11 +1,12 @@
 import { useState } from 'react'
-import { Avatar, Card, CardActionArea, Divider, IconButton, Menu, MenuItem, Stack, Typography } from '@mui/material'
+import { Avatar, Card, CardActionArea, Chip, Divider, IconButton, Menu, MenuItem, Stack, Typography } from '@mui/material'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { useTranslation } from 'react-i18next'
 import Icon from '@/components/icon/Icon'
 import { Agency } from '../types/agency'
 import { fromNow } from '@/core/utils/Dateutils'
 import LtrText from '@/components/ui/LtrText'
+import AgencyStatusChip from './AgencyStatusChip'
 
 interface Props {
   agency: Agency
@@ -46,6 +47,11 @@ export default function AgencyCard({ agency, onClick, onSettingsClick }: Props) 
                 <MoreVertIcon fontSize='small' />
               </IconButton>
             )}
+          </Stack>
+
+          <Stack direction='row' alignItems='center' gap={1}>
+            <AgencyStatusChip status={agency.status} />
+            <Chip label={agency.planName} size='small' variant='outlined' />
           </Stack>
 
           <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
