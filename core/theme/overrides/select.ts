@@ -8,7 +8,7 @@ const select = () => {
         select: ({ theme }: OwnerStateThemeType) => ({
           borderRadius: themeConfig.borderRadius,
           fontSize: '0.875rem',
-          padding: '8.5px 14px',
+          padding: '16.5px 14px',
           lineHeight: '1.4375em',
           minWidth: '6rem !important',
           '.MuiInputBase-sizeSmall &': {

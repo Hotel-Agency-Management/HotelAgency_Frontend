@@ -7,10 +7,15 @@ import {
   Typography,
   Divider,
   CircularProgress,
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  MenuItem,
+  Select,
 } from '@mui/material'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { PlanFormState, PlanFormValues, SubscriptionPlan } from '../types/plans'
+import { PLAN_LIST, type PlanFormState, type PlanFormValues, type SubscriptionPlan } from '../types/plans'
 import FeatureEditor from './FeatureEditor'
 import { FormErrors, validatePlanForm, hasErrors } from '../util/plans'
 import { makeInitialFormState, makeEmptyFormState, toSubmitValues } from '../util/planFormMapper'
@@ -75,16 +80,23 @@ export default function PlanForm({
         </Typography>
 
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-          <TextField
-            label={t('subscriptionPlans.form.planName', { defaultValue: 'Plan Name' })}
-            fullWidth
-            required
-            value={values.name}
-            onChange={e => set('name', e.target.value)}
-            error={!!errors.name}
-            helperText={errors.name}
-            placeholder={t('subscriptionPlans.form.planNamePlaceholder', { defaultValue: 'e.g. Pro' })}
-          />
+          <FormControl fullWidth required error={!!errors.name}>
+              <InputLabel>Plan Name</InputLabel>
+
+              <Select
+                value={values.name}
+                onChange={(e) => set('name', e.target.value)}
+                label="Plan Name"
+              >
+                {PLAN_LIST.map((plan) => (
+                  <MenuItem key={plan} value={plan}>
+                    {plan}
+                  </MenuItem>
+                ))}
+              </Select>
+
+              <FormHelperText>{errors.name}</FormHelperText>
+            </FormControl>
 
           <FormControlLabel
             control={

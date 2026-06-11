@@ -22,3 +22,14 @@ export interface SnackbarState {
 export type PlanFormState = Omit<PlanFormValues, 'price'> & {
   price: number | ''
 }
+
+export const PLAN = {
+  FREE: 'Free',
+  BASIC: 'Basic',
+  PRO: 'Pro',
+  ENTERPRISE: 'Enterprise',
+} as const
+
+export const PLAN_LIST = Object.values(PLAN)
+
+export type Plan = typeof PLAN[keyof typeof PLAN]
