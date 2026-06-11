@@ -719,7 +719,8 @@
       "housekeeping": "التدبير المنزلي",
       "reservations": "الحجوزات",
       "bookings": "الحجوزات",
-      "damageReports": "تقارير الأضرار"
+      "damageReports": "تقارير الأضرار",
+      "systemLogs": "سجل النشاطات"
     },
     "items": {
       "dashboard": "لوحة التحكم",
@@ -729,6 +730,7 @@
       "subscriptionPlans": "خطط الاشتراك",
       "supportTickets": "تذاكر الدعم",
       "paymentLogs": "سجلات الدفع",
+      "systemLogs": "سجلات النظام",
       "agencySettings": "إعدادات الوكالة",
       "agencies": "الوكالات",
       "hotels": "الفنادق",
@@ -746,6 +748,38 @@
       "adminReservations": "حجوزات المشرف",
       "createAdminReservation": "إنشاء حجز مشرف",
       "damageReports": "تقارير الأضرار"
+    }
+  },
+  "systemLogs": {
+    "title": "سجلات النظام",
+    "subtitle": "سجل تدقيق للإجراءات المنفذة عبر المنصة.",
+    "perPage": "{{count}} لكل صفحة",
+    "summary": {
+      "total": "إجمالي الأحداث",
+      "today": "اليوم",
+      "created": "تم الإنشاء / الموافقة",
+      "updated": "تم التحديث",
+      "removed": "ملغى / مرفوض"
+    },
+    "table": {
+      "date": "التاريخ",
+      "actor": "المستخدم",
+      "action": "الإجراء",
+      "entityType": "نوع الكيان",
+      "description": "الوصف"
+    },
+    "filters": {
+      "search": "البحث حسب الوصف أو المستخدم…",
+      "action": "الإجراء",
+      "entityType": "نوع الكيان",
+      "actorId": "معرّف المستخدم",
+      "from": "من",
+      "to": "إلى",
+      "clear": "مسح الفلاتر"
+    },
+    "empty": {
+      "title": "لا توجد أنشطة",
+      "subtitle": "لا توجد سجلات تطابق عوامل التصفية الحالية."
     }
   },
   "agencies": {
