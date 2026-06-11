@@ -79,6 +79,21 @@ const navigation = (hotelId?: string, agencyId?: string, t?: TFunction): Sidebar
       ]
     },
     {
+      sectionTitle: T('nav.sections.systemLogs', 'Activity Log'),
+      icon: 'lucide:history',
+      subject: 'SystemLogs',
+      action: 'read',
+      items: [
+        {
+          title: T('nav.items.systemLogs', 'System Logs'),
+          path: '/system-logs',
+          icon: 'lucide:scroll-text',
+          subject: 'SystemLogs',
+          action: 'read'
+        }
+      ]
+    },
+    {
       sectionTitle: T('nav.sections.agency', 'Agency'),
       icon: 'lucide:building-2',
       subject: 'Agency',

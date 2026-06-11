@@ -30,6 +30,7 @@ export function defineAbilitiesFor(role: UserRole): AppAbility {
       can('manage', 'Reservations')
       can('manage' , 'HotelTerms')
       can('manage', 'AllPaymentLogs')
+      can('read', 'SystemLogs')
       can('manage', 'Housekeeping')
       can('manage', 'HousekeepingTickets')
       can('manage', 'HousekeepingStaff')
@@ -57,6 +58,7 @@ export function defineAbilitiesFor(role: UserRole): AppAbility {
       can('read', 'DamageReports')
       can('manage', 'DamageInvoices')
       can('manage', 'PaymentLogs')
+      can('read', 'SystemLogs')
       break
 
     case USER_ROLES.FRONT_DESK_STAFF:

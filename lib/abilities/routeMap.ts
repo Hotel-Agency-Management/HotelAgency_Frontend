@@ -139,6 +139,12 @@ export const routePermissions: RoutePermission[] = [
     action: 'manage',
     subject: 'PaymentLogs',
     description: 'Admin-level aggregated payment logs across all hotels — SUPER_ADMIN only'
+  },
+  {
+    pattern: '/system-logs',
+    action: 'read',
+    subject: 'SystemLogs',
+    description: 'System activity log — audit trail of actions across the platform'
   }
 ]
 
