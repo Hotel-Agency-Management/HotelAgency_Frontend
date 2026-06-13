@@ -39,6 +39,7 @@ export const SUBJECTS = [
   'DamageInvoices',
   'PaymentLogs',
   'AllPaymentLogs',
+  'SystemLogs',
 ] as const
 
 export type Subjects = typeof SUBJECTS[number] | 'all'

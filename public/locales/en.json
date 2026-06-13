@@ -684,7 +684,8 @@
       "housekeeping": "Housekeeping",
       "reservations": "Reservations",
       "bookings": "Bookings",
-      "damageReports": "Damage Reports"
+      "damageReports": "Damage Reports",
+      "systemLogs": "Activity Log"
     },
     "items": {
       "dashboard": "Dashboard",
@@ -694,6 +695,7 @@
       "subscriptionPlans": "Subscription Plans",
       "supportTickets": "Support Tickets",
       "paymentLogs": "Payment Logs",
+      "systemLogs": "System Logs",
       "agencySettings": "Agency Settings",
       "agencies": "Agencies",
       "hotels": "Hotels",
@@ -711,6 +713,38 @@
       "adminReservations": "Admin Reservations",
       "createAdminReservation": "Create Admin Reservation",
       "damageReports": "Damage Reports"
+    }
+  },
+  "systemLogs": {
+    "title": "System Logs",
+    "subtitle": "Audit trail of actions performed across the platform.",
+    "perPage": "{{count}} per page",
+    "summary": {
+      "total": "Total Events",
+      "today": "Today",
+      "created": "Created / Approved",
+      "updated": "Updated",
+      "removed": "Cancelled / Rejected"
+    },
+    "table": {
+      "date": "Date",
+      "actor": "Actor",
+      "action": "Action",
+      "entityType": "Entity Type",
+      "description": "Description"
+    },
+    "filters": {
+      "search": "Search by description or actor…",
+      "action": "Action",
+      "entityType": "Entity Type",
+      "actorId": "Actor ID",
+      "from": "From",
+      "to": "To",
+      "clear": "Clear filters"
+    },
+    "empty": {
+      "title": "No activity found",
+      "subtitle": "No log entries match the current filters."
     }
   },
   "agencies": {
