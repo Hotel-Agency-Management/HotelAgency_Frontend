@@ -3,7 +3,7 @@ export type { UserRole } from '@/lib/abilities'
 
 export const AGENCY_STATUS = {
   INCOMPLETE: 'InComplete',
-  APPROVED: 'Approved',
+  APPROVED: 'Active',
   REJECTED: 'Rejected',
   PENDING: 'Pending',
 } as const

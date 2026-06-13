@@ -11,7 +11,7 @@ export function useAgencies() {
   const { data, isLoading } = useAdminAgencies()
 
   const filtered = useMemo(() => {
-    return (data ?? []).filter((agency: Agency) => {
+    return (data?.items ?? []).filter((agency: Agency) => {
       const matchesSearch =
         agency.name.toLowerCase().includes(search.toLowerCase()) ||
         agency.phone.toLowerCase().includes(search.toLowerCase()) ||
@@ -40,7 +40,7 @@ export function useAgencies() {
     setViewMode,
     agencies: filtered,
     isLoading,
-    totalCount: data?.length ?? 0,
+    totalCount: data?.totalCount ?? 0,
     filteredCount: filtered.length,
   }
 }

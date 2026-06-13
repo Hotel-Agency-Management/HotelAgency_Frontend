@@ -1,11 +1,13 @@
 import { useState } from 'react'
-import { Avatar, Card, CardActionArea, Divider, IconButton, Menu, MenuItem, Stack, Typography } from '@mui/material'
+import { Avatar, Box, Card, Chip, Divider, Menu, MenuItem, Stack, Typography } from '@mui/material'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { useTranslation } from 'react-i18next'
 import Icon from '@/components/icon/Icon'
 import { Agency } from '../types/agency'
 import { fromNow } from '@/core/utils/Dateutils'
 import LtrText from '@/components/ui/LtrText'
+import AgencyStatusChip from './AgencyStatusChip'
+import { AgencyCardActionArea, AgencyCardSettingsButton } from '../styles/StyledComponents'
 
 interface Props {
   agency: Agency
@@ -18,8 +20,8 @@ export default function AgencyCard({ agency, onClick, onSettingsClick }: Props) 
   const { t } = useTranslation()
 
   return (
-    <Card variant='outlined'>
-      <CardActionArea onClick={() => onClick(agency.id)} sx={{ borderRadius: 'inherit', overflow: 'visible' }}>
+    <Card sx={{ p: 2, position: 'relative' }}>
+      <AgencyCardActionArea onClick={() => onClick(agency.id)} sx={{ overflow: 'visible' }}>
         <Stack gap={2}>
           <Stack direction='row' alignItems='flex-start' justifyContent='space-between' gap={1}>
             <Stack direction='row' alignItems='center' gap={1.5} sx={{ minWidth: 0 }}>
@@ -35,29 +37,13 @@ export default function AgencyCard({ agency, onClick, onSettingsClick }: Props) 
                 </Typography>
               </Stack>
             </Stack>
-            {onSettingsClick && (
-              <IconButton
-                size='small'
-                onClick={e => {
-                  e.stopPropagation()
-                  setAnchorEl(e.currentTarget)
-                }}
-              >
-                <MoreVertIcon fontSize='small' />
-              </IconButton>
-            )}
+            {onSettingsClick && <Box sx={{ width: 34, height: 34 }} />}
           </Stack>
 
-          <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
-            <MenuItem
-              onClick={() => {
-                onSettingsClick?.(agency.id)
-                setAnchorEl(null)
-              }}
-            >
-              {t('agencies.actions.settings', { defaultValue: 'Agency Settings' })}
-            </MenuItem>
-          </Menu>
+          <Stack direction='row' alignItems='center' gap={1}>
+            <AgencyStatusChip status={agency.status} />
+            <Chip label={agency.planName} size='small' variant='outlined' />
+          </Stack>
 
           <Divider />
 
@@ -82,7 +68,30 @@ export default function AgencyCard({ agency, onClick, onSettingsClick }: Props) 
             {t('agencies.card.created', { defaultValue: 'Created {{time}}', time: fromNow(agency.createdAt) })}
           </Typography>
         </Stack>
-      </CardActionArea>
+      </AgencyCardActionArea>
+
+      {onSettingsClick && (
+        <AgencyCardSettingsButton
+          size='small'
+          onClick={e => {
+            e.stopPropagation()
+            setAnchorEl(e.currentTarget)
+          }}
+        >
+          <MoreVertIcon fontSize='small' />
+        </AgencyCardSettingsButton>
+      )}
+
+      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
+        <MenuItem
+          onClick={() => {
+            onSettingsClick?.(agency.id)
+            setAnchorEl(null)
+          }}
+        >
+          {t('agencies.actions.settings', { defaultValue: 'Agency Settings' })}
+        </MenuItem>
+      </Menu>
     </Card>
   )
 }
