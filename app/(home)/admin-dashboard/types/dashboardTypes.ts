@@ -43,13 +43,11 @@ export interface PieChartProps {
 }
 
 
-export type AgencyPlan = "Basic" | "Pro" | "Enterprise";
-
 export interface LatestAgency {
   id: string;
   name: string;
   status: AgencyStatus;
-  plan: AgencyPlan;
+  plan: string;
   createdAt: string;
   country?: string;
 }
