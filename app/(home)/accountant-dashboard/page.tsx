@@ -8,13 +8,13 @@ import { useTranslation } from 'react-i18next'
 import { useAuth } from '@/core/context/AuthContext'
 import FinancialSummarySection from './components/FinancialSummarySection'
 import RevenueAnalyticsSection from './components/RevenueAnalyticsSection'
-import NetProfitTrendSection from './components/NetProfitTrendSection'
 import CashFlowSection from './components/CashFlowSection'
-import FinancialAlertsSection from './components/FinancialAlertsSection'
 
 export default function AccountantDashboardPage() {
   const { user } = useAuth()
   const { t } = useTranslation()
+
+  const hotelId = user?.hotelId ? Number(user.hotelId) : undefined
 
   const today = new Date().toLocaleDateString('en-GB', {
     weekday: 'long',
@@ -41,31 +41,22 @@ export default function AccountantDashboardPage() {
           <Typography variant="h6" fontWeight={600}>
             {t('dashboard.accountant.sections.financialSummary', { defaultValue: 'Financial Summary' })}
           </Typography>
-          <FinancialSummarySection />
+          <FinancialSummarySection hotelId={hotelId} />
         </Stack>
 
         <Stack spacing={1}>
           <Typography variant="h6" fontWeight={600}>
             {t('dashboard.accountant.sections.revenueAnalytics', { defaultValue: 'Revenue Analytics' })}
           </Typography>
-          <RevenueAnalyticsSection />
-        </Stack>
-
-        <Stack spacing={1}>
-          <Typography variant="h6" fontWeight={600}>
-            {t('dashboard.accountant.sections.netProfitTrend', { defaultValue: 'Net Profit Trend' })}
-          </Typography>
-          <NetProfitTrendSection />
+          <RevenueAnalyticsSection hotelId={hotelId} />
         </Stack>
 
         <Stack spacing={1}>
           <Typography variant="h6" fontWeight={600}>
             {t('dashboard.accountant.sections.cashFlow', { defaultValue: 'Cash Flow' })}
           </Typography>
-          <CashFlowSection />
+          <CashFlowSection hotelId={hotelId} />
         </Stack>
-
-        <FinancialAlertsSection />
       </Stack>
     </Container>
   )

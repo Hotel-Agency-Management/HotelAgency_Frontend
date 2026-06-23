@@ -7,10 +7,42 @@ import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import { useTranslation } from 'react-i18next'
 import ChartFactory from '@/components/charts/ChartFactory'
-import { MONTHS, CASH_FLOW_SERIES, BALANCE_TREND_SERIES } from '../data/accountantDashboardMock'
+import Spinner from '@/components/loaders/Spinner'
+import ErrorMessage from '@/components/ui/ErrorMessage'
+import { useBalanceTrend, useCashFlow } from '../hooks/queries/useAccountantStatistics'
+import { LoadingBox } from '../styles/StyledComponents'
 
-export default function CashFlowSection() {
+interface CashFlowSectionProps {
+  hotelId?: number
+}
+
+export default function CashFlowSection({ hotelId }: CashFlowSectionProps) {
   const { t } = useTranslation()
+
+  const cashFlowQuery = useCashFlow(hotelId)
+  const balanceTrendQuery = useBalanceTrend(hotelId)
+
+  const isLoading = cashFlowQuery.isLoading || balanceTrendQuery.isLoading
+  const isError = cashFlowQuery.isError || balanceTrendQuery.isError
+
+  if (isLoading) {
+    return (
+      <LoadingBox>
+        <Spinner />
+      </LoadingBox>
+    )
+  }
+
+  if (isError) {
+    return (
+      <ErrorMessage
+        message={t('dashboard.accountant.charts.loadError', { defaultValue: 'Failed to load cash flow' })}
+      />
+    )
+  }
+
+  const cashFlowItems = cashFlowQuery.data ?? []
+  const balanceTrendItems = balanceTrendQuery.data ?? []
 
   return (
     <Grid container spacing={2.5}>
@@ -23,8 +55,11 @@ export default function CashFlowSection() {
               </Typography>
               <ChartFactory
                 type="Area"
-                series={CASH_FLOW_SERIES}
-                labels={MONTHS}
+                series={[
+                  { label: 'Incoming', data: cashFlowItems.map(item => item.incoming) },
+                  { label: 'Outgoing', data: cashFlowItems.map(item => item.outgoing) },
+                ]}
+                labels={cashFlowItems.map(item => item.month)}
                 height={260}
                 showLegend
                 percentage
@@ -43,8 +78,8 @@ export default function CashFlowSection() {
               </Typography>
               <ChartFactory
                 type="Line"
-                series={BALANCE_TREND_SERIES}
-                labels={MONTHS}
+                series={[{ label: 'Balance', data: balanceTrendItems.map(item => item.balance) }]}
+                labels={balanceTrendItems.map(item => item.month)}
                 height={260}
                 showLegend={false}
                 percentage

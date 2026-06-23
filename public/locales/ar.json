@@ -655,7 +655,6 @@
       "sections": {
         "financialSummary": "الملخص المالي",
         "revenueAnalytics": "تحليلات الإيرادات",
-        "netProfitTrend": "اتجاه صافي الربح",
         "cashFlow": "التدفق النقدي"
       },
       "charts": {
@@ -664,45 +663,27 @@
         "refundImpact": "تأثير المبالغ المستردة",
         "revenueGrowth": "نمو الإيرادات",
         "comparedToLastMonth": "مقارنةً بالشهر الماضي",
-        "monthlyRevenueTrend": "الاتجاه الشهري للإيرادات",
-        "netProfitTrend": "اتجاه صافي الربح",
-        "revenueMinusExpenses": "الإيرادات − المصروفات",
         "incomingVsOutgoingCashFlow": "التدفق النقدي الوارد مقابل الصادر",
         "currentBalanceTrend": "اتجاه الرصيد الحالي"
       },
-      "financialAlerts": {
-        "title": "التنبيهات المالية"
-      },
       "stats": {
         "totalRevenue": {
-          "title": "إجمالي الإيرادات",
-          "subtitle": "هذه السنة المالية",
-          "trend": "+12.4% مقارنة بالعام الماضي"
+          "title": "إجمالي الإيرادات"
         },
         "totalExpenses": {
-          "title": "إجمالي المصروفات",
-          "subtitle": "هذه السنة المالية",
-          "trend": "+6.2% مقارنة بالعام الماضي"
+          "title": "إجمالي المصروفات"
         },
         "netProfit": {
-          "title": "صافي الربح",
-          "subtitle": "هذه السنة المالية",
-          "trend": "+18.7% مقارنة بالعام الماضي"
+          "title": "صافي الربح"
         },
         "outstandingPayments": {
-          "title": "المدفوعات المعلقة",
-          "subtitle": "3 فواتير متأخرة",
-          "trend": "مطلوب إجراء"
+          "title": "المدفوعات المعلقة"
         },
         "refunds": {
-          "title": "المستردات",
-          "subtitle": "هذا الشهر",
-          "trend": "-8.3% مقارنة بالشهر الماضي"
+          "title": "المستردات"
         },
         "cashBalance": {
-          "title": "الرصيد النقدي",
-          "subtitle": "الرصيد الحالي",
-          "trend": "+7,200$ هذا الشهر"
+          "title": "الرصيد النقدي"
         }
       }
     }

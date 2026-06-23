@@ -620,7 +620,6 @@
       "sections": {
         "financialSummary": "Financial Summary",
         "revenueAnalytics": "Revenue Analytics",
-        "netProfitTrend": "Net Profit Trend",
         "cashFlow": "Cash Flow"
       },
       "charts": {
@@ -629,45 +628,27 @@
         "refundImpact": "Refund Impact",
         "revenueGrowth": "Revenue Growth",
         "comparedToLastMonth": "Compared to last month",
-        "monthlyRevenueTrend": "Monthly Revenue Trend",
-        "netProfitTrend": "Net Profit Trend",
-        "revenueMinusExpenses": "Revenue − Expenses",
         "incomingVsOutgoingCashFlow": "Incoming vs Outgoing Cash Flow",
         "currentBalanceTrend": "Current Balance Trend"
       },
-      "financialAlerts": {
-        "title": "Financial Alerts"
-      },
       "stats": {
         "totalRevenue": {
-          "title": "Total Revenue",
-          "subtitle": "This fiscal year",
-          "trend": "+12.4% vs last year"
+          "title": "Total Revenue"
         },
         "totalExpenses": {
-          "title": "Total Expenses",
-          "subtitle": "This fiscal year",
-          "trend": "+6.2% vs last year"
+          "title": "Total Expenses"
         },
         "netProfit": {
-          "title": "Net Profit",
-          "subtitle": "This fiscal year",
-          "trend": "+18.7% vs last year"
+          "title": "Net Profit"
         },
         "outstandingPayments": {
-          "title": "Outstanding Payments",
-          "subtitle": "3 invoices overdue",
-          "trend": "Action required"
+          "title": "Outstanding Payments"
         },
         "refunds": {
-          "title": "Refunds",
-          "subtitle": "This month",
-          "trend": "-8.3% vs last month"
+          "title": "Refunds"
         },
         "cashBalance": {
-          "title": "Cash Balance",
-          "subtitle": "Current balance",
-          "trend": "+$7,200 this month"
+          "title": "Cash Balance"
         }
       }
     }
