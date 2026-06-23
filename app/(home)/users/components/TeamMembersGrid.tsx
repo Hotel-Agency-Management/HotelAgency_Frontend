@@ -2,17 +2,20 @@
 
 import { DataGrid } from '@mui/x-data-grid'
 import { useTranslation } from 'react-i18next'
+import type { Hotel } from '@/app/(home)/agency/hotels/types/hotel'
 import { getTeamMemberGridColumns } from '../constants/teamMemberGridColumns'
 import type { AgencyTeamMember } from '../config/teamMemberConfig'
 
 interface TeamMembersGridProps {
   members: AgencyTeamMember[]
+  hotels: Hotel[]
   onEditRole: (member: AgencyTeamMember) => void
+  onEditMember: (member: AgencyTeamMember) => void
 }
 
-export function TeamMembersGrid({ members, onEditRole }: TeamMembersGridProps) {
+export function TeamMembersGrid({ members, hotels, onEditRole, onEditMember }: TeamMembersGridProps) {
   const { t } = useTranslation()
-  const columns = getTeamMemberGridColumns({ onEditRole, t })
+  const columns = getTeamMemberGridColumns({ onEditRole, onEditMember, hotels, t })
 
   return (
     <DataGrid

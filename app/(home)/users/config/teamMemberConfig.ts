@@ -12,6 +12,7 @@ export interface TeamMemberResponse {
   phoneNumber: string
   role: UserRole
   canBeHotelManager: boolean
+  hotelId?: number | null
 }
 
 export interface TeamMemberListResponse {
@@ -30,6 +31,7 @@ export interface AgencyTeamMember {
   phoneNumber: string
   role: UserRole
   canBeHotelManager: boolean
+  hotelId?: number | null
 }
 
 export type AgencyTeamMemberInput = Omit<AgencyTeamMember, 'id' | 'canBeHotelManager'>
@@ -54,6 +56,12 @@ export interface UpdateTeamMemberRoleRequest {
   role: UserRole
 }
 
+export interface UpdateTeamMemberRequest {
+  firstName: string
+  lastName: string
+  hotelId?: number | null
+}
+
 export const AGENCY_ROLE_OPTIONS = USER_ROLE_OPTIONS
 
 export const mapTeamMemberResponse = (r: TeamMemberResponse): AgencyTeamMember => ({
@@ -64,6 +72,7 @@ export const mapTeamMemberResponse = (r: TeamMemberResponse): AgencyTeamMember =
   phoneNumber: r.phoneNumber,
   role: r.role,
   canBeHotelManager: r.canBeHotelManager,
+  hotelId: r.hotelId,
 })
 
 export const getAgencyTeamMemberName = (

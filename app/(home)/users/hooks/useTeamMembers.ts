@@ -4,15 +4,17 @@ import { useAuth } from '@/core/context/AuthContext'
 import { USER_ROLES, type UserRole } from '@/lib/abilities'
 import {
   useAdminCreateTeamMember,
+  useAdminUpdateTeamMember,
   useAdminUpdateTeamMemberRole,
   useCreateTeamMember,
+  useUpdateTeamMember,
   useUpdateTeamMemberRole,
 } from './mutations/useTeamMemberMutations'
 import {
   useAdminGetTeamMembers,
   useGetTeamMembers,
 } from './queries/useTeamMemberQueries'
-import type { AgencyTeamMemberInput, TeamMemberListParams } from '../config/teamMemberConfig'
+import type { AgencyTeamMemberInput, TeamMemberListParams, UpdateTeamMemberRequest } from '../config/teamMemberConfig'
 import toast from 'react-hot-toast'
 
 export function useTeamMembers(params?: TeamMemberListParams, agencyIdOverride?: number) {
@@ -39,11 +41,19 @@ export function useTeamMembers(params?: TeamMemberListParams, agencyIdOverride?:
   const adminUpdateRole = useAdminUpdateTeamMemberRole(agencyId)
   const activeUpdateRole = isSuperAdmin ? adminUpdateRole : ownerUpdateRole
 
+  const ownerUpdate = useUpdateTeamMember()
+  const adminUpdate = useAdminUpdateTeamMember(agencyId)
+  const activeUpdate = isSuperAdmin ? adminUpdate : ownerUpdate
+
   const members = activeQuery.data?.items ?? []
 
   return {
     members,
-    isLoading: activeQuery.isLoading || activeCreate.isPending || activeUpdateRole.isPending,
+    isLoading:
+      activeQuery.isLoading ||
+      activeCreate.isPending ||
+      activeUpdateRole.isPending ||
+      activeUpdate.isPending,
     totalCount: activeQuery.data?.totalCount ?? 0,
     totalPages: activeQuery.data?.totalPages ?? 1,
 
@@ -69,6 +79,17 @@ export function useTeamMembers(params?: TeamMemberListParams, agencyIdOverride?:
         })
       } catch {
         toast.error('Failed to update member role')
+      }
+    },
+
+    updateMember: async (teamMemberId: string, data: UpdateTeamMemberRequest) => {
+      try {
+        await activeUpdate.mutateAsync({
+          teamMemberId: Number(teamMemberId),
+          data,
+        })
+      } catch {
+        toast.error('Failed to update team member')
       }
     },
 

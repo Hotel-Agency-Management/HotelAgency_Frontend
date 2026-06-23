@@ -1,12 +1,13 @@
 import { getErrorMessage } from '@/core/utils/apiError'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
-import { adminCreateTeamMember, adminUpdateTeamMemberRole } from '../../client/adminTeamMemberClient'
-import { createTeamMember, updateTeamMemberRole } from '../../client/teamMemberClient'
+import { adminCreateTeamMember, adminUpdateTeamMember, adminUpdateTeamMemberRole } from '../../client/adminTeamMemberClient'
+import { createTeamMember, updateTeamMember, updateTeamMemberRole } from '../../client/teamMemberClient'
 import {
   mapTeamMemberResponse,
   type AgencyTeamMember,
   type CreateTeamMemberRequest,
+  type UpdateTeamMemberRequest,
   type UpdateTeamMemberRoleRequest,
 } from '../../config/teamMemberConfig'
 import { teamMemberQueryKeys } from '../../constants/teamMember'
@@ -14,6 +15,11 @@ import { teamMemberQueryKeys } from '../../constants/teamMember'
 interface UpdateTeamMemberRoleVariables {
   teamMemberId: number
   data: UpdateTeamMemberRoleRequest
+}
+
+interface UpdateTeamMemberVariables {
+  teamMemberId: number
+  data: UpdateTeamMemberRequest
 }
 
 export const useCreateTeamMember = () => {
@@ -87,6 +93,45 @@ export const useAdminUpdateTeamMemberRole = (agencyId?: number) => {
     },
     onError: error => {
       toast.error(getErrorMessage(error, 'Failed to update team member role'))
+    },
+  })
+}
+
+export const useUpdateTeamMember = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation<AgencyTeamMember, unknown, UpdateTeamMemberVariables>({
+    mutationFn: async ({ teamMemberId, data }) =>
+      mapTeamMemberResponse(await updateTeamMember(teamMemberId, data)),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: teamMemberQueryKeys.all() })
+      toast.success('Team member updated successfully')
+    },
+    onError: error => {
+      toast.error(getErrorMessage(error, 'Failed to update team member'))
+    },
+  })
+}
+
+export const useAdminUpdateTeamMember = (agencyId?: number) => {
+  const queryClient = useQueryClient()
+
+  return useMutation<AgencyTeamMember, unknown, UpdateTeamMemberVariables>({
+    mutationFn: async ({ teamMemberId, data }) => {
+      if (!Number.isInteger(agencyId) || Number(agencyId) <= 0) {
+        throw new Error('Choose an agency before updating a team member')
+      }
+
+      return mapTeamMemberResponse(
+        await adminUpdateTeamMember(agencyId as number, teamMemberId, data)
+      )
+    },
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: teamMemberQueryKeys.all() })
+      toast.success('Team member updated successfully')
+    },
+    onError: error => {
+      toast.error(getErrorMessage(error, 'Failed to update team member'))
     },
   })
 }

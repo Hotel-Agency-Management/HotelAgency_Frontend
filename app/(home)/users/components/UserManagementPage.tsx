@@ -11,6 +11,7 @@ import { Plus, Users } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { AddTeamDrawer } from './AddTeamDrawer'
 import { AssignTeamMemberRoleDialog } from './AssignTeamMemberRoleDialog'
+import { EditTeamMemberDialog } from './EditTeamMemberDialog'
 import { TeamMembersGrid } from './TeamMembersGrid'
 import { useUserManagementPage } from '../hooks/useUserManagementPage'
 
@@ -28,11 +29,17 @@ export function UserManagementPage() {
     isDrawerOpen,
     roleMember,
     setRoleMember,
+    editMember,
+    setEditMember,
+    hotels,
+    isLoadingHotels,
     handleOpenDrawer,
     handleCloseDrawer,
     handleCloseRoleDialog,
+    handleCloseEditDialog,
     handleAddMember,
-    handleUpdateMemberRole
+    handleUpdateMemberRole,
+    handleUpdateMember,
   } = useUserManagementPage()
 
   return (
@@ -98,7 +105,7 @@ export function UserManagementPage() {
           </Stack>
         ) : null}
 
-        <TeamMembersGrid members={members} onEditRole={setRoleMember} />
+        <TeamMembersGrid members={members} hotels={hotels} onEditRole={setRoleMember} onEditMember={setEditMember} />
       </Stack>
 
       <AddTeamDrawer
@@ -113,6 +120,14 @@ export function UserManagementPage() {
         isLoading={isLoading}
         onClose={handleCloseRoleDialog}
         onSave={handleUpdateMemberRole}
+      />
+      <EditTeamMemberDialog
+        open={!!editMember}
+        member={editMember}
+        hotels={hotels}
+        isLoading={isLoading || isLoadingHotels}
+        onClose={handleCloseEditDialog}
+        onSave={handleUpdateMember}
       />
     </Container>
   )
