@@ -3,20 +3,19 @@
 import { Box, Typography, useTheme } from "@mui/material"
 import { SxProps, Theme } from '@mui/material'
 import { useTranslation } from "react-i18next";
-// TODO: replace mock RECENT_ACTIVITY with a real query hook once the
-// admin recent-activity endpoint is available from the backend.
-import { RECENT_ACTIVITY } from "../data/dashboardMock";
+import Spinner from "@/components/loaders/Spinner";
+import ErrorMessage from "@/components/ui/ErrorMessage";
+import { useAdminRecentLogs } from "../hooks/queries/useAdminStatistic";
 import { ActivityItemRow } from "./ActivityItemRow";
-import { ActivityItem } from "../types/dashboardTypes";
-
+import { LoadingBox } from "../styles/StyledComponents";
 
 interface RecentActivitySectionProps {
-  activities?: ActivityItem[];
   sx?: SxProps<Theme>
 }
-export function RecentActivitySection({ activities = RECENT_ACTIVITY }: RecentActivitySectionProps) {
+export function RecentActivitySection({ sx }: RecentActivitySectionProps) {
   const theme = useTheme();
   const { t } = useTranslation();
+  const { data, isLoading, isError } = useAdminRecentLogs();
 
   return (
     <Box
@@ -25,6 +24,7 @@ export function RecentActivitySection({ activities = RECENT_ACTIVITY }: RecentAc
         border: `1px solid ${theme.palette.divider}`,
         borderRadius: 2,
         height: "100%",
+        ...sx,
       }}
     >
       <Box sx={{ px: 2.5, py: 2, borderBottom: `1px solid ${theme.palette.divider}` }}>
@@ -36,11 +36,23 @@ export function RecentActivitySection({ activities = RECENT_ACTIVITY }: RecentAc
         </Typography>
       </Box>
 
-      <Box sx={{ px: 2.5, py: 1 }}>
-        {activities.map((item) => (
-          <ActivityItemRow key={item.id} item={item} />
-        ))}
-      </Box>
+      {isLoading ? (
+        <LoadingBox>
+          <Spinner />
+        </LoadingBox>
+      ) : isError ? (
+        <Box sx={{ px: 2.5, py: 1 }}>
+          <ErrorMessage
+            message={t('dashboard.admin.recentActivity.loadError', { defaultValue: 'Failed to load recent activity' })}
+          />
+        </Box>
+      ) : (
+        <Box sx={{ px: 2.5, py: 1 }}>
+          {(data ?? []).map((item) => (
+            <ActivityItemRow key={item.id} item={item} />
+          ))}
+        </Box>
+      )}
     </Box>
   );
 }

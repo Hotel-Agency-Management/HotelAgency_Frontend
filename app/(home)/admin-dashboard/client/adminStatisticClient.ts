@@ -1,5 +1,6 @@
 import apiClient from "@/core/clients/apiClient";
 import { AdminOverviewStats, AgencyStatusBreakdownResponse, GrowthResponse, PaginatedAgenciesResponse, PlanBreakdownResponse, RevenueResponse } from "../config/adminStatisticConfig";
+import { SystemLogItem } from "@/app/(home)/system-logs/types/systemLog";
 
 export async function getAdminRevenue() : Promise<RevenueResponse> {
     const response = await apiClient.get <RevenueResponse>('admin/dashboard/revenue');
@@ -28,5 +29,10 @@ export async function getAdminGrowthData() : Promise<GrowthResponse> {
 
 export async function getAdminRecentAgencies() : Promise<PaginatedAgenciesResponse> {
     const response = await apiClient.get <PaginatedAgenciesResponse>('admin/dashboard/latest-agencies');
+    return response.data;
+}
+
+export async function getAdminRecentLogs() : Promise<SystemLogItem[]> {
+    const response = await apiClient.get <SystemLogItem[]>('admin/dashboard/recent-logs');
     return response.data;
 }

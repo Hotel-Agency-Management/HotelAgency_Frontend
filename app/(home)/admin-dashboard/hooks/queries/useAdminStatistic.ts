@@ -6,6 +6,7 @@ import {
   getAdminPlanDistribution,
   getAdminGrowthData,
   getAdminRecentAgencies,
+  getAdminRecentLogs,
 } from '../../client/adminStatisticClient'
 
 export const adminStatisticQueryKeys = {
@@ -28,6 +29,9 @@ export const adminStatisticQueryKeys = {
 
   recentAgencies: () =>
     [...adminStatisticQueryKeys.all, 'recent-agencies'] as const,
+
+  recentLogs: () =>
+    [...adminStatisticQueryKeys.all, 'recent-logs'] as const,
 }
 
 export function useAdminRevenue() {
@@ -69,6 +73,13 @@ export function useAdminRecentAgencies() {
   return useQuery({
     queryKey: adminStatisticQueryKeys.recentAgencies(),
     queryFn: getAdminRecentAgencies,
+  })
+}
+
+export function useAdminRecentLogs() {
+  return useQuery({
+    queryKey: adminStatisticQueryKeys.recentLogs(),
+    queryFn: getAdminRecentLogs,
   })
 }
 
