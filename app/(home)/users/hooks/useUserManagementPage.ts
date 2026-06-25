@@ -3,12 +3,15 @@ import { useAuth } from "@/core/context/AuthContext";
 import { USER_ROLES, type UserRole } from "@/lib/abilities";
 import { useTeamMembers } from "./useTeamMembers";
 import { useGetAdminAgencyOptions } from "./queries/useAgencyOptionQueries";
-import type { AgencyTeamMember, AgencyTeamMemberInput } from "../config/teamMemberConfig";
+import { useGetHotels } from "@/app/(home)/agency/hotels/hooks/queries/useHotelQueries";
+import { useAdminGetHotels } from "@/app/(home)/agency/hotels/hooks/queries/useAdminHotelQueries";
+import type { AgencyTeamMember, AgencyTeamMemberInput, UpdateTeamMemberRequest } from "../config/teamMemberConfig";
 
 export function useUserManagementPage() {
   const { user } = useAuth();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [roleMember, setRoleMember] = useState<AgencyTeamMember | null>(null);
+  const [editMember, setEditMember] = useState<AgencyTeamMember | null>(null);
 
   const isSuperAdmin = user?.role === USER_ROLES.SUPER_ADMIN;
   const initialAgencyId =
@@ -21,10 +24,18 @@ export function useUserManagementPage() {
   const selectedAgencyIdNumber = selectedAgencyId ? Number(selectedAgencyId) : undefined;
   const hasSelectedAgency = !isSuperAdmin || Number(selectedAgencyIdNumber) > 0;
 
-  const { members, isLoading, addMember, updateMemberRole } = useTeamMembers(
+  const { members, isLoading, addMember, updateMemberRole, updateMember } = useTeamMembers(
     undefined,
     selectedAgencyIdNumber
   );
+
+  const ownerHotelsQuery = useGetHotels(undefined, !isSuperAdmin);
+  const adminHotelsQuery = useAdminGetHotels(
+    isSuperAdmin && hasSelectedAgency ? selectedAgencyIdNumber : undefined
+  );
+  const hotelsData = isSuperAdmin ? adminHotelsQuery.data : ownerHotelsQuery.data;
+  const hotels = hotelsData?.items ?? [];
+  const isLoadingHotels = isSuperAdmin ? adminHotelsQuery.isLoading : ownerHotelsQuery.isLoading;
 
   const handleOpenDrawer = () => {
     if (!hasSelectedAgency) return;
@@ -47,6 +58,14 @@ export function useUserManagementPage() {
     }
   };
 
+  const handleUpdateMember = async (memberId: string, data: UpdateTeamMemberRequest) => {
+    try {
+      await updateMember(memberId, data);
+    } catch (error) {
+      throw error;
+    }
+  };
+
   return {
     isSuperAdmin,
     isLoading,
@@ -59,10 +78,16 @@ export function useUserManagementPage() {
     isDrawerOpen,
     roleMember,
     setRoleMember,
+    editMember,
+    setEditMember,
+    hotels,
+    isLoadingHotels,
     handleOpenDrawer,
     handleCloseDrawer: () => setIsDrawerOpen(false),
     handleCloseRoleDialog: () => setRoleMember(null),
+    handleCloseEditDialog: () => setEditMember(null),
     handleAddMember,
     handleUpdateMemberRole,
+    handleUpdateMember,
   };
 }

@@ -11,13 +11,13 @@ export const hotelQueryKeys = {
   detail: (agencyId?: number, hotelId?: number) => ['hotel', agencyId, hotelId] as const,
 }
 
-export const useGetHotels = (params?: HotelListParams) => {
+export const useGetHotels = (params?: HotelListParams, enabled = true) => {
   const { user } = useAuth()
 
   return useQuery({
     queryKey: hotelQueryKeys.list(user?.agencyId, params),
     queryFn: ({ signal }) => getHotels(params, signal),
-    enabled: !!user,
+    enabled: !!user && enabled,
     select: (data): { items: Hotel[]; pageNumber: number; pageSize: number; totalCount: number; totalPages: number } => ({
       ...data,
       items: data.items.map(mapHotelResponseToHotel),

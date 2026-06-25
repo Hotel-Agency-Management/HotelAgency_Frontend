@@ -4,6 +4,7 @@ import type {
   TeamMemberListParams,
   TeamMemberListResponse,
   TeamMemberResponse,
+  UpdateTeamMemberRequest,
   UpdateTeamMemberRoleRequest,
 } from '../config/teamMemberConfig'
 
@@ -36,6 +37,18 @@ export const adminUpdateTeamMemberRole = async (
 ): Promise<TeamMemberResponse> => {
   const response = await apiClient.put<TeamMemberResponse>(
     `/admin/agencies/${agencyId}/team-members/${teamMemberId}/role`,
+    data
+  )
+  return response.data
+}
+
+export const adminUpdateTeamMember = async (
+  agencyId: number,
+  teamMemberId: number,
+  data: UpdateTeamMemberRequest
+): Promise<TeamMemberResponse> => {
+  const response = await apiClient.put<TeamMemberResponse>(
+    `/admin/agencies/${agencyId}/team-members/${teamMemberId}`,
     data
   )
   return response.data
