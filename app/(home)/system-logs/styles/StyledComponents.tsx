@@ -1,5 +1,5 @@
 import { hexToRGBA } from '@/core/utils/hex-to-rgba'
-import { Avatar, Box, Card, Paper, Stack } from '@mui/material'
+import { Avatar, Box, Card, Chip, Paper } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import themeConfig from '@/core/configs/themeConfig'
 
@@ -52,33 +52,16 @@ export const ActionTypeAvatar = styled(Avatar, {
   height: theme.spacing(5)
 }))
 
-export const SummaryCard = styled(Card, {
-  shouldForwardProp: prop => prop !== '$color'
-})<{ $color: string }>(({ theme, $color }) => ({
-  padding: theme.spacing(2.5),
-  borderRadius: themeConfig.borderRadius * 1.5,
-  borderColor: theme.palette.divider,
-  position: 'relative',
-  overflow: 'hidden',
+export const ActionTypeChip = styled(Chip, {
+  shouldForwardProp: prop => prop !== '$desktop'
+})<{ $desktop?: boolean }>(({ $desktop }) => ({
+  fontWeight: 600,
+  ...($desktop && {
+    width: 150,
 
-  '&::before': {
-    content: '""',
-    position: 'absolute',
-    inset: 0,
-    height: 4,
-    backgroundColor: $color
-  }
-}))
-
-export const SummaryIconBadge = styled(Stack, {
-  shouldForwardProp: prop => prop !== '$color'
-})<{ $color: string }>(({ theme, $color }) => ({
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: theme.spacing(5),
-  height: theme.spacing(5),
-  borderRadius: themeConfig.borderRadius,
-  backgroundColor: hexToRGBA($color, 0.12),
-  color: $color,
-  flexShrink: 0
+    '& .MuiChip-label': {
+      overflow: 'hidden',
+      textOverflow: 'ellipsis'
+    }
+  })
 }))

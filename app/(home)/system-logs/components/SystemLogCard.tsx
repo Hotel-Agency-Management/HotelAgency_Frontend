@@ -1,12 +1,12 @@
 'use client'
 
-import { Chip, Stack, Typography } from '@mui/material'
+import { Stack, Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { useTranslation } from 'react-i18next'
 import Icon from '@/components/icon/Icon'
 import { formatLogDateTime } from '../utils/dateFormat'
 import { getActionTypeConfig, resolveActionTypePalette } from '../utils/getActionTypeConfig'
-import { ActionTypeAvatar, LogCard as StyledLogCard } from '../styles/StyledComponents'
+import { ActionTypeAvatar, ActionTypeChip, LogCard as StyledLogCard } from '../styles/StyledComponents'
 import { LogDataColumn } from './LogDataColumn'
 import type { SystemLogItem } from '../types/systemLog'
 
@@ -36,11 +36,10 @@ export function SystemLogCard({ log }: SystemLogCardProps) {
               {log.actorRole}
             </Typography>
           </Stack>
-          <Chip
+          <ActionTypeChip
             label={log.action.replace(/_/g, ' ')}
             size='small'
             color={actionConfig.color === 'grey' ? 'default' : actionConfig.color}
-            sx={{ fontWeight: 600 }}
           />
         </Stack>
 
@@ -82,11 +81,11 @@ export function SystemLogCard({ log }: SystemLogCardProps) {
           </Typography>
         </Stack>
 
-        <Chip
+        <ActionTypeChip
+          $desktop
           label={log.action.replace(/_/g, ' ')}
           size='small'
           color={actionConfig.color === 'grey' ? 'default' : actionConfig.color}
-          sx={{ fontWeight: 600, width: 200 }}
         />
 
 

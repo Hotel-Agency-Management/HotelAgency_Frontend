@@ -28,3 +28,14 @@ export interface SystemLogsResponse {
   totalCount: number
   totalPages: number
 }
+
+export interface SystemLogsParams {
+  pageNumber?: number
+  pageSize?: number
+  action?: string
+  entityType?: string
+  actorId?: number
+  from?: string
+  to?: string
+  search?: string
+}
