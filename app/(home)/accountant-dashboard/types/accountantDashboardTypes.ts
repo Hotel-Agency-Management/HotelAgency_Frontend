@@ -1,21 +1,52 @@
-export type AlertSeverity = 'error' | 'warning' | 'info' | 'success'
-
-export interface FinancialAlert {
-  id: string
-  severity: AlertSeverity
-  title: string
-  description: string
-  amount?: number
-  timestamp: string
-  icon: string
+export interface FinancialSummaryResponse {
+  totalRevenue: number
+  totalExpenses: number
+  netProfit: number
+  outstandingPayments: number
+  refunds: number
+  cashBalance: number
 }
 
-export interface StatCardConfig {
-  title: string
-  value: string
-  subtitle?: string
-  trend?: { value: string; direction: 'up' | 'down' | 'neutral' }
-  iconName: string
-  color: 'primary' | 'success' | 'warning' | 'error' | 'info'
+export interface RevenueExpensesItem {
+  month: string
+  year: number
+  revenue: number
+  expenses: number
 }
-export type View = 'daily' | 'weekly' | 'monthly'
+
+export interface RevenueExpensesResponse {
+  data: RevenueExpensesItem[]
+}
+
+export interface RevenueByTypeItem {
+  paymentType: string
+  revenue: number
+}
+
+export interface RefundImpactResponse {
+  paidRevenue: number
+  refundAmount: number
+  cancellationLoss: number
+}
+
+export interface RevenueGrowthResponse {
+  currentRevenue: number
+  previousRevenue: number
+  growthPercentage: number
+  gaugeScore: number
+  month: number
+  year: number
+}
+
+export interface CashFlowItem {
+  month: string
+  year: number
+  incoming: number
+  outgoing: number
+}
+
+export interface BalanceTrendItem {
+  month: string
+  year: number
+  balance: number
+}

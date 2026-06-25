@@ -7,18 +7,60 @@ import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import { useTranslation } from 'react-i18next'
 import ChartFactory from '@/components/charts/ChartFactory'
+import Spinner from '@/components/loaders/Spinner'
+import ErrorMessage from '@/components/ui/ErrorMessage'
 import {
-  MONTHS,
-  REVENUE_VS_EXPENSES_SERIES,
-  REVENUE_BY_PAYMENT_TYPE,
-  REFUND_IMPACT_DATA,
-  MONTHLY_REVENUE_TREND,
-  REVENUE_GROWTH_VALUE,
-  REVENUE_GROWTH_THRESHOLDS,
-} from '../data/accountantDashboardMock'
+  useRefundImpact,
+  useRevenueByType,
+  useRevenueExpenses,
+  useRevenueGrowth,
+} from '../hooks/queries/useAccountantStatistics'
+import { LoadingBox } from '../styles/StyledComponents'
 
-export default function RevenueAnalyticsSection() {
+interface RevenueAnalyticsSectionProps {
+  hotelId?: number
+}
+
+export default function RevenueAnalyticsSection({ hotelId }: RevenueAnalyticsSectionProps) {
   const { t } = useTranslation()
+
+  const revenueExpensesQuery = useRevenueExpenses(hotelId)
+  const revenueByTypeQuery = useRevenueByType(hotelId)
+  const refundImpactQuery = useRefundImpact(hotelId)
+  const revenueGrowthQuery = useRevenueGrowth(hotelId)
+
+  const isLoading =
+    revenueExpensesQuery.isLoading ||
+    revenueByTypeQuery.isLoading ||
+    refundImpactQuery.isLoading ||
+    revenueGrowthQuery.isLoading
+
+  const isError =
+    revenueExpensesQuery.isError ||
+    revenueByTypeQuery.isError ||
+    refundImpactQuery.isError ||
+    revenueGrowthQuery.isError
+
+  if (isLoading) {
+    return (
+      <LoadingBox>
+        <Spinner />
+      </LoadingBox>
+    )
+  }
+
+  if (isError) {
+    return (
+      <ErrorMessage
+        message={t('dashboard.accountant.charts.loadError', { defaultValue: 'Failed to load revenue analytics' })}
+      />
+    )
+  }
+
+  const revenueExpensesItems = revenueExpensesQuery.data?.data ?? []
+  const revenueByTypeItems = revenueByTypeQuery.data ?? []
+  const refundImpact = refundImpactQuery.data
+  const revenueGrowth = revenueGrowthQuery.data
 
   return (
     <Stack spacing={2.5}>
@@ -30,8 +72,11 @@ export default function RevenueAnalyticsSection() {
             </Typography>
             <ChartFactory
               type="Area"
-              series={REVENUE_VS_EXPENSES_SERIES}
-              labels={MONTHS}
+              series={[
+                { label: 'Revenue', data: revenueExpensesItems.map(item => item.revenue) },
+                { label: 'Expenses', data: revenueExpensesItems.map(item => item.expenses) },
+              ]}
+              labels={revenueExpensesItems.map(item => item.month)}
               height={280}
               showLegend
               percentage
@@ -50,8 +95,8 @@ export default function RevenueAnalyticsSection() {
                 </Typography>
                 <ChartFactory
                   type="Bar"
-                  data={REVENUE_BY_PAYMENT_TYPE.map(d => d.value)}
-                  labels={REVENUE_BY_PAYMENT_TYPE.map(d => d.label)}
+                  data={revenueByTypeItems.map(item => item.revenue)}
+                  labels={revenueByTypeItems.map(item => item.paymentType)}
                   height={300}
                   percentage
                 />
@@ -69,7 +114,11 @@ export default function RevenueAnalyticsSection() {
                 </Typography>
                 <ChartFactory
                   type="Doughnut"
-                  data={REFUND_IMPACT_DATA}
+                  data={[
+                    { label: 'Paid Revenue', value: refundImpact?.paidRevenue ?? 0 },
+                    { label: 'Refund', value: refundImpact?.refundAmount ?? 0 },
+                    { label: 'Cancellation Loss', value: refundImpact?.cancellationLoss ?? 0 },
+                  ]}
                   height={300}
                   showLegend
                   legendPosition="bottom"
@@ -95,36 +144,17 @@ export default function RevenueAnalyticsSection() {
                 >
                   <ChartFactory
                     type="Gauge"
-                    value={REVENUE_GROWTH_VALUE}
+                    value={revenueGrowth?.gaugeScore ?? 0}
                     valueMin={-20}
                     valueMax={100}
                     unit="%"
-                    thresholds={REVENUE_GROWTH_THRESHOLDS}
+                    thresholds={{ low: 20, high: 50 }}
                     height={220}
                   />
                   <Typography variant="caption" align="center" display="block" mt={0.5}>
                     {t('dashboard.accountant.charts.comparedToLastMonth', { defaultValue: 'Compared to last month' })}
                   </Typography>
                 </Stack>
-              </Stack>
-            </CardContent>
-          </Card>
-        </Grid>
-
-        <Grid size={{ xs: 12 }}>
-          <Card variant="outlined" sx={{ height: '100%' }}>
-            <CardContent>
-              <Stack spacing={2}>
-                <Typography variant="subtitle1" fontWeight={600}>
-                  {t('dashboard.accountant.charts.monthlyRevenueTrend', { defaultValue: 'Monthly Revenue Trend' })}
-                </Typography>
-                <ChartFactory
-                  type="Bar"
-                  data={MONTHLY_REVENUE_TREND}
-                  labels={MONTHS}
-                  height={300}
-                  percentage
-                />
               </Stack>
             </CardContent>
           </Card>
