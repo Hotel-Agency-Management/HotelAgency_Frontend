@@ -745,6 +745,36 @@
     "empty": {
       "title": "No activity found",
       "subtitle": "No log entries match the current filters."
+    },
+    "dateGroups": {
+      "today": "Today",
+      "yesterday": "Yesterday",
+      "thisWeek": "This Week",
+      "lastWeek": "Last Week"
+    },
+    "actions": {
+      "planDeleted": "Plan Deleted",
+      "roomDeleted": "Room Deleted",
+      "roomTypeDeleted": "Room Type Deleted",
+      "roomPhotoDeleted": "Room Photo Deleted",
+      "roomAmenityDeleted": "Room Amenity Deleted",
+      "facilityDeleted": "Facility Deleted",
+      "facilityPhotoDeleted": "Facility Photo Deleted",
+      "ticketDeleted": "Ticket Deleted",
+      "ticketCommentDeleted": "Ticket Comment Deleted",
+      "paymentLogDeleted": "Payment Log Deleted"
+    },
+    "entityTypes": {
+      "plan": "Plan",
+      "room": "Room",
+      "roomType": "Room Type",
+      "roomPhoto": "Room Photo",
+      "roomAmenity": "Room Amenity",
+      "facility": "Facility",
+      "facilityPhoto": "Facility Photo",
+      "ticket": "Ticket",
+      "ticketComment": "Ticket Comment",
+      "paymentLog": "Payment Log"
     }
   },
   "agencies": {

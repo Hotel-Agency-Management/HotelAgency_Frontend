@@ -26,6 +26,19 @@ export const ACTION_OPTIONS = [
   'PAYMENT_LOG_DELETED'
 ]
 
+export const ACTION_LABEL_FALLBACK: Record<string, string> = {
+  PLAN_DELETED: 'Plan Deleted',
+  ROOM_DELETED: 'Room Deleted',
+  ROOM_TYPE_DELETED: 'Room Type Deleted',
+  ROOM_PHOTO_DELETED: 'Room Photo Deleted',
+  ROOM_AMENITY_DELETED: 'Room Amenity Deleted',
+  FACILITY_DELETED: 'Facility Deleted',
+  FACILITY_PHOTO_DELETED: 'Facility Photo Deleted',
+  TICKET_DELETED: 'Ticket Deleted',
+  TICKET_COMMENT_DELETED: 'Ticket Comment Deleted',
+  PAYMENT_LOG_DELETED: 'Payment Log Deleted'
+}
+
 export const ENTITY_TYPE_OPTIONS = [
   'Plan',
   'Room',
@@ -38,3 +51,16 @@ export const ENTITY_TYPE_OPTIONS = [
   'TicketComment',
   'PaymentLog'
 ]
+
+export const ENTITY_TYPE_LABEL_FALLBACK: Record<string, string> = {
+  Plan: 'Plan',
+  Room: 'Room',
+  RoomType: 'Room Type',
+  RoomPhoto: 'Room Photo',
+  RoomAmenity: 'Room Amenity',
+  Facility: 'Facility',
+  FacilityPhoto: 'Facility Photo',
+  Ticket: 'Ticket',
+  TicketComment: 'Ticket Comment',
+  PaymentLog: 'Payment Log'
+}

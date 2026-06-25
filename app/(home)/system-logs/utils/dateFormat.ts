@@ -1,3 +1,5 @@
+import type { TFunction } from 'i18next'
+
 const DAY_MS = 86400000
 
 function startOfDay(date: Date) {
@@ -12,10 +14,10 @@ export function getWeekStart(date: Date): Date {
   return d
 }
 
-export function formatLogDateTime(iso: string) {
+export function formatLogDateTime(iso: string, t: TFunction, locale: string) {
   const date = new Date(iso)
   const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
-  const time = date.toLocaleTimeString('en-US', {
+  const time = date.toLocaleTimeString(locale, {
     hour: '2-digit',
     minute: '2-digit',
     timeZone
@@ -24,29 +26,29 @@ export function formatLogDateTime(iso: string) {
   const logDay = startOfDay(date)
   const dayDiff = Math.round((logDay.getTime() - today.getTime()) / DAY_MS)
 
-  if (dayDiff === 0) return `Today, ${time}`
-  if (dayDiff === -1) return `Yesterday, ${time}`
+  if (dayDiff === 0) return `${t('systemLogs.dateGroups.today', { defaultValue: 'Today' })}, ${time}`
+  if (dayDiff === -1) return `${t('systemLogs.dateGroups.yesterday', { defaultValue: 'Yesterday' })}, ${time}`
 
   const label =
     Math.abs(dayDiff) < 7
-      ? date.toLocaleDateString('en-US', { weekday: 'short', timeZone })
-      : date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone })
+      ? date.toLocaleDateString(locale, { weekday: 'short', timeZone })
+      : date.toLocaleDateString(locale, { month: 'short', day: 'numeric', year: 'numeric', timeZone })
 
   return `${label}, ${time}`
 }
 
-export function formatWeekLabel(monday: Date): string {
+export function formatWeekLabel(monday: Date, t: TFunction, locale: string): string {
   const thisMonday = getWeekStart(new Date())
   const lastMonday = new Date(thisMonday)
   lastMonday.setDate(thisMonday.getDate() - 7)
 
-  if (monday.getTime() === thisMonday.getTime()) return 'This Week'
-  if (monday.getTime() === lastMonday.getTime()) return 'Last Week'
+  if (monday.getTime() === thisMonday.getTime()) return t('systemLogs.dateGroups.thisWeek', { defaultValue: 'This Week' })
+  if (monday.getTime() === lastMonday.getTime()) return t('systemLogs.dateGroups.lastWeek', { defaultValue: 'Last Week' })
 
   const sunday = new Date(monday)
   sunday.setDate(monday.getDate() + 6)
 
-  const formatDay = (date: Date) => date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+  const formatDay = (date: Date) => date.toLocaleDateString(locale, { month: 'short', day: 'numeric' })
 
   return `${formatDay(monday)} - ${formatDay(sunday)}, ${sunday.getFullYear()}`
 }
