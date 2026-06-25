@@ -1,9 +1,10 @@
-import { PaymentType } from "../types/payment"
+import { PaymentDirection, PaymentType } from "../types/payment"
 
 export interface PaymentLogItem {
   paymentId: number
   reservationReference: string
   paymentType: PaymentType
+  transactionType: PaymentDirection
   amount: number
   fromName: string
   toName: string
@@ -18,6 +19,7 @@ export interface PaymentLogTimelineEvent {
 export interface PaymentLogDetails {
   paymentId: number
   paymentType: PaymentType
+  transactionType: PaymentDirection
   amount: number
   createdAt: string
   reservationReference: string
@@ -49,10 +51,12 @@ export interface PaymentLogsParams {
   pageNumber?: number
   pageSize?: number
   type?: PaymentType
+  transactionType?: PaymentDirection
+  search?: string
 }
 
 export interface PaymentLogExcelRow {
-  direction: string | null
+  transactionType: string | null
   paymentType: string | null
   fromName: string | null
   toName: string | null

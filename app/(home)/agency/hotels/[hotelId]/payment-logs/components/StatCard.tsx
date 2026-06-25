@@ -14,16 +14,15 @@ export interface StatCardProps {
   count: number
   color: 'success' | 'error'
   isLoading: boolean
-  active: boolean
 }
 
-export function StatCard({ label, icon, amount, count, color, isLoading, active }: StatCardProps) {
+export function StatCard({ label, icon, amount, count, color, isLoading }: StatCardProps) {
   const { t } = useTranslation()
   const theme = useTheme()
   const palette = theme.palette[color]
 
   return (
-    <PaymentSummaryCard $active={active} $palette={palette}>
+    <PaymentSummaryCard $active={false} $palette={palette}>
       <Stack gap={2}>
         <Stack direction="row" justifyContent="space-between" alignItems="flex-start">
           <Stack gap={0.5}>

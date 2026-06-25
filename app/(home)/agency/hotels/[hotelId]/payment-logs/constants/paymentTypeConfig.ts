@@ -45,3 +45,9 @@ export const PAYMENT_TYPE_CONFIG: Record<PaymentType, PaymentTypeConfig> = {
     color: 'warning',
   },
 }
+
+export const DEFAULT_PAYMENT_TYPE_CONFIG: PaymentTypeConfig = {
+  label: 'Unknown',
+  icon: 'lucide:circle-help',
+  color: 'secondary',
+}

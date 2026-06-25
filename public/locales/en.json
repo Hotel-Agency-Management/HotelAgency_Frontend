@@ -1575,9 +1575,16 @@
   "hotelPaymentLogs": {
     "title": "Payment Logs",
     "subtitle": "Track all incoming and outgoing transactions for this hotel.",
-    "tabs": {
-      "incoming": "Incoming Payments",
-      "outgoing": "Outgoing Expenses"
+    "filters": {
+      "search": "Search by name or reference…",
+      "direction": "Direction",
+      "type": "Payment Type",
+      "all": "All",
+      "clear": "Clear filters"
+    },
+    "directions": {
+      "Incoming": "Incoming",
+      "Outgoing": "Outgoing"
     },
     "sortBy": "Sort by:",
     "sortOptions": {

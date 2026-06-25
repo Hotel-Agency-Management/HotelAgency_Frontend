@@ -1,41 +1,48 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { useIncomingPaymentsQuery } from './queries/useIncomingPaymentsQuery'
-import { useOutgoingPaymentsQuery } from './queries/useOutgoingPaymentsQuery'
-import { usePaymentLogDetailsQuery } from './queries/usePaymentLogDetailsQuery'
-import type { PaymentLogItem, PaymentLogExcelRow } from '../config/paymentLogsConfig'
-import type { PaymentViewMode } from '../types/payment'
+import { useEffect, useMemo, useState } from 'react'
+import { DEFAULT_FILTERS } from '../constants/paymentLogsConstants'
 import { toExcelRows } from '../utils/toExcelRows'
+import { usePaymentLogsQuery } from './queries/usePaymentLogsQuery'
+import { usePaymentLogDetailsQuery } from './queries/usePaymentLogDetailsQuery'
+import type { PaymentLogExcelRow, PaymentLogItem } from '../config/paymentLogsConfig'
+import type { PaymentLogsFilters, PaymentViewMode } from '../types/payment'
 
 export function usePaymentLogs(hotelId: string) {
-  const [activeTab, setActiveTab] = useState(0)
+  const [filters, setFilters] = useState<PaymentLogsFilters>(DEFAULT_FILTERS)
   const [selectedPaymentId, setSelectedPaymentId] = useState<number | null>(null)
-  const [incomingPageNumber, setIncomingPageNumber] = useState(1)
-  const [outgoingPageNumber, setOutgoingPageNumber] = useState(1)
+  const [pageNumber, setPageNumber] = useState(1)
   const [pageSize, setPageSize] = useState(10)
   const [viewMode, setViewMode] = useState<PaymentViewMode>('feed')
   const [excelRows, setExcelRows] = useState<PaymentLogExcelRow[]>([])
 
-  const incomingQuery = useIncomingPaymentsQuery(hotelId, { pageNumber: incomingPageNumber, pageSize })
-  const outgoingQuery = useOutgoingPaymentsQuery(hotelId, { pageNumber: outgoingPageNumber, pageSize })
+  const query = usePaymentLogsQuery(hotelId, {
+    pageNumber,
+    pageSize,
+    ...(filters.search ? { search: filters.search } : {}),
+    ...(filters.transactionType ? { transactionType: filters.transactionType } : {}),
+    ...(filters.type ? { type: filters.type } : {}),
+  })
   const detailsQuery = usePaymentLogDetailsQuery(hotelId, selectedPaymentId ?? undefined)
 
-  const isIncoming = activeTab === 0
-  const activeQuery = isIncoming ? incomingQuery : outgoingQuery
-  const activePage = isIncoming ? incomingPageNumber : outgoingPageNumber
-  const setActivePage = isIncoming ? setIncomingPageNumber : setOutgoingPageNumber
+  function updateFilter<K extends keyof PaymentLogsFilters>(key: K, value: PaymentLogsFilters[K]) {
+    setFilters((prev) => ({ ...prev, [key]: value }))
+    setPageNumber(1)
+  }
+
+  function resetFilters() {
+    setFilters(DEFAULT_FILTERS)
+    setPageNumber(1)
+  }
+
+  const hasActiveFilters = useMemo(
+    () => filters.search !== '' || filters.transactionType !== '' || filters.type !== '',
+    [filters]
+  )
 
   useEffect(() => {
-    const groups = activeQuery.data?.groups ?? []
-    const direction = activeTab === 0 ? 'Incoming' : 'Outgoing'
-    setExcelRows(toExcelRows(groups, direction))
-  }, [activeQuery.data, activeTab])
-
-  function handleTabChange(_: React.SyntheticEvent, value: number) {
-    setActiveTab(value)
-    setSelectedPaymentId(null)
-  }
+    setExcelRows(toExcelRows(query.data?.groups ?? []))
+  }, [query.data])
 
   function handleSelectPayment(payment: PaymentLogItem) {
     setSelectedPaymentId(payment.paymentId)
@@ -53,19 +60,24 @@ export function usePaymentLogs(hotelId: string) {
     setExcelRows(rows)
   }
 
+  function handlePageSizeChange(size: number) {
+    setPageSize(size)
+    setPageNumber(1)
+  }
+
   return {
-    activeTab,
-    handleTabChange,
+    filters,
+    updateFilter,
+    resetFilters,
+    hasActiveFilters,
     selectedPaymentId,
     handleSelectPayment,
     handleCloseDrawer,
-    activePage,
-    setActivePage,
+    pageNumber,
+    setPageNumber,
     pageSize,
-    setPageSize,
-    incomingQuery,
-    outgoingQuery,
-    activeQuery,
+    setPageSize: handlePageSizeChange,
+    query,
     detailsQuery,
     viewMode,
     handleViewModeChange,

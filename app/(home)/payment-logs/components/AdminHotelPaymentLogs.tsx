@@ -1,24 +1,28 @@
 'use client'
 
 import {
-  Box,
   Button,
+  FormControl,
+  InputLabel,
   MenuItem,
   Pagination,
   Select,
   Stack,
-  Tab,
-  Tabs,
   Typography,
 } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import Icon from '@/components/icon/Icon'
 import DirectionalIcon from '@/components/common/DirectionalIcon'
+import SearchInput from '@/components/common/SearchInput'
 import { PaymentFeed } from '@/app/(home)/agency/hotels/[hotelId]/payment-logs/components/PaymentFeed'
 import { PaymentDetailsDrawer } from '@/app/(home)/agency/hotels/[hotelId]/payment-logs/components/PaymentDetailsDrawer'
 import { PaymentSummaryHeader } from '@/app/(home)/agency/hotels/[hotelId]/payment-logs/components/PaymentSummaryHeader'
+import { PAGE_SIZE_OPTIONS, PAYMENT_TYPE_OPTIONS } from '@/app/(home)/agency/hotels/[hotelId]/payment-logs/constants/paymentLogsConstants'
+import { PAYMENT_DIRECTION_CONFIG } from '@/app/(home)/agency/hotels/[hotelId]/payment-logs/constants/paymentDirectionConfig'
+import { PAYMENT_TYPE_CONFIG } from '@/app/(home)/agency/hotels/[hotelId]/payment-logs/constants/paymentTypeConfig'
 import { useAdminPaymentLogs } from '../hooks/useAdminPaymentLogs'
 import type { HotelPaymentLogsResponse, PaymentLogsGroup } from '@/app/(home)/agency/hotels/[hotelId]/payment-logs/config/paymentLogsConfig'
+import type { PaymentDirection, PaymentType } from '@/app/(home)/agency/hotels/[hotelId]/payment-logs/types/payment'
 import type { CustomerHotel } from '@/app/(home)/hotels/types/customerHotel'
 
 function resolveGroups(data: HotelPaymentLogsResponse | undefined): PaymentLogsGroup[] {
@@ -35,28 +39,24 @@ export function AdminHotelPaymentLogs({ hotel, onBack }: AdminHotelPaymentLogsPr
   const { t } = useTranslation()
   const agencyId = String(hotel.agencyId!)
   const {
-    activeTab,
-    handleTabChange,
+    filters,
+    updateFilter,
+    resetFilters,
+    hasActiveFilters,
     selectedPaymentId,
     handleSelectPayment,
     handleCloseDrawer,
-    activePage,
-    setActivePage,
+    pageNumber,
+    setPageNumber,
     pageSize,
     setPageSize,
-    incomingQuery,
-    outgoingQuery,
-    activeQuery,
+    query,
     detailsQuery,
   } = useAdminPaymentLogs(agencyId, hotel.id)
 
-  const isIncoming = activeTab === 0
-  const activeData = activeQuery.data
-  const totalPages = activeData?.totalPages ?? 0
-  const totalCount = activeData?.totalCount ?? 0
-
-  const incomingData = incomingQuery.data
-  const outgoingData = outgoingQuery.data
+  const data = query.data
+  const totalPages = data?.totalPages ?? 0
+  const totalCount = data?.totalCount ?? 0
 
   return (
     <Stack gap={3}>
@@ -78,60 +78,76 @@ export function AdminHotelPaymentLogs({ hotel, onBack }: AdminHotelPaymentLogsPr
       </Stack>
 
       <PaymentSummaryHeader
-        incomingAmount={incomingData?.totalIncoming ?? 0}
-        incomingCount={incomingData?.incomingCount ?? 0}
-        outgoingAmount={outgoingData?.totalOutgoing ?? 0}
-        outgoingCount={outgoingData?.outgoingCount ?? 0}
-        isLoading={incomingQuery.isLoading || outgoingQuery.isLoading}
-        activeTab={activeTab}
+        incomingAmount={data?.totalIncoming ?? 0}
+        incomingCount={data?.incomingCount ?? 0}
+        outgoingAmount={data?.totalOutgoing ?? 0}
+        outgoingCount={data?.outgoingCount ?? 0}
+        isLoading={query.isLoading}
       />
 
-      <Stack
-        direction={{ xs: 'column', sm: 'row' }}
-        justifyContent="space-between"
-        alignItems={{ xs: 'flex-start', sm: 'center' }}
-        gap={1}
-      >
-        <Tabs
-          value={activeTab}
-          onChange={handleTabChange}
-          variant="scrollable"
-          scrollButtons="auto"
-        >
-          <Tab
-            label={
-              <Stack direction="row" alignItems="center" gap={1}>
-                <Icon icon="lucide:arrow-down-circle" fontSize={16} />
-                <Box component="span">
-                  {t('paymentLogs.tabs.incomingPayments', { defaultValue: 'Incoming Payments' })}
-                  {incomingData ? ` (${incomingData.totalCount})` : ''}
-                </Box>
-              </Stack>
-            }
+        <Stack direction={{ xs: 'column', md: 'row' }} gap={1.5} alignItems={{ md: 'center' }}>
+          <SearchInput
+            value={filters.search}
+            placeholder={t('hotelPaymentLogs.filters.search', { defaultValue: 'Search by name or reference...' })}
+            onChange={(value) => updateFilter('search', value)}
+            sx={{ flex: 1, minWidth: 220 }}
           />
-          <Tab
-            label={
-              <Stack direction="row" alignItems="center" gap={1}>
-                <Icon icon="lucide:arrow-up-circle" fontSize={16} />
-                <Box component="span">
-                  {t('paymentLogs.tabs.outgoingExpenses', { defaultValue: 'Outgoing Expenses' })}
-                  {outgoingData ? ` (${outgoingData.totalCount})` : ''}
-                </Box>
-              </Stack>
-            }
-          />
-        </Tabs>
-      </Stack>
+          <FormControl size="small" sx={{ width: { xs: '100%', md: 180 } }}>
+            <InputLabel id="admin-payment-logs-direction-label">
+              {t('hotelPaymentLogs.filters.direction', { defaultValue: 'Direction' })}
+            </InputLabel>
+            <Select
+              labelId="admin-payment-logs-direction-label"
+              label={t('hotelPaymentLogs.filters.direction', { defaultValue: 'Direction' })}
+              value={filters.transactionType}
+              onChange={(e) => updateFilter('transactionType', e.target.value as PaymentDirection | '')}
+            >
+              <MenuItem value="">{t('hotelPaymentLogs.filters.all', { defaultValue: 'All' })}</MenuItem>
+              {(Object.keys(PAYMENT_DIRECTION_CONFIG) as PaymentDirection[]).map((direction) => (
+                <MenuItem key={direction} value={direction}>
+                  {t(`hotelPaymentLogs.directions.${direction}`, { defaultValue: PAYMENT_DIRECTION_CONFIG[direction].label })}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <FormControl size="small" sx={{ width: { xs: '100%', md: 200 } }}>
+            <InputLabel id="admin-payment-logs-type-label">
+              {t('hotelPaymentLogs.filters.type', { defaultValue: 'Payment Type' })}
+            </InputLabel>
+            <Select
+              labelId="admin-payment-logs-type-label"
+              label={t('hotelPaymentLogs.filters.type', { defaultValue: 'Payment Type' })}
+              value={filters.type}
+              onChange={(e) => updateFilter('type', e.target.value as PaymentType | '')}
+            >
+              <MenuItem value="">{t('hotelPaymentLogs.filters.all', { defaultValue: 'All' })}</MenuItem>
+              {PAYMENT_TYPE_OPTIONS.map((type) => (
+                <MenuItem key={type} value={type}>
+                  {t(`hotelPaymentLogs.paymentTypes.${type}`, { defaultValue: PAYMENT_TYPE_CONFIG[type].label })}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          {hasActiveFilters && (
+            <Button
+              size="small"
+              color="inherit"
+              onClick={resetFilters}
+              startIcon={<Icon icon="lucide:x" fontSize={16} />}
+            >
+              {t('hotelPaymentLogs.filters.clear', { defaultValue: 'Clear filters' })}
+            </Button>
+          )}
+        </Stack>
 
       <PaymentFeed
-        groups={resolveGroups(activeData)}
+        groups={resolveGroups(data)}
         selectedId={selectedPaymentId}
-        isIncoming={isIncoming}
-        isLoading={activeQuery.isLoading}
+        isLoading={query.isLoading}
         onSelect={handleSelectPayment}
       />
 
-      {activeData && totalCount > 0 && (
+      {data && totalCount > 0 && (
         <Stack
           direction={{ xs: 'column', sm: 'row' }}
           justifyContent="space-between"
@@ -140,8 +156,8 @@ export function AdminHotelPaymentLogs({ hotel, onBack }: AdminHotelPaymentLogsPr
         >
           <Pagination
             count={totalPages}
-            page={activePage}
-            onChange={(_, page) => setActivePage(page)}
+            page={pageNumber}
+            onChange={(_, page) => setPageNumber(page)}
             color="primary"
             shape="rounded"
             size="small"
@@ -151,11 +167,10 @@ export function AdminHotelPaymentLogs({ hotel, onBack }: AdminHotelPaymentLogsPr
             value={pageSize}
             onChange={(e) => {
               setPageSize(Number(e.target.value))
-              setActivePage(1)
             }}
             sx={{ fontSize: 13 }}
           >
-            {[7, 10, 20, 50].map((n) => (
+            {PAGE_SIZE_OPTIONS.map((n) => (
               <MenuItem key={n} value={n}>
                 {t('paymentLogs.perPage', { count: n, defaultValue: '{{count}} per page' })}
               </MenuItem>
@@ -167,7 +182,6 @@ export function AdminHotelPaymentLogs({ hotel, onBack }: AdminHotelPaymentLogsPr
       <PaymentDetailsDrawer
         payment={detailsQuery.data ?? null}
         isLoading={detailsQuery.isLoading}
-        isIncoming={isIncoming}
         open={!!selectedPaymentId}
         onClose={handleCloseDrawer}
       />

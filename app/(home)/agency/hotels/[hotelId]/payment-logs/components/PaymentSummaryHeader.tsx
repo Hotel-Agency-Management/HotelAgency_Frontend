@@ -10,7 +10,6 @@ interface PaymentSummaryHeaderProps {
   outgoingAmount: number
   outgoingCount: number
   isLoading: boolean
-  activeTab: number
 }
 
 export function PaymentSummaryHeader({
@@ -19,7 +18,6 @@ export function PaymentSummaryHeader({
   outgoingAmount,
   outgoingCount,
   isLoading,
-  activeTab,
 }: PaymentSummaryHeaderProps) {
   const { t } = useTranslation()
   return (
@@ -32,7 +30,6 @@ export function PaymentSummaryHeader({
           count={incomingCount}
           color="success"
           isLoading={isLoading}
-          active={activeTab === 0}
         />
       </Grid>
       <Grid size={{ xs: 12, sm: 6 }}>
@@ -43,7 +40,6 @@ export function PaymentSummaryHeader({
           count={outgoingCount}
           color="error"
           isLoading={isLoading}
-          active={activeTab === 1}
         />
       </Grid>
     </Grid>
