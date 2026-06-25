@@ -10,7 +10,6 @@ import Icon from '@/components/icon/Icon'
 import themeConfig from '@/core/configs/themeConfig'
 import SearchInput from '@/components/common/SearchInput'
 import { SystemLogsFeed } from './SystemLogsFeed'
-import { SystemLogsSummary } from './SystemLogsSummary'
 import { ACTION_OPTIONS, ENTITY_TYPE_OPTIONS, PAGE_SIZE_OPTIONS } from '../constants/systemLogsConstants'
 import { useSystemLogs } from '../hooks/useSystemLogs'
 import { FiltersCard } from '../styles/StyledComponents'
@@ -21,7 +20,7 @@ export function SystemLogsPage() {
     logs,
     totalCount,
     totalPages,
-    summary,
+    isLoading,
     pageNumber,
     setPageNumber,
     pageSize,
@@ -45,14 +44,6 @@ export function SystemLogsPage() {
           </Typography>
         </Stack>
       </Stack>
-
-      <SystemLogsSummary
-        total={totalCount}
-        today={summary.today}
-        created={summary.created}
-        updated={summary.updated}
-        removed={summary.removed}
-      />
 
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <FiltersCard variant='outlined'>
@@ -132,7 +123,7 @@ export function SystemLogsPage() {
         </FiltersCard>
       </LocalizationProvider>
 
-      <SystemLogsFeed logs={logs} isLoading={false} />
+      <SystemLogsFeed logs={logs} isLoading={isLoading} />
 
       {totalCount > 0 && (
         <Stack

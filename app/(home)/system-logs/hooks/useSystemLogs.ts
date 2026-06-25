@@ -1,10 +1,13 @@
 import { useMemo, useState } from 'react'
-import { systemLogsMock } from '../data/systemLogsMock'
+import dayjs from 'dayjs'
+import { useAuth } from '@/core/context/AuthContext'
+import { USER_ROLES } from '@/lib/abilities'
 import { DEFAULT_FILTERS, DEFAULT_PAGE_SIZE } from '../constants/systemLogsConstants'
-import { getActionTypeConfig } from '../utils/getActionTypeConfig'
-import type { SystemLogsFilters } from '../types/systemLog'
+import { useAdminSystemLogsQuery, useAgencySystemLogsQuery, useHotelSystemLogsQuery } from './queries/useSystemLogsQueries'
+import type { SystemLogsFilters, SystemLogsParams } from '../types/systemLog'
 
 export function useSystemLogs() {
+  const { user } = useAuth()
   const [filters, setFilters] = useState<SystemLogsFilters>(DEFAULT_FILTERS)
   const [pageNumber, setPageNumber] = useState(1)
   const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE)
@@ -35,64 +38,41 @@ export function useSystemLogs() {
     [filters]
   )
 
-  const filteredLogs = useMemo(() => {
-    const search = filters.search.trim().toLowerCase()
-    const action = filters.action.trim().toLowerCase()
-    const entityType = filters.entityType.trim().toLowerCase()
-    const actorId = filters.actorId.trim()
-    const fromTime = filters.from?.getTime()
-    const toTime = filters.to?.getTime()
+  const params = useMemo<SystemLogsParams>(() => {
+    const actorId = filters.actorId.trim() ? Number(filters.actorId.trim()) : undefined
 
-    return systemLogsMock.filter(log => {
-      if (search && !log.description.toLowerCase().includes(search) && !log.actorName.toLowerCase().includes(search)) {
-        return false
-      }
-      if (action && !log.action.toLowerCase().includes(action)) return false
-      if (entityType && !log.entityType.toLowerCase().includes(entityType)) return false
-      if (actorId && String(log.actorId) !== actorId) return false
-
-      const createdAtTime = new Date(log.createdAt).getTime()
-      if (fromTime !== undefined && createdAtTime < fromTime) return false
-      if (toTime !== undefined && createdAtTime > toTime) return false
-
-      return true
-    })
-  }, [filters])
-
-  const totalCount = filteredLogs.length
-  const totalPages = Math.max(1, Math.ceil(totalCount / pageSize))
-
-  const summary = useMemo(() => {
-    const today = new Date()
-    const counts = { created: 0, updated: 0, removed: 0, today: 0 }
-    for (const log of filteredLogs) {
-      const category = getActionTypeConfig(log.action).color
-      if (category === 'success') counts.created += 1
-      else if (category === 'info') counts.updated += 1
-      else if (category === 'error') counts.removed += 1
-
-      const createdAt = new Date(log.createdAt)
-      if (
-        createdAt.getFullYear() === today.getFullYear() &&
-        createdAt.getMonth() === today.getMonth() &&
-        createdAt.getDate() === today.getDate()
-      ) {
-        counts.today += 1
-      }
+    return {
+      pageNumber,
+      pageSize,
+      action: filters.action.trim() || undefined,
+      entityType: filters.entityType.trim() || undefined,
+      actorId: Number.isFinite(actorId) ? actorId : undefined,
+      from: filters.from ? dayjs(filters.from).format('YYYY-MM-DD') : undefined,
+      to: filters.to ? dayjs(filters.to).format('YYYY-MM-DD') : undefined,
+      search: filters.search.trim() || undefined
     }
-    return counts
-  }, [filteredLogs])
+  }, [filters, pageNumber, pageSize])
 
-  const paginatedLogs = useMemo(() => {
-    const start = (pageNumber - 1) * pageSize
-    return filteredLogs.slice(start, start + pageSize)
-  }, [filteredLogs, pageNumber, pageSize])
+  const isSuperAdmin = user?.role === USER_ROLES.SUPER_ADMIN
+  const isAgencyOwner = user?.role === USER_ROLES.AGENCY_OWNER
+  const isPropertyManager = user?.role === USER_ROLES.PROPERTY_MANAGER
+  const hotelId = user?.hotelId ? Number(user.hotelId) : undefined
+
+  const adminQuery = useAdminSystemLogsQuery(params, isSuperAdmin)
+  const agencyQuery = useAgencySystemLogsQuery(params, isAgencyOwner)
+  const hotelQuery = useHotelSystemLogsQuery(hotelId, params, isPropertyManager)
+
+  const activeQuery = isSuperAdmin ? adminQuery : isAgencyOwner ? agencyQuery : hotelQuery
+
+  const logs = activeQuery.data?.items ?? []
+  const totalCount = activeQuery.data?.totalCount ?? 0
+  const totalPages = activeQuery.data?.totalPages ?? 1
 
   return {
-    logs: paginatedLogs,
+    logs,
     totalCount,
     totalPages,
-    summary,
+    isLoading: activeQuery.isLoading,
     pageNumber,
     setPageNumber,
     pageSize,
