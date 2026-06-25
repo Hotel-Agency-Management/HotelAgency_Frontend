@@ -1,15 +1,16 @@
 import { useTheme } from "@mui/material/styles";
-import { Stack, Avatar, Typography, Box } from "@mui/material";
+import { Stack, Typography, Box } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import { ACTIVITY_CONFIG } from "../constants/activityConfig";
-import { ActivityItem } from "../types/dashboardTypes";
+import Avatar from "@/components/ui/Avatar";
+import Icon from "@/components/icon/Icon";
+import { getActionTypeConfig } from "@/app/(home)/system-logs/utils/getActionTypeConfig";
+import { SystemLogItem } from "@/app/(home)/system-logs/types/systemLog";
 import { fromNow } from "@/core/utils/Dateutils";
 
-export function ActivityItemRow({ item }: { item: ActivityItem }) {
+export function ActivityItemRow({ item }: { item: SystemLogItem }) {
   const theme = useTheme();
   const { t } = useTranslation();
-  const config = ACTIVITY_CONFIG[item.type];
-  const Icon = config.icon;
+  const config = getActionTypeConfig(item.action);
 
   return (
     <Stack
@@ -32,23 +33,23 @@ export function ActivityItemRow({ item }: { item: ActivityItem }) {
           flexShrink: 0,
         }}
       >
-        <Icon size={16} strokeWidth={2} />
+        <Icon icon={config.icon} fontSize={16} />
       </Avatar>
 
       <Box sx={{ flex: 1, minWidth: 0 }}>
         <Typography variant="body2" color="text.primary">
-          {item.message}
+          {item.description}
         </Typography>
 
-        {item.actor && (
+        {item.actorName && (
           <Typography variant="caption" color="text.disabled">
-            {t('dashboard.common.by', { defaultValue: 'by' })} {item.actor}
+            {t('dashboard.common.by', { defaultValue: 'by' })} {item.actorName}
           </Typography>
         )}
       </Box>
 
       <Typography variant="caption" color="text.disabled" flexShrink={0}>
-        {fromNow(item.timestamp)}
+        {fromNow(item.createdAt)}
       </Typography>
     </Stack>
   );

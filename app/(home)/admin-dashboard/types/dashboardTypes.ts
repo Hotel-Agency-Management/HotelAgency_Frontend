@@ -52,19 +52,3 @@ export interface LatestAgency {
   country?: string;
 }
 
-
-export type ActivityType =
-  | "approval_submitted"
-  | "agency_approved"
-  | "agency_rejected"
-  | "subscription_updated"
-  | "plan_created"
-  | "agency_suspended";
-
-export interface ActivityItem {
-  id: string;
-  type: ActivityType;
-  message: string;
-  actor?: string;
-  timestamp: string;
-}
