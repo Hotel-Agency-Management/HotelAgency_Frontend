@@ -1,23 +1,29 @@
 'use client'
 
 import {
-  Box,
+  Button,
+  FormControl,
+  InputLabel,
   MenuItem,
   Pagination,
   Select,
   Stack,
-  Tab,
-  Tabs,
   Typography,
 } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import Icon from '@/components/icon/Icon'
+import SearchInput from '@/components/common/SearchInput'
 import { PaymentFeed } from './PaymentFeed'
 import { PaymentDetailsDrawer } from './PaymentDetailsDrawer'
 import { PaymentSummaryHeader } from './PaymentSummaryHeader'
 import { PaymentViewToggle } from './PaymentViewToggle'
 import { ExcelModeGrid } from './ExcelModeGrid'
 import { usePaymentLogs } from '../hooks/usePaymentLogs'
+import { PAGE_SIZE_OPTIONS, PAYMENT_TYPE_OPTIONS } from '../constants/paymentLogsConstants'
+import { PAYMENT_TYPE_CONFIG } from '../constants/paymentTypeConfig'
+import { PAYMENT_DIRECTION_CONFIG } from '../constants/paymentDirectionConfig'
+import { FiltersCard } from '../styles/StyledComponents'
+import type { PaymentDirection, PaymentType } from '../types/payment'
 
 interface PaymentLogsPageProps {
   hotelId: string
@@ -25,18 +31,18 @@ interface PaymentLogsPageProps {
 
 export function PaymentLogsPage({ hotelId }: PaymentLogsPageProps) {
   const {
-    activeTab,
-    handleTabChange,
+    filters,
+    updateFilter,
+    resetFilters,
+    hasActiveFilters,
     selectedPaymentId,
     handleSelectPayment,
     handleCloseDrawer,
-    activePage,
-    setActivePage,
+    pageNumber,
+    setPageNumber,
     pageSize,
     setPageSize,
-    incomingQuery,
-    outgoingQuery,
-    activeQuery,
+    query,
     detailsQuery,
     viewMode,
     handleViewModeChange,
@@ -45,9 +51,8 @@ export function PaymentLogsPage({ hotelId }: PaymentLogsPageProps) {
   } = usePaymentLogs(hotelId)
 
   const { t } = useTranslation()
-  const isIncoming = activeTab === 0
-  const activeData = activeQuery.data
-  const totalPages = activeData?.totalPages ?? 0
+  const data = query.data
+  const totalPages = data?.totalPages ?? 0
 
   return (
     <Stack gap={3}>
@@ -59,51 +64,79 @@ export function PaymentLogsPage({ hotelId }: PaymentLogsPageProps) {
           {t("hotelPaymentLogs.subtitle", "Track all incoming and outgoing transactions for this hotel.")}
         </Typography>
       </Stack>
+
       <PaymentSummaryHeader
-        incomingAmount={incomingQuery.data?.totalIncoming ?? 0}
-        incomingCount={incomingQuery.data?.incomingCount ?? 0}
-        outgoingAmount={outgoingQuery.data?.totalOutgoing ?? 0}
-        outgoingCount={outgoingQuery.data?.outgoingCount ?? 0}
-        isLoading={incomingQuery.isLoading || outgoingQuery.isLoading}
-        activeTab={activeTab}
+        incomingAmount={data?.totalIncoming ?? 0}
+        incomingCount={data?.incomingCount ?? 0}
+        outgoingAmount={data?.totalOutgoing ?? 0}
+        outgoingCount={data?.outgoingCount ?? 0}
+        isLoading={query.isLoading}
       />
+
+      <FiltersCard variant="outlined">
+        <Stack direction={{ xs: 'column', md: 'row' }} gap={1.5} alignItems={{ md: 'center' }}>
+          <SearchInput
+            value={filters.search}
+            placeholder={t("hotelPaymentLogs.filters.search", "Search by name or reference…")}
+            onChange={(value) => updateFilter('search', value)}
+            sx={{ flex: 1, minWidth: 220 }}
+          />
+          <FormControl size='small'>
+            <InputLabel id="payment-logs-direction-label">
+              {t("hotelPaymentLogs.filters.direction", "Direction")}
+            </InputLabel>
+            <Select
+              labelId="payment-logs-direction-label"
+              label={t("hotelPaymentLogs.filters.direction", "Direction")}
+              value={filters.transactionType}
+              onChange={(e) => updateFilter('transactionType', e.target.value as PaymentDirection | '')}
+            >
+              <MenuItem value="">{t("hotelPaymentLogs.filters.all", "All")}</MenuItem>
+              {(Object.keys(PAYMENT_DIRECTION_CONFIG) as PaymentDirection[]).map((direction) => (
+                <MenuItem key={direction} value={direction}>
+                  {t(`hotelPaymentLogs.directions.${direction}`, PAYMENT_DIRECTION_CONFIG[direction].label)}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <FormControl size="small" sx={{ width: { xs: '100%', md: 200 } }}>
+            <InputLabel id="payment-logs-type-label">
+              {t("hotelPaymentLogs.filters.type", "Payment Type")}
+            </InputLabel>
+            <Select
+              labelId="payment-logs-type-label"
+              label={t("hotelPaymentLogs.filters.type", "Payment Type")}
+              value={filters.type}
+              onChange={(e) => updateFilter('type', e.target.value as PaymentType | '')}
+            >
+              <MenuItem value="">{t("hotelPaymentLogs.filters.all", "All")}</MenuItem>
+              {PAYMENT_TYPE_OPTIONS.map((type) => (
+                <MenuItem key={type} value={type}>
+                  {t(`hotelPaymentLogs.paymentTypes.${type}`, PAYMENT_TYPE_CONFIG[type].label)}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
+          {hasActiveFilters && (
+            <Button
+              size="small"
+              color="inherit"
+              onClick={resetFilters}
+              startIcon={<Icon icon="lucide:x" fontSize={16} />}
+            >
+              {t("hotelPaymentLogs.filters.clear", "Clear filters")}
+            </Button>
+          )}
+        </Stack>
+      </FiltersCard>
 
       <Stack
         direction={{ xs: 'column', sm: 'row' }}
-        justifyContent="space-between"
+        justifyContent="flex-end"
         alignItems={{ xs: 'flex-start', sm: 'center' }}
         gap={1}
       >
-        <Tabs
-          value={activeTab}
-          onChange={handleTabChange}
-          variant="scrollable"
-          scrollButtons="auto"
-        >
-          <Tab
-            label={
-              <Stack direction="row" alignItems="center" gap={1}>
-                <Icon icon="lucide:arrow-down-circle" fontSize={16} />
-                <Box component="span">
-                  {t("hotelPaymentLogs.tabs.incoming", "Incoming Payments")}
-                  {incomingQuery.data ? ` (${incomingQuery.data.totalCount})` : ''}
-                </Box>
-              </Stack>
-            }
-          />
-          <Tab
-            label={
-              <Stack direction="row" alignItems="center" gap={1}>
-                <Icon icon="lucide:arrow-up-circle" fontSize={16} />
-                <Box component="span">
-                  {t("hotelPaymentLogs.tabs.outgoing", "Outgoing Expenses")}
-                  {outgoingQuery.data ? ` (${outgoingQuery.data.totalCount})` : ''}
-                </Box>
-              </Stack>
-            }
-          />
-        </Tabs>
-
         <Stack direction="row" alignItems="center" gap={1} flexShrink={0}>
           <PaymentViewToggle value={viewMode} onChange={handleViewModeChange} />
           <Typography variant="caption">
@@ -126,21 +159,20 @@ export function PaymentLogsPage({ hotelId }: PaymentLogsPageProps) {
 
       {viewMode === 'feed' ? (
         <PaymentFeed
-          groups={activeData?.groups ?? []}
+          groups={data?.groups ?? []}
           selectedId={selectedPaymentId}
-          isIncoming={isIncoming}
-          isLoading={activeQuery.isLoading}
+          isLoading={query.isLoading}
           onSelect={handleSelectPayment}
         />
       ) : (
         <ExcelModeGrid
           rows={excelRows}
           onChange={handleExcelRowsChange}
-          isLoading={activeQuery.isLoading}
+          isLoading={query.isLoading}
         />
       )}
 
-      {activeData && activeData.totalCount > 0 && (
+      {data && data.totalCount > 0 && (
         <Stack
           direction={{ xs: 'column', sm: 'row' }}
           justifyContent="space-between"
@@ -149,8 +181,8 @@ export function PaymentLogsPage({ hotelId }: PaymentLogsPageProps) {
         >
           <Pagination
             count={totalPages}
-            page={activePage}
-            onChange={(_, page) => setActivePage(page)}
+            page={pageNumber}
+            onChange={(_, page) => setPageNumber(page)}
             color="primary"
             shape="rounded"
             size="small"
@@ -158,13 +190,10 @@ export function PaymentLogsPage({ hotelId }: PaymentLogsPageProps) {
           <Select
             size="small"
             value={pageSize}
-            onChange={(e) => {
-              setPageSize(Number(e.target.value))
-              setActivePage(1)
-            }}
+            onChange={(e) => setPageSize(Number(e.target.value))}
             sx={{ fontSize: 13 }}
           >
-            {Array.from([7, 10, 20, 50]).map((n) => (
+            {PAGE_SIZE_OPTIONS.map((n) => (
               <MenuItem key={n} value={n}>
                 {t("hotelPaymentLogs.perPage", "{{count}} per page", { count: n })}
               </MenuItem>
@@ -177,7 +206,6 @@ export function PaymentLogsPage({ hotelId }: PaymentLogsPageProps) {
         <PaymentDetailsDrawer
           payment={detailsQuery.data ?? null}
           isLoading={detailsQuery.isLoading}
-          isIncoming={isIncoming}
           open={!!selectedPaymentId}
           onClose={handleCloseDrawer}
         />

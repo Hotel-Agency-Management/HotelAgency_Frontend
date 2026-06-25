@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import Icon from '@/components/icon/Icon'
 import DirectionalIcon from '@/components/common/DirectionalIcon'
 import { PaymentTypeChip } from './PaymentTypeChip'
+import { PaymentDirectionChip } from './PaymentDirectionChip'
 import { DetailRow } from './DetailRow'
 import {
   PaymentDrawerPaper,
@@ -19,14 +20,14 @@ import type { PaymentLogDetails } from '../config/paymentLogsConfig'
 interface PaymentDetailsDrawerProps {
   payment: PaymentLogDetails | null
   isLoading?: boolean
-  isIncoming: boolean
   open: boolean
   onClose: () => void
 }
 
-export function PaymentDetailsDrawer({ payment, isLoading, isIncoming, open, onClose }: PaymentDetailsDrawerProps) {
+export function PaymentDetailsDrawer({ payment, isLoading, open, onClose }: PaymentDetailsDrawerProps) {
   const theme = useTheme()
   const { t } = useTranslation()
+  const isIncoming = payment?.transactionType === 'Incoming'
   const amountColor = isIncoming ? theme.palette.success.main : theme.palette.error.main
 
   return (
@@ -52,7 +53,10 @@ export function PaymentDetailsDrawer({ payment, isLoading, isIncoming, open, onC
         <Box flex={1} overflow="auto">
           <Stack gap={3}>
             <Stack gap={1.5}>
-              <PaymentTypeChip type={payment.paymentType} size="medium" />
+              <Stack direction="row" gap={1}>
+                <PaymentDirectionChip direction={payment.transactionType} size="medium" />
+                <PaymentTypeChip type={payment.paymentType} size="medium" />
+              </Stack>
               <Typography variant="h5" fontWeight={800} sx={{ color: amountColor }}>
                 {formatAmount(payment.amount, isIncoming)}
               </Typography>

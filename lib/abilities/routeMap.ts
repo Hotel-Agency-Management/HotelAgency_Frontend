@@ -137,8 +137,8 @@ export const routePermissions: RoutePermission[] = [
   {
     pattern: '/payment-logs',
     action: 'manage',
-    subject: 'PaymentLogs',
-    description: 'Admin-level aggregated payment logs across all hotels — SUPER_ADMIN only'
+    subject: 'AllPaymentLogs',
+    description: 'Aggregated payment logs across hotels — SUPER_ADMIN sees all agencies, AGENCY_OWNER sees their own hotels'
   },
   {
     pattern: '/system-logs',

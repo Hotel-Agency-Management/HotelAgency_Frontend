@@ -1,13 +1,10 @@
 import { formatPaymentDateTime } from './dateFormat'
 import type { PaymentLogsGroup, PaymentLogExcelRow } from '../config/paymentLogsConfig'
 
-export function toExcelRows(
-  groups: PaymentLogsGroup[],
-  direction: string
-): PaymentLogExcelRow[] {
+export function toExcelRows(groups: PaymentLogsGroup[]): PaymentLogExcelRow[] {
   return groups.flatMap((group) =>
     group.items.map((item) => ({
-      direction,
+      transactionType: item.transactionType,
       paymentType: item.paymentType,
       fromName: item.fromName,
       toName: item.toName,

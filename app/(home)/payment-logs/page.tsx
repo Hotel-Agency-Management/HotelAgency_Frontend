@@ -1,5 +1,5 @@
-import { AdminPaymentLogsPage } from './components/AdminPaymentLogsPage'
+import { PaymentLogsRoot } from './components/PaymentLogsRoot'
 
 export default function Page() {
-  return <AdminPaymentLogsPage />
+  return <PaymentLogsRoot />
 }

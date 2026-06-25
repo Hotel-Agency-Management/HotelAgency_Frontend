@@ -11,12 +11,11 @@ import type { PaymentLogsGroup, PaymentLogItem } from '../config/paymentLogsConf
 interface PaymentFeedProps {
   groups: PaymentLogsGroup[]
   selectedId: number | null
-  isIncoming: boolean
   isLoading: boolean
   onSelect: (payment: PaymentLogItem) => void
 }
 
-export function PaymentFeed({ groups, selectedId, isIncoming, isLoading, onSelect }: PaymentFeedProps) {
+export function PaymentFeed({ groups, selectedId, isLoading, onSelect }: PaymentFeedProps) {
   if (isLoading) {
     return (
       <Stack gap={1.5}>
@@ -47,7 +46,6 @@ export function PaymentFeed({ groups, selectedId, isIncoming, isLoading, onSelec
                   key={payment.paymentId}
                   payment={payment}
                   selected={payment.paymentId === selectedId}
-                  isIncoming={isIncoming}
                   onClick={onSelect}
                 />
               ))}

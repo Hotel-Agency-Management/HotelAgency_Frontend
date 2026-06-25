@@ -96,7 +96,7 @@ export function defineAbilitiesFor(role: UserRole): AppAbility {
       can('manage', 'Dashboard')
       can('read', 'Agency')
       can('read', 'Hotels')
-      can('read', 'PaymentLogs')
+      can('manage', 'PaymentLogs')
       can('read', 'Finance')
       break
 

@@ -1,49 +1,76 @@
 'use client'
 
 import { useState } from 'react'
+import { useDebounce } from 'use-debounce'
 import {
-  Box,
-  MenuItem,
+  Button,
+  InputAdornment,
   Pagination,
-  Select,
+  PaginationItem,
   Stack,
-  Tab,
-  Tabs,
+  TextField,
   Typography,
 } from '@mui/material'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+
 import { useTranslation } from 'react-i18next'
 import Icon from '@/components/icon/Icon'
-import { PaymentFeed } from '@/app/(home)/agency/hotels/[hotelId]/payment-logs/components/PaymentFeed'
+import SearchInput from '@/components/common/SearchInput'
 import { AdminHotelPaymentLogs } from './AdminHotelPaymentLogs'
 import { HotelGrid } from './HotelGrid'
-import { useAdminAllPaymentsQuery } from '../hooks/queries/useAdminAllPaymentsQuery'
 import { useAdminHotelsQuery } from '../hooks/queries/useAdminHotelsQuery'
-import type { PaymentLogsGroup } from '@/app/(home)/agency/hotels/[hotelId]/payment-logs/config/paymentLogsConfig'
 import type { CustomerHotel } from '@/app/(home)/hotels/types/customerHotel'
-
-function resolveGroups(items: PaymentLogsGroup['items'] | undefined): PaymentLogsGroup[] {
-  if (!items || items.length === 0) return []
-  return [{ weekStart: '', weekEnd: '', items }]
-}
 
 export function AdminPaymentLogsPage() {
   const { t } = useTranslation()
-  const [topTab, setTopTab] = useState<0 | 1>(0)
   const [selectedHotel, setSelectedHotel] = useState<CustomerHotel | null>(null)
+  const [search, setSearch] = useState('')
+  const [location, setLocation] = useState('')
   const [pageNumber, setPageNumber] = useState(1)
-  const [pageSize, setPageSize] = useState(10)
+  const [pageSize] = useState(9)
 
-  const allPaymentsQuery = useAdminAllPaymentsQuery({ pageNumber, pageSize })
-  const hotelsQuery = useAdminHotelsQuery()
+  const [debouncedSearch] = useDebounce(search, 300)
+  const [debouncedLocation] = useDebounce(location, 300)
 
-  function handleTopTabChange(_: React.SyntheticEvent, value: 0 | 1) {
-    setTopTab(value)
-    setSelectedHotel(null)
-  }
+  const hotelsQuery = useAdminHotelsQuery({
+    search: debouncedSearch || undefined,
+    location: debouncedLocation || undefined,
+    pageNumber,
+    pageSize,
+  })
+
+  const hotelsData = hotelsQuery.data
+  const hasActiveFilters = search !== '' || location !== ''
 
   function handleHotelSelect(hotel: CustomerHotel) {
     if (!hotel.agencyId) return
     setSelectedHotel(hotel)
+  }
+
+  function handleSearchChange(value: string) {
+    setSearch(value)
+    setPageNumber(1)
+  }
+
+  function handleLocationChange(value: string) {
+    setLocation(value)
+    setPageNumber(1)
+  }
+
+  function resetFilters() {
+    setSearch('')
+    setLocation('')
+    setPageNumber(1)
+  }
+
+  if (selectedHotel) {
+    return (
+      <AdminHotelPaymentLogs
+        hotel={selectedHotel}
+        onBack={() => setSelectedHotel(null)}
+      />
+    )
   }
 
   return (
@@ -57,90 +84,77 @@ export function AdminPaymentLogsPage() {
         </Typography>
       </Stack>
 
-      <Tabs
-        value={topTab}
-        onChange={handleTopTabChange}
-        variant="scrollable"
-        scrollButtons="auto"
-      >
-        <Tab
-          label={
-            <Stack direction="row" alignItems="center" gap={1}>
-              <Icon icon="lucide:list" fontSize={16} />
-              <Box component="span">{t('paymentLogs.tabs.allPayments', { defaultValue: 'All Payments' })}</Box>
-            </Stack>
-          }
-        />
-        <Tab
-          label={
-            <Stack direction="row" alignItems="center" gap={1}>
-              <Icon icon="lucide:building-2" fontSize={16} />
-              <Box component="span">{t('paymentLogs.tabs.hotels', { defaultValue: 'Hotels' })}</Box>
-            </Stack>
-          }
-        />
-      </Tabs>
-
-      {topTab === 0 && (
-        <Stack gap={3}>
-          <PaymentFeed
-            groups={resolveGroups(allPaymentsQuery.data?.items)}
-            selectedId={null}
-            isIncoming={true}
-            isLoading={allPaymentsQuery.isLoading}
-            onSelect={() => {}}
+        <Stack direction={{ xs: 'column', md: 'row' }} gap={1.5} alignItems={{ md: 'center' }}>
+          <SearchInput
+            value={search}
+            placeholder={t('paymentLogs.hotels.search', { defaultValue: 'Search hotels or agencies...' })}
+            onChange={handleSearchChange}
+            sx={{ flex: 1, minWidth: 220 }}
           />
-
-          {allPaymentsQuery.data && allPaymentsQuery.data.totalCount > 0 && (
-            <Stack
-              direction={{ xs: 'column', sm: 'row' }}
-              justifyContent="space-between"
-              alignItems={{ xs: 'flex-start', sm: 'center' }}
-              gap={1}
+          <TextField
+            size="small"
+            label={t('paymentLogs.hotels.location', { defaultValue: 'Location' })}
+            value={location}
+            onChange={(event) => handleLocationChange(event.target.value)}
+            sx={{ width: { xs: '100%', md: 220 } }}
+            slotProps={{
+              input: {
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Icon icon="lucide:map-pin" fontSize={16} />
+                  </InputAdornment>
+                ),
+              },
+            }}
+          />
+          {hasActiveFilters && (
+            <Button
+              size="small"
+              color="inherit"
+              onClick={resetFilters}
+              startIcon={<Icon icon="lucide:x" fontSize={16} />}
             >
-              <Pagination
-                count={allPaymentsQuery.data.totalPages}
-                page={pageNumber}
-                onChange={(_, page) => setPageNumber(page)}
-                color="primary"
-                shape="rounded"
-                size="small"
-              />
-              <Select
-                size="small"
-                value={pageSize}
-                onChange={(e) => {
-                  setPageSize(Number(e.target.value))
-                  setPageNumber(1)
-                }}
-                sx={{ fontSize: 13 }}
-              >
-                {[7, 10, 20, 50].map((n) => (
-                  <MenuItem key={n} value={n}>
-                    {t('paymentLogs.perPage', { count: n, defaultValue: '{{count}} per page' })}
-                  </MenuItem>
-                ))}
-              </Select>
-            </Stack>
+              {t('hotelPaymentLogs.filters.clear', { defaultValue: 'Clear filters' })}
+            </Button>
           )}
         </Stack>
-      )}
 
-      {topTab === 1 && (
-        <>
-          {selectedHotel ? (
-            <AdminHotelPaymentLogs
-              hotel={selectedHotel}
-              onBack={() => setSelectedHotel(null)}
+      <HotelGrid
+        hotels={hotelsData?.items ?? []}
+        isLoading={hotelsQuery.isLoading}
+        onSelect={handleHotelSelect}
+      />
+
+      {hotelsData && hotelsData.totalCount > 0 && (
+        <Stack
+          direction={{ xs: 'column', sm: 'row' }}
+          alignItems="center"
+          gap={1}
+          mt={2}
+        >
+          <Typography variant="caption" color="text.secondary" flexShrink={0}>
+            {t('paymentLogs.hotels.results', {
+              count: hotelsData.totalCount,
+              defaultValue: '{{count}} hotels',
+            })}
+          </Typography>
+          <Stack flex={1} alignItems="center">
+            <Pagination
+              count={hotelsData.totalPages}
+              page={pageNumber}
+              onChange={(_, page) => setPageNumber(page)}
+              color="primary"
+              shape="rounded"
+              size="small"
+              renderItem={(item) => (
+              <PaginationItem
+                slots={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
+                {...item}
+              />
+        )}
             />
-          ) : (
-            <HotelGrid
-              hotels={hotelsQuery.data ?? []}
-              isLoading={hotelsQuery.isLoading}
-              onSelect={handleHotelSelect}
-            />
-          )}
-        </>
+          </Stack>
+        </Stack>
       )}
     </Stack>
   )

@@ -17,11 +17,15 @@ export const getCustomerHotels = async (
   const response = await apiClient.get<CustomerHotelsApiPayload>('/public/hotels', { params, signal })
   const payload = response.data
   const meta = Array.isArray(payload) ? {} : payload
+  const items = extractCustomerHotelsPayload(payload).map(mapCustomerHotelApiResponse)
+  const pageSize = meta.pageSize ?? params?.pageSize ?? DEFAULT_CUSTOMER_HOTELS_PAGE_SIZE
+  const totalCount = meta.totalCount ?? items.length
+
   return {
-    items: extractCustomerHotelsPayload(payload).map(mapCustomerHotelApiResponse),
+    items,
     pageNumber: meta.pageNumber ?? 1,
-    pageSize: meta.pageSize ?? DEFAULT_CUSTOMER_HOTELS_PAGE_SIZE,
-    totalCount: meta.totalCount ?? 0,
-    totalPages: meta.totalPages ?? 1,
+    pageSize,
+    totalCount,
+    totalPages: meta.totalPages ?? Math.max(1, Math.ceil(totalCount / pageSize)),
   }
 }

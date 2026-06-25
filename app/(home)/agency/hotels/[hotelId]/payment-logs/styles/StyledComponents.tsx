@@ -1,6 +1,14 @@
 import { hexToRGBA } from '@/core/utils/hex-to-rgba'
-import { Avatar, Badge, Box, Card, Drawer } from '@mui/material'
+import { Avatar, Badge, Box, Card, Chip, Drawer, Paper } from '@mui/material'
 import { PaletteColor, styled } from '@mui/material/styles'
+import themeConfig from '@/core/configs/themeConfig'
+
+export const FiltersCard = styled(Paper)(({ theme }) => ({
+  padding: theme.spacing(2),
+  borderRadius: themeConfig.borderRadius * 1.5,
+  backgroundColor: hexToRGBA(theme.palette.primary.main, 0.03),
+  border: `1px solid ${theme.palette.divider}`,
+}))
 
 export const PaymentLogCard = styled(Card, {
   shouldForwardProp: (prop) => prop !== 'selected',
@@ -89,4 +97,13 @@ export const PaymentTypeAvatar = styled(Avatar, {
   flexShrink: 0,
   width: theme.spacing(5),
   height: theme.spacing(5),
+}))
+
+export const DirectionChip = styled(Chip, {
+  shouldForwardProp: (prop) => prop !== '$palette',
+})<{ $palette: PaletteColor }>(({ $palette }) => ({
+  backgroundColor: hexToRGBA($palette.main, 0.1),
+  color: $palette.main,
+  fontWeight: 600,
+  '& .MuiChip-icon': { color: $palette.main },
 }))

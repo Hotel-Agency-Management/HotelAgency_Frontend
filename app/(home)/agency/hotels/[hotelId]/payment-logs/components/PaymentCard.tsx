@@ -5,24 +5,25 @@ import { useTheme } from '@mui/material/styles'
 import { useTranslation } from 'react-i18next'
 import Icon from '@/components/icon/Icon'
 import DirectionalIcon from '@/components/common/DirectionalIcon'
-import { PAYMENT_TYPE_CONFIG } from '../constants/paymentTypeConfig'
+import { DEFAULT_PAYMENT_TYPE_CONFIG, PAYMENT_TYPE_CONFIG } from '../constants/paymentTypeConfig'
 import { formatAmount, formatPaymentDateTime } from '../utils/dateFormat'
 import type { PaymentLogItem } from '../config/paymentLogsConfig'
 import { DataColumn } from './DataColumn'
+import { PaymentDirectionChip } from './PaymentDirectionChip'
 import { PaymentLogCard, PaymentTypeAvatar } from '../styles/StyledComponents'
 
 interface PaymentCardProps {
   payment: PaymentLogItem
   selected: boolean
-  isIncoming: boolean
   onClick: (payment: PaymentLogItem) => void
 }
 
-export function PaymentCard({ payment, selected, isIncoming, onClick }: PaymentCardProps) {
+export function PaymentCard({ payment, selected, onClick }: PaymentCardProps) {
   const theme = useTheme()
   const { t } = useTranslation()
+  const isIncoming = payment.transactionType === 'Incoming'
   const amountColor = isIncoming ? theme.palette.success.main : theme.palette.error.main
-  const typeConfig = PAYMENT_TYPE_CONFIG[payment.paymentType]
+  const typeConfig = PAYMENT_TYPE_CONFIG[payment.paymentType] ?? DEFAULT_PAYMENT_TYPE_CONFIG
   const typePalette = theme.palette[typeConfig.color]
 
 
@@ -54,6 +55,7 @@ export function PaymentCard({ payment, selected, isIncoming, onClick }: PaymentC
         </Stack>
 
         <Stack direction="row" alignItems="center" gap={1} sx={{ pl: 7 }}>
+          <PaymentDirectionChip direction={payment.transactionType} />
           <Typography variant="body2" fontWeight={500} noWrap flex={1} minWidth={0}>
             {payment.fromName}
           </Typography>
@@ -72,6 +74,10 @@ export function PaymentCard({ payment, selected, isIncoming, onClick }: PaymentC
         <PaymentTypeAvatar $color={typePalette.main}>
           <Icon icon={typeConfig.icon} fontSize={20} color={typePalette.main} />
         </PaymentTypeAvatar>
+
+        <Box width={110}>
+          <PaymentDirectionChip direction={payment.transactionType} />
+        </Box>
 
         <DataColumn label={t("hotelPaymentLogs.card.paymentType", "Payment Type")} value={typeConfig.label} valueWeight={600} width={140} />
 
