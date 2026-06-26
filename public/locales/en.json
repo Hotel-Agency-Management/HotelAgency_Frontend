@@ -1363,7 +1363,8 @@
       "priority": {
         "LOW": "Low",
         "MEDIUM": "Medium",
-        "HIGH": "High"
+        "HIGH": "High",
+        "URGENT": "Urgent"
       },
       "status": {
         "TO_DO": "To Do",
@@ -1378,12 +1379,21 @@
         "noActivity": "No activity yet",
         "addComment": "Add a comment...",
         "save": "Save",
+        "damageCost": "Damage cost",
+        "damageCostDisplay": "Damage cost: {{cost}}",
         "resolvedBody": "Ticket marked as resolved.",
         "damageReportedBody": "Damage report submitted for this room.",
+        "types": {
+          "general": "General",
+          "damage": "Damage"
+        },
         "quickActions": {
           "looksGood": "Looks good!",
+          "looksGoodText": "Looks good! ✅",
           "needHelp": "Need help?",
-          "isBlocked": "This is blocked..."
+          "needHelpText": "Need help? 👋",
+          "isBlocked": "This is blocked...",
+          "isBlockedText": "This is blocked 🛑"
         },
         "actionTypes": {
           "Feedback": "Feedback",
