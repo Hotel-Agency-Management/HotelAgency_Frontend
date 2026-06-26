@@ -1875,7 +1875,8 @@
       "priority": {
         "LOW": "منخفضة",
         "MEDIUM": "متوسطة",
-        "HIGH": "عالية"
+        "HIGH": "عالية",
+        "URGENT": "عاجلة"
       },
       "status": {
         "TO_DO": "للتنفيذ",
@@ -1890,12 +1891,21 @@
         "noActivity": "لا يوجد نشاط بعد",
         "addComment": "أضف تعليقاً...",
         "save": "حفظ",
+        "damageCost": "تكلفة الضرر",
+        "damageCostDisplay": "تكلفة الضرر: {{cost}}",
         "resolvedBody": "تم وضع علامة على التذكرة كمحلولة.",
         "damageReportedBody": "تم تقديم تقرير الضرر لهذه الغرفة.",
+        "types": {
+          "general": "عام",
+          "damage": "ضرر"
+        },
         "quickActions": {
           "looksGood": "يبدو جيداً!",
+          "looksGoodText": "يبدو جيداً! ✅",
           "needHelp": "تحتاج مساعدة؟",
-          "isBlocked": "هذا محظور..."
+          "needHelpText": "تحتاج مساعدة؟ 👋",
+          "isBlocked": "هذا محظور...",
+          "isBlockedText": "هذا محظور 🛑"
         },
         "actionTypes": {
           "Feedback": "ملاحظة",

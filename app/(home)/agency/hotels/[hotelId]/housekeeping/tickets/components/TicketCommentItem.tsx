@@ -36,7 +36,7 @@ export function TicketCommentItem({
   canDelete = true,
 }: TicketCommentItemProps) {
   const theme = useTheme();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const config = getCommentActionTypeConfig(t)[comment.actionType];
   const badgeColor = theme.palette[config.paletteKey].main;
   const shouldShowDamageCost =
@@ -83,7 +83,7 @@ export function TicketCommentItem({
           </Typography>
           <CommentActionBadge size="small" label={config.label} badgeColor={badgeColor} />
           <Typography variant="caption" color="text.disabled">
-            {fromNow(comment.createdAt)}
+            {fromNow(comment.createdAt, i18n.language)}
           </Typography>
         </Stack>
 
