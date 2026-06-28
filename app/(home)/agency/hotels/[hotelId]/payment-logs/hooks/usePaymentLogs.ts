@@ -1,56 +1,32 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
-import { DEFAULT_FILTERS } from '../constants/paymentLogsConstants'
+import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { toExcelRows } from '../utils/toExcelRows'
 import { usePaymentLogsQuery } from './queries/usePaymentLogsQuery'
 import { usePaymentLogDetailsQuery } from './queries/usePaymentLogDetailsQuery'
-import type { PaymentLogExcelRow, PaymentLogItem } from '../config/paymentLogsConfig'
-import type { PaymentLogsFilters, PaymentViewMode } from '../types/payment'
+import { usePaymentLogsFilters } from './usePaymentLogsFilters'
+import type { PaymentLogExcelRow } from '../config/paymentLogsConfig'
+import type { PaymentViewMode } from '../types/payment'
 
 export function usePaymentLogs(hotelId: string) {
-  const [filters, setFilters] = useState<PaymentLogsFilters>(DEFAULT_FILTERS)
-  const [selectedPaymentId, setSelectedPaymentId] = useState<number | null>(null)
-  const [pageNumber, setPageNumber] = useState(1)
-  const [pageSize, setPageSize] = useState(10)
+  const { t } = useTranslation()
+  const core = usePaymentLogsFilters()
   const [viewMode, setViewMode] = useState<PaymentViewMode>('feed')
   const [excelRows, setExcelRows] = useState<PaymentLogExcelRow[]>([])
 
   const query = usePaymentLogsQuery(hotelId, {
-    pageNumber,
-    pageSize,
-    ...(filters.search ? { search: filters.search } : {}),
-    ...(filters.transactionType ? { transactionType: filters.transactionType } : {}),
-    ...(filters.type ? { type: filters.type } : {}),
+    pageNumber: core.pageNumber,
+    pageSize: core.pageSize,
+    ...(core.filters.search ? { search: core.filters.search } : {}),
+    ...(core.filters.transactionType ? { transactionType: core.filters.transactionType } : {}),
+    ...(core.filters.type ? { type: core.filters.type } : {}),
   })
-  const detailsQuery = usePaymentLogDetailsQuery(hotelId, selectedPaymentId ?? undefined)
-
-  function updateFilter<K extends keyof PaymentLogsFilters>(key: K, value: PaymentLogsFilters[K]) {
-    setFilters((prev) => ({ ...prev, [key]: value }))
-    setPageNumber(1)
-  }
-
-  function resetFilters() {
-    setFilters(DEFAULT_FILTERS)
-    setPageNumber(1)
-  }
-
-  const hasActiveFilters = useMemo(
-    () => filters.search !== '' || filters.transactionType !== '' || filters.type !== '',
-    [filters]
-  )
+  const detailsQuery = usePaymentLogDetailsQuery(hotelId, core.selectedPaymentId ?? undefined)
 
   useEffect(() => {
-    setExcelRows(toExcelRows(query.data?.groups ?? []))
-  }, [query.data])
-
-  function handleSelectPayment(payment: PaymentLogItem) {
-    setSelectedPaymentId(payment.paymentId)
-  }
-
-  function handleCloseDrawer() {
-    setSelectedPaymentId(null)
-  }
+    setExcelRows(toExcelRows(query.data?.groups ?? [], t))
+  }, [query.data, t])
 
   function handleViewModeChange(mode: PaymentViewMode) {
     setViewMode(mode)
@@ -60,23 +36,8 @@ export function usePaymentLogs(hotelId: string) {
     setExcelRows(rows)
   }
 
-  function handlePageSizeChange(size: number) {
-    setPageSize(size)
-    setPageNumber(1)
-  }
-
   return {
-    filters,
-    updateFilter,
-    resetFilters,
-    hasActiveFilters,
-    selectedPaymentId,
-    handleSelectPayment,
-    handleCloseDrawer,
-    pageNumber,
-    setPageNumber,
-    pageSize,
-    setPageSize: handlePageSizeChange,
+    ...core,
     query,
     detailsQuery,
     viewMode,
