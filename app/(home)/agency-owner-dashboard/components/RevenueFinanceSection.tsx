@@ -12,10 +12,10 @@ import StackedBarChart from '@/components/charts/StackedBarChart'
 import { useProfitAndExpenseTrends, useRevenueTrends } from '../hooks/queries/useStatisticQueries'
 import { buildMonthYearLabels } from '@/core/utils/translateMonthLabel'
 
-export default function RevenueFinanceSection() {
+export default function RevenueFinanceSection({ agencyId: agencyIdProp }: { agencyId?: number }) {
   const { t } = useTranslation()
   const { user } = useAuth()
-  const agencyId = user?.agencyId === undefined ? undefined : Number(user.agencyId)
+  const agencyId = agencyIdProp ?? (user?.agencyId !== undefined ? Number(user.agencyId) : undefined)
   const revenueTrendsQuery = useRevenueTrends(agencyId)
   const profitExpenseQuery = useProfitAndExpenseTrends(agencyId)
 

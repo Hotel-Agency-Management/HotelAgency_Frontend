@@ -5,7 +5,9 @@ import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import Divider from '@mui/material/Divider'
 import { useTranslation } from 'react-i18next'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useAuth } from '@/core/context/AuthContext'
+import DashboardContextBar from '@/components/dashboard/DashboardContextBar'
 import PropertyManagerStatsSection from './components/PropertyManagerStatsSection'
 import RevenueFinanceSection from './components/RevenueFinanceSection'
 import RoomsHousekeepingSection from './components/RoomsHousekeepingSection'
@@ -14,8 +16,28 @@ import OperationsSection from './components/OperationsSection'
 export default function PropertyManagerDashboardPage() {
   const { user } = useAuth()
   const { t, i18n } = useTranslation()
-  const numericHotelId = user?.hotelId ? Number(user.hotelId) : undefined
-  const hotelId = Number.isFinite(numericHotelId) ? numericHotelId : undefined
+  const router = useRouter()
+  const searchParams = useSearchParams()
+
+  const urlAgencyId = searchParams.get('agencyId') ? Number(searchParams.get('agencyId')) : undefined
+  const urlHotelId = searchParams.get('hotelId') ? Number(searchParams.get('hotelId')) : undefined
+
+  const agencyId = urlAgencyId ?? (user?.agencyId !== undefined ? Number(user.agencyId) : undefined)
+  const userHotelId = user?.hotelId ? Number(user.hotelId) : undefined
+  const hotelId = Number.isFinite(urlHotelId) ? urlHotelId : (Number.isFinite(userHotelId) ? userHotelId : undefined)
+
+  const handleAgencyChange = (id: number) => {
+    const params = new URLSearchParams(searchParams.toString())
+    params.set('agencyId', String(id))
+    params.delete('hotelId')
+    router.push(`?${params.toString()}`)
+  }
+
+  const handleHotelChange = (id: number) => {
+    const params = new URLSearchParams(searchParams.toString())
+    params.set('hotelId', String(id))
+    router.push(`?${params.toString()}`)
+  }
 
   const today = new Date().toLocaleDateString(i18n.language, {
     weekday: 'long',
@@ -32,11 +54,19 @@ export default function PropertyManagerDashboardPage() {
             {t('dashboard.propertyManager.title', { defaultValue: 'Hotel Operations' })}
           </Typography>
           <Typography variant="body2">
-            {today}{user?.hotelId ? ` · ${t('dashboard.common.hotel', { defaultValue: 'Hotel' })} #${user.hotelId}` : ''}
+            {today}{hotelId ? ` · ${t('dashboard.common.hotel', { defaultValue: 'Hotel' })} #${hotelId}` : ''}
           </Typography>
         </Stack>
 
         <Divider />
+
+        <DashboardContextBar
+          contextNeeds="hotel"
+          selectedAgencyId={agencyId}
+          selectedHotelId={hotelId}
+          onAgencyChange={handleAgencyChange}
+          onHotelChange={handleHotelChange}
+        />
 
         <PropertyManagerStatsSection hotelId={hotelId} />
 

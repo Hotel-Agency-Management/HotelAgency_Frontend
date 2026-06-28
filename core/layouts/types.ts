@@ -1,4 +1,5 @@
 import { PaletteMode } from '@mui/material'
+import type { UserRole } from '@/lib/abilities'
 
 export type Mode = PaletteMode | 'semi-dark'
 export type ThemeColor = 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success'
@@ -11,6 +12,7 @@ export type SidebarSection = {
   auth?: boolean
   action?: string
   subject?: string
+  allowedRoles?: UserRole[]
   icon?: string
   tooltip?: string
   path?: string
@@ -23,6 +25,7 @@ export type SidebarNavGroup = {
   auth?: boolean
   action?: string
   subject?: string
+  allowedRoles?: UserRole[]
   badgeContent?: string
   badgeColor?: BadgeColor
   children?: (SidebarNavGroup | SidebarNavLink)[]
@@ -35,6 +38,7 @@ export type SidebarNavLink = {
   auth?: boolean
   action?: string
   subject?: string
+  allowedRoles?: UserRole[]
   disabled?: boolean
   badgeContent?: string
   badgeColor?: BadgeColor
@@ -48,6 +52,7 @@ export type SidebarNavMore = {
   auth?: boolean
   action?: string
   subject?: string
+  allowedRoles?: UserRole[]
   path?: string
   icon?: string
   tooltip?: string

@@ -18,7 +18,7 @@ export {
 } from './types'
 
 // Role definitions
-export { defineAbilitiesFor, canAccess } from './roles'
+export { defineAbilitiesFor, canAccess, hasAllowedRole } from './roles'
 
 // Route configuration
 export { routePermissions, publicRoutes, authenticatedOnlyRoutes } from './routeMap'
