@@ -1303,9 +1303,16 @@
   "hotelPaymentLogs": {
     "title": "سجلات الدفع",
     "subtitle": "تتبع جميع المعاملات الواردة والصادرة لهذا الفندق.",
-    "tabs": {
-      "incoming": "المدفوعات الواردة",
-      "outgoing": "النفقات الصادرة"
+    "filters": {
+      "search": "البحث بالاسم أو المرجع…",
+      "direction": "الاتجاه",
+      "type": "نوع الدفعة",
+      "all": "الكل",
+      "clear": "إزالة الفلاتر"
+    },
+    "directions": {
+      "Incoming": "وارد",
+      "Outgoing": "صادر"
     },
     "sortBy": "ترتيب حسب:",
     "sortOptions": {

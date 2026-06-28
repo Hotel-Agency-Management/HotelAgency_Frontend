@@ -2,19 +2,20 @@
 
 import { useState } from 'react'
 import { useDebounce } from 'use-debounce'
-import { Stack, Typography } from '@mui/material'
+import { Button, Stack, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { AdminHotelPaymentLogs } from './AdminHotelPaymentLogs'
+import DirectionalIcon from '@/components/common/DirectionalIcon'
+import { PaymentLogsPage } from '@/app/(home)/agency/hotels/[hotelId]/payment-logs/components/PaymentLogsPage'
+import { useGetHotels } from '@/app/(home)/agency/hotels/hooks/queries/useHotelQueries'
 import { HotelGrid } from './HotelGrid'
 import { HotelSearchBar } from './HotelSearchBar'
 import { HotelPaginationFooter } from './HotelPaginationFooter'
-import { useAdminHotelsQuery } from '../hooks/queries/useAdminHotelsQuery'
 import type { HotelCardItem } from './HotelGrid'
-import type { CustomerHotel } from '@/app/(home)/hotels/types/customerHotel'
+import type { Hotel } from '@/app/(home)/agency/hotels/types/hotel'
 
-export function AdminPaymentLogsPage() {
+export function OwnerPaymentLogsPage() {
   const { t } = useTranslation()
-  const [selectedHotel, setSelectedHotel] = useState<CustomerHotel | null>(null)
+  const [selectedHotel, setSelectedHotel] = useState<Hotel | null>(null)
   const [search, setSearch] = useState('')
   const [location, setLocation] = useState('')
   const [pageNumber, setPageNumber] = useState(1)
@@ -23,7 +24,7 @@ export function AdminPaymentLogsPage() {
   const [debouncedSearch] = useDebounce(search, 300)
   const [debouncedLocation] = useDebounce(location, 300)
 
-  const hotelsQuery = useAdminHotelsQuery({
+  const hotelsQuery = useGetHotels({
     search: debouncedSearch || undefined,
     location: debouncedLocation || undefined,
     pageNumber,
@@ -35,11 +36,9 @@ export function AdminPaymentLogsPage() {
 
   const hotelItems: HotelCardItem[] = (hotelsData?.items ?? []).map((hotel) => ({
     id: hotel.id,
-    name: hotel.name,
-    city: hotel.city,
-    country: hotel.country,
-    disabled: !hotel.agencyId,
-    disabledMessage: t('paymentLogs.noAgencyLinked', { defaultValue: 'No agency linked' }),
+    name: hotel.basicInfo.name,
+    city: hotel.basicInfo.city,
+    country: hotel.basicInfo.country,
   }))
 
   function handleHotelSelect(id: string) {
@@ -65,10 +64,26 @@ export function AdminPaymentLogsPage() {
 
   if (selectedHotel) {
     return (
-      <AdminHotelPaymentLogs
-        hotel={selectedHotel}
-        onBack={() => setSelectedHotel(null)}
-      />
+      <Stack gap={3}>
+        <Stack direction="row" alignItems="center" gap={1}>
+          <Button
+            startIcon={<DirectionalIcon icon="lucide:arrow-left" fontSize={16} />}
+            onClick={() => setSelectedHotel(null)}
+            variant="text"
+            size="small"
+          >
+            {t('paymentLogs.allHotels', { defaultValue: 'All Hotels' })}
+          </Button>
+          <Typography variant="body2" color="text.secondary">
+            /
+          </Typography>
+          <Typography variant="body2" fontWeight={600}>
+            {selectedHotel.basicInfo.name}
+          </Typography>
+        </Stack>
+
+        <PaymentLogsPage hotelId={selectedHotel.id} />
+      </Stack>
     )
   }
 
@@ -90,7 +105,6 @@ export function AdminPaymentLogsPage() {
         onLocationChange={handleLocationChange}
         onReset={resetFilters}
         hasActiveFilters={hasActiveFilters}
-        searchPlaceholder={t('paymentLogs.hotels.search', { defaultValue: 'Search hotels or agencies...' })}
       />
 
       <HotelGrid

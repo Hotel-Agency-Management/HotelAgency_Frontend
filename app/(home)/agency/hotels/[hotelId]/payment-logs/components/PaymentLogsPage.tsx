@@ -1,23 +1,22 @@
 'use client'
 
 import {
-  Box,
   MenuItem,
   Pagination,
   Select,
   Stack,
-  Tab,
-  Tabs,
   Typography,
 } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import Icon from '@/components/icon/Icon'
 import { PaymentFeed } from './PaymentFeed'
 import { PaymentDetailsDrawer } from './PaymentDetailsDrawer'
 import { PaymentSummaryHeader } from './PaymentSummaryHeader'
 import { PaymentViewToggle } from './PaymentViewToggle'
 import { ExcelModeGrid } from './ExcelModeGrid'
+import { PaymentFilterBar } from './PaymentFilterBar'
 import { usePaymentLogs } from '../hooks/usePaymentLogs'
+import { PAGE_SIZE_OPTIONS } from '../constants/paymentLogsConstants'
+import { FiltersCard } from '../styles/StyledComponents'
 
 interface PaymentLogsPageProps {
   hotelId: string
@@ -25,18 +24,18 @@ interface PaymentLogsPageProps {
 
 export function PaymentLogsPage({ hotelId }: PaymentLogsPageProps) {
   const {
-    activeTab,
-    handleTabChange,
+    filters,
+    updateFilter,
+    resetFilters,
+    hasActiveFilters,
     selectedPaymentId,
     handleSelectPayment,
     handleCloseDrawer,
-    activePage,
-    setActivePage,
+    pageNumber,
+    setPageNumber,
     pageSize,
     setPageSize,
-    incomingQuery,
-    outgoingQuery,
-    activeQuery,
+    query,
     detailsQuery,
     viewMode,
     handleViewModeChange,
@@ -45,9 +44,8 @@ export function PaymentLogsPage({ hotelId }: PaymentLogsPageProps) {
   } = usePaymentLogs(hotelId)
 
   const { t } = useTranslation()
-  const isIncoming = activeTab === 0
-  const activeData = activeQuery.data
-  const totalPages = activeData?.totalPages ?? 0
+  const data = query.data
+  const totalPages = data?.totalPages ?? 0
 
   return (
     <Stack gap={3}>
@@ -59,51 +57,32 @@ export function PaymentLogsPage({ hotelId }: PaymentLogsPageProps) {
           {t("hotelPaymentLogs.subtitle", "Track all incoming and outgoing transactions for this hotel.")}
         </Typography>
       </Stack>
+
       <PaymentSummaryHeader
-        incomingAmount={incomingQuery.data?.totalIncoming ?? 0}
-        incomingCount={incomingQuery.data?.incomingCount ?? 0}
-        outgoingAmount={outgoingQuery.data?.totalOutgoing ?? 0}
-        outgoingCount={outgoingQuery.data?.outgoingCount ?? 0}
-        isLoading={incomingQuery.isLoading || outgoingQuery.isLoading}
-        activeTab={activeTab}
+        incomingAmount={data?.totalIncoming ?? 0}
+        incomingCount={data?.incomingCount ?? 0}
+        outgoingAmount={data?.totalOutgoing ?? 0}
+        outgoingCount={data?.outgoingCount ?? 0}
+        isLoading={query.isLoading}
       />
+
+      <FiltersCard variant="outlined">
+        <PaymentFilterBar
+          filters={filters}
+          updateFilter={updateFilter}
+          resetFilters={resetFilters}
+          hasActiveFilters={hasActiveFilters}
+          directionLabelId="payment-logs-direction-label"
+          typeLabelId="payment-logs-type-label"
+        />
+      </FiltersCard>
 
       <Stack
         direction={{ xs: 'column', sm: 'row' }}
-        justifyContent="space-between"
+        justifyContent="flex-end"
         alignItems={{ xs: 'flex-start', sm: 'center' }}
         gap={1}
       >
-        <Tabs
-          value={activeTab}
-          onChange={handleTabChange}
-          variant="scrollable"
-          scrollButtons="auto"
-        >
-          <Tab
-            label={
-              <Stack direction="row" alignItems="center" gap={1}>
-                <Icon icon="lucide:arrow-down-circle" fontSize={16} />
-                <Box component="span">
-                  {t("hotelPaymentLogs.tabs.incoming", "Incoming Payments")}
-                  {incomingQuery.data ? ` (${incomingQuery.data.totalCount})` : ''}
-                </Box>
-              </Stack>
-            }
-          />
-          <Tab
-            label={
-              <Stack direction="row" alignItems="center" gap={1}>
-                <Icon icon="lucide:arrow-up-circle" fontSize={16} />
-                <Box component="span">
-                  {t("hotelPaymentLogs.tabs.outgoing", "Outgoing Expenses")}
-                  {outgoingQuery.data ? ` (${outgoingQuery.data.totalCount})` : ''}
-                </Box>
-              </Stack>
-            }
-          />
-        </Tabs>
-
         <Stack direction="row" alignItems="center" gap={1} flexShrink={0}>
           <PaymentViewToggle value={viewMode} onChange={handleViewModeChange} />
           <Typography variant="caption">
@@ -126,21 +105,20 @@ export function PaymentLogsPage({ hotelId }: PaymentLogsPageProps) {
 
       {viewMode === 'feed' ? (
         <PaymentFeed
-          groups={activeData?.groups ?? []}
+          groups={data?.groups ?? []}
           selectedId={selectedPaymentId}
-          isIncoming={isIncoming}
-          isLoading={activeQuery.isLoading}
+          isLoading={query.isLoading}
           onSelect={handleSelectPayment}
         />
       ) : (
         <ExcelModeGrid
           rows={excelRows}
           onChange={handleExcelRowsChange}
-          isLoading={activeQuery.isLoading}
+          isLoading={query.isLoading}
         />
       )}
 
-      {activeData && activeData.totalCount > 0 && (
+      {data && data.totalCount > 0 && (
         <Stack
           direction={{ xs: 'column', sm: 'row' }}
           justifyContent="space-between"
@@ -149,8 +127,8 @@ export function PaymentLogsPage({ hotelId }: PaymentLogsPageProps) {
         >
           <Pagination
             count={totalPages}
-            page={activePage}
-            onChange={(_, page) => setActivePage(page)}
+            page={pageNumber}
+            onChange={(_, page) => setPageNumber(page)}
             color="primary"
             shape="rounded"
             size="small"
@@ -158,13 +136,10 @@ export function PaymentLogsPage({ hotelId }: PaymentLogsPageProps) {
           <Select
             size="small"
             value={pageSize}
-            onChange={(e) => {
-              setPageSize(Number(e.target.value))
-              setActivePage(1)
-            }}
+            onChange={(e) => setPageSize(Number(e.target.value))}
             sx={{ fontSize: 13 }}
           >
-            {Array.from([7, 10, 20, 50]).map((n) => (
+            {PAGE_SIZE_OPTIONS.map((n) => (
               <MenuItem key={n} value={n}>
                 {t("hotelPaymentLogs.perPage", "{{count}} per page", { count: n })}
               </MenuItem>
@@ -177,7 +152,6 @@ export function PaymentLogsPage({ hotelId }: PaymentLogsPageProps) {
         <PaymentDetailsDrawer
           payment={detailsQuery.data ?? null}
           isLoading={detailsQuery.isLoading}
-          isIncoming={isIncoming}
           open={!!selectedPaymentId}
           onClose={handleCloseDrawer}
         />
