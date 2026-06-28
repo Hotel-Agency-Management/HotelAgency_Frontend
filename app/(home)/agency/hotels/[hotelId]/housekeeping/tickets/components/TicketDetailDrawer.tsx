@@ -121,7 +121,14 @@ export function TicketDetailDrawer({
             </Stack>
           </Stack>
 
-          <Stack flex={1} minHeight={0} overflow="auto" gap={0}>
+          <Stack
+            flex={1}
+            minHeight={0}
+            overflow="auto"
+            gap={0}
+            dir={theme.direction === 'rtl' ? 'ltr' : undefined}
+          >
+            <Stack dir={theme.direction === 'rtl' ? 'rtl' : undefined}>
             <Stack gap={3} pb={2}>
               <Typography variant="caption" fontWeight={700} textTransform="uppercase">
                 {t("housekeeping.tickets.detail.ticketDetails", "Ticket Details")}
@@ -190,6 +197,7 @@ export function TicketDetailDrawer({
               canEditComment={canEditComment}
               canDeleteComment={canDeleteComment}
             />
+            </Stack>
           </Stack>
         </Stack>
       )}

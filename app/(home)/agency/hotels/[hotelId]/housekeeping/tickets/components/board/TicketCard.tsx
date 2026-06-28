@@ -73,7 +73,7 @@ export function TicketCard({
   const { priorityColor, ticketTypeColor, priorityLabel, ticketTypeLabel, locationLabel, initials } =
     useTicketDisplay(ticket);
 
-  const style = transform
+  const style = isDragging && transform
     ? { transform: CSS.Transform.toString(transform), transition }
     : undefined;
 

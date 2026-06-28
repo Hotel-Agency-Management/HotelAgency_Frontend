@@ -51,7 +51,7 @@ export function TicketColumn({
   const { setNodeRef, isOver } = useDroppable({ id: column.id });
 
   return (
-    <Stack width={theme.spacing(37.5)} flexShrink={0}>
+    <Stack flex={1} minWidth={theme.spacing(28)}>
       <ColumnShell>
         <Stack direction="row" alignItems="center" justifyContent="space-between" padding={1.5}>
           <Stack direction="row" alignItems="center" gap={1}>

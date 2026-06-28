@@ -52,12 +52,18 @@ export const COMMENT_ACTION_TYPE_CONFIG: Record<
 
 export function getCommentQuickActions(t: TFunction) {
   return [
-    { label: t('housekeeping.tickets.comments.quickActions.looksGood', { defaultValue: 'Looks good!' }), text: 'Looks good! ✅' },
-    { label: t('housekeeping.tickets.comments.quickActions.needHelp', { defaultValue: 'Need help?' }), text: 'Need help? 👋' },
+    {
+      label: t('housekeeping.tickets.comments.quickActions.looksGood', { defaultValue: 'Looks good!' }),
+      text: t('housekeeping.tickets.comments.quickActions.looksGoodText', { defaultValue: 'Looks good! ✅' }),
+    },
+    {
+      label: t('housekeeping.tickets.comments.quickActions.needHelp', { defaultValue: 'Need help?' }),
+      text: t('housekeeping.tickets.comments.quickActions.needHelpText', { defaultValue: 'Need help? 👋' }),
+    },
     {
       label: t('housekeeping.tickets.comments.quickActions.isBlocked', { defaultValue: 'This is blocked...' }),
-      text: 'This is blocked 🛑'
-    }
+      text: t('housekeeping.tickets.comments.quickActions.isBlockedText', { defaultValue: 'This is blocked 🛑' }),
+    },
   ]
 }
 
