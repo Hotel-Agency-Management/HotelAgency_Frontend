@@ -1837,6 +1837,18 @@
         "reservation": "الحجز",
         "close": "إغلاق"
       },
+      "watchList": {
+        "startWatching": "ابدأ المتابعة",
+        "stopWatching": "أوقف المتابعة",
+        "watchingThis": "يتابع هذه التذكرة",
+        "addWatchers": "إضافة متابعين",
+        "searchUsers": "ابحث عن مستخدمين…",
+        "noWatchers": "لا يوجد متابعون بعد",
+        "back": "رجوع",
+        "removeWatcher": "إزالة",
+        "watcherCount_one": "متابع واحد",
+        "watcherCount_other": "{{count}} متابعون"
+      },
       "actions": {
         "moreActions": "المزيد من الإجراءات",
         "editTicket": "تعديل التذكرة",

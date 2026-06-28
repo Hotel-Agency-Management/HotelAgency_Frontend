@@ -48,4 +48,10 @@ export interface HousekeepingTicketFilters {
   assignedTo: string | HousekeepingFilterAll;
 }
 
+export interface TicketWatcher {
+  id: string;
+  name: string;
+  initials: string;
+}
+
 export type { TicketComment, AddCommentValues };

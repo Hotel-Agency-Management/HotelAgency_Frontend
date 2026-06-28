@@ -1,10 +1,12 @@
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import Avatar from "@mui/material/Avatar";
 import Chip from "@mui/material/Chip";
 import IconButton from "@mui/material/IconButton";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
 import { alpha, styled, Theme } from "@mui/material/styles";
 import CardContent from "@mui/material/CardContent";
 
@@ -268,4 +270,69 @@ export const CommentCountIndicator = styled(Stack)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
   backgroundColor: alpha(theme.palette.info.main, 0.12),
   color: theme.palette.info.main,
+}));
+
+export const WatchListActionRow = styled(Stack)(({ theme }) => ({
+  flexDirection: "row",
+  alignItems: "center",
+  gap: theme.spacing(1.5),
+  padding: theme.spacing(1, 1.5),
+  cursor: "pointer",
+  borderRadius: theme.shape.borderRadius,
+  transition: theme.transitions.create("background-color", {
+    duration: theme.transitions.duration.shorter,
+  }),
+  "&:hover": {
+    backgroundColor: theme.palette.action.hover,
+  },
+}));
+
+export const WatchListWatcherAvatar = styled(Avatar)(({ theme }) => ({
+  width: theme.spacing(3),
+  height: theme.spacing(3),
+  ...theme.typography.caption,
+  fontWeight: theme.typography.fontWeightBold,
+  backgroundColor: alpha(theme.palette.primary.main, 0.15),
+  color: theme.palette.primary.main,
+}));
+
+export const WatchListPopoverContent = styled(Stack)(({ theme }) => ({
+  paddingBlock: theme.spacing(1),
+}));
+
+export const WatchListSection = styled(Stack)(({ theme }) => ({
+  paddingInline: theme.spacing(1.5),
+  paddingBlock: theme.spacing(0.75),
+  gap: theme.spacing(0.75),
+}));
+
+export const WatchListSearchWrapper = styled(Stack)(({ theme }) => ({
+  paddingInline: theme.spacing(1.5),
+  paddingBlock: theme.spacing(1),
+}));
+
+export const WatchListTriggerButton = styled(Button, {
+  shouldForwardProp: (prop) => prop !== "$isWatching",
+})<{ $isWatching: boolean }>(({ theme, $isWatching }) => ({
+  minWidth: 0,
+  paddingInline: theme.spacing(1.5),
+  paddingBlock: theme.spacing(0.75),
+  color: $isWatching ? theme.palette.primary.main : theme.palette.text.secondary,
+  borderColor: $isWatching ? theme.palette.primary.main : theme.palette.divider,
+  "& .MuiButton-startIcon": { marginRight: theme.spacing(0.75) },
+  "&:hover": {
+    borderColor: $isWatching ? theme.palette.primary.dark : theme.palette.divider,
+  },
+}));
+
+export const WatchListRemoveButton = styled(IconButton)(({ theme }) => ({
+  padding: theme.spacing(0.25),
+  color: theme.palette.text.disabled,
+  "&:hover": {
+    color: theme.palette.error.main,
+  },
+}));
+
+export const WatchListEmptyLabel = styled(Typography)(({ theme }) => ({
+  paddingInline: theme.spacing(1.5),
 }));

@@ -1344,6 +1344,18 @@
         "reservation": "Reservation",
         "close": "Close"
       },
+      "watchList": {
+        "startWatching": "Start watching",
+        "stopWatching": "Stop watching",
+        "watchingThis": "Watching this Ticket",
+        "addWatchers": "Add watchers",
+        "searchUsers": "Search users…",
+        "noWatchers": "No watchers yet",
+        "back": "Back",
+        "removeWatcher": "Remove",
+        "watcherCount_one": "{{count}} watcher",
+        "watcherCount_other": "{{count}} watchers"
+      },
       "actions": {
         "moreActions": "More actions",
         "editTicket": "Edit ticket",
