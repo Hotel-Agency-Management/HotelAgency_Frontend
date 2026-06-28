@@ -1,6 +1,6 @@
 import type { UserRole, Actions, Subjects } from './types'
 import { matchRoute, isPublicRoute, isAuthenticatedOnlyRoute } from './routeMatcher'
-import { canAccess } from './roles'
+import { canAccess, hasAllowedRole } from './roles'
 
 /**
  * Result of an authorization check
@@ -60,15 +60,23 @@ export function checkAuthorization(
   const { permission } = matched
   const hasPermission = canAccess(userRole, permission.action, permission.subject)
 
-  if (hasPermission) {
-    return { authorized: true }
+  if (!hasPermission) {
+    return {
+      authorized: false,
+      reason: 'forbidden',
+      requiredAction: permission.action,
+      requiredSubject: permission.subject,
+    }
   }
 
-  // User doesn't have required permission
-  return {
-    authorized: false,
-    reason: 'forbidden',
-    requiredAction: permission.action,
-    requiredSubject: permission.subject,
+  if (permission.allowedRoles && !hasAllowedRole(userRole, permission.allowedRoles)) {
+    return {
+      authorized: false,
+      reason: 'forbidden',
+      requiredAction: permission.action,
+      requiredSubject: permission.subject,
+    }
   }
+
+  return { authorized: true }
 }

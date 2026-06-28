@@ -21,10 +21,10 @@ const currencyFormatter = new Intl.NumberFormat('en-US', {
   maximumFractionDigits: 0,
 })
 
-export default function AgencyOwnerStatsSection() {
+export default function AgencyOwnerStatsSection({ agencyId: agencyIdProp }: { agencyId?: number }) {
   const { t } = useTranslation()
   const { user } = useAuth()
-  const agencyId = user?.agencyId === undefined ? undefined : Number(user.agencyId)
+  const agencyId = agencyIdProp ?? (user?.agencyId !== undefined ? Number(user.agencyId) : undefined)
   const { data } = useOverviewStats(agencyId)
 
   const getCardValue = (key: (typeof STAT_CARDS_CONFIG)[number]['key']) => {

@@ -10,10 +10,10 @@ import { useAuth } from '@/core/context/AuthContext'
 import HorizontalBarChart from '@/components/charts/HorizontalBarChart'
 import { useRevenuePerHotel } from '../hooks/queries/useStatisticQueries'
 
-export default function HotelPerformanceSection() {
+export default function HotelPerformanceSection({ agencyId: agencyIdProp }: { agencyId?: number }) {
   const { t } = useTranslation()
   const { user } = useAuth()
-  const agencyId = user?.agencyId === undefined ? undefined : Number(user.agencyId)
+  const agencyId = agencyIdProp ?? (user?.agencyId !== undefined ? Number(user.agencyId) : undefined)
   const revenuePerHotelQuery = useRevenuePerHotel(agencyId)
   const revenuePerHotelData = revenuePerHotelQuery.data ?? []
 

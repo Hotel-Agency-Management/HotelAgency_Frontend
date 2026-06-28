@@ -3,6 +3,7 @@
 import { Fragment } from 'react'
 import { motion } from 'framer-motion'
 import { useAbility } from '@/core/hooks/useAbility'
+import { useAuth } from '@/core/context/AuthContext'
 import type {
   SidebarNavItems,
   SidebarNavGroup,
@@ -44,7 +45,8 @@ interface NavItemsProps {
 
 export default function NavItems({ items, depth = 0, stagger = false }: NavItemsProps) {
   const ability = useAbility()
-  const permitted = items.filter(item => SidebarUtils.itemIsPermitted(item, ability))
+  const { user } = useAuth()
+  const permitted = items.filter(item => SidebarUtils.itemIsPermitted(item, ability, user?.role))
 
   let sectionCount = 0
 

@@ -120,3 +120,15 @@ export function canAccess(role: UserRole, action: Actions, subject: Subjects): b
   const ability = defineAbilitiesFor(role)
   return ability.can(action, subject)
 }
+
+/**
+ * Check if a user's role is in the explicit allowlist
+ * Used as the allowedRoles gate for dashboard sidebar items and route protection.
+ *
+ * @param userRole - The current user's role
+ * @param allowedRoles - Roles permitted to access the resource
+ * @returns true if the role is in the allowlist
+ */
+export function hasAllowedRole(userRole: UserRole, allowedRoles: UserRole[]): boolean {
+  return allowedRoles.includes(userRole)
+}

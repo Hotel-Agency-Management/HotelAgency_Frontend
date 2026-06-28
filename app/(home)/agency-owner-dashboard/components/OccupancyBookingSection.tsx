@@ -15,10 +15,10 @@ import {
   useStatusDistribution,
 } from '../hooks/queries/useStatisticQueries'
 
-export default function OccupancyBookingSection() {
+export default function OccupancyBookingSection({ agencyId: agencyIdProp }: { agencyId?: number }) {
   const { t } = useTranslation()
   const { user } = useAuth()
-  const agencyId = user?.agencyId === undefined ? undefined : Number(user.agencyId)
+  const agencyId = agencyIdProp ?? (user?.agencyId !== undefined ? Number(user.agencyId) : undefined)
   const reservationByRoomTypeQuery = useReservationByRoomType(agencyId)
   const statusDistributionQuery = useStatusDistribution(agencyId)
   const bookingDistributionQuery = useBookingDistribution(agencyId)

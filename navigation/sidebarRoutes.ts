@@ -1,6 +1,7 @@
 import type { TFunction } from 'i18next'
 import type { SidebarNavItems } from '@/core/layouts/types'
 import { AGENCY_TERMS_ROUTE } from '@/app/(home)/agency/hotels/terms-and-conditions/utils/routes'
+import { USER_ROLES } from '@/lib/abilities'
 
 const navigation = (hotelId?: string, agencyId?: string, t?: TFunction): SidebarNavItems => {
   const T = (key: string, defaultValue: string) =>
@@ -8,16 +9,45 @@ const navigation = (hotelId?: string, agencyId?: string, t?: TFunction): Sidebar
 
   const items: SidebarNavItems = [
     {
+      sectionTitle: T('nav.sections.dashboards', 'Dashboards'),
+      icon: 'lucide:layout-dashboard',
+      items: [
+        {
+          title: T('nav.items.superAdminDashboard', 'Super Admin Dashboard'),
+          path: '/admin-dashboard',
+          icon: 'lucide:shield',
+          allowedRoles: [USER_ROLES.SUPER_ADMIN],
+        },
+        {
+          title: T('nav.items.agencyDashboard', 'Agency Dashboard'),
+          path: '/agency-owner-dashboard',
+          icon: 'lucide:building-2',
+          allowedRoles: [USER_ROLES.SUPER_ADMIN, USER_ROLES.AGENCY_OWNER],
+        },
+        {
+          title: T('nav.items.propertyManagerDashboard', 'Property Manager Dashboard'),
+          path: '/property-manager-dashboard',
+          icon: 'lucide:hotel',
+          allowedRoles: [USER_ROLES.SUPER_ADMIN, USER_ROLES.AGENCY_OWNER, USER_ROLES.PROPERTY_MANAGER],
+        },
+        {
+          title: T('nav.items.frontDeskDashboard', 'Front Desk Dashboard'),
+          path: '/front-desk-dashboard',
+          icon: 'lucide:monitor-check',
+          allowedRoles: [USER_ROLES.SUPER_ADMIN, USER_ROLES.AGENCY_OWNER, USER_ROLES.PROPERTY_MANAGER, USER_ROLES.FRONT_DESK_STAFF],
+        },
+        {
+          title: T('nav.items.accountantDashboard', 'Accountant Dashboard'),
+          path: '/accountant-dashboard',
+          icon: 'lucide:calculator',
+          allowedRoles: [USER_ROLES.SUPER_ADMIN, USER_ROLES.AGENCY_OWNER, USER_ROLES.PROPERTY_MANAGER, USER_ROLES.ACCOUNTANT],
+        },
+      ]
+    },
+    {
       sectionTitle: T('nav.sections.general', 'General'),
       icon: 'lucide:home',
       items: [
-        {
-          title: T('nav.items.dashboard', 'Dashboard'),
-          path: '/dashboard',
-          icon: 'lucide:layout-dashboard',
-          subject: 'Dashboard',
-          action: 'read'
-        },
         {
           title: T('nav.items.users', 'Users'),
           path: '/users',

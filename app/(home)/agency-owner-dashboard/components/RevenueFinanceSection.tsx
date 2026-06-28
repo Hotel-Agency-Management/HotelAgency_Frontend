@@ -11,10 +11,10 @@ import LineChart from '@/components/charts/LineChart'
 import ClusteredBarChart from '@/components/charts/ClusteredBarChart'
 import { useProfitAndExpenseTrends, useRevenueTrends } from '../hooks/queries/useStatisticQueries'
 
-export default function RevenueFinanceSection() {
+export default function RevenueFinanceSection({ agencyId: agencyIdProp }: { agencyId?: number }) {
   const { t } = useTranslation()
   const { user } = useAuth()
-  const agencyId = user?.agencyId === undefined ? undefined : Number(user.agencyId)
+  const agencyId = agencyIdProp ?? (user?.agencyId !== undefined ? Number(user.agencyId) : undefined)
   const revenueTrendsQuery = useRevenueTrends(agencyId)
   const profitExpenseQuery = useProfitAndExpenseTrends(agencyId)
 
