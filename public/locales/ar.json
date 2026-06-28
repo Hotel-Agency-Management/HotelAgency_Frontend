@@ -761,6 +761,36 @@
     "empty": {
       "title": "لا توجد أنشطة",
       "subtitle": "لا توجد سجلات تطابق عوامل التصفية الحالية."
+    },
+    "dateGroups": {
+      "today": "اليوم",
+      "yesterday": "الأمس",
+      "thisWeek": "هذا الأسبوع",
+      "lastWeek": "الأسبوع الماضي"
+    },
+    "actions": {
+      "planDeleted": "حذف الخطة",
+      "roomDeleted": "حذف الغرفة",
+      "roomTypeDeleted": "حذف نوع الغرفة",
+      "roomPhotoDeleted": "حذف صورة الغرفة",
+      "roomAmenityDeleted": "حذف مرفق الغرفة",
+      "facilityDeleted": "حذف المرفق",
+      "facilityPhotoDeleted": "حذف صورة المرفق",
+      "ticketDeleted": "حذف التذكرة",
+      "ticketCommentDeleted": "حذف تعليق التذكرة",
+      "paymentLogDeleted": "حذف سجل الدفع"
+    },
+    "entityTypes": {
+      "plan": "الخطة",
+      "room": "الغرفة",
+      "roomType": "نوع الغرفة",
+      "roomPhoto": "صورة الغرفة",
+      "roomAmenity": "مرفق الغرفة",
+      "facility": "المرفق",
+      "facilityPhoto": "صورة المرفق",
+      "ticket": "التذكرة",
+      "ticketComment": "تعليق التذكرة",
+      "paymentLog": "سجل الدفع"
     }
   },
   "agencies": {

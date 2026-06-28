@@ -1,6 +1,6 @@
 'use client'
 
-import { Autocomplete, Box, Button, MenuItem, Pagination, Select, Stack, TextField, Typography } from '@mui/material'
+import { Autocomplete, Box, Button, MenuItem, Pagination, Select, Stack, TextField, Tooltip, Typography } from '@mui/material'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
@@ -12,6 +12,8 @@ import SearchInput from '@/components/common/SearchInput'
 import { SystemLogsFeed } from './SystemLogsFeed'
 import { ACTION_OPTIONS, ENTITY_TYPE_OPTIONS, PAGE_SIZE_OPTIONS } from '../constants/systemLogsConstants'
 import { useSystemLogs } from '../hooks/useSystemLogs'
+import { getActionLabel } from '../utils/actionLabel'
+import { getEntityTypeLabel } from '../utils/entityTypeLabel'
 import { FiltersCard } from '../styles/StyledComponents'
 
 export function SystemLogsPage() {
@@ -60,7 +62,11 @@ export function SystemLogsPage() {
                 size='small'
                 options={ACTION_OPTIONS}
                 value={filters.action || null}
-                onInputChange={(_, value) => updateFilter('action', value)}
+                getOptionLabel={option => getActionLabel(option, t)}
+                onChange={(_, value) => updateFilter('action', value ?? '')}
+                onInputChange={(_, value, reason) => {
+                  if (reason === 'input') updateFilter('action', value)
+                }}
                 renderInput={params => (
                   <TextField {...params} label={t('systemLogs.filters.action', { defaultValue: 'Action' })} />
                 )}
@@ -71,20 +77,26 @@ export function SystemLogsPage() {
                 size='small'
                 options={ENTITY_TYPE_OPTIONS}
                 value={filters.entityType || null}
-                onInputChange={(_, value) => updateFilter('entityType', value)}
+                getOptionLabel={option => getEntityTypeLabel(option, t)}
+                onChange={(_, value) => updateFilter('entityType', value ?? '')}
+                onInputChange={(_, value, reason) => {
+                  if (reason === 'input') updateFilter('entityType', value)
+                }}
                 renderInput={params => (
                   <TextField {...params} label={t('systemLogs.filters.entityType', { defaultValue: 'Entity Type' })} />
                 )}
                 sx={{ width: { xs: '100%', md: 180 } }}
               />
-              <TextField
-                size='small'
-                type='number'
-                label={t('systemLogs.filters.actorId', { defaultValue: 'Actor ID' })}
-                value={filters.actorId}
-                onChange={e => updateFilter('actorId', e.target.value)}
-                sx={{ width: { xs: '100%', md: 120 } }}
-              />
+              <Tooltip title={t('systemLogs.filters.actorId', { defaultValue: 'Actor ID' })}>
+                <TextField
+                  size='small'
+                  type='number'
+                  label={t('systemLogs.filters.actorId', { defaultValue: 'Actor ID' })}
+                  value={filters.actorId}
+                  onChange={e => updateFilter('actorId', e.target.value)}
+                  sx={{ width: { xs: '100%', md: 120 } }}
+                />
+              </Tooltip>
             </Stack>
 
             <Stack

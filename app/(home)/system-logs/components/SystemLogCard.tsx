@@ -6,6 +6,9 @@ import { useTranslation } from 'react-i18next'
 import Icon from '@/components/icon/Icon'
 import { formatLogDateTime } from '../utils/dateFormat'
 import { getActionTypeConfig, resolveActionTypePalette } from '../utils/getActionTypeConfig'
+import { getActionLabel } from '../utils/actionLabel'
+import { getActorRoleLabel } from '../utils/actorRoleLabel'
+import { getEntityTypeLabel } from '../utils/entityTypeLabel'
 import { ActionTypeAvatar, ActionTypeChip, LogCard as StyledLogCard } from '../styles/StyledComponents'
 import { LogDataColumn } from './LogDataColumn'
 import type { SystemLogItem } from '../types/systemLog'
@@ -16,7 +19,7 @@ interface SystemLogCardProps {
 
 export function SystemLogCard({ log }: SystemLogCardProps) {
   const theme = useTheme()
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const actionConfig = getActionTypeConfig(log.action)
   const palette = resolveActionTypePalette(theme, actionConfig.color)
 
@@ -33,11 +36,11 @@ export function SystemLogCard({ log }: SystemLogCardProps) {
               {log.actorName}
             </Typography>
             <Typography variant='caption' color='text.secondary'>
-              {log.actorRole}
+              {getActorRoleLabel(log.actorRole)}
             </Typography>
           </Stack>
           <ActionTypeChip
-            label={log.action.replace(/_/g, ' ')}
+            label={getActionLabel(log.action, t)}
             size='small'
             color={actionConfig.color === 'grey' ? 'default' : actionConfig.color}
           />
@@ -49,10 +52,10 @@ export function SystemLogCard({ log }: SystemLogCardProps) {
 
         <Stack direction='row' alignItems='center' justifyContent='space-between' sx={{ pl: 7 }}>
           <Typography variant='caption'>
-            {log.entityType}
+            {getEntityTypeLabel(log.entityType, t)}
           </Typography>
           <Typography variant='caption'>
-            {formatLogDateTime(log.createdAt)}
+            {formatLogDateTime(log.createdAt, t, i18n.language)}
           </Typography>
         </Stack>
       </Stack>
@@ -68,7 +71,7 @@ export function SystemLogCard({ log }: SystemLogCardProps) {
             {log.actorName}
           </Typography>
           <Typography variant='caption' color='text.secondary' noWrap>
-            {log.actorRole}
+            {getActorRoleLabel(log.actorRole)}
           </Typography>
         </Stack>
 
@@ -83,17 +86,21 @@ export function SystemLogCard({ log }: SystemLogCardProps) {
 
         <ActionTypeChip
           $desktop
-          label={log.action.replace(/_/g, ' ')}
+          label={getActionLabel(log.action, t)}
           size='small'
           color={actionConfig.color === 'grey' ? 'default' : actionConfig.color}
         />
 
 
-        <LogDataColumn label={t('systemLogs.table.entityType', { defaultValue: 'Entity Type' })} value={log.entityType} width={130} />
+        <LogDataColumn
+          label={t('systemLogs.table.entityType', { defaultValue: 'Entity Type' })}
+          value={getEntityTypeLabel(log.entityType, t)}
+          width={130}
+        />
 
         <LogDataColumn
           label={t('systemLogs.table.date', { defaultValue: 'Date' })}
-          value={formatLogDateTime(log.createdAt)}
+          value={formatLogDateTime(log.createdAt, t, i18n.language)}
           align='right'
           width={150}
         />
