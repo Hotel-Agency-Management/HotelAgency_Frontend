@@ -12,6 +12,10 @@ export interface StackedBarChartProps extends BaseChartProps {
   series: MultiSeriesItem[]
   labels: string[]
   borderRadius?: number
+  /** Normalize each bar to 100% (100% stacked bar chart) */
+  normalized?: boolean
+  /** Number of rows in x-axis tick labels (increases bottom margin per extra row) */
+  labelRows?: number
 }
 
 /**
@@ -31,13 +35,25 @@ export default function StackedBarChart({
   showLegend = true,
   percentage = false,
   percentageData,
+  normalized = false,
+  labelRows = 1,
 }: StackedBarChartProps) {
   const chartColors = useChartColors(colors)
   const { hiddenLabels, toggle } = useSeriesToggle()
 
   const rawMatrix = series.map(s => s.data)
+
+  // For normalized mode, convert each column to its % share of the column total
+  const colTotals = normalized
+    ? labels.map((_, ci) => rawMatrix.reduce((sum, row) => sum + (row[ci] ?? 0), 0))
+    : []
+  const normalizedMatrix = normalized
+    ? rawMatrix.map(row => row.map((v, ci) => colTotals[ci] ? Math.round((v / colTotals[ci]) * 100) : 0))
+    : rawMatrix
+
+  const maxRawValue = Math.max(...rawMatrix.flat(), 0)
   const calculatedPercentages =
-    percentage && !percentageData ? calculateMultiSeriesPercentages(rawMatrix) : undefined
+    percentage && !percentageData && !normalized ? calculateMultiSeriesPercentages(rawMatrix) : undefined
 
   const muiSeries = series.map((s, si) => {
     const seriesPercentages = calculatedPercentages?.[si]
@@ -45,6 +61,7 @@ export default function StackedBarChart({
 
     const valueFormatter = (value: number | null, context: { dataIndex: number }) => {
       if (value === null) return ''
+      if (normalized) return `${value}%`
       if (percentageData) {
         const pct = percentageData[flatOffset + context.dataIndex] ?? 0
         return `${value} (${pct}%)`
@@ -57,7 +74,7 @@ export default function StackedBarChart({
     }
 
     return {
-      data: s.data,
+      data: normalizedMatrix[si],
       label: s.label,
       stack: 'total',
       color: chartColors[si % chartColors.length],
@@ -81,10 +98,11 @@ export default function StackedBarChart({
       <MuiBarChart
         series={visibleSeries}
         xAxis={[{ data: labels, scaleType: 'band' }]}
+        yAxis={normalized ? [{ min: 0, max: 100 }] : [{ min: 0, max: maxRawValue > 0 ? undefined : 1, tickMinStep: 1 }]}
         height={height}
         borderRadius={borderRadius}
         hideLegend
-        margin={{ top: 16, right: 16, bottom: 40, left: 52 }}
+        margin={{ top: 16, right: labelRows > 1 ? 52 : 16, bottom: 40 + (labelRows - 1) * 20, left: 52 }}
       />
     </Box>
   )

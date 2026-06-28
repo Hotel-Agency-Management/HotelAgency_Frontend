@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next'
 import LineChart from '@/components/charts/LineChart'
 import BarChart from '@/components/charts/BarChart'
 import { REVPAR_DATA, MONTHS } from '../data/propertyManagerDashboardMock'
+import { translateMonthLabels } from '@/core/utils/translateMonthLabel'
 import { useRevenueTrend } from '../hooks/queries/useStatistic'
 
 interface RevenueFinanceSectionProps {
@@ -34,7 +35,7 @@ export default function RevenueFinanceSection({ hotelId }: RevenueFinanceSection
                     data: revenueTrendItems.map(item => item.revenue),
                   },
                 ]}
-                labels={revenueTrendItems.map(item => item.label)}
+                labels={translateMonthLabels(revenueTrendItems.map(item => item.label), t)}
                 height={240}
                 showLegend={false}
                 percentage
@@ -44,7 +45,7 @@ export default function RevenueFinanceSection({ hotelId }: RevenueFinanceSection
         </Card>
       </Grid>
 
-      //TODO: replace mock data with real API data when available
+      {/* TODO: replace mock data with real API data when available */}
       <Grid size={{ xs: 12 }}>
         <Card variant="outlined">
           <CardContent>
@@ -52,7 +53,7 @@ export default function RevenueFinanceSection({ hotelId }: RevenueFinanceSection
               <Typography variant="h6">{t('dashboard.propertyManager.charts.revpar', { defaultValue: 'Revenue per Available Room' })}</Typography>
               <BarChart
                 data={REVPAR_DATA}
-                labels={MONTHS}
+                labels={translateMonthLabels(MONTHS, t)}
                 height={240}
                 percentage
               />

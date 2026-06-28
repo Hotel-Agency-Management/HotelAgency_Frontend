@@ -1,9 +1,11 @@
 import { fromNow } from "@/core/utils/Dateutils";
 import { TableRow, TableCell, Stack, Typography, Chip } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import { STATUS_COLOR } from "../constants/agencyTable";
 import { LatestAgency } from "../types/dashboardTypes";
 
 export function AgencyRow({ agency }: { agency: LatestAgency }) {
+  const { i18n } = useTranslation()
   return (
     <TableRow hover>
       <TableCell>
@@ -32,7 +34,7 @@ export function AgencyRow({ agency }: { agency: LatestAgency }) {
       </TableCell>
       <TableCell>
         <Typography variant="caption" color="text.secondary">
-          {fromNow(agency.createdAt)}
+          {fromNow(agency.createdAt, i18n.language)}
         </Typography>
       </TableCell>
     </TableRow>

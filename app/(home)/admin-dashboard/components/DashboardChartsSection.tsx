@@ -20,6 +20,7 @@ import {
   useAdminAgencyStatusBreakdown,
   useAdminGrowthData,
 } from '../hooks/queries/useAdminStatistic'
+import { translateMonthLabel } from '@/core/utils/translateMonthLabel'
 
 export default function DashboardChartsSection() {
   const theme = useTheme();
@@ -47,7 +48,7 @@ export default function DashboardChartsSection() {
   }
 
   const revenueData = revenueQuery.data?.revenue ?? [];
-  const revenueChartLabels = revenueData.map(item => item.month);
+  const revenueChartLabels = revenueData.map(item => translateMonthLabel(item.month, t));
   const revenueChartData = revenueData.map(item => item.amount);
 
   const planDistributionData = (planDistributionQuery.data?.breakdown ?? []).map(item => ({
@@ -61,7 +62,7 @@ export default function DashboardChartsSection() {
   }));
 
   const growthData = growthQuery.data?.growth ?? [];
-  const growthChartLabels = growthData.map(item => item.month);
+  const growthChartLabels = growthData.map(item => translateMonthLabel(item.month, t));
   const growthChartData = growthData.map(item => item.count);
 
   return (
@@ -79,6 +80,7 @@ export default function DashboardChartsSection() {
               color={colors[1]}
               percentage={true}
               height={220}
+              labelRows={2}
             />
             </Stack>
           </CardContent>
@@ -97,6 +99,8 @@ export default function DashboardChartsSection() {
               colors={colors}
               height={220}
               percentage
+              legendPosition='bottom'
+              legendAlign='center'
             />
             </Stack>
           </CardContent>
@@ -115,6 +119,8 @@ export default function DashboardChartsSection() {
               colors={colors}
               height={220}
               percentage
+              legendPosition='bottom'
+              legendAlign='center'
             />
             </Stack>
           </CardContent>
@@ -134,6 +140,7 @@ export default function DashboardChartsSection() {
               color={colors[1]}
               percentage={true}
               height={220}
+              labelRows={2}
             />
             </Stack>
           </CardContent>

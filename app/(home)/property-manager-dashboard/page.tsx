@@ -13,11 +13,11 @@ import OperationsSection from './components/OperationsSection'
 
 export default function PropertyManagerDashboardPage() {
   const { user } = useAuth()
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const numericHotelId = user?.hotelId ? Number(user.hotelId) : undefined
   const hotelId = Number.isFinite(numericHotelId) ? numericHotelId : undefined
 
-  const today = new Date().toLocaleDateString('en-GB', {
+  const today = new Date().toLocaleDateString(i18n.language, {
     weekday: 'long',
     day: 'numeric',
     month: 'long',

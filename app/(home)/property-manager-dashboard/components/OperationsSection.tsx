@@ -7,7 +7,6 @@ import Typography from '@mui/material/Typography'
 import Stack from '@mui/material/Stack'
 import { useTranslation } from 'react-i18next'
 import DoughnutChart from '@/components/charts/DoughnutChart'
-import HorizontalBarChart from '@/components/charts/HorizontalBarChart'
 import {
   useReservationStatusDistribution,
   useReservationTypeDistribution,
@@ -33,14 +32,13 @@ export default function OperationsSection({ hotelId }: OperationsSectionProps) {
               <Typography variant="h6">{t('dashboard.propertyManager.charts.reservationStatusDistribution', { defaultValue: 'Reservation Status Distribution' })}</Typography>
               <DoughnutChart
                 data={reservationStatusItems.map(item => ({
-                  label: item.status,
+                  label: t(`dashboard.propertyManager.reservationStatus.${item.status}`, { defaultValue: item.status }),
                   value: item.count,
                 }))}
                 percentageData={reservationStatusItems.map(item => item.percentage)}
                 percentage
                 innerRadius={60}
-                paddingAngle={3}
-                cornerRadius={4}
+
                 height={260}
                 legendPosition="bottom"
                 legendAlign="center"
@@ -55,11 +53,18 @@ export default function OperationsSection({ hotelId }: OperationsSectionProps) {
           <CardContent>
             <Stack spacing={2}>
               <Typography variant="h6">{t('dashboard.propertyManager.charts.bookingTypesDistribution', { defaultValue: 'Booking Types Distribution' })}</Typography>
-              <HorizontalBarChart
-                data={reservationTypeItems.map(item => item.count)}
-                labels={reservationTypeItems.map(item => item.type)}
+              <DoughnutChart
+                data={reservationTypeItems.map(item => ({
+                  label: t(`dashboard.propertyManager.reservationType.${item.type}`, { defaultValue: item.type }),
+                  value: item.count,
+                }))}
                 percentageData={reservationTypeItems.map(item => item.percentage)}
                 percentage
+                innerRadius={60}
+
+                height={260}
+                legendPosition="bottom"
+                legendAlign="center"
               />
             </Stack>
           </CardContent>

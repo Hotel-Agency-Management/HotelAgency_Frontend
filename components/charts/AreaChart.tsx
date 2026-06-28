@@ -11,6 +11,8 @@ import type { BaseChartProps, MultiSeriesItem } from './types'
 export interface AreaChartProps extends BaseChartProps {
   series: MultiSeriesItem[]
   labels: string[]
+  /** Number of rows in x-axis tick labels (increases bottom margin per extra row) */
+  labelRows?: number
 }
 
 /**
@@ -28,7 +30,8 @@ export default function AreaChart({
   colors,
   showLegend = true,
   percentage = false,
-  percentageData
+  percentageData,
+  labelRows = 1,
 }: AreaChartProps) {
   const chartColors = useChartColors(colors)
   const { hiddenLabels, toggle } = useSeriesToggle()
@@ -79,7 +82,7 @@ export default function AreaChart({
         xAxis={[{ data: labels, scaleType: 'point' }]}
         height={height}
         hideLegend
-        margin={{ top: 16, right: 16, bottom: 40, left: 52 }}
+        margin={{ top: 16, right: labelRows > 1 ? 52 : 16, bottom: 40 + (labelRows - 1) * 20, left: 52 }}
       />
     </Box>
   )

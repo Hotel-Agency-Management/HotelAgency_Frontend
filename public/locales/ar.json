@@ -68,7 +68,21 @@
     "cancel": "إلغاء",
     "yes": "نعم",
     "no": "لا",
-    "comparedToLastWeek": "مقارنة بالأسبوع الماضي"
+    "comparedToLastWeek": "مقارنة بالأسبوع الماضي",
+    "months": {
+      "Jan": "يناير",
+      "Feb": "فبراير",
+      "Mar": "مارس",
+      "Apr": "أبريل",
+      "May": "مايو",
+      "Jun": "يونيو",
+      "Jul": "يوليو",
+      "Aug": "أغسطس",
+      "Sep": "سبتمبر",
+      "Oct": "أكتوبر",
+      "Nov": "نوفمبر",
+      "Dec": "ديسمبر"
+    }
   },
   "validation": {
     "invalidEmail": "عنوان البريد الإلكتروني غير صالح",
@@ -584,7 +598,28 @@
         "roomStatusDistribution": "توزيع حالة الغرف",
         "housekeepingTasksByStatus": "مهام التدبير المنزلي حسب الحالة",
         "serviceRequestsDistribution": "توزيع طلبات الخدمة",
-        "maintenanceByCategory": "الصيانة حسب الفئة"
+        "maintenanceByCategory": "الصيانة حسب الفئة",
+        "reservationStatusDistribution": "توزيع حالة الحجوزات",
+        "bookingTypesDistribution": "توزيع أنواع الحجوزات"
+      },
+      "roomStatus": {
+        "OutOfService": "خارج الخدمة",
+        "Maintenance": "صيانة",
+        "Cleaning": "تنظيف",
+        "Available": "متاح"
+      },
+      "reservationStatus": {
+        "Pending": "معلق",
+        "Confirmed": "مؤكد",
+        "CheckedIn": "تم الدخول",
+        "CheckedOut": "تم الخروج",
+        "Cancelled": "ملغى"
+      },
+      "reservationType": {
+        "Online": "أونلاين",
+        "OTA": "وكالة سفر إلكترونية",
+        "Phone": "هاتف",
+        "Walk-in": "حضور مباشر"
       },
       "stats": {
         "occupancyRate": {
@@ -606,6 +641,22 @@
           "title": "الصيانة المعلقة",
           "subtitle": "أوامر عمل مفتوحة",
           "trend": "-3 تم حلها اليوم"
+        },
+        "totalReservations": {
+          "title": "إجمالي الحجوزات",
+          "subtitle": "جميع الحجوزات"
+        },
+        "todayCheckIns": {
+          "title": "تسجيلات الدخول اليوم",
+          "subtitle": "الوصول اليوم"
+        },
+        "todayCheckOuts": {
+          "title": "تسجيلات الخروج اليوم",
+          "subtitle": "المغادرة اليوم"
+        },
+        "pendingReservations": {
+          "title": "الحجوزات المعلقة",
+          "subtitle": "بانتظار التأكيد"
         }
       }
     },

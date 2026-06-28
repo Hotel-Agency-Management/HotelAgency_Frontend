@@ -11,6 +11,8 @@ export interface BarChartProps extends BaseChartProps {
   labels: string[]
   color?: string
   borderRadius?: number
+  /** Number of rows in x-axis tick labels (increases bottom margin per extra row) */
+  labelRows?: number
 }
 
 /**
@@ -29,11 +31,13 @@ export default function BarChart({
   colors,
   showLegend = false,
   percentage = false,
-  percentageData
+  percentageData,
+  labelRows = 1,
 }: BarChartProps) {
   const chartColors = useChartColors(colors)
   const resolvedColor = color ?? chartColors[1]
 
+  const maxValue = Math.max(...data, 0)
   const calculatedPercentages = percentage && !percentageData ? calculatePercentages(data) : undefined
 
   const activePercentages = percentageData ?? calculatedPercentages
@@ -58,10 +62,11 @@ export default function BarChart({
           }
         ]}
         xAxis={[{ data: labels, scaleType: 'band', categoryGapRatio: 0.4 }]}
+        yAxis={[{ min: 0, max: maxValue > 0 ? undefined : 1, tickMinStep: 1 }]}
         height={height}
         borderRadius={borderRadius}
         hideLegend={!showLegend}
-        margin={{ top: 16, right: 16, bottom: 40, left: 52 }}
+        margin={{ top: 16, right: labelRows > 1 ? 52 : 16, bottom: 40 + (labelRows - 1) * 20, left: 52 }}
       />
     </Box>
   )

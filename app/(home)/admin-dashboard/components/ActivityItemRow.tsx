@@ -9,7 +9,7 @@ import { fromNow } from "@/core/utils/Dateutils";
 
 export function ActivityItemRow({ item }: { item: SystemLogItem }) {
   const theme = useTheme();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const config = getActionTypeConfig(item.action);
 
   return (
@@ -49,7 +49,7 @@ export function ActivityItemRow({ item }: { item: SystemLogItem }) {
       </Box>
 
       <Typography variant="caption" color="text.disabled" flexShrink={0}>
-        {fromNow(item.createdAt)}
+        {fromNow(item.createdAt, i18n.language)}
       </Typography>
     </Stack>
   );

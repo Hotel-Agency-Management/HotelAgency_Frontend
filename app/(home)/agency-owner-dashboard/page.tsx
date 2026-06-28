@@ -11,9 +11,9 @@ import OccupancyBookingSection from './components/OccupancyBookingSection'
 import HotelPerformanceSection from './components/HotelPerformanceSection'
 
 export default function AgencyOwnerDashboardPage() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
 
-  const today = new Date().toLocaleDateString('en-GB', {
+  const today = new Date().toLocaleDateString(i18n.language, {
     weekday: 'long',
     day: 'numeric',
     month: 'long',

@@ -8,8 +8,9 @@ import Stack from '@mui/material/Stack'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '@/core/context/AuthContext'
 import LineChart from '@/components/charts/LineChart'
-import ClusteredBarChart from '@/components/charts/ClusteredBarChart'
+import StackedBarChart from '@/components/charts/StackedBarChart'
 import { useProfitAndExpenseTrends, useRevenueTrends } from '../hooks/queries/useStatisticQueries'
+import { buildMonthYearLabels } from '@/core/utils/translateMonthLabel'
 
 export default function RevenueFinanceSection() {
   const { t } = useTranslation()
@@ -35,9 +36,10 @@ export default function RevenueFinanceSection() {
                     data: revenueTrendData.map(item => item.revenue),
                   },
                 ]}
-                labels={revenueTrendData.map(item => `${item.month} ${item.year}`)}
+                labels={buildMonthYearLabels(revenueTrendData, t)}
                 height={260}
                 percentage
+                labelRows={2}
               />
             </Stack>
           </CardContent>
@@ -49,7 +51,7 @@ export default function RevenueFinanceSection() {
           <CardContent>
             <Stack spacing={2}>
               <Typography variant="h6">{t('dashboard.agencyOwner.charts.profitVsExpenses', { defaultValue: 'Profit vs Expenses' })}</Typography>
-              <ClusteredBarChart
+              <StackedBarChart
                 series={[
                   {
                     label: t('dashboard.agencyOwner.chartSeries.profit', { defaultValue: 'Profit' }),
@@ -60,12 +62,11 @@ export default function RevenueFinanceSection() {
                     data: profitExpenseData.map(item => item.expenses),
                   },
                 ]}
-                labels={profitExpenseData.map(item => `${item.month} ${item.year}`)}
+                labels={buildMonthYearLabels(profitExpenseData, t)}
                 height={260}
                 showLegend
-                percentage
-                legendPosition='bottom'
-                legendAlign="center"
+                normalized
+                labelRows={2}
               />
             </Stack>
           </CardContent>

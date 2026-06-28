@@ -45,17 +45,18 @@ export default function OccupancyBookingSection() {
         </Card>
       </Grid>
 
-      <Grid size={{ xs: 12, md: 8 }} >
+      <Grid size={{ xs: 12, md: 6 }} >
         <Card variant="outlined" sx={{ width: '100%' }}>
           <CardContent>
             <Stack spacing={2}>
               <Typography variant="h6">{t('dashboard.agencyOwner.charts.reservationsStatusDistribution', { defaultValue: 'Reservations Status Distribution' })}</Typography>
               <DoughnutChart
-                data={statusDistributionData.map(item => ({ label: item.status, value: item.count }))}
+                data={statusDistributionData.map(item => ({
+                  label: t(`dashboard.propertyManager.reservationStatus.${item.status}`, { defaultValue: item.status }),
+                  value: item.count,
+                }))}
                 percentageData={statusDistributionData.map(item => item.percentage)}
                 innerRadius={60}
-                paddingAngle={3}
-                cornerRadius={4}
                 height={260}
                 legendPosition="bottom"
                 legendAlign="center"
@@ -65,17 +66,18 @@ export default function OccupancyBookingSection() {
         </Card>
       </Grid>
 
-      <Grid size={{ xs: 12, md: 4 }} display="flex">
+      <Grid size={{ xs: 12, md: 6 }} display="flex">
         <Card variant="outlined" sx={{ width: '100%' }}>
           <CardContent>
             <Stack spacing={2}>
               <Typography variant="h6">{t('dashboard.agencyOwner.charts.bookingTypesDistribution', { defaultValue: 'Booking Types Distribution' })}</Typography>
               <DoughnutChart
-                data={bookingDistributionData.map(item => ({ label: item.type, value: item.count }))}
+                data={bookingDistributionData.map(item => ({
+                  label: t(`dashboard.propertyManager.reservationType.${item.type}`, { defaultValue: item.type }),
+                  value: item.count,
+                }))}
                 percentageData={bookingDistributionData.map(item => item.percentage)}
                 innerRadius={60}
-                paddingAngle={3}
-                cornerRadius={4}
                 height={260}
                 legendPosition="bottom"
                 legendAlign="center"

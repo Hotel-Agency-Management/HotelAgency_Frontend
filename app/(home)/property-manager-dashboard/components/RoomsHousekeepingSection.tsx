@@ -32,14 +32,13 @@ export default function RoomsHousekeepingSection({ hotelId }: RoomsHousekeepingS
               <Typography variant="h6">{t('dashboard.propertyManager.charts.roomStatusDistribution', { defaultValue: 'Room Status Distribution' })}</Typography>
               <DoughnutChart
                 data={roomStatusItems.map(item => ({
-                  label: item.status,
+                  label: t(`dashboard.propertyManager.roomStatus.${item.status}`, { defaultValue: item.status }),
                   value: item.count,
                 }))}
                 percentageData={roomStatusItems.map(item => item.percentage)}
                 percentage
                 innerRadius={60}
-                paddingAngle={3}
-                cornerRadius={4}
+
                 height={260}
                 legendPosition="bottom"
                 legendAlign="center"
@@ -49,7 +48,7 @@ export default function RoomsHousekeepingSection({ hotelId }: RoomsHousekeepingS
         </Card>
       </Grid>
 
-      //TODO: replace mock data with real API data when available
+      {/* TODO: replace mock data with real API data when available */}
       <Grid size={{ xs: 12, md: 6 }} >
         <Card variant="outlined" sx={{ width: '100%', height: '100%' }}>
           <CardContent>
