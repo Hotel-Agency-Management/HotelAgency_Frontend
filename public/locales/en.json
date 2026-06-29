@@ -651,6 +651,69 @@
           "title": "Cash Balance"
         }
       }
+    },
+    "housekeepingManager": {
+      "title": "Housekeeping Dashboard",
+      "sections": {
+        "kpi": "Key Metrics",
+        "ticketOverview": "Ticket Overview",
+        "ticketBreakdown": "Ticket Breakdown"
+      },
+      "stats": {
+        "activeTickets": {
+          "title": "Active Tickets"
+        },
+        "overdueTickets": {
+          "title": "Overdue Tickets"
+        },
+        "highPriorityTickets": {
+          "title": "High Priority Tickets"
+        },
+        "completionRate": {
+          "title": "Completion Rate"
+        },
+        "loadError": "Failed to load KPI data"
+      },
+      "overview": {
+        "loadError": "Failed to load ticket overview"
+      },
+      "breakdown": {
+        "loadError": "Failed to load ticket breakdown"
+      },
+      "charts": {
+        "ticketStatusDistribution": "Ticket Status Distribution",
+        "ticketCompletionRate": "Ticket Completion Rate",
+        "openTicketsOverTime": "Open Tickets Over Time",
+        "openTicketsSeries": "Open Tickets",
+        "ticketsByType": "Tickets by Type",
+        "ticketsByPriority": "Tickets by Priority"
+      },
+      "heatmap": {
+        "openLabel": "open",
+        "days": {
+          "sun": "Sun",
+          "mon": "Mon",
+          "tue": "Tue",
+          "wed": "Wed",
+          "thu": "Thu",
+          "fri": "Fri",
+          "sat": "Sat"
+        },
+        "months": {
+          "jan": "Jan",
+          "feb": "Feb",
+          "mar": "Mar",
+          "apr": "Apr",
+          "may": "May",
+          "jun": "Jun",
+          "jul": "Jul",
+          "aug": "Aug",
+          "sep": "Sep",
+          "oct": "Oct",
+          "nov": "Nov",
+          "dec": "Dec"
+        }
+      }
     }
   },
   "nav": {
@@ -666,7 +729,8 @@
       "reservations": "Reservations",
       "bookings": "Bookings",
       "damageReports": "Damage Reports",
-      "systemLogs": "Activity Log"
+      "systemLogs": "Activity Log",
+      "dashboards": "Dashboards"
     },
     "items": {
       "dashboard": "Dashboard",
@@ -693,7 +757,13 @@
       "createReservation": "Create Reservation",
       "adminReservations": "Admin Reservations",
       "createAdminReservation": "Create Admin Reservation",
-      "damageReports": "Damage Reports"
+      "damageReports": "Damage Reports",
+      "superAdminDashboard": "Super Admin Dashboard",
+      "agencyDashboard": "Agency Dashboard",
+      "propertyManagerDashboard": "Property Manager Dashboard",
+      "frontDeskDashboard": "Front Desk Dashboard",
+      "accountantDashboard": "Accountant Dashboard",
+      "housekeepingManagerDashboard": "Housekeeping Dashboard"
     }
   },
   "systemLogs": {

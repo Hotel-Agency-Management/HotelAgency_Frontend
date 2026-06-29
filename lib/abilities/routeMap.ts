@@ -182,6 +182,13 @@ export const routePermissions: RoutePermission[] = [
     allowedRoles: [USER_ROLES.SUPER_ADMIN, USER_ROLES.AGENCY_OWNER, USER_ROLES.PROPERTY_MANAGER, USER_ROLES.ACCOUNTANT],
     description: 'Accountant dashboard — top 3 tiers + ACCOUNTANT'
   },
+  {
+    pattern: '/housekeeping-manager-dashboard',
+    action: 'read',
+    subject: 'Dashboard',
+    allowedRoles: [USER_ROLES.SUPER_ADMIN, USER_ROLES.AGENCY_OWNER, USER_ROLES.PROPERTY_MANAGER, USER_ROLES.HOUSEKEEPING_MANAGER],
+    description: 'Housekeeping Manager dashboard — top 3 tiers + HOUSEKEEPING_MANAGER'
+  },
 ]
 
 /**

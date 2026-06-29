@@ -686,6 +686,69 @@
           "title": "الرصيد النقدي"
         }
       }
+    },
+    "housekeepingManager": {
+      "title": "لوحة تحكم الغرف",
+      "sections": {
+        "kpi": "المؤشرات الرئيسية",
+        "ticketOverview": "نظرة عامة على التذاكر",
+        "ticketBreakdown": "تفصيل التذاكر"
+      },
+      "stats": {
+        "activeTickets": {
+          "title": "التذاكر النشطة"
+        },
+        "overdueTickets": {
+          "title": "التذاكر المتأخرة"
+        },
+        "highPriorityTickets": {
+          "title": "التذاكر عالية الأولوية"
+        },
+        "completionRate": {
+          "title": "معدل الإنجاز"
+        },
+        "loadError": "فشل تحميل بيانات المؤشرات"
+      },
+      "overview": {
+        "loadError": "فشل تحميل نظرة عامة التذاكر"
+      },
+      "breakdown": {
+        "loadError": "فشل تحميل تفصيل التذاكر"
+      },
+      "charts": {
+        "ticketStatusDistribution": "توزيع حالات التذاكر",
+        "ticketCompletionRate": "معدل إنجاز التذاكر",
+        "openTicketsOverTime": "التذاكر المفتوحة عبر الزمن",
+        "openTicketsSeries": "التذاكر المفتوحة",
+        "ticketsByType": "التذاكر حسب النوع",
+        "ticketsByPriority": "التذاكر حسب الأولوية"
+      },
+      "heatmap": {
+        "openLabel": "مفتوح",
+        "days": {
+          "sun": "أحد",
+          "mon": "اثنين",
+          "tue": "ثلاثاء",
+          "wed": "أربعاء",
+          "thu": "خميس",
+          "fri": "جمعة",
+          "sat": "سبت"
+        },
+        "months": {
+          "jan": "يناير",
+          "feb": "فبراير",
+          "mar": "مارس",
+          "apr": "أبريل",
+          "may": "مايو",
+          "jun": "يونيو",
+          "jul": "يوليو",
+          "aug": "أغسطس",
+          "sep": "سبتمبر",
+          "oct": "أكتوبر",
+          "nov": "نوفمبر",
+          "dec": "ديسمبر"
+        }
+      }
     }
   },
   "nav": {
@@ -701,7 +764,8 @@
       "reservations": "الحجوزات",
       "bookings": "الحجوزات",
       "damageReports": "تقارير الأضرار",
-      "systemLogs": "سجل النشاطات"
+      "systemLogs": "سجل النشاطات",
+      "dashboards": "لوحات التحكم"
     },
     "items": {
       "dashboard": "لوحة التحكم",
@@ -728,7 +792,13 @@
       "createReservation": "إنشاء حجز",
       "adminReservations": "حجوزات المشرف",
       "createAdminReservation": "إنشاء حجز مشرف",
-      "damageReports": "تقارير الأضرار"
+      "damageReports": "تقارير الأضرار",
+      "superAdminDashboard": "لوحة تحكم المشرف العام",
+      "agencyDashboard": "لوحة تحكم الوكالة",
+      "propertyManagerDashboard": "لوحة تحكم مدير العقارات",
+      "frontDeskDashboard": "لوحة تحكم الاستقبال",
+      "accountantDashboard": "لوحة تحكم المحاسب",
+      "housekeepingManagerDashboard": "لوحة تحكم الغرف"
     }
   },
   "systemLogs": {

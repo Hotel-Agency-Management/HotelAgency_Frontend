@@ -42,6 +42,12 @@ const navigation = (hotelId?: string, agencyId?: string, t?: TFunction): Sidebar
           icon: 'lucide:calculator',
           allowedRoles: [USER_ROLES.SUPER_ADMIN, USER_ROLES.AGENCY_OWNER, USER_ROLES.PROPERTY_MANAGER, USER_ROLES.ACCOUNTANT],
         },
+        {
+          title: T('nav.items.housekeepingManagerDashboard', 'Housekeeping Dashboard'),
+          path: '/housekeeping-manager-dashboard',
+          icon: 'lucide:brush',
+          allowedRoles: [USER_ROLES.SUPER_ADMIN, USER_ROLES.AGENCY_OWNER, USER_ROLES.PROPERTY_MANAGER, USER_ROLES.HOUSEKEEPING_MANAGER],
+        },
       ]
     },
     {
@@ -300,13 +306,6 @@ const navigation = (hotelId?: string, agencyId?: string, t?: TFunction): Sidebar
       subject: 'Housekeeping',
       action: 'manage',
       items: [
-        {
-          title: T('nav.items.dashboard', 'Dashboard'),
-          path: `/agency/hotels/${hotelId}/housekeeping`,
-          icon: 'lucide:layout-dashboard',
-          subject: 'Housekeeping',
-          action: 'manage'
-        },
         {
           title: T('nav.items.ticketManagement', 'Ticket Management'),
           path: `/agency/hotels/${hotelId}/housekeeping/tickets`,

@@ -6,6 +6,7 @@ import AgencyOwnerDashboardPage from '../../agency-owner-dashboard/page'
 import PropertyManagerDashboardPage from '../../property-manager-dashboard/page'
 import FrontDeskDashboardPage from '../../front-desk-dashboard/page'
 import AccountantDashboardPage from '../../accountant-dashboard/page'
+import HousekeepingManagerDashboardPage from '../../housekeeping-manager-dashboard/page'
 
 type HomePageComponent = ComponentType
 
@@ -15,6 +16,7 @@ const roleHomePageMap: Partial<Record<UserRole, HomePageComponent>> = {
   [USER_ROLES.PROPERTY_MANAGER]: PropertyManagerDashboardPage,
   [USER_ROLES.FRONT_DESK_STAFF]: FrontDeskDashboardPage,
   [USER_ROLES.ACCOUNTANT]: AccountantDashboardPage,
+  [USER_ROLES.HOUSEKEEPING_MANAGER]: HousekeepingManagerDashboardPage,
 }
 
 export const getHomePageComponent = (role?: UserRole): HomePageComponent =>

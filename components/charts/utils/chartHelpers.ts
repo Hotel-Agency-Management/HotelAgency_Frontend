@@ -48,13 +48,11 @@ export function calculateMultiSeriesPercentages(allSeriesData: number[][]): numb
  * Used by HeatmapChart to map cell values to colors.
  */
 export function interpolateColor(colorA: string, colorB: string, ratio: number): string {
-  const parse = (hex: string) => {
-    const h = hex.replace('#', '')
-    return [
-      parseInt(h.slice(0, 2), 16),
-      parseInt(h.slice(2, 4), 16),
-      parseInt(h.slice(4, 6), 16),
-    ]
+  const parse = (color: string): [number, number, number] => {
+    const rgb = color.match(/rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/)
+    if (rgb) return [Number(rgb[1]), Number(rgb[2]), Number(rgb[3])]
+    const hex = color.replace('#', '')
+    return [parseInt(hex.slice(0, 2), 16), parseInt(hex.slice(2, 4), 16), parseInt(hex.slice(4, 6), 16)]
   }
   const [r1, g1, b1] = parse(colorA)
   const [r2, g2, b2] = parse(colorB)
