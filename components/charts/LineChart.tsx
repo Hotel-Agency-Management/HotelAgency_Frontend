@@ -15,6 +15,8 @@ export interface LineChartProps extends BaseChartProps {
   labels: string[]
   legendPosition?: 'top' | 'bottom'
   legendAlign?: 'start' | 'center'
+  /** Number of rows in x-axis tick labels (increases bottom margin per extra row) */
+  labelRows?: number
 }
 
 /**
@@ -37,6 +39,7 @@ export default function LineChart({
   legendAlign = 'start',
   formatValue,
   curved = false,
+  labelRows = 1,
 }: LineChartProps) {
   const chartColors = useChartColors(colors)
   const { hiddenLabels, toggle } = useSeriesToggle()
@@ -92,7 +95,7 @@ export default function LineChart({
         yAxis={formatValue ? [{ valueFormatter: formatValue }] : undefined}
         height={height}
         hideLegend
-        margin={{ top: 16, right: 16, bottom: 40, left: formatValue ? 72 : 52 }}
+        margin={{ top: 16, right: labelRows > 1 ? 52 : 16, bottom: 40 + (labelRows - 1) * 20, left: formatValue ? 72 : 52 }}
       />
       {showLegend && legendPosition === 'bottom' && (
         <ChartLegend items={legendItems} hiddenLabels={hiddenLabels} onToggle={toggle} align={legendAlign} />

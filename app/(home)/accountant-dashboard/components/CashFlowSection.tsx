@@ -10,6 +10,7 @@ import ChartFactory from '@/components/charts/ChartFactory'
 import Spinner from '@/components/loaders/Spinner'
 import ErrorMessage from '@/components/ui/ErrorMessage'
 import { useBalanceTrend, useCashFlow } from '../hooks/queries/useAccountantStatistics'
+import { buildMonthYearLabels } from '@/core/utils/translateMonthLabel'
 import { LoadingBox } from '../styles/StyledComponents'
 
 interface CashFlowSectionProps {
@@ -54,15 +55,16 @@ export default function CashFlowSection({ hotelId }: CashFlowSectionProps) {
                 {t('dashboard.accountant.charts.incomingVsOutgoingCashFlow', { defaultValue: 'Incoming vs Outgoing Cash Flow' })}
               </Typography>
               <ChartFactory
-                type="Area"
+                type="StackedBar"
                 series={[
                   { label: 'Incoming', data: cashFlowItems.map(item => item.incoming) },
                   { label: 'Outgoing', data: cashFlowItems.map(item => item.outgoing) },
                 ]}
-                labels={cashFlowItems.map(item => item.month)}
+                labels={buildMonthYearLabels(cashFlowItems, t)}
                 height={260}
                 showLegend
-                percentage
+                normalized
+                labelRows={2}
               />
             </Stack>
           </CardContent>
@@ -79,10 +81,11 @@ export default function CashFlowSection({ hotelId }: CashFlowSectionProps) {
               <ChartFactory
                 type="Line"
                 series={[{ label: 'Balance', data: balanceTrendItems.map(item => item.balance) }]}
-                labels={balanceTrendItems.map(item => item.month)}
+                labels={buildMonthYearLabels(balanceTrendItems, t)}
                 height={260}
                 showLegend={false}
                 percentage
+                labelRows={2}
               />
             </Stack>
           </CardContent>

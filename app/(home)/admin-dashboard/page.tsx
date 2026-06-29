@@ -7,9 +7,9 @@ import { LatestAgenciesSection } from "./components/LatestAgenciesSection"
 import { RecentActivitySection } from "./components/RecentActivitySection"
 
 export default function SuperAdminDashboardPage() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
 
-  const today = new Date().toLocaleDateString("en-GB", {
+  const today = new Date().toLocaleDateString(i18n.language, {
     weekday: "long",
     day: "numeric",
     month: "long",

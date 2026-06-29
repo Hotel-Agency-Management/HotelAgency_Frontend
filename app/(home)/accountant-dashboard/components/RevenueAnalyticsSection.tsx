@@ -15,6 +15,7 @@ import {
   useRevenueExpenses,
   useRevenueGrowth,
 } from '../hooks/queries/useAccountantStatistics'
+import { buildMonthYearLabels } from '@/core/utils/translateMonthLabel'
 import { LoadingBox } from '../styles/StyledComponents'
 
 interface RevenueAnalyticsSectionProps {
@@ -71,15 +72,16 @@ export default function RevenueAnalyticsSection({ hotelId }: RevenueAnalyticsSec
               {t('dashboard.accountant.charts.revenueVsExpenses', { defaultValue: 'Revenue vs Expenses' })}
             </Typography>
             <ChartFactory
-              type="Area"
+              type="StackedBar"
               series={[
                 { label: 'Revenue', data: revenueExpensesItems.map(item => item.revenue) },
                 { label: 'Expenses', data: revenueExpensesItems.map(item => item.expenses) },
               ]}
-              labels={revenueExpensesItems.map(item => item.month)}
+              labels={buildMonthYearLabels(revenueExpensesItems, t)}
               height={280}
               showLegend
-              percentage
+              normalized
+              labelRows={2}
             />
           </Stack>
         </CardContent>

@@ -12,11 +12,11 @@ import CashFlowSection from './components/CashFlowSection'
 
 export default function AccountantDashboardPage() {
   const { user } = useAuth()
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
 
   const hotelId = user?.hotelId ? Number(user.hotelId) : undefined
 
-  const today = new Date().toLocaleDateString('en-GB', {
+  const today = new Date().toLocaleDateString(i18n.language, {
     weekday: 'long',
     day: 'numeric',
     month: 'long',

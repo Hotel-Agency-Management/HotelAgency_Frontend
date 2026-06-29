@@ -11,6 +11,8 @@ import HorizontalBarChart from '@/components/charts/HorizontalBarChart'
 import ClusteredBarChart from '@/components/charts/ClusteredBarChart'
 import { Stack } from '@mui/material'
 import themeConfig from '@/core/configs/themeConfig'
+import { useTranslation } from 'react-i18next'
+import { translateMonthLabels } from '@/core/utils/translateMonthLabel'
 
 // ---------------------------------------------------------------------------
 // Sample data
@@ -20,7 +22,7 @@ const subscriptionTrend = [5, 8, 6, 9, 12, 10, 14, 16, 18, 22]
 const orderTrend = [280, 310, 340, 330, 350, 360, 355, 340, 325, 320]
 const revenueTrend = [900, 940, 920, 960, 1000, 980, 1020, 1040, 1060, 1080]
 
-const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
 
 const revenueSeries = [
   { label: 'Online', data: [30, 40, 35, 55, 48, 72] },
@@ -48,6 +50,9 @@ const salesSeries = [
 // ---------------------------------------------------------------------------
 
 export default function AdminDashboard() {
+  const { t } = useTranslation()
+  const months = translateMonthLabels(MONTHS, t)
+
   return (
     <Container maxWidth='xl' sx={{ py: 4 }}>
       <Stack gap={themeConfig.common.commonSpacing}>

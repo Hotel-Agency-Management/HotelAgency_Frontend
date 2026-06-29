@@ -68,7 +68,21 @@
     "cancel": "Cancel",
     "yes": "Yes",
     "no": "No",
-    "comparedToLastWeek": "compared to last week"
+    "comparedToLastWeek": "compared to last week",
+    "months": {
+      "Jan": "Jan",
+      "Feb": "Feb",
+      "Mar": "Mar",
+      "Apr": "Apr",
+      "May": "May",
+      "Jun": "Jun",
+      "Jul": "Jul",
+      "Aug": "Aug",
+      "Sep": "Sep",
+      "Oct": "Oct",
+      "Nov": "Nov",
+      "Dec": "Dec"
+    }
   },
   "validation": {
     "invalidEmail": "Invalid email address",
@@ -549,7 +563,28 @@
         "roomStatusDistribution": "Room Status Distribution",
         "housekeepingTasksByStatus": "Housekeeping Tasks by Status",
         "serviceRequestsDistribution": "Service Requests Distribution",
-        "maintenanceByCategory": "Maintenance by Category"
+        "maintenanceByCategory": "Maintenance by Category",
+        "reservationStatusDistribution": "Reservation Status Distribution",
+        "bookingTypesDistribution": "Booking Types Distribution"
+      },
+      "roomStatus": {
+        "OutOfService": "Out of Service",
+        "Maintenance": "Maintenance",
+        "Cleaning": "Cleaning",
+        "Available": "Available"
+      },
+      "reservationStatus": {
+        "Pending": "Pending",
+        "Confirmed": "Confirmed",
+        "CheckedIn": "Checked In",
+        "CheckedOut": "Checked Out",
+        "Cancelled": "Cancelled"
+      },
+      "reservationType": {
+        "Online": "Online",
+        "OTA": "OTA",
+        "Phone": "Phone",
+        "Walk-in": "Walk-in"
       },
       "stats": {
         "occupancyRate": {
@@ -571,6 +606,22 @@
           "title": "Pending Maintenance",
           "subtitle": "Open work orders",
           "trend": "-3 resolved today"
+        },
+        "totalReservations": {
+          "title": "Total Reservations",
+          "subtitle": "All reservations"
+        },
+        "todayCheckIns": {
+          "title": "Today's Check-ins",
+          "subtitle": "Arrivals today"
+        },
+        "todayCheckOuts": {
+          "title": "Today's Check-outs",
+          "subtitle": "Departures today"
+        },
+        "pendingReservations": {
+          "title": "Pending Reservations",
+          "subtitle": "Awaiting confirmation"
         }
       }
     },
