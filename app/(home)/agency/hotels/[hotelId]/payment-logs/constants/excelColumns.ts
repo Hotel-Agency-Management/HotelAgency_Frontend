@@ -6,7 +6,7 @@ import type { PaymentLogExcelRow } from '../config/paymentLogsConfig'
 export function getExcelColumns(t: TFunction): Column<PaymentLogExcelRow>[] {
   return [
     {
-      ...keyColumn<PaymentLogExcelRow, 'direction'>('direction', textColumn),
+      ...keyColumn<PaymentLogExcelRow, 'transactionType'>('transactionType', textColumn),
       title: t('hotelPaymentLogs.excel.direction', 'Direction'),
       disabled: true,
       minWidth: 110,

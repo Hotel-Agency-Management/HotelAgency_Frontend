@@ -812,6 +812,36 @@
     "empty": {
       "title": "لا توجد أنشطة",
       "subtitle": "لا توجد سجلات تطابق عوامل التصفية الحالية."
+    },
+    "dateGroups": {
+      "today": "اليوم",
+      "yesterday": "الأمس",
+      "thisWeek": "هذا الأسبوع",
+      "lastWeek": "الأسبوع الماضي"
+    },
+    "actions": {
+      "planDeleted": "حذف الخطة",
+      "roomDeleted": "حذف الغرفة",
+      "roomTypeDeleted": "حذف نوع الغرفة",
+      "roomPhotoDeleted": "حذف صورة الغرفة",
+      "roomAmenityDeleted": "حذف مرفق الغرفة",
+      "facilityDeleted": "حذف المرفق",
+      "facilityPhotoDeleted": "حذف صورة المرفق",
+      "ticketDeleted": "حذف التذكرة",
+      "ticketCommentDeleted": "حذف تعليق التذكرة",
+      "paymentLogDeleted": "حذف سجل الدفع"
+    },
+    "entityTypes": {
+      "plan": "الخطة",
+      "room": "الغرفة",
+      "roomType": "نوع الغرفة",
+      "roomPhoto": "صورة الغرفة",
+      "roomAmenity": "مرفق الغرفة",
+      "facility": "المرفق",
+      "facilityPhoto": "صورة المرفق",
+      "ticket": "التذكرة",
+      "ticketComment": "تعليق التذكرة",
+      "paymentLog": "سجل الدفع"
     }
   },
   "agencies": {
@@ -1354,9 +1384,16 @@
   "hotelPaymentLogs": {
     "title": "سجلات الدفع",
     "subtitle": "تتبع جميع المعاملات الواردة والصادرة لهذا الفندق.",
-    "tabs": {
-      "incoming": "المدفوعات الواردة",
-      "outgoing": "النفقات الصادرة"
+    "filters": {
+      "search": "البحث بالاسم أو المرجع…",
+      "direction": "الاتجاه",
+      "type": "نوع الدفعة",
+      "all": "الكل",
+      "clear": "إزالة الفلاتر"
+    },
+    "directions": {
+      "Incoming": "وارد",
+      "Outgoing": "صادر"
     },
     "sortBy": "ترتيب حسب:",
     "sortOptions": {
@@ -1907,7 +1944,8 @@
       "priority": {
         "LOW": "منخفضة",
         "MEDIUM": "متوسطة",
-        "HIGH": "عالية"
+        "HIGH": "عالية",
+        "URGENT": "عاجلة"
       },
       "status": {
         "TO_DO": "للتنفيذ",
@@ -1922,12 +1960,21 @@
         "noActivity": "لا يوجد نشاط بعد",
         "addComment": "أضف تعليقاً...",
         "save": "حفظ",
+        "damageCost": "تكلفة الضرر",
+        "damageCostDisplay": "تكلفة الضرر: {{cost}}",
         "resolvedBody": "تم وضع علامة على التذكرة كمحلولة.",
         "damageReportedBody": "تم تقديم تقرير الضرر لهذه الغرفة.",
+        "types": {
+          "general": "عام",
+          "damage": "ضرر"
+        },
         "quickActions": {
           "looksGood": "يبدو جيداً!",
+          "looksGoodText": "يبدو جيداً! ✅",
           "needHelp": "تحتاج مساعدة؟",
-          "isBlocked": "هذا محظور..."
+          "needHelpText": "تحتاج مساعدة؟ 👋",
+          "isBlocked": "هذا محظور...",
+          "isBlockedText": "هذا محظور 🛑"
         },
         "actionTypes": {
           "Feedback": "ملاحظة",

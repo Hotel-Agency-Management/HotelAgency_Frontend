@@ -28,6 +28,8 @@ import { useVisibleTickets } from "../hooks/useVisibleTickets";
 import {
   useGetTicketBoard,
   useGetAdminTicketBoard,
+  useGetTicketById,
+  useGetAdminTicketById,
 } from "../hooks/queries/ticketQueries";
 import {
   useGetAdminTicketCommentCounts,
@@ -54,6 +56,21 @@ export function HousekeepingTicketsPage() {
   const [commentCountsByTicket, setCommentCountsByTicket] = useState<Record<string, number>>({});
 
   const scope = useTicketScope(hotelId, agencyId);
+
+  const detailTicketNumericId = detailTicket ? Number(detailTicket.id) : undefined;
+  const hotelDetailQuery = useGetTicketById(
+    scope.type === "hotel" ? scope.hotelId : undefined,
+    detailTicketNumericId
+  );
+  const adminDetailQuery = useGetAdminTicketById(
+    scope.type === "admin" ? scope.agencyId : undefined,
+    scope.type === "admin" ? scope.hotelId : undefined,
+    detailTicketNumericId
+  );
+  const fullTicketData = scope.type === "admin" ? adminDetailQuery.data : hotelDetailQuery.data;
+  const enrichedDetailTicket = detailTicket && fullTicketData
+    ? { ...detailTicket, description: fullTicketData.description }
+    : detailTicket;
 
   // ── Board queries ──────────────────────────────────────────────────────────
   const hotelBoard = useGetTicketBoard(
@@ -136,6 +153,27 @@ export function HousekeepingTicketsPage() {
     deleteTicket,
     moveTicket,
   } = ticketManager;
+
+  // ── Editing ticket full fetch (roomId / facilityId / description only in TicketResponse) ──
+  const editingTicketNumericId = editingTicket ? Number(editingTicket.id) : undefined;
+  const hotelEditQuery = useGetTicketById(
+    scope.type === "hotel" ? scope.hotelId : undefined,
+    editingTicketNumericId
+  );
+  const adminEditQuery = useGetAdminTicketById(
+    scope.type === "admin" ? scope.agencyId : undefined,
+    scope.type === "admin" ? scope.hotelId : undefined,
+    editingTicketNumericId
+  );
+  const editingFullData = scope.type === "admin" ? adminEditQuery.data : hotelEditQuery.data;
+  const enrichedEditingTicket = editingTicket && editingFullData
+    ? {
+        ...editingTicket,
+        description: editingFullData.description,
+        roomId: editingFullData.roomId != null ? String(editingFullData.roomId) : undefined,
+        facilityId: editingFullData.facilityId != null ? String(editingFullData.facilityId) : undefined,
+      }
+    : null;
 
   const {
     roomOptions,
@@ -247,12 +285,12 @@ export function HousekeepingTicketsPage() {
       </TicketsBoardSection>
 
       <CreateTicketDialog
-        open={isCreateDialogOpen}
+        open={isCreateDialogOpen && (!editingTicket || !!editingFullData)}
         employees={assignableEmployees}
         roomOptions={roomOptions}
         facilityOptions={facilityOptions}
         locationsLoading={locationsLoading}
-        initialValues={editingTicket}
+        initialValues={enrichedEditingTicket}
         onClose={handleCloseDialog}
         onCreate={handleSave}
       />
@@ -287,7 +325,7 @@ export function HousekeepingTicketsPage() {
       />
 
       <TicketDetailDrawer
-        ticket={detailTicket}
+        ticket={enrichedDetailTicket}
         getTicketLocationLabel={getTicketLocationLabel}
         comments={comments}
         onClose={() => setDetailTicket(null)}

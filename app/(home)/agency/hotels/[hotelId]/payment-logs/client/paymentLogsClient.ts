@@ -5,32 +5,18 @@ import type {
   PaymentLogsParams,
 } from '../config/paymentLogsConfig'
 
-const getIncomingPath = (hotelId: string) =>
-  `/hotels/${hotelId}/payment-logs/incoming`
-
-const getOutgoingPath = (hotelId: string) =>
-  `/hotels/${hotelId}/payment-logs/outgoing`
+const getPaymentLogsPath = (hotelId: string) =>
+  `/hotels/${hotelId}/payment-logs`
 
 const getDetailsPath = (hotelId: string, paymentLogId: number) =>
   `/hotels/${hotelId}/payment-logs/${paymentLogId}`
 
-export async function getIncomingPayments(
+export async function getPaymentLogs(
   hotelId: string,
   params?: PaymentLogsParams
 ): Promise<HotelPaymentLogsResponse> {
   const response = await apiClient.get<HotelPaymentLogsResponse>(
-    getIncomingPath(hotelId),
-    { params }
-  )
-  return response.data
-}
-
-export async function getOutgoingPayments(
-  hotelId: string,
-  params?: PaymentLogsParams
-): Promise<HotelPaymentLogsResponse> {
-  const response = await apiClient.get<HotelPaymentLogsResponse>(
-    getOutgoingPath(hotelId),
+    getPaymentLogsPath(hotelId),
     { params }
   )
   return response.data

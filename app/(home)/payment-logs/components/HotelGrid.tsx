@@ -11,12 +11,21 @@ import {
 } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import Icon from '@/components/icon/Icon'
-import type { CustomerHotel } from '@/app/(home)/hotels/types/customerHotel'
+import { HOTEL_CARD_SKELETON_HEIGHT } from '../constants/adminPaymentLogsConstants'
+
+export interface HotelCardItem {
+  id: string
+  name: string
+  city: string
+  country: string
+  disabled?: boolean
+  disabledMessage?: string
+}
 
 interface HotelGridProps {
-  hotels: CustomerHotel[]
+  hotels: HotelCardItem[]
   isLoading: boolean
-  onSelect: (hotel: CustomerHotel) => void
+  onSelect: (id: string) => void
 }
 
 export function HotelGrid({ hotels, isLoading, onSelect }: HotelGridProps) {
@@ -27,7 +36,7 @@ export function HotelGrid({ hotels, isLoading, onSelect }: HotelGridProps) {
       <Grid container spacing={2}>
         {Array.from({ length: 6 }).map((_, i) => (
           <Grid key={i} size={{ xs: 12, sm: 6, md: 4 }}>
-            <Skeleton variant="rounded" height={100} />
+            <Skeleton variant="rounded" height={HOTEL_CARD_SKELETON_HEIGHT} />
           </Grid>
         ))}
       </Grid>
@@ -47,38 +56,35 @@ export function HotelGrid({ hotels, isLoading, onSelect }: HotelGridProps) {
 
   return (
     <Grid container spacing={2}>
-      {hotels.map((hotel) => {
-        const disabled = !hotel.agencyId
-        return (
-          <Grid key={hotel.id} size={{ xs: 12, sm: 6, md: 4 }}>
-            <Card variant="outlined" sx={{ opacity: disabled ? 0.5 : 1 }}>
-              <CardActionArea
-                onClick={() => !disabled && onSelect(hotel)}
-                disabled={disabled}
-              >
-                <CardContent>
-                  <Stack gap={0.5}>
-                    <Typography variant="subtitle1" fontWeight={600} noWrap>
-                      {hotel.name}
+      {hotels.map((hotel) => (
+        <Grid key={hotel.id} size={{ xs: 12, sm: 6, md: 4 }}>
+          <Card variant="outlined" sx={{ opacity: hotel.disabled ? 0.5 : 1 }}>
+            <CardActionArea
+              onClick={() => !hotel.disabled && onSelect(hotel.id)}
+              disabled={hotel.disabled}
+            >
+              <CardContent>
+                <Stack gap={0.5}>
+                  <Typography variant="subtitle1" fontWeight={600} noWrap>
+                    {hotel.name}
+                  </Typography>
+                  <Stack direction="row" alignItems="center" gap={0.5}>
+                    <Icon icon="lucide:map-pin" fontSize={14} />
+                    <Typography variant="caption" color="text.secondary">
+                      {hotel.city}, {hotel.country}
                     </Typography>
-                    <Stack direction="row" alignItems="center" gap={0.5}>
-                      <Icon icon="lucide:map-pin" fontSize={14} />
-                      <Typography variant="caption" color="text.secondary">
-                        {hotel.city}, {hotel.country}
-                      </Typography>
-                    </Stack>
-                    {disabled && (
-                      <Typography variant="caption" color="text.disabled">
-                        {t('paymentLogs.noAgencyLinked', { defaultValue: 'No agency linked' })}
-                      </Typography>
-                    )}
                   </Stack>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          </Grid>
-        )
-      })}
+                  {hotel.disabled && hotel.disabledMessage && (
+                    <Typography variant="caption" color="text.disabled">
+                      {hotel.disabledMessage}
+                    </Typography>
+                  )}
+                </Stack>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+        </Grid>
+      ))}
     </Grid>
   )
 }

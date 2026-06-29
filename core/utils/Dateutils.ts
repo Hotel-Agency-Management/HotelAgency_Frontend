@@ -29,6 +29,15 @@ dayjs.updateLocale('ar', {
     yy: (n: number) => `${n} ${n <= 10 ? 'سنوات' : 'سنة'}`,
   },
 })
+// Arabic uses plural (ساعات) only for 3–10; 1 and 11+ take singular (ساعة)
+const arRt = (dayjs as any).Ls?.ar?.relativeTime
+if (arRt) {
+  arRt.hh = (n: number) => (n >= 3 && n <= 10 ? `${n} ساعات` : `${n} ساعة`)
+  arRt.mm = (n: number) => (n >= 3 && n <= 10 ? `${n} دقائق` : `${n} دقيقة`)
+  arRt.dd = (n: number) => (n >= 3 && n <= 10 ? `${n} أيام` : `${n} يوم`)
+  arRt.MM = (n: number) => (n >= 3 && n <= 10 ? `${n} أشهر` : `${n} شهر`)
+  arRt.yy = (n: number) => (n >= 3 && n <= 10 ? `${n} أعوام` : `${n} عام`)
+}
 
 export function fromNow(date: string, locale: string = 'en'): string {
   return dayjs.utc(date).tz(dayjs.tz.guess()).locale(locale).fromNow()

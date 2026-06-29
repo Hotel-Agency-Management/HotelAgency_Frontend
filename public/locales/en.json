@@ -777,6 +777,36 @@
     "empty": {
       "title": "No activity found",
       "subtitle": "No log entries match the current filters."
+    },
+    "dateGroups": {
+      "today": "Today",
+      "yesterday": "Yesterday",
+      "thisWeek": "This Week",
+      "lastWeek": "Last Week"
+    },
+    "actions": {
+      "planDeleted": "Plan Deleted",
+      "roomDeleted": "Room Deleted",
+      "roomTypeDeleted": "Room Type Deleted",
+      "roomPhotoDeleted": "Room Photo Deleted",
+      "roomAmenityDeleted": "Room Amenity Deleted",
+      "facilityDeleted": "Facility Deleted",
+      "facilityPhotoDeleted": "Facility Photo Deleted",
+      "ticketDeleted": "Ticket Deleted",
+      "ticketCommentDeleted": "Ticket Comment Deleted",
+      "paymentLogDeleted": "Payment Log Deleted"
+    },
+    "entityTypes": {
+      "plan": "Plan",
+      "room": "Room",
+      "roomType": "Room Type",
+      "roomPhoto": "Room Photo",
+      "roomAmenity": "Room Amenity",
+      "facility": "Facility",
+      "facilityPhoto": "Facility Photo",
+      "ticket": "Ticket",
+      "ticketComment": "Ticket Comment",
+      "paymentLog": "Payment Log"
     }
   },
   "agencies": {
@@ -1414,7 +1444,8 @@
       "priority": {
         "LOW": "Low",
         "MEDIUM": "Medium",
-        "HIGH": "High"
+        "HIGH": "High",
+        "URGENT": "Urgent"
       },
       "status": {
         "TO_DO": "To Do",
@@ -1429,12 +1460,21 @@
         "noActivity": "No activity yet",
         "addComment": "Add a comment...",
         "save": "Save",
+        "damageCost": "Damage cost",
+        "damageCostDisplay": "Damage cost: {{cost}}",
         "resolvedBody": "Ticket marked as resolved.",
         "damageReportedBody": "Damage report submitted for this room.",
+        "types": {
+          "general": "General",
+          "damage": "Damage"
+        },
         "quickActions": {
           "looksGood": "Looks good!",
+          "looksGoodText": "Looks good! ✅",
           "needHelp": "Need help?",
-          "isBlocked": "This is blocked..."
+          "needHelpText": "Need help? 👋",
+          "isBlocked": "This is blocked...",
+          "isBlockedText": "This is blocked 🛑"
         },
         "actionTypes": {
           "Feedback": "Feedback",
@@ -1607,9 +1647,16 @@
   "hotelPaymentLogs": {
     "title": "Payment Logs",
     "subtitle": "Track all incoming and outgoing transactions for this hotel.",
-    "tabs": {
-      "incoming": "Incoming Payments",
-      "outgoing": "Outgoing Expenses"
+    "filters": {
+      "search": "Search by name or reference…",
+      "direction": "Direction",
+      "type": "Payment Type",
+      "all": "All",
+      "clear": "Clear filters"
+    },
+    "directions": {
+      "Incoming": "Incoming",
+      "Outgoing": "Outgoing"
     },
     "sortBy": "Sort by:",
     "sortOptions": {

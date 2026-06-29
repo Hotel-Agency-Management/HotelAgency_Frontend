@@ -8,10 +8,7 @@ const textFields = () => {
         root: ({ theme }: OwnerStateThemeType) => ({
           color: theme.palette.text.secondary,
           paddingLeft: theme.spacing(1),
-          paddingRight: theme.spacing(1),
-          '&.MuiInputLabel-shrink': {
-            backgroundColor: theme.palette.background.paper
-          }
+          paddingRight: theme.spacing(1)
         })
       }
     },

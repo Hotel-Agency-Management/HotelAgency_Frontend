@@ -1,59 +1,24 @@
 'use client'
 
-import { useState } from 'react'
-import type { PaymentLogItem } from '@/app/(home)/agency/hotels/[hotelId]/payment-logs/config/paymentLogsConfig'
-import { useAdminIncomingPaymentsQuery } from './queries/useAdminIncomingPaymentsQuery'
-import { useAdminOutgoingPaymentsQuery } from './queries/useAdminOutgoingPaymentsQuery'
+import { usePaymentLogsFilters } from '@/app/(home)/agency/hotels/[hotelId]/payment-logs/hooks/usePaymentLogsFilters'
+import { useAdminHotelPaymentsQuery } from './queries/useAdminHotelPaymentsQuery'
 import { useAdminPaymentLogDetailsQuery } from './queries/useAdminPaymentLogDetailsQuery'
 
 export function useAdminPaymentLogs(agencyId: string, hotelId: string) {
-  const [activeTab, setActiveTab] = useState(0)
-  const [selectedPaymentId, setSelectedPaymentId] = useState<number | null>(null)
-  const [incomingPageNumber, setIncomingPageNumber] = useState(1)
-  const [outgoingPageNumber, setOutgoingPageNumber] = useState(1)
-  const [pageSize, setPageSize] = useState(10)
+  const core = usePaymentLogsFilters()
 
-  const incomingQuery = useAdminIncomingPaymentsQuery(agencyId, hotelId, {
-    pageNumber: incomingPageNumber,
-    pageSize,
+  const query = useAdminHotelPaymentsQuery(agencyId, hotelId, {
+    pageNumber: core.pageNumber,
+    pageSize: core.pageSize,
+    ...(core.filters.search ? { search: core.filters.search } : {}),
+    ...(core.filters.transactionType ? { transactionType: core.filters.transactionType } : {}),
+    ...(core.filters.type ? { type: core.filters.type } : {}),
   })
-  const outgoingQuery = useAdminOutgoingPaymentsQuery(agencyId, hotelId, {
-    pageNumber: outgoingPageNumber,
-    pageSize,
-  })
-  const detailsQuery = useAdminPaymentLogDetailsQuery(agencyId, hotelId, selectedPaymentId ?? undefined)
-
-  const isIncoming = activeTab === 0
-  const activeQuery = isIncoming ? incomingQuery : outgoingQuery
-  const activePage = isIncoming ? incomingPageNumber : outgoingPageNumber
-  const setActivePage = isIncoming ? setIncomingPageNumber : setOutgoingPageNumber
-
-  function handleTabChange(_: React.SyntheticEvent, value: number) {
-    setActiveTab(value)
-    setSelectedPaymentId(null)
-  }
-
-  function handleSelectPayment(payment: PaymentLogItem) {
-    setSelectedPaymentId(payment.paymentId)
-  }
-
-  function handleCloseDrawer() {
-    setSelectedPaymentId(null)
-  }
+  const detailsQuery = useAdminPaymentLogDetailsQuery(agencyId, hotelId, core.selectedPaymentId ?? undefined)
 
   return {
-    activeTab,
-    handleTabChange,
-    selectedPaymentId,
-    handleSelectPayment,
-    handleCloseDrawer,
-    activePage,
-    setActivePage,
-    pageSize,
-    setPageSize,
-    incomingQuery,
-    outgoingQuery,
-    activeQuery,
+    ...core,
+    query,
     detailsQuery,
   }
 }

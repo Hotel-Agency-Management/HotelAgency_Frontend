@@ -1,6 +1,7 @@
 'use client'
 
 import { Stack } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 import { SystemLogCard } from './SystemLogCard'
 import { SystemLogSkeletonCard } from './SystemLogSkeletonCard'
 import { SystemLogsEmptyState } from './SystemLogsEmptyState'
@@ -14,6 +15,8 @@ interface SystemLogsFeedProps {
 }
 
 export function SystemLogsFeed({ logs, isLoading }: SystemLogsFeedProps) {
+  const { t, i18n } = useTranslation()
+
   if (isLoading) {
     return (
       <Stack gap={1.5}>
@@ -26,7 +29,7 @@ export function SystemLogsFeed({ logs, isLoading }: SystemLogsFeedProps) {
 
   if (logs.length === 0) return <SystemLogsEmptyState />
 
-  const groups = groupByWeek(logs)
+  const groups = groupByWeek(logs, t, i18n.language)
 
   return (
     <Stack gap={2}>
