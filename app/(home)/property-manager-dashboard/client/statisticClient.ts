@@ -1,5 +1,5 @@
 import apiClient from "@/core/clients/apiClient";
-import { ReservationsSummary, ReservationStatusSummaryResponse, ReservationTypeSummaryResponse, RevenueTrendResponse, RoomStatusSummaryResponse } from "../config/statisticConfig";
+import { InsuranceIncomeTrendItem, ReservationsSummary, ReservationStatusSummaryResponse, ReservationTypeSummaryResponse, RevenueTrendResponse, RoomStatusSummaryResponse, TicketCompletionRateResponse } from "../config/statisticConfig";
 
 export async function getStatCard(hotelId: number) : Promise<ReservationsSummary> {
   const response = await apiClient.get<ReservationsSummary>(`/hotels/${hotelId}/overview/cards`)
@@ -23,5 +23,15 @@ export async function getReservationTypeDistribution(hotelId: number) : Promise<
 
 export async function getRevenueTrend(hotelId: number, groupBy: string) : Promise<RevenueTrendResponse> {
   const response = await apiClient.get<RevenueTrendResponse>(`/hotels/${hotelId}/overview/revenue-trend?groupBy=${groupBy}`)
+  return response.data
+}
+
+export async function getInsuranceIncomeTrend(hotelId: number): Promise<InsuranceIncomeTrendItem[]> {
+  const response = await apiClient.get<InsuranceIncomeTrendItem[]>(`/hotels/${hotelId}/overview/insurance-income-trend`)
+  return response.data
+}
+
+export async function getTicketCompletionRate(hotelId: number): Promise<TicketCompletionRateResponse> {
+  const response = await apiClient.get<TicketCompletionRateResponse>(`/hotels/${hotelId}/overview/ticket-completion-rate`)
   return response.data
 }

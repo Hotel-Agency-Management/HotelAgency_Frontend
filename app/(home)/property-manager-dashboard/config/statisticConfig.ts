@@ -62,3 +62,12 @@ export interface RevenueTrendResponse {
   groupBy: RevenueGroupBy;
   items: RevenueTrendItem[];
 }
+
+export interface InsuranceIncomeTrendItem {
+  month: string;
+  value: number;
+}
+
+export interface TicketCompletionRateResponse {
+  value: number;
+}

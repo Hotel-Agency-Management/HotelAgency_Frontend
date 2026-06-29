@@ -7,12 +7,8 @@ import Typography from '@mui/material/Typography'
 import Stack from '@mui/material/Stack'
 import { useTranslation } from 'react-i18next'
 import DoughnutChart from '@/components/charts/DoughnutChart'
-import HorizontalBarChart from '@/components/charts/HorizontalBarChart'
-import {
-  HOUSEKEEPING_TASKS,
-  HOUSEKEEPING_LABELS,
-} from '../data/propertyManagerDashboardMock'
-import { useRoomStatusDistribution } from '../hooks/queries/useStatistic'
+import GaugeChart from '@/components/charts/GaugeChart'
+import { useRoomStatusDistribution, useTicketCompletionRate } from '../hooks/queries/useStatistic'
 
 interface RoomsHousekeepingSectionProps {
   hotelId?: number
@@ -22,6 +18,8 @@ export default function RoomsHousekeepingSection({ hotelId }: RoomsHousekeepingS
   const { t } = useTranslation()
   const { data: roomStatusDistribution } = useRoomStatusDistribution(hotelId)
   const roomStatusItems = roomStatusDistribution?.items ?? []
+
+  const { data: ticketCompletionRate } = useTicketCompletionRate(hotelId)
 
   return (
     <Grid container spacing={3} alignItems="stretch">
@@ -48,16 +46,18 @@ export default function RoomsHousekeepingSection({ hotelId }: RoomsHousekeepingS
         </Card>
       </Grid>
 
-      {/* TODO: replace mock data with real API data when available */}
       <Grid size={{ xs: 12, md: 6 }} >
         <Card variant="outlined" sx={{ width: '100%', height: '100%' }}>
           <CardContent>
             <Stack spacing={2}>
-              <Typography variant="h6">{t('dashboard.propertyManager.charts.housekeepingTasksByStatus', { defaultValue: 'Housekeeping Tasks by Status' })}</Typography>
-              <HorizontalBarChart
-                data={HOUSEKEEPING_TASKS}
-                labels={HOUSEKEEPING_LABELS}
-                percentage
+              <Typography variant="h6">{t('dashboard.propertyManager.charts.ticketCompletionRate', { defaultValue: 'Ticket Completion Rate' })}</Typography>
+              <GaugeChart
+                value={ticketCompletionRate?.value ?? 0}
+                valueMin={0}
+                valueMax={100}
+                unit="%"
+                thresholds={{ low: 40, high: 70 }}
+                height={260}
               />
             </Stack>
           </CardContent>

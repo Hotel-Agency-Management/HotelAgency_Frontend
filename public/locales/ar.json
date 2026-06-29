@@ -594,9 +594,13 @@
       },
       "charts": {
         "adrTrend": "اتجاه متوسط السعر اليومي للغرفة",
+        "revenueTrendSeries": "الإيراد",
         "revpar": "الإيراد لكل غرفة متاحة",
         "roomStatusDistribution": "توزيع حالة الغرف",
         "housekeepingTasksByStatus": "مهام التدبير المنزلي حسب الحالة",
+        "insuranceIncomeTrend": "اتجاه دخل التأمين",
+        "insuranceIncomeSeries": "دخل التأمين",
+        "ticketCompletionRate": "معدل إتمام التذاكر",
         "serviceRequestsDistribution": "توزيع طلبات الخدمة",
         "maintenanceByCategory": "الصيانة حسب الفئة",
         "reservationStatusDistribution": "توزيع حالة الحجوزات",
