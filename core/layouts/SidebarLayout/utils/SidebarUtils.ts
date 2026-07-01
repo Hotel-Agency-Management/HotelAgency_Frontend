@@ -1,6 +1,6 @@
 import { useAbility } from '@/core/hooks/useAbility'
 import { ItemKind, NavItem, SidebarNavGroup, SidebarNavItems, SidebarNavLink, SidebarSection } from '../../types'
-import { Actions, Subjects } from '@/lib/abilities'
+import { Actions, Subjects, UserRole, hasAllowedRole } from '@/lib/abilities'
 
 export class SidebarUtils {
   static isSection = (item: NavItem): item is SidebarSection => 'sectionTitle' in item
@@ -32,18 +32,23 @@ export class SidebarUtils {
 
   static itemIsPermitted(
     item: NavItem | SidebarNavGroup | SidebarNavLink,
-    ability: ReturnType<typeof useAbility>
+    ability: ReturnType<typeof useAbility>,
+    userRole?: UserRole
   ): boolean {
-    if (!item.action || !item.subject) return true
+    if ('allowedRoles' in item && item.allowedRoles?.length) {
+      if (!userRole || !hasAllowedRole(userRole, item.allowedRoles)) return false
+    }
 
-    const allowed = ability.can(item.action as Actions, item.subject as Subjects)
-    if (!allowed) return false
+    if (item.action && item.subject) {
+      const allowed = ability.can(item.action as Actions, item.subject as Subjects)
+      if (!allowed) return false
+    }
 
     if ('children' in item && (item as SidebarNavGroup).children?.length) {
-      return (item as SidebarNavGroup).children!.some(child => this.itemIsPermitted(child as NavItem, ability))
+      return (item as SidebarNavGroup).children!.some(child => this.itemIsPermitted(child as NavItem, ability, userRole))
     }
     if ('items' in item && (item as SidebarSection).items?.length) {
-      return (item as SidebarSection).items.some(child => this.itemIsPermitted(child as NavItem, ability))
+      return (item as SidebarSection).items.some(child => this.itemIsPermitted(child as NavItem, ability, userRole))
     }
 
     return true
@@ -67,19 +72,20 @@ export class SidebarUtils {
 
   static flattenPermittedNavItems(
     items: SidebarNavItems,
-    ability: ReturnType<typeof useAbility>
+    ability: ReturnType<typeof useAbility>,
+    userRole?: UserRole
   ): Array<{ path: string; title: string; icon?: string }> {
     const results: Array<{ path: string; title: string; icon?: string }> = []
 
     for (const item of items) {
-      if (!this.itemIsPermitted(item, ability)) continue
+      if (!this.itemIsPermitted(item, ability, userRole)) continue
 
       if ('sectionTitle' in item) {
-        results.push(...this.flattenPermittedNavItems(item.items as SidebarNavItems, ability))
+        results.push(...this.flattenPermittedNavItems(item.items as SidebarNavItems, ability, userRole))
       } else if ('isMore' in item) {
         // skip
       } else if ('children' in item) {
-        results.push(...this.flattenPermittedNavItems(item.children as SidebarNavItems, ability))
+        results.push(...this.flattenPermittedNavItems(item.children as SidebarNavItems, ability, userRole))
       } else if ('path' in item && item.path && 'title' in item) {
         results.push({ path: item.path, title: item.title, icon: (item as { icon?: string }).icon })
       }

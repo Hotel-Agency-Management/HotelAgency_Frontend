@@ -122,6 +122,8 @@ export interface RoutePermission {
   action: Actions
   /** Required subject for the route */
   subject: Subjects
+  /** Optional additional role allowlist — checked as an AND-gate after CASL */
+  allowedRoles?: UserRole[]
   /** Optional description for documentation */
   description?: string
 }

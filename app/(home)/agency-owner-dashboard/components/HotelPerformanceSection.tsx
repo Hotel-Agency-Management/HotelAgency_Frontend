@@ -6,16 +6,16 @@ import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import Stack from '@mui/material/Stack'
 import { useTranslation } from 'react-i18next'
-import { useAuth } from '@/core/context/AuthContext'
 import HorizontalBarChart from '@/components/charts/HorizontalBarChart'
 import { useRevenuePerHotel } from '../hooks/queries/useStatisticQueries'
+import { NoAgencySelectedState } from './NoAgencySelectedState'
 
-export default function HotelPerformanceSection() {
+export default function HotelPerformanceSection({ agencyId }: { agencyId?: number }) {
   const { t } = useTranslation()
-  const { user } = useAuth()
-  const agencyId = user?.agencyId === undefined ? undefined : Number(user.agencyId)
   const revenuePerHotelQuery = useRevenuePerHotel(agencyId)
   const revenuePerHotelData = revenuePerHotelQuery.data ?? []
+
+  if (!agencyId) return <NoAgencySelectedState />
 
   return (
     <Grid container spacing={3} alignItems="stretch">

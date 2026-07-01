@@ -1,4 +1,5 @@
 import type { RoutePermission } from './types'
+import { USER_ROLES } from './types'
 
 /**
  * Centralized route to permission mapping
@@ -151,7 +152,42 @@ export const routePermissions: RoutePermission[] = [
     action: 'read',
     subject: 'SystemLogs',
     description: 'System activity log — audit trail of actions across the platform'
-  }
+  },
+  {
+    pattern: '/admin-dashboard',
+    action: 'read',
+    subject: 'Dashboard',
+    allowedRoles: [USER_ROLES.SUPER_ADMIN],
+    description: 'Super Admin dashboard — SUPER_ADMIN only'
+  },
+  {
+    pattern: '/agency-owner-dashboard',
+    action: 'read',
+    subject: 'Dashboard',
+    allowedRoles: [USER_ROLES.SUPER_ADMIN, USER_ROLES.AGENCY_OWNER],
+    description: 'Agency Owner dashboard — SUPER_ADMIN and AGENCY_OWNER'
+  },
+  {
+    pattern: '/property-manager-dashboard',
+    action: 'read',
+    subject: 'Dashboard',
+    allowedRoles: [USER_ROLES.SUPER_ADMIN, USER_ROLES.AGENCY_OWNER, USER_ROLES.PROPERTY_MANAGER],
+    description: 'Property Manager dashboard — top 3 tiers'
+  },
+  {
+    pattern: '/front-desk-dashboard',
+    action: 'read',
+    subject: 'Dashboard',
+    allowedRoles: [USER_ROLES.SUPER_ADMIN, USER_ROLES.AGENCY_OWNER, USER_ROLES.PROPERTY_MANAGER, USER_ROLES.FRONT_DESK_STAFF],
+    description: 'Front Desk dashboard — top 3 tiers + FRONT_DESK_STAFF'
+  },
+  {
+    pattern: '/accountant-dashboard',
+    action: 'read',
+    subject: 'Dashboard',
+    allowedRoles: [USER_ROLES.SUPER_ADMIN, USER_ROLES.AGENCY_OWNER, USER_ROLES.PROPERTY_MANAGER, USER_ROLES.ACCOUNTANT],
+    description: 'Accountant dashboard — top 3 tiers + ACCOUNTANT'
+  },
 ]
 
 /**
