@@ -13,6 +13,9 @@ import { useBrandNameContext } from '@/core/context/BrandNameContext'
 import { getCustomerHotels } from '../../hotels/client/hotelClient'
 import { CUSTOMER_HOTEL_DETAIL_PATTERN } from '../constants/routePatterns'
 import { AgentChat } from '@/app/copilotKit/chat/AgentChat'
+import { useCopilotAgent } from '@/app/copilotKit/hooks/useCopilotAgent'
+import { useNavigateTool } from '@/app/copilotKit/tools/navigate'
+import { useUiAppearanceTool } from '@/app/copilotKit/tools/theme'
 
 interface HomeSidebarShellProps {
   children: ReactNode
@@ -28,6 +31,10 @@ export default function HomeSidebarShell({
   const { user } = useAuth()
   const { brandName } = useBrandNameContext()
   const { t } = useTranslation()
+
+  useCopilotAgent()
+  useNavigateTool()
+  useUiAppearanceTool()
 
   const customerHotelId = useMemo(() => {
     const match = pathname.match(CUSTOMER_HOTEL_DETAIL_PATTERN)

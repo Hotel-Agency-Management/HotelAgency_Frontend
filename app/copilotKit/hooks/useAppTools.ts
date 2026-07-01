@@ -12,14 +12,14 @@ import { AgentToolDeps } from "../types/deps"
 
 
 export function useAgentTools(deps: AgentToolDeps) {
+  useNavigateTool()
   useSearchTool(deps.search)
   useFilterTool(deps.filter)
-  useNavigateTool(deps.navigate)
   useOpenModalTool(deps.openModal)
   useFormFillingTool(deps.formFill)
   useReportGenerationTool(deps.generateReport)
   useGenerateChartTool(deps.generateChart)
   useTourGuidanceTool(deps.startTour)
   useRecommendedTool(deps.getRecommendations)
-  useUiAppearanceTool(deps.setTheme)
+  useUiAppearanceTool()
 }

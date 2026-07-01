@@ -5,6 +5,7 @@ export type BrandingColors = {
   primary: string
   secondary: string
   tertiary: string
+  backgroundColor?: string | null
 }
 
 export type BrandingSettings = {
@@ -63,7 +64,8 @@ export const normalizeHexColor = (value: string | null | undefined, fallback: st
 export const resolveBrandingColors = (colors?: Partial<BrandingColors> | null): BrandingColors => ({
   primary: normalizeHexColor(colors?.primary, DEFAULT_BRANDING_COLORS.primary),
   secondary: normalizeHexColor(colors?.secondary, DEFAULT_BRANDING_COLORS.secondary),
-  tertiary: normalizeHexColor(colors?.tertiary, DEFAULT_BRANDING_COLORS.tertiary)
+  tertiary: normalizeHexColor(colors?.tertiary, DEFAULT_BRANDING_COLORS.tertiary),
+  backgroundColor: isHexColor(colors?.backgroundColor) ? normalizeHexColor(colors!.backgroundColor, '') : null,
 })
 
 export const sanitizeBrandingSettings = (branding?: Partial<BrandingSettings> | null): BrandingSettings => ({
