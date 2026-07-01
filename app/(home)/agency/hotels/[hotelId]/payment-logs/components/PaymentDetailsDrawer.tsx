@@ -54,7 +54,9 @@ export function PaymentDetailsDrawer({ payment, isLoading, open, onClose }: Paym
           <Stack gap={3}>
             <Stack gap={1.5}>
               <Stack direction="row" gap={1}>
-                <PaymentDirectionChip direction={payment.transactionType} size="medium" />
+                {payment.transactionType && (
+                  <PaymentDirectionChip direction={payment.transactionType} size="medium" />
+                )}
                 <PaymentTypeChip type={payment.paymentType} size="medium" />
               </Stack>
               <Typography variant="h5" fontWeight={800} sx={{ color: amountColor }}>
