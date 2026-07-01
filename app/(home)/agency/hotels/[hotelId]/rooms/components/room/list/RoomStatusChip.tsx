@@ -9,6 +9,6 @@ interface Props {
 
 export const RoomStatusChip = ({ status }: Props) => {
   const { t } = useTranslation();
-  const { label, color } = ROOM_STATUSES[status];
+  const { label, color } = ROOM_STATUSES[status] ?? { label: status, color: 'default' as const };
   return <Chip label={getRoomStatusLabel(t, status, label)} color={color} size="small" />;
 };
