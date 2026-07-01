@@ -5,6 +5,11 @@ import { DEFAULT_CANCELLATION_FEE_RATE } from '../constants/hotel'
 
 const clampPercentage = (value: number) => Math.min(Math.max(value, 0), 100)
 
+const normalizeColor = (color: string): string =>
+  color && !color.startsWith('#') && !color.startsWith('rgb') && !color.startsWith('hsl')
+    ? `#${color}`
+    : color
+
 const rateToPercentage = (rate?: number | null) => {
   if (rate == null || !Number.isFinite(rate)) {
     return DEFAULT_CANCELLATION_FEE_RATE * 100
@@ -43,9 +48,9 @@ export const mapHotelResponseToFormValues = (
   branding: {
     logo: buildAssetUrl(hotel.logoUrl),
     colors: {
-      primary: hotel.primaryColor,
-      secondary: hotel.secondaryColor,
-      tertiary: hotel.tertiaryColor,
+      primary: normalizeColor(hotel.primaryColor),
+      secondary: normalizeColor(hotel.secondaryColor),
+      tertiary: normalizeColor(hotel.tertiaryColor),
     },
   },
   managerId: String(hotel.managerUserId),
