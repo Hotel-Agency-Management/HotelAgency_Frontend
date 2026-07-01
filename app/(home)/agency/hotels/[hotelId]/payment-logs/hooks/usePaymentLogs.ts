@@ -24,6 +24,14 @@ export function usePaymentLogs(hotelId: string) {
   })
   const detailsQuery = usePaymentLogDetailsQuery(hotelId, core.selectedPaymentId ?? undefined)
 
+  const selectedItem = query.data?.groups
+    .flatMap((g) => g.items)
+    .find((item) => item.paymentId === core.selectedPaymentId)
+
+  const paymentDetails = detailsQuery.data
+    ? { ...detailsQuery.data, transactionType: detailsQuery.data.transactionType ?? selectedItem?.transactionType }
+    : undefined
+
   useEffect(() => {
     setExcelRows(toExcelRows(query.data?.groups ?? [], t))
   }, [query.data, t])
@@ -39,7 +47,7 @@ export function usePaymentLogs(hotelId: string) {
   return {
     ...core,
     query,
-    detailsQuery,
+    detailsQuery: { ...detailsQuery, data: paymentDetails },
     viewMode,
     handleViewModeChange,
     excelRows,
