@@ -1,6 +1,6 @@
 import { hexToRGBA } from '@/core/utils/hex-to-rgba'
 import { Avatar, Box, Card, Chip, Paper } from '@mui/material'
-import { styled } from '@mui/material/styles'
+import { alpha, styled } from '@mui/material/styles'
 import themeConfig from '@/core/configs/themeConfig'
 
 export const LogCard = styled(Card)(({ theme }) => ({
@@ -46,7 +46,7 @@ export const DateGroupHeader = styled(Box)(({ theme }) => ({
 export const ActionTypeAvatar = styled(Avatar, {
   shouldForwardProp: prop => prop !== '$color'
 })<{ $color: string }>(({ theme, $color }) => ({
-  backgroundColor: hexToRGBA($color, 0.12),
+  backgroundColor: alpha($color, 0.12),
   flexShrink: 0,
   width: theme.spacing(5),
   height: theme.spacing(5)
