@@ -19,6 +19,7 @@ import { useTicketDisplay } from "../hooks/useTicketDisplay";
 import { DetailItem } from "./DetailItem";
 import { TicketActionsMenu } from "./TicketActionsMenu";
 import { TicketCommentSection } from "./TicketCommentSection";
+import { TicketWatchListButton } from "./TicketWatchlistButton";
 
 interface TicketDetailDrawerProps {
   ticket: HousekeepingTicket | null;
@@ -93,6 +94,7 @@ export function TicketDetailDrawer({
                 {ticket.ticketKey}
               </Typography>
               <Stack direction="row" alignItems="center" gap={0.5} flexShrink={0}>
+                <TicketWatchListButton ticketId={ticket.id} />
                 <TicketActionsMenu
                   ticket={ticket}
                   onEdit={handleEdit}
