@@ -1,17 +1,14 @@
 'use client'
 
-import { CopilotSidebar } from "@copilotkit/react-core/v2"
-import { Box, useTheme } from "@mui/material"
-import { getCopilotThemeVars } from "../theme/copilotTheme"
+import { CopilotChatAssistantMessage, CopilotChatUserMessage, CopilotSidebar } from "@copilotkit/react-core/v2"
+import { Box, GlobalStyles, useTheme } from "@mui/material"
+import { getCopilotChatOverrides } from "../theme/copilotTheme"
+import { ChatWelcomeScreen } from "../components/ChatWelcomeScreen"
+import { ChatUserMessage } from "../components/ChatUserMessage"
+import { ChatAssistantMessage } from "../components/ChatAssistantMessage"
 
 export function AgentChat() {
   const theme = useTheme()
-  const isDark = theme.palette.mode === "dark"
-
-  const copilotStyles = getCopilotThemeVars({
-    primary: theme.palette.primary.main,
-    isDark,
-  })
 
   return (
     <Box
@@ -21,14 +18,26 @@ export function AgentChat() {
         right: 0,
         zIndex: 2000
       }}
-      style={copilotStyles}
     >
+      <GlobalStyles styles={getCopilotChatOverrides(theme)} />
       <CopilotSidebar
         defaultOpen={false}
+        header="hb-cpk-header"
+        toggleButton="hb-cpk-toggle"
+        welcomeScreen={ChatWelcomeScreen}
+        messageView={{
+          // Cast: the slot type also requires the static sub-component members
+          // (.Container, .MessageRenderer, etc.) that ship on the default
+          // component. CopilotKit's slot resolver only ever calls this value
+          // as a function component — it never reads those static members —
+          // so the extra shape requirement is a TS-only formality.
+          userMessage: ChatUserMessage as typeof CopilotChatUserMessage,
+          assistantMessage: ChatAssistantMessage as typeof CopilotChatAssistantMessage,
+        }}
         labels={{
           modalHeaderTitle: "Ask me",
           welcomeMessageText: "Hi! How can I help you?",
-          chatInputPlaceholder: "Type a message...",
+          chatInputPlaceholder: "Ask...",
         }}
       />
     </Box>
