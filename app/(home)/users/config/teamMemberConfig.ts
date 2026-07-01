@@ -62,7 +62,11 @@ export interface UpdateTeamMemberRequest {
   hotelId?: number | null
 }
 
-export const AGENCY_ROLE_OPTIONS = USER_ROLE_OPTIONS
+const EXCLUDED_TEAM_ROLES: UserRole[] = ['SUPER_ADMIN', 'AGENCY_OWNER']
+
+export const AGENCY_ROLE_OPTIONS = USER_ROLE_OPTIONS.filter(
+  option => !EXCLUDED_TEAM_ROLES.includes(option.value)
+)
 
 export const mapTeamMemberResponse = (r: TeamMemberResponse): AgencyTeamMember => ({
   id: String(r.id),
