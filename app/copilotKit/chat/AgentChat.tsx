@@ -1,7 +1,6 @@
 'use client'
 
-import { CopilotSidebar } from "@copilotkit/react-ui"
-import "@copilotkit/react-ui/styles.css"
+import { CopilotSidebar } from "@copilotkit/react-core/v2"
 import { Box, useTheme } from "@mui/material"
 import { getCopilotThemeVars } from "../theme/copilotTheme"
 
@@ -27,9 +26,9 @@ export function AgentChat() {
       <CopilotSidebar
         defaultOpen={false}
         labels={{
-          title: "Ask me",
-          initial: "Hi! How can I help you?",
-          placeholder: "Type a message...",
+          modalHeaderTitle: "Ask me",
+          welcomeMessageText: "Hi! How can I help you?",
+          chatInputPlaceholder: "Type a message...",
         }}
       />
     </Box>

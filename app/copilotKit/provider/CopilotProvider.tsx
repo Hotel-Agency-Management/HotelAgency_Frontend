@@ -1,10 +1,16 @@
-import { CopilotKit } from "@copilotkit/react-core";
+import { CopilotKit } from "@copilotkit/react-core/v2";
+import "@copilotkit/react-core/v2/styles.css";
 
 export function CopilotProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <CopilotKit
-      publicApiKey={process.env.NEXT_PUBLIC_COPILOT_PUBLIC_API_KEY}
+      runtimeUrl="/api/copilotkit"
+      useSingleEndpoint
+      onError={({ type, error, context }) => {
+        console.error("[copilotkit]", type, error, context);
+      }}
+      showDevConsole={process.env.NODE_ENV !== "production"}
     >
       {children}
     </CopilotKit>
