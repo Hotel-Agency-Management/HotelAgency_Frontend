@@ -1,10 +1,12 @@
 import { useQuery } from '@tanstack/react-query'
 import {
+  getInsuranceIncomeTrend,
   getReservationStatusDistribution,
   getReservationTypeDistribution,
   getRevenueTrend,
   getRoomStatusDistribution,
   getStatCard,
+  getTicketCompletionRate,
 } from '../../client/statisticClient'
 
 export const hotelStatisticQueryKeys = {
@@ -24,6 +26,12 @@ export const hotelStatisticQueryKeys = {
 
   revenueTrend: (hotelId?: number, groupBy?: string) =>
     [...hotelStatisticQueryKeys.all, hotelId, 'revenue-trend', groupBy] as const,
+
+  insuranceIncomeTrend: (hotelId?: number) =>
+    [...hotelStatisticQueryKeys.all, hotelId, 'insurance-income-trend'] as const,
+
+  ticketCompletionRate: (hotelId?: number) =>
+    [...hotelStatisticQueryKeys.all, hotelId, 'ticket-completion-rate'] as const,
 }
 
 const hasHotelId = (hotelId?: number) => Number.isFinite(hotelId)
@@ -67,6 +75,22 @@ export function useRevenueTrend(
   return useQuery({
     queryKey: hotelStatisticQueryKeys.revenueTrend(hotelId, groupBy),
     queryFn: () => getRevenueTrend(hotelId as number, groupBy),
+    enabled: hasHotelId(hotelId),
+  })
+}
+
+export function useInsuranceIncomeTrend(hotelId?: number) {
+  return useQuery({
+    queryKey: hotelStatisticQueryKeys.insuranceIncomeTrend(hotelId),
+    queryFn: () => getInsuranceIncomeTrend(hotelId as number),
+    enabled: hasHotelId(hotelId),
+  })
+}
+
+export function useTicketCompletionRate(hotelId?: number) {
+  return useQuery({
+    queryKey: hotelStatisticQueryKeys.ticketCompletionRate(hotelId),
+    queryFn: () => getTicketCompletionRate(hotelId as number),
     enabled: hasHotelId(hotelId),
   })
 }

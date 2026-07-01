@@ -563,9 +563,13 @@
       },
       "charts": {
         "adrTrend": "Average Daily Room Rate Trend",
+        "revenueTrendSeries": "Revenue",
         "revpar": "Revenue per Available Room",
         "roomStatusDistribution": "Room Status Distribution",
         "housekeepingTasksByStatus": "Housekeeping Tasks by Status",
+        "insuranceIncomeTrend": "Insurance Incoming Trend",
+        "insuranceIncomeSeries": "Insurance Income",
+        "ticketCompletionRate": "Ticket Completion Rate",
         "serviceRequestsDistribution": "Service Requests Distribution",
         "maintenanceByCategory": "Maintenance by Category",
         "reservationStatusDistribution": "Reservation Status Distribution",
