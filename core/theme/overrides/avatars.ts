@@ -48,13 +48,14 @@ const Avatar = () => {
           style: ({ theme, ownerState }: any) => {
             const color = ownerState.color || 'primary'
             const palette = theme.palette[color]
+            const main = palette?.main ?? theme.palette.text.disabled
 
             return {
               width: 40,
               height: 40,
-              backgroundColor: alpha(palette.main, 0.1),
-              border: `1px solid ${alpha(palette.main, 0.25)}`,
-              color: palette.main
+              backgroundColor: alpha(main, 0.1),
+              border: `1px solid ${alpha(main, 0.25)}`,
+              color: main
             }
           }
         },
