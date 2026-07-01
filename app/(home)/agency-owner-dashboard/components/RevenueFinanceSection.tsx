@@ -6,21 +6,21 @@ import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import Stack from '@mui/material/Stack'
 import { useTranslation } from 'react-i18next'
-import { useAuth } from '@/core/context/AuthContext'
 import LineChart from '@/components/charts/LineChart'
 import StackedBarChart from '@/components/charts/StackedBarChart'
 import { useProfitAndExpenseTrends, useRevenueTrends } from '../hooks/queries/useStatisticQueries'
 import { buildMonthYearLabels } from '@/core/utils/translateMonthLabel'
+import { NoAgencySelectedState } from './NoAgencySelectedState'
 
-export default function RevenueFinanceSection({ agencyId: agencyIdProp }: { agencyId?: number }) {
+export default function RevenueFinanceSection({ agencyId }: { agencyId?: number }) {
   const { t } = useTranslation()
-  const { user } = useAuth()
-  const agencyId = agencyIdProp ?? (user?.agencyId !== undefined ? Number(user.agencyId) : undefined)
   const revenueTrendsQuery = useRevenueTrends(agencyId)
   const profitExpenseQuery = useProfitAndExpenseTrends(agencyId)
 
   const revenueTrendData = revenueTrendsQuery.data ?? []
   const profitExpenseData = profitExpenseQuery.data ?? []
+
+  if (!agencyId) return <NoAgencySelectedState />
 
   return (
     <Grid container spacing={3}>

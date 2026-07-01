@@ -2,18 +2,11 @@
 
 import Grid from '@mui/material/Grid'
 import { useTranslation } from 'react-i18next'
-import { useAuth } from '@/core/context/AuthContext'
 import Icon from '@/components/icon/Icon'
 import { SummaryStatCard } from '../../admin-dashboard/components/SummaryStatCard'
-import { STAT_CARDS_CONFIG } from '../constants/statCards'
+import { CARD_TRANSLATION_KEYS, STAT_CARDS_CONFIG } from '../constants/statCards'
 import { useOverviewStats } from '../hooks/queries/useStatisticQueries'
-
-const CARD_TRANSLATION_KEYS = [
-  'totalRevenue',
-  'totalBookings',
-  'pendingReservations',
-  'averageBookingValue',
-] as const
+import { NoAgencySelectedState } from './NoAgencySelectedState'
 
 const currencyFormatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
@@ -21,10 +14,8 @@ const currencyFormatter = new Intl.NumberFormat('en-US', {
   maximumFractionDigits: 0,
 })
 
-export default function AgencyOwnerStatsSection({ agencyId: agencyIdProp }: { agencyId?: number }) {
+export default function AgencyOwnerStatsSection({ agencyId }: { agencyId?: number }) {
   const { t } = useTranslation()
-  const { user } = useAuth()
-  const agencyId = agencyIdProp ?? (user?.agencyId !== undefined ? Number(user.agencyId) : undefined)
   const { data } = useOverviewStats(agencyId)
 
   const getCardValue = (key: (typeof STAT_CARDS_CONFIG)[number]['key']) => {
@@ -34,6 +25,8 @@ export default function AgencyOwnerStatsSection({ agencyId: agencyIdProp }: { ag
 
     return data?.[key] ?? 0
   }
+
+  if (!agencyId) return <NoAgencySelectedState />
 
   return (
     <Grid container spacing={2.5}>

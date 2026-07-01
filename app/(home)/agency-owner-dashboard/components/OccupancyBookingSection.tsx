@@ -6,7 +6,6 @@ import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import Stack from '@mui/material/Stack'
 import { useTranslation } from 'react-i18next'
-import { useAuth } from '@/core/context/AuthContext'
 import BarChart from '@/components/charts/BarChart'
 import DoughnutChart from '@/components/charts/DoughnutChart'
 import {
@@ -14,11 +13,10 @@ import {
   useReservationByRoomType,
   useStatusDistribution,
 } from '../hooks/queries/useStatisticQueries'
+import { NoAgencySelectedState } from './NoAgencySelectedState'
 
-export default function OccupancyBookingSection({ agencyId: agencyIdProp }: { agencyId?: number }) {
+export default function OccupancyBookingSection({ agencyId }: { agencyId?: number }) {
   const { t } = useTranslation()
-  const { user } = useAuth()
-  const agencyId = agencyIdProp ?? (user?.agencyId !== undefined ? Number(user.agencyId) : undefined)
   const reservationByRoomTypeQuery = useReservationByRoomType(agencyId)
   const statusDistributionQuery = useStatusDistribution(agencyId)
   const bookingDistributionQuery = useBookingDistribution(agencyId)
@@ -26,6 +24,8 @@ export default function OccupancyBookingSection({ agencyId: agencyIdProp }: { ag
   const reservationByRoomTypeData = reservationByRoomTypeQuery.data ?? []
   const statusDistributionData = statusDistributionQuery.data ?? []
   const bookingDistributionData = bookingDistributionQuery.data ?? []
+
+  if (!agencyId) return <NoAgencySelectedState />
 
   return (
     <Grid container spacing={3} alignItems="stretch">

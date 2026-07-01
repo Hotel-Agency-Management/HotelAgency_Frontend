@@ -6,6 +6,13 @@ export type StatCardConfig = Pick<StatCardProps, 'color'> & {
   key: 'totalRevenue' | 'totalBookings' | 'pendingReservations' | 'averageBookingValue'
 }
 
+export const CARD_TRANSLATION_KEYS = [
+  'totalRevenue',
+  'totalBookings',
+  'pendingReservations',
+  'averageBookingValue',
+] as const
+
 export const STAT_CARDS_CONFIG: StatCardConfig[] = [
   {
     key: 'totalRevenue',

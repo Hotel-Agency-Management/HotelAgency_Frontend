@@ -583,6 +583,10 @@
           "subtitle": "حجم المحفظة",
           "trend": "بدون تغيير"
         }
+      },
+      "noAgencySelected": {
+        "title": "لم يتم اختيار وكالة",
+        "subtitle": "اختر وكالة لعرض بياناتها"
       }
     },
     "propertyManager": {

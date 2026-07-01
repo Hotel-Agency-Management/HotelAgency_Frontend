@@ -548,6 +548,10 @@
           "subtitle": "Portfolio size",
           "trend": "Unchanged"
         }
+      },
+      "noAgencySelected": {
+        "title": "No agency selected",
+        "subtitle": "Select an agency to view its data"
       }
     },
     "propertyManager": {
