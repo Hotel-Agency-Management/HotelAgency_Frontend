@@ -19,6 +19,7 @@ import themeOptions from './ThemeOptions'
 import GlobalStyling from './globalStyles'
 import themeConfig from '../configs/themeConfig'
 import { useActiveBranding } from '../hooks/useActiveBranding'
+import { isDefaultBrandingSettings } from './palette/branding'
 
 // ** Third Party Import
 import { useTranslation } from 'react-i18next'
@@ -37,7 +38,10 @@ const ThemeComponent = (props: Props) => {
   const themedSettings = useMemo(
     () => ({
       ...settings,
-      branding: activeBranding
+      // A locally customized branding (Agency Settings colors, or the AI appearance
+      // tool) takes priority over the server-derived agency/hotel theme. Once the
+      // user resets to defaults, the agency/hotel theme takes over again.
+      branding: isDefaultBrandingSettings(settings.branding) ? activeBranding : settings.branding
     }),
     [activeBranding, settings]
   )

@@ -31,7 +31,7 @@ export function ColorsCard({ namePrefix, fallbackColors = DEFAULT_BRANDING_COLOR
       <Grid container spacing={2.5}>
         {colorFields.map(({ name, label, hint }) => {
           const fullName = namePrefix ? `${namePrefix}.${name}` : name
-          const colorKey = name.split('.')[1] as keyof BrandingColors
+          const colorKey = name.split('.')[1] as 'primary' | 'secondary' | 'tertiary'
 
           return (
             <Grid key={fullName} size={{ xs: 12, md: 4 }}>

@@ -40,7 +40,7 @@ export function makePalette(mode: PaletteMode, brandingColors?: Partial<Branding
     info: { light: '#74c0fc', main: '#228be6', dark: '#1864ab' },
     divider: isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.09)',
     background: {
-      default: isDark ? '#0c0c0c' : '#fafafa',
+      default: brandingPalette.colors.backgroundColor ?? (isDark ? '#0c0c0c' : '#fafafa'),
       paper: isDark ? '#161616' : '#ffffff'
     },
     text: {
