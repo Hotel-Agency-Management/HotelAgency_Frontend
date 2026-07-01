@@ -1,0 +1,3 @@
+export const RELATIVE_TIME_TICK_MS = 30_000
+
+export const CHAT_ORB_SIZE_WELCOME = 64
